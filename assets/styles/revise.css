@@ -1,0 +1,191 @@
+#revise-sections {
+  width: 100%;
+  height: calc(100vh - 40px);
+}
+
+#revise-sections > * {
+  position: absolute;
+  z-index: 1;
+  min-width: 30vw;
+}
+
+#revise-sections > * .tab {
+  position: relative;
+  background-color: black;
+}
+
+#revise-sections > * .tab * {
+  color: white;
+}
+
+#revise-sections > * .tab .col {
+  padding: 20px 20px 0 0;
+  height: 100%;
+}
+
+#revise-sections > * .tab .opener {
+  position: absolute;
+  background: red;
+  left: 100%;
+  bottom: 0;
+}
+
+#revise-sections > * .tab .opener a {
+  display: block;
+  padding: 10px;
+}
+
+#revise-sections > *.top-left {
+  top: 0;
+  left: 0;
+}
+
+#revise-sections > *.top-left .col {
+  padding: 0 20px 20px 0;
+}
+
+#revise-sections > *.top-left .opener {
+  top: 0;
+  bottom: auto;
+}
+
+#revise-sections > *.top-right {
+  top: 0;
+  right: 0;
+}
+
+#revise-sections > *.top-right .col {
+  padding: 0 0 20px 20px;
+}
+
+#revise-sections > *.top-right .opener {
+  top: 0;
+  bottom: auto;
+  left: auto;
+  right: 100%;
+}
+
+#revise-sections > *.bottom-left {
+  bottom: 0;
+  left: 0;
+}
+
+#revise-sections > *.bottom-right {
+  bottom: 0;
+  right: 0;
+}
+
+#revise-sections > *.bottom-right .col {
+  padding: 20px 0 0 20px;
+}
+
+#revise-sections > *.bottom-right .opener {
+  top: auto;
+  bottom: 0;
+  left: auto;
+  right: 100%;
+}
+
+.breadcrumbs {
+  font-size: 12px;
+  font-weight: lighter;
+}
+
+.breadcrumbs a {
+  font-size: 12px !important;
+  font-weight: lighter;
+}
+
+.breadcrumbs sep {
+  margin: 0 8px;
+}
+
+.date {
+  opacity: 0.4;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  font-weight: lighter;
+  line-height: 15px;
+}
+
+.device-selector {
+  font-size: 10px;
+  font-weight: lighter;
+  letter-spacing: 1px;
+}
+
+.device-selector i {
+  font-size: 40px;
+  margin-bottom: -20px;
+  display: block;
+}
+
+.version-selector {
+  font-size: 10px !important;
+}
+
+.iframe-container {
+  position: absolute;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.iframe-container iframe {
+  border: none;
+  max-height: 100%;
+}
+
+/* Loading Overlay */
+#loading-overlay {
+  display: block;
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 2;
+}
+
+#loading-overlay span {
+  position: absolute;
+  display: block;
+  width: 100%;
+  text-align: center;
+  top: 50%;
+  margin-top: -9px;
+  color: #686868;
+  font-family: Montserrat, "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  letter-spacing: 10px;
+}
+
+.gps_ring {
+  display: inline-block;
+  border: 3px solid #999;
+  -webkit-border-radius: 30px;
+  margin-bottom: -5px;
+  height: 18px;
+  width: 18px;
+  -webkit-animation: pulsate 1s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  opacity: 0.0;
+}
+
+@-webkit-keyframes pulsate {
+  0% {
+    -webkit-transform: scale(0.1, 0.1);
+    opacity: 0.0;
+  }
+  50% {
+    opacity: 1.0;
+  }
+  100% {
+    -webkit-transform: scale(1.2, 1.2);
+    opacity: 0.0;
+  }
+}
