@@ -1,5 +1,6 @@
 #page main {
   border-width: 10px;
+  margin-bottom: 0;
 }
 
 #revise-sections {
@@ -93,7 +94,7 @@
 
 #revise-sections .scrollable-content {
   background-color: #1A1A1A;
-  max-height: 50vh;
+  height: 60vh;
 }
 
 #revise-sections .scrollable-content .mCSB_container {

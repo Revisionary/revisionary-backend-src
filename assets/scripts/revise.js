@@ -46,7 +46,7 @@ $(window).on("load", function (e) {
 // Tab Toggler
 function toggleTab(tab, slow = false) {
 
-	var speed = slow ? 500 : 100;
+	var speed = slow ? 1000 : 500;
 
 	var container = tab.parent();
 	var containerWidth = container.outerWidth();
@@ -57,7 +57,7 @@ function toggleTab(tab, slow = false) {
 
 		if (container.hasClass('open')) {
 
-			container.animate({
+			sideElement.animate({
 				left: -containerWidth,
 			}, speed, function() {
 				container.removeClass('open');
@@ -65,7 +65,7 @@ function toggleTab(tab, slow = false) {
 
 		} else {
 
-			container.animate({
+			sideElement.animate({
 				left: 0,
 			}, speed, function() {
 				container.addClass('open');
@@ -77,7 +77,7 @@ function toggleTab(tab, slow = false) {
 
 		if (container.hasClass('open')) {
 
-			container.animate({
+			sideElement.animate({
 				right: -containerWidth,
 			}, speed, function() {
 				container.removeClass('open');
@@ -85,7 +85,7 @@ function toggleTab(tab, slow = false) {
 
 		} else {
 
-			container.animate({
+			sideElement.animate({
 				right: 0,
 			}, speed, function() {
 				container.addClass('open');
