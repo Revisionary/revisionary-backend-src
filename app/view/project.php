@@ -16,8 +16,8 @@
 						<h1 class="dropdown-opener bullet bigger-bullet"><?=strtoupper($_url[1])?></h1>
 						<nav class="dropdown higher">
 							<ul class="projects-menu xl-left">
-								<li class="menu-item"><a href="<?=site_url('pages/'.$_url[1].'/archived')?>"><img src="<?=asset_url('icons/archive.svg')?>" /> ARCHIVED PAGES</a></li>
-								<li class="menu-item"><a href="<?=site_url('pages/'.$_url[1].'/deleted')?>"><img src="<?=asset_url('icons/trash.svg')?>" style="margin-bottom: -2px;" /> DELETED PAGES</a></li>
+								<li class="menu-item"><a href="<?=site_url('project/'.$_url[1].'/archived')?>"><img src="<?=asset_url('icons/archive.svg')?>" /> ARCHIVED PAGES</a></li>
+								<li class="menu-item"><a href="<?=site_url('project/'.$_url[1].'/deleted')?>"><img src="<?=asset_url('icons/trash.svg')?>" style="margin-bottom: -2px;" /> DELETED PAGES</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -31,15 +31,15 @@
 						<span class="people">
 
 							<a href="#">
-								<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/images/avatars/ike.png);"><div class="notif-no">3</div></picture>
+								<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"><div class="notif-no">3</div></picture>
 							</a>
 
 							<a href="#">
-								<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/images/avatars/joey.png);"><div class="notif-no">1</div></picture>
+								<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/joey.png')?>);"><div class="notif-no">1</div></picture>
 							</a>
 
 							<a href="#">
-								<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/images/avatars/matt.png);"></picture>
+								<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>
 							</a>
 
 						</span>
@@ -94,14 +94,14 @@
 								<div class="col xl-4-12 xl-left xl-top people">
 
 									<a href="#">
-										<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/images/avatars/ike.png);"></picture>
+										<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
 									</a>
 
 									<a href="#">
-										<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/images/avatars/joey.png);"></picture>
+										<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/joey.png')?>);"></picture>
 									</a>
 	<!--								<a href="#">
-										<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/images/avatars/matt.png);"></picture>
+										<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>
 									</a>
 	-->
 
@@ -140,7 +140,7 @@
 						</div>
 
 						<div class="wrap xl-flexbox xl-middle">
-							<div class="col xl-8-12 xl-left"><a href="<?=site_url('pages/twelve12')?>" class="box-name invert-hover"><?=$count == 0 ? '<img src="'.asset_url('icons/shared.svg').'" /> '.$pageName : $pageName?></a></div>
+							<div class="col xl-8-12 xl-left"><a href="<?=site_url('project/twelve12')?>" class="box-name invert-hover"><?=$count == 0 ? '<img src="'.asset_url('icons/shared.svg').'" /> '.$pageName : $pageName?></a></div>
 							<div class="col xl-4-12 xl-right date">19 Feb 2016</div>
 						</div>
 
@@ -176,9 +176,23 @@
 
 			<div class="wrap xl-1 xl-center">
 				<div class="col" style="margin-bottom: 60px;">
-					PROJECT STATISTICS here<br/>
-					<b>Created:</b> 19 Feb 2016, 2:54 PM<br/>
-					<b>Modified:</b> 10 Nov 2016, 8:25 AM
+
+					<div class="pin-statistics">
+						<pin class="live mid">13
+							<div class="notif-no">3</div>
+							<div class="pin-title dark-color">Live</div>
+						</pin>
+						<pin class="standard mid">7
+							<div class="pin-title dark-color">Standard</div>
+						</pin>
+						<pin class="private mid">4
+							<div class="pin-title dark-color">Private</div>
+						</pin>
+					</div>
+					<div class="date-statistics">
+						<b>Created:</b> 19 Feb 2016, 2:54 PM<br/>
+						<b>Modified:</b> 10 Nov 2016, 8:25 AM
+					</div>
 				</div>
 			</div>
 

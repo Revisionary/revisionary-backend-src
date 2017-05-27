@@ -13,8 +13,6 @@ if ( !isset($_url[1]) ) {
 }
 
 
-
-
 $pagesWithCats = [
 	"Main Pages" => [
 		"Home",
@@ -40,5 +38,5 @@ $additionalHeadJS = [
 	'block.js'
 ];
 
-$page_title = "Pages - Revisionary App";
-require view('pages');
+$page_title = ucfirst($_url[1])." Project - Revisionary App";
+require view('project');

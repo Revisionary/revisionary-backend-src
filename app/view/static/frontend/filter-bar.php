@@ -16,10 +16,10 @@
 <?php
 	} else {
 ?>
-					<a class="<?=!isset($_url[2]) ? "selected" : ""?>" href="<?=site_url('pages/'.$_url[1])?>">ALL</a>
-					<a class="<?=isset($_url[2]) && $_url[2] == "main-pages" ? "selected" : ""?>" href="<?=site_url('pages/'.$_url[1].'/main-pages')?>">MAIN PAGES</a>
-					<a class="<?=isset($_url[2]) && $_url[2] == "portfolio-pages" ? "selected" : ""?>" href="<?=site_url('pages/'.$_url[1].'/portfolio-pages')?>">PORTFOLIO PAGES</a>
-					<a class="<?=isset($_url[2]) && $_url[2] == "blog-pages" ? "selected" : ""?>" href="<?=site_url('pages/'.$_url[1].'/blog-pages')?>">BLOG PAGES</a>
+					<a class="<?=!isset($_url[2]) ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1])?>">ALL</a>
+					<a class="<?=isset($_url[2]) && $_url[2] == "main-pages" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/main-pages')?>">MAIN PAGES</a>
+					<a class="<?=isset($_url[2]) && $_url[2] == "portfolio-pages" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/portfolio-pages')?>">PORTFOLIO PAGES</a>
+					<a class="<?=isset($_url[2]) && $_url[2] == "blog-pages" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/blog-pages')?>">BLOG PAGES</a>
 					<a href="#"><span style="font-family: Arial;">+</span></a>
 <?php
 	}
@@ -32,10 +32,10 @@
 
 					<?php
 						// If pages shown
-						if ($_url[0] == "pages") {
+						if ($_url[0] == "project") {
 					?>
 					<div class="dropdown-container">
-						<span class="dropdown-opener bullet">DEVICE</span>
+						<span class="dropdown-opener">DEVICE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 						<nav class="dropdown xl-center lower">
 							<ul class="device-selector">
 								<li class="selected"><a href="#" data-device="5">Desktop</a></li>
@@ -49,7 +49,7 @@
 					?>
 
 					<div class="dropdown-container" style="margin-left: 15px;">
-						<span class="dropdown-opener bullet">SIZE</span>
+						<span class="dropdown-opener">SIZE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 						<nav class="dropdown xl-center lower">
 							<ul class="size-selector">
 								<li class="selected"><a href="#" data-column="6">6 Column</a></li>
@@ -62,7 +62,7 @@
 					</div>
 
 					<div class="dropdown-container" style="margin-left: 15px;">
-						<span class="dropdown-opener bullet">SORT</span>
+						<span class="dropdown-opener">SORT <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 						<nav class="dropdown xl-center lower">
 							<ul class="order-selector">
 								<li <?=!isset($_GET['order']) || $_GET['order'] == "custom" ? ' class="selected"' : ""?>><a href="?" data-order="custom">Custom</a></li>

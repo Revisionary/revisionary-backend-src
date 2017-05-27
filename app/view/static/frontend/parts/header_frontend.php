@@ -40,7 +40,7 @@
 
 				<div class="dropdown-container">
 					<a href="#" class="dropdown-opener invert-hover user-link bullet">
-						<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/bill.png')?>);"><div class="notif-no">3</div></picture> Bilal TAS
+						<picture class="profile-picture big" style="background-image: url(<?=asset_url('images/avatars/bill.png')?>);"><div class="notif-no">3</div></picture> Bilal TAS
 					</a>
 
 					<nav class="dropdown user-menu">

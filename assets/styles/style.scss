@@ -5,6 +5,7 @@
  */
 html, body {
 	margin: 0;
+	color: $color;
 }
 
 .container {
@@ -22,7 +23,6 @@ html, body {
 
 *:not(.fa) {
 	font-family: 'Roboto Condensed', sans-serif;
-	color: $color;
 }
 
 h1 {
@@ -216,7 +216,7 @@ nav#main-navigation {
  */
 
 a {
-	color: $color-secondary;
+	color: $color;
 	text-decoration: none;
 
 	&.invert-hover {
@@ -371,31 +371,51 @@ a {
  * 10.0 - Widgets
  */
 
-picture.profile-picture {
-    width: 40px;
-    height: 40px;
-    display: inline-block;
-    background-size: cover;
-    border: 1px solid $color;
-    border-radius: 50%;
-    margin-bottom: -15px;
-    margin-left: 20px;
-    margin-right: 10px;
-    position: relative;
+.light-border picture.profile-picture {
+    border-color: white;
 }
 
+picture.profile-picture {
+	width: 20px;
+    height: 20px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    border: 2px solid $color;
+    display: inline-block;
+    background-size: cover;
+    border-radius: 50%;
+    position: relative;
+
+	&.square {
+	    border-radius: 0;
+	    border-width: 2px;
+	}
+
+	&.big {
+		width: 40px;
+		height: 40px;
+		border-width: 1px;
+	    margin-left: 20px;
+	    margin-right: 10px;
+		margin-bottom: -15px;
+	}
+}
+
+
 .notif-no {
+    font-size: 8px;
+    bottom: -8px;
+    right: -5px;
+
     display: block;
     width: 14px;
     height: 14px;
     background-color: #D0011B;
     color: white;
-    font-size: 10px;
     line-height: 14px;
     font-weight: normal;
     position: absolute;
-    bottom: 0;
-    right: 0;
     text-align: center;
     letter-spacing: 0;
     border-radius: 50%;
@@ -403,6 +423,12 @@ picture.profile-picture {
     -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
 	-moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
 	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
+}
+
+.big .notif-no {
+    font-size: 10px;
+    bottom: 0;
+    right: 0;
 }
 
 pin {
@@ -416,7 +442,34 @@ pin {
     font-size: 10px;
     letter-spacing: 0;
     text-align: center;
+    color: white;
     box-shadow: 0px 0px 10px 1px rgba(255,255,255,0.5);
+
+    &.complete {
+    	color: $color;
+    	background-color: white;
+		border: 1px solid $color;
+
+    	&:before {
+	    	content: "\f00c";
+	    	font-family: FontAwesome;
+	    	font-size: 17px;
+	    	display: block;
+	    	position: absolute;
+			width: inherit;
+			height: inherit;
+	    	text-align: center;
+			background-color: white;
+    	    border-radius: 50%;
+    	    box-sizing: border-box;
+			transition: 500ms;
+    	}
+
+	    &:hover:before {
+	    	opacity: 0;
+		}
+
+    }
 
     &.live {
 	    box-shadow: 0px 0px 8px 1px #149440;
@@ -426,11 +479,70 @@ pin {
 	    box-shadow: 0px 0px 8px 1px #FC0F42;
     }
 
+    &.private-live {
+	    box-shadow: 0px 0px 8px 1px #FC0FB3;
+    }
+
     .pin-title {
 	    font-size: 7px;
 	    line-height: 16px;
 	    opacity: 0.8;
 	}
+
+	&.mid {
+		width: 35px;
+		height: 35px;
+		line-height: 35px;
+		margin: 0 10px;
+
+		&.live {
+		    box-shadow: 0px 0px 18px 1px #149440;
+	    }
+
+		&.private {
+		    box-shadow: 0px 0px 18px 1px #FC0F42;
+		}
+
+		&.private-live {
+		    box-shadow: 0px 0px 15px 0.5px #FC0FB3;
+		}
+
+	    .pin-title {
+		    font-size: 11px;
+		}
+	}
+
+
+
+	&.big {
+		width: 40px;
+		height: 40px;
+		line-height: 40px;
+		font-size: 12px;
+
+		&.live {
+		    box-shadow: 0px 0px 18px 1px #149440;
+	    }
+
+		&.private {
+		    box-shadow: 0px 0px 18px 1px #FC0F42;
+		}
+
+	    .pin-title {
+		    font-size: 11px;
+		}
+	}
+}
+
+.dark-color {
+	color: $color;
+}
+
+.date-statistics {
+	opacity: 0.27;
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 18px;
 }
 
 

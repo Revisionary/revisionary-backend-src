@@ -11,6 +11,12 @@ $(function() {
 	});
 
 
+	// Comment Opener
+	$('.pins-list .pin-title').click(function() {
+		$(this).toggleClass('close');
+	});
+
+
 });
 
 
@@ -26,6 +32,12 @@ $(window).on("load", function (e) {
 
 		toggleTab( $(this) );
 
+	});
+
+
+	// Pins Section Content
+	$(".scrollable-content").mCustomScrollbar({
+		alwaysShowScrollbar: true
 	});
 
 });

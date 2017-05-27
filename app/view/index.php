@@ -17,7 +17,7 @@
 			</div>
 
 			<form action="" method="get">
-				<input type="url" name="url" placeholder="ENTER A WEBSITE URL"/>
+				<input type="url" name="revise" placeholder="ENTER A WEBSITE URL"/>
 				<input type="submit"/>
 			</form>
 			<span class="description">Add your comments and edit any website’s content, <br/>

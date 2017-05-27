@@ -24,7 +24,9 @@
 
 					<div class="members-section public-link">
 						<a href="#"><i class="fa fa-link" aria-hidden="true"></i> https://revisionaryapp.com/bilaltas</a>
-						<a href="#" class="bullet privacy"><i class="fa fa-globe" aria-hidden="true"></i></a>
+						<a href="#" class="privacy">
+							<i class="fa fa-globe" aria-hidden="true"></i> <i class="fa fa-caret-down" aria-hidden="true"></i>
+						</a>
 					</div>
 
 				</div>
@@ -77,14 +79,14 @@
 								<div class="col xl-4-12 xl-left xl-top people">
 
 									<a href="#">
-										<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/images/avatars/ike.png);"></picture>
+										<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
 									</a>
 
 									<a href="#">
-										<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/images/avatars/joey.png);"></picture>
+										<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/joey.png')?>);"></picture>
 									</a>
 	<!--								<a href="#">
-										<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/images/avatars/matt.png);"></picture>
+										<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>
 									</a>
 	-->
 
@@ -104,7 +106,7 @@
 
 								</div>
 								<div class="col xl-1-1 xl-center pages" style="position: relative;">
-									<a href="<?=site_url('pages/twelve12')?>">
+									<a href="<?=site_url('project/twelve12')?>">
 										<div class="page-count">10 <br>Pages</div>
 
 										<i class="fa fa-search" aria-hidden="true" style="font-size: 120px;"></i>
@@ -122,7 +124,7 @@
 						</div>
 
 						<div class="wrap xl-flexbox xl-middle">
-							<div class="col xl-8-12 xl-left"><a href="<?=site_url('pages/twelve12')?>" class="box-name invert-hover"><?=$projectCat == "Shared" ? '<img src="'.asset_url('icons/shared.svg').'" /> '.$projectName : $projectName?></a></div>
+							<div class="col xl-8-12 xl-left"><a href="<?=site_url('project/twelve12')?>" class="box-name invert-hover"><?=$projectCat == "Shared" ? '<img src="'.asset_url('icons/shared.svg').'" /> '.$projectName : $projectName?></a></div>
 							<div class="col xl-4-12 xl-right date">19 Feb 2016</div>
 						</div>
 

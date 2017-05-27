@@ -3,6 +3,7 @@
  */
 html, body {
   margin: 0;
+  color: black;
 }
 
 .container {
@@ -66,7 +67,6 @@ html, body {
 
 #page *:not(.fa) {
   font-family: 'Roboto Condensed', sans-serif;
-  color: black;
 }
 
 #page h1 {
@@ -242,7 +242,7 @@ html, body {
 }
 
 #page a {
-  color: #007acc;
+  color: black;
   text-decoration: none;
 }
 
@@ -380,37 +380,61 @@ html, body {
   left: 0;
 }
 
+#page .light-border picture.profile-picture {
+  border-color: white;
+}
+
 #page picture.profile-picture {
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  border: 2px solid black;
   display: inline-block;
   background-size: cover;
-  border: 1px solid black;
   border-radius: 50%;
-  margin-bottom: -15px;
-  margin-left: 20px;
-  margin-right: 10px;
   position: relative;
 }
 
+#page picture.profile-picture.square {
+  border-radius: 0;
+  border-width: 2px;
+}
+
+#page picture.profile-picture.big {
+  width: 40px;
+  height: 40px;
+  border-width: 1px;
+  margin-left: 20px;
+  margin-right: 10px;
+  margin-bottom: -15px;
+}
+
 #page .notif-no {
+  font-size: 8px;
+  bottom: -8px;
+  right: -5px;
   display: block;
   width: 14px;
   height: 14px;
   background-color: #D0011B;
   color: white;
-  font-size: 10px;
   line-height: 14px;
   font-weight: normal;
   position: absolute;
-  bottom: 0;
-  right: 0;
   text-align: center;
   letter-spacing: 0;
   border-radius: 50%;
   -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+}
+
+#page .big .notif-no {
+  font-size: 10px;
+  bottom: 0;
+  right: 0;
 }
 
 #page pin {
@@ -424,7 +448,33 @@ html, body {
   font-size: 10px;
   letter-spacing: 0;
   text-align: center;
+  color: white;
   box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5);
+}
+
+#page pin.complete {
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+}
+
+#page pin.complete:before {
+  content: "\f00c";
+  font-family: FontAwesome;
+  font-size: 17px;
+  display: block;
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  text-align: center;
+  background-color: white;
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: 500ms;
+}
+
+#page pin.complete:hover:before {
+  opacity: 0;
 }
 
 #page pin.live {
@@ -435,10 +485,67 @@ html, body {
   box-shadow: 0px 0px 8px 1px #FC0F42;
 }
 
+#page pin.private-live {
+  box-shadow: 0px 0px 8px 1px #FC0FB3;
+}
+
 #page pin .pin-title {
   font-size: 7px;
   line-height: 16px;
   opacity: 0.8;
+}
+
+#page pin.mid {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  margin: 0 10px;
+}
+
+#page pin.mid.live {
+  box-shadow: 0px 0px 18px 1px #149440;
+}
+
+#page pin.mid.private {
+  box-shadow: 0px 0px 18px 1px #FC0F42;
+}
+
+#page pin.mid.private-live {
+  box-shadow: 0px 0px 15px 0.5px #FC0FB3;
+}
+
+#page pin.mid .pin-title {
+  font-size: 11px;
+}
+
+#page pin.big {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 12px;
+}
+
+#page pin.big.live {
+  box-shadow: 0px 0px 18px 1px #149440;
+}
+
+#page pin.big.private {
+  box-shadow: 0px 0px 18px 1px #FC0F42;
+}
+
+#page pin.big .pin-title {
+  font-size: 11px;
+}
+
+#page .dark-color {
+  color: black;
+}
+
+#page .date-statistics {
+  opacity: 0.27;
+  margin-top: 18px;
+  font-size: 14px;
+  line-height: 18px;
 }
 
 #page #content {
