@@ -1,8 +1,10 @@
 <?php require 'static/header_html.php' ?>
 
-<div id="loading-overlay">
+<div id="loading" class="overlay">
 	<span><div class="gps_ring"></div> LOADING...</span>
 </div>
+
+<div id="pin-mode-selector" class="overlay"></div>
 
 <div id="page" class="site">
 	<main>
@@ -559,14 +561,27 @@
 
 				<div class="tab wrap open">
 					<div class="col xl-1-1">
-						HELP CONTENT<br/><br/><br/>
+						Help Content<br/><br/><br/>
 					</div>
-					<div class="opener">
-						<a href="#">HELP</a>
+					<div class="opener" style="transform: skewX(-45deg);background-color: black;padding-right: 10px;right: 95%;">
+						<a href="#" style="transform: skewX(45deg);font-size: 10px;padding-bottom: 0;padding-left: 3px;padding-right: 16px;">?</a>
 					</div>
 				</div>
 
 			</div>
+		</div>
+
+
+		<div class="add-pin-options">
+
+			<a href="#" class="inspect-activator">
+				<pin class="live add-new big" data-pin-mode="live">+</pin>
+			</a>
+			<a href="#" class="pin-mode-selector open">
+				<i class="fa fa-caret-down" aria-hidden="true"></i>
+				<i class="fa fa-caret-up open-icon" aria-hidden="true"></i>
+			</a>
+
 		</div>
 
 

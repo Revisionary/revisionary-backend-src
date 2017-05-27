@@ -11,6 +11,7 @@ $additionalCSS = [
 ];
 
 $additionalHeadJS = [
+	'revise-page.js',
 	'revise.js'
 ];
 

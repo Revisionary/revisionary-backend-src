@@ -1,21 +1,39 @@
+var activator, inspectMode, currentCursorMode;
+
+// When document is ready
 $(function() {
 
-	// Tab opener
-	$('.opener').click(function(e) {
 
-		toggleTab( $(this) );
+	// Activator Pin
+	activator = $('.inspect-activator').children('pin');
+
+
+	// Detect initial activation
+	inspectMode = activator.hasClass('active');
+
+
+	// Detect initial cursor mode
+	currentCursorMode = activator.data('pin-mode');
+
+
+	// Inspect activator
+	activator.parent().click(function(e) {
+		toggleInspectMode();
+
 
 		e.preventDefault();
 		return false;
-
 	});
 
 
-	// Comment Opener
-	$('.pins-list .pin-title').click(function() {
-		$(this).toggleClass('close');
-	});
+	// Pin mode selector
+	activator.parent().next().click(function(e) {
+		togglePinModeSelector();
 
+
+		e.preventDefault();
+		return false;
+	});
 
 });
 
@@ -23,22 +41,16 @@ $(function() {
 // When everything is loaded
 $(window).on("load", function (e) {
 
-	// Hide the loading overlay
-	$('#loading-overlay').fadeOut();
-
-
-	// Close all the tabs
-	$('.opener').each(function() {
-
-		toggleTab( $(this) );
-
-	});
-
 
 	// Pins Section Content
 	$(".scrollable-content").mCustomScrollbar({
 		alwaysShowScrollbar: true
 	});
+
+
+	// Close Pin Mode Selector
+	togglePinModeSelector();
+
 
 });
 
@@ -94,5 +106,40 @@ function toggleTab(tab, slow = false) {
 		}
 
 	}
+
+}
+
+
+
+
+
+
+// FUNCTION: Switch Cursor
+function toggleInspectMode(forceClose = false) {
+
+	$('.inspect-activator').children('pin').toggleClass('active');
+	inspectMode = inspectMode ? true : false;
+
+}
+
+
+// FUNCTION: Toggle Pin Mode Selector
+function togglePinModeSelector(forceClose = false) {
+
+	var selector = activator.parent().next();
+
+
+	if (selector.hasClass('open')) {
+
+		$('#pin-mode-selector').fadeOut();
+
+	} else {
+
+		$('#pin-mode-selector').fadeIn();
+
+	}
+
+	toggleInspectMode();
+	selector.toggleClass('open');
 
 }

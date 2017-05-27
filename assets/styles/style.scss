@@ -471,6 +471,22 @@ pin {
 
     }
 
+    &.add-new {
+	    background-color: white;
+	    color: $color;
+	    font-family: -webkit-pictograph;
+	    font-size: 28px !important;
+	    transition: 1s;
+
+	    &.active {
+			-moz-transform: rotate(45deg);
+		    -webkit-transform: rotate(45deg);
+		    -ms-transform: rotate(45deg);
+		    -o-transform: rotate(45deg);
+		    transform: rotate(45deg);
+	    }
+    }
+
     &.live {
 	    box-shadow: 0px 0px 8px 1px #149440;
     }
@@ -515,10 +531,10 @@ pin {
 
 
 	&.big {
-		width: 40px;
-		height: 40px;
-		line-height: 40px;
-		font-size: 12px;
+		width: 45px;
+		height: 45px;
+		line-height: 45px;
+		font-size: 14px;
 
 		&.live {
 		    box-shadow: 0px 0px 18px 1px #149440;
@@ -570,25 +586,6 @@ header {
 .members-section {
     margin-top: -15px;
     margin-bottom: 10px;
-
-    .people {
-
-	    picture.profile-picture {
-		    width: 20px;
-		    height: 20px;
-		    margin-left: 0;
-		    margin-right: 0;
-		    margin-bottom: 0;
-			border-width: 2px;
-
-		    .notif-no {
-			    font-size: 8px;
-			    bottom: -8px;
-			    right: -5px;
-			}
-	    }
-
-    }
 
     .member-selector {
 	    position: relative;

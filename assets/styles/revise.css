@@ -292,7 +292,7 @@
 }
 
 /* Loading Overlay */
-#loading-overlay {
+.overlay {
   display: block;
   position: fixed;
   overflow: hidden;
@@ -306,7 +306,7 @@
   z-index: 2;
 }
 
-#loading-overlay span {
+#loading span {
   position: absolute;
   display: block;
   width: 100%;
@@ -317,6 +317,25 @@
   font-family: Montserrat, "Helvetica Neue", sans-serif;
   font-size: 20px;
   letter-spacing: 10px;
+}
+
+#pin-mode-selector {
+  z-index: 1;
+  opacity: 0.85;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  width: auto;
+  height: auto;
+  background: black;
+  background: -moz-linear-gradient(-45deg, black 0%, #464646 26%, white 95%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, black), color-stop(26%, #464646), color-stop(95%, white));
+  background: -webkit-linear-gradient(-45deg, black 0%, #464646 26%, white 95%);
+  background: -o-linear-gradient(-45deg, black 0%, #464646 26%, white 95%);
+  background: -ms-linear-gradient(-45deg, black 0%, #464646 26%, white 95%);
+  background: linear-gradient(135deg, black 0%, #464646 26%, white 95%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#ffffff', GradientType=1 );
 }
 
 .gps_ring {
@@ -343,4 +362,30 @@
     -webkit-transform: scale(1.2, 1.2);
     opacity: 0.0;
   }
+}
+
+.add-pin-options {
+  position: absolute;
+  right: 10px;
+  bottom: 30px;
+  z-index: 1;
+}
+
+.add-pin-options .pin-mode-selector {
+  color: white !important;
+}
+
+.add-pin-options .pin-mode-selector i {
+  text-shadow: 0 0 1px #000;
+}
+
+.add-pin-options .pin-mode-selector .open-icon {
+  position: relative;
+  left: -18px;
+  top: -9px;
+  visibility: hidden;
+}
+
+.add-pin-options .pin-mode-selector.open .open-icon {
+  visibility: visible;
 }
