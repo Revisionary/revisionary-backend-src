@@ -310,9 +310,12 @@
 
 .iframe-container {
 	position: absolute;
-	z-index: 0;
-	height: 100%;
-	width: 100%;
+    z-index: 0;
+    height: 100%;
+    width: 50%;
+    left: 25%;
+    border: 12px solid;
+    border-top: none;
 
 	iframe {
 		border: none;
@@ -400,6 +403,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 	    width: 500px;
 		z-index: -1;
 	    transition: 1s;
+	    opacity: 0;
 
 	    & > * {
 		    display: block;
@@ -431,6 +435,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 	    &.open + .pin-modes {
 		    right: 55%;
 		    z-index: 1;
+			opacity: 1;
 	    }
     }
 

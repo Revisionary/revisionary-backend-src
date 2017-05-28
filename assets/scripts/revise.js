@@ -1,12 +1,13 @@
-var activator, selector, selectorOpen, inspectMode, currentCursorMode;
+var activator, selector, selectorOpen, cursorActive, currentCursorMode, currentPinNumber;
+var mouseInTheFrame;
 
 // When document is ready
-$(function() {
+$(document).ready(function() {
 
 
 	// Activator Pin
 	activator = $('.inspect-activator').children('pin');
-	inspectMode = activator.hasClass('active');
+	cursorActive = activator.hasClass('active');
 
 
 	// Pin Mode Selector
@@ -16,16 +17,31 @@ $(function() {
 
 	// Detect initial cursor mode
 	currentCursorMode = activator.data('pin-mode');
+	currentPinNumber = 1;
+
+
+	// Iframe
+	mouseInTheFrame = false;
+
+/*
+	WILL BE NEEDED
+
+	addMode = false;
+	pinWindowOpen = false;
+	hoveringText = false;
+	hoveringImage = false;
+	currentText = "";
+	currentDevice = "Desktop";
+*/
 
 
 	// Inspect activator
-	activator.parent().click(function(e) {
-		toggleInspectMode();
+	activator.click(function(e) {
+		togglecursorActive();
 
 		e.preventDefault();
 		return false;
 	});
-
 
 	// Pin mode selector
 	selector.click(function(e) {
@@ -34,7 +50,6 @@ $(function() {
 		e.preventDefault();
 		return false;
 	});
-
 
 	// Pin mode change
 	$('.pin-modes a').click(function(e) {
@@ -47,21 +62,69 @@ $(function() {
 		return false;
 	});
 
+
+
+
+
+
+	// Inside the Iframe
+	$('iframe').on('load', function(){
+
+		// Iframe element
+	    var iframe = $('iframe').contents();
+
+
+	    // Disable all the links
+	    // ...
+
+
+		// Hide the original cursor
+	    iframe.find('body *').css('cursor', 'none', 'important');
+
+
+
+		// Bring the cursor
+	    iframe.on('mousemove', function(e) {
+
+			$('.mouse-cursor').css({
+				left:  e.screenX - 15,
+				top:   e.screenY - 90
+			});
+
+		}).on('click', function(e) {
+
+			log('TST');
+
+			// Prevent clicking something?
+			e.preventDefault();
+			return false;
+		});
+
+
+
+	});
+
+
+	// Mouse cursor
+	$(document).on('mousemove', function(e){
+
+		//log( mouseInTheFrame );
+
+	});
+
+
+
 });
+
+
 
 
 // When everything is loaded
 $(window).on("load", function (e) {
 
 
-	// Pins Section Content
-	$(".scrollable-content").mCustomScrollbar({
-		alwaysShowScrollbar: true
-	});
-
-
-	// Close Pin Mode Selector
-	toggleInspectMode();
+	// Close Pin Mode Selector - If on revise mode !!!
+	togglecursorActive();
 
 
 });
@@ -134,17 +197,17 @@ function switchPinMode(pinMode) { log(pinMode);
 
 
 // FUNCTION: Toggle Inspect Mode
-function toggleInspectMode(forceClose = false) {
+function togglecursorActive(forceClose = false) {
 
-	if (inspectMode || forceClose) {
+	if (cursorActive || forceClose) {
 
 		activator.removeClass('active');
-		inspectMode = false;
+		cursorActive = false;
 
 	} else {
 
 		activator.addClass('active');
-		inspectMode = true;
+		cursorActive = true;
 		if (selectorOpen) togglePinModeSelector(true);
 
 	}
@@ -161,7 +224,7 @@ function togglePinModeSelector(forceClose = false) {
 		selector.parent().removeClass('selector-open');
 		$('#pin-mode-selector').fadeOut();
 		selectorOpen = false;
-		if (!inspectMode) toggleInspectMode();
+		if (!cursorActive) togglecursorActive();
 
 	} else {
 
@@ -169,7 +232,7 @@ function togglePinModeSelector(forceClose = false) {
 		selector.parent().addClass('selector-open');
 		$('#pin-mode-selector').fadeIn();
 		selectorOpen = true;
-		if (inspectMode) toggleInspectMode(true);
+		if (cursorActive) togglecursorActive(true);
 
 	}
 

@@ -283,7 +283,10 @@
   position: absolute;
   z-index: 0;
   height: 100%;
-  width: 100%;
+  width: 50%;
+  left: 25%;
+  border: 12px solid;
+  border-top: none;
 }
 
 .iframe-container iframe {
@@ -377,6 +380,7 @@
   width: 500px;
   z-index: -1;
   transition: 1s;
+  opacity: 0;
 }
 
 .add-pin-options .pin-modes > * {
@@ -409,6 +413,7 @@
 .add-pin-options .pin-mode-selector.open + .pin-modes {
   right: 55%;
   z-index: 1;
+  opacity: 1;
 }
 
 .add-pin-options.selector-open .inspect-activator {

@@ -445,49 +445,6 @@ pin {
     color: white;
     box-shadow: 0px 0px 10px 1px rgba(255,255,255,0.5);
 
-    &.complete {
-    	color: $color;
-    	background-color: white;
-		border: 1px solid $color;
-
-    	&:before {
-	    	content: "\f00c";
-	    	font-family: FontAwesome;
-	    	font-size: 17px;
-	    	display: block;
-	    	position: absolute;
-			width: inherit;
-			height: inherit;
-	    	text-align: center;
-			background-color: white;
-    	    border-radius: 50%;
-    	    box-sizing: border-box;
-			transition: 500ms;
-    	}
-
-	    &:hover:before {
-	    	opacity: 0;
-		}
-
-    }
-
-    &.add-new {
-	    background-color: white;
-	    color: $color;
-	    font-family: -webkit-pictograph;
-	    font-size: 28px !important;
-	    transition: 1s;
-	    border: 1px solid $color;
-
-	    &.active {
-			-moz-transform: rotate(45deg);
-		    -webkit-transform: rotate(45deg);
-		    -ms-transform: rotate(45deg);
-		    -o-transform: rotate(45deg);
-		    transform: rotate(45deg);
-	    }
-    }
-
     &[data-pin-mode="live"] {
 	    box-shadow: 0px 0px 8px 1px #149440;
     }
@@ -529,8 +486,6 @@ pin {
 		}
 	}
 
-
-
 	&.big {
 		width: 45px;
 		height: 45px;
@@ -553,6 +508,60 @@ pin {
 		    font-size: 11px;
 		}
 	}
+
+    &.add-new {
+	    background-color: white;
+	    color: $color;
+	    font-family: -webkit-pictograph;
+	    font-size: 28px !important;
+	    transition: 1s;
+	    border: 1px solid $color;
+
+	    &.active {
+			-moz-transform: rotate(45deg);
+		    -webkit-transform: rotate(45deg);
+		    -ms-transform: rotate(45deg);
+		    -o-transform: rotate(45deg);
+		    transform: rotate(45deg);
+			opacity: 0.4;
+	    }
+    }
+
+    &.complete {
+    	color: $color;
+    	background-color: white;
+		border: 1px solid $color;
+
+    	&:before {
+	    	content: "\f00c";
+	    	font-family: FontAwesome;
+	    	font-size: 17px;
+	    	display: block;
+	    	position: absolute;
+			width: inherit;
+			height: inherit;
+	    	text-align: center;
+			background-color: white;
+    	    border-radius: 50%;
+    	    box-sizing: border-box;
+			transition: 500ms;
+    	}
+
+	    &:hover:before {
+	    	opacity: 0;
+		}
+
+    }
+
+    &.mouse-cursor {
+	    position: fixed;
+	    transition: none;
+	    cursor: none;
+	    pointer-events: none;
+	    border-top-left-radius: 0;
+	    color: $color;
+	    background-color: white;
+    }
 }
 
 .dark-color {
