@@ -413,7 +413,7 @@ html, body {
 
 #page .notif-no {
   font-size: 8px;
-  bottom: -8px;
+  bottom: -3px;
   right: -5px;
   display: block;
   width: 14px;
@@ -483,6 +483,7 @@ html, body {
   font-family: -webkit-pictograph;
   font-size: 28px !important;
   transition: 1s;
+  border: 1px solid black;
 }
 
 #page pin.add-new.active {
@@ -493,15 +494,15 @@ html, body {
   transform: rotate(45deg);
 }
 
-#page pin.live {
+#page pin[data-pin-mode="live"] {
   box-shadow: 0px 0px 8px 1px #149440;
 }
 
-#page pin.private {
+#page pin[data-pin-mode="private"] {
   box-shadow: 0px 0px 8px 1px #FC0F42;
 }
 
-#page pin.private-live {
+#page pin[data-pin-mode="private-live"] {
   box-shadow: 0px 0px 8px 1px #FC0FB3;
 }
 
@@ -518,15 +519,15 @@ html, body {
   margin: 0 10px;
 }
 
-#page pin.mid.live {
+#page pin.mid[data-pin-mode="live"] {
   box-shadow: 0px 0px 18px 1px #149440;
 }
 
-#page pin.mid.private {
+#page pin.mid[data-pin-mode="private"] {
   box-shadow: 0px 0px 18px 1px #FC0F42;
 }
 
-#page pin.mid.private-live {
+#page pin.mid[data-pin-mode="private-live"] {
   box-shadow: 0px 0px 15px 0.5px #FC0FB3;
 }
 
@@ -541,12 +542,16 @@ html, body {
   font-size: 14px;
 }
 
-#page pin.big.live {
+#page pin.big[data-pin-mode="live"] {
   box-shadow: 0px 0px 18px 1px #149440;
 }
 
-#page pin.big.private {
+#page pin.big[data-pin-mode="private"] {
   box-shadow: 0px 0px 18px 1px #FC0F42;
+}
+
+#page pin.big[data-pin-mode="private-live"] {
+  box-shadow: 0px 0px 18px 1px #FC0FB3;
 }
 
 #page pin.big .pin-title {

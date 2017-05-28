@@ -368,11 +368,27 @@
   position: absolute;
   right: 10px;
   bottom: 30px;
-  z-index: 1;
+}
+
+.add-pin-options .pin-modes {
+  position: absolute;
+  top: -20px;
+  right: 100%;
+  width: 500px;
+  z-index: -1;
+  transition: 1s;
+}
+
+.add-pin-options .pin-modes > * {
+  display: block;
+  text-align: right;
+  font-size: 15px !important;
 }
 
 .add-pin-options .pin-mode-selector {
   color: white !important;
+  z-index: 1;
+  position: relative;
 }
 
 .add-pin-options .pin-mode-selector i {
@@ -388,4 +404,14 @@
 
 .add-pin-options .pin-mode-selector.open .open-icon {
   visibility: visible;
+}
+
+.add-pin-options .pin-mode-selector.open + .pin-modes {
+  right: 55%;
+  z-index: 1;
+}
+
+.add-pin-options.selector-open .inspect-activator {
+  z-index: 0;
+  opacity: 0.1;
 }

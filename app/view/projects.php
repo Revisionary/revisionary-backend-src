@@ -93,14 +93,14 @@
 								</div>
 								<div class="col xl-8-12 xl-right xl-top pins">
 
-									<pin class="live">13
+									<pin data-pin-mode="live">13
 										<div class="notif-no">3</div>
 										<div class="pin-title">Live</div>
 									</pin>
-									<pin class="standard">7
+									<pin data-pin-mode="standard">7
 										<div class="pin-title">Standard</div>
 									</pin>
-									<pin class="private">4
+									<pin data-pin-mode="private">4
 										<div class="pin-title">Private</div>
 									</pin>
 

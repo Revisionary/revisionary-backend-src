@@ -1,4 +1,4 @@
-var activator, inspectMode, currentCursorMode;
+var activator, selector, selectorOpen, inspectMode, currentCursorMode;
 
 // When document is ready
 $(function() {
@@ -6,10 +6,12 @@ $(function() {
 
 	// Activator Pin
 	activator = $('.inspect-activator').children('pin');
-
-
-	// Detect initial activation
 	inspectMode = activator.hasClass('active');
+
+
+	// Pin Mode Selector
+	selector = $('.pin-mode-selector');
+	selectorOpen = selector.parent().hasClass('selector-open');
 
 
 	// Detect initial cursor mode
@@ -20,16 +22,26 @@ $(function() {
 	activator.parent().click(function(e) {
 		toggleInspectMode();
 
-
 		e.preventDefault();
 		return false;
 	});
 
 
 	// Pin mode selector
-	activator.parent().next().click(function(e) {
+	selector.click(function(e) {
 		togglePinModeSelector();
 
+		e.preventDefault();
+		return false;
+	});
+
+
+	// Pin mode change
+	$('.pin-modes a').click(function(e) {
+
+		var selectedPinMode = $(this).children('pin').data('pin-mode');
+
+		switchPinMode(selectedPinMode);
 
 		e.preventDefault();
 		return false;
@@ -49,7 +61,7 @@ $(window).on("load", function (e) {
 
 
 	// Close Pin Mode Selector
-	togglePinModeSelector();
+	toggleInspectMode();
 
 
 });
@@ -110,15 +122,32 @@ function toggleTab(tab, slow = false) {
 }
 
 
+// FUNCTION: Switch Pin Mode
+function switchPinMode(pinMode) { log(pinMode);
+
+	activator.attr('data-pin-mode', pinMode);
+	currentCursorMode = pinMode;
+
+	if (selectorOpen) togglePinModeSelector(true);
+
+}
 
 
-
-
-// FUNCTION: Switch Cursor
+// FUNCTION: Toggle Inspect Mode
 function toggleInspectMode(forceClose = false) {
 
-	$('.inspect-activator').children('pin').toggleClass('active');
-	inspectMode = inspectMode ? true : false;
+	if (inspectMode || forceClose) {
+
+		activator.removeClass('active');
+		inspectMode = false;
+
+	} else {
+
+		activator.addClass('active');
+		inspectMode = true;
+		if (selectorOpen) togglePinModeSelector(true);
+
+	}
 
 }
 
@@ -126,20 +155,22 @@ function toggleInspectMode(forceClose = false) {
 // FUNCTION: Toggle Pin Mode Selector
 function togglePinModeSelector(forceClose = false) {
 
-	var selector = activator.parent().next();
+	if (selectorOpen || forceClose) {
 
-
-	if (selector.hasClass('open')) {
-
+		selector.removeClass('open');
+		selector.parent().removeClass('selector-open');
 		$('#pin-mode-selector').fadeOut();
+		selectorOpen = false;
+		if (!inspectMode) toggleInspectMode();
 
 	} else {
 
+		selector.addClass('open');
+		selector.parent().addClass('selector-open');
 		$('#pin-mode-selector').fadeIn();
+		selectorOpen = true;
+		if (inspectMode) toggleInspectMode(true);
 
 	}
-
-	toggleInspectMode();
-	selector.toggleClass('open');
 
 }

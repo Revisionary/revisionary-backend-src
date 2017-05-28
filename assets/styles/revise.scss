@@ -392,10 +392,26 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
     position: absolute;
     right: 10px;
     bottom: 30px;
-    z-index: 1;
+
+    .pin-modes {
+	    position: absolute;
+	    top: -20px;
+	    right: 100%;
+	    width: 500px;
+		z-index: -1;
+	    transition: 1s;
+
+	    & > * {
+		    display: block;
+		    text-align: right;
+		    font-size: 15px !important;
+	    }
+    }
 
     .pin-mode-selector {
 	    color: white !important;
+	    z-index: 1;
+	    position: relative;
 
 	    i {
 		    text-shadow: 0 0 1px #000;
@@ -411,5 +427,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 	    &.open .open-icon {
 		    visibility: visible;
 	    }
+
+	    &.open + .pin-modes {
+		    right: 55%;
+		    z-index: 1;
+	    }
     }
+
+	&.selector-open {
+
+		.inspect-activator {
+			z-index: 0;
+			opacity: 0.1;
+		}
+
+	}
 }

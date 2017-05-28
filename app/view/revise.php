@@ -4,7 +4,7 @@
 	<span><div class="gps_ring"></div> LOADING...</span>
 </div>
 
-<div id="pin-mode-selector" class="overlay"></div>
+<div id="pin-mode-selector" class="overlay" style="display: none;"></div>
 
 <div id="page" class="site">
 	<main>
@@ -35,7 +35,7 @@
 								<div class="pin standard incomplete">
 
 									<a href="#" class="pin-locator">
-										<pin class="standard mid">1
+										<pin class="mid" data-pin-mode="standard">1
 											<div class="notif-no">2</div>
 										</pin>
 									</a>
@@ -112,7 +112,7 @@
 								<div class="pin live incomplete">
 
 									<a href="#" class="pin-locator">
-										<pin class="live mid">2
+										<pin class="mid" data-pin-mode="live">2
 											<!-- <div class="notif-no">2</div> -->
 										</pin>
 									</a>
@@ -189,7 +189,7 @@
 								<div class="pin live complete">
 
 									<a href="#" class="pin-locator">
-										<pin class="live complete mid">3
+										<pin class="complete mid" data-pin-mode="live">3
 											<!-- <div class="notif-no">1</div> -->
 										</pin>
 									</a>
@@ -266,7 +266,7 @@
 								<div class="pin private incomplete">
 
 									<a href="#" class="pin-locator">
-										<pin class="private mid">4
+										<pin class="mid" data-pin-mode="private">4
 											<!-- <div class="notif-no">2</div> -->
 										</pin>
 									</a>
@@ -343,7 +343,7 @@
 								<div class="pin private incomplete">
 
 									<a href="#" class="pin-locator">
-										<pin class="private-live mid">5
+										<pin class="mid" data-pin-mode="private-live">5
 											<!-- <div class="notif-no">2</div> -->
 										</pin>
 									</a>
@@ -420,7 +420,7 @@
 								<div class="pin live incomplete">
 
 									<a href="#" class="pin-locator">
-										<pin class="live mid">6
+										<pin class="mid" data-pin-mode="live">6
 											<!-- <div class="notif-no">2</div> -->
 										</pin>
 									</a>
@@ -575,12 +575,24 @@
 		<div class="add-pin-options">
 
 			<a href="#" class="inspect-activator">
-				<pin class="live add-new big" data-pin-mode="live">+</pin>
+				<pin class="add-new big" data-pin-mode="live">+</pin>
 			</a>
-			<a href="#" class="pin-mode-selector open">
+			<a href="#" class="pin-mode-selector">
 				<i class="fa fa-caret-down" aria-hidden="true"></i>
 				<i class="fa fa-caret-up open-icon" aria-hidden="true"></i>
 			</a>
+
+			<div class="pin-modes">
+				<a href="#" class="activate-live-mode">
+					LIVE PREFERRED COMMENT <pin class="add-new" data-pin-mode="live">+</pin>
+				</a>
+				<a href="#" class="activate-standard-mode">
+					ONLY COMMENT <pin class="add-new" data-pin-mode="standard">+</pin>
+				</a>
+				<a href="#" class="activate-private-live-mode">
+					LIVEABLE PRIVATE COMMENT <pin class="add-new" data-pin-mode="private-live">+</pin>
+				</a>
+			</div>
 
 		</div>
 

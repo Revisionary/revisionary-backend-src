@@ -108,14 +108,14 @@
 								</div>
 								<div class="col xl-8-12 xl-right xl-top pins">
 
-									<pin class="live">13
+									<pin data-pin-mode="live">13
 										<div class="notif-no">3</div>
 										<div class="pin-title">Live</div>
 									</pin>
-									<pin class="standard">7
+									<pin data-pin-mode="standard">7
 										<div class="pin-title">Standard</div>
 									</pin>
-									<pin class="private">4
+									<pin data-pin-mode="private">4
 										<div class="pin-title">Private</div>
 									</pin>
 
@@ -178,14 +178,14 @@
 				<div class="col" style="margin-bottom: 60px;">
 
 					<div class="pin-statistics">
-						<pin class="live mid">13
+						<pin class="mid" data-pin-mode="live">13
 							<div class="notif-no">3</div>
 							<div class="pin-title dark-color">Live</div>
 						</pin>
-						<pin class="standard mid">7
+						<pin class="mid" data-pin-mode="standard">7
 							<div class="pin-title dark-color">Standard</div>
 						</pin>
-						<pin class="private mid">4
+						<pin class="mid" data-pin-mode="private">4
 							<div class="pin-title dark-color">Private</div>
 						</pin>
 					</div>
