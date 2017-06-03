@@ -312,10 +312,11 @@
 	position: absolute;
     z-index: 0;
     height: 100%;
-    width: 50%;
-    left: 25%;
-    border: 12px solid;
+	width: 70%;
+    left: 15%;
+    border: 12px solid red;
     border-top: none;
+    border-bottom: none;
 
 	iframe {
 		border: none;
@@ -447,4 +448,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 		}
 
 	}
+}
+
+.mouse-cursor {
+	user-select: none;
+	pointer-events: none;
+	border: 0.5px solid;
 }

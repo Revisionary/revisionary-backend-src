@@ -594,10 +594,8 @@
 				</a>
 			</div>
 
-
-			<pin class="mouse-cursor big" data-pin-mode="live">1</pin>
-
 		</div>
+		<pin class="mouse-cursor big" data-pin-mode="live">1</pin>
 
 
 	</main> <!-- main -->

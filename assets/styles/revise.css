@@ -283,10 +283,11 @@
   position: absolute;
   z-index: 0;
   height: 100%;
-  width: 50%;
-  left: 25%;
-  border: 12px solid;
+  width: 70%;
+  left: 15%;
+  border: 12px solid red;
   border-top: none;
+  border-bottom: none;
 }
 
 .iframe-container iframe {
@@ -419,4 +420,10 @@
 .add-pin-options.selector-open .inspect-activator {
   z-index: 0;
   opacity: 0.1;
+}
+
+.mouse-cursor {
+  user-select: none;
+  pointer-events: none;
+  border: 0.5px solid;
 }
