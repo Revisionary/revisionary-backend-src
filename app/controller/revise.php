@@ -5,6 +5,12 @@ $pageID = $_url[1];
 
 
 
+$internalize = new Internalize($pageID);
+
+$pageURL = $internalize->serveTheURL();
+
+
+
 $additionalCSS = [
 	'jquery.mCustomScrollbar.css',
 	'revise.css'

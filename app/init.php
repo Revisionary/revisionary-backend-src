@@ -1,5 +1,6 @@
 <?php
 
+// Bring the classes
 function __autoload($className) {
 	$classFile = __DIR__ . '/classes/class.' . strtolower($className) . '.php';
 	if(file_exists($classFile)) {

@@ -103,5 +103,5 @@ function toggleTab(tab, slow = false) {
 
 // Console log shortcut
 function log(log, arg1) {
-	console.log(log);
+	//console.log(log);
 }

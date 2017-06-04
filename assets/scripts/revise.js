@@ -205,7 +205,7 @@ $(document).ready(function() {
 
 
 				// Clean Other Outlines
-				iframe.find('body *').css('outline', 'none');
+				iframe.find('body *').css('outline', '');
 
 
 				// Live reactions
@@ -213,7 +213,7 @@ $(document).ready(function() {
 
 					log('GO LIVE');
 					switchCursorMode('live');
-					focused_element.css('outline', '2px solid green');
+					focused_element.css('outline', '2px dashed green', 'important');
 
 				} else if (currentPinMode == "live" && !focused_element_editable) {
 

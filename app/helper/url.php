@@ -41,12 +41,16 @@ function url($index){
   return false;
 }
 
-function site_url($url = null){
-  return url . '/' . $url;
+function site_url($url = null, $forceSSL = false, $unForceSSL = false){
+  return ($forceSSL ? secure_url : ($unForceSSL ? unsecure_url : url)) . '/' . $url;
 }
 
 function asset_url($url = null){
   return url . '/assets/' . $url;
+}
+
+function cache_url($url = null){
+  return asset_url('cache/' . $url);
 }
 
 function current_url($add = "", $forceSSL = false, $forceWWW = false) {
@@ -150,4 +154,37 @@ function permalink($str, $options = array()){
     $str = mb_substr($str, 0, ($options['limit'] ? $options['limit'] : mb_strlen($str, 'UTF-8')), 'UTF-8');
     $str = trim($str, $options['delimiter']);
     return $options['lowercase'] ? mb_strtolower($str, 'UTF-8') : $str;
+}
+
+
+// URL PARSER
+function parseUrl($url) {
+
+	// Sanitize Quotes
+	$url = str_replace("'", "", $url);
+	$url = str_replace('"', '', $url);
+
+
+	// Parse Url
+	$parsed_url = parse_url($url);
+
+
+	$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] : '';
+	$host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
+	$full_host = $scheme."://".$host;
+	$path = isset($parsed_url['path']) ? $parsed_url['path'] : '';
+	$full_path = $scheme."://".$host.$path;
+
+	if ( strpos(basename($path), '.') !== false )
+		$full_path = str_replace(basename($full_path), '', $full_path);
+
+
+	return array(
+		'scheme' => $scheme,
+		'host' => $host,
+		'full_host' => $full_host,
+		'path' => $path,
+		'full_path' => $full_path
+	);
+
 }

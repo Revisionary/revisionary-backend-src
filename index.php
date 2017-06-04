@@ -12,6 +12,8 @@ if(!file_exists(controller($_url[0]))){
   $_url[0] = 'index';
 }
 
+session_name("revisionary_session");
+session_set_cookie_params(6000, '/', '.'.$_SERVER['HTTP_HOST']);
 session_start();
 ob_start();
 require controller($_url[0]);

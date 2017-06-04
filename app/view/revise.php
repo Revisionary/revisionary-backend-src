@@ -11,8 +11,7 @@
 
 		<div class="iframe-container">
 
-			<iframe src="http://new.revisionaryapp.com" width="100%" height="100%" scrolling="auto"></iframe>
-<!-- 			<iframe src="https://www.twelve12.com" width="100%" height="100%" scrolling="auto"></iframe> -->
+			<iframe src="<?=$pageURL?>" width="100%" height="100%" scrolling="auto"></iframe>
 
 		</div>
 
