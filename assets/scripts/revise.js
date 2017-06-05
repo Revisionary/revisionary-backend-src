@@ -159,6 +159,7 @@ $(document).ready(function() {
 				        	focused_element.prop("tagName") == "A" ||
 				        	focused_element.prop("tagName") == "STRONG" ||
 				        	focused_element.prop("tagName") == "B" ||
+				        	focused_element.prop("tagName") == "IMG" || // CHECK THIS !!!
 				        	focused_element.prop("tagName") == "TEXTAREA" ||
 				        	focused_element.prop("tagName") == "LABEL" ||
 				        	focused_element.prop("tagName") == "P" ||

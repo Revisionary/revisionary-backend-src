@@ -83,9 +83,11 @@ class Internalize {
 
 
 
+/*
 		// TEMP - DELETE THE CACHED VERSION
 		if (file_exists($this->pageTempFile))
 			unlink($this->pageTempFile);
+*/
 
 
 
@@ -179,10 +181,10 @@ class Internalize {
 
 		// JOBS:
 
-		// Save the remote HTML
+		// 1. Save the remote HTML
 		$savedHTML = $this->saveRemoteHTML($charset);
 
-		// Correct the urls
+		// 2. Correct the urls and check the files that needs to be saved
 		$filtred = false;
 		if ($savedHTML) $filtred = $this->filterAndUpdateHTML($savedHTML);
 
@@ -192,8 +194,6 @@ class Internalize {
 
 			foreach ($this->cssToDownload as $fileName => $url) {
 				$css_downloaded = $this->download_remote_file($url, $fileName, "css");
-
-				if (!$css_downloaded) break;
 			}
 
 		}
@@ -204,8 +204,6 @@ class Internalize {
 
 			foreach ($this->fontsToDownload as $fileName => $url) {
 				$font_downloaded = $this->download_remote_file($url, $fileName, "fonts");
-
-				if (!$font_downloaded) break;
 			}
 
 		}
@@ -249,19 +247,6 @@ class Internalize {
     }
 
 
-    // Get the remote url from the Page ID
-    public function getRemoteUrl($pageId) {
-
-	    // GET IT FROM DB...
-	    //$remoteUrl = "http://www.cuneyt-tas.com/kitaplar.php";
-	    //$remoteUrl = "http://www.bilaltas.net";
-	    $remoteUrl = "http://dev.cuneyt-tas.com";
-	    $remoteUrl = "https://www.twelve12.com";
-
-	    return $remoteUrl;
-    }
-
-
     // Get the current user ID
     public function getCurrentUserId() {
 
@@ -270,6 +255,20 @@ class Internalize {
 
 		return "guest";
 
+    }
+
+
+    // Get the remote url from the Page ID
+    public function getRemoteUrl($pageId) {
+
+	    // GET IT FROM DB...
+	    //$remoteUrl = "http://www.cuneyt-tas.com/kitaplar.php";
+	    //$remoteUrl = "http://www.bilaltas.net";
+	    //$remoteUrl = "http://dev.cuneyt-tas.com";
+	    $remoteUrl = "https://www.twelve12.com";
+	    //$remoteUrl = "https://www.google.com.tr/?gfe_rd=cr&ei=4rQ1WaiuAqLi8AfbmrOgAQ";
+
+	    return $remoteUrl;
     }
 
 
@@ -336,7 +335,7 @@ class Internalize {
 	public function filterAndUpdateHTML($html) {
 
 
-		// Add Necessary Spaces - done for a bug
+		// Add Necessary Spaces - done for a bug - Don't use for now
 		function placeNeccessarySpaces($contents){
 			$quotes = 0; $flag = false;
 			$newContents = '';
@@ -353,8 +352,9 @@ class Internalize {
 			}
 			return $newContents;
 		}
+		//$html = placeNeccessarySpaces($html);
 
-		$html = placeNeccessarySpaces($html);
+
 
 		// Twelve12 site - JS Problem !!!
 		$doc = new DOMDocument();
@@ -364,6 +364,7 @@ class Internalize {
 
 
 		$tags = $doc->getElementsByTagName('*');
+		$count_css = 0;
 		foreach ($tags as $tag) { //print_r($tag);
 
 			// CONVERT ALL HREF ATTRIBUTES TO ABSOLUTE !!! - Correct with existing revisionary page urls ??? (target="_parent")
@@ -403,11 +404,13 @@ class Internalize {
 
 				$url = $tag->getAttribute('href');
 
-
 				// If file is from the remote url
 		        if ( substr( $url, 0, strlen( parseUrl($this->remoteUrl)['full_host'] ) ) == parseUrl($this->remoteUrl)['full_host'] ) {
 
-		        	$css_file_name = basename($url);
+			        $count_css++;
+
+					$parsed_url = parseUrl($url);
+		        	$css_file_name = $count_css.".css";
 
 					// Add the file to download list
 			        $this->cssToDownload["css/".$css_file_name] = $url;
@@ -431,11 +434,6 @@ class Internalize {
 
 
 		}
-
-
-
-
-
 
 
 		// SAVING:
@@ -526,8 +524,7 @@ class Internalize {
 
 
 
-	// INTERNALIZATION FUNCTIONS
-
+	// DETECT FONTS
 	function detectFonts($css) {
 
 	$pattern = <<<'LOD'
@@ -555,7 +552,6 @@ class Internalize {
 ( [^"'\s)}]*+ )    # url
 ~xs
 LOD;
-
 
 		$css = preg_replace_callback(
 	        $pattern,
