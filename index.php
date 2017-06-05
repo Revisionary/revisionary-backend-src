@@ -13,7 +13,7 @@ if(!file_exists(controller($_url[0]))){
 }
 
 session_name("revisionary_session");
-session_set_cookie_params(6000, '/', '.'.$_SERVER['HTTP_HOST']);
+session_set_cookie_params(9999, '/', '.'.domain);
 session_start();
 ob_start();
 require controller($_url[0]);

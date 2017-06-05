@@ -22,6 +22,9 @@ class Internalize {
 	// Page Directory
 	public $pageDir;
 
+	// Page Url
+	public $pageUri;
+
 	// Page File Name
 	public $pageFileName;
 
@@ -32,10 +35,18 @@ class Internalize {
 	public $pageTempFile;
 
 
+	// CSS files to download
+	public $cssToDownload = array();
+
+	// Fonts to download
+	public $fontsToDownload = array();
+
+
 
 
 
 	public function __construct($pageId) {
+
 
 		// SETTERS:
 
@@ -57,6 +68,9 @@ class Internalize {
         // Set the page cache directory
         $this->pageDir = dir."/assets/cache/sites/".$this->userId."/".$this->projectId."/".$this->pageId."/".$this->pageVersion."/";
 
+        // Set the page cache directory URL
+        $this->pageUri = asset_url("cache/sites/".$this->userId."/".$this->projectId."/".$this->pageId."/".$this->pageVersion."/");
+
         // Set the page cache file name
         $this->pageFileName = "index.html";
 
@@ -72,6 +86,7 @@ class Internalize {
 		// TEMP - DELETE THE CACHED VERSION
 		if (file_exists($this->pageTempFile))
 			unlink($this->pageTempFile);
+
 
 
 		// REDIRECTIONS:
@@ -168,11 +183,36 @@ class Internalize {
 		$savedHTML = $this->saveRemoteHTML($charset);
 
 		// Correct the urls
+		$filtred = false;
 		if ($savedHTML) $filtred = $this->filterAndUpdateHTML($savedHTML);
 
-		// Detect Files to internalize
-		if ($filtred) $filesToInternalize = $this->detectFilesToInternalize($filtred);
+		// Download the CSS files
+		$css_downloaded = false;
+		if ($filtred) {
 
+			foreach ($this->cssToDownload as $fileName => $url) {
+				$css_downloaded = $this->download_remote_file($url, $fileName, "css");
+
+				if (!$css_downloaded) break;
+			}
+
+		}
+
+		// Download the fonts
+		$font_downloaded = false;
+		if ($css_downloaded) {
+
+			foreach ($this->fontsToDownload as $fileName => $url) {
+				$font_downloaded = $this->download_remote_file($url, $fileName, "fonts");
+
+				if (!$font_downloaded) break;
+			}
+
+		}
+
+		// Download the JS files
+
+		// Download the images !!!
 
     }
 
@@ -181,7 +221,7 @@ class Internalize {
 
 	// TEMP
     public function serveTheURL() {
-	    return cache_url("sites/".$this->userId."/".$this->projectId."/".$this->pageId."/".$this->pageVersion."/_".$this->pageFileName);
+	    return $this->pageUri."_".$this->pageFileName;
     }
 
 
@@ -213,7 +253,10 @@ class Internalize {
     public function getRemoteUrl($pageId) {
 
 	    // GET IT FROM DB...
-	    $remoteUrl = "http://www.cuneyt-tas.com";
+	    //$remoteUrl = "http://www.cuneyt-tas.com/kitaplar.php";
+	    //$remoteUrl = "http://www.bilaltas.net";
+	    $remoteUrl = "http://dev.cuneyt-tas.com";
+	    $remoteUrl = "https://www.twelve12.com";
 
 	    return $remoteUrl;
     }
@@ -225,7 +268,7 @@ class Internalize {
 		if ( userloggedIn() )
 			return $_SESSION['user_ID'];
 
-		return false;
+		return "guest";
 
     }
 
@@ -293,10 +336,6 @@ class Internalize {
 	public function filterAndUpdateHTML($html) {
 
 
-		// Files to internalize
-		$cssFiles = array();
-
-
 		// Add Necessary Spaces - done for a bug
 		function placeNeccessarySpaces($contents){
 			$quotes = 0; $flag = false;
@@ -320,20 +359,25 @@ class Internalize {
 
 
 		// CONVERT ALL HREF ATTRIBUTES TO ABSOLUTE !!! - Correct with existing revisionary page urls ??? (target="_parent")
+/*
 		foreach ($html->find('*[href]') as $e) {
 		    $url = $e->href;
-	        $e->href = $this->relativeToAbsoluteUrl($url);
+	        $e->href = url_to_absolute($this->remoteUrl, $url);
 		}
+*/
 
 
 		// CONVERT ALL SRC ATTRIBUTES TO ABSOLUTE
+/*
 		foreach ($html->find('*[src]') as $e) {
 		    $url = $e->src;
-	        $e->src = $this->relativeToAbsoluteUrl($url);
+	        $e->src = url_to_absolute($this->remoteUrl, $url);
 		}
+*/
 
 
 		// CONVERT ALL SRCSET ATTRIBUTES TO ABSOLUTE
+/*
 		foreach ($html->find('*[srcset]') as $e) {
 		    $attr = explode(',', $e->srcset);
 
@@ -345,39 +389,54 @@ class Internalize {
 				$url = $url_exp[0];
 				$size = $url_exp[1];
 
-				$new_srcset .= $this->relativeToAbsoluteUrl($url)." ".$size.(end($attr) != $src ? ", " : "");
+				$new_srcset .= url_to_absolute($this->remoteUrl, $url)." ".$size.(end($attr) != $src ? ", " : "");
 
 			}
 
 	        $e->srcset = $new_srcset;
 		}
+*/
 
 
-		// IN PAGE STYLES !!!
-		foreach ($html->find('style') as $e) {
-			$css = $e->innertext;
-			$e->innertext = filter_css($css);
-		}
-
-
-		// INLINE STYLES !!!
-		foreach ($html->find('*[style]') as $e) {
-			$css = $e->style;
-			$e->style = filter_css($css);
-		}
-
-
-		// DETECT CSS FILES TO INTERNALIZE !!!
+		// INTERNALIZE CSS FILES - COUNT THE LOOP FOR PROGRESS BAR !!!
+/*
 		foreach ($html->find('link[rel="stylesheet"]') as $e) {
 		    $url = $e->href;
 	        if ( $url != "" ) {
 
+				// If file is from the remote url
 		        if ( substr( $url, 0, strlen( parseUrl($this->remoteUrl)['full_host'] ) ) == parseUrl($this->remoteUrl)['full_host'] )
-			        $e->href = site_url("remote-css/".urlencode($this->relativeToAbsoluteUrl($url)) );
-			        $cssFiles[] = $url;
+
+		        	$css_file_name = basename($url);
+
+			        //$e->outertext="<style type='text/css' data-url='".urlencode($e->href)."'>".$this->filter_css($this->remote_css($url))."</style>";
+			        $this->cssToDownload["css/".$css_file_name] = $url;
+
+			        // Change the URL
+			        $e->href = $this->pageUri."css/".$css_file_name;
 
 	        }
+
 		}
+*/
+
+
+		// IN PAGE STYLES
+/*
+		foreach ($html->find('style') as $e) {
+			$css = $e->innertext;
+			$e->innertext = $this->filter_css($css);
+		}
+*/
+
+
+		// INLINE STYLES
+/*
+		foreach ($html->find('*[style]') as $e) {
+			$css = $e->style;
+			$e->style = $this->filter_css($css);
+		}
+*/
 
 
 
@@ -405,94 +464,56 @@ class Internalize {
 	}
 
 
-	public function detectFilesToInternalize($html) {
-
-
-/*
-
-		// DATA-ELEMENT-INDEX !!!
-		function data_element_index($html, $i = 0) {
-			global $i;
-
-
-			foreach ($html->find('*') as $e) {
-
-				if ($e->tag == "br" || $e->tag == "BR") continue;
-				if ($e->tag == "script" || $e->tag == "SCRIPT") continue;
-
-				$e->setAttribute('data-element-index', $i); $i++;
-				data_element_index($e, $i);
-
-			}
-
-		}
-		data_element_index( $html->find('body', 0) );
-*/
-
-
-		// ADD THE PINS ?
-
-		return array();
-
-	}
 
 
 
 
-	// 2. Pull the remote CSS
-
-
-	// 3. Pull the remote Fonts
-
-
-
-
-	// REMOTE STYLE FILES
-	function remote_css() {
+	// DOWNLOAD STYLE FILES
+	function remote_css($url) {
 		$css = "";
 
-		$remote_url = urldecode($_GET['remote_css']); // CSS Url
+		// CSS Url
+		$remote_url = urldecode($url);
 
 		// Check the url
 		if ( get_http_response_code($remote_url) == "200" )
-	    	$css .= file_get_contents($remote_url); // CSS DATA
+	    	$css .= file_get_contents($remote_url);
 
-
-		$css = filter_css($css, $remote_url);
-
-
-		header('Content-type: text/css');
-		echo $css;
-		die();
-
+		//header('Content-type: text/css');
+		return $css;
 	}
 
 
-	// REMOTE FONT FILES
-	function remote_font() {
-		$font = "";
 
-		$remote_url = urldecode($_GET['remote_font']);
+	// DOWNLOAD FILES
+	function download_remote_file($url, $fileName, $folderName = "other") {
+		$fileContent = "";
 
 		// Check the url
-		if ( get_http_response_code($remote_url) == "200" )
-	    	$font .= file_get_contents($remote_url); // get css file
-
-		header('Content-type: application/octet-stream');
-		echo $font;
-		die();
-
-	}
+		if ( get_http_response_code($url) == "200" )
+	    	$fileContent .= file_get_contents($url);
 
 
-	// GET RESPONSE CODE
-	function get_http_response_code($url) {
-		$headers = @get_headers(urldecode($url));
+		if ( $folderName == "css" )
+			$fileContent = $this->filter_css($fileContent);
 
-		if ($headers)
-			return intval(substr($headers[0], 9, 3));
-		else
-			return 0;
+
+		// SAVING:
+
+		// Create the folder if not exists
+		if ( !file_exists($this->pageDir."$folderName/") )
+			mkdir($this->pageDir."$folderName/", 0755, true);
+		@chmod($this->pageDir."$folderName/", 0755);
+
+		// Save the file if not exists
+		$downloaded = false;
+		if ( !file_exists( $this->pageDir.$fileName ) )
+			$downloaded = file_put_contents( $this->pageDir.$fileName, $fileContent, FILE_TEXT);
+
+
+		// Return true if successful
+		return $downloaded;
+
 	}
 
 
@@ -502,48 +523,18 @@ class Internalize {
 	// FILTER CSS
 	function filter_css($css) {
 
-		$remote_url = parseUrl($this->remoteUrl)['full_path'];
+		$remote_url = $this->remoteUrl;
+
 
 		// Internalize Fonts
-		$css = internalize_fonts($css, $remote_url);
-
-
-	    // All @imports
-		$css = preg_replace_callback(
-	        //'/url\(([\s])?([\"|\'])?(.*?)([\"|\'])?([\s])?\)/i',
-	        '/@import\s*(url)?\s*\(?([^;]+?)\)?;/i',
-	        function ($css_urls) use($remote_url) {
-		        $new_url = $this->relativeToAbsoluteUrl($css_urls[2], $remote_url);
-
-
-				// Remote Url Host
-				$remote_host = parseUrl($remote_url)['full_host'];
-
-
-				// Current Url Host
-				$url_host =  parseUrl($new_url)['full_host'];
-
-
-				if ( $url_host == $remote_host ) {
-
-					return "@import url('?remote_css=".urlencode($new_url)."');";
-
-				} else {
-
-					return "@import url('".$new_url."');";
-
-				}
-
-	        },
-	        $css
-	    );
+		$css = $this->detectFonts($css);
 
 
 		// All url()s
 		$css = preg_replace_callback(
 	        '%url\s*\(\s*[\\\'"]?(?!(((?:https?:)?\/\/)|(?:data:?:)))([^\\\'")]+)[\\\'"]?\s*\)%',
-	        function ($css_urls) use($remote_url) {
-	            return "url('".$this->relativeToAbsoluteUrl($css_urls[3], $remote_url)."')";
+	        function ($css_urls) {
+	            return "url('".url_to_absolute($this->remoteUrl, $css_urls[3])."')";
 	        },
 	        $css
 	    );
@@ -562,139 +553,10 @@ class Internalize {
 
 
 
-	// URL UPDATES - Relative to absolute converter
-	function relativeToAbsoluteUrl($url) {
-
-		$url = urldecode($url);
-		$remote_url = urldecode($this->remoteUrl);
-
-
-
-		// Remote URL Parse
-		$parsed_remote_url = parseUrl($remote_url);
-
-		// Current URL Parse
-		$parsed_url = parseUrl($url);
-
-
-
-		// URL Type: "//example.com/folder/file.jpg"
-		if (
-			substr( $url, 0, 2 ) == "//" && // Begins with "//"
-			$parsed_url['scheme'] == "" && // No http or https
-			substr( $url, 0, 2+strlen($parsed_remote_url['host']) ) == "//".$parsed_remote_url['host'] // Not external
-		) {
-
-			$updated_url = $parsed_remote_url['scheme'].":".$url;
-
-
-		// URL Type: "/folder/file.jpg" or "folder/file.jpg" (All local URLs - Relative path)
-		} elseif ( $parsed_url['scheme'] == '' ) {
-
-
-			// URL Type: "/folder/file.jpg"
-			if ( substr($url, 0, 1) == "/" && substr( $url, 0, 2 ) != "//" ) {
-
-				$updated_url = $parsed_remote_url['full_host'].$url;
-
-
-			// URL Type: "./folder/file.jpg"
-			} elseif ( substr($url, 0, 2) == "./" ) {
-
-				$updated_url = $parsed_remote_url['full_path']."/".str_replace('./', '', $url);
-
-
-			// URL Type: "../folder/file.jpg"
-			} elseif ( strpos($url, '../') !== false ) {
-
-				// Exclude the path
-				$updated_url = revisionary_path_excluder($parsed_remote_url['full_path'], $url);
-
-
-			// URL Type: "folder/file.jpg"
-			} else {
-
-				$updated_url = $parsed_remote_url['full_path']."/".$url;
-
-			}
-
-
-
-		} elseif (
-			($parsed_url['scheme'] == "http" || $parsed_url['scheme'] == "https") &&
-			$parsed_url['full_host'] == $parsed_remote_url['full_host']
-		) { // If urls have protocol and not far url
-
-
-			if ( strpos($url, '../') !== false ) {
-
-				// Exclude the path
-				$updated_url = revisionary_path_excluder("", $url);
-
-			} else {
-
-				$updated_url = $url;
-
-			}
-
-
-		// URL Type: "http://example.com/folder/file.jpg" (External URLs, have protocol - Absolute path)
-		} else {
-
-			$updated_url = $url;
-
-		}
-
-		return $updated_url;
-
-	}
-
-
-	// URL PATH EXCLUDER
-	function path_excluder($remote_path, $url) {
-
-		if ( strpos(basename($remote_path), '.') !== false )
-			$remote_path = str_replace(basename($remote_path), '', $remote_path);
-
-		$full_url = $remote_path.$url;
-
-		$exp_url = explode('/', $full_url);
-
-		$key_to_remove = [];
-		$redoit = true;
-		while ($redoit == true) {
-			$redoit = false;
-			foreach ($exp_url as $key => $part) {
-				if ($part == "..") {
-					unset($exp_url[$key-1]);
-					unset($exp_url[$key]);
-					$exp_url = array_values($exp_url);
-					$redoit = true;
-					break;
-				}
-			}
-		}
-
-
-		$new_url = "";
-		foreach ($exp_url as $key_new => $part_new) {
-			if ( !in_array($key_new, $key_to_remove) )
-				$new_url .= $part_new.(end($exp_url) != $part_new ? "/" : "");
-		}
-
-
-		return $new_url;
-
-	}
-
-
-
-
 
 	// INTERNALIZATION FUNCTIONS
 
-	function internalize_fonts($css, $remote_url) {
-
+	function detectFonts($css) {
 
 	$pattern = <<<'LOD'
 ~
@@ -725,8 +587,19 @@ LOD;
 
 		$css = preg_replace_callback(
 	        $pattern,
-	        function ($urls) use($remote_url) {
-	            return "?remote_font=".urlencode(revisionary_update_urls($urls[0], $remote_url));
+	        function ($urls) {
+
+		        $font_remote_url = url_to_absolute($this->remoteUrl, $urls[0]);
+
+		        $parsed_url = parseUrl($font_remote_url);
+		        $font_file_name = basename($parsed_url['path']);
+
+				// Add the file to quee
+	            $this->fontsToDownload["fonts/".$font_file_name] = $font_remote_url;
+
+				// Change the URL
+	            return $this->pageUri."fonts/".$font_file_name;
+
 	        },
 	        $css
 	    );
