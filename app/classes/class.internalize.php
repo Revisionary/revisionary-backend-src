@@ -355,90 +355,82 @@ class Internalize {
 		}
 
 		$html = placeNeccessarySpaces($html);
-		$html = str_get_html($html, true, false, DEFAULT_TARGET_CHARSET, false);
+
+		// Twelve12 site - JS Problem !!!
+		$doc = new DOMDocument();
+		libxml_use_internal_errors(true); // Disable HTML errors when true
+		$doc->loadHTML($html);
 
 
-		// CONVERT ALL HREF ATTRIBUTES TO ABSOLUTE !!! - Correct with existing revisionary page urls ??? (target="_parent")
-/*
-		foreach ($html->find('*[href]') as $e) {
-		    $url = $e->href;
-	        $e->href = url_to_absolute($this->remoteUrl, $url);
-		}
-*/
+
+		$tags = $doc->getElementsByTagName('*');
+		foreach ($tags as $tag) { //print_r($tag);
+
+			// CONVERT ALL HREF ATTRIBUTES TO ABSOLUTE !!! - Correct with existing revisionary page urls ??? (target="_parent")
+			if ( $tag->hasAttribute('href') )
+				$tag->setAttribute('href', url_to_absolute($this->remoteUrl, $tag->getAttribute('href')));
 
 
-		// CONVERT ALL SRC ATTRIBUTES TO ABSOLUTE
-/*
-		foreach ($html->find('*[src]') as $e) {
-		    $url = $e->src;
-	        $e->src = url_to_absolute($this->remoteUrl, $url);
-		}
-*/
+			// CONVERT ALL SRC ATTRIBUTES TO ABSOLUTE
+			if ( $tag->hasAttribute('src') )
+				$tag->setAttribute('src', url_to_absolute($this->remoteUrl, $tag->getAttribute('src')));
 
 
-		// CONVERT ALL SRCSET ATTRIBUTES TO ABSOLUTE
-/*
-		foreach ($html->find('*[srcset]') as $e) {
-		    $attr = explode(',', $e->srcset);
+			// CONVERT ALL SRCSET ATTRIBUTES TO ABSOLUTE
+			if ( $tag->hasAttribute('srcset') ) {
 
-		    $new_srcset = "";
+				$attr = explode(',', $tag->getAttribute('srcset'));
 
-			foreach ( $attr as $src ) {
+			    $new_srcset = "";
 
-				$url_exp = array_filter(explode(' ', trim($src)));
-				$url = $url_exp[0];
-				$size = $url_exp[1];
+				foreach ( $attr as $src ) {
 
-				$new_srcset .= url_to_absolute($this->remoteUrl, $url)." ".$size.(end($attr) != $src ? ", " : "");
+					$url_exp = array_filter(explode(' ', trim($src)));
+					$url = $url_exp[0];
+					$size = $url_exp[1];
+
+					$new_srcset .= url_to_absolute($this->remoteUrl, $url)." ".$size.(end($attr) != $src ? ", " : "");
+
+				}
+
+				$tag->setAttribute('src', $new_srcset);
 
 			}
 
-	        $e->srcset = $new_srcset;
-		}
-*/
 
+			// INTERNALIZE CSS FILES - COUNT THE LOOP FOR PROGRESS BAR !!!
+			if ( $tag->tagName == "link" && $tag->hasAttribute('rel') && $tag->getAttribute('rel') == "stylesheet" && $tag->getAttribute('href') != "" ) {
 
-		// INTERNALIZE CSS FILES - COUNT THE LOOP FOR PROGRESS BAR !!!
-/*
-		foreach ($html->find('link[rel="stylesheet"]') as $e) {
-		    $url = $e->href;
-	        if ( $url != "" ) {
+				$url = $tag->getAttribute('href');
+
 
 				// If file is from the remote url
-		        if ( substr( $url, 0, strlen( parseUrl($this->remoteUrl)['full_host'] ) ) == parseUrl($this->remoteUrl)['full_host'] )
+		        if ( substr( $url, 0, strlen( parseUrl($this->remoteUrl)['full_host'] ) ) == parseUrl($this->remoteUrl)['full_host'] ) {
 
 		        	$css_file_name = basename($url);
 
-			        //$e->outertext="<style type='text/css' data-url='".urlencode($e->href)."'>".$this->filter_css($this->remote_css($url))."</style>";
+					// Add the file to download list
 			        $this->cssToDownload["css/".$css_file_name] = $url;
 
 			        // Change the URL
-			        $e->href = $this->pageUri."css/".$css_file_name;
+					$tag->setAttribute('href', $this->pageUri."css/".$css_file_name);
 
-	        }
+				}
+
+			}
+
+
+			// IN PAGE STYLES
+			if ( $tag->tagName == "style" )
+				$tag->textContent = $this->filter_css($tag->textContent);
+
+
+			// INLINE STYLES
+			if ( $tag->hasAttribute('style') )
+				$tag->setAttribute('style', $this->filter_css( $tag->getAttribute('style') ));
+
 
 		}
-*/
-
-
-		// IN PAGE STYLES
-/*
-		foreach ($html->find('style') as $e) {
-			$css = $e->innertext;
-			$e->innertext = $this->filter_css($css);
-		}
-*/
-
-
-		// INLINE STYLES
-/*
-		foreach ($html->find('*[style]') as $e) {
-			$css = $e->style;
-			$e->style = $this->filter_css($css);
-		}
-*/
-
-
 
 
 
@@ -450,7 +442,7 @@ class Internalize {
 
 		// Save the file if not exists
 		if ( file_exists( $this->pageTempFile ) )
-			$updated = file_put_contents( $this->pageTempFile, $html, FILE_TEXT);
+			$updated = file_put_contents( $this->pageTempFile, $doc->saveHTML(), FILE_TEXT);
 
 
 		// Return the HTML if successful
@@ -461,26 +453,6 @@ class Internalize {
 
 		// NEXT: Detect the files that needs to be internalized
 
-	}
-
-
-
-
-
-
-	// DOWNLOAD STYLE FILES
-	function remote_css($url) {
-		$css = "";
-
-		// CSS Url
-		$remote_url = urldecode($url);
-
-		// Check the url
-		if ( get_http_response_code($remote_url) == "200" )
-	    	$css .= file_get_contents($remote_url);
-
-		//header('Content-type: text/css');
-		return $css;
 	}
 
 
