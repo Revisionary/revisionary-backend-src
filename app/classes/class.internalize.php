@@ -44,7 +44,7 @@ class Internalize {
 
 
 
-
+	// ACTIONS:
 	public function __construct($pageId) {
 
 
@@ -208,9 +208,9 @@ class Internalize {
 
 		}
 
-		// Download the JS files
+		// Download the JS files ?
 
-		// Download the images !!!
+		// Download the images ?
 
     }
 
@@ -490,6 +490,8 @@ class Internalize {
 
 
 
+	// FILTERS:
+
 	// FILTER CSS
 	function filter_css($css) {
 
@@ -519,9 +521,6 @@ class Internalize {
 	function filter_js() {
 
 	}
-
-
-
 
 
 	// DETECT FONTS
