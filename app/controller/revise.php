@@ -3,9 +3,9 @@
 
 $pageID = $_url[1];
 
-$internalize = new Internalize($pageID);
+$internalize = new Internalize($pageID, (isset($_GET['revise']) ? $_GET['revise'] : ""));
 $pageURL = $internalize->serveTheURL();
-
+$remoteURL = $internalize->serveTheURL(true);
 
 
 $additionalCSS = [

@@ -164,27 +164,51 @@ function parseUrl($url) {
 	$url = str_replace("'", "", $url);
 	$url = str_replace('"', '', $url);
 
+	if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
+	    return;
+	}
+
 
 	// Parse Url
-	$parsed_url = parse_url($url);
+	$url = new \Purl\Url($url);
+
+	/*
+
+	https://subdomain.example.com:80/folder/file.php?key=value#hash
+
+	scheme: https
+	host: subdomain.example.com
+	port: 80
+	user:
+	pass:
+	path: /folder/file.php
+	query: key=value
+	fragment: hash
+	publicSuffix: com
+	registerableDomain: example.com
+	subdomain: subdomain
+	canonical: com.example.subdomain/folder/file.php?key=value
+	resource: /folder/file.php?key=value
+
+	*/
 
 
-	$scheme = isset($parsed_url['scheme']) ? $parsed_url['scheme'] : '';
-	$host = isset($parsed_url['host']) ? $parsed_url['host'] : '';
-	$full_host = $scheme."://".$host;
-	$path = isset($parsed_url['path']) ? $parsed_url['path'] : '';
-	$full_path = $scheme."://".$host.$path;
 
-	if ( strpos(basename($path), '.') !== false )
+	$full_path = $url->scheme."://".$url->host.$url->path;
+
+	if ( strpos(basename($url->path), '.') !== false )
 		$full_path = str_replace(basename($full_path), '', $full_path);
 
 
+
 	return array(
-		'scheme' => $scheme,
-		'host' => $host,
-		'full_host' => $full_host,
-		'path' => $path,
-		'full_path' => $full_path
+		'scheme' => $url->scheme,
+		'host' => $url->host,
+		'full_host' => $url->scheme."://".$url->host,
+		'path' => $url->path,
+		'full_path' => $url->scheme."://".$url->host.$url->path,
+		'domain' => $url->registerableDomain,
+		'hash' => $url->fragment
 	);
 
 }
@@ -193,6 +217,14 @@ function parseUrl($url) {
 // CONVERT RELATIVE URLS TO ABSOULUTE
 // http://nadeausoftware.com/articles/2008/05/php_tip_how_convert_relative_url_absolute_url
 function url_to_absolute( $baseUrl, $relativeUrl ) {
+
+
+	if (parseUrl($relativeUrl)['host'] != "" ) {
+    	$baseUrl = parseUrl($baseUrl)['full_host'];
+    }
+
+
+
     // If relative URL has a scheme, clean path and return.
     $r = split_url( $relativeUrl );
     if ( $r === FALSE )
@@ -273,6 +305,8 @@ function url_remove_dot_segments( $path ) {
 }
 
 function split_url( $url, $decode = TRUE ) {
+
+	$parts = array();
 
     $xunressub     = 'a-zA-Z\d\-._~\!$&\'()*+,;=';
     $xpchar        = $xunressub . ':@%';

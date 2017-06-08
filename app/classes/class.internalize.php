@@ -1,4 +1,5 @@
 <?php
+use PHPHtmlParser\Dom;
 
 class Internalize {
 
@@ -40,6 +41,12 @@ class Internalize {
 
 	// Fonts to download
 	public $fontsToDownload = array();
+
+	// TEMP - Delete the cache folder
+	public $deleteCache = true;
+
+	// Debug
+	public $debug = false;
 
 
 
@@ -83,25 +90,56 @@ class Internalize {
 
 
 
-/*
 		// TEMP - DELETE THE CACHED VERSION
-		if (file_exists($this->pageTempFile))
-			unlink($this->pageTempFile);
-*/
+		function deleteDirectory($dir) {
+		    if (!file_exists($dir)) {
+		        return true;
+		    }
+
+		    if (!is_dir($dir)) {
+		        return unlink($dir);
+		    }
+
+		    foreach (scandir($dir) as $item) {
+		        if ($item == '.' || $item == '..') {
+		            continue;
+		        }
+
+		        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+		            return false;
+		        }
+
+		    }
+
+		    return rmdir($dir);
+		}
+		if ($this->deleteCache) deleteDirectory(dir."/assets/cache/sites");
 
 
 
-		// REDIRECTIONS:
+
+
+		// INTERNAL REDIRECTIONS:
 
 		// Http to Https Redirection
 		if ( substr($this->remoteUrl, 0, 8) == "https://" && !ssl) {
-			header('Location: '.site_url('revise/'.$this->pageId, true)); // Force HTTPS
+
+			$appendUrl = "";
+			if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
+	    		$appendUrl = "?new_url=".urlencode($_GET['new_url']);
+
+			header('Location: '.site_url('revise/'.$this->pageId, true).$appendUrl); // Force HTTPS
 			die();
 		}
 
 		// Https to Http Redirection
 		if ( substr($this->remoteUrl, 0, 7) == "http://" && ssl) {
-			header('Location: '.site_url('revise/'.$this->pageId, false, true)); // Force HTTP
+
+			$appendUrl = "";
+			if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
+	    		$appendUrl = "?new_url=".urlencode($_GET['new_url']);
+
+			header('Location: '.site_url('revise/'.$this->pageId, false, true).$appendUrl); // Force HTTP
 			die();
 		}
 
@@ -144,7 +182,7 @@ class Internalize {
 
 
 			// Refresh the page for preventing redirects
-			header( 'Location: ' . site_url('revise/'.$this->pageId) );
+			header( 'Location: ' . site_url('revise/'.$this->pageId."?new_url=".urlencode($new_location)) );
 			die();
 
 
@@ -159,7 +197,7 @@ class Internalize {
 
 
 				// Refresh the page to try non-ssl
-				header( 'Location: ' . site_url('revise/'.$this->pageId) );
+				header( 'Location: ' . site_url('revise/'.$this->pageId."?new_url=".urlencode( "http://".substr($this->remoteUrl, 8) )) );
 				die();
 
 
@@ -218,7 +256,10 @@ class Internalize {
 
 
 	// TEMP
-    public function serveTheURL() {
+    public function serveTheURL($showTheUrl = false) {
+
+	    if ($showTheUrl) return $this->remoteUrl;
+
 	    return $this->pageUri."_".$this->pageFileName;
     }
 
@@ -264,9 +305,13 @@ class Internalize {
 	    // GET IT FROM DB...
 	    //$remoteUrl = "http://www.cuneyt-tas.com/kitaplar.php";
 	    //$remoteUrl = "http://www.bilaltas.net";
-	    //$remoteUrl = "http://dev.cuneyt-tas.com";
-	    $remoteUrl = "https://www.twelve12.com";
-	    //$remoteUrl = "https://www.google.com.tr/?gfe_rd=cr&ei=4rQ1WaiuAqLi8AfbmrOgAQ";
+	    $remoteUrl = "http://dev.cuneyt-tas.com";
+	    //$remoteUrl = "https://www.twelve12.com";
+	    //$remoteUrl = "https://www.google.com";
+
+	    if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
+	    	$remoteUrl = $_GET['new_url'];
+
 
 	    return $remoteUrl;
     }
@@ -355,32 +400,92 @@ class Internalize {
 		//$html = placeNeccessarySpaces($html);
 
 
+		// INCLUDE THE BASE
+		$html = preg_replace_callback(
+	        '/(?<tag><head+[^<]*?>)/i',
+	        function ($urls) {
 
-		// Twelve12 site - JS Problem !!!
-		$doc = new DOMDocument();
-		libxml_use_internal_errors(true); // Disable HTML errors when true
-		$doc->loadHTML($html);
+		        return $urls['tag']."<base href='".$this->remoteUrl."'>";
+
+	        },
+	        $html
+	    );
 
 
+		// CONVERT ALL HREF, SRC ATTRIBUTES TO ABSOLUTE  !!! - Correct with existing revisionary page urls ??? (target="_parent")
+		$html = preg_replace_callback(
+	        '/<(?<tagname>link|a|script|img)\s+[^<]*?(?:href|src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
+	        function ($urls) {
 
-		$tags = $doc->getElementsByTagName('*');
+		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+
+		        $new_url = url_to_absolute($this->remoteUrl, $the_url);
+
+		        if (parseUrl($the_url)['host'] != "" )
+		        	$new_url = url_to_absolute(parseUrl($the_url)['full_host'], $the_url);
+
+
+	            return str_replace(
+	            	$the_url,
+	            	$new_url,
+	            	$urls[0]
+	            );
+	        },
+	        $html
+	    );
+
+
+	    // INTERNALIZE CSS FILES - COUNT THE LOOP FOR PROGRESS BAR !!!
 		$count_css = 0;
-		foreach ($tags as $tag) { //print_r($tag);
+		$html = preg_replace_callback(
+	        '/<(?<tagname>link)\s+[^<]*?(?:href)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
+	        function ($urls) use(&$count_css) {
 
-			// CONVERT ALL HREF ATTRIBUTES TO ABSOLUTE !!! - Correct with existing revisionary page urls ??? (target="_parent")
-			if ( $tag->hasAttribute('href') )
-				$tag->setAttribute('href', url_to_absolute($this->remoteUrl, $tag->getAttribute('href')));
-
-
-			// CONVERT ALL SRC ATTRIBUTES TO ABSOLUTE
-			if ( $tag->hasAttribute('src') )
-				$tag->setAttribute('src', url_to_absolute($this->remoteUrl, $tag->getAttribute('src')));
+		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
 
 
-			// CONVERT ALL SRCSET ATTRIBUTES TO ABSOLUTE
-			if ( $tag->hasAttribute('srcset') ) {
 
-				$attr = explode(',', $tag->getAttribute('srcset'));
+				// If file is from the remote url
+		        if ( parseUrl($the_url)['domain'] == parseUrl($this->remoteUrl)['domain']
+
+		        && ( strpos($urls[0], 'rel="stylesheet"') !== false || strpos($urls[0], "rel='stylesheet'") !== false || strpos($urls[0], "rel=stylesheet") !== false )
+
+		        ) {
+
+			        $count_css++;
+		        	$css_file_name = $count_css.".css";
+
+					// Add the file to download list
+			        $this->cssToDownload["css/".$css_file_name] = $the_url;
+
+			        if ($this->debug) echo "internalize files: ".$the_url." - File Name: ".$css_file_name."<br>";
+
+
+			        // Change the URL
+					return str_replace(
+		            	$the_url,
+		            	$this->pageUri."css/".$css_file_name,
+		            	$urls[0]
+		            );
+
+				}
+
+				return $urls[0];
+
+
+	        },
+	        $html
+	    );
+
+
+		// CONVERT ALL SRCSET ATTRIBUTES TO ABSOLUTE
+		$html = preg_replace_callback(
+	        '/<(?:img)\s+[^<]*?(?:srcset)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
+	        function ($urls) {
+
+		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+
+				$attr = explode(',', $the_url);
 
 			    $new_srcset = "";
 
@@ -394,53 +499,54 @@ class Internalize {
 
 				}
 
-				$tag->setAttribute('src', $new_srcset);
 
-			}
-
-
-			// INTERNALIZE CSS FILES - COUNT THE LOOP FOR PROGRESS BAR !!!
-			if ( $tag->tagName == "link" && $tag->hasAttribute('rel') && $tag->getAttribute('rel') == "stylesheet" && $tag->getAttribute('href') != "" ) {
-
-				$url = $tag->getAttribute('href');
-
-				// If file is from the remote url
-		        if ( substr( $url, 0, strlen( parseUrl($this->remoteUrl)['full_host'] ) ) == parseUrl($this->remoteUrl)['full_host'] ) {
-
-			        $count_css++;
-
-					$parsed_url = parseUrl($url);
-		        	$css_file_name = $count_css.".css";
-
-					// Add the file to download list
-			        $this->cssToDownload["css/".$css_file_name] = $url;
-
-			        // Change the URL
-					$tag->setAttribute('href', $this->pageUri."css/".$css_file_name);
-
-				}
-
-			}
+	            return str_replace(
+	            	$the_url,
+	            	$new_srcset,
+	            	$urls[0]
+	            );
+	        },
+	        $html
+	    );
 
 
-			// IN PAGE STYLES
-			if ( $tag->tagName == "style" )
-				$tag->textContent = $this->filter_css($tag->textContent);
+	    // IN PAGE STYLES
+		$html = preg_replace_callback(
+	        '/(?<tag><style+[^<]*?>)(?<content>[^<>]++)<\/style>/i',
+	        function ($urls) {
+
+		        return $urls['tag'].$this->filter_css($urls['content'])."</style>";
+
+	        },
+	        $html
+	    );
 
 
-			// INLINE STYLES
-			if ( $tag->hasAttribute('style') )
-				$tag->setAttribute('style', $this->filter_css( $tag->getAttribute('style') ));
+	    // INLINE STYLES
+		$html = preg_replace_callback(
+	        '/<(?:[a-z0-9]*)\s+[^<]*?(?:style)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
+	        function ($urls) {
+
+		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
 
 
-		}
+	            return str_replace(
+	            	$the_url,
+	            	$this->filter_css($the_url),
+	            	$urls[0]
+	            );
+	        },
+	        $html
+	    );
+
+
 
 
 		// SAVING:
 
 		// Save the file if not exists
 		if ( file_exists( $this->pageTempFile ) )
-			$updated = file_put_contents( $this->pageTempFile, $doc->saveHTML(), FILE_TEXT);
+			$updated = file_put_contents( $this->pageTempFile, $html, FILE_TEXT);
 
 
 		// Return the HTML if successful
@@ -455,17 +561,22 @@ class Internalize {
 
 
 
+
+
 	// DOWNLOAD FILES
 	function download_remote_file($url, $fileName, $folderName = "other") {
 		$fileContent = "";
 
+
 		// Check the url
 		if ( get_http_response_code($url) == "200" )
-	    	$fileContent .= file_get_contents($url);
+	    	$fileContent .= @file_get_contents($url, FILE_BINARY);
 
 
 		if ( $folderName == "css" )
-			$fileContent = $this->filter_css($fileContent);
+			$fileContent = $this->filter_css($fileContent, $url);
+
+		if ($this->debug) echo "download_remote_file: ".$url."<br>";
 
 
 		// SAVING:
@@ -478,7 +589,7 @@ class Internalize {
 		// Save the file if not exists
 		$downloaded = false;
 		if ( !file_exists( $this->pageDir.$fileName ) )
-			$downloaded = file_put_contents( $this->pageDir.$fileName, $fileContent, FILE_TEXT);
+			$downloaded = file_put_contents( $this->pageDir.$fileName, $fileContent, FILE_BINARY);
 
 
 		// Return true if successful
@@ -493,20 +604,23 @@ class Internalize {
 	// FILTERS:
 
 	// FILTER CSS
-	function filter_css($css) {
+	function filter_css($css, $url = "") {
 
-		$remote_url = $this->remoteUrl;
-
+		if (empty($url))
+			$url = $this->remoteUrl;
 
 		// Internalize Fonts
-		$css = $this->detectFonts($css);
+		$css = $this->detectFonts($css, $url);
+
+		if ($this->debug) echo "filter_css: ".$url."<br>";
 
 
 		// All url()s
 		$css = preg_replace_callback(
 	        '%url\s*\(\s*[\\\'"]?(?!(((?:https?:)?\/\/)|(?:data:?:)))([^\\\'")]+)[\\\'"]?\s*\)%',
-	        function ($css_urls) {
-	            return "url('".url_to_absolute($this->remoteUrl, $css_urls[3])."')";
+	        function ($css_urls) use($url) {
+
+	            return "url('".url_to_absolute($url, $css_urls[3])."')";
 	        },
 	        $css
 	    );
@@ -524,7 +638,7 @@ class Internalize {
 
 
 	// DETECT FONTS
-	function detectFonts($css) {
+	function detectFonts($css, $url = "") {
 
 	$pattern = <<<'LOD'
 ~
@@ -554,18 +668,22 @@ LOD;
 
 		$css = preg_replace_callback(
 	        $pattern,
-	        function ($urls) {
+	        function ($urls) use($url) {
 
-		        $font_remote_url = url_to_absolute($this->remoteUrl, $urls[0]);
+		        $font_remote_url = url_to_absolute($url, $urls[0]);
 
 		        $parsed_url = parseUrl($font_remote_url);
 		        $font_file_name = basename($parsed_url['path']);
+		        $font_file_name_hash = $font_file_name.($parsed_url['hash'] != "" ? "#".$parsed_url['hash'] : "");
 
 				// Add the file to quee
 	            $this->fontsToDownload["fonts/".$font_file_name] = $font_remote_url;
 
+	            if ($this->debug) echo "detectFonts: ".$url." - ".$urls[0]."<br>";
+
 				// Change the URL
-	            return $this->pageUri."fonts/".$font_file_name;
+	            //return site_url("get-font/?font=".$font_file_name_hash);
+	            return $this->pageUri."fonts/".$font_file_name_hash;
 
 	        },
 	        $css

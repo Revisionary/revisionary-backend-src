@@ -1,0 +1,5 @@
+{
+    "require": {
+        "jwage/purl": "^0.0.7"
+    }
+}

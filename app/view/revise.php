@@ -11,7 +11,7 @@
 
 		<div class="iframe-container">
 
-			<iframe src="<?=$pageURL?>" width="100%" height="100%" scrolling="auto"></iframe>
+			<iframe src="<?=$pageURL?>" data-url="<?=$remoteURL?>" width="100%" height="100%" scrolling="auto"></iframe>
 
 		</div>
 

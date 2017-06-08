@@ -97,9 +97,7 @@ $(document).ready(function() {
 
 	    // Update the title
 		if ( iframe.find('title').length ) {
-			$('title').text( "Revision Mode: " + iframe.find('title').text() );
-		} else {
-			$('title').text( "Revision Mode" );
+			$('title').text( "Revise Page: " + iframe.find('title').text() );
 		}
 
 

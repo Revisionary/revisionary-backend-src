@@ -1,12 +1,15 @@
 <?php
 
 // Bring the classes
-function __autoload($className) {
-	$classFile = __DIR__ . '/classes/class.' . strtolower($className) . '.php';
-	if(file_exists($classFile)) {
-		require $classFile;
-	}
+$classesDir = realpath('.') . '/app/classes';
+if ($dh = opendir($classesDir)){
+  while($file = readdir($dh)){
+    if (is_file($classesDir . '/' . $file) && substr($file, -4) == ".php"){
+      require $classesDir . '/' . $file;
+    }
+  }
 }
+
 
 // Bring the helpers
 Helper::Load();
@@ -17,4 +20,4 @@ require 'system/config.php';
 // Language file
 require 'language/' . $config['default_language'] . '/lang.php';
 
-$db = new basicdb($config['db']['host'], $config['db']['name'], $config['db']['user'], $config['db']['pass']);
+//$db = new basicdb($config['db']['host'], $config['db']['name'], $config['db']['user'], $config['db']['pass']);
