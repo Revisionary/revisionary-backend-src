@@ -7,9 +7,9 @@
 			<div class="col branding-side xl-left">
 
 				<?php if ( $_url[0] == "index" ) : ?>
-					<h1 class="site-title"><a href="<?php echo site_url(); ?>" rel="home">REVISIONARY APP</a></h1>
+					<h1 class="site-title"><a href="<?php echo site_url(); ?>" rel="home">REVISIONARY APP <span>ALPHA</span></a></h1>
 				<?php else : ?>
-					<p class="site-title"><a href="<?php echo site_url(); ?>" rel="home">REVISIONARY APP</a></p>
+					<p class="site-title"><a href="<?php echo site_url(); ?>" rel="home">REVISIONARY APP <span>ALPHA</span></a></p>
 				<?php endif; ?>
 
 			</div><!-- .branding-side -->

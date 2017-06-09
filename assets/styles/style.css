@@ -120,7 +120,12 @@ html, body {
   font-size: 38px;
   line-height: 38px;
   letter-spacing: 4px;
-  display: block;
+  display: inline-block;
+  position: relative;
+}
+
+#page .site-title a span {
+  font-size: 15px;
 }
 
 @media (max-width: 785px) {
