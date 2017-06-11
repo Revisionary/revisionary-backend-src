@@ -27,7 +27,7 @@ $(function() {
 $(window).on("load", function (e) {
 
 	// Hide the loading overlay
-	$('#loading').fadeOut();
+	//$('#loading').fadeOut();
 
 
 	// Close all the tabs

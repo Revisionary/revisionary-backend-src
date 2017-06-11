@@ -3,13 +3,12 @@
 // Bring the classes
 $classesDir = realpath('.') . '/app/classes';
 if ($dh = opendir($classesDir)){
-  while($file = readdir($dh)){
-    if (is_file($classesDir . '/' . $file) && substr($file, -4) == ".php"){
-      require $classesDir . '/' . $file;
-    }
-  }
+	while($file = readdir($dh)){
+		if (is_file($classesDir . '/' . $file) && substr($file, -4) == ".php"){
+			require $classesDir . '/' . $file;
+		}
+	}
 }
-
 
 // Bring the helpers
 Helper::Load();

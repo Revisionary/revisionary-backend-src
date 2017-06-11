@@ -9,7 +9,7 @@
 */
 
 class BackgroundProcess{
-    private $pid;
+    private $pid = "";
     private $command;
     private $debugger = true;
     private $msg = array();

@@ -1,7 +1,147 @@
 <?php require 'static/header_html.php' ?>
 
+<script>
+// When page is ready
+$(function(){
+//$('#loading').fadeOut();
+
+
+	// Post the request to AJAX
+	$.post(ajax_url, {
+		'type':'internalize-status',
+		'pageID': <?=$_url[1]?>,
+		'processID' : ''
+	}, function(result){
+
+		$.each(result.data, function(key, data){
+
+			// Append the log !!!
+			if (key != "final")	console.log('INIT', key, data);
+
+
+			// If process is running
+			if (data.status == "running") {
+
+				var processInterval = setInterval(function(){
+
+					// Send the new data with process ID
+					$.post(ajax_url, {
+						'type':'internalize-status',
+						'pageID': <?=$_url[1]?>,
+						'processID' : data.processID
+					}, function(result){
+
+
+						$.each(result.data, function(key, data){
+
+							// Append the log !!!
+							if (key != "final")	console.log(key, data);
+
+
+							// Update the proggress bar
+							var width = 0;
+							if (data.processStatus == 'downloading')
+								width = 12.5;
+
+							if (data.processStatus == 'downloading-html')
+								width = 12.5;
+
+							if (data.processStatus == 'downloaded-html')
+								width = 25;
+
+							if (data.processStatus == 'downloading-css')
+								width = 25;
+
+							if (parseFloat(data.totalCss) > 0)
+								width = width + (35 * parseFloat(data.downloadedCss) / parseFloat(data.totalCss) );
+
+							if (data.processStatus == 'downloaded-css')
+								width = 60;
+
+
+							if (data.processStatus == 'downloading-fonts')
+								width = 60;
+
+							if (parseFloat(data.totalFont) > 0)
+								width = width + (40 * parseFloat(data.downloadedFont) / parseFloat(data.totalFont) );
+
+							if (data.processStatus == 'downloaded-fonts')
+								width = 100;
+
+
+							if (data.processStatus == 'ready')
+								width = 100;
+
+							$('.progress').css('width', width + "%" );
+
+
+							// Print the current status
+							$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
+
+
+							// Don't repeat checking when done
+							if (data.status == "not-running") clearInterval(processInterval);
+
+
+							// If successfully downloaded
+							if (data.processStatus == "ready") {
+
+								// Update the iframe url
+								$('iframe').attr('src', data.pageUrl);
+
+								// Run the inspector
+								runTheInspector();
+
+								// When iframe loaded
+								$('iframe').on('load', function(){
+
+									// Close Pin Mode pinModeSelector - If on revise mode !!!
+									toggleCursorActive();
+
+									// Hide the loading overlay
+									$('#loading').fadeOut();
+
+								});
+
+							}
+
+
+
+						});
+
+					}, 'json');
+
+
+				}, 500); // Interval
+
+
+			} // If running
+
+
+		});
+
+	}, 'json');
+
+});
+</script>
+
 <div id="loading" class="overlay">
-	<span><div class="gps_ring"></div> LOADING...</span>
+	<div class="progress-bar">
+		<div class="progress">
+			<div class="gradient"></div>
+		</div>
+	</div>
+	<div class="progress-info">
+		<ul>
+<!--
+			<li>style.css - Downloading</li>
+			<li>style.css - Downloaded</li>
+-->
+		</ul>
+	</div>
+
+
+	<span class="loading-text"><div class="gps_ring"></div> <span id="loading-info">LOADING...</span></span>
 </div>
 
 <div id="pin-mode-selector" class="overlay" style="display: none;"></div>
@@ -11,7 +151,7 @@
 
 		<div class="iframe-container">
 
-			<iframe src="<?=$pageURL?>" data-url="<?=$remoteURL?>" width="100%" height="100%" scrolling="auto"></iframe>
+			<iframe src="" data-url="" width="100%" height="100%" scrolling="auto"></iframe>
 
 		</div>
 

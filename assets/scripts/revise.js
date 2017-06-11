@@ -17,71 +17,72 @@ var focused_element,
 	focused_element_editable,
 	focused_element_html_editable;
 
-// When document is ready
-$(document).ready(function() {
 
 
-	// VARIABLES
-	// Activator Pin
-	activator = $('.inspect-activator').children('pin');
-	cursorActive = activator.hasClass('active');
+// VARIABLES
+// Activator Pin
+activator = $('.inspect-activator').children('pin');
+cursorActive = activator.hasClass('active');
 
-	// Pin Mode Selector
-	pinModeSelector = $('.pin-mode-selector');
-	pinModeSelectorOpen = pinModeSelector.parent().hasClass('selector-open');
+// Pin Mode Selector
+pinModeSelector = $('.pin-mode-selector');
+pinModeSelectorOpen = pinModeSelector.parent().hasClass('selector-open');
 
-	// Detect initial cursor mode
-	cursor = $('.mouse-cursor');
-	currentPinMode = activator.data('pin-mode');
-	currentPinNumber = 1;
+// Detect initial cursor mode
+cursor = $('.mouse-cursor');
+currentPinMode = activator.data('pin-mode');
+currentPinNumber = 1;
 
-	// Iframe ???
-	mouseInTheFrame = false;
+// Iframe ???
+mouseInTheFrame = false;
 
-	// Hovers
-	hoveringText = false;
-	hoveringImage = false;
+// Hovers
+hoveringText = false;
+hoveringImage = false;
 
 /*
-	MIGHT BE NEEDED
+MIGHT BE NEEDED
 
-	addMode = false;
-	pinWindowOpen = false;
-	currentText = "";
-	currentDevice = "Desktop";
+addMode = false;
+pinWindowOpen = false;
+currentText = "";
+currentDevice = "Desktop";
 */
 
 
-	// Inspect activator
-	activator.click(function(e) {
-		toggleCursorActive();
+// Inspect activator
+activator.click(function(e) {
+	toggleCursorActive();
 
-		e.preventDefault();
-		return false;
-	});
+	e.preventDefault();
+	return false;
+});
 
-	// Pin mode selector
-	pinModeSelector.click(function(e) {
-		togglePinModeSelector();
+// Pin mode selector
+pinModeSelector.click(function(e) {
+	togglePinModeSelector();
 
-		e.preventDefault();
-		return false;
-	});
+	e.preventDefault();
+	return false;
+});
 
-	// Pin mode change
-	$('.pin-modes a').click(function(e) {
+// Pin mode change
+$('.pin-modes a').click(function(e) {
 
-		var selectedPinMode = $(this).children('pin').data('pin-mode');
+	var selectedPinMode = $(this).children('pin').data('pin-mode');
 
-		switchPinMode(selectedPinMode);
+	switchPinMode(selectedPinMode);
 
-		e.preventDefault();
-		return false;
-	});
+	e.preventDefault();
+	return false;
+});
 
+
+function runTheInspector() {
 
 	// WHEN IFRAME HAS LOADED
 	$('iframe').on('load', function(){
+
 
 		// Iframe element
 	    iframe = $('iframe').contents();
@@ -242,27 +243,16 @@ $(document).ready(function() {
 	});
 
 
-	// Mouse cursor
+
+
+	// Mouse cursor capture !!!
 	$(document).on('mousemove', function(e){
 
 		//log( mouseInTheFrame );
 
 	});
 
-
-
-});
-
-
-// When everything is loaded
-$(window).on("load", function (e) {
-
-
-	// Close Pin Mode pinModeSelector - If on revise mode !!!
-	toggleCursorActive();
-
-
-});
+}
 
 
 // FUNCTION: Switch to a different pin mode

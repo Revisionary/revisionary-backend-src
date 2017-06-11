@@ -7,33 +7,14 @@ class Internalize {
 	// The page ID
 	public $pageId;
 
-	// The page version
-	public $pageVersion;
-
-	// The project ID
-	public $projectId;
-
 	// The remote URL
 	public $remoteUrl;
 
-	// Current user ID
-	public $userId;
+	// Log Dir
+	public $logDir;
 
-
-	// Page Directory
-	public $pageDir;
-
-	// Page Url
-	public $pageUri;
-
-	// Page File Name
-	public $pageFileName;
-
-	// Page File
-	public $pageFile;
-
-	// Page Temporary File
-	public $pageTempFile;
+	// Log File
+	public $logFile;
 
 
 	// CSS files to download
@@ -43,7 +24,7 @@ class Internalize {
 	public $fontsToDownload = array();
 
 	// TEMP - Delete the cache folder
-	public $deleteCache = true;
+	public $deleteCache = false;
 
 	// Debug
 	public $debug = false;
@@ -51,283 +32,70 @@ class Internalize {
 
 
 
-	// ACTIONS:
+	// SETTERS:
 	public function __construct($pageId) {
 
-
-		// SETTERS:
-
 		// Set the page ID
-        $this->pageId = $pageId;
+		$this->pageId = $pageId;
 
-		// Set the project ID
-        $this->projectId = $this->getProjectId($pageId);
+		// Set the remote URL
+		$this->remoteUrl = Page::ID($this->pageId)->remoteUrl;
+		if (isset($_GET['new_url']) && $_GET['new_url'] != "" )
+			$this->remoteUrl = $_GET['new_url'];
 
-        // Set the version number
-        $this->pageVersion = $this->getPageVersion($pageId);
+		// Set the log file
+        $this->logDir = Page::ID($this->pageId)->pageDir."logs";
 
-		// Set the remote url
-        $this->remoteUrl = $this->getRemoteUrl($pageId);
-
-        // Set the user ID
-        $this->userId = $this->getCurrentUserId();
-
-        // Set the page cache directory
-        $this->pageDir = dir."/assets/cache/sites/".$this->userId."/".$this->projectId."/".$this->pageId."/".$this->pageVersion."/";
-
-        // Set the page cache directory URL
-        $this->pageUri = asset_url("cache/sites/".$this->userId."/".$this->projectId."/".$this->pageId."/".$this->pageVersion."/");
-
-        // Set the page cache file name
-        $this->pageFileName = "index.html";
-
-        // Set the page cache file
-        $this->pageFile = $this->pageDir.$this->pageFileName;
-
-        // Set the page cache file
-        $this->pageTempFile = $this->pageDir."_".$this->pageFileName;
-
-
-
-
-		// TEMP - DELETE THE CACHED VERSION
-		function deleteDirectory($dir) {
-		    if (!file_exists($dir)) {
-		        return true;
-		    }
-
-		    if (!is_dir($dir)) {
-		        return unlink($dir);
-		    }
-
-		    foreach (scandir($dir) as $item) {
-		        if ($item == '.' || $item == '..') {
-		            continue;
-		        }
-
-		        if (!deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
-		            return false;
-		        }
-
-		    }
-
-		    return rmdir($dir);
-		}
-		if ($this->deleteCache) deleteDirectory(dir."/assets/cache/sites");
-
-
-
-
-
-		// INTERNAL REDIRECTIONS:
-
-		// Http to Https Redirection
-		if ( substr($this->remoteUrl, 0, 8) == "https://" && !ssl) {
-
-			$appendUrl = "";
-			if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
-	    		$appendUrl = "?new_url=".urlencode($_GET['new_url']);
-
-			header('Location: '.site_url('revise/'.$this->pageId, true).$appendUrl); // Force HTTPS
-			die();
-		}
-
-		// Https to Http Redirection
-		if ( substr($this->remoteUrl, 0, 7) == "http://" && ssl) {
-
-			$appendUrl = "";
-			if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
-	    		$appendUrl = "?new_url=".urlencode($_GET['new_url']);
-
-			header('Location: '.site_url('revise/'.$this->pageId, false, true).$appendUrl); // Force HTTP
-			die();
-		}
-
-
-
-
-
-		// Get HTTP headers
-		$noProblem = false;
-		$charset = "";
-		$headers = @get_headers($this->remoteUrl, 1);
-		$page_response = intval(substr($headers[0], 9, 3));
-
-		// O.K.
-		if ( $page_response == 200 ) {
-
-
-			// Extract the encode
-			$parsed_content_type = explode(';', $headers['Content-Type']);
-			if (count($parsed_content_type) > 1)
-				$charset = strtoupper(substr(array_values(array_filter($parsed_content_type, function ($v) {
-					return substr($v, 0, 9) === ' charset=';
-				}))[0], 9));
-
-
-			// Allow doing the jobs!
-			$noProblem = true;
-
-
-		// Redirecting
-		} elseif ( $page_response == 301 || $page_response == 302 ) {
-
-
-			$new_location = $headers['Location'];
-			if ( is_array($new_location) ) $new_location = end($new_location);
-
-
-			// Update the NEW remoteUrl on DB !!!
-			// ...
-
-
-			// Refresh the page for preventing redirects
-			header( 'Location: ' . site_url('revise/'.$this->pageId."?new_url=".urlencode($new_location)) );
-			die();
-
-
-		// Other
-		} else {
-
-			// Try non-ssl if the url is on SSL?
-			if ( substr($this->remoteUrl, 0, 8) == "https://" ) {
-
-				// Update the nonSSL remoteUrl on DB !!!???
-				// ...
-
-
-				// Refresh the page to try non-ssl
-				header( 'Location: ' . site_url('revise/'.$this->pageId."?new_url=".urlencode( "http://".substr($this->remoteUrl, 8) )) );
-				die();
-
-
-			// If nothing works
-			} else {
-
-				header( 'Location: ' . site_url('projects/?error='.$this->remoteUrl) );
-				die();
-
-			}
-
-
-		}
-
-
-
-
-
-
-		// JOBS:
-
-		// 1. Save the remote HTML
-		$savedHTML = $this->saveRemoteHTML($charset);
-
-		// 2. Correct the urls and check the files that needs to be saved
-		$filtred = false;
-		if ($savedHTML) $filtred = $this->filterAndUpdateHTML($savedHTML);
-
-		// Download the CSS files
-		$css_downloaded = false;
-		if ($filtred) {
-
-			foreach ($this->cssToDownload as $fileName => $url) {
-				$css_downloaded = $this->download_remote_file($url, $fileName, "css");
-			}
-
-		}
-
-		// Download the fonts
-		$font_downloaded = false;
-		if ($css_downloaded) {
-
-			foreach ($this->fontsToDownload as $fileName => $url) {
-				$font_downloaded = $this->download_remote_file($url, $fileName, "fonts");
-			}
-
-		}
-
-		// Download the JS files ?
-
-		// Download the images ?
+		// Set the log file
+        $this->logFile = $this->logDir."process.log";
 
     }
 
 
 
+	// TEMP - DELETE THE CACHED VERSION !!!
+	public function deleteDirectory($dir) {
+	    if (!file_exists($dir)) {
+	        return true;
+	    }
 
-	// TEMP
-    public function serveTheURL($showTheUrl = false) {
+	    if (!is_dir($dir)) {
+	        return unlink($dir);
+	    }
 
-	    if ($showTheUrl) return $this->remoteUrl;
+	    foreach (scandir($dir) as $item) {
+	        if ($item == '.' || $item == '..') {
+	            continue;
+	        }
 
-	    return $this->pageUri."_".$this->pageFileName;
-    }
+	        if (!$this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+	            return false;
+	        }
 
+	    }
 
-
-
-	// GETTERS:
-
-    // Get the Project ID
-    public function getProjectId($pageId) {
-
-	    // GET IT FROM DB...
-	    $projectId = "twelve12";
-
-	    return $projectId;
-    }
-
-
-    // Get the page version
-    public function getPageVersion($pageId) {
-
-	    // GET IT FROM DB...
-	    $pageVersion = "v0.1";
-
-	    return $pageVersion;
-    }
-
-
-    // Get the current user ID
-    public function getCurrentUserId() {
-
-		if ( userloggedIn() )
-			return $_SESSION['user_ID'];
-
-		return "guest";
-
-    }
-
-
-    // Get the remote url from the Page ID
-    public function getRemoteUrl($pageId) {
-
-	    // GET IT FROM DB...
-	    //$remoteUrl = "http://www.cuneyt-tas.com/kitaplar.php";
-	    //$remoteUrl = "http://www.bilaltas.net";
-	    $remoteUrl = "http://dev.cuneyt-tas.com";
-	    //$remoteUrl = "https://www.twelve12.com";
-	    //$remoteUrl = "https://www.google.com";
-
-	    if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
-	    	$remoteUrl = $_GET['new_url'];
-
-
-	    return $remoteUrl;
-    }
-
-
+	    return rmdir($dir);
+	}
 
 
 
 	// JOBS:
 
 	// Pull the remote HTML
-	public function saveRemoteHTML($charset) {
+	public function saveRemoteHTML() {
+
+		// Create the log folder if not exists
+		if ( !file_exists(Page::ID($this->pageId)->logDir) )
+			mkdir(Page::ID($this->pageId)->logDir, 0755, true);
+		@chmod(Page::ID($this->pageId)->logDir, 0755);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->pageId)->logDir."_html.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
 
 
 		// Do nothing if already saved
-		if ( file_exists( $this->pageTempFile ) ) return false;
+		if ( file_exists( Page::ID($this->pageId)->pageTempFile ) ) return false;
 
 
 		// For the SSL Problem
@@ -346,6 +114,22 @@ class Internalize {
 		$html = $content;
 
 
+		// Extract the encode
+		$charset = "";
+		$headers = @get_headers($this->remoteUrl, 1);
+		$content_type = $headers['Content-Type'];
+		if ( is_array($content_type) )
+			$content_type = end($content_type);
+		$parsed_content_type = explode(';', $content_type);
+		if (count($parsed_content_type) > 1)
+			$charset = strtoupper(substr(array_values(array_filter($parsed_content_type, function ($v) {
+				return substr($v, 0, 9) === ' charset=';
+			}))[0], 9));
+
+		// Log the headers
+		file_put_contents($this->logDir."/charset.log", print_r($headers, true), FILE_APPEND);
+
+
 		// Correct the charset
 		if ($charset != "" )
 			$html = mb_convert_encoding($content, "UTF-8", $charset);
@@ -355,14 +139,24 @@ class Internalize {
 		// SAVING:
 
 		// Create the folder if not exists
-		if ( !file_exists($this->pageDir) )
-			mkdir($this->pageDir, 0755, true);
-		@chmod($this->pageDir, 0755);
+		if ( !file_exists(Page::ID($this->pageId)->pageDir) )
+			mkdir(Page::ID($this->pageId)->pageDir, 0755, true);
+		@chmod(Page::ID($this->pageId)->pageDir, 0755);
+
 
 		// Save the file if not exists
-		if ( !file_exists( $this->pageTempFile ) )
-			$saved = file_put_contents( $this->pageTempFile, $html, FILE_TEXT);
+		if ( !file_exists( Page::ID($this->pageId)->pageTempFile ) )
+			$saved = file_put_contents( Page::ID($this->pageId)->pageTempFile, $html, FILE_TEXT);
 
+
+		// LOG:
+		if ($saved) file_put_contents( Page::ID($this->pageId)->logFile," - HTML DOWNLOADED:".$this->pageId.": '".$this->remoteUrl."' \r\n", FILE_APPEND);
+		else file_put_contents( Page::ID($this->pageId)->logFile," - HTML <b>NOT</b> DOWNLOADED: '".$this->remoteUrl."' \r\n", FILE_APPEND);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->pageId)->logDir."_html.log", "[".date("Y-m-d h:i:sa")."] - Finished \r\n", FILE_APPEND);
+		rename(Page::ID($this->pageId)->logDir."_html.log", Page::ID($this->pageId)->logDir."html.log");
 
 
 		// Return the HTML if successful
@@ -378,6 +172,9 @@ class Internalize {
 
 	// Filter the HTML to correct URLs
 	public function filterAndUpdateHTML($html) {
+
+		// Specific Log
+		file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
 
 
 		// Add Necessary Spaces - done for a bug - Don't use for now
@@ -464,7 +261,7 @@ class Internalize {
 			        // Change the URL
 					return str_replace(
 		            	$the_url,
-		            	$this->pageUri."css/".$css_file_name,
+		            	Page::ID($this->pageId)->pageUri."css/".$css_file_name,
 		            	$urls[0]
 		            );
 
@@ -545,8 +342,18 @@ class Internalize {
 		// SAVING:
 
 		// Save the file if not exists
-		if ( file_exists( $this->pageTempFile ) )
-			$updated = file_put_contents( $this->pageTempFile, $html, FILE_TEXT);
+		if ( file_exists( Page::ID($this->pageId)->pageTempFile ) )
+			$updated = file_put_contents( Page::ID($this->pageId)->pageTempFile, $html, FILE_TEXT);
+
+
+		// LOG:
+		if ($updated) file_put_contents( Page::ID($this->pageId)->logFile," - HTML FILTRED \r\n", FILE_APPEND);
+		else file_put_contents( Page::ID($this->pageId)->logFile," - HTML <b>NOT</b> FILTRED \r\n", FILE_APPEND);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Finished \r\n", FILE_APPEND);
+		rename(Page::ID($this->pageId)->logDir."_filter.log", Page::ID($this->pageId)->logDir."filter.log");
 
 
 		// Return the HTML if successful
@@ -556,6 +363,103 @@ class Internalize {
 
 
 		// NEXT: Detect the files that needs to be internalized
+
+	}
+
+
+	// Download the CSS Files
+	public function downloadCssFiles() {
+
+
+		// INIT LOG:
+		file_put_contents( Page::ID($this->pageId)->logFile," - CSS DOWNLOAD STARTED {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->pageId)->logDir."_css.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
+
+
+		// Download them
+		$css_downloaded_has_error = false;
+		foreach ($this->cssToDownload as $fileName => $url) {
+			$css_downloaded = $this->download_remote_file($url, $fileName, "css");
+
+
+			// LOG:
+			if ($css_downloaded) file_put_contents( Page::ID($this->pageId)->logFile," -- CSS DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			else file_put_contents( Page::ID($this->pageId)->logFile," -- CSS <b>NOT</b> DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+
+
+			// Specific Log
+			if ($css_downloaded)
+				file_put_contents( Page::ID($this->pageId)->logDir."_css.log", "[".date("Y-m-d h:i:sa")."] - Downloaded: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+
+
+			if (!$css_downloaded) $css_downloaded_has_error = true;
+
+		}
+
+
+		// FINISH LOG:
+		if (!$css_downloaded_has_error) file_put_contents( Page::ID($this->pageId)->logFile," - CSS DOWNLOAD FINISHED \r\n", FILE_APPEND);
+		else file_put_contents( Page::ID($this->pageId)->logFile," - CSS DOWNLOAD FINISHED <b>WITH ERRORS</b> \r\n", FILE_APPEND);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->pageId)->logDir."_css.log", "[".date("Y-m-d h:i:sa")."] - Finished \r\n", FILE_APPEND);
+		rename(Page::ID($this->pageId)->logDir."_css.log", Page::ID($this->pageId)->logDir."css.log");
+
+
+		// Return true if no error
+		return !$css_downloaded_has_error;
+
+	}
+
+
+	// Download the font Files
+	public function downloadFontFiles() {
+
+
+		// INIT LOG:
+		file_put_contents( Page::ID($this->pageId)->logFile," - FONT DOWNLOAD STARTED {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->pageId)->logDir."_font.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
+
+
+		$font_downloaded_has_error = false;
+		foreach ($this->fontsToDownload as $fileName => $url) {
+			$font_downloaded = $this->download_remote_file($url, $fileName, "fonts");
+
+			// LOG:
+			if ($font_downloaded) file_put_contents( Page::ID($this->pageId)->logFile," -- FONT DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			else file_put_contents( Page::ID($this->pageId)->logFile," -- FONT <b>NOT</b> DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+
+
+			// Specific Log
+			if ($font_downloaded)
+				file_put_contents( Page::ID($this->pageId)->logDir."_font.log", "[".date("Y-m-d h:i:sa")."] - Downloaded: '".$url."' \r\n", FILE_APPEND);
+
+
+			if (!$font_downloaded) $font_downloaded_has_error = true;
+
+		}
+
+
+		// FINISH LOG:
+		// LOG:
+		if (!$font_downloaded_has_error) file_put_contents( Page::ID($this->pageId)->logFile," - FONT DOWNLOAD FINISHED \r\n", FILE_APPEND);
+		else file_put_contents( Page::ID($this->pageId)->logFile," - FONT DOWNLOAD FINISHED <b>WITH ERRORS</b> \r\n", FILE_APPEND);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->pageId)->logDir."_font.log", "[".date("Y-m-d h:i:sa")."] - Finished \r\n", FILE_APPEND);
+		rename(Page::ID($this->pageId)->logDir."_font.log", Page::ID($this->pageId)->logDir."font.log");
+
+
+		// Return true if no error
+		return !$font_downloaded_has_error;
 
 	}
 
@@ -582,22 +486,20 @@ class Internalize {
 		// SAVING:
 
 		// Create the folder if not exists
-		if ( !file_exists($this->pageDir."$folderName/") )
-			mkdir($this->pageDir."$folderName/", 0755, true);
-		@chmod($this->pageDir."$folderName/", 0755);
+		if ( !file_exists(Page::ID($this->pageId)->pageDir."$folderName/") )
+			mkdir(Page::ID($this->pageId)->pageDir."$folderName/", 0755, true);
+		@chmod(Page::ID($this->pageId)->pageDir."$folderName/", 0755);
 
 		// Save the file if not exists
 		$downloaded = false;
-		if ( !file_exists( $this->pageDir.$fileName ) )
-			$downloaded = file_put_contents( $this->pageDir.$fileName, $fileContent, FILE_BINARY);
+		if ( !file_exists( Page::ID($this->pageId)->pageDir.$fileName ) )
+			$downloaded = file_put_contents( Page::ID($this->pageId)->pageDir.$fileName, $fileContent, FILE_BINARY);
 
 
 		// Return true if successful
 		return $downloaded;
 
 	}
-
-
 
 
 
@@ -683,7 +585,7 @@ LOD;
 
 				// Change the URL
 	            //return site_url("get-font/?font=".$font_file_name_hash);
-	            return $this->pageUri."fonts/".$font_file_name_hash;
+	            return Page::ID($this->pageId)->pageUri."fonts/".$font_file_name_hash;
 
 	        },
 	        $css

@@ -9,7 +9,14 @@ if(!isset($_url[0])){
   $_url[0] = 'index';
 }
 if(!file_exists(controller($_url[0]))){
-  $_url[0] = 'index';
+	http_response_code(404);
+
+	// Show index
+	$_url[0] = 'index';
+
+	// If 404 page exists, better to show this one
+	if(file_exists(controller('404')))
+		$_url[0] = '404';
 }
 
 session_name("revisionary_session");

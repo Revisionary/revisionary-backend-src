@@ -45,12 +45,12 @@ function site_url($url = null, $forceSSL = false, $unForceSSL = false){
   return ($forceSSL ? secure_url : ($unForceSSL ? unsecure_url : url)) . '/' . $url;
 }
 
-function asset_url($url = null){
-  return url . '/assets/' . $url;
+function asset_url($url = null, $forceSSL = false, $unForceSSL = false){
+  return ($forceSSL ? secure_url : ($unForceSSL ? unsecure_url : url)) . '/assets/' . $url;
 }
 
-function cache_url($url = null){
-  return asset_url('cache/' . $url);
+function cache_url($url = null, $forceSSL = false, $unForceSSL = false){
+  return asset_url('cache/' . $url, $forceSSL, $unForceSSL);
 }
 
 function current_url($add = "", $forceSSL = false, $forceWWW = false) {
