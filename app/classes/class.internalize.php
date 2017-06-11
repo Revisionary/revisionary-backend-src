@@ -1,6 +1,7 @@
 <?php
 use PHPHtmlParser\Dom;
 
+
 class Internalize {
 
 
@@ -84,6 +85,7 @@ class Internalize {
 	// Pull the remote HTML
 	public function saveRemoteHTML() {
 
+
 		// Create the log folder if not exists
 		if ( !file_exists(Page::ID($this->pageId)->logDir) )
 			mkdir(Page::ID($this->pageId)->logDir, 0755, true);
@@ -157,6 +159,9 @@ class Internalize {
 		// Specific Log
 		file_put_contents( Page::ID($this->pageId)->logDir."_html.log", "[".date("Y-m-d h:i:sa")."] - Finished \r\n", FILE_APPEND);
 		rename(Page::ID($this->pageId)->logDir."_html.log", Page::ID($this->pageId)->logDir."html.log");
+
+
+		$_SESSION['process'] = "Class.Internalize.php - HTML Downloaded";
 
 
 		// Return the HTML if successful

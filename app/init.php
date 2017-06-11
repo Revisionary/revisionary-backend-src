@@ -19,4 +19,12 @@ require 'system/config.php';
 // Language file
 require 'language/' . $config['default_language'] . '/lang.php';
 
+
 //$db = new basicdb($config['db']['host'], $config['db']['name'], $config['db']['user'], $config['db']['pass']);
+
+
+// Start the session
+session_save_path(realpath('..')."/sessions");
+session_name("revisionary_session");
+session_set_cookie_params(9999, '/', '.'.domain);
+session_start();

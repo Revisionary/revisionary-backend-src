@@ -394,9 +394,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 // Add new pin options
 .add-pin-options {
-    position: absolute;
-    right: 10px;
-    bottom: 30px;
+	position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-bottom: 30px;
+    padding-right: 10px;
+    padding-left: 40px;
+    padding-top: 40px;
 
     .pin-modes {
 	    position: absolute;

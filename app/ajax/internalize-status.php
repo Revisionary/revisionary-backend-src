@@ -1,10 +1,10 @@
 <?php
-
+//$_SESSION['process'] = "Internalize-Status.php";
 
 $ready = '';
 
 // Initiate Internalizator
-$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.post('pageID').' Internalization-Work');
+$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.post('pageID').' '.session_id().' Internalization-Work');
 
 
 // IS STARTED?
@@ -46,18 +46,17 @@ $data = array(
 
 	// JUST TO SEE
 	'pageID' => post('pageID'),
+	'userID' => Page::ID(post('pageID'))->userId,
 
 	'status' => $status,
 	'processID' => $process->getProcessId(),
 	'processStatus' => Page::ID(post('pageID'))->pageStatus['status'],
 	'processDescription' => Page::ID(post('pageID'))->pageStatus['description'],
 
-	'totalCss' => Page::ID(post('pageID'))->getDownloadedQuantity('total', 'css'),
-	'downloadedCss' => Page::ID(post('pageID'))->getDownloadedQuantity('downloaded', 'css'),
+	'totalCss' => Page::ID(post('pageID'))->getDownloadedQuantity('downloaded', 'css')."/".Page::ID(post('pageID'))->getDownloadedQuantity('total', 'css'),
+	'totalFont' => Page::ID(post('pageID'))->getDownloadedQuantity('downloaded', 'font')."/".Page::ID(post('pageID'))->getDownloadedQuantity('total', 'font'),
 
-	'totalFont' => Page::ID(post('pageID'))->getDownloadedQuantity('total', 'font'),
-	'downloadedFont' => Page::ID(post('pageID'))->getDownloadedQuantity('downloaded', 'font'),
-
+	'Session["process"]' => $_SESSION['process'],
 
 
 

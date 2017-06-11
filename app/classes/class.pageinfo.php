@@ -107,6 +107,7 @@ class Page {
     }
 
 
+	// ID Setter
     public static function ID($pageId) {
 
 	    // Set the page ID
@@ -235,6 +236,7 @@ class Page {
     }
 
 
+	// Get the current download process
     public function getDownloadedQuantity($type = "total", $fileType = "css") {
 
 		$downloading = $this->logDir."_".$fileType.".log";

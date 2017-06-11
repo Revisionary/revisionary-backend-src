@@ -1,11 +1,34 @@
 <?php
 
+// BG Process Settings
+ignore_user_abort(true);
+set_time_limit(0);
+
+
+// Get the data
+$pageID = $argv[1];
+$sessionID = $argv[2];
+
+
+// Correct the session ID
+session_id($sessionID);
+
+
+// Call the system
 require realpath('.').'/app/init.php';
 
 
-$pageID = $argv[1];
+//$_SESSION['process'] = "Internalize.php";
 
+
+// Needs to be closed to allow working other PHP codes
+session_write_close();
+
+
+// Initiate the internalizator
 $internalize = new Internalize( $pageID );
+
+
 
 
 // JOBS:

@@ -371,8 +371,12 @@
 
 .add-pin-options {
   position: absolute;
-  right: 10px;
-  bottom: 30px;
+  right: 0;
+  bottom: 0;
+  padding-bottom: 30px;
+  padding-right: 10px;
+  padding-left: 40px;
+  padding-top: 40px;
 }
 
 .add-pin-options .pin-modes {
