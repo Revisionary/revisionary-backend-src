@@ -656,6 +656,10 @@ $(function(){
 								<a href="#"><i class="fa fa-link" aria-hidden="true"></i> Get Shareable Link... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
 							</div>
 
+							<div class="link-share">
+								<a href="#"><i class="fa fa-link" aria-hidden="true"></i> Share on my public profile... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+							</div>
+
 						</div>
 					</div>
 					<div class="opener">

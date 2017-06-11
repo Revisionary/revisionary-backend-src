@@ -56,8 +56,6 @@ $data = array(
 	'totalCss' => Page::ID(post('pageID'))->getDownloadedQuantity('downloaded', 'css')."/".Page::ID(post('pageID'))->getDownloadedQuantity('total', 'css'),
 	'totalFont' => Page::ID(post('pageID'))->getDownloadedQuantity('downloaded', 'font')."/".Page::ID(post('pageID'))->getDownloadedQuantity('total', 'font'),
 
-	'Session["process"]' => $_SESSION['process'],
-
 
 
 

@@ -10,17 +10,21 @@ if ($dh = opendir($classesDir)){
 	}
 }
 
+
 // Bring the helpers
 Helper::Load();
 
+
 // Config file
 require 'system/config.php';
+
 
 // Language file
 require 'language/' . $config['default_language'] . '/lang.php';
 
 
-//$db = new basicdb($config['db']['host'], $config['db']['name'], $config['db']['user'], $config['db']['pass']);
+// Connect to DB
+$db = new MysqliDb ($config['db']['host'], $config['db']['user'], $config['db']['pass'], $config['db']['name']);
 
 
 // Start the session
