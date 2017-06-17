@@ -298,7 +298,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 		cursor.fadeOut();
 
 		// Show the original cursor
-		iframe.find('body *').css('cursor', '', '');
+		iframe.find('body, body *').css('cursor', '', '');
 
 		// Enable all the links
 	    // ...
@@ -317,7 +317,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 		cursor.fadeIn();
 
 		// Hide the original cursor
-		iframe.find('body *').css('cursor', 'none', 'important');
+		iframe.find('body, body *').css('cursor', 'none', 'important');
 
 		// Disable all the links
 	    // ...

@@ -959,6 +959,11 @@ footer {
 
 .sortable-placeholder {
 	border: 5px dashed;
+	min-height: 1px;
+    font-size: 1rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .block {
