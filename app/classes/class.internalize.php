@@ -200,8 +200,11 @@ class Internalize {
 
 		// INCLUDE THE BASE
 		$html = preg_replace_callback(
-	        '/(?<tag><head+[^<]*?>)/i',
+	        '/<head([\>]|[\s][^<]*?\>)/i',
 	        function ($urls) {
+
+		        // Specific Log
+				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->remoteUrl."' \r\n", FILE_APPEND);
 
 		        return $urls['tag']."<base href='".$this->remoteUrl."'>";
 
@@ -216,11 +219,18 @@ class Internalize {
 	        function ($urls) {
 
 		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
-
 		        $new_url = url_to_absolute($this->remoteUrl, $the_url);
 
 		        if (parseUrl($the_url)['host'] != "" )
 		        	$new_url = url_to_absolute(parseUrl($the_url)['full_host'], $the_url);
+
+		        // If not on our server, don't do it
+		        if (parseUrl($the_url)['domain'] != parseUrl($this->remoteUrl)['domain'] )
+		        	$new_url = $the_url;
+
+
+		        // Specific Log
+				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
@@ -257,6 +267,10 @@ class Internalize {
 			        $this->cssToDownload["css/".$css_file_name] = $the_url;
 
 			        if ($this->debug) echo "internalize files: ".$the_url." - File Name: ".$css_file_name."<br>";
+
+
+			        // Specific Log
+					file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".Page::ID($this->pageId)->pageUri."css/".$css_file_name."' \r\n", FILE_APPEND);
 
 
 			        // Change the URL
@@ -298,6 +312,10 @@ class Internalize {
 				}
 
 
+				// Specific Log
+				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Srcset Absoluted: '".$the_url."' -> '".$new_srcset."' \r\n", FILE_APPEND);
+
+
 	            return str_replace(
 	            	$the_url,
 	            	$new_srcset,
@@ -313,6 +331,9 @@ class Internalize {
 	        '/(?<tag><style+[^<]*?>)(?<content>[^<>]++)<\/style>/i',
 	        function ($urls) {
 
+		        // Specific Log
+				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
+
 		        return $urls['tag'].$this->filter_css($urls['content'])."</style>";
 
 	        },
@@ -325,12 +346,16 @@ class Internalize {
 	        '/<(?:[a-z0-9]*)\s+[^<]*?(?:style)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
 	        function ($urls) {
 
-		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+		        $the_css = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+		        $filtred_css = $this->filter_css($the_css);
+
+		        // Specific Log
+				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Inline Style Filtred: '".$the_css."' -> '".$filtred_css."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
-	            	$the_url,
-	            	$this->filter_css($the_url),
+	            	$the_css,
+	            	$filtred_css,
 	            	$urls[0]
 	            );
 	        },

@@ -139,6 +139,13 @@
 				$db->orderBy("project_name", "asc");
 
 
+/*
+				// Order Projects
+				if ($order == "name") $db->orderBy("project_name", "asc");
+				if ($order == "date") $db->orderBy("project_created", "asc");
+*/
+
+
 				$projects = $db->get('projects p', null, '');
 
 

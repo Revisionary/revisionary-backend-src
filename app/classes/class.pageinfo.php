@@ -149,11 +149,12 @@ class Page {
 	    //$remoteUrl = "http://www.cuneyt-tas.com/kitaplar.php";
 	    //$remoteUrl = "http://www.bilaltas.net";
 	    //$remoteUrl = "http://www.cuneyt-tas.com";
-	    $remoteUrl = "http://dev.cuneyt-tas.com";
+	    //$remoteUrl = "http://dev.cuneyt-tas.com";
 	    //$remoteUrl = "https://www.twelve12.com";
 	    //$remoteUrl = "https://www.google.com";
 	    //$remoteUrl = "https://www.godaddy.com/";
 	    //$remoteUrl = "http://www.kariyer.net/";
+	    $remoteUrl = "http://do.ready-for-feedback.com/twelve-12/gelato-cone/";
 
 	    if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
 	    	$remoteUrl = $_GET['new_url'];
