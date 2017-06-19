@@ -7,12 +7,17 @@
 		<div class="side-content">
 			<h2>SIGN UP <div style="font-size: 32px;">TO MAKE THE WEB BETTER PLACE</div></h2>
 
-			<form method="post" action="#">
+			<?php
+				foreach ($errors as $error)
+					echo $error."<br>";
+			?>
+
+			<form method="post" action="">
 				<div class="wrap">
 					<div class="col xl-11-12">
-						<input type="text" name="user_login" value="" size="20" placeholder="Username…" />
-						<input type="text" name="user_email" value="" size="20" placeholder="E-Mail Address…" />
-						<input type="text" name="user_name" value="" size="20" placeholder="First and Last Name…" />
+						<input type="email" name="email" value="<?=$eMail?>" size="20" placeholder="E-Mail Address…" />
+						<input type="text" name="full_name" value="<?=$fullName?>" size="20" placeholder="First and Last Name…" />
+						<input type="password" name="password" value="" size="20" placeholder="Password…" />
 
 						<div class="wrap xl-gutter-8">
 							<div class="col xl-6-12 xl-right">

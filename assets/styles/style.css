@@ -402,6 +402,22 @@ html, body {
   position: relative;
 }
 
+#page picture.profile-picture span {
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 20px;
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#page picture.profile-picture span.has-pic {
+  display: none;
+}
+
 #page picture.profile-picture.square {
   border-radius: 0;
   border-width: 2px;
@@ -414,6 +430,10 @@ html, body {
   margin-left: 20px;
   margin-right: 10px;
   margin-bottom: -15px;
+}
+
+#page picture.profile-picture.big span {
+  line-height: 40px;
 }
 
 #page .notif-no {

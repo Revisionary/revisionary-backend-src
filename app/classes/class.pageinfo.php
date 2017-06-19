@@ -56,11 +56,10 @@ class Page {
 
 
 
+	// SETTERS:
 
 	public function __construct($pageId) {
 
-
-		// SETTERS:
 
 		// Set the page ID
 		self::$pageId = $pageId;
@@ -75,7 +74,7 @@ class Page {
         $this->remoteUrl = $this->getRemoteUrl();
 
         // Set the user ID
-        $this->userId = $this->getOwnerUserId();
+        $this->userId = currentUserID();
 
         // Set the page cache directory
         $this->pageDir = dir."/assets/cache/sites/".$this->userId."/".$this->projectId."/".self::$pageId."/".$this->pageVersion."/";
@@ -143,27 +142,18 @@ class Page {
     }
 
 
-    // Get the current user ID
-    public function getOwnerUserId() {
-
-		if ( userloggedIn() )
-			return $_SESSION['user_ID'];
-
-		return "guest";
-
-    }
-
-
     // Get the remote url from the Page ID
     public function getRemoteUrl() {
 
 	    // GET IT FROM DB...
 	    //$remoteUrl = "http://www.cuneyt-tas.com/kitaplar.php";
 	    //$remoteUrl = "http://www.bilaltas.net";
-	    $remoteUrl = "http://www.cuneyt-tas.com";
-	    //$remoteUrl = "http://dev.cuneyt-tas.com";
+	    //$remoteUrl = "http://www.cuneyt-tas.com";
+	    $remoteUrl = "http://dev.cuneyt-tas.com";
 	    //$remoteUrl = "https://www.twelve12.com";
 	    //$remoteUrl = "https://www.google.com";
+	    //$remoteUrl = "https://www.godaddy.com/";
+	    //$remoteUrl = "http://www.kariyer.net/";
 
 	    if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
 	    	$remoteUrl = $_GET['new_url'];
@@ -181,17 +171,26 @@ class Page {
 			"description" => "Page is downloading"
 		];
 
+
+
 		if (file_exists($this->logDir."_html.log"))
 			$process_status = [
 				"status" => "downloading-html",
 				"description" => "HTML is downloading"
 			];
 
+		if (file_exists($this->logDir."__html.log"))
+			$process_status = [
+				"status" => "download-error-html",
+				"description" => "HTML couldn't downloaded"
+			];
+
 		if (file_exists($this->logDir."html.log"))
 			$process_status = [
 				"status" => "downloaded-html",
-				"description" => "HTML Downloaded"
+				"description" => "Starting to download CSS files"
 			];
+
 
 
 		if (file_exists($this->logDir."_css.log"))
@@ -200,11 +199,18 @@ class Page {
 				"description" => "CSS files are downloading"
 			];
 
+		if (file_exists($this->logDir."__css.log"))
+			$process_status = [
+				"status" => "download-error-css",
+				"description" => "CSS files couldn't downloaded"
+			];
+
 		if (file_exists($this->logDir."css.log"))
 			$process_status = [
 				"status" => "downloaded-css",
-				"description" => "CSS files are downloaded"
+				"description" => "Starting to download fonts"
 			];
+
 
 
 		if (file_exists($this->logDir."_font.log"))
@@ -213,11 +219,18 @@ class Page {
 				"description" => "Fonts are downloading"
 			];
 
+		if (file_exists($this->logDir."__font.log"))
+			$process_status = [
+				"status" => "download-error-fonts",
+				"description" => "Fonts could't downloaded"
+			];
+
 		if (file_exists($this->logDir."font.log"))
 			$process_status = [
 				"status" => "downloaded-font",
 				"description" => "Fonts are downloaded"
 			];
+
 
 
 		if (

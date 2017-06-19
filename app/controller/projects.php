@@ -7,20 +7,9 @@ if (!userloggedIn()) {
 }
 
 
-$projectsWithCats = [
-	"Shared" => [
-		"Twelve12"
-	],
-	"Mine" => [
-		"Bilal Tas",
-		"SoundCloud",
-		"TWSJ",
-		"Youtube",
-		"Cuneyt Tas",
-		"BBC",
-		"Envato"
-	]
-];
+// Get the order
+$order = isset($_GET['order']) ? $_GET['order'] : 'custom';
+
 
 
 $additionalHeadJS = [

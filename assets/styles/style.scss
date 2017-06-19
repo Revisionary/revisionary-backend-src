@@ -392,6 +392,22 @@ picture.profile-picture {
     border-radius: 50%;
     position: relative;
 
+    span {
+		font-weight: normal;
+	    font-size: 15px;
+	    line-height: 20px;
+	    text-align: center;
+	    width: 100%;
+	    display: inline-block;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+
+	    &.has-pic {
+		    display: none;
+	    }
+    }
+
 	&.square {
 	    border-radius: 0;
 	    border-width: 2px;
@@ -404,6 +420,10 @@ picture.profile-picture {
 	    margin-left: 20px;
 	    margin-right: 10px;
 		margin-bottom: -15px;
+
+		span {
+			line-height: 40px;
+		}
 	}
 }
 
