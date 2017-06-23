@@ -31,12 +31,19 @@ $(function() {
 
 	function addNewPageButtons() {
 
+		var page_type = "Page";
+		if ( $('h1').text() == "PROJECTS" ) page_type = "Project";
+
+		var box_html = $('<div>').append( $('.add-new-template').clone().removeClass('add-new-template').addClass('add-new-block') ).html();
+
 		$('.add-new-block').remove();
 
 		$('.cat-separator').each(function() {
 
 			if ( $(this).prev().hasClass('block') || $(this).prev().hasClass('cat-separator') ) {
-				$(this).prev().after('<div class="col block add-new-block"><div class="box xl-center"><a href="#" class="add-new-box wrap xl-flexbox xl-middle xl-center" style="min-height: inherit; letter-spacing: normal;"><div class="col">New Page<div class="plus-icon" style="font-family: Arial; font-size: 90px; line-height: 80px;">+</div></div></a></div></div>');
+
+				$(this).prev().after(box_html);
+
 			}
 
 		});

@@ -226,7 +226,7 @@
 				?>
 
 					<!-- Add New Block -->
-					<div class="col block">
+					<div class="col block add-new-template">
 
 						<div class="box xl-center">
 

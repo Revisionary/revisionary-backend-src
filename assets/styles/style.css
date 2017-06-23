@@ -111,6 +111,7 @@ html, body {
 
 #page .site-title {
   margin: 0;
+  line-height: 10px;
 }
 
 #page .site-title a {
