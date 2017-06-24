@@ -61,6 +61,7 @@
 
 
 			// THE CATEGORY LOOP
+			$project_count = 0;
 			foreach ($projectCategories as $projectCategory) {
 
 				// Filters
@@ -68,6 +69,8 @@
 					$catFilter != "" &&
 					$catFilter != "mine" &&
 					$catFilter != "shared" &&
+					$catFilter != "deleted" &&
+					$catFilter != "archived" &&
 					$catFilter != permalink($projectCategory['cat_name'])
 				) continue;
 
@@ -116,8 +119,8 @@
 
 
 				// Exclude deleted and archived
-				$db->where('project_deleted', 0);
-				$db->where('project_archived', 0);
+				$db->where('project_deleted', ($catFilter == "deleted" ? 1 : 0));
+				$db->where('project_archived', ($catFilter == "archived" ? 1 : 0));
 
 
 				// Exclude other categories
@@ -140,7 +143,7 @@
 
 
 /*
-				// Order Projects
+				// Order Projects !!!
 				if ($order == "name") $db->orderBy("project_name", "asc");
 				if ($order == "date") $db->orderBy("project_created", "asc");
 */
@@ -216,13 +219,17 @@
 
 				<?php
 
+					$project_count++;
+
 				} // END OF THE PROJECT LOOP
 
 
 			} // END OF THE CATEGORY LOOP
 
+			if ($project_count == 0) echo "<div class='col xl-1-1 xl-center'>No projects found here</div>";
 
-			if ($catFilter != "shared") {
+
+			if ($catFilter != "shared" && $catFilter != "deleted" && $catFilter != "archived") {
 				?>
 
 					<!-- Add New Block -->

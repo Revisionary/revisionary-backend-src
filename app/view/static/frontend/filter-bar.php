@@ -33,6 +33,7 @@
 					}
 
 				?>
+					<a href="#"><span style="font-family: Arial; font-weight: bold;">+</span></a>
 
 				<?php
 
@@ -43,7 +44,7 @@
 					<a class="<?=isset($_url[2]) && $_url[2] == "main-pages" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/main-pages')?>">MAIN PAGES</a>
 					<a class="<?=isset($_url[2]) && $_url[2] == "portfolio-pages" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/portfolio-pages')?>">PORTFOLIO PAGES</a>
 					<a class="<?=isset($_url[2]) && $_url[2] == "blog-pages" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/blog-pages')?>">BLOG PAGES</a>
-					<a href="#"><span style="font-family: Arial;">+</span></a>
+					<a href="#"><span style="font-family: Arial; font-weight: bold;">+</span></a>
 				<?php
 					}
 				?>
