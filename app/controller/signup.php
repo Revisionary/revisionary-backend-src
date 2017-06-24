@@ -9,11 +9,17 @@ if (userloggedIn()) {
 
 $eMail = "";
 $fullName = "";
-$emptyError = $mailError = $mailExistError = $nameError = $dbError = false;
+$nonceError = $emptyError = $mailError = $mailExistError = $nameError = $dbError = false;
 $errors = [];
 
 // If submitted
 if ( isset($_POST['user-submit']) ) {
+
+	if ( !isset($_POST["nonce"]) || $_POST["nonce"] !== $_SESSION["signup_nonce"] ) {
+		$nonceError = true;
+		$errors[] = "Please try again";
+	}
+
 
 	$eMail = trim(stripslashes($_POST['email']));
 	$fullName = trim(stripslashes($_POST['full_name']));
@@ -21,21 +27,21 @@ if ( isset($_POST['user-submit']) ) {
 
 
 	// Check if any empty field
-	if (empty($eMail) || empty($fullName) || empty($password)) {
+	if (!$nonceError && (empty($eMail) || empty($fullName) || empty($password)) ) {
 		$emptyError = true;
 		$errors[] = "Please don't leave fields blank";
 	}
 
 
 	// E-Mail check
-	if (!$emptyError && !filter_var($eMail, FILTER_VALIDATE_EMAIL)) {
+	if (!$nonceError && !$emptyError && !filter_var($eMail, FILTER_VALIDATE_EMAIL)) {
 		$mailError = true;
 		$errors[] = "Invalid email format";
 	}
 
 
 	// Check if e-mail already exists
-	if (!$emptyError && !$mailError) {
+	if (!$nonceError && !$emptyError && !$mailError) {
 		$db->where("user_email", $eMail);
 		$user = $db->getOne("users", "user_ID");
 		if ($user) {
@@ -46,14 +52,14 @@ if ( isset($_POST['user-submit']) ) {
 
 
 	// Full name check
-	if (!$emptyError && !$mailError && !$mailExistError && !preg_match("/^[\p{Latin}[A-Za-z ]+$/u", $fullName)) {
+	if (!$nonceError && !$emptyError && !$mailError && !$mailExistError && !preg_match("/^[\p{Latin}[A-Za-z ]+$/u", $fullName)) {
 		$nameError = true;
 		$errors[] = "Only letters and white space allowed on your name";
 	}
 
 
 	// If no error
-	if( !$emptyError && !$mailError && !$mailExistError && !$nameError ) {
+	if( !$nonceError && !$emptyError && !$mailError && !$mailExistError && !$nameError ) {
 
 		// Parse the full name
 		$firstName = $fullName;
@@ -92,6 +98,9 @@ if ( isset($_POST['user-submit']) ) {
 	}
 
 }
+
+// Generate new nonce for form
+$_SESSION["signup_nonce"] = uniqid(mt_rand(), true);
 
 $page_title = "Signup - Revisionary App";
 require view('signup');

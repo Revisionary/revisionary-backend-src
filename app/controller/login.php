@@ -12,14 +12,19 @@ $errors = [];
 // If submitted
 if ( isset($_POST['login-submit']) ) {
 
+
+	// Check the nonce
+	if ( !isset($_POST["nonce"]) || $_POST["nonce"] !== $_SESSION["login_nonce"] )
+		$errors[] = "Please try again";
+
+
 	$userName = stripslashes($_POST['username']);
 	$password = stripslashes($_POST['password']);
 
 
 	// Check if any empty field
-	if (empty($userName) || empty($password)) {
+	if ( empty($userName) || empty($password) )
 		$errors[] = "Please don't leave fields blank";
-	}
 
 
 	// Username / E-Mail validation
@@ -59,6 +64,9 @@ if ( isset($_POST['login-submit']) ) {
 	}
 
 }
+
+// Generate new nonce for form
+$_SESSION["login_nonce"] = uniqid(mt_rand(), true);
 
 $page_title = "Login - Revisionary App";
 require view('login');

@@ -10,11 +10,14 @@
 			<?php
 				foreach ($errors as $error)
 					echo $error."<br>";
+
+				if (count($errors) > 0) echo "<br>";
 			?>
 
 			<form method="post" action="">
 				<div class="wrap">
 					<div class="col xl-11-12">
+						<input type="hidden" name="nonce" value="<?=$_SESSION['login_nonce']?>"/>
 						<input type="text" name="username" value="<?=$userName?>" size="20" id="user_login" placeholder="Usename or E-Mail Address…" />
 						<input type="password" name="password" value="" size="20" id="user_pass" placeholder="Password…" />
 
