@@ -9,6 +9,9 @@ class Page {
 	// The page version
 	public $pageVersion;
 
+	// The page device
+	public $pageDevice;
+
 	// The project ID
 	public $projectId;
 
@@ -65,24 +68,27 @@ class Page {
 		self::$pageId = $pageId;
 
 		// Set the project ID
-        $this->projectId = $this->getProjectId();
+        $this->projectId = $this->getPageInfo('project_ID');
 
         // Set the version number
         $this->pageVersion = $this->getPageVersion();
 
+        // Set the version number
+        $this->pageDevice = "desktop";
+
 		// Set the remote url
-        $this->remoteUrl = $this->getRemoteUrl();
+        $this->remoteUrl = $this->getPageInfo('page_url');
 
         // Set the user ID
-        $this->userId = currentUserID();
+        $this->userId = $this->getPageInfo('user_ID');
 
         // Set the page cache directory
-        $this->pageDir = dir."/assets/cache/sites/".$this->userId."/".$this->projectId."/".self::$pageId."/".$this->pageVersion."/";
+        $this->pageDir = dir."/assets/cache/sites/user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/";
 
         // Set the page cache directory URL
-        $this->pageUri = cache_url("sites/".$this->userId."/".$this->projectId."/".self::$pageId."/".$this->pageVersion."/");
+        $this->pageUri = cache_url("sites/user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/");
         if ( substr($this->remoteUrl, 0, 8) == "https://")
-        	$this->pageUri = cache_url("sites/".$this->userId."/".$this->projectId."/".self::$pageId."/".$this->pageVersion."/", true); // Force SSL
+        	$this->pageUri = cache_url("sites/user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/", true); // Force SSL
 
         // Set the page cache file
         $this->pageFile = $this->pageDir.$this->pageFileName;
@@ -121,6 +127,17 @@ class Page {
 
 
 	// GETTERS:
+
+	// Get page info
+    public function getPageInfo($col) {
+	    global $db;
+
+	    $db->where('page_ID', self::$pageId);
+	    $page = $db->getOne('pages', $col);
+
+	    return $page[$col];
+    }
+
 
     // Get the Project ID
     public function getProjectId() {

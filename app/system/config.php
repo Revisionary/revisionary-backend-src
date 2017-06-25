@@ -3,7 +3,7 @@
 $config = array();
 
 $config['db'] = [
-  'host' => 'localhost',
+  'host' => '127.0.0.1',
   'name' => 'revisionary_app',
   'user' => 'root',
   'pass' => 'root'

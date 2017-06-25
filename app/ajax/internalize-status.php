@@ -1,35 +1,28 @@
 <?php
-//$_SESSION['process'] = "Internalize-Status.php";
-
-$ready = '';
-
-// Initiate Internalizator
-$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.post('pageID').' '.session_id().' Internalization-Work');
+use Cocur\BackgroundProcess\BackgroundProcess;
 
 
 // IS STARTED?
 if( post('processID') != '' ) {
 
 	// Set the process ID to check
-	$process->setProcessId( post('processID') );
+	$process = BackgroundProcess::createFromPID( post('processID') );
 
 } else {
 
-	// Run the process and send the process ID
-	$process->start();
+	// Initiate Internalizator
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.post('pageID').' '.session_id());
+	$process->run();
 
 }
 
 
 // STATUS CHECK
-if ( $process->status() ) {
-
-	//$process->stop();
+if ( $process->isRunning() ) {
 
 	$status = 'running';
 
-
-} else{
+} else {
 
 	$status = 'not-running';
 
@@ -49,7 +42,7 @@ $data = array(
 	'userID' => Page::ID(post('pageID'))->userId,
 
 	'status' => $status,
-	'processID' => $process->getProcessId(),
+	'processID' => $process->getPid(),
 	'processStatus' => Page::ID(post('pageID'))->pageStatus['status'],
 	'processDescription' => Page::ID(post('pageID'))->pageStatus['description'],
 
@@ -64,7 +57,7 @@ $data = array(
 		'status' => $status,
 		'processStatus' => Page::ID(post('pageID'))->pageStatus['status'],
 		'processDescription' => Page::ID(post('pageID'))->pageStatus['description'],
-		'processID' => $process->getProcessId(),
+		'processID' => $process->getPid(),
 		'pageUrl' => Page::ID(post('pageID'))->cachedUrl,
 
 		'totalCss' => Page::ID(post('pageID'))->getDownloadedQuantity('total', 'css'),

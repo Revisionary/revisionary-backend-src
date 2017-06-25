@@ -13,7 +13,7 @@
 				<div class="col xl-center title">
 
 					<div class="dropdown-container" style="display: inline-block;">
-						<h1 class="dropdown-opener bullet bigger-bullet"><?=strtoupper($_url[1])?></h1>
+						<h1 class="dropdown-opener bullet bigger-bullet"><?=Project::ID($_url[1])->projectName?></h1>
 						<nav class="dropdown higher">
 							<ul class="projects-menu xl-left">
 								<li class="menu-item"><a href="<?=site_url('project/'.$_url[1].'/archived')?>"><img src="<?=asset_url('icons/archive.svg')?>" /> ARCHIVED PAGES</a></li>
@@ -59,116 +59,213 @@
 
 			<?php
 
-				// Order categories
-				if (isset($_GET['order'])) {
-					if ($_GET['order'] == "name") ksort($pagesWithCats);
-				}
+			// Exclude other category types
+			$db->where('cat_type', $project_ID);
 
-				$count = 0;
-				foreach ($pagesWithCats as $pageCat => $pages) {
+			// Exclude other users
+			$db->where('cat_user_ID', currentUserID());
 
 
-					// Filter
-					if ( isset($_url[2]) && permalink($pageCat) != $_url[2] ) continue;
+			$pageCategories = $db->get('categories', null, '');
 
 
-					// Category Separator
-					if ( $pageCat != "Uncategorized" )
-						echo '<div id="'.permalink($pageCat).'" class="col xl-1-1 cat-separator" draggable="true">'.$pageCat.'</div>';
+			// Add the uncategorized item
+			array_unshift($pageCategories , array(
+				'cat_ID' => 0,
+				'cat_name' => 'Uncategorized'
+			));
 
 
-					// Order Pages
-					if (isset($_GET['order'])) {
-						if ($_GET['order'] == "name") sort($pages);
-					}
+			$page_count = 0;
+			foreach ($pageCategories as $pageCategory) {
 
 
-					// List the pages under the category
-					foreach ($pages as $pageName) {
-				?>
-					<div class="col block" draggable="true">
+				// Filters
+				if (
+					$catFilter != "" &&
+					$catFilter != "mine" &&
+					$catFilter != "shared" &&
+					$catFilter != "deleted" &&
+					$catFilter != "archived" &&
+					$catFilter != permalink($pageCategory['cat_name'])
+				) continue;
 
-						<div class="box xl-center" style="background-image: url(<?=asset_url('images/pages/'.$count.'.png')?>);">
 
-							<div class="wrap overlay xl-flexbox xl-between xl-5 members">
-								<div class="col xl-4-12 xl-left xl-top people">
+				// Category Bar
+				if (
+					$pageCategory['cat_name'] != "Uncategorized" &&
+					(
+						$catFilter == "" ||
+						$catFilter == "mine"
+					)
+				)
+					echo '<div id="'.permalink($pageCategory['cat_name']).'" class="col xl-1-1 cat-separator" draggable="true">'.$pageCategory['cat_name'].'</div>';
 
-									<a href="#">
-										<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
-									</a>
 
-									<a href="#">
-										<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/joey.png')?>);"></picture>
-									</a>
-	<!--								<a href="#">
-										<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>
-									</a>
-	-->
 
-								</div>
-								<div class="col xl-8-12 xl-right xl-top pins">
+				// PAGES QUERY
 
-									<pin data-pin-mode="live">13
-										<div class="notif-no">3</div>
-										<div class="pin-title">Live</div>
-									</pin>
-									<pin data-pin-mode="standard">7
-										<div class="pin-title">Standard</div>
-									</pin>
-									<pin data-pin-mode="private">4
-										<div class="pin-title">Private</div>
-									</pin>
+				// Bring the shared ones
+				$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
+				$db->joinWhere("shares s", "s.share_type", "page");
+				$db->joinWhere("shares s", "s.share_to", currentUserID());
 
-								</div>
-								<div class="col xl-1-1 xl-center modes" style="position: relative;">
-										<a href="<?=site_url('revise/23423142')?>"><i class="fa fa-desktop" aria-hidden="true"></i></a>
-										<a href="<?=site_url('revise/53346468')?>"><i class="fa fa-mobile" aria-hidden="true"></i></a>
-										<a href="#"><span style="font-family: Arial;">+</span></a>
-								</div>
-								<div class="col xl-4-12 xl-left share">
-									<a href="#"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
-								</div>
-								<div class="col xl-4-12 xl-center version">
-									<a href="#">v0.1</a>
-								</div>
-								<div class="col xl-4-12 xl-right actions">
-									<a href="#"><i class="fa fa-archive" aria-hidden="true"></i></a>
-									<a href="#"><i class="fa fa-trash" aria-hidden="true"></i></a>
-								</div>
+
+				// Bring the category connection
+				$db->join("page_cat_connect cat_connect", "p.page_ID = cat_connect.page_cat_page_ID", "LEFT");
+				$db->joinWhere("page_cat_connect cat_connect", "cat_connect.page_cat_connect_user_ID", currentUserID());
+
+
+				// Bring the category info
+				$db->join("categories cat", "cat_connect.page_cat_ID = cat.cat_ID", "LEFT");
+				$db->joinWhere("categories cat", "cat.cat_user_ID", currentUserID());
+
+
+				// Filters
+				if ($catFilter == "")
+					$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+				elseif ($catFilter == "mine")
+					$db->where('user_ID = '.currentUserID());
+				elseif ($catFilter == "shared")
+					$db->where('share_to = '.currentUserID());
+				else
+					$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+
+
+				// Exclude deleted and archived
+				$db->where('page_deleted', ($catFilter == "deleted" ? 1 : 0));
+				$db->where('page_archived', ($catFilter == "archived" ? 1 : 0));
+
+
+				// Exclude other categories
+				if ($pageCategory['cat_name'] != "Uncategorized")
+					$db->where('cat.cat_name', $pageCategory['cat_name']);
+				else
+					$db->where('cat.cat_name IS NULL');
+
+
+				// Bring the order info
+				$db->join("sorting o", "p.page_ID = o.sort_object_ID", "LEFT");
+				$db->joinWhere("sorting o", "o.sort_type", "page");
+				$db->joinWhere("sorting o", "o.sorter_user_ID", currentUserID());
+
+
+				// Sorting !!! - Order options will be applied
+				$db->orderBy("share_ID", "desc");
+				$db->orderBy("cat_name", "asc");
+				$db->orderBy("page_name", "asc");
+
+
+/*
+				// Order Pages !!!
+				if ($order == "name") $db->orderBy("page_name", "asc");
+				if ($order == "date") $db->orderBy("page_created", "asc");
+*/
+
+
+				$pages = $db->get('pages p', null, '');
+
+
+				// List the pages under the category
+				foreach ($pages as $page) {
+			?>
+				<div class="col block" draggable="true">
+
+					<div class="box xl-center" style="background-image: url(<?=asset_url('images/pages/'.$page['page_pic'])?>);">
+
+						<div class="wrap overlay xl-flexbox xl-between xl-5 members">
+							<div class="col xl-4-12 xl-left xl-top people">
+
+								<a href="#">
+									<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
+								</a>
+
+								<a href="#">
+									<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/joey.png')?>);"></picture>
+								</a>
+<!--								<a href="#">
+									<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>
+								</a>
+-->
+
 							</div>
+							<div class="col xl-8-12 xl-right xl-top pins">
 
-						</div>
+								<pin data-pin-mode="live">13
+									<div class="notif-no">3</div>
+									<div class="pin-title">Live</div>
+								</pin>
+								<pin data-pin-mode="standard">7
+									<div class="pin-title">Standard</div>
+								</pin>
+								<pin data-pin-mode="private">4
+									<div class="pin-title">Private</div>
+								</pin>
 
-						<div class="wrap xl-flexbox xl-middle">
-							<div class="col xl-8-12 xl-left"><a href="<?=site_url('project/twelve12')?>" class="box-name invert-hover"><?=$count == 0 ? '<img src="'.asset_url('icons/shared.svg').'" /> '.$pageName : $pageName?></a></div>
-							<div class="col xl-4-12 xl-right date">19 Feb 2016</div>
+							</div>
+							<div class="col xl-1-1 xl-center modes" style="position: relative;">
+									<a href="<?=site_url('revise/'.$page['page_ID'])?>"><i class="fa fa-desktop" aria-hidden="true"></i></a>
+									<a href="<?=site_url('revise/'.$page['page_ID'])?>"><i class="fa fa-mobile" aria-hidden="true"></i></a>
+									<a href="#"><span style="font-family: Arial;">+</span></a>
+							</div>
+							<div class="col xl-4-12 xl-left share">
+								<a href="#"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+							</div>
+							<div class="col xl-4-12 xl-center version">
+								<a href="#">v0.1</a>
+							</div>
+							<div class="col xl-4-12 xl-right actions">
+								<a href="#"><i class="fa fa-archive" aria-hidden="true"></i></a>
+								<a href="#"><i class="fa fa-trash" aria-hidden="true"></i></a>
+							</div>
 						</div>
 
 					</div>
-				<?php
-					$count++;
-					}
 
-				}
-			?>
-
-
-				<div class="col block add-new-template">
-
-					<div class="box xl-center">
-
-						<a href="#" class="add-new-box wrap xl-flexbox xl-middle xl-center" style="min-height: inherit; letter-spacing: normal;">
-							<div class="col">
-								New Page
-								<div class="plus-icon" style="font-family: Arial; font-size: 90px; line-height: 80px;">+</div>
-							</div>
-						</a>
-
+					<div class="wrap xl-flexbox xl-middle">
+						<div class="col xl-8-12 xl-left">
+							<a href="<?=site_url('project/'.permalink($page['page_name']))?>" class="box-name invert-hover"><?=$page['share_ID'] != "" ? '<i class="fa fa-share-alt" aria-hidden="true"></i> '.$page['page_name'] : $page['page_name']?></a>
+						</div>
+						<div class="col xl-4-12 xl-right date">
+							<?=date("d M Y", strtotime($page['page_created']))?>
+						</div>
 					</div>
 
 				</div>
+			<?php
+
+				$page_count++;
+
+				} // END OF THE PAGE LOOP
+
+			} // END OF THE CATEGORY LOOP
+
+			if ($page_count == 0) echo "<div class='col xl-1-1 xl-center'>No pages found here</div>";
 
 
+			if ($catFilter != "shared" && $catFilter != "deleted" && $catFilter != "archived") {
+				?>
+
+					<!-- Add New Block -->
+					<div class="col block add-new-template">
+
+						<div class="box xl-center">
+
+							<a href="#" class="add-new-box wrap xl-flexbox xl-middle xl-center" style="min-height: inherit; letter-spacing: normal;">
+								<div class="col">
+									New Page
+									<div class="plus-icon" style="font-family: Arial; font-size: 90px; line-height: 80px;">+</div>
+								</div>
+							</a>
+
+						</div>
+
+					</div>
+					<!-- /Add New Block -->
+
+			<?php
+			}
+			?>
 
 			</div><!-- .blocks -->
 

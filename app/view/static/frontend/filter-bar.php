@@ -26,7 +26,7 @@
 					$db->where('cat_user_ID', currentUserID());
 
 
-					$projectCatLinks = $db->get('categories p', null, 'cat_name');
+					$projectCatLinks = $db->get('categories', null, 'cat_name');
 
 					foreach ($projectCatLinks as $projectCatLink) {
 						echo '<a class="'.($catFilter == permalink($projectCatLink['cat_name']) ? "selected" : "").'" href="'.site_url( 'projects/'.permalink($projectCatLink['cat_name']) ).'">'.strtoupper($projectCatLink['cat_name']).'</a>';
@@ -38,12 +38,31 @@
 				<?php
 
 					// PROJECT PAGE
-					} else {
+					} elseif ($_url[0] == "project") {
+
+						$catFilter = isset($_url[2]) ? $_url[2] : '';
 				?>
-					<a class="<?=!isset($_url[2]) ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1])?>">ALL</a>
-					<a class="<?=isset($_url[2]) && $_url[2] == "main-pages" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/main-pages')?>">MAIN PAGES</a>
-					<a class="<?=isset($_url[2]) && $_url[2] == "portfolio-pages" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/portfolio-pages')?>">PORTFOLIO PAGES</a>
-					<a class="<?=isset($_url[2]) && $_url[2] == "blog-pages" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/blog-pages')?>">BLOG PAGES</a>
+
+					<a class="<?=$catFilter == "" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1])?>">ALL</a>
+					<a class="<?=$catFilter == "mine" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/mine')?>">MINE</a>
+					<a class="<?=$catFilter == "shared" ? "selected" : ""?>" href="<?=site_url('project/'.$_url[1].'/shared')?>">SHARED WITH ME</a>
+
+
+				<?php
+					// Exclude other category types
+					$db->where('cat_type', $project_ID);
+
+					// Exclude other users
+					$db->where('cat_user_ID', currentUserID());
+
+
+					$catLinks = $db->get('categories', null, 'cat_name');
+
+					foreach ($catLinks as $catLink) {
+						echo '<a class="'.($catFilter == permalink($catLink['cat_name']) ? "selected" : "").'" href="'.site_url( 'project/'.$_url[1].'/'.permalink($catLink['cat_name']) ).'">'.strtoupper($catLink['cat_name']).'</a>';
+					}
+
+				?>
 					<a href="#"><span style="font-family: Arial; font-weight: bold;">+</span></a>
 				<?php
 					}
@@ -57,6 +76,7 @@
 					<?php
 						// If pages shown
 						if ($_url[0] == "project") {
+
 					?>
 					<div class="dropdown-container">
 						<span class="dropdown-opener">DEVICE <i class="fa fa-caret-down" aria-hidden="true"></i></span>

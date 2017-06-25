@@ -50,7 +50,7 @@
 			$db->where('cat_user_ID', currentUserID());
 
 
-			$projectCategories = $db->get('categories p', null, '');
+			$projectCategories = $db->get('categories', null, '');
 
 
 			// Add the uncategorized item
@@ -192,7 +192,7 @@
 
 									</div>
 									<div class="col xl-1-1 xl-center pages" style="position: relative;">
-										<a href="<?=site_url('project/'.permalink($project['project_name']))?>">
+										<a href="<?=site_url('project/'.$project['project_ID'])?>">
 											<div class="page-count">10 <br>Pages</div>
 
 											<i class="fa fa-search" aria-hidden="true" style="font-size: 120px;"></i>
@@ -211,8 +211,13 @@
 
 							<div class="wrap xl-flexbox xl-middle">
 								<div class="col xl-8-12 xl-left">
-									<a href="<?=site_url('project/'.permalink($project['project_name']))?>" class="box-name invert-hover"><?=$project['share_ID'] != "" ? '<i class="fa fa-share-alt" aria-hidden="true"></i> '.$project['project_name'] : $project['project_name']?></a></div>
-								<div class="col xl-4-12 xl-right date"><?=date("d M Y", strtotime($project['project_created']))?></div>
+									<a href="<?=site_url('project/'.$project['project_ID'])?>" class="box-name invert-hover">
+										<?=$project['share_ID'] != "" ? '<i class="fa fa-share-alt" aria-hidden="true"></i> '.$project['project_name'] : $project['project_name']?>
+									</a>
+								</div>
+								<div class="col xl-4-12 xl-right date">
+									<?=date("d M Y", strtotime($project['project_created']))?>
+								</div>
 							</div>
 
 						</div>

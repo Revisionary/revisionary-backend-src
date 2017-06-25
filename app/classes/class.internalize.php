@@ -36,16 +36,21 @@ class Internalize {
 	// SETTERS:
 	public function __construct($pageId) {
 
+
 		// Set the page ID
 		$this->pageId = $pageId;
 
+
 		// Set the remote URL
 		$this->remoteUrl = Page::ID($this->pageId)->remoteUrl;
-		if (isset($_GET['new_url']) && $_GET['new_url'] != "" )
+
+		if (isset($_GET['new_url']) && $_GET['new_url'] != "" ) // !!!
 			$this->remoteUrl = $_GET['new_url'];
+
 
 		// Set the log file
         $this->logDir = Page::ID($this->pageId)->pageDir."logs";
+
 
 		// Set the log file
         $this->logFile = $this->logDir."process.log";
@@ -152,7 +157,8 @@ class Internalize {
 
 
 		// LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile," - HTML".(!$saved ? " <b>NOT</b>":'')." DOWNLOADED:".$this->pageId.": '".$this->remoteUrl."' \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - PROJECT ID: ".Page::ID($this->pageId)->projectId." | PAGE ID: ".$this->pageId." | DEVICE: ".Page::ID($this->pageId)->pageDevice." | VERSION: ".Page::ID($this->pageId)->pageVersion." \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$saved ? " <b>NOT</b>":'')." DOWNLOADED: '".$this->remoteUrl."' \r\n", FILE_APPEND);
 
 
 		// Specific Log
@@ -179,7 +185,7 @@ class Internalize {
 
 
 		// Add Necessary Spaces - done for a bug
-		function placeNeccessarySpaces($contents){
+		function placeNeccessarySpaces($contents) {
 			$quotes = 0; $flag = false;
 			$newContents = '';
 			for($i = 0; $i < strlen($contents); $i++){
@@ -206,7 +212,7 @@ class Internalize {
 		        // Specific Log
 				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->remoteUrl."' \r\n", FILE_APPEND);
 
-		        return $urls['tag']."<base href='".$this->remoteUrl."'>";
+		        return $urls[0]."<base href='".$this->remoteUrl."'>";
 
 	        },
 	        $html
@@ -225,7 +231,7 @@ class Internalize {
 		        	$new_url = url_to_absolute(parseUrl($the_url)['full_host'], $the_url);
 
 		        // If not on our server, don't do it
-		        if (parseUrl($the_url)['domain'] != parseUrl($this->remoteUrl)['domain'] )
+		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl($this->remoteUrl)['domain'] )
 		        	$new_url = $the_url;
 
 
@@ -373,7 +379,7 @@ class Internalize {
 
 
 		// LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile," - HTML".(!$updated ? " <b>NOT</b>":'')." FILTRED \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$updated ? " <b>NOT</b>":'')." FILTRED \r\n", FILE_APPEND);
 
 
 		// Specific Log
@@ -397,7 +403,7 @@ class Internalize {
 
 
 		// INIT LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile," - CSS DOWNLOAD STARTED {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - CSS DOWNLOAD STARTED {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
 
 
 		// Specific Log
@@ -417,7 +423,7 @@ class Internalize {
 
 
 			// LOG:
-			file_put_contents( Page::ID($this->pageId)->logFile," -- CSS".(!$css_downloaded ? " <b>NOT</b>":'')." DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] -- CSS".(!$css_downloaded ? " <b>NOT</b>":'')." DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
 
 
 			// Specific Log
@@ -430,7 +436,7 @@ class Internalize {
 
 
 		// FINISH LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile," - CSS DOWNLOAD FINISHED".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - CSS DOWNLOAD FINISHED".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
 
 
 		// Specific Log
@@ -449,7 +455,7 @@ class Internalize {
 
 
 		// INIT LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile," - FONT DOWNLOAD STARTED {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - FONT DOWNLOAD STARTED {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
 
 
 		// Specific Log
@@ -461,7 +467,7 @@ class Internalize {
 			$font_downloaded = $this->download_remote_file($url, $fileName, "fonts");
 
 			// LOG:
-			file_put_contents( Page::ID($this->pageId)->logFile," -- FONT".(!$font_downloaded ? " <b>NOT</b>":'')." DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] -- FONT".(!$font_downloaded ? " <b>NOT</b>":'')." DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
 
 
 			// Specific Log
@@ -475,7 +481,7 @@ class Internalize {
 
 		// FINISH LOG:
 		// LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile," - FONT DOWNLOAD FINISHED".($font_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - FONT DOWNLOAD FINISHED".($font_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
 
 
 		// Specific Log

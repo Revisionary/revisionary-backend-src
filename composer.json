@@ -1,6 +1,7 @@
 {
     "require": {
         "jwage/purl": "^0.0.7",
-        "joshcam/mysqli-database-class": "dev-master"
+        "joshcam/mysqli-database-class": "dev-master",
+        "cocur/background-process": "^0.7.0"
     }
 }

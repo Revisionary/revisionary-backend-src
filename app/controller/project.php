@@ -13,24 +13,12 @@ if ( !isset($_url[1]) ) {
 }
 
 
-$pagesWithCats = [
-	"Main Pages" => [
-		"Home",
-		"About",
-		"Contact"
-	],
-	"Portfolio Pages" => [
-		"GM Properties",
-		"128 Online",
-		"Vampire Tools",
-		"inMotion",
-		"The Kitchen"
-	],
-	"Blog Pages" => [
-		"Blog 1",
-		"Blog 2"
-	]
-];
+// Get the project ID
+$project_ID = $_url[1];
+
+
+// Get the order
+$order = isset($_GET['order']) ? $_GET['order'] : 'custom';
 
 
 $additionalHeadJS = [
@@ -38,5 +26,5 @@ $additionalHeadJS = [
 	'block.js'
 ];
 
-$page_title = ucfirst($_url[1])." Project - Revisionary App";
+$page_title = Project::ID($_url[1])->projectName." Project - Revisionary App";
 require view('project');

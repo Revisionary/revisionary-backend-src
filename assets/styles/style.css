@@ -649,6 +649,7 @@ html, body {
 #page .filter > * {
   font-size: 14px;
   margin: 0 10px;
+  display: inline-block;
 }
 
 #page .filter .selected {

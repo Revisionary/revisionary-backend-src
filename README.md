@@ -1,5 +1,6 @@
 ## TO-DO
 
+* DON'T DOWNLOAD SHARED SAME CSS AND FONTS
 * Create some sample data .csv's
 * Other tables to add (DB Structure.pages)
 * Remove the 'DB.sql' file

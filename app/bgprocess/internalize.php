@@ -18,9 +18,6 @@ session_id($sessionID);
 require realpath('.').'/app/init.php';
 
 
-//$_SESSION['process'] = "Internalize.php";
-
-
 // Needs to be closed to allow working other PHP codes
 session_write_close();
 
@@ -30,11 +27,10 @@ $internalize = new Internalize( $pageID );
 
 
 
-
 // JOBS:
 
 // Optional - Delete the existing cache
-$files_deleted = $internalize->deleteDirectory(dir."/assets/cache/sites");
+//$files_deleted = $internalize->deleteDirectory(dir."/assets/cache/sites");
 
 
 // 1. Save the remote HTML
