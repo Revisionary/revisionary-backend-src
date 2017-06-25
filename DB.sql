@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 19, 2017 at 03:04 AM
+-- Generation Time: Jun 25, 2017 at 03:30 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -28,8 +28,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `categories` (
   `cat_ID` bigint(20) NOT NULL,
-  `cat_type` varchar(10) NOT NULL,
   `cat_name` varchar(200) NOT NULL,
+  `cat_type` varchar(20) NOT NULL,
   `cat_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -37,9 +37,77 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`cat_ID`, `cat_type`, `cat_name`, `cat_user_ID`) VALUES
-(1, 'project', 'Test Category', 1),
-(2, 'project', 'Hello', 1);
+INSERT INTO `categories` (`cat_ID`, `cat_name`, `cat_type`, `cat_user_ID`) VALUES
+(1, 'Test Category', 'project', 1),
+(2, 'Hello', 'project', 1),
+(3, 'Main Pages', '8', 1),
+(4, 'Portfolio Pages', '8', 1),
+(5, 'Blog Pages', '8', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pages`
+--
+
+CREATE TABLE `pages` (
+  `page_ID` bigint(20) NOT NULL,
+  `page_name` varchar(200) NOT NULL,
+  `page_pic` varchar(15) NOT NULL,
+  `page_url` text NOT NULL,
+  `page_archived` tinyint(1) NOT NULL DEFAULT '0',
+  `page_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `page_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `project_ID` bigint(20) NOT NULL,
+  `user_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pages`
+--
+
+INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_archived`, `page_deleted`, `page_created`, `page_modified`, `project_ID`, `user_ID`) VALUES
+(1, 'About', 'about.png', 'https://www.twelve12.com/about-us/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 1),
+(2, 'Contact', 'contact.png', 'https://www.twelve12.com/contact/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 1),
+(3, 'GM Properties', 'gm.png', 'https://www.twelve12.com/project/gm-properties/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 1),
+(4, '128 Online', '128.png', 'https://www.twelve12.com/project/128-online-store/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 1),
+(5, 'Vampire Tools', 'vampire.png', 'https://www.twelve12.com/project/vampire-tools/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 1),
+(6, 'inMotion', 'inmotion.png', 'https://www.twelve12.com/project/inmotion/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 1),
+(7, 'The Kitchen', 'kitchen.png', 'https://www.twelve12.com/project/the-kitchen-at-westwood/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 1),
+(8, 'Blog 1', 'blog1.png', 'https://www.twelve12.com/blog/branding/brand-way-box/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 1),
+(9, 'Blog 2', 'blog2.png', 'https://www.twelve12.com/blog/branding/branding-tips/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 1),
+(10, 'Home', 'home.png', 'https://www.twelve12.com/', 0, 0, '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 2),
+(11, 'Bilal\'s Home', 'bilal.png', 'http://www.bilaltas.net/', 0, 0, '2017-06-25 00:21:09', '2017-06-25 00:21:09', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `page_cat_connect`
+--
+
+CREATE TABLE `page_cat_connect` (
+  `page_cat_connect_ID` bigint(20) NOT NULL,
+  `page_cat_page_ID` bigint(20) NOT NULL,
+  `page_cat_ID` bigint(20) NOT NULL,
+  `page_cat_connect_user_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `page_cat_connect`
+--
+
+INSERT INTO `page_cat_connect` (`page_cat_connect_ID`, `page_cat_page_ID`, `page_cat_ID`, `page_cat_connect_user_ID`) VALUES
+(1, 1, 3, 1),
+(2, 2, 3, 1),
+(3, 3, 4, 1),
+(4, 4, 4, 1),
+(5, 5, 4, 1),
+(6, 6, 4, 1),
+(7, 7, 4, 1),
+(8, 8, 5, 1),
+(9, 9, 5, 1),
+(10, 10, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -64,10 +132,10 @@ CREATE TABLE `projects` (
 INSERT INTO `projects` (`project_ID`, `project_name`, `project_pic`, `project_archived`, `project_deleted`, `project_created`, `user_ID`) VALUES
 (1, 'Bilal TAS', 'bilal-tas.png', 0, 0, '2017-06-18 15:21:32', 1),
 (2, 'SoundCloud', 'soundcloud.png', 0, 0, '2017-06-18 15:26:34', 1),
-(3, 'TWSJ', 'twsj.png', 0, 0, '2017-06-18 15:27:35', 1),
+(3, 'TWSJ', 'twsj.png', 0, 1, '2017-06-18 15:27:35', 1),
 (4, 'Youtube', 'youtube.png', 0, 0, '2017-06-18 15:28:12', 1),
 (5, 'Cuneyt TAS', 'cuneyt-tas.png', 0, 0, '2017-06-18 15:28:34', 4),
-(6, 'BBC', 'bbc.png', 1, 0, '2017-06-18 15:29:25', 1),
+(6, 'BBC', 'bbc.png', 0, 0, '2017-06-18 15:29:25', 1),
 (7, 'Envato', 'envato.png', 0, 0, '2017-06-18 15:29:25', 1),
 (8, 'Twelve12', 'twelve12.png', 0, 0, '2017-06-18 17:54:24', 2);
 
@@ -112,7 +180,8 @@ CREATE TABLE `shares` (
 --
 
 INSERT INTO `shares` (`share_ID`, `share_type`, `shared_object_ID`, `share_to`, `sharer_user_ID`) VALUES
-(1, 'project', 8, '1', 2);
+(1, 'project', 8, '1', 2),
+(2, 'page', 10, '1', 2);
 
 -- --------------------------------------------------------
 
@@ -199,6 +268,23 @@ ALTER TABLE `categories`
   ADD KEY `project_cat_user_ID` (`cat_user_ID`);
 
 --
+-- Indexes for table `pages`
+--
+ALTER TABLE `pages`
+  ADD PRIMARY KEY (`page_ID`),
+  ADD KEY `user_ID` (`user_ID`),
+  ADD KEY `project_ID` (`project_ID`);
+
+--
+-- Indexes for table `page_cat_connect`
+--
+ALTER TABLE `page_cat_connect`
+  ADD PRIMARY KEY (`page_cat_connect_ID`),
+  ADD KEY `page_cat_connect_user_ID` (`page_cat_connect_user_ID`),
+  ADD KEY `page_cat_ID` (`page_cat_ID`),
+  ADD KEY `page_cat_page_ID` (`page_cat_page_ID`);
+
+--
 -- Indexes for table `projects`
 --
 ALTER TABLE `projects`
@@ -251,7 +337,17 @@ ALTER TABLE `user_levels`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `pages`
+--
+ALTER TABLE `pages`
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `page_cat_connect`
+--
+ALTER TABLE `page_cat_connect`
+  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `projects`
 --
@@ -266,7 +362,7 @@ ALTER TABLE `project_cat_connect`
 -- AUTO_INCREMENT for table `shares`
 --
 ALTER TABLE `shares`
-  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `sorting`
 --
@@ -291,6 +387,21 @@ ALTER TABLE `user_levels`
 --
 ALTER TABLE `categories`
   ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`cat_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `pages`
+--
+ALTER TABLE `pages`
+  ADD CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `page_cat_connect`
+--
+ALTER TABLE `page_cat_connect`
+  ADD CONSTRAINT `page_cat_connect_ibfk_1` FOREIGN KEY (`page_cat_connect_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `page_cat_connect_ibfk_2` FOREIGN KEY (`page_cat_ID`) REFERENCES `categories` (`cat_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `page_cat_connect_ibfk_3` FOREIGN KEY (`page_cat_page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `projects`
