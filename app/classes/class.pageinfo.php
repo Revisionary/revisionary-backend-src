@@ -73,7 +73,7 @@ class Page {
         // Set the version number
         $this->pageVersion = $this->getPageVersion();
 
-        // Set the version number
+        // Set the device ? !!!
         $this->pageDevice = "desktop";
 
 		// Set the remote url
@@ -129,55 +129,25 @@ class Page {
 	// GETTERS:
 
 	// Get page info
-    public function getPageInfo($col) {
+    public function getPageInfo($column) {
 	    global $db;
 
 	    $db->where('page_ID', self::$pageId);
-	    $page = $db->getOne('pages', $col);
+	    $page = $db->getOne('pages', $column);
+		if ($page)
+			return $page[$column];
 
-	    return $page[$col];
+	    return false;
     }
 
 
-    // Get the Project ID
-    public function getProjectId() {
-
-	    // GET IT FROM DB...
-	    $projectId = "twelve12";
-
-	    return $projectId;
-    }
-
-
-    // Get the page version
+    // Get the page version !!!
     public function getPageVersion() {
 
 	    // GET IT FROM DB...
 	    $pageVersion = "v0.1";
 
 	    return $pageVersion;
-    }
-
-
-    // Get the remote url from the Page ID
-    public function getRemoteUrl() {
-
-	    // GET IT FROM DB...
-	    //$remoteUrl = "http://www.cuneyt-tas.com/kitaplar.php";
-	    //$remoteUrl = "http://www.bilaltas.net";
-	    //$remoteUrl = "http://www.cuneyt-tas.com";
-	    //$remoteUrl = "http://dev.cuneyt-tas.com";
-	    //$remoteUrl = "https://www.twelve12.com";
-	    //$remoteUrl = "https://www.google.com";
-	    //$remoteUrl = "https://www.godaddy.com/";
-	    //$remoteUrl = "http://www.kariyer.net/";
-	    $remoteUrl = "http://do.ready-for-feedback.com/twelve-12/gelato-cone/";
-
-	    if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
-	    	$remoteUrl = $_GET['new_url'];
-
-
-	    return $remoteUrl;
     }
 
 
@@ -289,6 +259,5 @@ class Page {
 		return "";
 
     }
-
 
 }

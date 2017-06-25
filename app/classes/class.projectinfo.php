@@ -43,15 +43,15 @@ class Project {
 	// GETTERS:
 
     // Get project info
-    public function getProjectInfo($col) {
+    public function getProjectInfo($column) {
 	    global $db;
 
 	    $db->where('project_ID', self::$projectId);
-	    $project = $db->getOne('projects', $col);
+	    $project = $db->getOne('projects', $column);
+		if ($project)
+			return $project[$column];
 
-	    return $project[$col];
+	    return false;
     }
-
-
 
 }
