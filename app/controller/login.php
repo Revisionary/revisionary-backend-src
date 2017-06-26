@@ -56,6 +56,11 @@ if ( isset($_POST['login-submit']) ) {
 
 			$_SESSION['user_ID'] = $user["user_ID"];
 
+			if (post('redirect_to') != "") {
+				header("Location: ".post('redirect_to'));
+				die();
+			}
+
 			header("Location: ".site_url('projects'));
 			die();
 

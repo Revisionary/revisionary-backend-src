@@ -29,7 +29,7 @@
 								<input type="submit" name="login-submit" value="Login" class="user-submit" />
 							</div>
 						</div>
-						<input type="hidden" name="redirect_to" value="<?=site_url('projects')?>" />
+						<input type="hidden" name="redirect_to" value="<?=urldecode(get('redirect'))?>" />
 					</div>
 				</div>
 			</form><br/>
