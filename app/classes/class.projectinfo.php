@@ -13,14 +13,9 @@ class Project {
 
 	// SETTERS:
 
-	public function __construct($projectId) {
+	public function __construct() {
 
-
-		// Set the project ID
-		self::$projectId = $projectId;
-
-
-		// Set the project ID
+		// Set the project name
         $this->projectName = $this->getProjectInfo('project_name');
 
     }
@@ -30,10 +25,8 @@ class Project {
     public static function ID($projectId) {
 
 	    // Set the project ID
-		if ( is_null( self::$projectId ) ) {
-			self::$projectId = new self($projectId);
-		}
-		return self::$projectId;
+		self::$projectId = $projectId;
+		return new static;
 
     }
 

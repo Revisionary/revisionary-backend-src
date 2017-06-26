@@ -623,6 +623,14 @@ header {
     margin-bottom: 35px;
 }
 
+.title {
+
+	nav.dropdown {
+		min-width: 220px;
+	}
+
+}
+
 .members-section {
     margin-top: -15px;
     margin-bottom: 10px;
@@ -653,7 +661,7 @@ header {
 
 .filter {
 
-	& > * {
+	& > *:not(.search) {
 		font-size: 14px;
 		margin: 0 10px;
 		display: inline-block;
@@ -667,7 +675,6 @@ header {
 	.search img {
 	    width: 16px;
 	    margin-bottom: -4px;
-	    margin-right: -6px;
 	}
 }
 

@@ -38,6 +38,7 @@
 					</ul>
 				</nav><!-- #main-navigation -->
 
+
 				<div class="dropdown-container">
 					<a href="#" class="dropdown-opener invert-hover user-link bullet">
 						<picture class="profile-picture big" <?=User::ID()->printPicture()?>>

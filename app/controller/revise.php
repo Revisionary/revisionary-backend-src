@@ -89,6 +89,12 @@ if ($firstTime) {
 
 } // If first time adding
 
+// Get device ID
+$deviceID = Page::ID($pageID)->getPageInfo('device_ID');
+
+$width = Device::ID($deviceID)->getDeviceInfo('device_width');
+$height = Device::ID($deviceID)->getDeviceInfo('device_height');
+
 
 
 $additionalCSS = [

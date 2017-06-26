@@ -3,7 +3,7 @@
 
 $catFilter = "";
 
-// PAGES QUERY
+				// PAGES QUERY
 
 				// Bring the shared ones
 				$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
@@ -21,6 +21,14 @@ $catFilter = "";
 				$db->joinWhere("categories cat", "cat.cat_user_ID", currentUserID());
 
 
+				// Bring the devices
+				$db->join("devices d", "p.device_ID = d.device_ID", "LEFT");
+
+
+				// Bring the device category info
+				$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
+
+
 				// Filters
 				if ($catFilter == "")
 					$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
@@ -32,11 +40,15 @@ $catFilter = "";
 					$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
 
 
-
-
 				// Exclude deleted and archived
 				$db->where('page_deleted', ($catFilter == "deleted" ? 1 : 0));
 				$db->where('page_archived', ($catFilter == "archived" ? 1 : 0));
+
+
+/*
+				// Exclude the other project pages
+				$db->where('project_ID', $project_ID);
+*/
 
 
 /*
@@ -61,9 +73,9 @@ $catFilter = "";
 
 
 /*
-				// Order Projects !!!
-				if ($order == "name") $db->orderBy("project_name", "asc");
-				if ($order == "date") $db->orderBy("project_created", "asc");
+				// Order Pages !!!
+				if ($order == "name") $db->orderBy("page_name", "asc");
+				if ($order == "date") $db->orderBy("page_created", "asc");
 */
 
 

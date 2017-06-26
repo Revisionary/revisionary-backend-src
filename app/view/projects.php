@@ -164,17 +164,23 @@
 								<div class="wrap overlay xl-flexbox xl-between xl-5 members">
 									<div class="col xl-4-12 xl-left xl-top people">
 
+										<!-- Owner -->
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=cache_url('user-2/ike.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=User::ID($project['user_ID'])->userPicUrl?>);"></picture>
 										</a>
 
+										<?php
+										if ($project['share_ID'] != "") {
+										?>
+
+										<!-- Me if shared -->
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=cache_url('user-5/joey.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=User::ID()->userPicUrl?>);"></picture>
 										</a>
-		<!--								<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>
-										</a>
-		-->
+
+										<?php
+										}
+										?>
 
 									</div>
 									<div class="col xl-8-12 xl-right xl-top pins">
@@ -193,7 +199,13 @@
 									</div>
 									<div class="col xl-1-1 xl-center pages" style="position: relative;">
 										<a href="<?=site_url('project/'.$project['project_ID'])?>">
-											<div class="page-count">10 <br>Pages</div>
+
+											<?php
+											$db->where('project_ID', $project['project_ID']);
+											$page_count = $db->getValue("pages", "count(*)");
+											?>
+
+											<div class="page-count"><?=$page_count?> <br>Pages</div>
 
 											<i class="fa fa-search" aria-hidden="true" style="font-size: 120px;"></i>
 										</a>
@@ -231,7 +243,7 @@
 
 			} // END OF THE CATEGORY LOOP
 
-			if ($project_count == 0) echo "<div class='col xl-1-1 xl-center'>No projects found here</div>";
+			if ($project_count == 0) echo "<div class='col xl-1-1 xl-center' style='margin-bottom: 60px;'>No projects found here</div>";
 
 
 			if ($catFilter != "shared" && $catFilter != "deleted" && $catFilter != "archived") {

@@ -618,6 +618,10 @@ html, body {
   margin-bottom: 35px;
 }
 
+#page .title nav.dropdown {
+  min-width: 220px;
+}
+
 #page .members-section {
   margin-top: -15px;
   margin-bottom: 10px;
@@ -646,7 +650,7 @@ html, body {
   font-size: 20px;
 }
 
-#page .filter > * {
+#page .filter > *:not(.search) {
   font-size: 14px;
   margin: 0 10px;
   display: inline-block;
@@ -660,7 +664,6 @@ html, body {
 #page .filter .search img {
   width: 16px;
   margin-bottom: -4px;
-  margin-right: -6px;
 }
 
 #page main,

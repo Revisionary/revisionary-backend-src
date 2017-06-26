@@ -61,11 +61,7 @@ class Page {
 
 	// SETTERS:
 
-	public function __construct($pageId) {
-
-
-		// Set the page ID
-		self::$pageId = $pageId;
+	public function __construct() {
 
 		// Set the project ID
         $this->projectId = $this->getPageInfo('project_ID');
@@ -73,8 +69,8 @@ class Page {
         // Set the version number
         $this->pageVersion = $this->getPageVersion();
 
-        // Set the device ? !!!
-        $this->pageDevice = "desktop";
+        // Set the device
+        $this->pageDevice = $this->getPageInfo('device_ID');
 
 		// Set the remote url
         $this->remoteUrl = $this->getPageInfo('page_url');
@@ -82,13 +78,17 @@ class Page {
         // Set the user ID
         $this->userId = $this->getPageInfo('user_ID');
 
+        $pageFolder = "/page-".self::$pageId;
+        if ($this->getPageInfo('parent_page_ID') != null)
+        	$pageFolder = "/page-".$this->getPageInfo('parent_page_ID');
+
         // Set the page cache directory
-        $this->pageDir = dir."/assets/cache/user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/";
+        $this->pageDir = dir."/assets/cache/user-".$this->userId."/project-".$this->projectId.$pageFolder."/device-".$this->pageDevice."/".$this->pageVersion."/";
 
         // Set the page cache directory URL
-        $this->pageUri = cache_url("user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/");
+        $this->pageUri = cache_url("user-".$this->userId."/project-".$this->projectId.$pageFolder."/device-".$this->pageDevice."/".$this->pageVersion."/");
         if ( substr($this->remoteUrl, 0, 8) == "https://")
-        	$this->pageUri = cache_url("user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/", true); // Force SSL
+        	$this->pageUri = cache_url("user-".$this->userId."/project-".$this->projectId.$pageFolder."/device-".$this->pageDevice."/".$this->pageVersion."/", true); // Force SSL
 
         // Set the page cache file
         $this->pageFile = $this->pageDir.$this->pageFileName;
@@ -116,10 +116,8 @@ class Page {
     public static function ID($pageId) {
 
 	    // Set the page ID
-		if ( is_null( self::$pageId ) ) {
-			self::$pageId = new self($pageId);
-		}
-		return self::$pageId;
+		self::$pageId = $pageId;
+		return new static;
 
     }
 

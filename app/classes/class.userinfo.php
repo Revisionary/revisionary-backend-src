@@ -28,12 +28,7 @@ class User {
 
 
 	// SETTERS:
-	public function __construct($userId = "") {
-
-		// Set the user ID
-		self::$userId = currentUserID();
-		if ($userId != "")
-			self::$userId = $userId;
+	public function __construct() {
 
 		// Set the user name
         $this->userName = $this->getUserInfo('user_name');
@@ -58,13 +53,14 @@ class User {
 
 
 	// ID Setter
-    public static function ID($userId="") {
+    public static function ID($userId = null) {
+
+		if ($userId == null)
+			$userId = currentUserID();
 
 	    // Set the user ID
-		if ( is_null( self::$userId ) ) {
-			self::$userId = new self($userId);
-		}
-		return self::$userId;
+		self::$userId = $userId;
+		return new static;
 
     }
 
@@ -74,17 +70,19 @@ class User {
 	// GETTERS:
 
     // Get the user name
-    public function getUserInfo($column = "") {
+    public function getUserInfo($column = null) {
 	    global $db;
 
 	    // GET IT FROM DB...
 	    $db->where("user_ID", self::$userId);
-		$user = $db->getOne("users", $column);
+		$user = $db->getOne("users");
 		if ($user)
 			return $user[$column];
 
 	    return false;
     }
+
+
 
     // Print picture image
     public function printPicture() {

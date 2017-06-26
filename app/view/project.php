@@ -121,6 +121,14 @@
 				$db->joinWhere("categories cat", "cat.cat_user_ID", currentUserID());
 
 
+				// Bring the devices
+				$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
+
+
+				// Bring the device category info
+				$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
+
+
 				// Filters
 				if ($catFilter == "")
 					$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
@@ -139,6 +147,10 @@
 
 				// Exclude the other project pages
 				$db->where('project_ID', $project_ID);
+
+
+				// Exclude the sub pages
+				$db->where('parent_page_ID IS NULL');
 
 
 				// Exclude other categories
@@ -175,22 +187,42 @@
 			?>
 				<div class="col block" draggable="true">
 
-					<div class="box xl-center" style="background-image: url(<?=asset_url('images/pages/'.$page['page_pic'])?>);">
+					<div class="box xl-center" style="background-image: url(<?=cache_url('user-'.$page['user_ID'].'/project-'.$page['project_ID'].'/page-'.$page['page_ID'].'/device-'.$page['device_ID'].'/'.$page['page_pic'])?>);">
 
 						<div class="wrap overlay xl-flexbox xl-between xl-5 members">
 							<div class="col xl-4-12 xl-left xl-top people">
 
+								<!-- Owner -->
 								<a href="#">
-									<picture class="profile-picture" style="background-image: url(<?=cache_url('user-2/ike.png')?>);"></picture>
+									<picture class="profile-picture" style="background-image: url(<?=User::ID($page['user_ID'])->userPicUrl?>);"></picture>
 								</a>
 
+								<?php
+								if ($page['share_ID'] != "") {
+								?>
+
+								<!-- Me if shared -->
 								<a href="#">
-									<picture class="profile-picture" style="background-image: url(<?=cache_url('user-5/joey.png')?>);"></picture>
+									<picture class="profile-picture" style="background-image: url(<?=User::ID()->userPicUrl?>);"></picture>
 								</a>
-<!--								<a href="#">
-									<picture class="profile-picture" style="background-image: url(<?=cache_url('user-4/matt.png')?>);"></picture>
+
+								<?php
+								}
+								?>
+
+								<?php
+								// OTHER SHARES !!!
+								if (false) {
+								?>
+
+								<!-- Me if shared -->
+								<a href="#">
+									<picture class="profile-picture" style="background-image: url(<?=User::ID()->userPicUrl?>);"></picture>
 								</a>
--->
+
+								<?php
+								}
+								?>
 
 							</div>
 							<div class="col xl-8-12 xl-right xl-top pins">
@@ -208,8 +240,41 @@
 
 							</div>
 							<div class="col xl-1-1 xl-center modes" style="position: relative;">
-									<a href="<?=site_url('revise/'.$page['page_ID'])?>"><i class="fa fa-desktop" aria-hidden="true"></i></a>
-									<a href="<?=site_url('revise/'.$page['page_ID'])?>"><i class="fa fa-mobile" aria-hidden="true"></i></a>
+
+									<a href="<?=site_url('revise/'.$page['page_ID'])?>">
+										<i class="fa <?=$page['device_cat_icon']?>" aria-hidden="true"></i>
+									</a>
+
+									<?php
+
+									// Check if other devices available
+									$db->where('parent_page_ID', $page['page_ID']);
+
+
+									// Bring the devices
+									$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
+
+
+									// Bring the device category info
+									$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
+
+
+									$devices = $db->get('pages p');
+									foreach ($devices as $device) {
+									?>
+
+									<a href="<?=site_url('revise/'.$device['page_ID'])?>">
+										<i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i>
+									</a>
+
+									<?php
+									}
+									?>
+<!--
+									<a href="<?=site_url('revise/'.$page['page_ID'])?>">
+										<i class="fa fa-mobile" aria-hidden="true"></i>
+									</a>
+-->
 									<a href="#"><span style="font-family: Arial;">+</span></a>
 							</div>
 							<div class="col xl-4-12 xl-left share">
@@ -244,7 +309,7 @@
 
 			} // END OF THE CATEGORY LOOP
 
-			if ($page_count == 0) echo "<div class='col xl-1-1 xl-center'>No pages found here</div>";
+			if ($page_count == 0) echo "<div class='col xl-1-1 xl-center' style='margin-bottom: 60px;'>No pages found here</div>";
 
 
 			if ($catFilter != "shared" && $catFilter != "deleted" && $catFilter != "archived") {
