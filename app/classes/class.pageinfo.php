@@ -83,12 +83,12 @@ class Page {
         $this->userId = $this->getPageInfo('user_ID');
 
         // Set the page cache directory
-        $this->pageDir = dir."/assets/cache/sites/user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/";
+        $this->pageDir = dir."/assets/cache/user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/";
 
         // Set the page cache directory URL
-        $this->pageUri = cache_url("sites/user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/");
+        $this->pageUri = cache_url("user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/");
         if ( substr($this->remoteUrl, 0, 8) == "https://")
-        	$this->pageUri = cache_url("sites/user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/", true); // Force SSL
+        	$this->pageUri = cache_url("user-".$this->userId."/project-".$this->projectId."/page-".self::$pageId."/device-".$this->pageDevice."/".$this->pageVersion."/", true); // Force SSL
 
         // Set the page cache file
         $this->pageFile = $this->pageDir.$this->pageFileName;

@@ -82,7 +82,8 @@
 						<span class="dropdown-opener">DEVICE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 						<nav class="dropdown xl-center lower">
 							<ul class="device-selector">
-								<li class="selected"><a href="#" data-device="5">Desktop</a></li>
+								<li class="selected"><a href="#" data-device="5">All</a></li>
+								<li><a href="#" data-device="4">Desktop</a></li>
 								<li><a href="#" data-device="4">iPhone</a></li>
 								<li><a href="#" data-device="3">iPad</a></li>
 							</ul>

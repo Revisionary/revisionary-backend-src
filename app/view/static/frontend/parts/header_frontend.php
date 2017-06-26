@@ -41,7 +41,7 @@
 				<div class="dropdown-container">
 					<a href="#" class="dropdown-opener invert-hover user-link bullet">
 						<picture class="profile-picture big" <?=User::ID()->printPicture()?>>
-							<span <?=User::ID()->userPic != "" ? "class='has-pic'" : ""?>>CT</span>
+							<span <?=User::ID()->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID()->firstName, 0, 1).substr(User::ID()->lastName, 0, 1)?></span>
 							<div class="notif-no">3</div>
 						</picture> <?=User::ID()->fullName?>
 					</a>

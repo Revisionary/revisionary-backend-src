@@ -31,15 +31,15 @@
 						<span class="people">
 
 							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"><div class="notif-no">3</div></picture>
+								<picture class="profile-picture" style="background-image: url(<?=cache_url('user-2/ike.png')?>?>);"><div class="notif-no">3</div></picture>
 							</a>
 
 							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/joey.png')?>);"><div class="notif-no">1</div></picture>
+								<picture class="profile-picture" style="background-image: url(<?=cache_url('user-5/joey.png')?>);"><div class="notif-no">1</div></picture>
 							</a>
 
 							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>
+								<picture class="profile-picture" style="background-image: url(<?=cache_url('user-4/matt.png')?>);"></picture>
 							</a>
 
 						</span>
@@ -137,6 +137,10 @@
 				$db->where('page_archived', ($catFilter == "archived" ? 1 : 0));
 
 
+				// Exclude the other project pages
+				$db->where('project_ID', $project_ID);
+
+
 				// Exclude other categories
 				if ($pageCategory['cat_name'] != "Uncategorized")
 					$db->where('cat.cat_name', $pageCategory['cat_name']);
@@ -177,14 +181,14 @@
 							<div class="col xl-4-12 xl-left xl-top people">
 
 								<a href="#">
-									<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
+									<picture class="profile-picture" style="background-image: url(<?=cache_url('user-2/ike.png')?>);"></picture>
 								</a>
 
 								<a href="#">
-									<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/joey.png')?>);"></picture>
+									<picture class="profile-picture" style="background-image: url(<?=cache_url('user-5/joey.png')?>);"></picture>
 								</a>
 <!--								<a href="#">
-									<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>
+									<picture class="profile-picture" style="background-image: url(<?=cache_url('user-4/matt.png')?>);"></picture>
 								</a>
 -->
 

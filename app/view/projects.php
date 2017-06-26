@@ -159,17 +159,17 @@
 
 						<div class="col block" draggable="true">
 
-							<div class="box xl-center" style="background-image: url(<?=asset_url('images/projects/'.permalink($project['project_name']).'.png')?>);">
+							<div class="box xl-center" style="background-image: url(<?=cache_url('user-'.$project['user_ID'].'/project-'.$project['project_ID'].'/'.$project['project_pic'])?>);">
 
 								<div class="wrap overlay xl-flexbox xl-between xl-5 members">
 									<div class="col xl-4-12 xl-left xl-top people">
 
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=cache_url('user-2/ike.png')?>);"></picture>
 										</a>
 
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/joey.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=cache_url('user-5/joey.png')?>);"></picture>
 										</a>
 		<!--								<a href="#">
 											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>

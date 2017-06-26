@@ -28,7 +28,7 @@ class User {
 
 
 	// SETTERS:
-	public function __construct($userId="") {
+	public function __construct($userId = "") {
 
 		// Set the user ID
 		self::$userId = currentUserID();
@@ -51,7 +51,7 @@ class User {
         $this->userPic = $this->getUserInfo('user_picture');
 
 		// Set the user picture URL
-        $this->userPicUrl = asset_url('images/avatars/'.$this->getUserInfo('user_picture'));
+        $this->userPicUrl = cache_url('user-'.self::$userId.'/'.$this->getUserInfo('user_picture'));
 
     }
 
