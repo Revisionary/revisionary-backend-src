@@ -224,7 +224,7 @@
 							<div class="wrap xl-flexbox xl-middle">
 								<div class="col xl-8-12 xl-left">
 									<a href="<?=site_url('project/'.$project['project_ID'])?>" class="box-name invert-hover">
-										<?=$project['share_ID'] != "" ? '<i class="fa fa-share-alt" aria-hidden="true"></i> '.$project['project_name'] : $project['project_name']?>
+										<?=$project['share_ID'] != "" ? '<i class="fa fa-share-alt" aria-hidden="true"></i> ' : ''?><?=$project['project_name']?>
 									</a>
 								</div>
 								<div class="col xl-4-12 xl-right date">

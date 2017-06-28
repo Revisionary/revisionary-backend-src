@@ -293,7 +293,8 @@
 
 					<div class="wrap xl-flexbox xl-middle">
 						<div class="col xl-8-12 xl-left">
-							<a href="<?=site_url('project/'.permalink($page['page_name']))?>" class="box-name invert-hover"><?=$page['share_ID'] != "" ? '<i class="fa fa-share-alt" aria-hidden="true"></i> '.$page['page_name'] : $page['page_name']?></a>
+							<a href="<?=site_url('revise/'.$page['page_ID'])?>" class="box-name invert-hover">
+								<?=$page['share_ID'] != "" ? '<i class="fa fa-share-alt" aria-hidden="true"></i> ' : ''?><?=$page['page_name']?></a>
 						</div>
 						<div class="col xl-4-12 xl-right date">
 							<?=date("d M Y", strtotime($page['page_created']))?>
