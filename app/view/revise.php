@@ -185,7 +185,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
+													style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
 											</a>
 											<div class="col xl-10-12 comment-inner-wrapper">
 												<div class="wrap user-info">
@@ -205,7 +205,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12 xl-last xl-right" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/bill.png')?>);">
+													style="background-image: url(<?=User::ID(1)->userPicUrl?>);">
 													<div class="new-comment-icon">*</div>
 												</picture>
 											</a>
@@ -227,7 +227,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);">
+													style="background-image: url(<?=User::ID(4)->userPicUrl?>);">
 													<div class="new-comment-icon">*</div>
 												</picture>
 											</a>
@@ -262,7 +262,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
+													style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
 											</a>
 											<div class="col xl-10-12 comment-inner-wrapper">
 												<div class="wrap user-info">
@@ -282,7 +282,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12 xl-last xl-right" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/bill.png')?>);">
+													style="background-image: url(<?=User::ID(1)->userPicUrl?>);">
 													<div class="new-comment-icon">*</div>
 												</picture>
 											</a>
@@ -304,7 +304,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);">
+													style="background-image: url(<?=User::ID(4)->userPicUrl?>);">
 													<div class="new-comment-icon">*</div>
 												</picture>
 											</a>
@@ -339,7 +339,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
+													style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
 											</a>
 											<div class="col xl-10-12 comment-inner-wrapper">
 												<div class="wrap user-info">
@@ -359,7 +359,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12 xl-last xl-right" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/bill.png')?>);">
+													style="background-image: url(<?=User::ID(1)->userPicUrl?>);">
 													<div class="new-comment-icon">*</div>
 												</picture>
 											</a>
@@ -381,7 +381,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);">
+													style="background-image: url(<?=User::ID(4)->userPicUrl?>);">
 													<div class="new-comment-icon">*</div>
 												</picture>
 											</a>
@@ -416,7 +416,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
+													style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
 											</a>
 											<div class="col xl-10-12 comment-inner-wrapper">
 												<div class="wrap user-info">
@@ -436,7 +436,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12 xl-last xl-right" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/bill.png')?>);">
+													style="background-image: url(<?=User::ID(1)->userPicUrl?>);">
 													<div class="new-comment-icon">*</div>
 												</picture>
 											</a>
@@ -458,7 +458,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);">
+													style="background-image: url(<?=User::ID(4)->userPicUrl?>);">
 													<div class="new-comment-icon">*</div>
 												</picture>
 											</a>
@@ -493,7 +493,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
+													style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
 											</a>
 											<div class="col xl-10-12 comment-inner-wrapper">
 												<div class="wrap user-info">
@@ -513,7 +513,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12 xl-last xl-right" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/bill.png')?>);">
+													style="background-image: url(<?=User::ID(1)->userPicUrl?>);">
 													<div class="new-comment-icon">*</div>
 												</picture>
 											</a>
@@ -535,7 +535,7 @@ $(function(){
 										<div class="comment wrap xl-flexbox xl-top">
 											<a class="col xl-2-12" href="#">
 												<picture class="profile-picture big square"
-													style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);">
+													style="background-image: url(<?=User::ID(4)->userPicUrl?>);">
 													<div class="new-comment-icon">*</div>
 												</picture>
 											</a>
@@ -591,7 +591,7 @@ $(function(){
 									<span class="people light-border">
 
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/bill.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=User::ID(1)->userPicUrl?>);"></picture>
 										</a>
 
 									</span>
@@ -608,11 +608,11 @@ $(function(){
 									<span class="people light-border">
 
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/joey.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=User::ID(5)->userPicUrl?>);"></picture>
 										</a>
 
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
 										</a>
 
 									</span>
@@ -629,19 +629,19 @@ $(function(){
 									<span class="people light-border">
 
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/bill.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=User::ID(1)->userPicUrl?>);"></picture>
 										</a>
 
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/ike.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
 										</a>
 
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/sara.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=User::ID(3)->userPicUrl?>);"></picture>
 										</a>
 
 										<a href="#">
-											<picture class="profile-picture" style="background-image: url(<?=asset_url('images/avatars/matt.png')?>);"></picture>
+											<picture class="profile-picture" style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
 										</a>
 
 									</span>
