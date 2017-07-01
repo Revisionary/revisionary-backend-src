@@ -369,6 +369,46 @@ class Internalize {
 	    );
 
 
+/*
+	    // ADD JS TO CAPTURE !!! TEST
+	    $js = '
+<script id="capture" type="text/javascript">'.file_get_contents(dir."/assets/scripts/vendor/html2canvas.min.js").'</script>';
+	    $js .= "
+<script id='capture' type='text/javascript'>
+
+function loadDoc(data) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+    }
+  };
+  xhttp.open('POST', '".site_url('ajax')."', true);
+  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  xhttp.send(data);
+}
+
+setTimeout(function(){
+
+	html2canvas(document.body, {
+		taintTest: true,
+		onrendered: function(canvas) {
+
+			var canvasData = canvas.toDataURL('image/png');
+
+			loadDoc('type=page-capture&image_data=' + canvasData);
+
+		}
+	});
+}, 2000);
+</script>
+";
+	    $html = str_replace('</body>', $js, $html);
+
+		// Specific Log
+		file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Capture JS added \r\n", FILE_APPEND);
+*/
+
 
 
 		// SAVING:
