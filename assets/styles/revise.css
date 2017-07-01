@@ -285,15 +285,12 @@
   height: 100%;
   width: 100%;
   left: 0%;
-  border: 12px solid red;
-  border-top: none;
-  border-bottom: none;
-  border: none;
   text-align: center;
+  overflow: hidden;
 }
 
 .iframe-container iframe {
-  border: none;
+  border: 1px solid red;
   max-height: 100%;
 }
 

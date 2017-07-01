@@ -30,7 +30,7 @@ $internalize = new Internalize( $pageID );
 // JOBS:
 
 // Optional - Delete the existing cache
-//$files_deleted = $internalize->deleteDirectory( Page::ID($pageID)->pageDir );
+$files_deleted = $internalize->deleteDirectory( Page::ID($pageID)->pageDir );
 
 
 // 1. Save the remote HTML

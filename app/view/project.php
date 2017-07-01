@@ -239,9 +239,10 @@
 								</pin>
 
 							</div>
-							<div class="col xl-1-1 xl-center modes" style="position: relative;">
+							<div class="col xl-1-1 xl-center devices" style="position: relative;">
 
-									<a href="<?=site_url('revise/'.$page['page_ID'])?>">
+									<!-- Current Device -->
+									<a href="<?=site_url('revise/'.$page['page_ID'])?>" title="<?=$page['device_name']?>">
 										<i class="fa <?=$page['device_cat_icon']?>" aria-hidden="true"></i>
 									</a>
 
@@ -263,7 +264,7 @@
 									foreach ($devices as $device) {
 									?>
 
-									<a href="<?=site_url('revise/'.$device['page_ID'])?>">
+									<a href="<?=site_url('revise/'.$device['page_ID'])?>" title="<?=$device['device_name']?>">
 										<i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i>
 									</a>
 

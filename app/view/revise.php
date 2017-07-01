@@ -151,7 +151,7 @@ $(function(){
 
 		<div class="iframe-container">
 
-			<iframe src="" data-url="" width="<?=$width?>" height="<?=$height?>" scrolling="auto"></iframe>
+			<iframe id="the-page" src="" data-url="" width="<?=$width?>" height="<?=$height?>" scrolling="auto"></iframe>
 
 		</div>
 
