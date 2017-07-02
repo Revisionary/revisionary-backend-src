@@ -1,4 +1,5 @@
 <?php
+/*
 use Cocur\BackgroundProcess\BackgroundProcess;
 
 $url = "http://www.bilaltas.net";
@@ -15,3 +16,4 @@ echo $process;
 
 $process = new BackgroundProcess($process);
 $process->run();
+*/
