@@ -3,124 +3,102 @@
 <script>
 // When page is ready
 $(function(){
-//$('#loading').fadeOut();
-
 
 	// Post the request to AJAX
-	$.post(ajax_url, {
-		'type':'internalize-status',
-		'pageID': <?=$_url[1]?>,
-		'processID' : ''
-	}, function(result){
+	var processInterval = setInterval(function(){
 
-		$.each(result.data, function(key, data){
-
-			// Append the log !!!
-			if (key != "final")	console.log('INIT', key, data);
+		// Send the new data with process ID
+		$.post(ajax_url, {
+			'type':'internalize-status',
+			'pageID': <?=$_url[1]?>,
+			'processID' : <?=$process->getPid()?>
+		}, function(result){
 
 
-			// If process is running
-			if (data.status == "running") {
+			$.each(result.data, function(key, data){
 
-				var processInterval = setInterval(function(){
-
-					// Send the new data with process ID
-					$.post(ajax_url, {
-						'type':'internalize-status',
-						'pageID': <?=$_url[1]?>,
-						'processID' : data.processID
-					}, function(result){
+				// Append the log !!!
+				if (key != "final")	console.log(key, data);
 
 
-						$.each(result.data, function(key, data){
+				// Update the proggress bar
+				var width = 0;
+				if (data.processStatus == 'downloading')
+					width = 12.5;
 
-							// Append the log !!!
-							if (key != "final")	console.log(key, data);
+				if (data.processStatus == 'downloading-html')
+					width = 12.5;
 
+				if (data.processStatus == 'downloaded-html')
+					width = 25;
 
-							// Update the proggress bar
-							var width = 0;
-							if (data.processStatus == 'downloading')
-								width = 12.5;
+				if (data.processStatus == 'downloading-css')
+					width = 25;
 
-							if (data.processStatus == 'downloading-html')
-								width = 12.5;
+				if (parseFloat(data.totalCss) > 0)
+					width = width + (35 * parseFloat(data.downloadedCss) / parseFloat(data.totalCss) );
 
-							if (data.processStatus == 'downloaded-html')
-								width = 25;
-
-							if (data.processStatus == 'downloading-css')
-								width = 25;
-
-							if (parseFloat(data.totalCss) > 0)
-								width = width + (35 * parseFloat(data.downloadedCss) / parseFloat(data.totalCss) );
-
-							if (data.processStatus == 'downloaded-css')
-								width = 60;
+				if (data.processStatus == 'downloaded-css')
+					width = 60;
 
 
-							if (data.processStatus == 'downloading-fonts')
-								width = 60;
+				if (data.processStatus == 'downloading-fonts')
+					width = 60;
 
-							if (parseFloat(data.totalFont) > 0)
-								width = width + (40 * parseFloat(data.downloadedFont) / parseFloat(data.totalFont) );
+				if (parseFloat(data.totalFont) > 0)
+					width = width + (40 * parseFloat(data.downloadedFont) / parseFloat(data.totalFont) );
 
-							if (data.processStatus == 'downloaded-fonts')
-								width = 100;
-
-
-							if (data.processStatus == 'ready')
-								width = 100;
-
-							$('.progress').css('width', width + "%" );
+				if (data.processStatus == 'downloaded-fonts')
+					width = 100;
 
 
-							// Print the current status
-							$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
+				if (data.processStatus == 'ready')
+					width = 100;
+
+				$('.progress').css('width', width + "%" );
 
 
-							// Don't repeat checking when done
-							if (data.status == "not-running") clearInterval(processInterval);
+				// Print the current status
+				$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
 
 
-							// If successfully downloaded
-							if (data.processStatus == "ready") {
+				// Don't repeat checking when done
+				if (data.status == "not-running") {
+					clearInterval(processInterval);
+					if (width != 100) $('#loading-info').text( 'Error');
+				}
 
-								// Update the iframe url
-								$('iframe').attr('src', data.pageUrl);
 
-								// Run the inspector
-								runTheInspector();
+				// If successfully downloaded
+				if (data.processStatus == "ready") {
 
-								// When iframe loaded
-								$('iframe').on('load', function(){
+					// Update the iframe url
+					$('iframe').attr('src', data.pageUrl);
 
-									// Close Pin Mode pinModeSelector - If on revise mode !!!
-									toggleCursorActive();
+					// Run the inspector
+					runTheInspector();
 
-									// Hide the loading overlay
-									$('#loading').fadeOut();
+					// When iframe loaded
+					$('iframe').on('load', function(){
 
-								});
+						// Close Pin Mode pinModeSelector - If on revise mode !!!
+						toggleCursorActive();
 
-							}
+						// Hide the loading overlay
+						$('#loading').fadeOut();
+
+					});
+
+				}
 
 
 
-						});
+			});
 
-					}, 'json');
-
-
-				}, 500); // Interval
+		}, 'json');
 
 
-			} // If running
-
-
-		});
-
-	}, 'json');
+	}, 500); // Interval
 
 });
 </script>

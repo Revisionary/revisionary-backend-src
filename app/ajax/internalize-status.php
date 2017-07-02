@@ -2,40 +2,20 @@
 use Cocur\BackgroundProcess\BackgroundProcess;
 
 
-// IS STARTED?
-if( post('processID') != '' ) {
-
-	// Set the process ID to check
-	$process = BackgroundProcess::createFromPID( post('processID') );
-
-} else {
-
-	// Initiate Internalizator
-	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.post('pageID').' '.session_id());
-	$process->run();
-
-}
+// Set the process ID to check
+$process = BackgroundProcess::createFromPID( post('processID') );
 
 
 // STATUS CHECK
-if ( $process->isRunning() ) {
+$status = 'not-running';
+if ( $process->isRunning() ) $status = 'running';
 
-	$status = 'running';
-
-} else {
-
-	$status = 'not-running';
-
-}
-
-
+//$process->stop();
 
 
 // CREATE THE RESPONSE
 $data = array(
 	'' => '',
-
-
 
 	// JUST TO SEE
 	'pageID' => post('pageID'),
@@ -46,8 +26,8 @@ $data = array(
 	'processStatus' => Page::ID(post('pageID'))->pageStatus['status'],
 	'processDescription' => Page::ID(post('pageID'))->pageStatus['description'],
 
-	'totalCss' => Page::ID(post('pageID'))->getDownloadedQuantity('downloaded', 'css')."/".Page::ID(post('pageID'))->getDownloadedQuantity('total', 'css'),
-	'totalFont' => Page::ID(post('pageID'))->getDownloadedQuantity('downloaded', 'font')."/".Page::ID(post('pageID'))->getDownloadedQuantity('total', 'font'),
+	'CSS Files' => Page::ID(post('pageID'))->getDownloadedQuantity('downloaded', 'css')."/".Page::ID(post('pageID'))->getDownloadedQuantity('total', 'css'),
+	'Font Files' => Page::ID(post('pageID'))->getDownloadedQuantity('downloaded', 'font')."/".Page::ID(post('pageID'))->getDownloadedQuantity('total', 'font'),
 
 
 

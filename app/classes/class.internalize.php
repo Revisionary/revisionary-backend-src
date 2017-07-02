@@ -1,5 +1,6 @@
 <?php
 use PHPHtmlParser\Dom;
+use Cocur\BackgroundProcess\BackgroundProcess;
 
 
 class Internalize {
@@ -105,6 +106,50 @@ class Internalize {
 		if ( file_exists( Page::ID($this->pageId)->pageTempFile ) ) return false;
 
 
+		// SAVING:
+
+		// Create the folder if not exists
+		if ( !file_exists(Page::ID($this->pageId)->pageDir) )
+			mkdir(Page::ID($this->pageId)->pageDir, 0755, true);
+		@chmod(Page::ID($this->pageId)->pageDir, 0755);
+
+
+		// Save the file if not exists
+		if ( !file_exists( Page::ID($this->pageId)->pageTempFile ) ) {
+
+
+			// Get device ID
+			$url = Page::ID($this->pageId)->remoteUrl;
+			$deviceID = Page::ID($this->pageId)->getPageInfo('device_ID');
+			$width = Device::ID($deviceID)->getDeviceInfo('device_width');
+			$height = Device::ID($deviceID)->getDeviceInfo('device_height');
+
+			$output_image = Page::ID($this->pageId)->pageDeviceDir."/".Page::ID($this->pageId)->getPageInfo('page_pic');
+			$output_html = Page::ID($this->pageId)->pageTempFile;
+
+
+			// Create the HTML and Screenshot
+			$slimerjs = realpath('..')."/bin/slimerjs-0.10.3/slimerjs";
+			$capturejs = dir."/app/bgprocess/capture.js";
+
+			$process_string = "$slimerjs $capturejs $url $width $height $output_image $output_html";
+
+			$process = new BackgroundProcess($process_string);
+			$process->run();
+
+			while( $process->isRunning() ) {
+				sleep(0.5);
+			}
+
+			$saved = false;
+			if (file_exists($output_html)) $saved = true;
+
+			//$saved = file_put_contents( Page::ID($this->pageId)->pageTempFile, $html, FILE_TEXT);
+
+		}
+
+
+/*
 		// For the SSL Problem
 		$ContextOptions = array(
 		    "ssl" => array(
@@ -112,15 +157,18 @@ class Internalize {
 		        "verify_peer_name" => false,
 		    ),
 	        "http" => array (
-	            "follow_location" => true // follow redirects
+	            "follow_location" => true, // follow redirects
+	            "user_agent" => "Mozilla/5.0"
 	        )
 		);
+*/
 
 		// Get the HTML
-		$content = @file_get_contents($this->remoteUrl, FILE_TEXT, stream_context_create($ContextOptions));
-		$html = $content;
+		$html = @file_get_contents($output_html);
+		//$content;
 
 
+/*
 		// Extract the encode
 		$charset = "";
 		$headers = @get_headers($this->remoteUrl, 1);
@@ -140,20 +188,8 @@ class Internalize {
 		// Correct the charset
 		if ($charset != "" )
 			$html = mb_convert_encoding($content, "UTF-8", $charset);
+*/
 
-
-
-		// SAVING:
-
-		// Create the folder if not exists
-		if ( !file_exists(Page::ID($this->pageId)->pageDir) )
-			mkdir(Page::ID($this->pageId)->pageDir, 0755, true);
-		@chmod(Page::ID($this->pageId)->pageDir, 0755);
-
-
-		// Save the file if not exists
-		if ( !file_exists( Page::ID($this->pageId)->pageTempFile ) )
-			$saved = file_put_contents( Page::ID($this->pageId)->pageTempFile, $html, FILE_TEXT);
 
 
 		// LOG:

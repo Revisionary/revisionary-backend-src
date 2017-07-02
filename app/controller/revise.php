@@ -3,10 +3,19 @@
 use Cocur\BackgroundProcess\BackgroundProcess;
 
 
+// Get the page ID
 $pageID = $_url[1];
-$firstTime = true;
 
-if ($firstTime) {
+// Get device ID
+$deviceID = Page::ID($pageID)->getPageInfo('device_ID');
+
+// Get the device sizes
+$width = Device::ID($deviceID)->getDeviceInfo('device_width');
+$height = Device::ID($deviceID)->getDeviceInfo('device_height');
+
+
+// If first time downloading
+if (Page::ID($pageID)->getPageInfo('page_downloaded') == 0) {
 
 
 	// INTERNAL REDIRECTIONS:
@@ -14,30 +23,59 @@ if ($firstTime) {
 	// Http to Https Redirection
 	if ( substr(Page::ID($pageID)->remoteUrl, 0, 8) == "https://" && !ssl) {
 
-		$appendUrl = "";
-		if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
-    		$appendUrl = "?new_url=".urlencode($_GET['new_url']);
-
-		header('Location: '.site_url('revise/'.$pageID, true).$appendUrl); // Force HTTPS
+		header( 'Location: '.site_url('revise/'.$pageID, true) ); // Force HTTPS
 		die();
+
 	}
 
 	// Https to Http Redirection
 	if ( substr(Page::ID($pageID)->remoteUrl, 0, 7) == "http://" && ssl) {
 
-		$appendUrl = "";
-		if ( isset($_GET['new_url']) && !empty($_GET['new_url']) )
-    		$appendUrl = "?new_url=".urlencode($_GET['new_url']);
-
-		header('Location: '.site_url('revise/'.$pageID, false, true).$appendUrl); // Force HTTP
+		header( 'Location: '.site_url('revise/'.$pageID, false, true) ); // Force HTTP
 		die();
+
 	}
 
 
+
+
+	// Initiate Internalizator
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$pageID.' '.session_id());
+	$process->run();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 	// CHECK THE PAGE RESPONSE
 	$noProblem = false;
-	$headers = @get_headers(Page::ID($pageID)->remoteUrl, 1);
+
+	// Bring the headers
+	$OriginalUserAgent = ini_get('user_agent');
+	ini_set('user_agent', 'Mozilla/5.0');
+	$headers = get_headers(Page::ID($pageID)->remoteUrl, 1);
+	ini_set('user_agent', $OriginalUserAgent);
+
+	var_dump($headers);
+	die();
+
 	$page_response = intval(substr($headers[0], 9, 3));
+
 
 	// O.K.
 	if ( $page_response == 200 ) {
@@ -55,12 +93,13 @@ if ($firstTime) {
 		if ( is_array($new_location) ) $new_location = end($new_location);
 
 
-		// Update the NEW remoteUrl on DB !!!
-		// ...
+		// Update the NEW remoteUrl on DB
+		$db->where ('page_ID', $pageID);
+		$db->update ('pages', ['page_url' => $new_location]);
 
 
 		// Refresh the page for preventing redirects
-		header( 'Location: ' . site_url('revise/'.$pageID."?new_url=".urlencode($new_location)) );
+		header( 'Location: ' . site_url('revise/'.$pageID) );
 		die();
 
 
@@ -71,11 +110,12 @@ if ($firstTime) {
 		if ( substr(Page::ID($pageID)->remoteUrl, 0, 8) == "https://" ) {
 
 			// Update the nonSSL remoteUrl on DB !!!???
-			// ...
+			$db->where ('page_ID', $pageID);
+			$db->update ('pages', ['page_url' => "http://".substr(Page::ID($pageID)->remoteUrl, 8)]);
 
 
 			// Refresh the page to try non-ssl
-			header( 'Location: ' . site_url('revise/'.$pageID."?new_url=".urlencode( "http://".substr(Page::ID($pageID)->remoteUrl, 8) )) );
+			header( 'Location: ' . site_url('revise/'.$pageID) );
 			die();
 
 
@@ -89,34 +129,9 @@ if ($firstTime) {
 
 
 	}
+*/
 
 } // If first time adding
-
-
-
-// Get device ID
-$deviceID = Page::ID($pageID)->getPageInfo('device_ID');
-
-$width = Device::ID($deviceID)->getDeviceInfo('device_width');
-$height = Device::ID($deviceID)->getDeviceInfo('device_height');
-
-
-$url = Page::ID($pageID)->remoteUrl;
-$page_thumb = Page::ID($pageID)->pageDeviceDir."/".Page::ID($pageID)->getPageInfo('page_pic');
-
-
-// Create the screenshot
-if (!file_exists($page_thumb)) {
-
-	$slimerjs = realpath('..')."/bin/slimerjs-0.10.3/slimerjs";
-	$capturejs = dir."/app/bgprocess/capture.js";
-
-	$process_string = "$slimerjs $capturejs $url $width $height $page_thumb";
-
-	$process = new BackgroundProcess($process_string);
-	$process->run();
-
-}
 
 
 
