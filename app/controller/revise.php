@@ -1,5 +1,8 @@
 <?php
 
+use Cocur\BackgroundProcess\BackgroundProcess;
+
+
 $pageID = $_url[1];
 $firstTime = true;
 
@@ -89,11 +92,31 @@ if ($firstTime) {
 
 } // If first time adding
 
+
+
 // Get device ID
 $deviceID = Page::ID($pageID)->getPageInfo('device_ID');
 
 $width = Device::ID($deviceID)->getDeviceInfo('device_width');
 $height = Device::ID($deviceID)->getDeviceInfo('device_height');
+
+
+$url = Page::ID($pageID)->remoteUrl;
+$page_thumb = Page::ID($pageID)->pageDeviceDir."/".Page::ID($pageID)->getPageInfo('page_pic');
+
+
+// Create the screenshot
+if (!file_exists($page_thumb)) {
+
+	$slimerjs = realpath('..')."/bin/slimerjs-0.10.3/slimerjs";
+	$capturejs = dir."/app/bgprocess/capture.js";
+
+	$process_string = "$slimerjs $capturejs $url $width $height $page_thumb";
+
+	$process = new BackgroundProcess($process_string);
+	$process->run();
+
+}
 
 
 

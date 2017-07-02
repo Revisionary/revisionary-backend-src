@@ -25,6 +25,9 @@ class Page {
 	// Page Directory
 	public $pageDir;
 
+	// Page Device Directory
+	public $pageDeviceDir;
+
 	// Page Url
 	public $pageUri;
 
@@ -82,8 +85,11 @@ class Page {
         if ($this->getPageInfo('parent_page_ID') != null)
         	$pageFolder = "/page-".$this->getPageInfo('parent_page_ID');
 
+        // Set the page device directory
+        $this->pageDeviceDir = dir."/assets/cache/user-".$this->userId."/project-".$this->projectId.$pageFolder."/device-".$this->pageDevice;
+
         // Set the page cache directory
-        $this->pageDir = dir."/assets/cache/user-".$this->userId."/project-".$this->projectId.$pageFolder."/device-".$this->pageDevice."/".$this->pageVersion."/";
+        $this->pageDir = $this->pageDeviceDir."/".$this->pageVersion."/";
 
         // Set the page cache directory URL
         $this->pageUri = cache_url("user-".$this->userId."/project-".$this->projectId.$pageFolder."/device-".$this->pageDevice."/".$this->pageVersion."/");
