@@ -106,6 +106,48 @@ class Internalize {
 		if ( file_exists( Page::ID($this->pageId)->pageTempFile ) ) return false;
 
 
+
+		// PHP METHOD
+
+		// For the SSL Problem
+		$ContextOptions = array(
+		    "ssl" => array(
+		        "verify_peer" => false,
+		        "verify_peer_name" => false,
+		    ),
+	        "http" => array (
+	            "follow_location" => true, // follow redirects
+	            "user_agent" => "Mozilla/5.0"
+	        )
+		);
+
+		// Get the HTML
+		$content = @file_get_contents($this->remoteUrl, FILE_TEXT, stream_context_create($ContextOptions));
+		$html = $content;
+
+
+		// Extract the encode
+		$charset = "";
+		$headers = @get_headers($this->remoteUrl, 1);
+		$content_type = $headers['Content-Type'];
+		if ( is_array($content_type) )
+			$content_type = end($content_type);
+		$parsed_content_type = explode(';', $content_type);
+		if (count($parsed_content_type) > 1)
+			$charset = strtoupper(substr(array_values(array_filter($parsed_content_type, function ($v) {
+				return substr($v, 0, 9) === ' charset=';
+			}))[0], 9));
+
+		// Log the headers
+		file_put_contents($this->logDir."/charset.log", print_r($headers, true), FILE_APPEND);
+
+
+		// Correct the charset
+		if ($charset != "" )
+			$html = mb_convert_encoding($content, "UTF-8", $charset);
+
+
+
 		// SAVING:
 
 		// Create the folder if not exists
@@ -113,6 +155,15 @@ class Internalize {
 			mkdir(Page::ID($this->pageId)->pageDir, 0755, true);
 		@chmod(Page::ID($this->pageId)->pageDir, 0755);
 
+
+		// Save the file if not exists - PHP METHOD
+		if ( !file_exists( Page::ID($this->pageId)->pageTempFile ) )
+			$saved = file_put_contents( Page::ID($this->pageId)->pageTempFile, $html, FILE_TEXT);
+
+
+/*
+
+	SLIMER JS METHOD - HAS PROBLEMS NOW !!!
 
 		// Save the file if not exists
 		if ( !file_exists( Page::ID($this->pageId)->pageTempFile ) ) {
@@ -147,54 +198,51 @@ class Internalize {
 			//$saved = file_put_contents( Page::ID($this->pageId)->pageTempFile, $html, FILE_TEXT);
 
 		}
-
-
-/*
-		// For the SSL Problem
-		$ContextOptions = array(
-		    "ssl" => array(
-		        "verify_peer" => false,
-		        "verify_peer_name" => false,
-		    ),
-	        "http" => array (
-	            "follow_location" => true, // follow redirects
-	            "user_agent" => "Mozilla/5.0"
-	        )
-		);
 */
 
-		// Get the HTML
-		$html = @file_get_contents($output_html);
-		//$content;
 
+
+
+		$output_image = Page::ID($this->pageId)->pageDeviceDir."/".Page::ID($this->pageId)->getPageInfo('page_pic');
+
+
+		// GET SCREENSHOT
+		if ( !file_exists( $output_image ) ) {
+
+
+			// Get device ID
+			$url = Page::ID($this->pageId)->remoteUrl;
+			$deviceID = Page::ID($this->pageId)->getPageInfo('device_ID');
+			$width = Device::ID($deviceID)->getDeviceInfo('device_width');
+			$height = Device::ID($deviceID)->getDeviceInfo('device_height');
+
+
+			// Create the HTML and Screenshot
+			$slimerjs = realpath('..')."/bin/slimerjs-0.10.3/slimerjs";
+			$capturejs = dir."/app/bgprocess/capture.js";
+
+			$process_string = "$slimerjs $capturejs $url $width $height $output_image";
+
+			$process = new BackgroundProcess($process_string);
+			$process->run();
 
 /*
-		// Extract the encode
-		$charset = "";
-		$headers = @get_headers($this->remoteUrl, 1);
-		$content_type = $headers['Content-Type'];
-		if ( is_array($content_type) )
-			$content_type = end($content_type);
-		$parsed_content_type = explode(';', $content_type);
-		if (count($parsed_content_type) > 1)
-			$charset = strtoupper(substr(array_values(array_filter($parsed_content_type, function ($v) {
-				return substr($v, 0, 9) === ' charset=';
-			}))[0], 9));
+			while( $process->isRunning() ) {
+				sleep(0.5);
+			}
 
-		// Log the headers
-		file_put_contents($this->logDir."/charset.log", print_r($headers, true), FILE_APPEND);
-
-
-		// Correct the charset
-		if ($charset != "" )
-			$html = mb_convert_encoding($content, "UTF-8", $charset);
+			$saved = false;
+			if (file_exists($output_html)) $saved = true;
 */
 
+		}
 
 
 		// LOG:
 		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - PROJECT ID: ".Page::ID($this->pageId)->projectId." | PAGE ID: ".$this->pageId." | DEVICE: ".Page::ID($this->pageId)->pageDevice." | VERSION: ".Page::ID($this->pageId)->pageVersion." \r\n", FILE_APPEND);
 		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$saved ? " <b>NOT</b>":'')." DOWNLOADED: '".$this->remoteUrl."' \r\n", FILE_APPEND);
+
+		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - CAPTURE PROCESS STRING: '".$process_string."' \r\n", FILE_APPEND);
 
 
 		// Specific Log
