@@ -14,8 +14,8 @@ $width = Device::ID($deviceID)->getDeviceInfo('device_width');
 $height = Device::ID($deviceID)->getDeviceInfo('device_height');
 
 
-// If first time downloading
-if (Page::ID($pageID)->getPageInfo('page_downloaded') == 0) {
+// If first time downloading - !!! NO NEED FOR NOW
+//if (Page::ID($pageID)->getPageInfo('page_downloaded') == 0) {
 
 
 	// INTERNAL REDIRECTIONS:
@@ -107,7 +107,7 @@ if (Page::ID($pageID)->getPageInfo('page_downloaded') == 0) {
 	}
 */
 
-} // If first time adding
+//} // If first time adding
 
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 03, 2017 at 01:10 AM
+-- Generation Time: Jul 04, 2017 at 01:07 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -113,7 +113,6 @@ CREATE TABLE `pages` (
   `page_name` varchar(200) NOT NULL,
   `page_pic` varchar(15) NOT NULL,
   `page_url` text NOT NULL,
-  `page_downloaded` tinyint(1) NOT NULL DEFAULT '0',
   `page_archived` tinyint(1) NOT NULL DEFAULT '0',
   `page_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -128,23 +127,23 @@ CREATE TABLE `pages` (
 -- Dumping data for table `pages`
 --
 
-INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_downloaded`, `page_archived`, `page_deleted`, `page_created`, `page_modified`, `project_ID`, `device_ID`, `parent_page_ID`, `user_ID`) VALUES
-(1, 'About', 'about.png', 'https://www.twelve12.com/about-us/', 0, 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(2, 'Contact', 'contact.png', 'https://www.twelve12.com/contact/', 0, 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(3, 'GM Properties', 'gm.png', 'https://www.twelve12.com/project/gm-properties/', 0, 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(4, '128 Online', '128.png', 'https://www.twelve12.com/project/128-online-store/', 0, 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(5, 'Vampire Tools', 'vampire.png', 'https://www.twelve12.com/project/vampire-tools/', 0, 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(6, 'inMotion', 'inmotion.png', 'https://www.twelve12.com/project/inmotion/', 0, 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(7, 'The Kitchen', 'kitchen.png', 'https://www.twelve12.com/project/the-kitchen-at-westwood/', 0, 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(8, 'Blog 1', 'blog1.png', 'https://www.twelve12.com/blog/branding/brand-way-box/', 0, 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(9, 'Blog 2', 'blog2.png', 'https://www.twelve12.com/blog/branding/branding-tips/', 0, 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(10, 'Home', 'home.png', 'https://www.twelve12.com/', 0, 0, 0, '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 4, NULL, 2),
-(11, 'Bilal\'s Home', 'bilal.png', 'http://www.bilaltas.net/', 0, 0, 0, '2017-06-25 00:21:09', '2017-06-25 00:21:09', 1, 4, NULL, 1),
-(12, 'Anasayfa', 'cuneyt.png', 'http://www.cuneyt-tas.com/', 0, 0, 0, '2017-06-25 11:20:36', '2017-06-25 11:20:36', 5, 4, NULL, 5),
-(13, 'BBC Home', 'bbc.png', 'http://www.bbc.com/', 0, 0, 0, '2017-06-26 08:05:02', '2017-06-26 08:05:02', 6, 4, NULL, 1),
-(14, 'About', 'about.png', 'https://www.twelve12.com/about-us/', 0, 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 7, 1, 1),
-(15, 'SoundCloud Home', 'soundcloud.jpg', 'https://soundcloud.com/', 0, 0, 0, '2017-07-02 15:49:58', '2017-07-02 15:49:58', 2, 4, NULL, 1),
-(16, '7Diamonds Home', '7diamonds.png', 'https://7diamonds.com', 0, 0, 0, '2017-07-02 18:15:06', '2017-07-02 18:15:06', 9, 4, NULL, 1);
+INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_archived`, `page_deleted`, `page_created`, `page_modified`, `project_ID`, `device_ID`, `parent_page_ID`, `user_ID`) VALUES
+(1, 'About', 'about.png', 'https://www.twelve12.com/about-us/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(2, 'Contact', 'contact.png', 'https://www.twelve12.com/contact/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(3, 'GM Properties', 'gm.png', 'https://www.twelve12.com/project/gm-properties/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(4, '128 Online', '128.png', 'https://www.twelve12.com/project/128-online-store/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(5, 'Vampire Tools', 'vampire.png', 'https://www.twelve12.com/project/vampire-tools/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(6, 'inMotion', 'inmotion.png', 'https://www.twelve12.com/project/inmotion/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(7, 'The Kitchen', 'kitchen.png', 'https://www.twelve12.com/project/the-kitchen-at-westwood/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(8, 'Blog 1', 'blog1.png', 'https://www.twelve12.com/blog/branding/brand-way-box/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(9, 'Blog 2', 'blog2.png', 'https://www.twelve12.com/blog/branding/branding-tips/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(10, 'Twelve12 Home', 'home.png', 'https://www.twelve12.com/', 0, 0, '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 4, NULL, 2),
+(11, 'Bilal\'s Home', 'bilal.png', 'http://www.bilaltas.net/', 0, 0, '2017-06-25 00:21:09', '2017-06-25 00:21:09', 1, 4, NULL, 1),
+(12, 'Anasayfa', 'cuneyt.png', 'http://www.cuneyt-tas.com/', 0, 0, '2017-06-25 11:20:36', '2017-06-25 11:20:36', 5, 4, NULL, 5),
+(13, 'BBC Home', 'bbc.png', 'http://www.bbc.com/', 0, 0, '2017-06-26 08:05:02', '2017-06-26 08:05:02', 6, 4, NULL, 1),
+(14, 'About', 'about.png', 'https://www.twelve12.com/about-us/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 7, 1, 1),
+(15, 'SoundCloud Home', 'soundcloud.jpg', 'https://soundcloud.com/', 0, 0, '2017-07-02 15:49:58', '2017-07-02 15:49:58', 2, 4, NULL, 1),
+(16, '7Diamonds Home', '7diamonds.png', 'https://7diamonds.com', 0, 0, '2017-07-02 18:15:06', '2017-07-02 18:15:06', 9, 4, NULL, 1);
 
 -- --------------------------------------------------------
 
