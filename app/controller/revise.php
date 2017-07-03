@@ -37,30 +37,6 @@ if (Page::ID($pageID)->getPageInfo('page_downloaded') == 0) {
 	}
 
 
-
-
-	// Initiate Internalizator
-	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$pageID.' '.session_id());
-	$process->run();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
 	// CHECK THE PAGE RESPONSE
 	$noProblem = false;
@@ -132,6 +108,18 @@ if (Page::ID($pageID)->getPageInfo('page_downloaded') == 0) {
 */
 
 } // If first time adding
+
+
+
+// Create the log folder if not exists
+if ( !file_exists(Page::ID($pageID)->logDir) )
+	mkdir(Page::ID($pageID)->logDir, 0755, true);
+@chmod(Page::ID($pageID)->logDir, 0755);
+
+
+// Initiate Internalizator
+$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$pageID.' '.session_id());
+$process->run(Page::ID($pageID)->logDir."/internalize.log", true);
 
 
 

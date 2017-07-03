@@ -100,10 +100,10 @@ class Page {
         $this->pageFile = $this->pageDir.$this->pageFileName;
 
         // Set the log file
-        $this->logDir = $this->pageDir."logs/";
+        $this->logDir = $this->pageDir."logs";
 
         // Set the log file
-        $this->logFile = $this->logDir."process.log";
+        $this->logFile = $this->logDir."/process.log";
 
         // Set the page cache file
         $this->pageTempFile = $this->pageDir.$this->pageFileName;
@@ -165,19 +165,19 @@ class Page {
 
 
 
-		if (file_exists($this->logDir."_html.log"))
+		if (file_exists($this->logDir."/_html.log"))
 			$process_status = [
 				"status" => "downloading-html",
 				"description" => "HTML is downloading"
 			];
 
-		if (file_exists($this->logDir."__html.log"))
+		if (file_exists($this->logDir."/__html.log"))
 			$process_status = [
 				"status" => "download-error-html",
 				"description" => "HTML couldn't downloaded"
 			];
 
-		if (file_exists($this->logDir."html.log"))
+		if (file_exists($this->logDir."/html.log"))
 			$process_status = [
 				"status" => "downloaded-html",
 				"description" => "Starting to download CSS files"
@@ -185,19 +185,19 @@ class Page {
 
 
 
-		if (file_exists($this->logDir."_css.log"))
+		if (file_exists($this->logDir."/_css.log"))
 			$process_status = [
 				"status" => "downloading-css",
 				"description" => "CSS files are downloading"
 			];
 
-		if (file_exists($this->logDir."__css.log"))
+		if (file_exists($this->logDir."/__css.log"))
 			$process_status = [
 				"status" => "download-error-css",
 				"description" => "CSS files couldn't downloaded"
 			];
 
-		if (file_exists($this->logDir."css.log"))
+		if (file_exists($this->logDir."/css.log"))
 			$process_status = [
 				"status" => "downloaded-css",
 				"description" => "Starting to download fonts"
@@ -205,19 +205,19 @@ class Page {
 
 
 
-		if (file_exists($this->logDir."_font.log"))
+		if (file_exists($this->logDir."/_font.log"))
 			$process_status = [
 				"status" => "downloading-fonts",
 				"description" => "Fonts are downloading"
 			];
 
-		if (file_exists($this->logDir."__font.log"))
+		if (file_exists($this->logDir."/__font.log"))
 			$process_status = [
 				"status" => "download-error-fonts",
 				"description" => "Fonts could't downloaded"
 			];
 
-		if (file_exists($this->logDir."font.log"))
+		if (file_exists($this->logDir."/font.log"))
 			$process_status = [
 				"status" => "downloaded-font",
 				"description" => "Fonts are downloaded"
@@ -226,9 +226,9 @@ class Page {
 
 
 		if (
-			file_exists($this->logDir."html.log") &&
-			file_exists($this->logDir."css.log") &&
-			file_exists($this->logDir."font.log")
+			file_exists($this->logDir."/html.log") &&
+			file_exists($this->logDir."/css.log") &&
+			file_exists($this->logDir."/font.log")
 		)
 			$process_status = [
 				"status" => "ready",
@@ -244,7 +244,7 @@ class Page {
 	// Get the current download process
     public function getDownloadedQuantity($type = "total", $fileType = "css") {
 
-		$downloading = $this->logDir."_".$fileType.".log";
+		$downloading = $this->logDir."/_".$fileType.".log";
 		$downloaded = $this->logDir.$fileType.".log";
 		$file = file_exists($downloaded) ? $downloaded : $downloading;
 		$content = "";

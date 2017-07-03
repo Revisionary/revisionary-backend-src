@@ -50,11 +50,11 @@ class Internalize {
 
 
 		// Set the log file
-        $this->logDir = Page::ID($this->pageId)->pageDir."logs";
+        $this->logDir = Page::ID($this->pageId)->logDir;
 
 
 		// Set the log file
-        $this->logFile = $this->logDir."process.log";
+        $this->logFile = $this->logDir."/process.log";
 
     }
 
@@ -99,7 +99,7 @@ class Internalize {
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."_html.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logDir."/_html.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
 
 
 		// Do nothing if already saved
@@ -224,7 +224,7 @@ class Internalize {
 			$process_string = "$slimerjs $capturejs $url $width $height $output_image";
 
 			$process = new BackgroundProcess($process_string);
-			$process->run();
+			$process->run($this->logDir."/capture.log", true);
 
 /*
 			while( $process->isRunning() ) {
@@ -246,8 +246,8 @@ class Internalize {
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."_html.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$saved ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->pageId)->logDir."_html.log", Page::ID($this->pageId)->logDir.(!$saved ? '__' : '')."html.log");
+		file_put_contents( Page::ID($this->pageId)->logDir."/_html.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$saved ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->pageId)->logDir."/_html.log", Page::ID($this->pageId)->logDir.(!$saved ? '/__' : '/')."html.log");
 
 
 		// Return the HTML if successful
@@ -265,7 +265,7 @@ class Internalize {
 	public function filterAndUpdateHTML($html) {
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
 
 
 		// Add Necessary Spaces - done for a bug
@@ -294,7 +294,7 @@ class Internalize {
 	        function ($urls) {
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->remoteUrl."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->remoteUrl."' \r\n", FILE_APPEND);
 
 		        return $urls[0]."<base href='".$this->remoteUrl."'>";
 
@@ -320,7 +320,7 @@ class Internalize {
 
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
@@ -360,7 +360,7 @@ class Internalize {
 
 
 			        // Specific Log
-					file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".Page::ID($this->pageId)->pageUri."css/".$css_file_name."' \r\n", FILE_APPEND);
+					file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".Page::ID($this->pageId)->pageUri."css/".$css_file_name."' \r\n", FILE_APPEND);
 
 
 			        // Change the URL
@@ -403,7 +403,7 @@ class Internalize {
 
 
 				// Specific Log
-				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Srcset Absoluted: '".$the_url."' -> '".$new_srcset."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Srcset Absoluted: '".$the_url."' -> '".$new_srcset."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
@@ -422,7 +422,7 @@ class Internalize {
 	        function ($urls) {
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
 
 		        return $urls['tag'].$this->filter_css($urls['content'])."</style>";
 
@@ -440,7 +440,7 @@ class Internalize {
 		        $filtred_css = $this->filter_css($the_css);
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Inline Style Filtred: '".$the_css."' -> '".$filtred_css."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inline Style Filtred: '".$the_css."' -> '".$filtred_css."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
@@ -490,7 +490,7 @@ setTimeout(function(){
 	    $html = str_replace('</body>', $js, $html);
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Capture JS added \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Capture JS added \r\n", FILE_APPEND);
 */
 
 
@@ -507,8 +507,8 @@ setTimeout(function(){
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."_filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$updated ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->pageId)->logDir."_filter.log", Page::ID($this->pageId)->logDir.(!$updated ? '__' : '')."filter.log");
+		file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$updated ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->pageId)->logDir."/_filter.log", Page::ID($this->pageId)->logDir.(!$updated ? '/__' : '/')."filter.log");
 
 
 		// Return the HTML if successful
@@ -531,7 +531,7 @@ setTimeout(function(){
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."_css.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
 
 
 		// Download them
@@ -551,7 +551,7 @@ setTimeout(function(){
 
 
 			// Specific Log
-			file_put_contents( Page::ID($this->pageId)->logDir."_css.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			file_put_contents( Page::ID($this->pageId)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
 
 
 			if (!$css_downloaded) $css_downloaded_has_error = true;
@@ -564,8 +564,8 @@ setTimeout(function(){
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."_css.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->pageId)->logDir."_css.log", Page::ID($this->pageId)->logDir.($css_downloaded_has_error ? '__' : '')."css.log");
+		file_put_contents( Page::ID($this->pageId)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->pageId)->logDir."/_css.log", Page::ID($this->pageId)->logDir.($css_downloaded_has_error ? '/__' : '/')."css.log");
 
 
 		// Return true if no error
@@ -583,7 +583,7 @@ setTimeout(function(){
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."_font.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->pageId)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
 
 
 		$font_downloaded_has_error = false;
@@ -595,7 +595,7 @@ setTimeout(function(){
 
 
 			// Specific Log
-			file_put_contents( Page::ID($this->pageId)->logDir."_font.log", "[".date("Y-m-d h:i:sa")."] -".(!$font_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' \r\n", FILE_APPEND);
+			file_put_contents( Page::ID($this->pageId)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] -".(!$font_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' \r\n", FILE_APPEND);
 
 
 			if (!$font_downloaded) $font_downloaded_has_error = true;
@@ -609,8 +609,8 @@ setTimeout(function(){
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."_font.log", "[".date("Y-m-d h:i:sa")."] - Finished".($font_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->pageId)->logDir."_font.log", Page::ID($this->pageId)->logDir.($font_downloaded_has_error ? '__' : '')."font.log");
+		file_put_contents( Page::ID($this->pageId)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] - Finished".($font_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->pageId)->logDir."/_font.log", Page::ID($this->pageId)->logDir.($font_downloaded_has_error ? '/__' : '/')."font.log");
 
 
 		// Return true if no error

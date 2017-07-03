@@ -59,7 +59,7 @@ if ($css_downloaded) $font_downloaded = $internalize->downloadFontFiles();
 
 if ($font_downloaded) {
 
-	//$db->where ('page_ID', $pageID);
-	//$db->update ('pages', ['page_downloaded' => 1]);
+	$db->where ('page_ID', $pageID);
+	$db->update ('pages', ['page_downloaded' => 1]);
 
 }

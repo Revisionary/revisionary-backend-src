@@ -17,13 +17,16 @@ webpage.onLoadFinished = function(status){
 
 	if (status == "success") {
 
-		console.log("The title of the page is: "+ webpage.title);
-
 		// Four seconds later
 		window.setTimeout(function () {
 
 			// Output the screenshot
 			webpage.render(output_image, { onlyViewport: true }); // !!! CHANGE THIS WHEN IMAGE MODE OF REVISING
+
+			var date = new Date();
+			var logDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+			console.log("["+logDate+"] - Page is captured: '" + output_image + "'");
 
 			// Output the HTML
 			//if (system.args[5].length === 1) fs.write(output_html, webpage.content, 'w'); // !!! SEPARATE THIS AND CAPTURING
