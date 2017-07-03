@@ -1,2 +1,4 @@
 assets/cache/user-*/project-*/page-*/device-*
+assets/cache/user-*/project-*/*.png
+assets/cache/user-*/project-*/*.jpg
 vendor
