@@ -210,8 +210,6 @@ class Internalize {
 		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - PROJECT ID: ".Page::ID($this->pageId)->projectId." | PAGE ID: ".$this->pageId." | DEVICE: ".Page::ID($this->pageId)->pageDevice." | VERSION: ".Page::ID($this->pageId)->pageVersion." \r\n", FILE_APPEND);
 		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$saved ? " <b>NOT</b>":'')." DOWNLOADED: '".$this->remoteUrl."' \r\n", FILE_APPEND);
 
-		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - CAPTURE PROCESS STRING: '".$process_string."' \r\n", FILE_APPEND);
-
 
 		// Specific Log
 		file_put_contents( Page::ID($this->pageId)->logDir."/_html.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$saved ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
@@ -565,6 +563,10 @@ class Internalize {
 
 		$process = new BackgroundProcess($process_string);
 		$process->run($this->logDir."/capture.log", true);
+
+
+		// LOG:
+		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - CAPTURE PROCESS STRING: '".$process_string."' \r\n", FILE_APPEND);
 
 
 	}

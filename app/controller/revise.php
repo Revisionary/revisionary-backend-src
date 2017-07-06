@@ -44,7 +44,7 @@ $height = Device::ID($deviceID)->getDeviceInfo('device_height');
 	// Bring the headers
 	$OriginalUserAgent = ini_get('user_agent');
 	ini_set('user_agent', 'Mozilla/5.0');
-	$headers = get_headers(Page::ID($pageID)->remoteUrl, 1);
+	$headers = @get_headers(Page::ID($pageID)->remoteUrl, 1);
 	ini_set('user_agent', $OriginalUserAgent);
 
 	var_dump($headers);
