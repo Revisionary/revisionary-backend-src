@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 04, 2017 at 01:07 AM
+-- Generation Time: Jul 06, 2017 at 05:27 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -143,7 +143,8 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_archi
 (13, 'BBC Home', 'bbc.png', 'http://www.bbc.com/', 0, 0, '2017-06-26 08:05:02', '2017-06-26 08:05:02', 6, 4, NULL, 1),
 (14, 'About', 'about.png', 'https://www.twelve12.com/about-us/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 7, 1, 1),
 (15, 'SoundCloud Home', 'soundcloud.jpg', 'https://soundcloud.com/', 0, 0, '2017-07-02 15:49:58', '2017-07-02 15:49:58', 2, 4, NULL, 1),
-(16, '7Diamonds Home', '7diamonds.png', 'https://7diamonds.com', 0, 0, '2017-07-02 18:15:06', '2017-07-02 18:15:06', 9, 4, NULL, 1);
+(16, '7Diamonds Home', '7diamonds.png', 'https://7diamonds.com', 0, 0, '2017-07-02 18:15:06', '2017-07-02 18:15:06', 9, 4, NULL, 1),
+(17, 'Envato Home', 'envato.jpg', 'https://envato.com/', 0, 0, '2017-07-06 14:26:32', '2017-07-06 14:26:32', 7, 6, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -435,7 +436,7 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
