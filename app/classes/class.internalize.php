@@ -25,8 +25,8 @@ class Internalize {
 	// Fonts to download
 	public $fontsToDownload = array();
 
-	// TEMP - Delete the cache folder
-	public $deleteCache = false;
+	// Page screenshot file
+	public $outputImage;
 
 	// Debug
 	public $debug = false;
@@ -55,6 +55,10 @@ class Internalize {
 
 		// Set the log file
         $this->logFile = $this->logDir."/process.log";
+
+
+		// Set output image file
+        $this->outputImage = Page::ID($this->pageId)->pageDeviceDir."/".Page::ID($this->pageId)->getPageInfo('page_pic');
 
     }
 
@@ -200,42 +204,6 @@ class Internalize {
 		}
 */
 
-
-
-
-		$output_image = Page::ID($this->pageId)->pageDeviceDir."/".Page::ID($this->pageId)->getPageInfo('page_pic');
-
-
-		// GET SCREENSHOT
-		if ( !file_exists( $output_image ) ) {
-
-
-			// Get device ID
-			$url = Page::ID($this->pageId)->remoteUrl;
-			$deviceID = Page::ID($this->pageId)->getPageInfo('device_ID');
-			$width = Device::ID($deviceID)->getDeviceInfo('device_width');
-			$height = Device::ID($deviceID)->getDeviceInfo('device_height');
-
-
-			// Create the HTML and Screenshot
-			$slimerjs = realpath('..')."/bin/slimerjs-0.10.3/slimerjs";
-			$capturejs = dir."/app/bgprocess/capture.js";
-
-			$process_string = "$slimerjs $capturejs $url $width $height $output_image";
-
-			$process = new BackgroundProcess($process_string);
-			$process->run($this->logDir."/capture.log", true);
-
-/*
-			while( $process->isRunning() ) {
-				sleep(0.5);
-			}
-
-			$saved = false;
-			if (file_exists($output_html)) $saved = true;
-*/
-
-		}
 
 
 		// LOG:
@@ -453,47 +421,6 @@ class Internalize {
 	    );
 
 
-/*
-	    // ADD JS TO CAPTURE !!! TEST
-	    $js = '
-<script id="capture" type="text/javascript">'.file_get_contents(dir."/assets/scripts/vendor/html2canvas.min.js").'</script>';
-	    $js .= "
-<script id='capture' type='text/javascript'>
-
-function loadDoc(data) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
-    }
-  };
-  xhttp.open('POST', '".site_url('ajax')."', true);
-  xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  xhttp.send(data);
-}
-
-setTimeout(function(){
-
-	html2canvas(document.body, {
-		taintTest: true,
-		onrendered: function(canvas) {
-
-			var canvasData = canvas.toDataURL('image/png');
-
-			loadDoc('type=page-capture&image_data=' + canvasData);
-
-		}
-	});
-}, 2000);
-</script>
-";
-	    $html = str_replace('</body>', $js, $html);
-
-		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Capture JS added \r\n", FILE_APPEND);
-*/
-
-
 
 		// SAVING:
 
@@ -615,6 +542,30 @@ setTimeout(function(){
 
 		// Return true if no error
 		return !$font_downloaded_has_error;
+
+	}
+
+
+	// Get Page Screenshot
+	public function capturePage() {
+
+
+		// Get device ID
+		$url = Page::ID($this->pageId)->remoteUrl;
+		$deviceID = Page::ID($this->pageId)->getPageInfo('device_ID');
+		$width = Device::ID($deviceID)->getDeviceInfo('device_width');
+		$height = Device::ID($deviceID)->getDeviceInfo('device_height');
+		$output_image = $this->outputImage;
+
+		// Create the HTML and Screenshot
+		$slimerjs = realpath('..')."/bin/slimerjs-0.10.3/slimerjs";
+		$capturejs = dir."/app/bgprocess/capture.js";
+
+		$process_string = "$slimerjs $capturejs $url $width $height $output_image";
+
+		$process = new BackgroundProcess($process_string);
+		$process->run($this->logDir."/capture.log", true);
+
 
 	}
 

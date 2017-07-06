@@ -52,6 +52,11 @@ $font_downloaded = false;
 if ($css_downloaded) $font_downloaded = $internalize->downloadFontFiles();
 
 
+// Capture the page screenshot
+$page_captured = file_exists($internalize->outputImage);
+if (!$page_captured) $internalize->capturePage();
+
+
 // Download the JS files ?
 
 // Download the images ?
