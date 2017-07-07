@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 06, 2017 at 05:27 PM
+-- Generation Time: Jul 07, 2017 at 02:20 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -144,7 +144,8 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_archi
 (14, 'About', 'about.png', 'https://www.twelve12.com/about-us/', 0, 0, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 7, 1, 1),
 (15, 'SoundCloud Home', 'soundcloud.jpg', 'https://soundcloud.com/', 0, 0, '2017-07-02 15:49:58', '2017-07-02 15:49:58', 2, 4, NULL, 1),
 (16, '7Diamonds Home', '7diamonds.png', 'https://7diamonds.com', 0, 0, '2017-07-02 18:15:06', '2017-07-02 18:15:06', 9, 4, NULL, 1),
-(17, 'Envato Home', 'envato.jpg', 'https://envato.com/', 0, 0, '2017-07-06 14:26:32', '2017-07-06 14:26:32', 7, 6, NULL, 1);
+(17, 'Envato Home', 'envato.jpg', 'https://envato.com/', 0, 0, '2017-07-06 14:26:32', '2017-07-06 14:26:32', 7, 6, NULL, 1),
+(18, 'Auro Home', 'aurohome.jpg', 'https://www.aurowm.com/', 0, 0, '2017-07-07 11:11:40', '2017-07-07 11:11:40', 10, 4, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -205,7 +206,8 @@ INSERT INTO `projects` (`project_ID`, `project_name`, `project_pic`, `project_ar
 (6, 'BBC', 'bbc.png', 0, 0, '2017-06-18 15:29:25', 1),
 (7, 'Envato', 'envato.png', 0, 0, '2017-06-18 15:29:25', 1),
 (8, 'Twelve12', 'twelve12.png', 0, 0, '2017-06-18 17:54:24', 2),
-(9, '7Diamonds', '7diamonds.png', 0, 0, '2017-06-29 04:11:01', 1);
+(9, '7Diamonds', '7diamonds.png', 0, 0, '2017-06-29 04:11:01', 1),
+(10, 'Auro WM', 'auro.jpg', 0, 0, '2017-07-07 11:11:08', 1);
 
 -- --------------------------------------------------------
 
@@ -436,7 +438,7 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
@@ -446,7 +448,7 @@ ALTER TABLE `page_cat_connect`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
