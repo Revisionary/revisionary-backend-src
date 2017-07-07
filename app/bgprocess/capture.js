@@ -1,13 +1,13 @@
 var webpage = require('webpage').create(),
 	system = require('system'),
-	url, width, height, output_image, output_html;
+	url, width, height, page_image, output_html;
 var fs = require('fs');
 
 url = system.args[1];
 width = system.args[2];
 height = system.args[3];
-output_image = system.args[4];
-//if (system.args[5].length === 1) output_html = system.args[5];
+page_image = system.args[4];
+project_image = system.args[5];
 
 // Viewport Size
 webpage.viewportSize = { width: width, height: height };
@@ -20,13 +20,20 @@ webpage.onLoadFinished = function(status){
 		// Four seconds later
 		window.setTimeout(function () {
 
-			// Output the screenshot
-			webpage.render(output_image, { onlyViewport: true }); // !!! CHANGE THIS WHEN IMAGE MODE OF REVISING
-
 			var date = new Date();
 			var logDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 
-			console.log("["+logDate+"] - Page is captured: '" + output_image + "'");
+			// Output the page screenshot
+			if (page_image != "done") {
+				webpage.render(page_image, { onlyViewport: true }); // !!! CHANGE THIS WHEN IMAGE MODE OF REVISING
+				console.log("["+logDate+"] - Page is captured: '" + page_image + "'");
+			}
+
+			// Output the project screenshot
+			if (project_image != "done") {
+				webpage.render(project_image, { onlyViewport: true }); // !!! CHANGE THIS WHEN IMAGE MODE OF REVISING
+				console.log("["+logDate+"] - Project is captured: '" + project_image + "'");
+			}
 
 			// Output the HTML
 			//if (system.args[5].length === 1) fs.write(output_html, webpage.content, 'w'); // !!! SEPARATE THIS AND CAPTURING

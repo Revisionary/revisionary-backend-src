@@ -25,8 +25,11 @@ class Internalize {
 	// Fonts to download
 	public $fontsToDownload = array();
 
+	// Project screenshot file
+	public $projectImage;
+
 	// Page screenshot file
-	public $outputImage;
+	public $pageImage;
 
 	// Debug
 	public $debug = false;
@@ -58,7 +61,11 @@ class Internalize {
 
 
 		// Set output image file
-        $this->outputImage = Page::ID($this->pageId)->pageDeviceDir."/".Page::ID($this->pageId)->getPageInfo('page_pic');
+        $this->projectImage = Page::ID($this->pageId)->projectDir."/".Project::ID( Page::ID($this->pageId)->getPageInfo('project_ID') )->getProjectInfo('project_pic');
+
+
+		// Set output image file
+        $this->pageImage = Page::ID($this->pageId)->pageDeviceDir."/".Page::ID($this->pageId)->getPageInfo('page_pic');
 
     }
 
@@ -96,6 +103,10 @@ class Internalize {
 	public function saveRemoteHTML() {
 
 
+		// Do nothing if already saved
+		if ( file_exists( Page::ID($this->pageId)->pageTempFile ) ) return false;
+
+
 		// Create the log folder if not exists
 		if ( !file_exists(Page::ID($this->pageId)->logDir) )
 			mkdir(Page::ID($this->pageId)->logDir, 0755, true);
@@ -104,10 +115,6 @@ class Internalize {
 
 		// Specific Log
 		file_put_contents( Page::ID($this->pageId)->logDir."/_html.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
-
-
-		// Do nothing if already saved
-		if ( file_exists( Page::ID($this->pageId)->pageTempFile ) ) return false;
 
 
 
@@ -143,7 +150,7 @@ class Internalize {
 			}))[0], 9));
 
 		// Log the headers
-		file_put_contents($this->logDir."/charset.log", print_r($headers, true), FILE_APPEND);
+		file_put_contents($this->logDir."/headers.log", print_r($headers, true), FILE_APPEND);
 
 
 		// Correct the charset
@@ -155,9 +162,9 @@ class Internalize {
 		// SAVING:
 
 		// Create the folder if not exists
-		if ( !file_exists(Page::ID($this->pageId)->pageDir) )
-			mkdir(Page::ID($this->pageId)->pageDir, 0755, true);
-		@chmod(Page::ID($this->pageId)->pageDir, 0755);
+		if ( !file_exists(Page::ID($this->pageId)->pageDir."/") )
+			mkdir(Page::ID($this->pageId)->pageDir."/", 0755, true);
+		@chmod(Page::ID($this->pageId)->pageDir."/", 0755);
 
 
 		// Save the file if not exists - PHP METHOD
@@ -545,21 +552,31 @@ class Internalize {
 
 
 	// Get Page Screenshot
-	public function capturePage() {
+	public function capturePage($project_capture = false) {
+
+		$page_image = $this->pageImage;
+		$project_image = $this->projectImage;
+
+		$page_captured = file_exists($page_image);
+		$project_captured = file_exists($project_image);
+
+		// If both already captured
+		if ($project_captured && $page_captured) return false;
 
 
-		// Get device ID
+		// Get info
 		$url = Page::ID($this->pageId)->remoteUrl;
 		$deviceID = Page::ID($this->pageId)->getPageInfo('device_ID');
 		$width = Device::ID($deviceID)->getDeviceInfo('device_width');
 		$height = Device::ID($deviceID)->getDeviceInfo('device_height');
-		$output_image = $this->outputImage;
+		$page_image = $page_captured ? "done" : $page_image;
+		$project_image = $project_captured ? "done" : $project_image;
 
-		// Create the HTML and Screenshot
+		// Process directories
 		$slimerjs = realpath('..')."/bin/slimerjs-0.10.3/slimerjs";
 		$capturejs = dir."/app/bgprocess/capture.js";
 
-		$process_string = "$slimerjs $capturejs $url $width $height $output_image";
+		$process_string = "$slimerjs $capturejs $url $width $height $page_image $project_image";
 
 		$process = new BackgroundProcess($process_string);
 		$process->run($this->logDir."/capture.log", true);
@@ -594,14 +611,14 @@ class Internalize {
 		// SAVING:
 
 		// Create the folder if not exists
-		if ( !file_exists(Page::ID($this->pageId)->pageDir."$folderName/") )
-			mkdir(Page::ID($this->pageId)->pageDir."$folderName/", 0755, true);
-		@chmod(Page::ID($this->pageId)->pageDir."$folderName/", 0755);
+		if ( !file_exists(Page::ID($this->pageId)->pageDir."/$folderName/") )
+			mkdir(Page::ID($this->pageId)->pageDir."/$folderName/", 0755, true);
+		@chmod(Page::ID($this->pageId)->pageDir."/$folderName/", 0755);
 
 		// Save the file if not exists
 		$downloaded = false;
-		if ( !file_exists( Page::ID($this->pageId)->pageDir.$fileName ) )
-			$downloaded = file_put_contents( Page::ID($this->pageId)->pageDir.$fileName, $fileContent, FILE_BINARY);
+		if ( !file_exists( Page::ID($this->pageId)->pageDir."/".$fileName ) )
+			$downloaded = file_put_contents( Page::ID($this->pageId)->pageDir."/".$fileName, $fileContent, FILE_BINARY);
 
 
 		// Return true if successful
@@ -641,7 +658,7 @@ class Internalize {
 	}
 
 
-	// FILTER JS ??
+	// FILTER JS ?? !!!
 	function filter_js() {
 
 	}

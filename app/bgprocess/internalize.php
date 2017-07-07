@@ -30,7 +30,7 @@ $internalize = new Internalize( $pageID );
 // JOBS:
 
 // Optional - Delete the existing cache
-//$files_deleted = $internalize->deleteDirectory( Page::ID($pageID)->pageDir );
+//$files_deleted = $internalize->deleteDirectory( Page::ID($pageID)->pageDir."/" );
 
 
 // 1. Save the remote HTML
@@ -47,17 +47,16 @@ $css_downloaded = false;
 if ($filtred) $css_downloaded = $internalize->downloadCssFiles();
 
 
-// Download the fonts
+// 4. Download the fonts
 $font_downloaded = false;
 if ($css_downloaded) $font_downloaded = $internalize->downloadFontFiles();
 
 
-// Capture the page screenshot
-$page_captured = file_exists($internalize->outputImage);
-if (!$page_captured) $internalize->capturePage();
+// 5. Capture the project/page screenshots
+$internalize->capturePage();
 
 
-// Download the JS files ?
+// Download the JS files ? Filter ?
 
 // Download the images ?
 

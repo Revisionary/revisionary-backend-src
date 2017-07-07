@@ -22,6 +22,9 @@ class Page {
 	public $userId;
 
 
+	// Project Directory
+	public $projectDir;
+
 	// Page Directory
 	public $pageDir;
 
@@ -81,35 +84,45 @@ class Page {
         // Set the user ID
         $this->userId = $this->getPageInfo('user_ID');
 
-        $pageFolder = "/page-".self::$pageId;
-        if ($this->getPageInfo('parent_page_ID') != null)
-        	$pageFolder = "/page-".$this->getPageInfo('parent_page_ID');
+
+		// Paths
+        $userPath = "user-".$this->userId;
+        $projectPath = "project-".$this->projectId;
+        $pagePath = "page-".($this->getPageInfo('parent_page_ID') != null ? $this->getPageInfo('parent_page_ID') : self::$pageId);
+        $devicePath = "device-".$this->pageDevice;
+        $versionPath = $this->pageVersion;
+
+		$fullPath = $userPath."/".$projectPath."/".$pagePath."/".$devicePath."/".$versionPath."/";
+
+
+        // Set the project directory
+        $this->projectDir = dir."/assets/cache/".$userPath."/".$projectPath;
 
         // Set the page device directory
-        $this->pageDeviceDir = dir."/assets/cache/user-".$this->userId."/project-".$this->projectId.$pageFolder."/device-".$this->pageDevice;
+        $this->pageDeviceDir = $this->projectDir."/".$pagePath."/".$devicePath;
 
         // Set the page cache directory
-        $this->pageDir = $this->pageDeviceDir."/".$this->pageVersion."/";
+        $this->pageDir = $this->pageDeviceDir."/".$versionPath;
 
         // Set the page cache directory URL
-        $this->pageUri = cache_url("user-".$this->userId."/project-".$this->projectId.$pageFolder."/device-".$this->pageDevice."/".$this->pageVersion."/");
-        if ( substr($this->remoteUrl, 0, 8) == "https://")
-        	$this->pageUri = cache_url("user-".$this->userId."/project-".$this->projectId.$pageFolder."/device-".$this->pageDevice."/".$this->pageVersion."/", true); // Force SSL
+        $this->pageUri = cache_url($fullPath, (substr($this->remoteUrl, 0, 8) == "https://" ? true : false));
 
         // Set the page cache file
-        $this->pageFile = $this->pageDir.$this->pageFileName;
+        $this->pageFile = $this->pageDir."/".$this->pageFileName;
 
         // Set the log file
-        $this->logDir = $this->pageDir."logs";
+        $this->logDir = $this->pageDir."/logs";
 
         // Set the log file
         $this->logFile = $this->logDir."/process.log";
 
         // Set the page cache file
-        $this->pageTempFile = $this->pageDir.$this->pageFileName;
+        $this->pageTempFile = $this->pageDir."/".$this->pageFileName;
 
         // Set the page cache URL
         $this->cachedUrl = $this->pageUri.$this->pageFileName;
+
+
 
         // Set the page status
         $this->pageStatus = $this->getPageStatus();
@@ -245,7 +258,7 @@ class Page {
     public function getDownloadedQuantity($type = "total", $fileType = "css") {
 
 		$downloading = $this->logDir."/_".$fileType.".log";
-		$downloaded = $this->logDir.$fileType.".log";
+		$downloaded = $this->logDir."/".$fileType.".log";
 		$file = file_exists($downloaded) ? $downloaded : $downloading;
 		$content = "";
 

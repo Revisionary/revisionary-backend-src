@@ -77,6 +77,8 @@
 						// If pages shown
 						if ($_url[0] == "project") {
 
+						// SHOW ONLY AVAILABLE DEVICES TO FILTER !!!
+
 					?>
 					<div class="dropdown-container">
 						<span class="dropdown-opener">DEVICE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
