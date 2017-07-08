@@ -35,7 +35,7 @@
 		<div class="dropdown-container" style="display: inline-block;">
 			<h1 class="dropdown-opener bullet bigger-bullet"><?=$title == "pages" ? Project::ID($_url[1])->projectName : strtoupper($title)?></h1>
 			<nav class="dropdown higher">
-				<ul class="projects-menu xl-center">
+				<ul class="projects-menu xl-left">
 					<li class="menu-item <?=$catFilter == "" ? "selected" : ""?>">
 						<a href="<?=site_url($url_prefix)?>">
 							<i class="fa fa-th" aria-hidden="true"></i>
@@ -65,7 +65,7 @@
 			if ($title == "projects") {
 
 			?>
-			<a href="#">
+			<a href="<?=site_url(User::ID()->userName)?>">
 				<i class="fa fa-link" aria-hidden="true"></i> https://revisionaryapp.com/<?=User::ID()->userName?>
 			</a>
 			<a href="#" class="privacy">
@@ -85,7 +85,7 @@
 
 
 				<!-- Owner -->
-				<a href="<?=site_url(User::ID( Project::ID($_url[1])->getProjectInfo('user_ID') )->userName)?>">
+				<a href="<?=site_url(User::ID( Project::ID( $_url[1])->getProjectInfo('user_ID') )->userName)?>">
 					<picture class="profile-picture" style="background-image: url(<?=User::ID( Project::ID($_url[1])->getProjectInfo('user_ID') )->userPicUrl?>);"><div class="notif-no">3</div></picture>
 				</a>
 
@@ -102,21 +102,6 @@
 				}
 				?>
 
-
-
-<!--
-				<a href="#">
-					<picture class="profile-picture" style="background-image: url(<?=cache_url('user-2/ike.png')?>?>);"></picture>
-				</a>
-
-				<a href="#">
-					<picture class="profile-picture" style="background-image: url(<?=cache_url('user-5/joey.png')?>);"><div class="notif-no">1</div></picture>
-				</a>
-
-				<a href="#">
-					<picture class="profile-picture" style="background-image: url(<?=cache_url('user-4/matt.png')?>);"></picture>
-				</a>
--->
 
 			</span>
 

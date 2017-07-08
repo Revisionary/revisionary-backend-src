@@ -2,11 +2,12 @@
 
 function the_data() {
 
-	global $db, $catFilter;
+	global $db, $order, $catFilter;
 
 
 	// CATEGORY QUERY
 	$theData = array();
+
 
 	// Exclude other category types
 	$db->where('cat_type', 'project');
@@ -15,7 +16,22 @@ function the_data() {
 	$db->where('cat_user_ID', currentUserID());
 
 
-	$projectCategories = $db->get('categories', null, '');
+	// Bring the order info
+	$db->join("sorting oc", "catt.cat_ID = oc.sort_object_ID", "LEFT");
+	$db->joinWhere("sorting oc", "oc.sort_type", "category");
+	$db->joinWhere("sorting oc", "oc.sorter_user_ID", currentUserID());
+
+
+	// Default order
+	if ($order == "") $db->orderBy("oc.sort_number", "asc");
+
+
+	// Order Categories
+	if ($order == "name") $db->orderBy("cat_name", "asc");
+	if ($order == "date") $db->orderBy("cat_name", "asc");
+
+
+	$projectCategories = $db->get('categories catt', null, '');
 
 
 	// Add the uncategorized item
@@ -78,8 +94,6 @@ function the_data() {
 			$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
 
 
-
-
 		// Exclude deleted and archived
 		$db->where('project_deleted', ($catFilter == "deleted" ? 1 : 0));
 		$db->where('project_archived', ($catFilter == "archived" ? 1 : 0));
@@ -98,17 +112,16 @@ function the_data() {
 		$db->joinWhere("sorting o", "o.sorter_user_ID", currentUserID());
 
 
-		// Sorting !!! - Order options will be applied
+		// Default Sorting
+		if ($order == "") $db->orderBy("o.sort_number", "asc");
 		$db->orderBy("share_ID", "desc");
 		$db->orderBy("cat_name", "asc");
 		$db->orderBy("project_name", "asc");
 
 
-/*
-		// Order Projects !!!
+		// Order Projects
 		if ($order == "name") $db->orderBy("project_name", "asc");
 		if ($order == "date") $db->orderBy("project_created", "asc");
-*/
 
 
 		$projects = $db->get('projects p', null, '');

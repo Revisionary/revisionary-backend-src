@@ -280,11 +280,15 @@ a {
 		position: absolute;
 		right: 0;
 		width: 100%;
-		min-width: 150px;
 	    top: -250px;
 	    padding-top: 30px;
 	    padding-bottom: 30px;
 		z-index: -1;
+		white-space: nowrap;
+
+		&.higher a {
+			min-width: 200px;
+		}
 
 	    ul {
 		    padding: 0;
@@ -294,28 +298,39 @@ a {
 				display: block !important;
 
 				a {
-					display: block;
+					position: relative;
+					display: inline-block;
 					color: $color;
 					background-color: white;
 					border: 1px solid $color;
 					margin-bottom: -1px;
-					padding: 5px 10px;
+					padding: 5px 10px 5px 30px;
 					letter-spacing: 2px;
 					text-transform: uppercase;
+					white-space: nowrap;
+					min-width: 120px;
 
 					&:hover {
 						color: $color-secondary;
 					}
+
+					i {
+						text-align: center;
+					    min-width: 22px;
+					}
 				}
 
-				&.selected:before {
-				    content: "\f00c";
-				    font-family: FontAwesome;
-				    position: absolute;
-					left: 4px;
-				    top: 50%;
-				    margin-top: -9px;
-				    line-height: 18px;
+				&.selected a {
+
+					&:before {
+					    content: "\f00c";
+					    font-family: FontAwesome;
+					    position: absolute;
+						left: 4px;
+					    top: 50%;
+					    margin-top: -9px;
+					    line-height: 18px;
+					}
 				}
 			}
 	    }

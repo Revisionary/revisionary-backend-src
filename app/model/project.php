@@ -2,11 +2,12 @@
 
 function the_data() {
 
-	global $db, $project_ID, $catFilter, $deviceFilter;
+	global $db, $project_ID, $order, $catFilter, $deviceFilter;
 
 
 	// CATEGORY QUERY
 	$theData = array();
+
 
 	// Exclude other category types
 	$db->where('cat_type', $project_ID);
@@ -15,7 +16,22 @@ function the_data() {
 	$db->where('cat_user_ID', currentUserID());
 
 
-	$pageCategories = $db->get('categories', null, '');
+	// Bring the order info
+	$db->join("sorting oc", "catt.cat_ID = oc.sort_object_ID", "LEFT");
+	$db->joinWhere("sorting oc", "oc.sort_type", "category");
+	$db->joinWhere("sorting oc", "oc.sorter_user_ID", currentUserID());
+
+
+	// Default order
+	if ($order == "") $db->orderBy("oc.sort_number", "asc");
+
+
+	// Order Categories
+	if ($order == "name") $db->orderBy("cat_name", "asc");
+	if ($order == "date") $db->orderBy("cat_name", "asc");
+
+
+	$pageCategories = $db->get('categories catt', null, '');
 
 
 	// Add the uncategorized item
@@ -96,12 +112,12 @@ function the_data() {
 		$db->where('project_ID', $project_ID);
 
 
-		// Device Filters !!! Filter from view page, because of the available_devices data
+		// Device Filters - Filter works from view page, because of the available_devices data
 		//if ($deviceFilter != "" && is_numeric($deviceFilter))
 			//$db->where('d.device_cat_id', $deviceFilter);
 
 
-		// Exclude the sub pages
+		// Exclude the sub pages - NO NEED FOR NOW
 		//if ($deviceFilter == "")
 			//$db->where('parent_page_ID IS NULL');
 
@@ -119,17 +135,16 @@ function the_data() {
 		$db->joinWhere("sorting o", "o.sorter_user_ID", currentUserID());
 
 
-		// Sorting !!! - Order options will be applied
+		// Sorting
+		if ($order == "") $db->orderBy("o.sort_number", "asc");
 		$db->orderBy("share_ID", "desc");
 		$db->orderBy("cat_name", "asc");
 		$db->orderBy("page_name", "asc");
 
 
-	/*
-		// Order Pages !!!
+		// Order Pages
 		if ($order == "name") $db->orderBy("page_name", "asc");
 		if ($order == "date") $db->orderBy("page_created", "asc");
-	*/
 
 
 		$pages = $db->get('pages p', null, '');

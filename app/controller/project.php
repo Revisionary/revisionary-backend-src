@@ -42,7 +42,7 @@ $shares = $db->get('shares', null, "share_to");
 // If project doesn't belong to me
 if (
 	$project['user_ID'] != currentUserID() &&
-	array_search(currentUserID(), array_column($shares, 'share_to')) !== 0
+	array_search(currentUserID(), array_column($shares, 'share_to')) === false
 ) {
 
 	header('Location: '.site_url('projects'));
@@ -57,7 +57,7 @@ $project_ID = $_url[1];
 
 
 // Get the order
-$order = isset($_GET['order']) ? $_GET['order'] : 'custom';
+$order = isset($_GET['order']) ? $_GET['order'] : '';
 
 
 // Category Filter

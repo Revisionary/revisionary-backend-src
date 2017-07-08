@@ -57,11 +57,11 @@
 					?>
 					<div class="dropdown-container">
 						<span class="dropdown-opener">DEVICE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-						<nav class="dropdown xl-center lower">
+						<nav class="dropdown xl-left lower">
 							<ul class="device-selector">
 
 								<li <?= $deviceFilter == "" || $deviceFilter == "all" ? ' class="selected"' : ""?>>
-									<a href="?" data-device="5">All</a>
+									<a href="<?=current_url('', 'device')?>" data-device="5"><i class="fa fa-window-restore" aria-hidden="true"></i> All</a>
 								</li>
 
 							<?php
@@ -69,7 +69,7 @@
 							?>
 
 								<li <?=$deviceFilter == $device['device_cat_ID'] ? ' class="selected"' : ""?>>
-									<a href="?device=<?=$device['device_cat_ID']?>" data-device="4"><?=$device['device_cat_name']?></a>
+									<a href="<?=current_url('device='.$device['device_cat_ID'])?>" data-device="4"><i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i> <?=$device['device_cat_name']?></a>
 								</li>
 
 							<?php
@@ -84,7 +84,7 @@
 
 					<div class="dropdown-container" style="margin-left: 15px;">
 						<span class="dropdown-opener">SIZE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-						<nav class="dropdown xl-center lower">
+						<nav class="dropdown xl-left lower">
 							<ul class="size-selector">
 								<li class="selected"><a href="#" data-column="6">6 Column</a></li>
 								<li><a href="#" data-column="5">5 Column</a></li>
@@ -97,14 +97,14 @@
 
 					<div class="dropdown-container" style="margin-left: 15px;">
 						<span class="dropdown-opener">SORT <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-						<nav class="dropdown xl-center lower">
+						<nav class="dropdown xl-left lower">
 							<ul class="order-selector">
 								<li <?=!isset($_GET['order']) || get('order') == "custom" ? ' class="selected"' : ""?>>
-									<a href="?" data-order="custom">Custom</a>
+									<a href="<?=current_url('', 'order')?>" data-order="custom">Custom</a>
 								</li>
 
-								<li <?=get('order') == "name" ? ' class="selected"' : ""?>><a href="?order=name" data-order="name">By Name</a></li>
-								<li <?=get('order') == "date" ? ' class="selected"' : ""?>><a href="?order=date" data-order="date">By Date</a></li>
+								<li <?=get('order') == "name" ? ' class="selected"' : ""?>><a href="<?=current_url('order=name')?>" data-order="name">By Name</a></li>
+								<li <?=get('order') == "date" ? ' class="selected"' : ""?>><a href="<?=current_url('order=date')?>" data-order="date">By Date</a></li>
 							</ul>
 						</nav>
 					</div>

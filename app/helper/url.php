@@ -53,28 +53,33 @@ function cache_url($url = null, $forceSSL = false, $unForceSSL = false){
   return asset_url('cache/' . $url, $forceSSL, $unForceSSL);
 }
 
-function current_url($add = "", $forceSSL = false, $forceWWW = false) {
+function current_url($query = "", $removeQuery = "", $forceSSL = false) {
 
 	$pageURL = 'http';
+
 
 	if ( (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on") || $forceSSL )
 		$pageURL .= "s";
 
 	$pageURL .= "://";
 
-	if ( $forceWWW && substr($_SERVER["SERVER_NAME"], 0, 4) != "www." )
-		$pageURL .= "www.";
 
 	if ($_SERVER["SERVER_PORT"] != "80" && $_SERVER["SERVER_PORT"] != "443")
 		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
 	else
 		$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 
-	if ($add != "") {
-		if ( strpos($pageURL,'?') == false ) { $pageURL .= "?".$add; } else { $pageURL .= "&".$add; }
-	}
+
+	if ($query != "")
+		$pageURL = queryArg($query, $pageURL);
+
+
+	if ($removeQuery != "")
+		$pageURL = removeQueryArg($removeQuery, $pageURL);
+
 
 	return $pageURL;
+
 }
 
 function permalink($str, $options = array()){
@@ -431,4 +436,81 @@ function join_url( $parts, $encode = FALSE ) {
     if ( isset( $parts['fragment'] ) )
         $url .= '#' . $parts['fragment'];
     return $url;
+}
+
+
+// QUERY ARGUMENTS
+// Add/Update Query Argument
+function queryArg($newQuery, $url) {
+
+	// Parse the URL
+	$parsed = parse_url($url);
+
+	// Parse the new query
+	parse_str($newQuery, $newParams);
+
+
+	if ( !isset($parsed['query']) )
+		$parsed['query'] = "";
+
+
+	// Parse the query
+	parse_str($parsed['query'], $params);
+
+
+	// Add
+	foreach ($newParams as $key => $value) {
+		$params[$key] = $value;
+	}
+
+	// Build new query
+	$newQuery = http_build_query($params);
+
+
+	// The URL
+	$pageURL = $parsed['scheme']."://".$parsed['host'].$parsed['path']."?".$newQuery;
+
+
+	// Clean
+	$pageURL = trim($pageURL, '=');
+	$pageURL = str_replace('=&', '&', $pageURL);
+
+
+	return $pageURL;
+
+}
+
+
+// Remove Query Argument
+function removeQueryArg($key, $url) {
+
+	$parsed = parse_url($url);
+
+	if ( !isset($parsed['query']) )
+		return $url;
+
+
+	// Parse the query
+	parse_str($parsed['query'], $params);
+
+
+	// Delete
+	unset($params[$key]);
+
+
+	// Build new query
+	$newQuery = http_build_query($params);
+
+
+	// The URL
+	$pageURL = $parsed['scheme']."://".$parsed['host'].$parsed['path'].(empty($newQuery) ? "" : "?").$newQuery;
+
+
+	// Clean
+	$pageURL = trim($pageURL, '=');
+	$pageURL = str_replace('=&', '&', $pageURL);
+
+
+	return $pageURL;
+
 }

@@ -8,7 +8,7 @@ if (!userloggedIn()) {
 
 
 // Get the order
-$order = isset($_GET['order']) ? $_GET['order'] : 'custom';
+$order = isset($_GET['order']) ? $_GET['order'] : '';
 
 
 // Category Filter
