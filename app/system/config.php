@@ -13,8 +13,9 @@ $config['default_language'] = 'en';
 
 define('domain' , 'revisionaryapp.com');
 define('dir', realpath('.'));
-define('controller', dir . '/app/controller');
+define('model' , dir . '/app/model');
 define('view' , dir . '/app/view');
+define('controller', dir . '/app/controller');
 define('cache' , dir . '/assets/cache');
 define('ssl' , (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? true : false);
 define('secure_url', "https://secure." . domain);

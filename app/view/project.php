@@ -5,219 +5,96 @@
 		<div class="col">
 
 			<!-- Title -->
-			<div class="wrap xl-flexbox xl-middle xl-3">
-				<div class="col xl-left">
-					<a href="<?=site_url('projects')?>" class="invert-hover" style="letter-spacing: 2.5px;">< PROJECTS</a>
-				</div>
+			<?php require 'static/frontend/title.php' ?>
 
-				<div class="col xl-center title">
 
-					<div class="dropdown-container" style="display: inline-block;">
-						<h1 class="dropdown-opener bullet bigger-bullet"><?=Project::ID($_url[1])->projectName?></h1>
-						<nav class="dropdown higher">
-							<ul class="projects-menu xl-left">
-								<li class="menu-item"><a href="<?=site_url('project/'.$_url[1].'/archived')?>"><img src="<?=asset_url('icons/archive.svg')?>" /> ARCHIVED PAGES</a></li>
-								<li class="menu-item"><a href="<?=site_url('project/'.$_url[1].'/deleted')?>"><img src="<?=asset_url('icons/trash.svg')?>" style="margin-bottom: -2px;" /> DELETED PAGES</a></li>
-							</ul>
-						</nav>
-					</div>
-
-					<div class="members-section">
-
-						<a class="member-selector" href="#">
-							<i class="fa fa-share-alt" aria-hidden="true"></i>
-						</a>
-
-						<span class="people">
-
-							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=cache_url('user-2/ike.png')?>?>);"><div class="notif-no">3</div></picture>
-							</a>
-
-							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=cache_url('user-5/joey.png')?>);"><div class="notif-no">1</div></picture>
-							</a>
-
-							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=cache_url('user-4/matt.png')?>);"></picture>
-							</a>
-
-						</span>
-
-					</div>
-
-				</div>
-
-				<div class="col xl-right">
-
-				</div>
-			</div>
-
+			<!-- Filter Bar -->
 			<?php require 'static/frontend/filter-bar.php' ?>
 
-			<div class="wrap dpl-xl-gutter-30 blocks xl-6 <?=isset($_GET['order']) && $_GET['order'] != "custom" ? "" : "sortable"?>" draggable="true">
+
+			<!-- Blocks -->
+			<div class="wrap dpl-xl-gutter-30 blocks xl-6 <?=get('order') == "" ? "sortable" : ""?>" draggable="true">
 
 			<?php
 
-			// Exclude other category types
-			$db->where('cat_type', $project_ID);
-
-			// Exclude other users
-			$db->where('cat_user_ID', currentUserID());
-
-
-			$pageCategories = $db->get('categories', null, '');
-
-
-			// Add the uncategorized item
-			array_unshift($pageCategories , array(
-				'cat_ID' => 0,
-				'cat_name' => 'Uncategorized'
-			));
-
-
+			// THE CATEGORY LOOP
 			$page_count = 0;
-			foreach ($pageCategories as $pageCategory) {
-
-
-				// Filters
-				if (
-					$catFilter != "" &&
-					$catFilter != "mine" &&
-					$catFilter != "shared" &&
-					$catFilter != "deleted" &&
-					$catFilter != "archived" &&
-					$catFilter != permalink($pageCategory['cat_name'])
-				) continue;
+			foreach ($pageData as $pageCategory) {
 
 
 				// Category Bar
 				if (
 					$pageCategory['cat_name'] != "Uncategorized" &&
-					(
-						$catFilter == "" ||
-						$catFilter == "mine"
-					)
+					( $catFilter == "" || $catFilter == "mine" )
 				)
 					echo '<div id="'.permalink($pageCategory['cat_name']).'" class="col xl-1-1 cat-separator" draggable="true">'.$pageCategory['cat_name'].'</div>';
 
 
 
-				// PAGES QUERY
-
-				// Bring the shared ones
-				$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
-				$db->joinWhere("shares s", "s.share_type", "page");
-				$db->joinWhere("shares s", "s.share_to", currentUserID());
-
-
-				// Bring the category connection
-				$db->join("page_cat_connect cat_connect", "p.page_ID = cat_connect.page_cat_page_ID", "LEFT");
-				$db->joinWhere("page_cat_connect cat_connect", "cat_connect.page_cat_connect_user_ID", currentUserID());
-
-
-				// Bring the category info
-				$db->join("categories cat", "cat_connect.page_cat_ID = cat.cat_ID", "LEFT");
-				$db->joinWhere("categories cat", "cat.cat_user_ID", currentUserID());
-
-
-				// Bring the devices
-				$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
-
-
-				// Bring the device category info
-				$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
-
-
-				// Filters
-				if ($catFilter == "")
-					$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-				elseif ($catFilter == "mine")
-					$db->where('user_ID = '.currentUserID());
-				elseif ($catFilter == "shared")
-					$db->where('share_to = '.currentUserID());
-				else
-					$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-
-
-				// Exclude deleted and archived
-				$db->where('page_deleted', ($catFilter == "deleted" ? 1 : 0));
-				$db->where('page_archived', ($catFilter == "archived" ? 1 : 0));
-
-
-				// Exclude the other project pages
-				$db->where('project_ID', $project_ID);
-
-
-				// Exclude the sub pages
-				$db->where('parent_page_ID IS NULL');
-
-
-				// Exclude other categories
-				if ($pageCategory['cat_name'] != "Uncategorized")
-					$db->where('cat.cat_name', $pageCategory['cat_name']);
-				else
-					$db->where('cat.cat_name IS NULL');
-
-
-				// Bring the order info
-				$db->join("sorting o", "p.page_ID = o.sort_object_ID", "LEFT");
-				$db->joinWhere("sorting o", "o.sort_type", "page");
-				$db->joinWhere("sorting o", "o.sorter_user_ID", currentUserID());
-
-
-				// Sorting !!! - Order options will be applied
-				$db->orderBy("share_ID", "desc");
-				$db->orderBy("cat_name", "asc");
-				$db->orderBy("page_name", "asc");
-
-
-/*
-				// Order Pages !!!
-				if ($order == "name") $db->orderBy("page_name", "asc");
-				if ($order == "date") $db->orderBy("page_created", "asc");
-*/
-
-
-				$pages = $db->get('pages p', null, '');
+				// THE PAGES
+				$pages = $pageCategory['pageData'];
 
 
 				// List the pages under the category
 				foreach ($pages as $page) {
+
+					// Device filter
+					if (
+						$deviceFilter != "" && is_numeric($deviceFilter) &&
+						$page['device_cat_ID'] != $deviceFilter
+					) continue;
+
+
+					// Combined Devices
+					if (
+						$catFilter != "archived" &&
+						$catFilter != "deleted" &&
+						$deviceFilter == "" &&
+						array_search($page['parent_page_ID'], array_column($pages, 'page_ID')) === 0
+					) continue;
+
+
+
+					$image_page_ID = $page['page_ID'];
+					if ( is_numeric($page['parent_page_ID']) )
+						$image_page_ID = $page['parent_page_ID'];
+
+					$pageImageUrl = cache_url('user-'.$page['user_ID'].'/project-'.$page['project_ID'].'/page-'.$image_page_ID.'/device-'.$page['device_ID'].'/'.$page['page_pic']);
+
 			?>
 				<div class="col block" draggable="true">
 
-					<div class="box xl-center" style="background-image: url(<?=cache_url('user-'.$page['user_ID'].'/project-'.$page['project_ID'].'/page-'.$page['page_ID'].'/device-'.$page['device_ID'].'/'.$page['page_pic'])?>);">
+					<div class="box xl-center" style="background-image: url(<?=$pageImageUrl?>);">
 
 						<div class="wrap overlay xl-flexbox xl-between xl-5 members">
 							<div class="col xl-4-12 xl-left xl-top people">
 
 								<!-- Owner -->
-								<a href="#">
-									<picture class="profile-picture" style="background-image: url(<?=User::ID($page['user_ID'])->userPicUrl?>);"></picture>
+								<a href="<?=site_url(User::ID($page['user_ID'])->userName)?>">
+									<picture class="profile-picture" style="background-image: url(<?=User::ID($project['user_ID'])->userPicUrl?>);"></picture>
 								</a>
 
 								<?php
-								if ($page['share_ID'] != "") {
+
+
+								// PAGE SHARES QUERY
+
+								// Exlude other types
+								$db->where('share_type', 'page');
+
+								// Is this project?
+								$db->where('shared_object_ID', $page['page_ID']);
+
+								// Get the data
+								$pageShares = $db->get('shares', null, "share_to");
+
+
+								foreach ($pageShares as $share) {
 								?>
 
-								<!-- Me if shared -->
-								<a href="#">
-									<picture class="profile-picture" style="background-image: url(<?=User::ID()->userPicUrl?>);"></picture>
-								</a>
-
-								<?php
-								}
-								?>
-
-								<?php
-								// OTHER SHARES !!!
-								if (false) {
-								?>
-
-								<!-- Me if shared -->
-								<a href="#">
-									<picture class="profile-picture" style="background-image: url(<?=User::ID()->userPicUrl?>);"></picture>
+								<!-- Other Shared People -->
+								<a href="<?=site_url(User::ID($share['share_to'])->userName)?>">
+									<picture class="profile-picture" style="background-image: url(<?=User::ID($share['share_to'])->userPicUrl?>);"></picture>
 								</a>
 
 								<?php
@@ -248,20 +125,12 @@
 
 									<?php
 
-									// Check if other devices available
-									$db->where('parent_page_ID', $page['page_ID']);
+									if (
+										$catFilter != "archived" &&
+										$catFilter != "deleted"
+									) {
 
-
-									// Bring the devices
-									$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
-
-
-									// Bring the device category info
-									$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
-
-
-									$devices = $db->get('pages p');
-									foreach ($devices as $device) {
+										foreach ($page['subPageData'] as $device) {
 									?>
 
 									<a href="<?=site_url('revise/'.$device['page_ID'])?>" title="<?=$device['device_name']?>">
@@ -269,14 +138,13 @@
 									</a>
 
 									<?php
+										}
+
+										echo '<a href="#"><span style="font-family: Arial;">+</span></a>';
+
 									}
 									?>
-<!--
-									<a href="<?=site_url('revise/'.$page['page_ID'])?>">
-										<i class="fa fa-mobile" aria-hidden="true"></i>
-									</a>
--->
-									<a href="#"><span style="font-family: Arial;">+</span></a>
+
 							</div>
 							<div class="col xl-4-12 xl-left share">
 								<a href="#"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
@@ -285,7 +153,17 @@
 								<a href="#">v0.1</a>
 							</div>
 							<div class="col xl-4-12 xl-right actions">
+								<?php
+									if ($catFilter == "archived" || $catFilter == "deleted") {
+								?>
+								<a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a>
+								<?php
+									} else {
+								?>
 								<a href="#"><i class="fa fa-archive" aria-hidden="true"></i></a>
+								<?php
+									}
+								?>
 								<a href="#"><i class="fa fa-trash" aria-hidden="true"></i></a>
 							</div>
 						</div>

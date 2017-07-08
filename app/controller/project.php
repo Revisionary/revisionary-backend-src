@@ -1,16 +1,55 @@
 <?php
 
+// SECURITY CHECKS
+
 // If not logged in, go login page
 if (!userloggedIn()) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }
 
+
 // If no project specified, go projects page
-if ( !isset($_url[1]) ) {
+if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 	header('Location: '.site_url('projects'));
 	die();
 }
+
+
+// If project doesn't exist
+$db->where("project_ID", $_url[1]);
+$project = $db->getOne("projects", "project_ID, user_ID");
+if ( !$project ) {
+	header('Location: '.site_url('projects'));
+	die();
+}
+
+
+
+// PROJECT SHARES QUERY
+
+// Exlude other types
+$db->where('share_type', 'project');
+
+// Is this project?
+$db->where('shared_object_ID', $_url[1]);
+
+// Get the data
+$shares = $db->get('shares', null, "share_to");
+
+
+
+// If project doesn't belong to me
+if (
+	$project['user_ID'] != currentUserID() &&
+	array_search(currentUserID(), array_column($shares, 'share_to')) !== 0
+) {
+
+	header('Location: '.site_url('projects'));
+	die();
+}
+
+
 
 
 // Get the project ID
@@ -21,6 +60,49 @@ $project_ID = $_url[1];
 $order = isset($_GET['order']) ? $_GET['order'] : 'custom';
 
 
+// Category Filter
+$catFilter = isset($_url[2]) ? $_url[2] : '';
+
+
+// Device Filter
+$deviceFilter = get('device');
+
+
+// Bring the project page data
+require model('project');
+$pageData = the_data();
+
+//print_r($pageData); exit();
+
+
+// Detect the available devices
+$available_devices = array();
+foreach($pageData as $categories) {
+
+	foreach($categories['pageData'] as $page) {
+
+		$available_devices[$page['device_cat_ID']] = array(
+			"device_cat_ID" => $page['device_cat_ID'],
+			"device_cat_name" => $page['device_cat_name'],
+			"device_cat_icon" => $page['device_cat_icon']
+		);
+
+		foreach ($page['subPageData'] as $subPage) {
+
+			$available_devices[$subPage['device_cat_ID']] = array(
+				"device_cat_ID" => $subPage['device_cat_ID'],
+				"device_cat_name" => $subPage['device_cat_name'],
+				"device_cat_icon" => $subPage['device_cat_icon']
+			);
+
+		}
+
+	}
+
+}
+
+
+// Additional JavaScripts
 $additionalHeadJS = [
 	'vendor/jquery.sortable.min.js',
 	'block.js'

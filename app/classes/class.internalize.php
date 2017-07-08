@@ -60,11 +60,11 @@ class Internalize {
         $this->logFile = $this->logDir."/process.log";
 
 
-		// Set output image file
+		// Set project file
         $this->projectImage = Page::ID($this->pageId)->projectDir."/".Project::ID( Page::ID($this->pageId)->getPageInfo('project_ID') )->getProjectInfo('project_pic');
 
 
-		// Set output image file
+		// Set page image file
         $this->pageImage = Page::ID($this->pageId)->pageDeviceDir."/".Page::ID($this->pageId)->getPageInfo('page_pic');
 
     }

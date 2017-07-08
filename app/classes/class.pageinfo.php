@@ -40,8 +40,11 @@ class Page {
 	// Page File
 	public $pageFile;
 
-	// Page File
+	// Page File URL
 	public $cachedUrl;
+
+	// Page Image Path
+	public $pageImagePath;
 
 	// Log File
 	public $logDir;
@@ -109,6 +112,9 @@ class Page {
 
         // Set the page cache file
         $this->pageFile = $this->pageDir."/".$this->pageFileName;
+
+        // Set the page image file path
+        $this->pageImagePath = $userPath."/".$projectPath."/".$pagePath."/".$devicePath."/".$this->getPageInfo('page_pic');
 
         // Set the log file
         $this->logDir = $this->pageDir."/logs";

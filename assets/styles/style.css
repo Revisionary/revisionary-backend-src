@@ -622,12 +622,12 @@ html, body {
   min-width: 220px;
 }
 
-#page .members-section {
+#page .under-main-title {
   margin-top: -15px;
   margin-bottom: 10px;
 }
 
-#page .members-section .member-selector {
+#page .under-main-title .member-selector {
   position: relative;
   top: -5px;
   left: -5px;
