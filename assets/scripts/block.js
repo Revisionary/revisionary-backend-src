@@ -24,8 +24,34 @@ $(function() {
 	}).bind('sortupdate', function(e, ui) {
 	    addNewPageButtons();
 
+
+	    // Update the order
+	    var orderData = updateOrderNumbers();
+
+		//console.log(orderData);
+
 	    // AJAX update the order
-	    // ...
+		$.post(ajax_url, {
+			'type':'data-action',
+			'action': 'reorder',
+			'orderData' : orderData
+		}, function(result){
+
+
+			$.each(result.data, function(key, data){
+
+
+				// Progressbar works !!!
+				console.log(key, data);
+
+
+			});
+
+		}, 'json');
+
+
+
+
 
 	});
 
@@ -47,6 +73,44 @@ $(function() {
 			}
 
 		});
+
+	}
+
+
+	function updateOrderNumbers() {
+
+		var categories = $('.blocks > .cat-separator');
+
+		categories.each(function(index) {
+
+			var catID = $(this).attr('data-id');
+
+			$(this).nextAll( ".block:not(.cat-separator):not(.add-new-block):not(.add-new-template)" ).attr('data-cat-id', catID);
+
+
+		});
+
+
+
+		var newOrder = [];
+		var blocks = $('.blocks > .col:not(.add-new-block):not(.add-new-template)');
+
+		blocks.each(function(index) {
+
+			$(this).attr('data-order', index);
+
+			//$(this).prevUntil( $('.cat-separator'), ".block" ).attr('data-order', 'Test' + index);
+
+			newOrder.push({
+	            'type' : $(this).attr('data-type'),
+	            'ID' :  $(this).attr('data-id'),
+	            'catID' :  $(this).attr('data-cat-id'),
+	            'order' : index
+	        });
+
+		});
+
+		return newOrder;
 
 	}
 

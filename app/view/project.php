@@ -27,7 +27,7 @@
 					$pageCategory['cat_name'] != "Uncategorized" &&
 					( $catFilter == "" || $catFilter == "mine" )
 				)
-					echo '<div class="col xl-1-1 cat-separator" data-order="'.$pageCategory['sort_number'].'" data-id="'.$pageCategory['cat_ID'].'" draggable="true">'.$pageCategory['cat_name'].'</div>';
+					echo '<div class="col xl-1-1 cat-separator" data-order="'.$pageCategory['sort_number'].'" data-id="'.$pageCategory['cat_ID'].'" data-cat-id="'.$pageCategory['cat_ID'].'" data-type="category" draggable="true">'.$pageCategory['cat_name'].'</div>';
 
 
 
@@ -62,7 +62,7 @@
 					$pageImageUrl = cache_url('user-'.$page['user_ID'].'/project-'.$page['project_ID'].'/page-'.$image_page_ID.'/device-'.$page['device_ID'].'/'.$page['page_pic']);
 
 			?>
-				<div class="col block" data-order="<?=$page['sort_number']?>" draggable="true">
+				<div class="col block" data-order="<?=$page['sort_number']?>" data-id="<?=$page['page_ID']?>" data-cat-id="<?=$page['page_cat_ID']?>" data-type="page" draggable="true">
 
 					<div class="box xl-center" style="background-image: url(<?=$pageImageUrl?>);">
 
