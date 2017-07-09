@@ -30,7 +30,7 @@
 						$catFilter == "mine"
 					)
 				)
-					echo '<div class="col xl-1-1 cat-separator" data-order="'.$projectCategory['sort_number'].'" data-id="'.$projectCategory['cat_ID'].'" data-type="category" draggable="true">'.$projectCategory['cat_name'].'</div>';
+					echo '<div class="col xl-1-1 cat-separator" data-order="'.$projectCategory['sort_number'].'" data-id="'.$projectCategory['cat_ID'].'" data-cat-id="'.$projectCategory['cat_ID'].'" data-type="category" draggable="true">'.$projectCategory['cat_name'].'</div>';
 
 
 
@@ -42,7 +42,7 @@
 
 				?>
 
-						<div class="col block" data-order="<?=$project['sort_number']?>" data-id="<?=$project['project_ID']?>" data-type="project" draggable="true">
+						<div class="col block" data-order="<?=$project['sort_number']?>" data-id="<?=$project['project_ID']?>" data-cat-id="<?=$project['project_cat_ID']?>" data-type="project" draggable="true">
 
 							<div class="box xl-center" style="background-image: url(<?=cache_url('user-'.$project['user_ID'].'/project-'.$project['project_ID'].'/'.$project['project_pic'])?>);">
 

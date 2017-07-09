@@ -25,6 +25,9 @@ if ($action == "reorder") {
 		}
 
 
+		// DB Checks !!!
+
+
 		// If no problem, DB Update
 		if ($status != 'fail') {
 
@@ -36,19 +39,43 @@ if ($action == "reorder") {
 
 
 			// Add the new record
-			$data = Array (
+			$dbData = Array (
 				"sort_type" => $data['type'],
 				"sort_object_ID" => $data['ID'],
 				"sort_number" => $data['order'],
 				"sorter_user_ID" => currentUserID()
 			);
-			$id = $db->insert('sorting', $data);
-			if ($id) $status = "success";
+			$id = $db->insert('sorting', $dbData);
+			if ($id) $status = "ordering-successful";
+
+		}
+
+		if ($status == "ordering-successful") {
+
+			if ($data['type'] == "page" || $data['type'] == "project") {
+
+				// Delete the old record
+				$db->where($data['type'].'_cat_'.$data['type'].'_ID', $data['ID']);
+				$db->where($data['type'].'_cat_connect_user_ID', currentUserID());
+				$db->delete($data['type'].'_cat_connect');
+
+
+				// Add the new record
+				$dbData = Array (
+					$data['type']."_cat_".$data['type']."_ID" => $data['ID'],
+					$data['type']."_cat_ID" => $data['catID'],
+					$data['type']."_cat_connect_user_ID" => currentUserID()
+				);
+				$id_connect = $db->insert($data['type'].'_cat_connect', $dbData);
+				if ($id_connect) $status = "category-successful";
+
+
+			}
 
 		}
 
 
-	}
+	} // Loop
 
 }
 

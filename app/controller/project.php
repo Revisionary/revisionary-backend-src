@@ -79,7 +79,25 @@ $db->orderBy('page_modified', 'desc');
 $project_modified = $db->getValue("pages", "page_modified");
 
 
-//print_r($pageData); exit();
+// Only Page Data
+$onlyPageData = array();
+$allPageData = array_values(array_filter(array_column($pageData, 'pageData')));
+foreach($allPageData as $page) {
+	foreach ($page as $page) {
+		$onlyPageData[] = $page;
+	}
+}
+
+
+/*
+print_r(
+
+	$onlyPageData
+
+);
+//print_r($pageData);
+exit();
+*/
 
 
 // Detect the available devices

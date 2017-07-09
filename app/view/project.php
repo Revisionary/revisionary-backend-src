@@ -50,7 +50,7 @@
 						$catFilter != "archived" &&
 						$catFilter != "deleted" &&
 						$deviceFilter == "" &&
-						array_search($page['parent_page_ID'], array_column($pages, 'page_ID')) !== false
+						array_search($page['parent_page_ID'], array_column($onlyPageData, 'page_ID')) !== false
 					) continue;
 
 
