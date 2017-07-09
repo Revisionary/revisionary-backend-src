@@ -39,12 +39,34 @@ $projectShares = $db->get('shares', null, "share_to");
 
 
 
+// Bring the project page data
+require model('project');
+$pageData = the_data();
+
+
+
+print_r($pageData); exit();
+
+
+
 // If project doesn't belong to me
 if (
 	$project['user_ID'] != currentUserID() &&
 	array_search(currentUserID(), array_column($projectShares, 'share_to')) === false
+
 ) {
 
+	// Check if any my page !!
+
+
+
+
+	// Check if any my shared page !!
+
+
+
+
+	// Otherwise !!!
 	header('Location: '.site_url('projects'));
 	die();
 }
@@ -68,11 +90,6 @@ $catFilter = isset($_url[2]) ? $_url[2] : '';
 $deviceFilter = get('device');
 
 
-// Bring the project page data
-require model('project');
-$pageData = the_data();
-
-
 // Project last modified
 $db->where('project_ID', $project_ID);
 $db->orderBy('page_modified', 'desc');
@@ -87,17 +104,6 @@ foreach($allPageData as $page) {
 		$onlyPageData[] = $page;
 	}
 }
-
-
-/*
-print_r(
-
-	$onlyPageData
-
-);
-//print_r($pageData);
-exit();
-*/
 
 
 // Detect the available devices
