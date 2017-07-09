@@ -71,7 +71,7 @@
 
 								<!-- Owner -->
 								<a href="<?=site_url(User::ID($page['user_ID'])->userName)?>">
-									<picture class="profile-picture" style="background-image: url(<?=User::ID($project['user_ID'])->userPicUrl?>);"></picture>
+									<picture class="profile-picture" style="background-image: url(<?=User::ID($page['user_ID'])->userPicUrl?>);"></picture>
 								</a>
 
 								<?php
@@ -175,7 +175,7 @@
 					<div class="wrap xl-flexbox xl-middle">
 						<div class="col xl-8-12 xl-left">
 							<a href="<?=site_url('revise/'.$page['page_ID'])?>" class="box-name invert-hover">
-								<?=$page['share_ID'] != "" ? '<i class="fa fa-share-alt" aria-hidden="true"></i> ' : ''?><?=$page['page_name']?></a>
+								<?=$page['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" aria-hidden="true"></i> ' : ''?><?=$page['page_name']?></a>
 						</div>
 						<div class="col xl-4-12 xl-right date">
 							<?=date("d M Y", strtotime($page['page_created']))?>

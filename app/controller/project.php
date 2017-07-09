@@ -38,14 +38,17 @@ $db->where('shared_object_ID', $_url[1]);
 $projectShares = $db->get('shares', null, "share_to");
 
 
+// Get the project ID
+$project_ID = $_url[1];
+
 
 // Bring the project page data
 require model('project');
 $pageData = the_data();
 
 
-
-print_r($pageData); exit();
+//print_r(array_column($pageData, 'pageData')); exit();
+//print_r($pageData); exit();
 
 
 
@@ -53,29 +56,48 @@ print_r($pageData); exit();
 if (
 	$project['user_ID'] != currentUserID() &&
 	array_search(currentUserID(), array_column($projectShares, 'share_to')) === false
-
 ) {
 
-	// Check if any my page !!
+
+	// Collect all the pages data
+	$allPages = array();
+	foreach ($pageData as $category) {
+		foreach ($category['pageData'] as $page) {
+
+			$allPages[] = $page;
+
+		}
+	}
+
+/*
+	print_r($allPages);
+	exit();
+*/
 
 
+	// Check if any my page !!!
+	$myPages = false;
+	if (
+		array_search(currentUserID(), array_column($allPages, 'user_ID')) !== false
+	) $myPages = true;
 
 
-	// Check if any my shared page !!
-
-
+	// Check if any my shared page !!!
+	$sharedPages = false;
+	if (
+		array_search(currentUserID(), array_column($allPages, 'share_to')) !== false
+	) $sharedPages = true;
 
 
 	// Otherwise !!!
-	header('Location: '.site_url('projects'));
-	die();
+	if (!$myPages && !$sharedPages) {
+
+		header('Location: '.site_url('projects'));
+		die();
+
+	}
+
 }
-
-
-
-
-// Get the project ID
-$project_ID = $_url[1];
 
 
 // Get the order

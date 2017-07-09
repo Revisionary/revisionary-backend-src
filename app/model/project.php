@@ -95,15 +95,25 @@ function the_data() {
 		// Filters
 		if ($catFilter == "") {
 
-			// If project is shared to current user, show everything in it
+
+			//print_r($projectShares);
+
+
 			if (
-				$project['user_ID'] != currentUserID() &&
-				array_search(currentUserID(), array_column($projectShares, 'share_to')) === false
+				$project['user_ID'] != currentUserID() && // If project is not belong to current user
+				array_search(currentUserID(), array_column($projectShares, 'share_to')) === false // AND, If project is NOT shared to current user
 			) {
 
+				// Show only current user's
 				$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
 
+			} else { // If the project is current user's or shared to him
+
+				// Nothing to filter, show everything
+				echo "ASD";
+
 			}
+
 
 		} elseif ($catFilter == "mine")
 			$db->where('user_ID = '.currentUserID());
@@ -123,7 +133,7 @@ function the_data() {
 		$db->where('project_ID', $project_ID);
 
 
-		// Device Filters - Filter works from view page, because of the available_devices data
+		// Device Filters - NO NEED FOR NOW - Filter works from view page, because of the available_devices data
 		//if ($deviceFilter != "" && is_numeric($deviceFilter))
 			//$db->where('d.device_cat_id', $deviceFilter);
 
@@ -148,7 +158,7 @@ function the_data() {
 
 		// Sorting
 		if ($order == "") $db->orderBy("o.sort_number", "asc");
-		$db->orderBy("share_ID", "desc");
+		//$db->orderBy("share_ID", "desc");
 		$db->orderBy("cat_name", "asc");
 		$db->orderBy("page_name", "asc");
 

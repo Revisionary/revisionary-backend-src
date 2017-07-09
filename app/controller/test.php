@@ -2,12 +2,10 @@
 <?php
 
 
-$parsed = current_url($query = "test=asd&asd");
-
-$parsed = removeQueryArg("test", $parsed);
+$data = $db->get('pages');
 
 
-print_r( $parsed );
+print_r( $data );
 
 ?>
 </pre>
