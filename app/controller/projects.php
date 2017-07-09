@@ -20,6 +20,9 @@ require model('projects');
 $projectsData = the_data();
 
 
+//print_r($projectsData); exit();
+
+
 
 // Additional JavaScripts
 $additionalHeadJS = [

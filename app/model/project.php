@@ -2,7 +2,7 @@
 
 function the_data() {
 
-	global $db, $project_ID, $order, $catFilter, $deviceFilter;
+	global $db, $project, $projectShares, $project_ID, $order, $catFilter, $deviceFilter;
 
 
 	// CATEGORY QUERY
@@ -38,6 +38,7 @@ function the_data() {
 	array_unshift($pageCategories , array(
 		'cat_ID' => 0,
 		'cat_name' => 'Uncategorized',
+		'sort_number' => 0,
 		'pageData' => array()
 	));
 
@@ -92,9 +93,19 @@ function the_data() {
 
 
 		// Filters
-		if ($catFilter == "")
-			$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-		elseif ($catFilter == "mine")
+		if ($catFilter == "") {
+
+			// If project is shared to current user, show everything in it
+			if (
+				$project['user_ID'] != currentUserID() &&
+				array_search(currentUserID(), array_column($projectShares, 'share_to')) === false
+			) {
+
+				$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+
+			}
+
+		} elseif ($catFilter == "mine")
 			$db->where('user_ID = '.currentUserID());
 		elseif ($catFilter == "shared")
 			$db->where('share_to = '.currentUserID());

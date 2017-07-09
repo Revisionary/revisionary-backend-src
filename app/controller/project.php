@@ -35,14 +35,14 @@ $db->where('share_type', 'project');
 $db->where('shared_object_ID', $_url[1]);
 
 // Get the data
-$shares = $db->get('shares', null, "share_to");
+$projectShares = $db->get('shares', null, "share_to");
 
 
 
 // If project doesn't belong to me
 if (
 	$project['user_ID'] != currentUserID() &&
-	array_search(currentUserID(), array_column($shares, 'share_to')) === false
+	array_search(currentUserID(), array_column($projectShares, 'share_to')) === false
 ) {
 
 	header('Location: '.site_url('projects'));

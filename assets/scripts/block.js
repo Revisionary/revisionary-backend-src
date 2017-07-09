@@ -55,6 +55,7 @@ $(function() {
 
 	});
 
+
 	function addNewPageButtons() {
 
 		var page_type = "Page";
@@ -66,7 +67,7 @@ $(function() {
 
 		$('.cat-separator').each(function() {
 
-			if ( $(this).prev().hasClass('block') || $(this).prev().hasClass('cat-separator') ) {
+			if ( $(this).prev().hasClass('block') || $(this).prev().hasClass('cat-separator:not(.xl-hidden)') ) {
 
 				$(this).prev().after(box_html);
 
@@ -113,6 +114,7 @@ $(function() {
 		return newOrder;
 
 	}
+
 
 	addNewPageButtons();
 

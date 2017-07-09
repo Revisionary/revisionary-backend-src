@@ -1,5 +1,11 @@
 <div id="page" class="site">
 
+	<div class="progress-bar">
+		<div class="progress">
+			<div class="gradient"></div>
+		</div>
+	</div>
+
 	<main id="first-section">
 
 		<header class="wrap xl-flexbox xl-middle xl-2 xl-outside-60">

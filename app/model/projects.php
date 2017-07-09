@@ -38,6 +38,7 @@ function the_data() {
 	array_unshift($projectCategories , array(
 		'cat_ID' => 0,
 		'cat_name' => 'Uncategorized',
+		'sort_number' => 0,
 		'projectData' => array()
 	));
 
@@ -64,13 +65,16 @@ function the_data() {
 
 
 
-
 		// PROJECTS QUERY
+
+		// Show the projects that has my pages in it, even though I'm not the owner !!!
+
+		// Show the projects that has my shared pages in it, even though I'm not the owner !!!
 
 		// Bring the shared ones
 		$db->join("shares s", "p.project_ID = s.shared_object_ID", "LEFT");
-		$db->joinWhere("shares s", "s.share_type", "project");
 		$db->joinWhere("shares s", "s.share_to", currentUserID());
+		$db->joinWhere("shares s", "s.share_type", "project");
 
 
 		// Bring the category connection
@@ -84,8 +88,14 @@ function the_data() {
 
 
 		// Filters
-		if ($catFilter == "")
-			$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+		if ($catFilter == "") {
+			//$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+
+			// Show the projects that has my pages in it, even though I'm not the owner !!!
+
+			// Show the projects that has my shared pages in it, even though I'm not the owner !!!
+
+		}
 		elseif ($catFilter == "mine")
 			$db->where('user_ID = '.currentUserID());
 		elseif ($catFilter == "shared")
@@ -130,6 +140,34 @@ function the_data() {
 		// THE PROJECT LOOP
 		// List the projects under the category
 		foreach ($projects as $project) {
+
+
+			// If project is not mine
+			if ($project['user_ID'] != currentUserID()) {
+
+
+				// Filter the projects that has my pages in it, even though I'm not the owner
+				$db->where('project_ID', $project['project_ID']);
+				$db->where('user_ID', currentUserID());
+				$myPages = $db->getOne('pages');
+
+
+
+				// Filter the projects that has my shared pages in it, even though I'm not the owner !!!
+				// Bring the shared ones
+				$db->join("shares ps", "pg.page_ID = ps.shared_object_ID", "LEFT");
+				$db->joinWhere("shares ps", "ps.share_type", "page");
+				$db->joinWhere("shares ps", "ps.share_to", currentUserID());
+
+				$db->where('project_ID', $project['project_ID']);
+				$db->where('(user_ID = '.currentUserID().' OR ps.share_to = '.currentUserID().')');
+				$mySharedPages = $db->getOne('pages pg');
+
+
+				if (!$myPages && !$mySharedPages) continue;
+
+			}
+
 
 			// Add the page data
 			$theData[ $projectCategory['cat_ID'] ]['projectData'][] = $project;

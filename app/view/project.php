@@ -24,10 +24,10 @@
 
 				// Category Bar
 				if (
-					$pageCategory['cat_name'] != "Uncategorized" &&
-					( $catFilter == "" || $catFilter == "mine" )
+					$catFilter == "" ||
+					$catFilter == "mine"
 				)
-					echo '<div class="col xl-1-1 cat-separator" data-order="'.$pageCategory['sort_number'].'" data-id="'.$pageCategory['cat_ID'].'" data-cat-id="'.$pageCategory['cat_ID'].'" data-type="category" draggable="true">'.$pageCategory['cat_name'].'</div>';
+					echo '<div class="col xl-1-1 cat-separator '.($pageCategory['cat_name'] == "Uncategorized" ? 'xl-hidden' : '').'" data-order="'.$pageCategory['sort_number'].'" data-id="'.$pageCategory['cat_ID'].'" data-cat-id="'.$pageCategory['cat_ID'].'" data-type="category" draggable="true">'.$pageCategory['cat_name'].'</div>';
 
 
 

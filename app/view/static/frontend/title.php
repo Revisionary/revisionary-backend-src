@@ -90,7 +90,7 @@
 				</a>
 
 				<?php
-				foreach ($shares as $share) {
+				foreach ($projectShares as $share) {
 				?>
 
 				<!-- Other shared people -->

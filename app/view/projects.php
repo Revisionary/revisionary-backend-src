@@ -24,14 +24,10 @@
 
 				// Category Bar
 				if (
-					$projectCategory['cat_name'] != "Uncategorized" &&
-					(
-						$catFilter == "" ||
-						$catFilter == "mine"
-					)
+					$catFilter == "" ||
+					$catFilter == "mine"
 				)
-					echo '<div class="col xl-1-1 cat-separator" data-order="'.$projectCategory['sort_number'].'" data-id="'.$projectCategory['cat_ID'].'" data-cat-id="'.$projectCategory['cat_ID'].'" data-type="category" draggable="true">'.$projectCategory['cat_name'].'</div>';
-
+					echo '<div class="col xl-1-1 cat-separator '.($projectCategory['cat_name'] == "Uncategorized" ? 'xl-hidden' : '').'" data-order="'.$projectCategory['sort_number'].'" data-id="'.$projectCategory['cat_ID'].'" data-cat-id="'.$projectCategory['cat_ID'].'" data-type="category" draggable="true">'.$projectCategory['cat_name'].'</div>';
 
 
 				$projects = $projectCategory['projectData'];
