@@ -72,6 +72,13 @@ $deviceFilter = get('device');
 require model('project');
 $pageData = the_data();
 
+
+// Project last modified
+$db->where('project_ID', $project_ID);
+$db->orderBy('page_modified', 'desc');
+$project_modified = $db->getValue("pages", "page_modified");
+
+
 //print_r($pageData); exit();
 
 

@@ -61,7 +61,7 @@
 							<ul class="device-selector">
 
 								<li <?= $deviceFilter == "" || $deviceFilter == "all" ? ' class="selected"' : ""?>>
-									<a href="<?=current_url('', 'device')?>" data-device="5"><i class="fa fa-window-restore" aria-hidden="true"></i> All</a>
+									<a href="<?=current_url('', 'device')?>" data-device="5"><i class="fa" aria-hidden="true"></i> All</a>
 								</li>
 
 							<?php

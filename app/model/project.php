@@ -156,6 +156,7 @@ function the_data() {
 			// Add the page data
 			$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']] = $page;
 			$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']]['subPageData'] = array();
+			$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']]['parentPageData'] = array();
 
 
 			// SUB PAGE QUERY
@@ -178,6 +179,30 @@ function the_data() {
 			foreach ($subPages as $subPage) {
 
 				$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']]['subPageData'][] = $subPage;
+
+			}
+
+
+			// PARENT PAGE QUERY
+
+			// Check if other devices available
+			$db->where('page_ID', $page['parent_page_ID']);
+
+			// Exclude deleted and archived
+			$db->where('page_deleted', ($catFilter == "deleted" ? 1 : 0));
+			if ($catFilter != "deleted")
+				$db->where('page_archived', ($catFilter == "archived" ? 1 : 0));
+
+			// Bring the devices
+			$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
+
+			// Bring the device category info
+			$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
+
+			$parentPages = $db->get('pages p');
+			foreach ($parentPages as $parentPage) {
+
+				$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']]['parentPageData'][] = $parentPage;
 
 			}
 

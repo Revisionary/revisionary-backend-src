@@ -27,7 +27,7 @@
 					$pageCategory['cat_name'] != "Uncategorized" &&
 					( $catFilter == "" || $catFilter == "mine" )
 				)
-					echo '<div id="'.permalink($pageCategory['cat_name']).'" class="col xl-1-1 cat-separator" draggable="true">'.$pageCategory['cat_name'].'</div>';
+					echo '<div class="col xl-1-1 cat-separator" data-order="'.$pageCategory['sort_number'].'" data-id="'.$pageCategory['cat_ID'].'" draggable="true">'.$pageCategory['cat_name'].'</div>';
 
 
 
@@ -62,7 +62,7 @@
 					$pageImageUrl = cache_url('user-'.$page['user_ID'].'/project-'.$page['project_ID'].'/page-'.$image_page_ID.'/device-'.$page['device_ID'].'/'.$page['page_pic']);
 
 			?>
-				<div class="col block" draggable="true">
+				<div class="col block" data-order="<?=$page['sort_number']?>" draggable="true">
 
 					<div class="box xl-center" style="background-image: url(<?=$pageImageUrl?>);">
 
@@ -130,7 +130,9 @@
 										$catFilter != "deleted"
 									) {
 
-										foreach ($page['subPageData'] as $device) {
+
+
+										foreach (array_merge($page['parentPageData'], $page['subPageData']) as $device) {
 									?>
 
 									<a href="<?=site_url('revise/'.$device['page_ID'])?>" title="<?=$device['device_name']?>">
@@ -236,8 +238,8 @@
 						</pin>
 					</div>
 					<div class="date-statistics">
-						<b>Created:</b> 19 Feb 2016, 2:54 PM<br/>
-						<b>Modified:</b> 10 Nov 2016, 8:25 AM
+						<b>Created:</b> <?=date( "d M Y, g:i A", strtotime(Project::ID($project_ID)->getProjectInfo('project_created')) )?><br/>
+						<b>Modified:</b> <?=date( "d M Y, g:i A", strtotime($project_modified) )?>
 					</div>
 				</div>
 			</div>
