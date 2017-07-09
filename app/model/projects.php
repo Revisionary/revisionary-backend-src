@@ -67,10 +67,6 @@ function the_data() {
 
 		// PROJECTS QUERY
 
-		// Show the projects that has my pages in it, even though I'm not the owner !!!
-
-		// Show the projects that has my shared pages in it, even though I'm not the owner !!!
-
 		// Bring the shared ones
 		$db->join("shares s", "p.project_ID = s.shared_object_ID", "LEFT");
 		$db->joinWhere("shares s", "s.share_to", currentUserID());
@@ -89,12 +85,7 @@ function the_data() {
 
 		// Filters
 		if ($catFilter == "") {
-			//$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-
-			// Show the projects that has my pages in it, even though I'm not the owner !!!
-
-			// Show the projects that has my shared pages in it, even though I'm not the owner !!!
-
+			//$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')'); // Removed because of inner page checks
 		}
 		elseif ($catFilter == "mine")
 			$db->where('user_ID = '.currentUserID());
