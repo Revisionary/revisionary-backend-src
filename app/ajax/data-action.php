@@ -3,6 +3,11 @@
 $action = post('action');
 $status = "initiated";
 
+
+// NONCE CHECK !!!
+
+
+// ORDERING
 if ($action == "reorder") {
 
 	$orderData = $_POST['orderData'];
@@ -80,9 +85,28 @@ if ($action == "reorder") {
 }
 
 
+// ARCHIVE !!!
+if ($action == "archive") {
+
+}
+
+
+// DELETE !!!
+if ($action == "delete") {
+
+}
+
+
+// RECOVER !!!
+if ($action == "recover") {
+
+}
+
+
 
 // CREATE THE RESPONSE
 $data = array(
+
 	'action' => $action,
 
 	'status' => $status,
