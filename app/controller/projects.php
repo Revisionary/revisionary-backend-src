@@ -15,13 +15,12 @@ $order = isset($_GET['order']) ? $_GET['order'] : '';
 $catFilter = isset($_url[1]) ? $_url[1] : '';
 
 
-// Bring the project page data
+// PROJECTS DATA MODEL
 require model('projects');
 $projectsData = the_data();
 
 
 //print_r($projectsData); exit();
-
 
 
 // Additional JavaScripts

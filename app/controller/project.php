@@ -9,7 +9,7 @@ if (!userloggedIn()) {
 }
 
 
-// If no project specified, go projects page
+// If no project specified or not numeric, go projects page
 if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 	header('Location: '.site_url('projects'));
 	die();
@@ -34,22 +34,33 @@ $db->where('share_type', 'project');
 // Is this project?
 $db->where('shared_object_ID', $_url[1]);
 
-// Get the data
-$projectShares = $db->get('shares', null, "share_to");
+// Project shares data
+$projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
 
 // Get the project ID
 $project_ID = $_url[1];
 
 
-// Bring the project page data
+// Get the order
+$order = isset($_GET['order']) ? $_GET['order'] : '';
+
+
+// Category Filter
+$catFilter = isset($_url[2]) ? $_url[2] : '';
+
+
+// Device Filter
+$deviceFilter = get('device');
+
+
+// PAGES DATA MODEL
 require model('project');
 $pageData = the_data();
 
 
 //print_r(array_column($pageData, 'pageData')); exit();
 //print_r($pageData); exit();
-
 
 
 // If project doesn't belong to me
@@ -68,11 +79,6 @@ if (
 
 		}
 	}
-
-/*
-	print_r($allPages);
-	exit();
-*/
 
 
 	// Check if any my page !!!
@@ -98,18 +104,6 @@ if (
 	}
 
 }
-
-
-// Get the order
-$order = isset($_GET['order']) ? $_GET['order'] : '';
-
-
-// Category Filter
-$catFilter = isset($_url[2]) ? $_url[2] : '';
-
-
-// Device Filter
-$deviceFilter = get('device');
 
 
 // Project last modified

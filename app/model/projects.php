@@ -83,16 +83,12 @@ function the_data() {
 		$db->joinWhere("categories cat", "cat.cat_user_ID", currentUserID());
 
 
-		// Filters
-		if ($catFilter == "") {
-			//$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')'); // Removed because of inner page checks
-		}
-		elseif ($catFilter == "mine")
+		// Mine and Shared Filters
+		if ($catFilter == "mine")
 			$db->where('user_ID = '.currentUserID());
+
 		elseif ($catFilter == "shared")
-			$db->where('share_to = '.currentUserID());
-		else
-			$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+			$db->where('user_ID != '.currentUserID());
 
 
 		// Exclude deleted and archived
@@ -133,15 +129,17 @@ function the_data() {
 		foreach ($projects as $project) {
 
 
-			// If project is not mine
-			if ($project['user_ID'] != currentUserID()) {
+			// If project is not mine or not shared to me
+			if (
+				$project['user_ID'] != currentUserID() &&
+				$project['share_to'] != currentUserID()
+			) {
 
 
 				// Filter the projects that has my pages in it, even though I'm not the owner
 				$db->where('project_ID', $project['project_ID']);
 				$db->where('user_ID', currentUserID());
 				$myPages = $db->getOne('pages');
-
 
 
 				// Filter the projects that has my shared pages in it, even though I'm not the owner !!!
@@ -156,6 +154,7 @@ function the_data() {
 
 
 				if (!$myPages && !$mySharedPages) continue;
+
 
 			}
 

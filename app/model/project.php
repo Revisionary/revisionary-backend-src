@@ -92,35 +92,34 @@ function the_data() {
 		$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
 
 
-		// Filters
-		if ($catFilter == "") {
+		// Mine and Shared Filters
+		if ($catFilter == "mine")
+			$db->where('user_ID = '.currentUserID());
+
+		elseif ($catFilter == "shared")
+			$db->where('user_ID != '.currentUserID());
 
 
-			//print_r($projectShares);
+		// If project is not belong to current user
+		if ( $project['user_ID'] != currentUserID() ) {
 
 
-			if (
-				$project['user_ID'] != currentUserID() && // If project is not belong to current user
-				array_search(currentUserID(), array_column($projectShares, 'share_to')) === false // AND, If project is NOT shared to current user
-			) {
+			// Project is shared to current user
+			$projectSharedID = array_search(currentUserID(), array_column($projectShares, 'share_to'));
+			if (  $projectSharedID !== false ) {
 
-				// Show only current user's
-				$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-
-			} else { // If the project is current user's or shared to him
-
-				// Nothing to filter, show everything
-				echo "ASD";
+				// Show everything belong to sharer
+				$db->where('user_ID = '.$projectShares[$projectSharedID]['sharer_user_ID']);
 
 			}
 
 
-		} elseif ($catFilter == "mine")
-			$db->where('user_ID = '.currentUserID());
-		elseif ($catFilter == "shared")
-			$db->where('share_to = '.currentUserID());
-		else
+		} else { // If the project is current user's or shared to him
+
+			// Show only current user's
 			$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+
+		}
 
 
 		// Exclude deleted and archived
@@ -133,7 +132,7 @@ function the_data() {
 		$db->where('project_ID', $project_ID);
 
 
-		// Device Filters - NO NEED FOR NOW - Filter works from view page, because of the available_devices data
+		// Device Filters - NO NEED FOR NOW - This filter works from view page, because of the available_devices data
 		//if ($deviceFilter != "" && is_numeric($deviceFilter))
 			//$db->where('d.device_cat_id', $deviceFilter);
 
@@ -173,6 +172,23 @@ function the_data() {
 		// THE PAGE LOOP
 		// List the pages under the category
 		foreach ($pages as $page) {
+
+
+/*
+			// If project is not mine or not shared to me
+			$projectSharedID = array_search(currentUserID(), array_column($projectShares, 'share_to'));
+			if (
+				$project['user_ID'] != currentUserID() &&
+				$projectSharedID === false
+			) {
+
+				if ($page['user_ID'] != currentUserID() && !$page['share_to'] != currentUserID()) continue;
+
+			}
+*/
+
+
+
 
 			// Add the page data
 			$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']] = $page;

@@ -287,7 +287,7 @@ a {
 		white-space: nowrap;
 
 		&.higher a {
-			min-width: 200px;
+			min-width: 240px;
 		}
 
 	    ul {
@@ -870,7 +870,7 @@ section > div:last-child .side-content {
 		background-color: black;
 		height: 100%;
 		transition: 500ms;
-		width: 0%;
+		width: 100%;
 
 		.gradient {
 			display: inline-block;

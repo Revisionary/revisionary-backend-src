@@ -62,7 +62,7 @@
 										$db->where('shared_object_ID', $project['project_ID']);
 
 										// Get the data
-										$projectShares = $db->get('shares', null, "share_to");
+										$projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
 
 										foreach ($projectShares as $share) {
@@ -95,12 +95,45 @@
 									<div class="col xl-1-1 xl-center pages" style="position: relative;">
 										<a href="<?=site_url('project/'.$project['project_ID'])?>">
 
-											<?php
-											$db->where('project_ID', $project['project_ID']);
-											$db->where('page_archived', 0);
-											$db->where('page_deleted', 0);
-											$page_count = $db->getValue("pages", "count(*)");
-											?>
+				<?php
+
+				// Bring the shared ones
+				$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
+				$db->joinWhere("shares s", "s.share_type", "page");
+				$db->joinWhere("shares s", "s.share_to", currentUserID());
+
+				$db->where('project_ID', $project['project_ID']);
+
+
+
+				// If project is not belong to current user
+				if ( $project['user_ID'] != currentUserID() ) {
+
+
+					// Project is shared to current user
+					$projectSharedID = array_search(currentUserID(), array_column($projectShares, 'share_to'));
+					if (  $projectSharedID !== false ) {
+
+						// Show everything belong to sharer
+						$db->where('user_ID = '.$projectShares[$projectSharedID]['sharer_user_ID']);
+
+					}
+
+
+				} else { // If the project is current user's or shared to him
+
+					// Show only current user's
+					$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+
+				}
+
+
+
+
+				$db->where('page_archived', 0);
+				$db->where('page_deleted', 0);
+				$page_count = $db->getValue("pages p", "count(*)");
+				?>
 
 											<div class="page-count"><?=$page_count?> <br>Pages</div>
 
