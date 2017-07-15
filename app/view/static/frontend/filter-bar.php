@@ -22,9 +22,9 @@
 					}
 
 				?>
-					<a class="<?=$catFilter == "" ? "selected" : ""?>" href="<?=site_url($url_prefix)?>">ALL</a>
-					<a class="<?=$catFilter == "mine" ? "selected" : ""?>" href="<?=site_url($url_prefix.'/mine')?>">MINE</a>
-					<a class="<?=$catFilter == "shared" ? "selected" : ""?>" href="<?=site_url($url_prefix.'/shared')?>">SHARED WITH ME</a>
+					<a class="<?=$catFilter == "" ? "selected" : ""?>" href="<?=site_url($url_prefix)?>">All</a>
+					<a class="<?=$catFilter == "mine" ? "selected" : ""?>" href="<?=site_url($url_prefix.'/mine')?>">Mine</a>
+					<a class="<?=$catFilter == "shared" ? "selected" : ""?>" href="<?=site_url($url_prefix.'/shared')?>">Shared With Me</a>
 
 
 				<?php
@@ -36,10 +36,10 @@
 					$db->where('cat_user_ID', currentUserID());
 
 
-					$catLinks = $db->get('categories', null, 'cat_name');
+					$catLinks = $db->get('categories', null, 'cat_ID, cat_name');
 					foreach ($catLinks as $catLink) {
 
-						echo '<a class="'.($catFilter == permalink($catLink['cat_name']) ? "selected" : "").'" href="'.site_url( $url_prefix.'/'.permalink($catLink['cat_name']) ).'">'.strtoupper($catLink['cat_name']).'</a>';
+						echo '<a class="'.($catFilter == permalink($catLink['cat_name']) ? "selected" : "").'" href="'.site_url( $url_prefix.'/'.permalink($catLink['cat_name']) ).'" data-cat-id="'.$catLink['cat_ID'].'">'.$catLink['cat_name'].'</a>';
 
 					}
 
