@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 15, 2017 at 11:51 PM
+-- Generation Time: Jul 16, 2017 at 01:15 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -82,7 +82,8 @@ CREATE TABLE `deletes` (
 --
 
 INSERT INTO `deletes` (`delete_ID`, `delete_type`, `deleted_object_ID`, `deleter_user_ID`) VALUES
-(21, 'page', 4, 1);
+(21, 'page', 4, 1),
+(22, 'project', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -155,7 +156,7 @@ CREATE TABLE `pages` (
   `page_pic` varchar(15) NOT NULL,
   `page_url` text NOT NULL,
   `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `page_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `page_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `project_ID` bigint(20) NOT NULL,
   `device_ID` bigint(20) NOT NULL,
   `parent_page_ID` bigint(20) DEFAULT NULL,
@@ -379,7 +380,7 @@ INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `use
 (2, 'ike', 'ike@twelve12.com', '$2y$10$UcoctpiTNtf9grzFmz53lut7X4l3EBspRC4xz/Qn/qJ1VWWIq81n.', 'Ike', 'Elimsa', 'ike.png', 0, '2017-06-17 22:28:00', 4),
 (3, 'sara', 'sara@twelve12.com', '$2y$10$UcoctpiTNtf9grzFmz53lut7X4l3EBspRC4xz/Qn/qJ1VWWIq81n.', 'Sara', 'Atalay', 'sara.png', 0, '2017-06-17 22:28:00', 3),
 (4, 'matt', 'metin@twelve12.com', '$2y$10$UcoctpiTNtf9grzFmz53lut7X4l3EBspRC4xz/Qn/qJ1VWWIq81n.', 'Matt', 'Pasaoglu', 'matt.png', 0, '2017-06-18 13:51:00', 2),
-(5, 'joey-goksu', 'joey@twelve12.com', '$2y$10$bAgxLbJhGEkO4HLXknHcPeZuGqRotBlb5G2qpCx4D0ARhRoveidMq', 'Joey', 'Goksu', 'joey.png', 0, '2017-06-25 09:28:07', 2);
+(5, 'joey-goksu', 'joey@twelve12.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Joey', 'Goksu', 'joey.png', 0, '2017-06-25 09:28:07', 2);
 
 -- --------------------------------------------------------
 
@@ -411,6 +412,22 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 (3, 'Plus', 'Plus description', 12, 24, 99999, 99999, 3, 120, 9.99, 'green'),
 (4, 'Enterprise', 'Enterprise description.', 99999, 99999, 99999, 99999, 99999, 2048, 19.99, 'gold');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `versions`
+--
+
+CREATE TABLE `versions` (
+  `version_ID` bigint(20) NOT NULL,
+  `version_name` text NOT NULL,
+  `version_number` float NOT NULL,
+  `version_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `version_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `version_page_ID` bigint(20) NOT NULL,
+  `version_user_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --
@@ -420,21 +437,21 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 --
 ALTER TABLE `archives`
   ADD PRIMARY KEY (`archive_ID`),
-  ADD KEY `user_ID` (`archiver_user_ID`);
+  ADD KEY `archives_ibfk_1` (`archiver_user_ID`);
 
 --
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`cat_ID`),
-  ADD KEY `project_cat_user_ID` (`cat_user_ID`);
+  ADD KEY `categories_ibfk_1` (`cat_user_ID`);
 
 --
 -- Indexes for table `deletes`
 --
 ALTER TABLE `deletes`
   ADD PRIMARY KEY (`delete_ID`),
-  ADD KEY `deleter_user_ID` (`deleter_user_ID`);
+  ADD KEY `deletes_ibfk_1` (`deleter_user_ID`);
 
 --
 -- Indexes for table `devices`
@@ -442,7 +459,7 @@ ALTER TABLE `deletes`
 ALTER TABLE `devices`
   ADD PRIMARY KEY (`device_ID`),
   ADD KEY `device_cat_ID` (`device_cat_ID`),
-  ADD KEY `user_ID` (`device_user_ID`);
+  ADD KEY `devices_ibfk_2` (`device_user_ID`);
 
 --
 -- Indexes for table `device_categories`
@@ -455,9 +472,9 @@ ALTER TABLE `device_categories`
 --
 ALTER TABLE `pages`
   ADD PRIMARY KEY (`page_ID`),
-  ADD KEY `user_ID` (`user_ID`),
-  ADD KEY `project_ID` (`project_ID`),
-  ADD KEY `device_ID` (`device_ID`);
+  ADD KEY `device_ID` (`device_ID`),
+  ADD KEY `pages_ibfk_1` (`user_ID`),
+  ADD KEY `pages_ibfk_2` (`project_ID`);
 
 --
 -- Indexes for table `page_cat_connect`
@@ -473,7 +490,7 @@ ALTER TABLE `page_cat_connect`
 --
 ALTER TABLE `projects`
   ADD PRIMARY KEY (`project_ID`),
-  ADD KEY `user_ID` (`user_ID`);
+  ADD KEY `projects_ibfk_3` (`user_ID`);
 
 --
 -- Indexes for table `project_cat_connect`
@@ -489,14 +506,14 @@ ALTER TABLE `project_cat_connect`
 --
 ALTER TABLE `shares`
   ADD PRIMARY KEY (`share_ID`),
-  ADD KEY `user_ID` (`sharer_user_ID`);
+  ADD KEY `shares_ibfk_1` (`sharer_user_ID`);
 
 --
 -- Indexes for table `sorting`
 --
 ALTER TABLE `sorting`
   ADD PRIMARY KEY (`sort_ID`),
-  ADD KEY `sorter_user_ID` (`sorter_user_ID`);
+  ADD KEY `sorting_ibfk_1` (`sorter_user_ID`);
 
 --
 -- Indexes for table `users`
@@ -514,6 +531,14 @@ ALTER TABLE `user_levels`
   ADD PRIMARY KEY (`user_level_ID`);
 
 --
+-- Indexes for table `versions`
+--
+ALTER TABLE `versions`
+  ADD PRIMARY KEY (`version_ID`),
+  ADD KEY `user_ID` (`version_user_ID`),
+  ADD KEY `page_ID` (`version_page_ID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -521,7 +546,7 @@ ALTER TABLE `user_levels`
 -- AUTO_INCREMENT for table `archives`
 --
 ALTER TABLE `archives`
-  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `categories`
 --
@@ -531,7 +556,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -583,6 +608,11 @@ ALTER TABLE `users`
 ALTER TABLE `user_levels`
   MODIFY `user_level_ID` smallint(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
+-- AUTO_INCREMENT for table `versions`
+--
+ALTER TABLE `versions`
+  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- Constraints for dumped tables
 --
 
@@ -590,33 +620,33 @@ ALTER TABLE `user_levels`
 -- Constraints for table `archives`
 --
 ALTER TABLE `archives`
-  ADD CONSTRAINT `archives_ibfk_1` FOREIGN KEY (`archiver_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `archives_ibfk_1` FOREIGN KEY (`archiver_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `categories`
 --
 ALTER TABLE `categories`
-  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`cat_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`cat_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `deletes`
 --
 ALTER TABLE `deletes`
-  ADD CONSTRAINT `deletes_ibfk_1` FOREIGN KEY (`deleter_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `deletes_ibfk_1` FOREIGN KEY (`deleter_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `devices`
 --
 ALTER TABLE `devices`
   ADD CONSTRAINT `devices_ibfk_1` FOREIGN KEY (`device_cat_ID`) REFERENCES `device_categories` (`device_cat_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`device_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`device_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `pages`
 --
 ALTER TABLE `pages`
-  ADD CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `pages_ibfk_3` FOREIGN KEY (`device_ID`) REFERENCES `devices` (`device_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
@@ -631,7 +661,7 @@ ALTER TABLE `page_cat_connect`
 -- Constraints for table `projects`
 --
 ALTER TABLE `projects`
-  ADD CONSTRAINT `projects_ibfk_3` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `projects_ibfk_3` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `project_cat_connect`
@@ -645,19 +675,26 @@ ALTER TABLE `project_cat_connect`
 -- Constraints for table `shares`
 --
 ALTER TABLE `shares`
-  ADD CONSTRAINT `shares_ibfk_1` FOREIGN KEY (`sharer_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `shares_ibfk_1` FOREIGN KEY (`sharer_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `sorting`
 --
 ALTER TABLE `sorting`
-  ADD CONSTRAINT `sorting_ibfk_1` FOREIGN KEY (`sorter_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `sorting_ibfk_1` FOREIGN KEY (`sorter_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_user_level` FOREIGN KEY (`user_level_ID`) REFERENCES `user_levels` (`user_level_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `versions`
+--
+ALTER TABLE `versions`
+  ADD CONSTRAINT `versions_ibfk_2` FOREIGN KEY (`version_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `versions_ibfk_3` FOREIGN KEY (`version_page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

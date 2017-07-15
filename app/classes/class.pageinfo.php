@@ -166,11 +166,22 @@ class Page {
 
     // Get the page version !!!
     public function getPageVersion() {
+	    global $db;
 
-	    // GET IT FROM DB...
-	    $pageVersion = "v0.1";
 
-	    return $pageVersion;
+		$db->where('version_user_ID', $this->getPageInfo('user_ID'));
+		$db->where('version_page_ID', self::$pageId);
+
+		// Show the final one
+		$db->orderBy('version_number');
+
+	    $pageVersion = $db->getValue('versions', 'version_number');
+
+		if ($pageVersion)
+			return "v".$pageVersion;
+
+	    return "v0.1";
+
     }
 
 

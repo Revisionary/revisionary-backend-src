@@ -291,10 +291,21 @@
 									<div class="col xl-4-12 xl-center version">
 
 										<?php
+
+										// VERSION
 										if ($dataType == "page") {
+
+											$db->where('version_page_ID', $block['page_ID']);
+											$db->where('version_user_ID', currentUserID());
+
+											// Show the final one
+											$db->orderBy('version_number');
+
+										    $pageVersion = $db->getValue('versions', 'version_number');
+
 										?>
 
-										<a href="#">v0.1</a>
+										<a href="#">v<?=empty($pageVersion) ? "0.1" : $pageVersion?></a>
 
 										<?php
 										}
