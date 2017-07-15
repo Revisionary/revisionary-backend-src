@@ -39,7 +39,7 @@ function the_data() {
 		'cat_ID' => 0,
 		'cat_name' => 'Uncategorized',
 		'sort_number' => 0,
-		'pageData' => array()
+		'theData' => array()
 	));
 
 
@@ -60,7 +60,7 @@ function the_data() {
 
 		// Add the category data
 		$theData[ $pageCategory['cat_ID'] ] = $pageCategory;
-		$theData[ $pageCategory['cat_ID'] ]['pageData'] = array();
+		$theData[ $pageCategory['cat_ID'] ]['theData'] = array();
 
 
 
@@ -203,9 +203,9 @@ function the_data() {
 
 
 			// Add the page data
-			$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']] = $page;
-			$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']]['subPageData'] = array();
-			$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']]['parentPageData'] = array();
+			$theData[ $pageCategory['cat_ID'] ]['theData'][$page['page_ID']] = $page;
+			$theData[ $pageCategory['cat_ID'] ]['theData'][$page['page_ID']]['subPageData'] = array();
+			$theData[ $pageCategory['cat_ID'] ]['theData'][$page['page_ID']]['parentPageData'] = array();
 
 
 			// SUB PAGE QUERY
@@ -237,7 +237,7 @@ function the_data() {
 			$subPages = $db->get('pages p');
 			foreach ($subPages as $subPage) {
 
-				$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']]['subPageData'][] = $subPage;
+				$theData[ $pageCategory['cat_ID'] ]['theData'][$page['page_ID']]['subPageData'][] = $subPage;
 
 			}
 
@@ -271,7 +271,7 @@ function the_data() {
 			$parentPages = $db->get('pages p');
 			foreach ($parentPages as $parentPage) {
 
-				$theData[ $pageCategory['cat_ID'] ]['pageData'][$page['page_ID']]['parentPageData'][] = $parentPage;
+				$theData[ $pageCategory['cat_ID'] ]['theData'][$page['page_ID']]['parentPageData'][] = $parentPage;
 
 			}
 

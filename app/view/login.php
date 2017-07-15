@@ -1,4 +1,4 @@
-<?php require 'static/header_html.php' ?>
+<?php require view('static/header_html'); ?>
 	<div id="page" class="site">
 
 <section class="right-dark">
@@ -60,5 +60,5 @@
 	</div>
 </section>
 
-<?php require 'static/frontend/parts/footer_frontend.php' ?>
-<?php require 'static/footer_html.php' ?>
+<?php require view('static/frontend/parts/footer_frontend'); ?>
+<?php require view('static/footer_html'); ?>

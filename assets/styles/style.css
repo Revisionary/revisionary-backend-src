@@ -980,6 +980,16 @@ html, body {
   margin-left: 15px;
   opacity: 0.5;
   margin-bottom: 10px;
+  cursor: move;
+}
+
+#page .cat-separator .actions {
+  opacity: 0;
+  transition: 700ms;
+}
+
+#page .cat-separator:hover .actions {
+  opacity: 1;
 }
 
 #page .sortable-placeholder {
@@ -1079,13 +1089,23 @@ html, body {
 
 #page .block .date {
   font-size: 10px;
+  line-height: 22px;
   color: #4A4A4A;
 }
 
-#page .block .box-name {
+#page .block .box-name a {
   font-size: 14px;
   line-height: 17px;
   letter-spacing: normal;
+}
+
+#page .block .box-name .actions {
+  opacity: 0;
+  transition: 700ms;
+}
+
+#page .block .box-name:hover .actions {
+  opacity: 1;
 }
 
 #page .wrap, #page .col {

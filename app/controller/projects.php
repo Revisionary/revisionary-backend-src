@@ -17,7 +17,8 @@ $catFilter = isset($_url[1]) ? $_url[1] : '';
 
 // PROJECTS DATA MODEL
 require model('projects');
-$projectsData = the_data();
+$theCategorizedData = the_data();
+$dataType = 'project';
 
 
 //print_r($projectsData); exit();
@@ -35,4 +36,4 @@ $page_title = "Projects - Revisionary App";
 if ($catFilter == "archived" || $catFilter == "deleted")
 $page_title = ucfirst($catFilter)." ".$page_title;
 
-require view('projects');
+require view('dynamic/categorized_blocks');

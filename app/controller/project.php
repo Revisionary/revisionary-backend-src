@@ -56,11 +56,12 @@ $deviceFilter = get('device');
 
 // PAGES DATA MODEL
 require model('project');
-$pageData = the_data();
+$theCategorizedData = the_data();
+$dataType = "page";
 
 
-//print_r(array_column($pageData, 'pageData')); exit();
-//print_r($pageData); exit();
+//print_r(array_column($theCategorizedData, 'theData')); exit();
+//print_r($theCategorizedData); exit();
 
 
 // If project doesn't belong to me
@@ -72,8 +73,8 @@ if (
 
 	// Collect all the pages data
 	$allPages = array();
-	foreach ($pageData as $category) {
-		foreach ($category['pageData'] as $page) {
+	foreach ($theCategorizedData as $category) {
+		foreach ($category['theData'] as $page) {
 
 			$allPages[] = $page;
 
@@ -120,7 +121,7 @@ $project_modified = $db->getValue("pages", "page_modified");
 
 // Only Page Data
 $onlyPageData = array();
-$allPageData = array_values(array_filter(array_column($pageData, 'pageData')));
+$allPageData = array_values(array_filter(array_column($theCategorizedData, 'theData')));
 foreach($allPageData as $page) {
 	foreach ($page as $page) {
 		$onlyPageData[] = $page;
@@ -130,9 +131,9 @@ foreach($allPageData as $page) {
 
 // Detect the available devices
 $available_devices = array();
-foreach($pageData as $categories) {
+foreach($theCategorizedData as $categories) {
 
-	foreach($categories['pageData'] as $page) {
+	foreach($categories['theData'] as $page) {
 
 		$available_devices[$page['device_cat_ID']] = array(
 			"device_cat_ID" => $page['device_cat_ID'],
@@ -162,4 +163,4 @@ $additionalHeadJS = [
 ];
 
 $page_title = Project::ID($_url[1])->projectName." Project - Revisionary App";
-require view('project');
+require view('dynamic/categorized_blocks');

@@ -1033,6 +1033,16 @@ footer {
     margin-left: 15px;
     opacity: 0.5;
     margin-bottom: 10px;
+    cursor: move;
+
+    .actions {
+	    opacity: 0;
+	    transition: 700ms;
+    }
+
+    &:hover .actions {
+	    opacity: 1;
+    }
 }
 
 .sortable-placeholder {
@@ -1141,13 +1151,27 @@ footer {
 
 	.date {
 		font-size: 10px;
+		line-height: 22px;
 		color: $color-light;
 	}
 
 	.box-name {
-		font-size: 14px;
-		line-height: 17px;
-		letter-spacing: normal;
+
+		a {
+			font-size: 14px;
+			line-height: 17px;
+			letter-spacing: normal;
+		}
+
+	    .actions {
+		    opacity: 0;
+		    transition: 700ms;
+	    }
+
+	    &:hover .actions {
+		    opacity: 1;
+	    }
+
 	}
 }
 

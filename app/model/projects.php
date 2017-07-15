@@ -39,7 +39,7 @@ function the_data() {
 		'cat_ID' => 0,
 		'cat_name' => 'Uncategorized',
 		'sort_number' => 0,
-		'projectData' => array()
+		'theData' => array()
 	));
 
 
@@ -60,7 +60,7 @@ function the_data() {
 
 		// Add the category data
 		$theData[ $projectCategory['cat_ID'] ] = $projectCategory;
-		$theData[ $projectCategory['cat_ID'] ]['projectData'] = array();
+		$theData[ $projectCategory['cat_ID'] ]['theData'] = array();
 
 
 
@@ -173,7 +173,7 @@ function the_data() {
 
 
 			// Add the page data
-			$theData[ $projectCategory['cat_ID'] ]['projectData'][] = $project;
+			$theData[ $projectCategory['cat_ID'] ]['theData'][] = $project;
 			$project_count++;
 
 		} // END OF THE PROJECT LOOP

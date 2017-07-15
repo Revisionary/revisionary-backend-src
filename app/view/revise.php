@@ -1,4 +1,4 @@
-<?php require 'static/header_html.php' ?>
+<?php require view('static/header_html'); ?>
 
 <script>
 // When page is ready
@@ -722,4 +722,4 @@ $(function(){
 	</main> <!-- main -->
 </div> <!-- #page.site -->
 
-<?php require 'static/footer_html.php' ?>
+<?php require view('static/footer_html'); ?>
