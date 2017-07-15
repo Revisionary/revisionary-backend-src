@@ -199,8 +199,72 @@ if (request('action') == "delete") {
 }
 
 
-// REMOVE !!!
+// REMOVE
 if (request('action') == "remove") {
+
+	$type = request('data-type');
+
+
+	// Security Check
+	if (
+		(
+			$type != "category" &&
+			$type != "project" &&
+			$type != "page"
+		) ||
+		!is_numeric( intval(request('id')) )
+	) {
+		$status = "fail";
+	}
+
+
+	// DB Checks !!! If exists...
+
+
+	// If no problem, DB Update
+	if ($status != 'fail') {
+
+
+		// Category Remove
+		if ($type == "category") {
+
+			$db->where('cat_ID', request('id'));
+			$db->where('cat_user_ID', currentUserID());
+			$removed = $db->delete('categories');
+			if ( $removed ) $status = "successful";
+
+		} elseif ($type == "project" || $type == "page") {
+
+			// Remove from archives
+			$db->where('archive_type', $type);
+			$db->where('archived_object_ID', request('id'));
+			$db->where('archiver_user_ID', currentUserID());
+			$db->delete('archives');
+
+
+			// Remove from deletes
+			$db->where('delete_type', $type);
+			$db->where('deleted_object_ID', request('id'));
+			$db->where('deleter_user_ID', currentUserID());
+			$db->delete('deletes');
+
+
+			$db->where($type.'_ID', request('id'));
+			$db->where('user_ID', currentUserID());
+			$removed = $db->delete($type.'s');
+			if ( $removed ) $status = "successful";
+
+		}
+
+	}
+
+	// Redirect if not ajax
+	if ( request('ajax') != true ) {
+		$_SESSION["js_nonce"] = null;
+
+		header('Location: '.$_SERVER['HTTP_REFERER']);
+		die();
+	}
 
 }
 
@@ -242,6 +306,62 @@ if ( substr(request('action'), 0, 8) == "recover-") {
 		$deleted = $db->delete($recover_type.'s');
 		if ($deleted) $status = "successful";
 	}
+
+	// Redirect if not ajax
+	if ( request('ajax') != true ) {
+		$_SESSION["js_nonce"] = null;
+
+		header('Location: '.$_SERVER['HTTP_REFERER']);
+		die();
+	}
+
+}
+
+
+// RENAME
+if ( request('action') == "rename") {
+
+	$type = request('data-type');
+
+
+	// Security Check
+	if (
+		(
+			$type != "category" &&
+			$type != "project" &&
+			$type != "page"
+		) ||
+		!is_numeric( intval(request('id')) )
+	) {
+		$status = "fail";
+	}
+
+
+	// DB Checks !!! If exists...
+
+
+	// If no problem, DB Update
+	if ($status != "fail") {
+
+		// Category Name Update
+		if ($type == "category") {
+
+			$db->where('cat_ID', request('id'));
+			$db->where('cat_user_ID', currentUserID());
+			$updated = $db->update ('categories', array( 'cat_name' => request('inputText') ));
+			if ( $updated ) $status = "successful";
+
+		} elseif ($type == "project" || $type == "page") {
+
+			$db->where($type.'_ID', request('id'));
+			$db->where('user_ID', currentUserID());
+			$updated = $db->update ($type.'s', array( $type.'_name' => request('inputText') ));
+			if ( $updated ) $status = "successful";
+
+		}
+
+	}
+
 
 	// Redirect if not ajax
 	if ( request('ajax') != true ) {

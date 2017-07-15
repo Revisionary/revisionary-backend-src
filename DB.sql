@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 15, 2017 at 02:39 PM
+-- Generation Time: Jul 15, 2017 at 11:51 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -38,8 +38,7 @@ CREATE TABLE `archives` (
 --
 
 INSERT INTO `archives` (`archive_ID`, `archive_type`, `archived_object_ID`, `archiver_user_ID`) VALUES
-(14, 'project', 2, 1),
-(19, 'page', 4, 1);
+(28, 'project', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -60,7 +59,7 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`cat_ID`, `cat_name`, `cat_type`, `cat_user_ID`) VALUES
 (1, 'Twelve12 Related', 'project', 1),
-(2, 'Hello', 'project', 1),
+(2, 'Hello World!', 'project', 1),
 (3, 'Main Pages', '8', 1),
 (4, 'Portfolio Pages', '8', 1),
 (5, 'Blog Pages', '8', 1);
@@ -83,7 +82,7 @@ CREATE TABLE `deletes` (
 --
 
 INSERT INTO `deletes` (`delete_ID`, `delete_type`, `deleted_object_ID`, `deleter_user_ID`) VALUES
-(17, 'project', 6, 1);
+(21, 'page', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -111,9 +110,9 @@ CREATE TABLE `devices` (
 INSERT INTO `devices` (`device_ID`, `device_name`, `device_width`, `device_height`, `device_rotateable`, `device_color`, `device_frame`, `device_cat_ID`, `device_order`, `device_user_ID`) VALUES
 (1, 'iMac 27', 2560, 1440, 0, NULL, NULL, 1, 0, 1),
 (2, 'iMac 21', 1920, 1080, 0, NULL, NULL, 1, 1, 1),
-(3, 'Macbook Pro 17', 1920, 1200, 0, NULL, NULL, 1, 2, 1),
-(4, 'Macbook Pro 15', 1440, 900, 0, NULL, NULL, 1, 3, 1),
-(5, 'Macbook Pro 13', 1280, 800, 0, NULL, NULL, 1, 4, 1),
+(3, 'Macbook Pro 17', 1920, 1200, 0, NULL, NULL, 5, 2, 1),
+(4, 'Macbook Pro 15', 1440, 900, 0, NULL, NULL, 5, 3, 1),
+(5, 'Macbook Pro 13', 1280, 800, 0, NULL, NULL, 5, 4, 1),
 (6, 'iPad', 768, 1024, 1, NULL, NULL, 2, 0, 1),
 (7, 'iPhone 6 Plus, 6S Plus, 7 Plus', 414, 736, 1, NULL, NULL, 3, 0, 1),
 (8, 'iPhone 6, 6S, 7', 375, 667, 1, NULL, NULL, 3, 1, 1),
@@ -139,9 +138,10 @@ CREATE TABLE `device_categories` (
 
 INSERT INTO `device_categories` (`device_cat_ID`, `device_cat_name`, `device_cat_icon`, `device_cat_order`) VALUES
 (1, 'Desktop', 'fa-desktop', 0),
-(2, 'Tablet', 'fa-tablet', 1),
-(3, 'Mobile', 'fa-mobile', 2),
-(4, 'Custom', 'fa-window-restore', 3);
+(2, 'Tablet', 'fa-tablet', 2),
+(3, 'Mobile', 'fa-mobile', 3),
+(4, 'Custom', 'fa-window-restore', 4),
+(5, 'Laptop', 'fa-laptop', 1);
 
 -- --------------------------------------------------------
 
@@ -178,7 +178,7 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_creat
 (9, 'Blog 2', 'blog2.png', 'https://www.twelve12.com/blog/branding/branding-tips/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
 (10, 'Twelve12 Home', 'home.png', 'https://www.twelve12.com/', '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 4, NULL, 2),
 (11, 'Bilal\'s Home', 'bilal.png', 'http://www.bilaltas.net/', '2017-06-25 00:21:09', '2017-06-25 00:21:09', 1, 4, NULL, 1),
-(12, 'Cüneyt\'s Site', 'cuneyt.png', 'http://www.cuneyt-tas.com/', '2017-06-25 11:20:36', '2017-06-25 11:20:36', 5, 4, NULL, 5),
+(12, 'Cüneyt\'s Home', 'cuneyt.png', 'http://www.cuneyt-tas.com/', '2017-06-25 11:20:36', '2017-06-25 11:20:36', 5, 4, NULL, 5),
 (13, 'BBC Home', 'bbc.png', 'http://www.bbc.com/', '2017-06-26 08:05:02', '2017-06-26 08:05:02', 6, 4, NULL, 1),
 (14, 'About', 'about.png', 'https://www.twelve12.com/about-us/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 7, 1, 1),
 (15, 'SoundCloud Home', 'soundcloud.jpg', 'https://soundcloud.com/', '2017-07-02 15:49:58', '2017-07-02 15:49:58', 2, 4, NULL, 1),
@@ -189,8 +189,9 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_creat
 (20, 'Auro Home Mobile', 'auro.jpg', 'https://www.aurowm.com/', '2017-07-08 13:14:32', '2017-07-08 13:14:32', 10, 7, 18, 1),
 (21, 'Auro Tablet Home', 'auro_t.jpg', 'https://www.aurowm.com/', '2017-07-08 16:11:01', '2017-07-08 16:11:01', 10, 6, 18, 1),
 (22, 'TWSJ Home', 'twsj.jpg', 'https://www.wsj.com/europe', '2017-07-08 19:06:53', '2017-07-08 19:06:53', 3, 5, NULL, 1),
-(24, 'Cüneyt\'s Babasayfa', 'cuneyt.png', 'http://www.cuneyt-tas.com/', '2017-06-25 11:20:36', '2017-06-25 11:20:36', 5, 4, NULL, 5),
-(25, 'Hawaii Home', 'hawaiih.jpg', 'http://www.hawaiilassi.com/', '2017-07-10 12:01:17', '2017-07-10 12:01:17', 11, 4, NULL, 4);
+(24, 'Cüneyt\'s Contact', 'cuneyt.png', 'http://www.cuneyt-tas.com/iletisim/', '2017-06-25 11:20:36', '2017-06-25 11:20:36', 5, 4, NULL, 5),
+(25, 'Hawaii Home', 'hawaiih.jpg', 'http://www.hawaiilassi.com/', '2017-07-10 12:01:17', '2017-07-10 12:01:17', 11, 4, NULL, 4),
+(26, 'Twelve12 iMac', 'home.png', 'https://www.twelve12.com/', '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 1, 10, 1);
 
 -- --------------------------------------------------------
 
@@ -211,16 +212,16 @@ CREATE TABLE `page_cat_connect` (
 
 INSERT INTO `page_cat_connect` (`page_cat_connect_ID`, `page_cat_page_ID`, `page_cat_ID`, `page_cat_connect_user_ID`) VALUES
 (84, 14, 3, 1),
-(318, 10, 3, 1),
-(319, 1, 3, 1),
-(320, 2, 3, 1),
-(321, 7, 4, 1),
-(322, 6, 4, 1),
-(323, 5, 4, 1),
-(324, 3, 4, 1),
 (325, 4, 4, 1),
-(326, 8, 5, 1),
-(327, 9, 5, 1);
+(402, 10, 3, 1),
+(403, 1, 3, 1),
+(404, 2, 3, 1),
+(405, 6, 4, 1),
+(406, 7, 4, 1),
+(407, 5, 4, 1),
+(408, 3, 4, 1),
+(409, 8, 5, 1),
+(410, 9, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -271,11 +272,11 @@ CREATE TABLE `project_cat_connect` (
 --
 
 INSERT INTO `project_cat_connect` (`project_cat_connect_ID`, `project_cat_project_ID`, `project_cat_ID`, `project_cat_connect_user_ID`) VALUES
-(657, 10, 1, 1),
-(658, 8, 1, 1),
-(659, 9, 1, 1),
-(660, 5, 2, 1),
-(661, 1, 2, 1);
+(817, 5, 2, 1),
+(818, 1, 2, 1),
+(819, 8, 1, 1),
+(820, 10, 1, 1),
+(821, 9, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -322,32 +323,33 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (961, 'page', 14, 1, 1),
 (2069, 'project', 2, 4, 1),
 (2079, 'project', 6, 2, 1),
-(2102, 'project', 4, 1, 1),
-(2103, 'project', 7, 2, 1),
-(2104, 'project', 3, 3, 1),
-(2105, 'category', 2, 4, 1),
-(2108, 'category', 1, 7, 1),
-(2109, 'project', 10, 8, 1),
-(2110, 'project', 8, 9, 1),
-(2111, 'project', 9, 10, 1),
-(2112, 'project', 5, 0, 1),
-(2113, 'project', 1, 1, 1),
-(2118, 'page', 24, 1, 1),
-(2119, 'page', 12, 2, 1),
-(2134, 'category', 0, 0, 1),
-(2135, 'category', 3, 1, 1),
-(2136, 'page', 10, 2, 1),
-(2137, 'page', 1, 3, 1),
-(2138, 'page', 2, 4, 1),
-(2139, 'category', 4, 5, 1),
-(2140, 'page', 7, 6, 1),
-(2141, 'page', 6, 7, 1),
-(2142, 'page', 5, 8, 1),
-(2143, 'page', 3, 9, 1),
 (2144, 'page', 4, 10, 1),
-(2145, 'category', 5, 11, 1),
-(2146, 'page', 8, 12, 1),
-(2147, 'page', 9, 13, 1);
+(2318, 'page', 12, 1, 1),
+(2319, 'page', 24, 2, 1),
+(2395, 'category', 6, 10, 1),
+(2453, 'project', 4, 1, 1),
+(2454, 'project', 3, 2, 1),
+(2455, 'project', 7, 3, 1),
+(2456, 'category', 2, 4, 1),
+(2457, 'project', 5, 5, 1),
+(2458, 'project', 1, 6, 1),
+(2459, 'category', 1, 7, 1),
+(2460, 'project', 8, 8, 1),
+(2461, 'project', 10, 9, 1),
+(2462, 'project', 9, 10, 1),
+(2476, 'category', 0, 0, 1),
+(2477, 'category', 3, 1, 1),
+(2478, 'page', 10, 2, 1),
+(2479, 'page', 1, 3, 1),
+(2480, 'page', 2, 4, 1),
+(2481, 'category', 4, 5, 1),
+(2482, 'page', 6, 6, 1),
+(2483, 'page', 7, 7, 1),
+(2484, 'page', 5, 8, 1),
+(2485, 'page', 3, 9, 1),
+(2486, 'category', 5, 10, 1),
+(2487, 'page', 8, 11, 1),
+(2488, 'page', 9, 12, 1);
 
 -- --------------------------------------------------------
 
@@ -462,9 +464,9 @@ ALTER TABLE `pages`
 --
 ALTER TABLE `page_cat_connect`
   ADD PRIMARY KEY (`page_cat_connect_ID`),
-  ADD KEY `page_cat_connect_user_ID` (`page_cat_connect_user_ID`),
-  ADD KEY `page_cat_ID` (`page_cat_ID`),
-  ADD KEY `page_cat_page_ID` (`page_cat_page_ID`);
+  ADD KEY `page_cat_connect_ibfk_1` (`page_cat_connect_user_ID`),
+  ADD KEY `page_cat_connect_ibfk_2` (`page_cat_ID`),
+  ADD KEY `page_cat_connect_ibfk_3` (`page_cat_page_ID`);
 
 --
 -- Indexes for table `projects`
@@ -478,9 +480,9 @@ ALTER TABLE `projects`
 --
 ALTER TABLE `project_cat_connect`
   ADD PRIMARY KEY (`project_cat_connect_ID`),
-  ADD KEY `project_cat_user_ID` (`project_cat_connect_user_ID`),
-  ADD KEY `project_cat_project_ID` (`project_cat_project_ID`),
-  ADD KEY `project_cat_ID` (`project_cat_ID`);
+  ADD KEY `project_cat_connect_ibfk_3` (`project_cat_ID`),
+  ADD KEY `project_cat_connect_ibfk_1` (`project_cat_connect_user_ID`),
+  ADD KEY `project_cat_connect_ibfk_2` (`project_cat_project_ID`);
 
 --
 -- Indexes for table `shares`
@@ -519,17 +521,17 @@ ALTER TABLE `user_levels`
 -- AUTO_INCREMENT for table `archives`
 --
 ALTER TABLE `archives`
-  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -539,27 +541,27 @@ ALTER TABLE `devices`
 -- AUTO_INCREMENT for table `device_categories`
 --
 ALTER TABLE `device_categories`
-  MODIFY `device_cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `device_cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
 ALTER TABLE `page_cat_connect`
-  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=328;
+  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=411;
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=662;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=822;
 --
 -- AUTO_INCREMENT for table `shares`
 --
@@ -569,7 +571,7 @@ ALTER TABLE `shares`
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2148;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2489;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -621,9 +623,9 @@ ALTER TABLE `pages`
 -- Constraints for table `page_cat_connect`
 --
 ALTER TABLE `page_cat_connect`
-  ADD CONSTRAINT `page_cat_connect_ibfk_1` FOREIGN KEY (`page_cat_connect_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `page_cat_connect_ibfk_2` FOREIGN KEY (`page_cat_ID`) REFERENCES `categories` (`cat_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `page_cat_connect_ibfk_3` FOREIGN KEY (`page_cat_page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `page_cat_connect_ibfk_1` FOREIGN KEY (`page_cat_connect_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `page_cat_connect_ibfk_2` FOREIGN KEY (`page_cat_ID`) REFERENCES `categories` (`cat_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `page_cat_connect_ibfk_3` FOREIGN KEY (`page_cat_page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `projects`
@@ -635,9 +637,9 @@ ALTER TABLE `projects`
 -- Constraints for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  ADD CONSTRAINT `project_cat_connect_ibfk_1` FOREIGN KEY (`project_cat_connect_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `project_cat_connect_ibfk_2` FOREIGN KEY (`project_cat_project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `project_cat_connect_ibfk_3` FOREIGN KEY (`project_cat_ID`) REFERENCES `categories` (`cat_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `project_cat_connect_ibfk_1` FOREIGN KEY (`project_cat_connect_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `project_cat_connect_ibfk_2` FOREIGN KEY (`project_cat_project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `project_cat_connect_ibfk_3` FOREIGN KEY (`project_cat_ID`) REFERENCES `categories` (`cat_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `shares`

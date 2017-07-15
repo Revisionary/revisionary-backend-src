@@ -6,6 +6,9 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 // Get the page ID
 $pageID = $_url[1];
 
+// Get parent page ID
+$parentPageID = Page::ID($pageID)->getPageInfo('parent_page_ID');
+
 // Get project ID
 $projectID = Page::ID($pageID)->getPageInfo('project_ID');
 
@@ -24,6 +27,7 @@ $deviceIcon = $deviceCat['device_cat_icon'];
 
 // Page Category
 $db->where('page_cat_page_ID', $pageID);
+$db->orWhere('page_cat_page_ID', $parentPageID);
 $pageCatID = $db->getValue('page_cat_connect', 'page_cat_ID');
 
 $db->where('cat_ID', $pageCatID);

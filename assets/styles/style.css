@@ -830,6 +830,10 @@ html, body {
 #page .progress-bar {
   width: 100%;
   height: 2px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
 #page .progress-bar .progress {
@@ -982,13 +986,40 @@ html, body {
   margin-bottom: 10px;
 }
 
-#page .cat-separator .actions {
+#page .cat-separator:hover .actions {
+  opacity: 1;
+}
+
+#page .name-field .actions {
   opacity: 0;
   transition: 700ms;
 }
 
-#page .cat-separator:hover .actions {
-  opacity: 1;
+#page .name-field .actions input.edit-name {
+  display: none;
+  width: auto;
+  max-width: 100%;
+  font-size: 14px;
+  font-weight: inherit;
+  line-height: inherit;
+  height: auto;
+  border-width: 1px;
+  padding: 0 5px;
+  margin-left: -5px;
+}
+
+#page .name-field.editing .name {
+  display: none;
+}
+
+#page .name-field.editing .actions {
+  opacity: 1 !important;
+}
+
+#page .name-field.editing .actions input.edit-name {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 18.4px;
 }
 
 #page .sortable .sortable-placeholder {
@@ -1086,7 +1117,8 @@ html, body {
   opacity: 1;
 }
 
-#page .block .box:hover .overlay {
+#page .block .box:hover .overlay,
+#page .block .box.no-thumb .overlay {
   opacity: 1;
 }
 
@@ -1109,6 +1141,10 @@ html, body {
 
 #page .block .box-name:hover .actions {
   opacity: 1;
+}
+
+#page .block input.edit-name {
+  width: 90% !important;
 }
 
 #page .wrap, #page .col {

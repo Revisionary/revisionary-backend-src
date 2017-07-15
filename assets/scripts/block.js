@@ -60,30 +60,52 @@ $(function() {
 	// ACTIONS
 	$('.actions a').click(function(e) {
 
+		var action = $(this).attr('data-action');
+		var parent_item = $(this).parent().parent();
+
+		if (action == "rename") {
+
+			var input = parent_item.find('input.edit-name');
+			parent_item.toggleClass('editing');
+
+
+			// If the same text
+			if ( input.val() == input.attr('value') ) {
+				e.preventDefault();
+				return false;
+			}
+
+		}
+
+
 		var confirm_text;
 
-		if ( $(this).hasClass('archive') )
+		if ( action =='archive' )
 			confirm_text = "Are you sure you want to archive this?";
 
-		if ( $(this).hasClass('delete') )
+		if ( action =='delete' )
 			confirm_text = "Are you sure you want to delete this?";
 
-		if ( $(this).hasClass('recover') )
+		if ( action =='recover' )
 			confirm_text = "Are you sure you want to recover this?";
 
-		if ( $(this).hasClass('remove') )
+		if ( action =='remove' )
 			confirm_text = "Are you sure you want to completely remove this?";
 
 
-		if ( confirm(confirm_text) ) {
+
+		// If confirmed, send data
+		if (action == "rename" || confirm(confirm_text) ) {
 
 			var url = $(this).attr('href');
-			var block = $(this).parent().parent().parent().parent();
+			var block = parent_item.parent().parent();
 
 			$('.progress').css('width', "0%");
 
+
+
 			// AJAX Send data
-			$.get(url, {ajax:true}, function(result){
+			$.get(url, {ajax:true, inputText: ( action == "rename" ? input.val() : '' )}, function(result){
 
 				$.each(result.data, function(key, data){
 
@@ -92,9 +114,32 @@ $(function() {
 					// Progressbar Update
 					if ( data.status == "successful" ) {
 
-						block.remove();
+
+						if (action == "rename") {
+
+							parent_item.find('.name').text( input.val() );
+							input.attr('value', input.val() );
+
+						} else {
+
+							if ( parent_item.hasClass('cat-separator') ) {
+								parent_item.remove();
+								addNewPageButtons();
+							}
+							else
+								block.remove();
+
+						}
 
 						$('.progress').css('width', "100%");
+					} else {
+
+						if (action == "rename") {
+
+							parent_item.addClass('editing ' + data.status);
+
+						}
+
 					}
 
 				});
@@ -110,6 +155,20 @@ $(function() {
 	});
 
 
+	// Rename Inputs
+	$('.name-field input.edit-name').keydown(function (e){
+
+	    if(e.keyCode == 13)
+	        $(this).blur();
+
+	}).focusout(function() {
+
+		$(this).next().click();
+
+	});
+
+
+	// NEW PAGE/PROJECT CLONES
 	function addNewPageButtons() {
 
 		var page_type = "Page";

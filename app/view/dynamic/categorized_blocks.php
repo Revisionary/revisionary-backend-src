@@ -27,23 +27,26 @@
 					$catFilter == "" ||
 					$catFilter == "mine"
 				) {
+
+					$action_url = 'ajax?type=data-action&data-type=category&nonce='.$_SESSION['js_nonce'].'&id='.$category['cat_ID'];
 			?>
 
 				<div
 					id="<?=permalink($category['cat_name'])?>"
-					class="col xl-1-1 cat-separator <?=$category['cat_name'] == "Uncategorized" ? 'xl-hidden' : ''?>"
+					class="col xl-1-1 cat-separator name-field <?=$category['cat_name'] == "Uncategorized" ? 'xl-hidden' : ''?>"
 					data-order="<?=$category['sort_number']?>"
 					data-id="<?=$category['cat_ID']?>"
 					data-cat-id="<?=$category['cat_ID']?>"
 					data-type="category"
 					draggable="true"
 				>
-					<?=$category['cat_name']?>
-
+					<span class="name"><?=$category['cat_name']?></span>
 					<span class="actions">
 
-						<a href="#"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-						<a href="#"><i class="fa fa-trash" aria-hidden="true"></i></a>
+						<input class="edit-name" type="text" value="<?=$category['cat_name']?>"/>
+						<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+
+						<a href="<?=site_url($action_url.'&action=remove')?>" data-action="remove"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
 					</span>
 
@@ -98,14 +101,16 @@
 					}
 
 
-
+				$image_style = "background-image: url(".$block_image_url.");";
+				if ( $block[$dataType.'_pic'] == null )
+					$image_style = "";
 
 				?>
 
 						<div class="col block" data-order="<?=$block['sort_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block[$dataType.'_cat_ID']?>" data-type="<?=$dataType?>" draggable="true">
 
 
-							<div class="box xl-center" style="background-image: url(<?=$block_image_url?>);">
+							<div class="box xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
 
 								<div class="wrap overlay xl-flexbox xl-between xl-5 members">
 									<div class="col xl-4-12 xl-left xl-top people">
@@ -304,16 +309,16 @@
 
 											if ($catFilter == "archived" || $catFilter == "deleted") {
 										?>
-										<a class="recover" href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>"><i class="fa fa-reply" aria-hidden="true"></i></a>
+										<a href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>" data-action="recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
 										<?php
 											} else {
 										?>
-										<a class="archive" href="<?=site_url($action_url.'&action=archive')?>"><i class="fa fa-archive" aria-hidden="true"></i></a>
+										<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
 										<?php
 											}
 
 										?>
-										<a class="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+										<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
 
 									</div>
@@ -325,19 +330,22 @@
 								<div class="col xl-8-12 xl-left box-name">
 
 
-									<a href="<?=$block_url?>" class="invert-hover">
-										<?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" aria-hidden="true"></i> ' : ''?><?=$block[$dataType.'_name']?>
+									<span class="name-field">
+										<?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" aria-hidden="true"></i> ' : ''?><a href="<?=$block_url?>" class="invert-hover name"><?=$block[$dataType.'_name']?></a>
 
-									</a>
+										<?php
+										if ($block['user_ID'] == currentUserID()) {
+										?>
+										<span class="actions">
 
-									<span class="actions">
+											<input class="edit-name" type="text" value="<?=$block[$dataType.'_name']?>"/>
+											<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+
+										</span>
 										<?php
-											if ( $block['user_ID'] == currentUserID() ) {
+										}
 										?>
-										<a href="#"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-										<?php
-											}
-										?>
+
 									</span>
 
 
