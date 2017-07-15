@@ -13,7 +13,7 @@
 
 
 			<!-- Blocks -->
-			<div class="wrap dpl-xl-gutter-30 blocks xl-6 <?=$order == "" ? "sortable" : ""?>" draggable="true">
+			<div class="wrap dpl-xl-gutter-30 blocks xl-6 <?=$order == "" ? "sortable" : ""?>">
 
 			<?php
 
@@ -30,6 +30,7 @@
 			?>
 
 				<div
+					id="<?=permalink($category['cat_name'])?>"
 					class="col xl-1-1 cat-separator <?=$category['cat_name'] == "Uncategorized" ? 'xl-hidden' : ''?>"
 					data-order="<?=$category['sort_number']?>"
 					data-id="<?=$category['cat_ID']?>"

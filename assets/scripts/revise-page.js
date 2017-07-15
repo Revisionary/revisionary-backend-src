@@ -20,28 +20,43 @@ $(function() {
 	});
 
 
+
+	// Iframe Fit
+	var maxWidth  = $('iframe').width();
+	var maxHeight = $('iframe').height();
+
+	$(window).resize(function(evt) {
+	    var $window = $(window);
+	    var width = $window.width();
+	    var height = $window.height();
+	    var scale;
+
+	    // early exit
+	    if(width >= maxWidth && height >= maxHeight) {
+	        $('iframe').css({'-webkit-transform': ''});
+	        $('.iframe-container').css({ width: '', height: '' });
+	        return;
+	    }
+
+	    scale = Math.min(width/maxWidth, height/maxHeight);
+
+	    $('iframe').css({'-webkit-transform': 'scale(' + scale + ')'});
+	    $('.iframe-container').css({ width: maxWidth * scale, height: maxHeight * scale });
+	}).resize();
+
+
 });
 
 
 // When everything is loaded
 $(window).on("load", function (e) {
 
-	// Hide the loading overlay
-	//$('#loading').fadeOut();
-
-
-	// Close all the tabs
-	$('.opener').each(function() {
-
-		toggleTab( $(this) );
-
-	});
-
 
 	// Pins Section Content
 	$(".scrollable-content").mCustomScrollbar({
 		alwaysShowScrollbar: true
 	});
+
 
 });
 

@@ -6,12 +6,30 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 // Get the page ID
 $pageID = $_url[1];
 
+// Get project ID
+$projectID = Page::ID($pageID)->getPageInfo('project_ID');
+
 // Get device ID
 $deviceID = Page::ID($pageID)->getPageInfo('device_ID');
 
 // Get the device sizes
 $width = Device::ID($deviceID)->getDeviceInfo('device_width');
 $height = Device::ID($deviceID)->getDeviceInfo('device_height');
+
+// Get the device icon
+$deviceCatID = Device::ID($deviceID)->getDeviceInfo('device_cat_ID');
+$db->where('device_cat_ID', $deviceCatID);
+$deviceCat = $db->getOne('device_categories');
+$deviceIcon = $deviceCat['device_cat_icon'];
+
+// Page Category
+$db->where('page_cat_page_ID', $pageID);
+$pageCatID = $db->getValue('page_cat_connect', 'page_cat_ID');
+
+$db->where('cat_ID', $pageCatID);
+$pageCat = $db->getOne('categories');
+
+//print_r($pageCat); exit();
 
 
 // If first time downloading - !!! NO NEED FOR NOW

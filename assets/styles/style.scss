@@ -1033,7 +1033,6 @@ footer {
     margin-left: 15px;
     opacity: 0.5;
     margin-bottom: 10px;
-    cursor: move;
 
     .actions {
 	    opacity: 0;
@@ -1045,13 +1044,21 @@ footer {
     }
 }
 
-.sortable-placeholder {
-	border: 5px dashed;
-	min-height: 1px;
-    font-size: 1rem;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+.sortable {
+
+	.sortable-placeholder {
+		border: 5px dashed;
+		min-height: 1px;
+	    font-size: 1rem;
+	    -webkit-box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    box-sizing: border-box;
+	}
+
+	.box, .cat-separator {
+	    cursor: move;
+	}
+
 }
 
 .block {

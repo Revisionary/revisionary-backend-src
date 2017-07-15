@@ -980,7 +980,6 @@ html, body {
   margin-left: 15px;
   opacity: 0.5;
   margin-bottom: 10px;
-  cursor: move;
 }
 
 #page .cat-separator .actions {
@@ -992,13 +991,17 @@ html, body {
   opacity: 1;
 }
 
-#page .sortable-placeholder {
+#page .sortable .sortable-placeholder {
   border: 5px dashed;
   min-height: 1px;
   font-size: 1rem;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+#page .sortable .box, #page .sortable .cat-separator {
+  cursor: move;
 }
 
 #page .block {

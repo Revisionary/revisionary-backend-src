@@ -87,6 +87,16 @@ $(function(){
 						// Hide the loading overlay
 						$('#loading').fadeOut();
 
+						// Close all the tabs
+						$('.opener').each(function() {
+
+							toggleTab( $(this) );
+
+						});
+
+						// Body class
+						$('body').addClass('ready');
+
 					});
 
 				}
@@ -125,14 +135,14 @@ $(function(){
 <div id="pin-mode-selector" class="overlay" style="display: none;"></div>
 
 <div id="page" class="site">
+
+	<div class="iframe-container">
+
+		<iframe id="the-page" src="" data-url="" width="<?=$width?>" height="<?=$height?>" scrolling="auto" style="min-width: <?=$width?>px; min-height: <?=$height?>px;"></iframe>
+
+	</div>
+
 	<main>
-
-		<div class="iframe-container">
-
-			<iframe id="the-page" src="" data-url="" width="<?=$width?>" height="<?=$height?>" scrolling="auto"></iframe>
-
-		</div>
-
 
 		<div id="revise-sections">
 			<div class="top-left pins">
@@ -652,22 +662,46 @@ $(function(){
 
 				<div class="tab wrap open">
 					<div class="col xl-8-12 xl-left">
+
+
 						<div class="breadcrumbs">
-							<a href="<?=site_url('project/twelve12')?>" class="projects">Twelve12 <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+							<a href="<?=site_url('projects')?>" class="projects">
+								<?=Project::ID($projectID)->getProjectInfo('project_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+							</a>
 							<sep>></sep>
-							<a href="<?=site_url('project/twelve12/#main-pages')?>" class="pages">Main Pages <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+
+							<?php
+							if ($pageCat['cat_name'] != "") {
+							?>
+							<a href="<?=site_url('project/'.$projectID.'/'.permalink($pageCat['cat_name']))?>" class="pages">
+								<?=$pageCat['cat_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+							</a>
 							<sep>></sep>
-							<a href="<?=site_url('revise/23423142')?>" class="sections">Home <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+							<?php
+							}
+							?>
+
+							<a href="<?=site_url('project/'.$projectID)?>" class="sections">
+								<?=Page::ID($pageID)->getPageInfo('page_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+							</a>
 						</div>
-						<div class="date created">Date Created: <span>1 Jul 2016 6:32 PM</span></div>
-						<div class="date updated">Last Updated: <span>2 Jul 2016 1:59 PM</span></div>
+
+
+						<div class="date created">Date Created: <span><?=date( "d M Y, g:i A", strtotime(Page::ID($pageID)->getPageInfo('page_created')) )?></span></div>
+						<div class="date updated">Last Updated: <span><?=date( "d M Y, g:i A", strtotime(Page::ID($pageID)->getPageInfo('page_modified')) )?></span></div>
+
+
 					</div>
 					<div class="col xl-4-12 xl-center">
+
+
 						<div class="device-selector">
 							<a href="#" class="select-device">Device <i class="fa fa-caret-down" aria-hidden="true"></i></a>
-							<div class="device-icon"><i class="fa fa-laptop" aria-hidden="true"></i></div>
+							<div class="device-icon"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i></div>
 						</div>
-						<a href="#" class="version-selector">v0.1</a>
+						<a href="#" class="version-selector"><?=Page::ID($pageID)->pageVersion?></a>
+
+
 					</div>
 					<div class="opener">
 						<a href="#">INFO</a>

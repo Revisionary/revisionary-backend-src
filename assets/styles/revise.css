@@ -1,11 +1,12 @@
 #page main {
   border-width: 10px;
   margin-bottom: 0;
+  pointer-events: none;
 }
 
 #revise-sections {
   width: 100%;
-  height: calc(100vh - 40px);
+  height: calc(100vh - 20px);
 }
 
 #revise-sections > * {
@@ -13,6 +14,7 @@
   z-index: 1;
   min-width: 30vw;
   max-width: 30vw;
+  pointer-events: initial;
 }
 
 #revise-sections > * .tab {
@@ -34,6 +36,7 @@
   background: red;
   left: 100%;
   bottom: 0;
+  box-shadow: black 0 0 5px;
 }
 
 #revise-sections > * .tab .opener a {
@@ -243,7 +246,9 @@
 
 .breadcrumbs a {
   font-size: 12px !important;
+  line-height: 16px !important;
   font-weight: lighter;
+  display: inline-block;
 }
 
 .breadcrumbs sep {
@@ -280,13 +285,20 @@
 }
 
 .iframe-container {
-  position: absolute;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   z-index: 0;
-  height: 100%;
-  width: 100%;
-  left: 0%;
+  height: calc(100% - 20px);
+  width: calc(100% - 20px);
+  left: 10px;
+  right: 10px;
+  top: 10px;
+  bottom: 10px;
   text-align: center;
   overflow: hidden;
+  margin: 0 auto;
 }
 
 .iframe-container iframe {
@@ -369,12 +381,19 @@
 
 .add-pin-options {
   position: absolute;
-  right: 0;
-  bottom: 0;
+  z-index: 1;
+  right: -100px;
+  bottom: -100px;
+  transition: 1000ms;
   padding-bottom: 30px;
   padding-right: 10px;
   padding-left: 40px;
   padding-top: 40px;
+}
+
+.ready .add-pin-options {
+  right: 0;
+  bottom: 0;
 }
 
 .add-pin-options .pin-modes {
