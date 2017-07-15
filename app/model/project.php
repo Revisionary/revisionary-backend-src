@@ -84,6 +84,18 @@ function the_data() {
 		$db->joinWhere("categories cat", "cat.cat_user_ID", currentUserID());
 
 
+		// Bring the archive info
+		$db->join("archives arc", "arc.archived_object_ID = p.page_ID", "LEFT");
+		$db->joinWhere("archives arc", "arc.archiver_user_ID", currentUserID());
+		$db->joinWhere("archives arc", "arc.archive_type", "page");
+
+
+		// Bring the delete info
+		$db->join("deletes del", "del.deleted_object_ID = p.page_ID", "LEFT");
+		$db->joinWhere("deletes del", "del.deleter_user_ID", currentUserID());
+		$db->joinWhere("deletes del", "del.delete_type", "page");
+
+
 		// Bring the devices
 		$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
 
@@ -123,9 +135,9 @@ function the_data() {
 
 
 		// Exclude deleted and archived
-		$db->where('page_deleted', ($catFilter == "deleted" ? 1 : 0));
+		$db->where('del.deleted_object_ID IS '.($catFilter == "deleted" ? 'NOT' : '').' NULL');
 		if ($catFilter != "deleted")
-			$db->where('page_archived', ($catFilter == "archived" ? 1 : 0));
+			$db->where('arc.archived_object_ID IS '.($catFilter == "archived" ? 'NOT' : '').' NULL');
 
 
 		// Exclude the other project pages
@@ -157,7 +169,7 @@ function the_data() {
 
 		// Sorting
 		if ($order == "") $db->orderBy("o.sort_number", "asc");
-		//$db->orderBy("share_ID", "desc");
+		if ($order == "") $db->orderBy("share_ID", "desc");
 		$db->orderBy("cat_name", "asc");
 		$db->orderBy("page_name", "asc");
 
@@ -201,10 +213,20 @@ function the_data() {
 			// Check if other devices available
 			$db->where('parent_page_ID', $page['page_ID']);
 
+			// Bring the archive info
+			$db->join("archives arc", "arc.archived_object_ID = p.page_ID", "LEFT");
+			$db->joinWhere("archives arc", "arc.archiver_user_ID", currentUserID());
+			$db->joinWhere("archives arc", "arc.archive_type", "page");
+
+			// Bring the delete info
+			$db->join("deletes del", "del.deleted_object_ID = p.page_ID", "LEFT");
+			$db->joinWhere("deletes del", "del.deleter_user_ID", currentUserID());
+			$db->joinWhere("deletes del", "del.delete_type", "page");
+
 			// Exclude deleted and archived
-			$db->where('page_deleted', ($catFilter == "deleted" ? 1 : 0));
+			$db->where('del.deleted_object_ID IS '.($catFilter == "deleted" ? 'NOT' : '').' NULL');
 			if ($catFilter != "deleted")
-				$db->where('page_archived', ($catFilter == "archived" ? 1 : 0));
+				$db->where('arc.archived_object_ID IS '.($catFilter == "archived" ? 'NOT' : '').' NULL');
 
 			// Bring the devices
 			$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
@@ -225,10 +247,20 @@ function the_data() {
 			// Check if other devices available
 			$db->where('page_ID', $page['parent_page_ID']);
 
+			// Bring the archive info
+			$db->join("archives arc", "arc.archived_object_ID = p.page_ID", "LEFT");
+			$db->joinWhere("archives arc", "arc.archiver_user_ID", currentUserID());
+			$db->joinWhere("archives arc", "arc.archive_type", "page");
+
+			// Bring the delete info
+			$db->join("deletes del", "del.deleted_object_ID = p.page_ID", "LEFT");
+			$db->joinWhere("deletes del", "del.deleter_user_ID", currentUserID());
+			$db->joinWhere("deletes del", "del.delete_type", "page");
+
 			// Exclude deleted and archived
-			$db->where('page_deleted', ($catFilter == "deleted" ? 1 : 0));
+			$db->where('del.deleted_object_ID IS '.($catFilter == "deleted" ? 'NOT' : '').' NULL');
 			if ($catFilter != "deleted")
-				$db->where('page_archived', ($catFilter == "archived" ? 1 : 0));
+				$db->where('arc.archived_object_ID IS '.($catFilter == "archived" ? 'NOT' : '').' NULL');
 
 			// Bring the devices
 			$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");

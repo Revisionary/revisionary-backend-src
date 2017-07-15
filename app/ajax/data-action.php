@@ -1,14 +1,15 @@
 <?php
 
-$action = post('action');
 $status = "initiated";
 
 
-// NONCE CHECK !!!
+// NONCE CHECK
+if ( request("nonce") !== $_SESSION["js_nonce"] )
+	return;
 
 
 // ORDERING
-if ($action == "reorder") {
+if (request('action') == "reorder") {
 
 	$orderData = $_POST['orderData'];
 
@@ -30,7 +31,7 @@ if ($action == "reorder") {
 		}
 
 
-		// DB Checks !!!
+		// DB Checks !!! If exists...
 
 
 		// If no problem, DB Update
@@ -82,36 +83,187 @@ if ($action == "reorder") {
 
 	} // Loop
 
+
+	if ($status == "ordering-successful" || $status == "category-successful") $status = "successful";
+
+
+} // Re-Order
+
+
+// ARCHIVE
+if (request('action') == "archive") {
+
+	$type = request('data-type');
+
+
+	// Security Check
+	if (
+		(
+			$type != "project" &&
+			$type != "page"
+		) ||
+		!is_numeric( intval(request('id')) )
+	) {
+		$status = "fail";
+	}
+
+
+	// DB Checks !!! If exists...
+
+
+	// If no problem, DB Update
+	if ($status != 'fail') {
+
+
+		// Delete the old record
+		$db->where('archive_type', $type);
+		$db->where('archived_object_ID', request('id'));
+		$db->where('archiver_user_ID', currentUserID());
+		$db->delete('archives');
+
+
+		// Add the new record
+		$dbData = Array (
+			"archive_type" => $type,
+			"archived_object_ID" => request('id'),
+			"archiver_user_ID" => currentUserID()
+		);
+		$id = $db->insert('archives', $dbData);
+		if ($id) $status = "successful";
+
+
+	}
+
+	// Redirect if not ajax
+	if ( request('ajax') != true ) {
+		$_SESSION["js_nonce"] = null;
+
+		header('Location: '.$_SERVER['HTTP_REFERER']);
+		die();
+	}
+
 }
 
 
-// ARCHIVE !!!
-if ($action == "archive") {
+// DELETE
+if (request('action') == "delete") {
+
+	$type = request('data-type');
+
+
+	// Security Check
+	if (
+		(
+			$type != "project" &&
+			$type != "page"
+		) ||
+		!is_numeric( intval(request('id')) )
+	) {
+		$status = "fail";
+	}
+
+
+	// DB Checks !!! If exists...
+
+
+	// If no problem, DB Update
+	if ($status != 'fail') {
+
+		// Delete the old record
+		$db->where('delete_type', $type);
+		$db->where('deleted_object_ID', request('id'));
+		$db->where('deleter_user_ID', currentUserID());
+		$db->delete('deletes');
+
+
+		// Add the new record
+		$dbData = Array (
+			"delete_type" => $type,
+			"deleted_object_ID" => request('id'),
+			"deleter_user_ID" => currentUserID()
+		);
+		$id = $db->insert('deletes', $dbData);
+		if ($id) $status = "successful";
+
+
+	}
+
+	// Redirect if not ajax
+	if ( request('ajax') != true ) {
+		$_SESSION["js_nonce"] = null;
+
+		header('Location: '.$_SERVER['HTTP_REFERER']);
+		die();
+	}
 
 }
 
 
-// DELETE !!!
-if ($action == "delete") {
+// REMOVE !!!
+if (request('action') == "remove") {
 
 }
 
 
-// RECOVER !!!
-if ($action == "recover") {
+// RECOVER
+if ( substr(request('action'), 0, 8) == "recover-") {
+
+	$recover_type = substr(request('action'), 8, -1);
+
+	$type = request('data-type');
+
+
+	// Security Check
+	if (
+		(
+			$type != "project" &&
+			$type != "page"
+		) ||
+		(
+			$recover_type != "archive" &&
+			$recover_type != "delete"
+		) ||
+		!is_numeric( intval(request('id')) )
+	) {
+		$status = "fail";
+	}
+
+
+	// DB Checks !!! If exists...
+
+
+	// If no problem, DB Update
+	if ($status != 'fail') {
+
+		// Delete the old record
+		$db->where($recover_type.'_type', $type);
+		$db->where($recover_type.'d_object_ID', request('id'));
+		$db->where($recover_type.'r_user_ID', currentUserID());
+		$deleted = $db->delete($recover_type.'s');
+		if ($deleted) $status = "successful";
+	}
+
+	// Redirect if not ajax
+	if ( request('ajax') != true ) {
+		$_SESSION["js_nonce"] = null;
+
+		header('Location: '.$_SERVER['HTTP_REFERER']);
+		die();
+	}
 
 }
 
 
 
 // CREATE THE RESPONSE
-$data = array(
-
-	'action' => $action,
+$data = array();
+$data['data'] = array(
 
 	'status' => $status,
-
-	'data' => $orderData
+	'action' => request('action'),
+	'nonce' => request('nonce'),
+	'S_nonce' => $_SESSION['js_nonce'],
+	//'data' => $orderData
 
 );
 

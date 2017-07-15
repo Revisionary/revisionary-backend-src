@@ -81,22 +81,28 @@ if (
 	}
 
 
-	// Check if any my page !!!
+	// Check if any my page
 	$myPages = false;
 	if (
 		array_search(currentUserID(), array_column($allPages, 'user_ID')) !== false
 	) $myPages = true;
 
 
-	// Check if any my shared page !!!
+	// Check if any my shared page
 	$sharedPages = false;
 	if (
 		array_search(currentUserID(), array_column($allPages, 'share_to')) !== false
 	) $sharedPages = true;
 
 
+	// Check if here is archived or deleted pages
+	$archivePages = false;
+	if ($catFilter == "archived" || $catFilter == "deleted")
+		$archivePages = true;
+
+
 	// Otherwise !!!
-	if (!$myPages && !$sharedPages) {
+	if (!$myPages && !$sharedPages && !$archivePages) {
 
 		header('Location: '.site_url('projects'));
 		die();

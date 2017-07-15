@@ -1,11 +1,11 @@
 <?php
 // SITE URLS
-function filterUrl($str){
+function filterUrl($str) {
   return htmlspecialchars(trim($str));
 }
 
 function get($name){
-  if(isset($_GET[$name])){
+  if(isset($_GET[$name])) {
 
     if (is_array($_GET[$name])){
       return array_map(function($item){
@@ -19,7 +19,7 @@ function get($name){
   return false;
 }
 
-function post($name){
+function post($name) {
   if(isset($_POST[$name])){
 
     if (is_array($_POST[$name])){
@@ -34,22 +34,37 @@ function post($name){
   return false;
 }
 
-function url($index){
+function request($name) {
+  if(isset($_REQUEST[$name])){
+
+    if (is_array($_REQUEST[$name])){
+      return array_map(function($item){
+        return filterUrl($item);
+      }, $_REQUEST[$name]);
+    }
+
+    return filterUrl($_REQUEST[$name]);
+
+  }
+  return false;
+}
+
+function url($index) {
   global $_url;
   if (isset($_url[$index]))
     return $_url[$index];
   return false;
 }
 
-function site_url($url = null, $forceSSL = false, $unForceSSL = false){
+function site_url($url = null, $forceSSL = false, $unForceSSL = false) {
   return ($forceSSL ? secure_url : ($unForceSSL ? unsecure_url : url)) . '/' . $url;
 }
 
-function asset_url($url = null, $forceSSL = false, $unForceSSL = false){
+function asset_url($url = null, $forceSSL = false, $unForceSSL = false) {
   return ($forceSSL ? secure_url : ($unForceSSL ? unsecure_url : url)) . '/assets/' . $url;
 }
 
-function cache_url($url = null, $forceSSL = false, $unForceSSL = false){
+function cache_url($url = null, $forceSSL = false, $unForceSSL = false) {
   return asset_url('cache/' . $url, $forceSSL, $unForceSSL);
 }
 

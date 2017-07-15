@@ -156,17 +156,20 @@
 							</div>
 							<div class="col xl-4-12 xl-right actions">
 								<?php
+									$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$page['page_ID'];
+
 									if ($catFilter == "archived" || $catFilter == "deleted") {
 								?>
-								<a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a>
+								<a class="recover" href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>"><i class="fa fa-reply" aria-hidden="true"></i></a>
 								<?php
 									} else {
 								?>
-								<a href="#"><i class="fa fa-archive" aria-hidden="true"></i></a>
+								<a class="archive" href="<?=site_url($action_url.'&action=archive')?>"><i class="fa fa-archive" aria-hidden="true"></i></a>
 								<?php
 									}
+
 								?>
-								<a href="#"><i class="fa fa-trash" aria-hidden="true"></i></a>
+								<a class="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 							</div>
 						</div>
 

@@ -102,6 +102,21 @@
 				$db->joinWhere("shares s", "s.share_type", "page");
 				$db->joinWhere("shares s", "s.share_to", currentUserID());
 
+
+				// Bring the archive info
+				$db->join("archives arc", "arc.archived_object_ID = p.page_ID", "LEFT");
+				$db->joinWhere("archives arc", "arc.archiver_user_ID", currentUserID());
+				$db->joinWhere("archives arc", "arc.archive_type", "page");
+
+
+				// Bring the delete info
+				$db->join("deletes del", "del.deleted_object_ID = p.page_ID", "LEFT");
+				$db->joinWhere("deletes del", "del.deleter_user_ID", currentUserID());
+				$db->joinWhere("deletes del", "del.delete_type", "page");
+
+
+
+
 				$db->where('project_ID', $project['project_ID']);
 
 
@@ -130,8 +145,8 @@
 
 
 
-				$db->where('page_archived', 0);
-				$db->where('page_deleted', 0);
+				$db->where('del.deleted_object_ID IS NULL');
+				$db->where('arc.archived_object_ID IS NULL');
 				$page_count = $db->getValue("pages p", "count(*)");
 				?>
 
@@ -145,17 +160,20 @@
 									</div>
 									<div class="col xl-6-12 xl-right actions">
 										<?php
+											$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$project['project_ID'];
+
 											if ($catFilter == "archived" || $catFilter == "deleted") {
 										?>
-										<a href="#"><i class="fa fa-reply" aria-hidden="true"></i></a>
+										<a class="recover" href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>"><i class="fa fa-reply" aria-hidden="true"></i></a>
 										<?php
 											} else {
 										?>
-										<a href="#"><i class="fa fa-archive" aria-hidden="true"></i></a>
+										<a class="archive" href="<?=site_url($action_url.'&action=archive')?>"><i class="fa fa-archive" aria-hidden="true"></i></a>
 										<?php
 											}
+
 										?>
-										<a href="#"><i class="fa fa-trash" aria-hidden="true"></i></a>
+										<a class="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									</div>
 								</div>
 

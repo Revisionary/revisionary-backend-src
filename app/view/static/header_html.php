@@ -36,8 +36,16 @@
 			}
 		?>
 
+
+		<?php
+
+		// Generate new nonce for JS
+		$_SESSION["js_nonce"] = uniqid(mt_rand(), true);
+
+		?>
 		<script>
 			var ajax_url = '<?=site_url('ajax')?>';
+			var nonce = '<?=$_SESSION["js_nonce"]?>';
 		</script>
 
 		<link rel="icon" href="<?=asset_url('images/revisionary-icon.png')?>" sizes="32x32">

@@ -30,28 +30,82 @@ $(function() {
 
 		//console.log(orderData);
 
+		$('.progress').css('width', "0%");
+
 	    // AJAX update the order
 		$.post(ajax_url, {
 			'type':'data-action',
 			'action': 'reorder',
-			'orderData' : orderData
+			'orderData' : orderData,
+			'nonce' : nonce
 		}, function(result){
 
 
 			$.each(result.data, function(key, data){
 
-
-				// Progressbar works !!!
 				console.log(key, data);
 
+				// Progressbar Update
+				if ( data.status == "successful" ) $('.progress').css('width', "100%");
 
 			});
 
 		}, 'json');
 
 
+	});
 
 
+
+	// ACTIONS
+	$('.actions a').click(function(e) {
+
+		var confirm_text;
+
+		if ( $(this).hasClass('archive') )
+			confirm_text = "Are you sure you want to archive this?";
+
+		if ( $(this).hasClass('delete') )
+			confirm_text = "Are you sure you want to delete this?";
+
+		if ( $(this).hasClass('recover') )
+			confirm_text = "Are you sure you want to recover this?";
+
+		if ( $(this).hasClass('remove') )
+			confirm_text = "Are you sure you want to completely remove this?";
+
+
+		if ( confirm(confirm_text) ) {
+
+			var url = $(this).attr('href');
+			var block = $(this).parent().parent().parent().parent();
+
+			$('.progress').css('width', "0%");
+
+			// AJAX Send data
+			$.get(url, {ajax:true}, function(result){
+
+				$.each(result.data, function(key, data){
+
+					console.log(key, data);
+
+					// Progressbar Update
+					if ( data.status == "successful" ) {
+
+						block.remove();
+
+						$('.progress').css('width', "100%");
+					}
+
+				});
+
+			}, 'json');
+
+		}
+
+
+		e.preventDefault();
+		return false;
 
 	});
 
@@ -67,7 +121,7 @@ $(function() {
 
 		$('.cat-separator').each(function() {
 
-			if ( $(this).prev().hasClass('block') || $(this).prev().hasClass('cat-separator:not(.xl-hidden)') ) {
+			if ( $(this).prev().hasClass('block') || ($(this).prev().hasClass('cat-separator') && !$(this).prev().hasClass('xl-hidden')) ) {
 
 				$(this).prev().after(box_html);
 

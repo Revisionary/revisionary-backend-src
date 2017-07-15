@@ -83,6 +83,18 @@ function the_data() {
 		$db->joinWhere("categories cat", "cat.cat_user_ID", currentUserID());
 
 
+		// Bring the archive info
+		$db->join("archives arc", "arc.archived_object_ID = p.project_ID", "LEFT");
+		$db->joinWhere("archives arc", "arc.archiver_user_ID", currentUserID());
+		$db->joinWhere("archives arc", "arc.archive_type", "project");
+
+
+		// Bring the delete info
+		$db->join("deletes del", "del.deleted_object_ID = p.project_ID", "LEFT");
+		$db->joinWhere("deletes del", "del.deleter_user_ID", currentUserID());
+		$db->joinWhere("deletes del", "del.delete_type", "project");
+
+
 		// Mine and Shared Filters
 		if ($catFilter == "mine")
 			$db->where('user_ID = '.currentUserID());
@@ -92,8 +104,9 @@ function the_data() {
 
 
 		// Exclude deleted and archived
-		$db->where('project_deleted', ($catFilter == "deleted" ? 1 : 0));
-		$db->where('project_archived', ($catFilter == "archived" ? 1 : 0));
+		$db->where('del.deleted_object_ID IS '.($catFilter == "deleted" ? 'NOT' : '').' NULL');
+		if ($catFilter != "deleted")
+			$db->where('arc.archived_object_ID IS '.($catFilter == "archived" ? 'NOT' : '').' NULL');
 
 
 		// Exclude other categories
@@ -111,7 +124,7 @@ function the_data() {
 
 		// Default Sorting
 		if ($order == "") $db->orderBy("o.sort_number", "asc");
-		$db->orderBy("share_ID", "desc");
+		if ($order == "") $db->orderBy("share_ID", "desc");
 		$db->orderBy("cat_name", "asc");
 		$db->orderBy("project_name", "asc");
 
