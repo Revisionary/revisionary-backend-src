@@ -4,6 +4,7 @@
 	<div id="content" class="wrap xl-1 container">
 		<div class="col">
 
+
 			<!-- Title -->
 			<?php require view('static/frontend/title'); ?>
 

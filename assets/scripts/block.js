@@ -170,6 +170,45 @@ $(function() {
 	});
 
 
+	// New Page/Project Modal
+	$(document).on('click', '.add-new-box', function(e) {
+
+		openModal('#add-new');
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
+	// Close New Page/Project Modal
+	$('#add-new .cancel-button').on('click', function(e) {
+
+		closeModal('#add-new');
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
+
+	// MODAL WORKS
+	function openModal(modalElement) {
+
+		$('body').addClass('popup-open');
+		$(modalElement).addClass('active');
+
+	}
+
+	function closeModal(modalElement) {
+
+		$(modalElement).removeClass('active');
+		$('body').removeClass('popup-open');
+
+	}
+
+
 	// NEW PAGE/PROJECT CLONES
 	function addNewPageButtons() {
 
@@ -232,5 +271,19 @@ $(function() {
 
 
 	addNewPageButtons();
+
+});
+
+
+
+// When everything is loaded
+$(window).on("load", function (e) {
+
+
+	// Pins Section Content
+	$(".scrollable-content").mCustomScrollbar({
+		alwaysShowScrollbar: false
+	});
+
 
 });

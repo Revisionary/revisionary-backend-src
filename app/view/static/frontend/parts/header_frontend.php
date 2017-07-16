@@ -1,5 +1,84 @@
 <div id="page" class="site">
 
+	<div class="bg-overlay">
+
+
+		<div id="add-new" class="popup-window xl-center scrollable-content">
+			<h2>Add New Project</h2>
+
+			<form action="">
+
+
+
+				<div class="wrap xl-center">
+					<div class="col xl-5-7">
+
+
+						<h4 class="xl-left xl-hidden">Project Info</h4>
+
+						<h3>Site Name <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+						<input type="text" placeholder="e.g. Google, BBC, ..."/>
+
+
+						<a href="#" class="more-options">More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+
+
+						<div class="more-options-wrapper xl-hidden">
+
+
+							<h3>Project Members <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+							<p>Members here!</p>
+
+
+							<h4 class="xl-left">Page Info</h4>
+
+							<h3>First Page URL <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+							<input type="text" placeholder="https://example.com/..."/>
+
+
+							<h3>Page Name <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+							<input type="text" placeholder="e.g. Home, About, ..."/>
+
+
+							<h3>Devices <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+							<p>Devices here!</p>
+
+
+						</div>
+
+
+					</div>
+				</div>
+
+
+
+				<!-- Actions -->
+				<div class="wrap xl-center">
+					<div class="col xl-3-8">
+
+
+						<button class="cancel-button light small">Cancel</button>
+
+
+					</div>
+					<div class="col xl-3-8">
+
+
+						<button class="dark small">Add</button>
+
+
+					</div>
+				</div>
+				<br/>
+
+			</form>
+
+
+		</div>
+
+
+	</div>
+
 	<div class="progress-bar">
 		<div class="progress">
 			<div class="gradient"></div>

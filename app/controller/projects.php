@@ -24,10 +24,18 @@ $dataType = 'project';
 //print_r($projectsData); exit();
 
 
-// Additional JavaScripts
+// Additional Scripts and Styles
+$additionalCSS = [
+	'jquery.mCustomScrollbar.css'
+];
+
 $additionalHeadJS = [
 	'vendor/jquery.sortable.min.js',
 	'block.js'
+];
+
+$additionalBodyJS = [
+	'vendor/jquery.mCustomScrollbar.concat.min.js'
 ];
 
 
