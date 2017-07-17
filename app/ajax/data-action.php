@@ -249,6 +249,13 @@ if (request('action') == "remove") {
 			$db->delete('deletes');
 
 
+			// Remove from sorting
+			$db->where('sort_type', $type);
+			$db->where('sort_object_ID', request('id'));
+			$db->where('sorter_user_ID', currentUserID());
+			$db->delete('sorting');
+
+
 			$db->where($type.'_ID', request('id'));
 			$db->where('user_ID', currentUserID());
 			$removed = $db->delete($type.'s');

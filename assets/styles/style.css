@@ -864,7 +864,8 @@ html .popup-open, body .popup-open {
   background-color: white;
   border: 10px solid black;
   padding: 20px 40px 40px;
-  max-height: 80vh;
+  max-height: 90vh;
+  box-sizing: border-box;
   transition: 500ms;
 }
 
@@ -883,7 +884,7 @@ html .popup-open, body .popup-open {
   font-size: 40px;
   line-height: 43px;
   letter-spacing: 2px;
-  margin-top: 25px;
+  margin-top: 40px;
   margin-bottom: 15px;
 }
 
@@ -900,7 +901,15 @@ html .popup-open, body .popup-open {
   border-bottom: 1px solid;
 }
 
-#page .popup-window input[type="text"] {
+#page .popup-window h5 {
+  font-size: 15px;
+  font-weight: normal;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+#page .popup-window input[type="text"],
+#page .popup-window input[type="url"] {
   border-width: 4px !important;
   height: 36px !important;
   font-size: 14px;
@@ -909,10 +918,74 @@ html .popup-open, body .popup-open {
   padding: 0 10px;
 }
 
+#page .popup-window .option-toggler,
 #page .popup-window .more-options {
   display: block;
   margin: 25px 0;
   font-size: 15px;
+}
+
+#page .popup-window .mCSB_scrollTools {
+  right: -6px;
+  top: 100px;
+}
+
+#page .popup-window .mCSB_inside > .mCSB_container {
+  margin-right: 0;
+}
+
+#page .popup-window .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+#page .popup-window:not(.more-options) .less-options, #page .popup-window:not(.more-options) .more-options-wrapper, #page .popup-window:not(.more-options) .section-title {
+  display: none;
+}
+
+#page .popup-window.more-options .more-options {
+  display: none;
+}
+
+#page .popup-window .people a {
+  display: inline-block;
+  line-height: 16px;
+}
+
+#page .popup-window .people a.new-member {
+  position: relative;
+  top: -5px;
+  right: -5px;
+}
+
+#page .popup-window ul.selected-devices {
+  list-style: none;
+  margin-top: 0;
+}
+
+#page .popup-window ul.selected-devices li {
+  text-align: left;
+  padding-left: 40px;
+  margin-top: 10px;
+}
+
+#page .popup-window ul.selected-devices li i {
+  display: inline-block;
+  width: 60px;
+  text-align: center;
+  font-size: 35px;
+  position: relative;
+  bottom: -6px;
+}
+
+#page .popup-window ul.selected-devices li span {
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+#page .popup-window .add-device {
+  font-weight: bold;
+  font-size: 18px;
 }
 
 #page button.small {

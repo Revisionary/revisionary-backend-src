@@ -108,5 +108,28 @@
 							</ul>
 						</nav>
 					</div>
+
+
+					<?php
+						// If projects shown
+						if ($_url[0] == "projects") {
+					?>
+					<div class="dropdown-container" style="margin-left: 15px;">
+						<span class="dropdown-opener">TOOLS <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+						<nav class="dropdown higher xl-left lower">
+							<ul class="tool-selector">
+								<li><a href="#">Github Integration</a></li>
+								<li><a href="#">BitBucket Integration</a></li>
+								<li><a href="#">Trello Integration</a></li>
+								<li><a href="#">More Apps...</a></li>
+
+							</ul>
+						</nav>
+					</div>
+					<?php
+						}
+					?>
+
+
 				</div>
 			</div>

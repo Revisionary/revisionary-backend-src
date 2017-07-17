@@ -175,6 +175,34 @@ $(function() {
 
 		openModal('#add-new');
 
+		var thisBlock = $(this).parent().parent();
+		var catID = thisBlock.prevAll('.cat-separator:first').attr('data-cat-id');
+		var catName = thisBlock.prevAll('.cat-separator:first').find('.name').text();
+		var orderNumber = thisBlock.prev('.block').attr('data-order');
+
+		$('#add-new .to').html("To <b></b> Section");
+		$('#add-new .to > b').text(catName);
+
+		if (catName == "Uncategorized")
+			$('#add-new .to').html("");
+
+
+		// Category ID input update
+		$('#add-new input[name="category"]').attr('value', catID);
+
+
+		// Order number input update
+		$('#add-new input[name="order"]').attr('value', ( typeof orderNumber !== 'undefined' ? parseInt(orderNumber) + 1 : 0 ));
+
+
+		// Focus to the input
+		setTimeout(function() {
+
+			$('#add-new input[name="project-name"]').focus();
+
+		}, 500);
+
+
 		e.preventDefault();
 		return false;
 
@@ -188,6 +216,26 @@ $(function() {
 
 		e.preventDefault();
 		return false;
+
+	});
+
+
+	// More Options Button on New Page/Project Modal
+	$('#add-new .option-toggler').on('click', function(e) {
+
+
+		$('#add-new').toggleClass('more-options');
+
+
+		if ( $('#add-new').hasClass('more-options') )
+			$('#add-new .more-options-wrapper input').prop('disabled', false);
+		else
+			$('#add-new .more-options-wrapper input').prop('disabled', true);
+
+
+		e.preventDefault();
+		return false;
+
 
 	});
 

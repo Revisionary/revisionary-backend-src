@@ -7,6 +7,95 @@ if (!userloggedIn()) {
 }
 
 
+
+
+// ADD NEW
+if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_nonce"] ) {
+
+
+	// Security check !!!
+	if (
+
+		post('project-name') == "" ||
+		!is_numeric( post('category') ) ||
+		!is_numeric( post('order') )
+
+	) {
+
+		header('Location: '.site_url('projects?error'));
+		die();
+
+	}
+
+
+	// DB Checks !!!
+
+
+	// Add the project
+	$project_id = $db->insert ('projects', array(
+		"project_name" => post('project-name'),
+		"user_ID" => currentUserID()
+	));
+
+
+	// Add the Category
+	if (post('category') != "0") {
+
+		$cat_id = $db->insert ('project_cat_connect', array(
+			"project_cat_project_ID" => $project_id,
+			"project_cat_ID" => post('category'),
+			"project_cat_connect_user_ID" => currentUserID()
+		));
+
+	}
+
+
+	// Add the order
+	if (post('order') != "0") {
+
+		$cat_id = $db->insert ('sorting', array(
+			"sort_type" => 'project',
+			"sort_object_ID" => $project_id,
+			"sort_number" => post('order'),
+			"sorter_user_ID" => currentUserID()
+		));
+
+	}
+
+
+	// Add the first pages
+	if (post('page-url') != "" && post('page-name') != "" && is_array(post('devices'))) {
+
+		$parent_page_ID = null;
+		$device_count = 0;
+		foreach (post('devices') as $deviceID) {
+
+			$page_id = $db->insert ('pages', array(
+				"page_name" => post('page-name'),
+				"page_url" => post('page-url'),
+				"project_ID" => $project_id,
+				"device_ID" => $deviceID,
+				"parent_page_ID" => $parent_page_ID,
+				"user_ID" => currentUserID()
+			));
+
+			if ( $device_count == 0 ) $parent_page_ID = $page_id;
+
+			$device_count++;
+		}
+
+	}
+
+
+
+	if($project_id) {
+		header('Location: '.site_url('project/'.$project_id.'?add-first-page'));
+		die();
+	}
+
+}
+
+
 // Get the order
 $order = isset($_GET['order']) ? $_GET['order'] : '';
 
@@ -37,6 +126,10 @@ $additionalHeadJS = [
 $additionalBodyJS = [
 	'vendor/jquery.mCustomScrollbar.concat.min.js'
 ];
+
+
+// Generate new nonce for add new modals
+$_SESSION["add_new_nonce"] = uniqid(mt_rand(), true);
 
 
 $page_title = "Projects - Revisionary App";

@@ -157,9 +157,17 @@ foreach($theCategorizedData as $categories) {
 
 
 // Additional JavaScripts
+$additionalCSS = [
+	'jquery.mCustomScrollbar.css'
+];
+
 $additionalHeadJS = [
 	'vendor/jquery.sortable.min.js',
 	'block.js'
+];
+
+$additionalBodyJS = [
+	'vendor/jquery.mCustomScrollbar.concat.min.js'
 ];
 
 $page_title = Project::ID($_url[1])->projectName." Project - Revisionary App";

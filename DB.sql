@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 16, 2017 at 01:15 AM
+-- Generation Time: Jul 18, 2017 at 01:33 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -82,8 +82,7 @@ CREATE TABLE `deletes` (
 --
 
 INSERT INTO `deletes` (`delete_ID`, `delete_type`, `deleted_object_ID`, `deleter_user_ID`) VALUES
-(21, 'page', 4, 1),
-(22, 'project', 5, 1);
+(21, 'page', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -273,11 +272,12 @@ CREATE TABLE `project_cat_connect` (
 --
 
 INSERT INTO `project_cat_connect` (`project_cat_connect_ID`, `project_cat_project_ID`, `project_cat_ID`, `project_cat_connect_user_ID`) VALUES
-(817, 5, 2, 1),
-(818, 1, 2, 1),
-(819, 8, 1, 1),
-(820, 10, 1, 1),
-(821, 9, 1, 1);
+(926, 7, 2, 1),
+(927, 1, 2, 1),
+(928, 5, 2, 1),
+(929, 8, 1, 1),
+(930, 9, 1, 1),
+(931, 10, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -323,22 +323,10 @@ CREATE TABLE `sorting` (
 INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, `sorter_user_ID`) VALUES
 (961, 'page', 14, 1, 1),
 (2069, 'project', 2, 4, 1),
-(2079, 'project', 6, 2, 1),
 (2144, 'page', 4, 10, 1),
 (2318, 'page', 12, 1, 1),
 (2319, 'page', 24, 2, 1),
 (2395, 'category', 6, 10, 1),
-(2453, 'project', 4, 1, 1),
-(2454, 'project', 3, 2, 1),
-(2455, 'project', 7, 3, 1),
-(2456, 'category', 2, 4, 1),
-(2457, 'project', 5, 5, 1),
-(2458, 'project', 1, 6, 1),
-(2459, 'category', 1, 7, 1),
-(2460, 'project', 8, 8, 1),
-(2461, 'project', 10, 9, 1),
-(2462, 'project', 9, 10, 1),
-(2476, 'category', 0, 0, 1),
 (2477, 'category', 3, 1, 1),
 (2478, 'page', 10, 2, 1),
 (2479, 'page', 1, 3, 1),
@@ -350,7 +338,19 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (2485, 'page', 3, 9, 1),
 (2486, 'category', 5, 10, 1),
 (2487, 'page', 8, 11, 1),
-(2488, 'page', 9, 12, 1);
+(2488, 'page', 9, 12, 1),
+(2617, 'category', 0, 0, 1),
+(2618, 'project', 4, 1, 1),
+(2619, 'project', 6, 2, 1),
+(2620, 'project', 3, 3, 1),
+(2621, 'category', 2, 4, 1),
+(2622, 'project', 7, 5, 1),
+(2623, 'project', 1, 6, 1),
+(2624, 'project', 5, 7, 1),
+(2625, 'category', 1, 8, 1),
+(2626, 'project', 8, 9, 1),
+(2627, 'project', 9, 10, 1),
+(2628, 'project', 10, 11, 1);
 
 -- --------------------------------------------------------
 
@@ -546,17 +546,17 @@ ALTER TABLE `versions`
 -- AUTO_INCREMENT for table `archives`
 --
 ALTER TABLE `archives`
-  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -571,7 +571,7 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
@@ -581,12 +581,12 @@ ALTER TABLE `page_cat_connect`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=822;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=935;
 --
 -- AUTO_INCREMENT for table `shares`
 --
@@ -596,7 +596,7 @@ ALTER TABLE `shares`
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2489;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2637;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -611,7 +611,7 @@ ALTER TABLE `user_levels`
 -- AUTO_INCREMENT for table `versions`
 --
 ALTER TABLE `versions`
-  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- Constraints for dumped tables
 --
