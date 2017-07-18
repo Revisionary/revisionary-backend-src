@@ -553,9 +553,34 @@ class Internalize {
 
 	// Get Page Screenshot
 	public function capturePage($project_capture = false) {
+		global $db;
 
-		$page_image = $this->pageImage;
-		$project_image = $this->projectImage;
+		$pageID = $this->pageId;
+		$projectID = Page::ID($pageID)->getPageInfo('project_ID');
+
+
+		// Add image names to database
+		if ( Page::ID($pageID)->getPageInfo('page_pic') == null ) {
+
+			$db->where('page_ID', $pageID);
+			$db->update('pages', array(
+				'page_pic' => "page.jpg"
+			), 1);
+
+		}
+
+		if ( Project::ID( $projectID )->getProjectInfo('project_pic') == null ) {
+
+			$db->where('project_ID', $projectID);
+			$db->update('projects', array(
+				'project_pic' => "proj.jpg"
+			), 1);
+
+		}
+
+
+		$page_image = Page::ID($pageID)->pageDeviceDir."/".Page::ID($pageID)->getPageInfo('page_pic');
+		$project_image = Page::ID($pageID)->projectDir."/".Project::ID( $projectID )->getProjectInfo('project_pic');
 
 		$page_captured = file_exists($page_image);
 		$project_captured = file_exists($project_image);
@@ -647,6 +672,11 @@ class Internalize {
 	        '%url\s*\(\s*[\\\'"]?(?!(((?:https?:)?\/\/)|(?:data:?:)))([^\\\'")]+)[\\\'"]?\s*\)%',
 	        function ($css_urls) use($url) {
 
+
+				// LOG:
+		        file_put_contents( Page::ID($this->pageId)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$css_urls[3]."' -> '".url_to_absolute($url, $css_urls[3])."' \r\n", FILE_APPEND);
+
+
 	            return "url('".url_to_absolute($url, $css_urls[3])."')";
 	        },
 	        $css
@@ -703,10 +733,17 @@ LOD;
 		        $font_file_name = basename($parsed_url['path']);
 		        $font_file_name_hash = $font_file_name.($parsed_url['hash'] != "" ? "#".$parsed_url['hash'] : "");
 
+
 				// Add the file to quee
 	            $this->fontsToDownload["fonts/".$font_file_name] = $font_remote_url;
 
+
 	            if ($this->debug) echo "detectFonts: ".$url." - ".$urls[0]."<br>";
+
+
+	            // LOG:
+	            file_put_contents( Page::ID($this->pageId)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$url."' -> '".$urls[0]."' \r\n", FILE_APPEND);
+
 
 				// Change the URL
 	            //return site_url("get-font/?font=".$font_file_name_hash);

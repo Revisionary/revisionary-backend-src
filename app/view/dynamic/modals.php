@@ -10,7 +10,6 @@
 		<input type="hidden" name="order" value="0"/>
 
 		<input type="hidden" name="devices[]" value="4"/>
-		<input type="hidden" name="devices[]" value="7"/>
 
 
 

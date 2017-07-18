@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 18, 2017 at 01:33 AM
+-- Generation Time: Jul 18, 2017 at 11:43 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -152,7 +152,7 @@ INSERT INTO `device_categories` (`device_cat_ID`, `device_cat_name`, `device_cat
 CREATE TABLE `pages` (
   `page_ID` bigint(20) NOT NULL,
   `page_name` varchar(200) NOT NULL,
-  `page_pic` varchar(15) NOT NULL,
+  `page_pic` varchar(15) DEFAULT NULL,
   `page_url` text NOT NULL,
   `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `page_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -167,7 +167,7 @@ CREATE TABLE `pages` (
 --
 
 INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_created`, `page_modified`, `project_ID`, `device_ID`, `parent_page_ID`, `user_ID`) VALUES
-(1, 'About', 'about.png', 'https://www.twelve12.com/about-us/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(1, 'About', 'about.png', 'https://www.twelve12.com/about-us/', '2017-06-24 14:20:44', '2017-07-18 20:27:39', 8, 4, NULL, 1),
 (2, 'Contact', 'contact.png', 'https://www.twelve12.com/contact/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
 (3, 'GM Properties', 'gm.png', 'https://www.twelve12.com/project/gm-properties/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
 (4, '128 Online', '128.png', 'https://www.twelve12.com/project/128-online-store/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
@@ -178,7 +178,7 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_creat
 (9, 'Blog 2', 'blog2.png', 'https://www.twelve12.com/blog/branding/branding-tips/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
 (10, 'Twelve12 Home', 'home.png', 'https://www.twelve12.com/', '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 4, NULL, 2),
 (11, 'Bilal\'s Home', 'bilal.png', 'http://www.bilaltas.net/', '2017-06-25 00:21:09', '2017-06-25 00:21:09', 1, 4, NULL, 1),
-(12, 'Cüneyt\'s Home', 'cuneyt.png', 'http://www.cuneyt-tas.com/', '2017-06-25 11:20:36', '2017-06-25 11:20:36', 5, 4, NULL, 5),
+(12, 'Cüneyt\'s Home', 'cuneyt.jpg', 'http://www.cuneyt-tas.com/', '2017-06-25 11:20:36', '2017-07-18 20:29:02', 5, 4, NULL, 5),
 (13, 'BBC Home', 'bbc.png', 'http://www.bbc.com/', '2017-06-26 08:05:02', '2017-06-26 08:05:02', 6, 4, NULL, 1),
 (14, 'About', 'about.png', 'https://www.twelve12.com/about-us/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 7, 1, 1),
 (15, 'SoundCloud Home', 'soundcloud.jpg', 'https://soundcloud.com/', '2017-07-02 15:49:58', '2017-07-02 15:49:58', 2, 4, NULL, 1),
@@ -189,7 +189,7 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_creat
 (20, 'Auro Home Mobile', 'auro.jpg', 'https://www.aurowm.com/', '2017-07-08 13:14:32', '2017-07-08 13:14:32', 10, 7, 18, 1),
 (21, 'Auro Tablet Home', 'auro_t.jpg', 'https://www.aurowm.com/', '2017-07-08 16:11:01', '2017-07-08 16:11:01', 10, 6, 18, 1),
 (22, 'TWSJ Home', 'twsj.jpg', 'https://www.wsj.com/europe', '2017-07-08 19:06:53', '2017-07-08 19:06:53', 3, 5, NULL, 1),
-(24, 'Cüneyt\'s Contact', 'cuneyt.png', 'http://www.cuneyt-tas.com/iletisim/', '2017-06-25 11:20:36', '2017-06-25 11:20:36', 5, 4, NULL, 5),
+(24, 'Cüneyt\'s Contact', 'cuneyt.jpg', 'http://www.cuneyt-tas.com/iletisim/', '2017-06-25 11:20:36', '2017-07-18 20:28:48', 5, 4, NULL, 5),
 (25, 'Hawaii Home', 'hawaiih.jpg', 'http://www.hawaiilassi.com/', '2017-07-10 12:01:17', '2017-07-10 12:01:17', 11, 4, NULL, 4),
 (26, 'Twelve12 iMac', 'home.png', 'https://www.twelve12.com/', '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 1, 10, 1);
 
@@ -556,7 +556,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -571,7 +571,7 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
@@ -581,12 +581,12 @@ ALTER TABLE `page_cat_connect`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=935;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=937;
 --
 -- AUTO_INCREMENT for table `shares`
 --
@@ -596,7 +596,7 @@ ALTER TABLE `shares`
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2637;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2639;
 --
 -- AUTO_INCREMENT for table `users`
 --

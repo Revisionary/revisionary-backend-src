@@ -54,5 +54,25 @@ webpage.onLoadFinished = function(status){
 
 };
 
+
+
+
+
+
+webpage.onResourceRequested = function(requestData, networkRequest) {
+    //console.log(JSON.stringify(requestData));
+};
+
+webpage.onResourceReceived = function(response) {
+    //console.log(JSON.stringify(response));
+    console.log(response.url);
+};
+
+
+
+
+
+
+
 // Open
 webpage.open(url);

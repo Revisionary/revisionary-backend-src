@@ -235,6 +235,14 @@ if (request('action') == "remove") {
 
 		} elseif ($type == "project" || $type == "page") {
 
+			// Remove the folder
+			if ($type == "project")
+				deleteDirectory( dir."/assets/cache/user-".currentUserID()."/project-".request('id')."/" );
+
+			if ($type == "page")
+				deleteDirectory( Page::ID( request('id') )->pageDir."/" );
+
+
 			// Remove from archives
 			$db->where('archive_type', $type);
 			$db->where('archived_object_ID', request('id'));
