@@ -239,6 +239,15 @@ class Internalize_v2 {
 			$extension = isset($path_parts['extension']) ? strtolower($path_parts['extension']) : "";
 
 
+			// If the resource is not belong to the domain, pass it.
+			if ( parseUrl($resource_url)['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] ) {
+
+				$logger->info("Resource skipped: $resource_url");
+				continue;
+			}
+
+
+
 			// Register the HTML file
 			if ($count == 0) {
 
@@ -265,14 +274,8 @@ class Internalize_v2 {
 
 
 			} elseif (
-
-				(
-					$content_type == "text/css" ||
-					$extension == "css"
-				) &&
-
-				parseUrl($resource_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain']
-
+				$content_type == "text/css" ||
+				$extension == "css"
 			) {
 
 
@@ -729,10 +732,6 @@ class Internalize_v2 {
 			$updated = file_put_contents( Page::ID($this->page_ID)->pageTempFile, $html, FILE_TEXT);
 
 
-		// LOG:
-		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$updated ? " <b>NOT</b>":'')." FILTRED \r\n", FILE_APPEND);
-
-
 		// Specific Log
 		file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$updated ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
 		rename(Page::ID($this->page_ID)->logDir."/_filter.log", Page::ID($this->page_ID)->logDir.(!$updated ? '/__' : '/')."filter.log");
@@ -807,9 +806,6 @@ class Internalize_v2 {
 
 		}
 
-
-		// FINISH LOG:
-		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - CSS DOWNLOAD FINISHED".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
 
 
 		// Specific Log
