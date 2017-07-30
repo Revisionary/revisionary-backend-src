@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 18, 2017 at 11:43 PM
+-- Generation Time: Jul 30, 2017 at 04:49 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -191,7 +191,8 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_creat
 (22, 'TWSJ Home', 'twsj.jpg', 'https://www.wsj.com/europe', '2017-07-08 19:06:53', '2017-07-08 19:06:53', 3, 5, NULL, 1),
 (24, 'Cüneyt\'s Contact', 'cuneyt.jpg', 'http://www.cuneyt-tas.com/iletisim/', '2017-06-25 11:20:36', '2017-07-18 20:28:48', 5, 4, NULL, 5),
 (25, 'Hawaii Home', 'hawaiih.jpg', 'http://www.hawaiilassi.com/', '2017-07-10 12:01:17', '2017-07-10 12:01:17', 11, 4, NULL, 4),
-(26, 'Twelve12 iMac', 'home.png', 'https://www.twelve12.com/', '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 1, 10, 1);
+(26, 'Twelve12 iMac', 'home.png', 'https://www.twelve12.com/', '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 1, 10, 1),
+(27, 'Vanta Home', 'page.jpg', 'http://vantaquest.twelve12.com/', '2017-07-29 09:02:20', '2017-07-30 12:32:54', 14, 4, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -252,7 +253,8 @@ INSERT INTO `projects` (`project_ID`, `project_name`, `project_pic`, `project_cr
 (8, 'Twelve12', 'twelve12.png', '2017-06-18 17:54:24', 2),
 (9, '7Diamonds Dev', '7diamonds.png', '2017-06-29 04:11:01', 1),
 (10, 'Auro WM', 'auro.jpg', '2017-07-07 11:11:08', 1),
-(11, 'Hawaii Lassi', 'hawaii.jpg', '2017-07-10 12:00:36', 4);
+(11, 'Hawaii Lassi', 'hawaii.jpg', '2017-07-10 12:00:36', 4),
+(14, 'VantaQuest', 'proj.jpg', '2017-07-29 09:02:20', 1);
 
 -- --------------------------------------------------------
 
@@ -277,7 +279,38 @@ INSERT INTO `project_cat_connect` (`project_cat_connect_ID`, `project_cat_projec
 (928, 5, 2, 1),
 (929, 8, 1, 1),
 (930, 9, 1, 1),
-(931, 10, 1, 1);
+(931, 10, 1, 1),
+(934, 14, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `queues`
+--
+
+CREATE TABLE `queues` (
+  `queue_ID` bigint(20) NOT NULL,
+  `queue_type` varchar(60) DEFAULT NULL,
+  `queue_object_ID` bigint(20) NOT NULL,
+  `queue_PID` bigint(20) DEFAULT NULL,
+  `queue_status` varchar(20) NOT NULL DEFAULT 'waiting',
+  `queue_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `queue_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `queue_message` text,
+  `user_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `queues`
+--
+
+INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, `queue_status`, `queue_updated`, `queue_created`, `queue_message`, `user_ID`) VALUES
+(33, 'internalize', 27, NULL, 'done', '2017-07-30 11:15:12', '2017-07-30 11:14:55', 'Browser job is started.', 0),
+(34, 'internalize', 27, NULL, 'done', '2017-07-30 12:32:39', '2017-07-30 11:15:03', 'Browser job is started.', 0),
+(35, 'internalize', 27, 3957, 'done', '2017-07-30 12:32:42', '2017-07-30 12:26:03', 'Browser job has started.', 0),
+(36, 'internalize', 27, 3983, 'done', '2017-07-30 12:32:54', '2017-07-30 12:28:30', 'Browser job has started.', 1),
+(37, 'internalize', 27, 4038, 'done', '2017-07-30 13:35:38', '2017-07-30 12:31:57', 'Browser job has started.', 1),
+(38, 'internalize', 27, 4176, 'working', '2017-07-30 13:35:40', '2017-07-30 13:35:22', 'Browser job has started.', 1);
 
 -- --------------------------------------------------------
 
@@ -350,7 +383,8 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (2625, 'category', 1, 8, 1),
 (2626, 'project', 8, 9, 1),
 (2627, 'project', 9, 10, 1),
-(2628, 'project', 10, 11, 1);
+(2628, 'project', 10, 11, 1),
+(2631, 'project', 14, 12, 1);
 
 -- --------------------------------------------------------
 
@@ -502,6 +536,12 @@ ALTER TABLE `project_cat_connect`
   ADD KEY `project_cat_connect_ibfk_2` (`project_cat_project_ID`);
 
 --
+-- Indexes for table `queues`
+--
+ALTER TABLE `queues`
+  ADD PRIMARY KEY (`queue_ID`);
+
+--
 -- Indexes for table `shares`
 --
 ALTER TABLE `shares`
@@ -556,7 +596,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -571,7 +611,7 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
@@ -581,12 +621,17 @@ ALTER TABLE `page_cat_connect`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=937;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=935;
+--
+-- AUTO_INCREMENT for table `queues`
+--
+ALTER TABLE `queues`
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT for table `shares`
 --
@@ -596,7 +641,7 @@ ALTER TABLE `shares`
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2639;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2632;
 --
 -- AUTO_INCREMENT for table `users`
 --
