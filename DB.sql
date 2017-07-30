@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 30, 2017 at 07:57 PM
+-- Generation Time: Jul 31, 2017 at 01:20 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -307,13 +307,12 @@ CREATE TABLE `queues` (
 --
 
 INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, `queue_status`, `queue_updated`, `queue_created`, `queue_message`, `user_ID`) VALUES
-(72, 'internalize', 27, NULL, 'done', '2017-07-30 16:33:32', '2017-07-30 16:31:41', 'Started parsing the resources.', 1),
-(73, 'internalize', 27, NULL, 'done', '2017-07-30 16:37:53', '2017-07-30 16:33:25', 'Started parsing the resources.', 1),
-(74, 'internalize', 27, NULL, 'done', '2017-07-30 16:41:04', '2017-07-30 16:37:49', 'Started parsing the resources.', 1),
-(75, 'internalize', 27, NULL, 'done', '2017-07-30 16:49:06', '2017-07-30 16:40:59', 'Started parsing the resources.', 1),
-(76, 'internalize', 27, NULL, 'done', '2017-07-30 16:52:02', '2017-07-30 16:49:00', 'Started parsing the resources.', 1),
-(77, 'internalize', 27, NULL, 'done', '2017-07-30 16:53:35', '2017-07-30 16:51:57', 'Started parsing the resources.', 1),
-(78, 'internalize', 27, NULL, 'working', '2017-07-30 16:53:49', '2017-07-30 16:53:32', 'Started parsing the resources.', 1);
+(83, 'internalize', 27, NULL, 'done', '2017-07-30 21:26:04', '2017-07-30 21:19:38', 'HTML Filtred.', 1),
+(84, 'internalize', 27, NULL, 'done', '2017-07-30 22:04:27', '2017-07-30 21:25:54', 'HTML Filtred.', 1),
+(85, 'internalize', 27, NULL, 'done', '2017-07-30 22:05:35', '2017-07-30 22:04:21', 'HTML Filtred.', 1),
+(86, 'internalize', 27, NULL, 'done', '2017-07-30 22:10:12', '2017-07-30 22:05:31', 'CSS downloads finished.', 1),
+(87, 'internalize', 27, NULL, 'done', '2017-07-30 22:16:29', '2017-07-30 22:10:07', 'CSS downloads finished.', 1),
+(88, 'internalize', 27, NULL, 'working', '2017-07-30 22:16:42', '2017-07-30 22:16:23', 'CSS downloads finished.', 1);
 
 -- --------------------------------------------------------
 
@@ -634,7 +633,7 @@ ALTER TABLE `project_cat_connect`
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
 --
 -- AUTO_INCREMENT for table `shares`
 --

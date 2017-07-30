@@ -56,6 +56,15 @@ class Queue {
     }
 
 
+    // Queue Info
+    public function info($queue_ID) {
+	    global $db;
+
+		$db->where('queue_ID', $queue_ID);
+		return $db->getOne('queues');
+    }
+
+
 
 
 

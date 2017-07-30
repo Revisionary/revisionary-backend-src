@@ -317,9 +317,14 @@ class Internalize {
 
 
 				// If file is from the remote url
-		        if ( parseUrl($the_url)['domain'] == parseUrl($this->remoteUrl)['domain']
+		        if (
+		        	parseUrl($the_url)['domain'] == parseUrl($this->remoteUrl)['domain'] &&
 
-		        && ( strpos($urls[0], 'rel="stylesheet"') !== false || strpos($urls[0], "rel='stylesheet'") !== false || strpos($urls[0], "rel=stylesheet") !== false )
+					(
+						strpos($urls[0], 'rel="stylesheet"') !== false ||
+						strpos($urls[0], "rel='stylesheet'") !== false ||
+						strpos($urls[0], "rel=stylesheet") !== false
+					)
 
 		        ) {
 

@@ -88,7 +88,7 @@ class Internalize_v2 {
 	}
 
 
-	// 3. If job is ready to get done, open the site with slimerJS
+	// 3. 	If job is ready to get done, open the site with slimerJS
 	// 3.1. Print all the loaded resources
 	// 3.2. Take screenshots
 	// 3.3. Close the site
@@ -207,9 +207,18 @@ class Internalize_v2 {
 	}
 
 
-	// 5. Parse and detect files to download
+	// 4. Parse and detect files to download
 	public function detectFilesToDownload() {
 		global $db, $logger, $queue;
+
+
+		// Current Queue Status Check
+		if ( $queue->info($this->queue_ID)['queue_status'] != "working" ) {
+
+			$logger->error("Queue isn't working.");
+			return false;
+
+		}
 
 
 		// Update the queue status
@@ -256,8 +265,14 @@ class Internalize_v2 {
 
 
 			} elseif (
-				$content_type == "text/css" ||
-				$extension == "css"
+
+				(
+					$content_type == "text/css" ||
+					$extension == "css"
+				) &&
+
+				parseUrl($resource_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain']
+
 			) {
 
 
@@ -335,6 +350,662 @@ class Internalize_v2 {
 			$count++;
 		}
 
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "Parsing the resources finished.");
+
+		// Log
+		$logger->info("Parsing the resources finished.");
+
+
+	}
+
+
+	// 5. Download HTML
+	public function downloadHtml() {
+		global $logger, $queue;
+
+
+		// Current Queue Status Check
+		if ( $queue->info($this->queue_ID)['queue_status'] != "working" ) {
+
+			$logger->error("Queue isn't working.");
+			return false;
+
+		}
+
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "Started downloading HTML file.");
+
+		// Log
+		$logger->info("Started downloading HTML file.");
+
+
+		// Do nothing if already saved
+		if ( file_exists( Page::ID($this->page_ID)->pageTempFile ) ) {
+
+			// Log
+			$logger->info("HTML file is already downloaded");
+
+			return false;
+
+		}
+
+
+		// Create the log folder if not exists
+		if ( !file_exists(Page::ID($this->page_ID)->logDir) )
+			mkdir(Page::ID($this->page_ID)->logDir, 0755, true);
+		@chmod(Page::ID($this->page_ID)->logDir, 0755);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_html.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
+
+
+
+		// PHP METHOD
+
+		// For the SSL Problem
+		$ContextOptions = array(
+		    "ssl" => array(
+		        "verify_peer" => false,
+		        "verify_peer_name" => false,
+		    ),
+	        "http" => array (
+	            "follow_location" => true, // follow redirects
+	            "user_agent" => "Mozilla/5.0"
+	        )
+		);
+
+		// Get the HTML
+		$content = @file_get_contents(Page::ID($this->page_ID)->remoteUrl, FILE_TEXT, stream_context_create($ContextOptions));
+		$html = $content;
+
+
+		// Extract the encode
+		$charset = "";
+		$headers = @get_headers(Page::ID($this->page_ID)->remoteUrl, 1);
+		$content_type = $headers['Content-Type'];
+		if ( is_array($content_type) )
+			$content_type = end($content_type);
+		$parsed_content_type = explode(';', $content_type);
+		if (count($parsed_content_type) > 1)
+			$charset = strtoupper(substr(array_values(array_filter($parsed_content_type, function ($v) {
+				return substr($v, 0, 9) === ' charset=';
+			}))[0], 9));
+
+		// Log the headers
+		file_put_contents(Page::ID($this->page_ID)->logDir."/headers.log", print_r($headers, true), FILE_APPEND);
+
+
+		// Correct the charset
+		if ($charset != "" )
+			$html = mb_convert_encoding($content, "UTF-8", $charset);
+
+
+
+		// SAVING:
+
+		// Create the folder if not exists
+		if ( !file_exists(Page::ID($this->page_ID)->pageDir."/") )
+			mkdir(Page::ID($this->page_ID)->pageDir."/", 0755, true);
+		@chmod(Page::ID($this->page_ID)->pageDir."/", 0755);
+
+
+		// Save the file if not exists - PHP METHOD
+		if ( !file_exists( Page::ID($this->page_ID)->pageTempFile ) )
+			$saved = file_put_contents( Page::ID($this->page_ID)->pageTempFile, $html, FILE_TEXT);
+
+
+
+		// LOG:
+		$logger->info("PROJECT ID: ".Page::ID($this->page_ID)->projectId." | PAGE ID: ".$this->page_ID." | DEVICE: ".Page::ID($this->page_ID)->pageDevice." | VERSION: ".Page::ID($this->page_ID)->pageVersion);
+
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_html.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$saved ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_html.log", Page::ID($this->page_ID)->logDir.(!$saved ? '/__' : '/')."html.log");
+
+
+
+		if ($saved) {
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "working", "HTML Saved.");
+
+
+			$logger->info("HTML Downloaded: ".Page::ID($this->page_ID)->remoteUrl);
+			return true;
+
+		}
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "error", "HTML couldn't saved.");
+		$logger->error("HTML couldn't downloaded: ".Page::ID($this->page_ID)->remoteUrl);
+		return false;
+	}
+
+
+	// 6. Filter the HTML to correct URLs
+	public function filterAndUpdateHTML() {
+		global $logger, $queue;
+
+
+		// Current Queue Status Check
+		if ( $queue->info($this->queue_ID)['queue_status'] != "working" ) {
+
+			$logger->error("Queue isn't working.");
+			return false;
+
+		}
+
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "HTML Filtering started.");
+
+
+		// Log
+		$logger->info("HTML Filter started.");
+
+
+		// Do nothing if already saved
+		if ( !file_exists( Page::ID($this->page_ID)->pageTempFile ) ) {
+
+			// Log
+			$logger->error("HTML file is not exist.");
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "error", "HTML couldn't be filtred.");
+
+			return false;
+
+		}
+
+		// Get the HTML from the downloaded file
+		$html = file_get_contents(Page::ID($this->page_ID)->pageTempFile);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
+
+
+
+		// Add Necessary Spaces - done for a bug
+		function placeNeccessarySpaces($contents) {
+			$quotes = 0; $flag = false;
+			$newContents = '';
+			for($i = 0; $i < strlen($contents); $i++){
+			    $newContents .= $contents[$i];
+			    if(is_array($contents) && $contents[$i] == '"') $quotes++;
+			    if($quotes%2 == 0){
+			        if(is_array($contents) && $contents[$i+1] !== ' ' && $flag == true) {
+			            $newContents .= ' ';
+			            $flag = false;
+			        }
+			    }
+			    else $flag = true;
+			}
+			return $newContents;
+		}
+		$html = placeNeccessarySpaces($html);
+
+
+		// INCLUDE THE BASE
+		$html = preg_replace_callback(
+	        '/<head([\>]|[\s][^<]*?\>)/i',
+	        function ($urls) {
+
+		        // Specific Log
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
+
+		        return $urls[0]."<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+
+	        },
+	        $html
+	    );
+
+
+		// CONVERT ALL HREF, SRC ATTRIBUTES TO ABSOLUTE  !!! - Correct with existing revisionary page urls ??? (target="_parent")
+		$html = preg_replace_callback(
+	        '/<(?<tagname>link|a|script|img)\s+[^<]*?(?:href|src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
+	        function ($urls) {
+
+		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+		        $new_url = url_to_absolute(Page::ID($this->page_ID)->remoteUrl, $the_url);
+
+		        if (parseUrl($the_url)['host'] != "" )
+		        	$new_url = url_to_absolute(parseUrl($the_url)['full_host'], $the_url);
+
+		        // If not on our server, don't do it
+		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] )
+		        	$new_url = $the_url;
+
+
+		        // Specific Log
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+
+
+	            return str_replace(
+	            	$the_url,
+	            	$new_url,
+	            	$urls[0]
+	            );
+	        },
+	        $html
+	    );
+
+
+/*
+	    // INTERNALIZE CSS FILES
+		$count_css = 0;
+		$html = preg_replace_callback(
+	        '/<(?<tagname>link)\s+[^<]*?(?:href)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
+	        function ($urls) use(&$count_css) {
+
+		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+
+
+
+				// If file is from the remote url
+		        if ( parseUrl($the_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain']
+
+		        && ( strpos($urls[0], 'rel="stylesheet"') !== false || strpos($urls[0], "rel='stylesheet'") !== false || strpos($urls[0], "rel=stylesheet") !== false )
+
+		        ) {
+
+			        $count_css++;
+		        	$css_file_name = $count_css.".css";
+
+					// Add the file to download list !!! NO NEED
+			        //$this->cssToDownload["css/".$css_file_name] = $the_url;
+
+
+			        // Specific Log
+					file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".Page::ID($this->page_ID)->pageUri."css/".$css_file_name."' \r\n", FILE_APPEND);
+
+
+			        // Change the URL
+					return str_replace(
+		            	$the_url,
+		            	Page::ID($this->page_ID)->pageUri."css/".$css_file_name,
+		            	$urls[0]
+		            );
+
+				}
+
+				return $urls[0];
+
+
+	        },
+	        $html
+	    );
+*/
+
+
+		// CONVERT ALL SRCSET ATTRIBUTES TO ABSOLUTE
+		$html = preg_replace_callback(
+	        '/<(?:img)\s+[^<]*?(?:srcset)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
+	        function ($urls) {
+
+		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+
+				$attr = explode(',', $the_url);
+
+			    $new_srcset = "";
+
+				foreach ( $attr as $src ) {
+
+					$url_exp = array_filter(explode(' ', trim($src)));
+					$url = $url_exp[0];
+					$size = $url_exp[1];
+
+					$new_srcset .= url_to_absolute(Page::ID($this->page_ID)->remoteUrl, $url)." ".$size.(end($attr) != $src ? ", " : "");
+
+				}
+
+
+				// Specific Log
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Srcset Absoluted: '".$the_url."' -> '".$new_srcset."' \r\n", FILE_APPEND);
+
+
+	            return str_replace(
+	            	$the_url,
+	            	$new_srcset,
+	            	$urls[0]
+	            );
+	        },
+	        $html
+	    );
+
+
+/*
+	    // IN PAGE STYLES
+		$html = preg_replace_callback(
+	        '/(?<tag><style+[^<]*?>)(?<content>[^<>]++)<\/style>/i',
+	        function ($urls) {
+
+		        // Specific Log
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
+
+		        return $urls['tag'].$this->filter_css($urls['content'])."</style>";
+
+	        },
+	        $html
+	    );
+*/
+
+
+/*
+	    // INLINE STYLES
+		$html = preg_replace_callback(
+	        '/<(?:[a-z0-9]*)\s+[^<]*?(?:style)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
+	        function ($urls) {
+
+		        $the_css = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+		        $filtred_css = $this->filter_css($the_css);
+
+		        // Specific Log
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inline Style Filtred: '".$the_css."' -> '".$filtred_css."' \r\n", FILE_APPEND);
+
+
+	            return str_replace(
+	            	$the_css,
+	            	$filtred_css,
+	            	$urls[0]
+	            );
+	        },
+	        $html
+	    );
+*/
+
+
+
+		// SAVING:
+
+		// Save the file if not exists
+		if ( file_exists( Page::ID($this->page_ID)->pageTempFile ) )
+			$updated = file_put_contents( Page::ID($this->page_ID)->pageTempFile, $html, FILE_TEXT);
+
+
+		// LOG:
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$updated ? " <b>NOT</b>":'')." FILTRED \r\n", FILE_APPEND);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$updated ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_filter.log", Page::ID($this->page_ID)->logDir.(!$updated ? '/__' : '/')."filter.log");
+
+
+		if ($updated) {
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "working", "HTML Filtred.");
+
+
+			$logger->info("HTML Filtred.");
+			return true;
+
+		}
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "error", "HTML couldn't be filtred.");
+		$logger->error("HTML couldn't be filtred.");
+		return false;
+
+	}
+
+
+	// 7. Download the CSS files
+	public function downloadCssFiles() {
+		global $logger, $queue;
+
+
+		// Current Queue Status Check
+		if ( $queue->info($this->queue_ID)['queue_status'] != "working" ) {
+
+			$logger->error("Queue isn't working.");
+			return false;
+
+		}
+
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "CSS downloading started.");
+
+
+		// Init Log
+		$logger->info("CSS downloading started.");
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
+
+
+		// Download them
+		$css_downloaded_has_error = false;
+		foreach ($this->cssToDownload as $fileName => $url) {
+
+			$fileName = $fileName.".css";
+
+
+			$css_downloaded = $this->download_remote_file($url, $fileName, "css");
+
+			// In case of error, try non-ssl if it's ssl
+			if (!$css_downloaded && substr($url, 0, 8) == "https://") {
+				$url = "http://".substr($url, 8);
+				$css_downloaded = $this->download_remote_file($url, $fileName, "css");
+			}
+
+
+			// Specific Log
+			file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+
+
+			if (!$css_downloaded) $css_downloaded_has_error = true;
+
+		}
+
+
+		// FINISH LOG:
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - CSS DOWNLOAD FINISHED".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_css.log", Page::ID($this->page_ID)->logDir.($css_downloaded_has_error ? '/__' : '/')."css.log");
+
+
+		// Return true if no error
+		if (!$css_downloaded_has_error) {
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "working", "CSS downloads finished.");
+
+			$logger->info("CSS Downloads finished");
+			return true;
+		}
+
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "CSS downloads finished with error(s).");
+
+
+		$logger->error("CSS Downloads finished with error(s).");
+		return false;
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// DOWNLOAD FILES
+	function download_remote_file($url, $fileName, $folderName = "other") {
+		global $logger;
+
+
+		$fileContent = "";
+
+
+		// Check the url
+		if ( get_http_response_code($url) == "200" )
+	    	$fileContent .= @file_get_contents($url, FILE_BINARY);
+
+
+		//if ( $folderName == "css" ) !!!
+			//$fileContent = $this->filter_css($fileContent, $url);
+
+
+
+		// SAVING:
+
+		// Create the folder if not exists
+		if ( !file_exists(Page::ID($this->page_ID)->pageDir."/$folderName/") )
+			mkdir(Page::ID($this->page_ID)->pageDir."/$folderName/", 0755, true);
+		@chmod(Page::ID($this->page_ID)->pageDir."/$folderName/", 0755);
+
+		// Save the file if not exists
+		$downloaded = false;
+		if ( !file_exists( Page::ID($this->page_ID)->pageDir."/$folderName/".$fileName ) )
+			$downloaded = file_put_contents( Page::ID($this->page_ID)->pageDir."/$folderName/".$fileName, $fileContent, FILE_BINARY);
+
+
+		// Return true if successful
+		if ($downloaded) {
+
+			$logger->info("File downloaded: '".$url."' -> '".$fileName."'");
+			return true;
+		}
+
+		$logger->error("File couldn't be downloaded: '".$url."' -> '".$fileName."'");
+		return false;
+
+	}
+
+
+
+	// FILTERS:
+
+	// FILTER CSS
+	function filter_css($css, $url = "") {
+
+		if (empty($url))
+			$url = Page::ID($this->page_ID)->remoteUrl;
+
+		// Internalize Fonts
+		$css = $this->detectFonts($css, $url);
+
+		if ($this->debug) echo "filter_css: ".$url."<br>";
+
+
+		// All url()s
+		$css = preg_replace_callback(
+	        '%url\s*\(\s*[\\\'"]?(?!(((?:https?:)?\/\/)|(?:data:?:)))([^\\\'")]+)[\\\'"]?\s*\)%',
+	        function ($css_urls) use($url) {
+
+
+				// LOG:
+		        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$css_urls[3]."' -> '".url_to_absolute($url, $css_urls[3])."' \r\n", FILE_APPEND);
+
+
+	            return "url('".url_to_absolute($url, $css_urls[3])."')";
+	        },
+	        $css
+	    );
+
+
+		return $css;
+
+	}
+
+
+	// FILTER JS ?? !!!
+	function filter_js() {
+
+	}
+
+
+	// DETECT FONTS
+	function detectFonts($css, $url = "") {
+
+	$pattern = <<<'LOD'
+~
+(?(DEFINE)
+    (?<quoted_content>
+        (["']) (?>[^"'\\]++ | \\{2} | \\. | (?!\g{-1})["'] )*+ \g{-1}
+    )
+    (?<comment> /\* .*? \*/ )
+    (?<url_skip> (?: https?: | data: ) [^"'\s)}]*+ )
+    (?<other_content>
+        (?> [^u}/"']++ | \g<quoted_content> | \g<comment>
+          | \Bu | u(?!rl\s*+\() | /(?!\*)
+          | \g<url_start> \g<url_skip> ["']?+
+        )++
+    )
+    (?<anchor> \G(?<!^) ["']?+ | @font-face \s*+ { )
+    (?<url_start> url\( \s*+ ["']?+ )
+)
+
+\g<comment> (*SKIP)(*FAIL) |
+
+\g<anchor> \g<other_content>?+ \g<url_start> \K [./]*+
+
+( [^"'\s)}]*+ )    # url
+~xs
+LOD;
+
+		$css = preg_replace_callback(
+	        $pattern,
+	        function ($urls) use($url) {
+
+		        $font_remote_url = url_to_absolute($url, $urls[0]);
+
+		        $parsed_url = parseUrl($font_remote_url);
+		        $font_file_name = basename($parsed_url['path']);
+		        $font_file_name_hash = $font_file_name.($parsed_url['hash'] != "" ? "#".$parsed_url['hash'] : "");
+
+
+				// Add the file to quee
+	            $this->fontsToDownload["fonts/".$font_file_name] = $font_remote_url;
+
+
+	            if ($this->debug) echo "detectFonts: ".$url." - ".$urls[0]."<br>";
+
+
+	            // LOG:
+	            file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$url."' -> '".$urls[0]."' \r\n", FILE_APPEND);
+
+
+				// Change the URL
+	            //return site_url("get-font/?font=".$font_file_name_hash);
+	            return Page::ID($this->page_ID)->pageUri."fonts/".$font_file_name_hash;
+
+	        },
+	        $css
+	    );
+
+
+	return $css;
 
 	}
 

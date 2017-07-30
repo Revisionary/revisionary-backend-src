@@ -43,11 +43,14 @@ $internalize->detectFilesToDownload();
 
 
 // 6. Download HTML
+$internalize->downloadHtml();
 
 // 6.1. HTML absolute url filter
+$internalize->filterAndUpdateHTML();
 
 
 // 7. Download CSS files
+$internalize->downloadCssFiles();
 
 // 7.1. CSS absolute url filter
 
