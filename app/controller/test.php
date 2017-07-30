@@ -34,14 +34,11 @@ $internalize->waitForQueue();
 // 3.1. Print all the loaded resources
 // 3.2. Take screenshots
 // 3.3. Close the site
+// 3.4. Parse the resources file
 $internalize->browserWorks();
 
 
-// 4. Wait for the resources file
-$internalize->waitForResources();
-
-
-// 5. Parse and detect files to download
+// 5. Detect files to download
 $internalize->detectFilesToDownload();
 
 

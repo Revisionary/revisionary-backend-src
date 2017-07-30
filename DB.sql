@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 30, 2017 at 04:49 PM
+-- Generation Time: Jul 30, 2017 at 07:57 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.5
 
@@ -154,6 +154,8 @@ CREATE TABLE `pages` (
   `page_name` varchar(200) NOT NULL,
   `page_pic` varchar(15) DEFAULT NULL,
   `page_url` text NOT NULL,
+  `page_user` varchar(60) DEFAULT NULL,
+  `page_pass` varchar(60) DEFAULT NULL,
   `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `page_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `project_ID` bigint(20) NOT NULL,
@@ -166,33 +168,33 @@ CREATE TABLE `pages` (
 -- Dumping data for table `pages`
 --
 
-INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_created`, `page_modified`, `project_ID`, `device_ID`, `parent_page_ID`, `user_ID`) VALUES
-(1, 'About', 'about.png', 'https://www.twelve12.com/about-us/', '2017-06-24 14:20:44', '2017-07-18 20:27:39', 8, 4, NULL, 1),
-(2, 'Contact', 'contact.png', 'https://www.twelve12.com/contact/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(3, 'GM Properties', 'gm.png', 'https://www.twelve12.com/project/gm-properties/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(4, '128 Online', '128.png', 'https://www.twelve12.com/project/128-online-store/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(5, 'Vampire Tools', 'vampire.png', 'https://www.twelve12.com/project/vampire-tools/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(6, 'inMotion', 'inmotion.png', 'https://www.twelve12.com/project/inmotion/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(7, 'The Kitchen', 'kitchen.png', 'https://www.twelve12.com/project/the-kitchen-at-westwood/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(8, 'Blog 1', 'blog1.png', 'https://www.twelve12.com/blog/branding/brand-way-box/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(9, 'Blog 2', 'blog2.png', 'https://www.twelve12.com/blog/branding/branding-tips/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(10, 'Twelve12 Home', 'home.png', 'https://www.twelve12.com/', '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 4, NULL, 2),
-(11, 'Bilal\'s Home', 'bilal.png', 'http://www.bilaltas.net/', '2017-06-25 00:21:09', '2017-06-25 00:21:09', 1, 4, NULL, 1),
-(12, 'Cüneyt\'s Home', 'cuneyt.jpg', 'http://www.cuneyt-tas.com/', '2017-06-25 11:20:36', '2017-07-18 20:29:02', 5, 4, NULL, 5),
-(13, 'BBC Home', 'bbc.png', 'http://www.bbc.com/', '2017-06-26 08:05:02', '2017-06-26 08:05:02', 6, 4, NULL, 1),
-(14, 'About', 'about.png', 'https://www.twelve12.com/about-us/', '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 7, 1, 1),
-(15, 'SoundCloud Home', 'soundcloud.jpg', 'https://soundcloud.com/', '2017-07-02 15:49:58', '2017-07-02 15:49:58', 2, 4, NULL, 1),
-(16, '7Diamonds Home', '7diamonds.png', 'https://7diamonds.com', '2017-07-02 18:15:06', '2017-07-02 18:15:06', 9, 4, NULL, 1),
-(17, 'Envato Home', 'envato.jpg', 'https://envato.com/', '2017-07-06 14:26:32', '2017-07-06 14:26:32', 7, 6, NULL, 1),
-(18, 'Auro Home', 'aurohome.jpg', 'https://www.aurowm.com/', '2017-07-07 11:11:40', '2017-07-07 11:11:40', 10, 4, NULL, 1),
-(19, 'Youtube Home', 'youtube.jpg', 'https://www.youtube.com/', '2017-07-07 16:28:49', '2017-07-07 16:28:49', 4, 4, NULL, 1),
-(20, 'Auro Home Mobile', 'auro.jpg', 'https://www.aurowm.com/', '2017-07-08 13:14:32', '2017-07-08 13:14:32', 10, 7, 18, 1),
-(21, 'Auro Tablet Home', 'auro_t.jpg', 'https://www.aurowm.com/', '2017-07-08 16:11:01', '2017-07-08 16:11:01', 10, 6, 18, 1),
-(22, 'TWSJ Home', 'twsj.jpg', 'https://www.wsj.com/europe', '2017-07-08 19:06:53', '2017-07-08 19:06:53', 3, 5, NULL, 1),
-(24, 'Cüneyt\'s Contact', 'cuneyt.jpg', 'http://www.cuneyt-tas.com/iletisim/', '2017-06-25 11:20:36', '2017-07-18 20:28:48', 5, 4, NULL, 5),
-(25, 'Hawaii Home', 'hawaiih.jpg', 'http://www.hawaiilassi.com/', '2017-07-10 12:01:17', '2017-07-10 12:01:17', 11, 4, NULL, 4),
-(26, 'Twelve12 iMac', 'home.png', 'https://www.twelve12.com/', '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 1, 10, 1),
-(27, 'Vanta Home', 'page.jpg', 'http://vantaquest.twelve12.com/', '2017-07-29 09:02:20', '2017-07-30 12:32:54', 14, 4, NULL, 1);
+INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_user`, `page_pass`, `page_created`, `page_modified`, `project_ID`, `device_ID`, `parent_page_ID`, `user_ID`) VALUES
+(1, 'About', 'about.png', 'https://www.twelve12.com/about-us/', NULL, NULL, '2017-06-24 14:20:44', '2017-07-18 20:27:39', 8, 4, NULL, 1),
+(2, 'Contact', 'contact.png', 'https://www.twelve12.com/contact/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(3, 'GM Properties', 'gm.png', 'https://www.twelve12.com/project/gm-properties/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(4, '128 Online', '128.png', 'https://www.twelve12.com/project/128-online-store/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(5, 'Vampire Tools', 'vampire.png', 'https://www.twelve12.com/project/vampire-tools/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(6, 'inMotion', 'inmotion.png', 'https://www.twelve12.com/project/inmotion/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(7, 'The Kitchen', 'kitchen.png', 'https://www.twelve12.com/project/the-kitchen-at-westwood/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(8, 'Blog 1', 'blog1.png', 'https://www.twelve12.com/blog/branding/brand-way-box/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(9, 'Blog 2', 'blog2.png', 'https://www.twelve12.com/blog/branding/branding-tips/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
+(10, 'Twelve12 Home', 'home.png', 'https://www.twelve12.com/', NULL, NULL, '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 4, NULL, 2),
+(11, 'Bilal\'s Home', 'bilal.png', 'http://www.bilaltas.net/', NULL, NULL, '2017-06-25 00:21:09', '2017-06-25 00:21:09', 1, 4, NULL, 1),
+(12, 'Cüneyt\'s Home', 'cuneyt.jpg', 'http://www.cuneyt-tas.com/', NULL, NULL, '2017-06-25 11:20:36', '2017-07-18 20:29:02', 5, 4, NULL, 5),
+(13, 'BBC Home', 'bbc.png', 'http://www.bbc.com/', NULL, NULL, '2017-06-26 08:05:02', '2017-06-26 08:05:02', 6, 4, NULL, 1),
+(14, 'About', 'about.png', 'https://www.twelve12.com/about-us/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 7, 1, 1),
+(15, 'SoundCloud Home', 'soundcloud.jpg', 'https://soundcloud.com/', NULL, NULL, '2017-07-02 15:49:58', '2017-07-02 15:49:58', 2, 4, NULL, 1),
+(16, '7Diamonds Home', '7diamonds.png', 'https://7diamonds.com', NULL, NULL, '2017-07-02 18:15:06', '2017-07-02 18:15:06', 9, 4, NULL, 1),
+(17, 'Envato Home', 'envato.jpg', 'https://envato.com/', NULL, NULL, '2017-07-06 14:26:32', '2017-07-06 14:26:32', 7, 6, NULL, 1),
+(18, 'Auro Home', 'aurohome.jpg', 'https://www.aurowm.com/', NULL, NULL, '2017-07-07 11:11:40', '2017-07-07 11:11:40', 10, 4, NULL, 1),
+(19, 'Youtube Home', 'youtube.jpg', 'https://www.youtube.com/', NULL, NULL, '2017-07-07 16:28:49', '2017-07-07 16:28:49', 4, 4, NULL, 1),
+(20, 'Auro Home Mobile', 'auro.jpg', 'https://www.aurowm.com/', NULL, NULL, '2017-07-08 13:14:32', '2017-07-08 13:14:32', 10, 7, 18, 1),
+(21, 'Auro Tablet Home', 'auro_t.jpg', 'https://www.aurowm.com/', NULL, NULL, '2017-07-08 16:11:01', '2017-07-08 16:11:01', 10, 6, 18, 1),
+(22, 'TWSJ Home', 'twsj.jpg', 'https://www.wsj.com/europe', NULL, NULL, '2017-07-08 19:06:53', '2017-07-08 19:06:53', 3, 5, NULL, 1),
+(24, 'Cüneyt\'s Contact', 'cuneyt.jpg', 'http://www.cuneyt-tas.com/iletisim/', NULL, NULL, '2017-06-25 11:20:36', '2017-07-18 20:28:48', 5, 4, NULL, 5),
+(25, 'Hawaii Home', 'hawaiih.jpg', 'http://www.hawaiilassi.com/', NULL, NULL, '2017-07-10 12:01:17', '2017-07-10 12:01:17', 11, 4, NULL, 4),
+(26, 'Twelve12 iMac', 'home.png', 'https://www.twelve12.com/', NULL, NULL, '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 1, 10, 1),
+(27, 'Vanta Home', 'page.jpg', 'http://vantaquest.twelve12.com/', NULL, NULL, '2017-07-29 09:02:20', '2017-07-30 16:53:21', 14, 4, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -305,12 +307,13 @@ CREATE TABLE `queues` (
 --
 
 INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, `queue_status`, `queue_updated`, `queue_created`, `queue_message`, `user_ID`) VALUES
-(33, 'internalize', 27, NULL, 'done', '2017-07-30 11:15:12', '2017-07-30 11:14:55', 'Browser job is started.', 0),
-(34, 'internalize', 27, NULL, 'done', '2017-07-30 12:32:39', '2017-07-30 11:15:03', 'Browser job is started.', 0),
-(35, 'internalize', 27, 3957, 'done', '2017-07-30 12:32:42', '2017-07-30 12:26:03', 'Browser job has started.', 0),
-(36, 'internalize', 27, 3983, 'done', '2017-07-30 12:32:54', '2017-07-30 12:28:30', 'Browser job has started.', 1),
-(37, 'internalize', 27, 4038, 'done', '2017-07-30 13:35:38', '2017-07-30 12:31:57', 'Browser job has started.', 1),
-(38, 'internalize', 27, 4176, 'working', '2017-07-30 13:35:40', '2017-07-30 13:35:22', 'Browser job has started.', 1);
+(72, 'internalize', 27, NULL, 'done', '2017-07-30 16:33:32', '2017-07-30 16:31:41', 'Started parsing the resources.', 1),
+(73, 'internalize', 27, NULL, 'done', '2017-07-30 16:37:53', '2017-07-30 16:33:25', 'Started parsing the resources.', 1),
+(74, 'internalize', 27, NULL, 'done', '2017-07-30 16:41:04', '2017-07-30 16:37:49', 'Started parsing the resources.', 1),
+(75, 'internalize', 27, NULL, 'done', '2017-07-30 16:49:06', '2017-07-30 16:40:59', 'Started parsing the resources.', 1),
+(76, 'internalize', 27, NULL, 'done', '2017-07-30 16:52:02', '2017-07-30 16:49:00', 'Started parsing the resources.', 1),
+(77, 'internalize', 27, NULL, 'done', '2017-07-30 16:53:35', '2017-07-30 16:51:57', 'Started parsing the resources.', 1),
+(78, 'internalize', 27, NULL, 'working', '2017-07-30 16:53:49', '2017-07-30 16:53:32', 'Started parsing the resources.', 1);
 
 -- --------------------------------------------------------
 
@@ -631,7 +634,7 @@ ALTER TABLE `project_cat_connect`
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 --
 -- AUTO_INCREMENT for table `shares`
 --

@@ -32,7 +32,7 @@ webpage.onResourceRequested = function(requestData, networkRequest) {
 webpage.onResourceReceived = function(response) {
     //console.log(JSON.stringify(response));
     //console.log(response.url);
-    fs.write(log_dir + '/resurces.log', response.url + '\r\n', 'a');
+    fs.write(log_dir + '/resources.log', response.contentType + ' -> ' + response.url + '\r\n', 'a');
 };
 
 
@@ -42,8 +42,15 @@ webpage.onLoadFinished = function(status){
 	if (status == "success") {
 
 
-		// All the resources are written
-		fs.write(log_dir + '/resurces.log', 'DONE \r\n', 'a');
+/*
+		// Two seconds later
+		window.setTimeout(function () {
+
+
+
+		}, 2000);
+*/
+
 
 
 		// Four seconds later
@@ -66,6 +73,11 @@ webpage.onLoadFinished = function(status){
 
 			// Output the HTML
 			//if (system.args[5].length === 1) fs.write(output_html, webpage.content, 'w'); // !!! SEPARATE THIS AND CAPTURING
+
+
+			// All the resources are written
+			fs.write(log_dir + '/resources.log', 'DONE \r\n', 'a');
+
 
 			webpage.close();
 			slimer.exit();
