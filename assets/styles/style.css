@@ -1078,6 +1078,12 @@ html .popup-open, body .popup-open {
   left: -140px;
 }
 
+@media (max-width: 880px) {
+  #page .home-questions {
+    left: -50px;
+  }
+}
+
 #page .home-questions .are-you {
   display: block;
 }
@@ -1092,6 +1098,12 @@ html .popup-open, body .popup-open {
   margin-top: 10px;
 }
 
+@media (max-width: 880px) {
+  #page .home-questions ul {
+    margin-left: 10px;
+  }
+}
+
 #page .home-questions ul > li {
   transition: 500ms;
   opacity: 0;
@@ -1100,6 +1112,12 @@ html .popup-open, body .popup-open {
   font-size: 64px;
   line-height: 50px;
   letter-spacing: 8px;
+}
+
+@media (max-width: 1010px) {
+  #page .home-questions ul > li {
+    font-size: 55px;
+  }
 }
 
 #page .home-questions ul > li.active {
@@ -1120,6 +1138,10 @@ html .popup-open, body .popup-open {
   margin: 0 auto;
   position: relative;
   max-width: calc(100vw - 40px);
+}
+
+#page .enter-url form {
+  position: relative;
 }
 
 #page .enter-url input[type="url"] {

@@ -22,6 +22,9 @@ require realpath('.').'/app/init.php';
 session_write_close();
 
 
+
+
+
 // Initiate the internalizator
 $internalize = new Internalize( $pageID );
 

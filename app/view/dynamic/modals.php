@@ -23,7 +23,7 @@
 				<h4 class="section-title xl-left">Project Info</h4>
 
 				<h3>Site Name <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
-				<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..."/>
+				<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." required/>
 
 
 				<a href="#" class="option-toggler more-options">More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
@@ -62,11 +62,11 @@
 					<h4 class="section-title xl-left">Page Info</h4>
 
 					<h3>First Page URL <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
-					<input type="url" name="page-url" placeholder="https://example.com/..." disabled/>
+					<input type="url" name="page-url" placeholder="https://example.com/..." required disabled/>
 
 
 					<h3>Page Name <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
-					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." disabled/>
+					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." required disabled/>
 
 
 					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle" aria-hidden="true"></i></h3>

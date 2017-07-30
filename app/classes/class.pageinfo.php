@@ -49,6 +49,9 @@ class Page {
 	// Log File
 	public $logDir;
 
+	// Log File Name
+	public $logFileName;
+
 	// Log File
 	public $logFile;
 
@@ -119,8 +122,11 @@ class Page {
         // Set the log file
         $this->logDir = $this->pageDir."/logs";
 
+        // Set the log file name
+        $this->logFileName = "process";
+
         // Set the log file
-        $this->logFile = $this->logDir."/process.log";
+        $this->logFile = $this->logDir."/".$this->logFileName.".log";
 
         // Set the page cache file
         $this->pageTempFile = $this->pageDir."/".$this->pageFileName;

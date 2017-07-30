@@ -417,6 +417,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
     .ready & {
 	    right: 0;
 	    bottom: 0;
+	    pointer-events: auto;
     }
 
     .pin-modes {
