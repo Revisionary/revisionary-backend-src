@@ -16,7 +16,7 @@ class Internalize_v2 {
 
 
 	// The resources list
-	public $resources;
+	public $resources = array();
 
 
 	// HTML file to download
