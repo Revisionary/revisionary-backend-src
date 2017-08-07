@@ -18,16 +18,24 @@ $queue = new Queue();
 
 
 
+// Initialize internalizator
+$internalize = new Internalize_v2($page_ID);
+
+$queue_ID = $job_ready = $browser_done = $files_detected = $html_downloaded = $html_filtred = $css_downloaded = $fonts_downloaded = false;
+
+
+
+
 
 
 // JOBS:
 
 // 1. Add the job to the queue
-$internalize = new Internalize_v2($page_ID);
+$queue_ID = $internalize->addToQueue();
 
 
 // 2. Wait for the queue
-$internalize->waitForQueue();
+if ($queue_ID) $job_ready = $internalize->waitForQueue();
 
 
 // 3. If job is ready to get done, open the site with slimerJS
@@ -35,34 +43,38 @@ $internalize->waitForQueue();
 // 3.2. Take screenshots
 // 3.3. Close the site
 // 3.4. Parse the resources file
-$internalize->browserWorks();
+if ($job_ready) $browser_done = $internalize->browserWorks();
 
 
 // 5. Detect files to download
-$internalize->detectFilesToDownload();
+if ($browser_done) $files_detected = $internalize->detectFilesToDownload();
 
 
 // 6. Download HTML
-$internalize->downloadHtml();
+if ($files_detected) $html_downloaded = $internalize->downloadHtml();
 
 // 6.1. HTML absolute url filter
-$internalize->filterAndUpdateHTML();
+if ($html_downloaded) $html_filtred = $internalize->filterAndUpdateHTML();
 
 
 // 7. Download CSS files
-$internalize->downloadCssFiles();
-
 // 7.1. CSS absolute url filter
-
-// 7.2. Update HTML with the downloaded CSS files
+if ($html_filtred) $css_downloaded = $internalize->downloadCssFiles();
 
 
 // 8. Download font files
+if ($css_downloaded) $fonts_downloaded = $internalize->downloadFontFiles();
 
-// 8.1. Update CSS with the downloaded fonts
+
+// 9. Update HTML with the downloaded CSS files, and font files?
+if ($fonts_downloaded) $html_updated = $internalize->updateHtmlWithNewCss();
 
 
-// 9. Complete the job!
+// 10. Update CSS with the downloaded fonts
+
+
+
+// 11. Complete the job!
 
 
 

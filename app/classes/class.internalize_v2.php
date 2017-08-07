@@ -42,10 +42,6 @@ class Internalize_v2 {
 		// Set the page ID
 		$this->page_ID = $page_ID;
 
-
-		// Add job to the queue
-		$this->queue_ID = $this->addToQueue();
-
 	}
 
 
@@ -57,10 +53,10 @@ class Internalize_v2 {
 	public function addToQueue() {
 		global $db, $logger, $queue;
 
-		$queue_ID = $queue->new_job('internalize', $this->page_ID, "Waiting other works to be done");
+		$this->queue_ID = $queue->new_job('internalize', $this->page_ID, "Waiting other works to be done.");
 
-		if ($queue_ID)
-			return $queue_ID;
+		if ($this->queue_ID)
+			return $this->queue_ID;
 
 		return false;
 	}
@@ -73,17 +69,21 @@ class Internalize_v2 {
 
 		// Is current job ready to be done
 		$job_ready = $queue->isReady($this->queue_ID);
+		$job_status = $queue->info($this->queue_ID)['queue_status'];
 
 
 		// 2. Wait for the job availability in queue
 		$interval = 2;
-		while (!$job_ready) {
+		while (!$job_ready && $job_status == "waiting") {
 
 			$logger->info("Waiting $interval second(s) for the queue.");
 			sleep($interval);
 			$job_ready = $queue->isReady($this->queue_ID);
+			$job_status = $queue->info($this->queue_ID)['queue_status'];
 
 		}
+
+		return true;
 
 	}
 
@@ -171,13 +171,60 @@ class Internalize_v2 {
 		$logger->info("Browser jobs process ID: ". $process->getPid());
 
 
+		// Wait for the process done
+		while (
+			$process->isRunning() &&
+			$queue->info($this->queue_ID)['queue_status'] == "working"
+		) {
+
+			$logger->info("Waiting 2 seconds for the process to be complete");
+			sleep(2);
+
+		}
+
+
+		// Process Check
+		if ( !$process->isRunning() ) {
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "working", "Browser job is done.");
+
+
+			// Log
+			$logger->info("Browser job is done.");
+
+		}
+
+
+
 		// Wait for the resources file creation
 		$resources_file = $logDir."/resources.log";
-		while ( !file_exists($resources_file) ) {
+/*
+		while (
+			!file_exists($resources_file) &&
+			$queue->info($this->queue_ID)['queue_status'] == "working"
+		) {
 
 			$logger->info("Waiting 2 seconds for the resources.log file");
 			sleep(2);
 
+		}
+*/
+
+
+		// Resources file check
+		if (!file_exists($resources_file)) {
+
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "error", "Resource file is not exist.");
+
+
+			// Log
+			$logger->error("Resource file is not exist.");
+
+
+			return false;
 		}
 
 
@@ -185,10 +232,11 @@ class Internalize_v2 {
 		$resources = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($resources_file)));
 		$last_line = end($resources);
 
-		while ( $last_line != "DONE" ) {
+		while ( $last_line != "DONE" && $job_status == "working" ) {
 
 			$logger->info("Waiting 2 seconds for the resources file to complete. Last Resource: ". $last_line);
 			sleep(2);
+			$job_status = $queue->info($this->queue_ID)['queue_status'];
 			$resources = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($resources_file)));
 			$last_line = end($resources);
 
@@ -203,6 +251,8 @@ class Internalize_v2 {
 		$queue->update_status($this->queue_ID, "working", "Resources list is ready.", $process->getPid());
 
 		$logger->info("Resources list is ready.");
+
+		return true;
 
 	}
 
@@ -249,7 +299,7 @@ class Internalize_v2 {
 
 
 			// Register the HTML file
-			if ($count == 0) {
+			if ($content_type == "text/html") {
 
 
 				// If redirected?
@@ -349,18 +399,18 @@ class Internalize_v2 {
 			}
 
 
-
 			$count++;
 		}
 
 
 		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "Parsing the resources finished.");
+		$queue->update_status($this->queue_ID, "working", "Parsing $count resources finished.");
 
 		// Log
-		$logger->info("Parsing the resources finished.");
+		$logger->info("Parsing $count resources finished.");
 
 
+		return true;
 	}
 
 
@@ -783,6 +833,7 @@ class Internalize_v2 {
 
 
 		// Download them
+		$count = 0;
 		$css_downloaded_has_error = false;
 		foreach ($this->cssToDownload as $fileName => $url) {
 
@@ -804,6 +855,7 @@ class Internalize_v2 {
 
 			if (!$css_downloaded) $css_downloaded_has_error = true;
 
+			$count++;
 		}
 
 
@@ -817,34 +869,127 @@ class Internalize_v2 {
 		if (!$css_downloaded_has_error) {
 
 			// Update the queue status
-			$queue->update_status($this->queue_ID, "working", "CSS downloads finished.");
+			$queue->update_status($this->queue_ID, "working", "$count CSS downloads finished.");
 
-			$logger->info("CSS Downloads finished");
+			$logger->info("$count CSS Downloads finished");
 			return true;
 		}
 
 
 		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "CSS downloads finished with error(s).");
+		$queue->update_status($this->queue_ID, "working", "$count CSS downloads finished with error(s).");
 
 
-		$logger->error("CSS Downloads finished with error(s).");
+		$logger->error("$count CSS Downloads finished with error(s).");
 		return false;
 
 	}
 
 
+	// 8. Download the font files
+	public function downloadFontFiles() {
+		global $logger, $queue;
+
+
+		// Current Queue Status Check
+		if ( $queue->info($this->queue_ID)['queue_status'] != "working" ) {
+
+			$logger->error("Queue isn't working.");
+			return false;
+
+		}
+
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "Font downloading started.");
+
+
+		// Init Log
+		$logger->info("Font downloading started.");
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
+
+
+		// Download them
+		$count = 0;
+		$font_downloaded_has_error = false;
+		foreach ($this->fontsToDownload as $fileName => $url) {
+
+			$resource_url = new \Purl\Url($url);
+			$path_parts = pathinfo($resource_url->path);
+			$extension = isset($path_parts['extension']) ? strtolower($path_parts['extension']) : "";
+
+			$fileName = $fileName.".".$extension;
+
+
+			$font_downloaded = $this->download_remote_file($url, $fileName, "fonts");
+
+
+			// Specific Log
+			file_put_contents( Page::ID($this->page_ID)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] -".(!$font_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' \r\n", FILE_APPEND);
+
+
+			if (!$font_downloaded) $font_downloaded_has_error = true;
+
+			$count++;
+		}
+
+
+
+		// Specific Log
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] - Finished".($font_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_font.log", Page::ID($this->page_ID)->logDir.($font_downloaded_has_error ? '/__' : '/')."font.log");
+
+
+		// Return true if no error
+		if (!$font_downloaded_has_error) {
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "working", "$count font downloads finished.");
+
+			$logger->info("$count font Downloads finished");
+			return true;
+		}
+
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "$count font downloads finished with error(s).");
+
+
+		$logger->error("$count Font downloads finished with error(s).");
+		return false;
+
+	}
+
+
+	// 9. Update HTML with the downloaded CSS files, and font files?
+	public function updateHtmlWithNewCss() {
+		global $logger, $queue;
+
+
+		// Current Queue Status Check
+		if ( $queue->info($this->queue_ID)['queue_status'] != "working" ) {
+
+			$logger->error("Queue isn't working.");
+			return false;
+
+		}
+
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "HTML Updating started.");
+
+
+		// Init Log
+		$logger->info("HTML Updating started.");
 
 
 
 
 
-
-
-
-
-
-
+	}
 
 
 
@@ -868,8 +1013,8 @@ class Internalize_v2 {
 	    	$fileContent .= @file_get_contents($url, FILE_BINARY);
 
 
-		//if ( $folderName == "css" ) !!!
-			//$fileContent = $this->filter_css($fileContent, $url);
+		if ( $folderName == "css" )
+			$fileContent = $this->filter_css($fileContent, $url);
 
 
 
@@ -904,24 +1049,31 @@ class Internalize_v2 {
 
 	// FILTER CSS
 	function filter_css($css, $url = "") {
+		global $logger;
 
 		if (empty($url))
 			$url = Page::ID($this->page_ID)->remoteUrl;
 
-		// Internalize Fonts
-		$css = $this->detectFonts($css, $url);
+		// Internalize Fonts !!!
+		//$css = $this->detectFonts($css, $url);
 
-		if ($this->debug) echo "filter_css: ".$url."<br>";
+
+		// Log
+		$logger->info('CSS Filtred: '.$url);
 
 
 		// All url()s
 		$css = preg_replace_callback(
 	        '%url\s*\(\s*[\\\'"]?(?!(((?:https?:)?\/\/)|(?:data:?:)))([^\\\'")]+)[\\\'"]?\s*\)%',
 	        function ($css_urls) use($url) {
+        		global $logger;
 
 
 				// LOG:
 		        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$css_urls[3]."' -> '".url_to_absolute($url, $css_urls[3])."' \r\n", FILE_APPEND);
+
+		        // General Log
+				$logger->info('URL absoluted in CSS: '.$css_urls[3].' -> '.url_to_absolute($url, $css_urls[3]));
 
 
 	            return "url('".url_to_absolute($url, $css_urls[3])."')";

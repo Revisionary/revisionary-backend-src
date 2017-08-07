@@ -45,7 +45,7 @@ webpage.onLoadFinished = function(status){
 
 
 	} else {
-		console.log("Sorry, the page is not loaded");
+		console.log("Sorry, the page is not loaded: " + status);
 
 		webpage.close();
 		slimer.exit();
@@ -65,7 +65,7 @@ webpage.onResourceRequested = function(requestData, networkRequest) {
 
 webpage.onResourceReceived = function(response) {
     //console.log(JSON.stringify(response));
-    console.log(response.url);
+    //console.log(response.url);
 };
 
 

@@ -1,7 +1,7 @@
 var webpage = require('webpage').create(),
 	system = require('system'),
 	fs = require('fs'),
-	url, width, height, page_image, output_html;
+	url, width, height, page_image, output_html, resource_done = false;
 
 
 // Get arguments
@@ -19,42 +19,20 @@ webpage.viewportSize = { width: width, height: height };
 
 
 // Open the site
-webpage.open(url);
+webpage.open(url, function(status){
 
 
-// Requested resources
-webpage.onResourceRequested = function(requestData, networkRequest) {
-    //console.log(JSON.stringify(requestData));
-};
+    // When completely loaded
+    webpage.onLoadFinished = function(status) {
 
 
-// Received resources
-webpage.onResourceReceived = function(response) {
-    //console.log(JSON.stringify(response));
-    //console.log(response.url);
-    fs.write(log_dir + '/resources.log', response.contentType + ' -> ' + response.url + '\r\n', 'a');
-};
+		if (status == "success") {
+
+			// All the resources are written
+			fs.write(log_dir + '/resources.log', 'DONE \r\n', 'a');
+			resource_done = true;
 
 
-// When completely loaded
-webpage.onLoadFinished = function(status){
-
-	if (status == "success") {
-
-
-/*
-		// Two seconds later
-		window.setTimeout(function () {
-
-
-
-		}, 2000);
-*/
-
-
-
-		// Four seconds later
-		window.setTimeout(function () {
 
 			var date = new Date();
 			var logDate = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay() + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -75,21 +53,59 @@ webpage.onLoadFinished = function(status){
 			//if (system.args[5].length === 1) fs.write(output_html, webpage.content, 'w'); // !!! SEPARATE THIS AND CAPTURING
 
 
-			// All the resources are written
-			fs.write(log_dir + '/resources.log', 'DONE \r\n', 'a');
 
+
+			// Four seconds later
+			window.setTimeout(function () {
+
+
+				webpage.close();
+				slimer.exit();
+
+
+			}, 4000);
+
+
+		} else {
+			console.log("["+logDate+"] - Sorry, the page is not loaded");
 
 			webpage.close();
 			slimer.exit();
+		}
 
-		}, 4000);
+    };
 
 
-	} else {
-		console.log("["+logDate+"] - Sorry, the page is not loaded");
+    // Received resources
+	webpage.onResourceReceived = function(response) {
+	    //console.log(JSON.stringify(response));
+	    if (!resource_done) fs.write(log_dir + '/resources.log', response.contentType + ' -> ' + response.url + '\r\n', 'a');
+	};
 
-		webpage.close();
-		slimer.exit();
-	}
+});
 
+
+
+
+/*
+
+webpage.onResourceReceived = function(response) {
+    if (response.stage !== "end") return;
+    console.log('Response (#' + response.id + ', stage "' + response.stage + '"): ' + response.url);
 };
+webpage.onResourceRequested = function(requestData, networkRequest) {
+    console.log('Request (#' + requestData.id + '): ' + requestData.url);
+};
+webpage.onUrlChanged = function(targetUrl) {
+    console.log('New URL: ' + targetUrl);
+};
+webpage.onLoadFinished = function(status) {
+    console.log('Load Finished: ' + status);
+};
+webpage.onLoadStarted = function() {
+    console.log('Load Started');
+};
+webpage.onNavigationRequested = function(url, type, willNavigate, main) {
+    console.log('Trying to navigate to: ' + url);
+};
+*/
