@@ -104,7 +104,7 @@ class Internalize {
 
 
 		// Do nothing if already saved
-		if ( file_exists( Page::ID($this->pageId)->pageTempFile ) ) return false;
+		if ( file_exists( Page::ID($this->pageId)->pageFile ) ) return false;
 
 
 		// Create the log folder if not exists
@@ -168,8 +168,8 @@ class Internalize {
 
 
 		// Save the file if not exists - PHP METHOD
-		if ( !file_exists( Page::ID($this->pageId)->pageTempFile ) )
-			$saved = file_put_contents( Page::ID($this->pageId)->pageTempFile, $html, FILE_TEXT);
+		if ( !file_exists( Page::ID($this->pageId)->pageFile ) )
+			$saved = file_put_contents( Page::ID($this->pageId)->pageFile, $html, FILE_TEXT);
 
 
 /*
@@ -177,7 +177,7 @@ class Internalize {
 	SLIMER JS METHOD - HAS PROBLEMS NOW !!!
 
 		// Save the file if not exists
-		if ( !file_exists( Page::ID($this->pageId)->pageTempFile ) ) {
+		if ( !file_exists( Page::ID($this->pageId)->pageFile ) ) {
 
 
 			// Get device ID
@@ -187,7 +187,7 @@ class Internalize {
 			$height = Device::ID($deviceID)->getDeviceInfo('device_height');
 
 			$output_image = Page::ID($this->pageId)->pageDeviceDir."/".Page::ID($this->pageId)->getPageInfo('page_pic');
-			$output_html = Page::ID($this->pageId)->pageTempFile;
+			$output_html = Page::ID($this->pageId)->pageFile;
 
 
 			// Create the HTML and Screenshot
@@ -206,7 +206,7 @@ class Internalize {
 			$saved = false;
 			if (file_exists($output_html)) $saved = true;
 
-			//$saved = file_put_contents( Page::ID($this->pageId)->pageTempFile, $html, FILE_TEXT);
+			//$saved = file_put_contents( Page::ID($this->pageId)->pageFile, $html, FILE_TEXT);
 
 		}
 */
@@ -435,8 +435,8 @@ class Internalize {
 		// SAVING:
 
 		// Save the file if not exists
-		if ( file_exists( Page::ID($this->pageId)->pageTempFile ) )
-			$updated = file_put_contents( Page::ID($this->pageId)->pageTempFile, $html, FILE_TEXT);
+		if ( file_exists( Page::ID($this->pageId)->pageFile ) )
+			$updated = file_put_contents( Page::ID($this->pageId)->pageFile, $html, FILE_TEXT);
 
 
 		// LOG:

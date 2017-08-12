@@ -129,18 +129,34 @@ class Internalize_v2 {
 		}
 
 
+		// Screenshots and HTML file
 		$page_image = Page::ID($pageID)->pageDeviceDir."/".Page::ID($pageID)->getPageInfo('page_pic');
 		$project_image = Page::ID($pageID)->projectDir."/".Project::ID( $projectID )->getProjectInfo('project_pic');
+		$htmlFile = Page::ID($pageID)->pageFile;
+		$resourcesFile = Page::ID($pageID)->logDir.'/resources.log';
 
+
+		// Are they exist?
 		$page_captured = file_exists($page_image);
 		$project_captured = file_exists($project_image);
+		$html_captured = file_exists($htmlFile);
+		$resourcesFile_captured = file_exists($resourcesFile);
+
 
 		// If both already captured and page is already internalized, return
-		if (
-			$project_captured && $page_captured &&
-			file_exists( Page::ID($pageID)->pageTempFile )
-		)
+		if ( $project_captured && $page_captured && $html_captured  && $resourcesFile_captured ) {
+
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "working", "Browser job is skipped.");
+
+
+			// Log
+			$logger->info('HTML, Page/Project Screenshots and resources.log file are already exist. Browser job is skipped.');
+
+
 			return false;
+		}
 
 
 		// Get info
@@ -151,15 +167,28 @@ class Internalize_v2 {
 		$height = Device::ID($deviceID)->getDeviceInfo('device_height');
 		$page_image = $page_captured ? "done" : $page_image;
 		$project_image = $project_captured ? "done" : $project_image;
+		$htmlFile = $html_captured ? "done" : $htmlFile;
+		$resourcesFile = $resourcesFile_captured ? "done" : $resourcesFile;
 
-		// Process directories
+
+/*
+		// Process directories - SlimerJS - Firefox
 		$slimerjs = realpath('..')."/bin/slimerjs-0.10.3/slimerjs";
-		$capturejs = dir."/app/bgprocess/capture_v2.js";
+		$capturejs = dir."/app/bgprocess/firefox.js";
 
 		$process_string = "$slimerjs $capturejs $url $width $height $page_image $project_image $logDir";
+*/
 
+
+		// Process directories - NodeJS - Chrome
+		$nodejs = realpath('..')."/bin/nodejs-mac/bin/node";
+		$scriptFile = dir."/app/bgprocess/chrome.js";
+		$process_string = "$nodejs $scriptFile --url=$url --viewportWidth=$width --viewportHeight=$height --pageScreenshot=$page_image --projectScreenshot=$project_image --htmlFile=$htmlFile --resourcesFile=$resourcesFile --logDir=$logDir";
+
+
+		// Do the process
 		$process = new BackgroundProcess($process_string);
-		$process->run($logDir."/capture.log", true);
+		$process->run($logDir."/browser.log", true);
 
 
 		// Update the queue status
@@ -232,11 +261,10 @@ class Internalize_v2 {
 		$resources = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($resources_file)));
 		$last_line = end($resources);
 
-		while ( $last_line != "DONE" && $job_status == "working" ) {
+		while ( $last_line != "DONE" && $queue->info($this->queue_ID)['queue_status'] == "working" ) {
 
 			$logger->info("Waiting 2 seconds for the resources file to complete. Last Resource: ". $last_line);
 			sleep(2);
-			$job_status = $queue->info($this->queue_ID)['queue_status'];
 			$resources = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($resources_file)));
 			$last_line = end($resources);
 
@@ -280,10 +308,28 @@ class Internalize_v2 {
 		$count = 0;
 		foreach ($this->resources as $resource) {
 
-			$resource = explode(' -> ', $resource);
-			$content_type = trim($resource[0]);
-			$resource_url = trim($resource[1]);
+			$content_type = "";
+			$resource_url = $resource;
 
+			// If content type is specified
+			if ( strpos($resource, ' -> ') !== false ) {
+
+				$resource = explode(' -> ', $resource);
+				$content_type = trim($resource[0]);
+				$resource_url = trim($resource[1]);
+
+			}
+
+
+			// Is valid URL?
+			if ( !filter_var($resource_url, FILTER_VALIDATE_URL) ) {
+
+				$logger->info("Invalid URL skipped: $resource_url");
+				continue;
+			}
+
+
+			// Parse the URL
 			$url = new \Purl\Url($resource_url);
 			$path_parts = pathinfo($url->path);
 			$extension = isset($path_parts['extension']) ? strtolower($path_parts['extension']) : "";
@@ -436,7 +482,7 @@ class Internalize_v2 {
 
 
 		// Do nothing if already saved
-		if ( file_exists( Page::ID($this->page_ID)->pageTempFile ) ) {
+		if ( file_exists( Page::ID($this->page_ID)->pageFile ) ) {
 
 			// Log
 			$logger->info("HTML file is already downloaded");
@@ -507,8 +553,8 @@ class Internalize_v2 {
 
 
 		// Save the file if not exists - PHP METHOD
-		if ( !file_exists( Page::ID($this->page_ID)->pageTempFile ) )
-			$saved = file_put_contents( Page::ID($this->page_ID)->pageTempFile, $html, FILE_TEXT);
+		if ( !file_exists( Page::ID($this->page_ID)->pageFile ) )
+			$saved = file_put_contents( Page::ID($this->page_ID)->pageFile, $html, FILE_TEXT);
 
 
 
@@ -564,7 +610,7 @@ class Internalize_v2 {
 
 
 		// Do nothing if already saved
-		if ( !file_exists( Page::ID($this->page_ID)->pageTempFile ) ) {
+		if ( !file_exists( Page::ID($this->page_ID)->pageFile ) ) {
 
 			// Log
 			$logger->error("HTML file is not exist.");
@@ -577,7 +623,7 @@ class Internalize_v2 {
 		}
 
 		// Get the HTML from the downloaded file
-		$html = file_get_contents(Page::ID($this->page_ID)->pageTempFile);
+		$html = file_get_contents(Page::ID($this->page_ID)->pageFile);
 
 
 		// Specific Log
@@ -778,8 +824,8 @@ class Internalize_v2 {
 		// SAVING:
 
 		// Save the file if not exists
-		if ( file_exists( Page::ID($this->page_ID)->pageTempFile ) )
-			$updated = file_put_contents( Page::ID($this->page_ID)->pageTempFile, $html, FILE_TEXT);
+		if ( file_exists( Page::ID($this->page_ID)->pageFile ) )
+			$updated = file_put_contents( Page::ID($this->page_ID)->pageFile, $html, FILE_TEXT);
 
 
 		// Specific Log
@@ -1156,8 +1202,5 @@ LOD;
 	return $css;
 
 	}
-
-
-
 
 }

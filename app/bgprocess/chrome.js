@@ -8,9 +8,18 @@ const util = require('util');
 
 // CLI Args
 const url = argv.url || 'https://www.google.com';
-const format = argv.format === 'jpeg' ? 'jpeg' : 'png';
 const viewportWidth = argv.viewportWidth || 1440;
 const viewportHeight = argv.viewportHeight || 900;
+
+
+const pageScreenshot = argv.pageScreenshot || 'done';
+const projectScreenshot = argv.projectScreenshot || 'done';
+const htmlFile = argv.htmlFile || 'done';
+const resourcesFile = argv.resourcesFile || 'done';
+const logDir = argv.logDir;
+
+
+const format = argv.format === 'png' ? 'png' : 'jpeg';
 const userAgent = argv.userAgent;
 const fullPage = argv.full;
 const delay = argv.delay || 0;
@@ -53,10 +62,6 @@ function launchChrome(headless=true) {
 launchChrome().then(chrome => {
 	console.log(`Chrome debuggable on port: ${chrome.port}`);
 
-	//chrome --headless --disable-gpu --hide-scrollbars --window-size=1440,900 --screenshot=screen.png https://www.twelve12.com/
-
-
-
 	CDP(async (client) => {
 
 
@@ -64,7 +69,7 @@ launchChrome().then(chrome => {
 	    const {DOM, Emulation, Network, Page, Runtime, Security} = client;
 
 
-	    // ignore all the certificate errors
+	    // Ignore all the certificate errors
 	    Security.certificateError(({eventId}) => {
 	        Security.handleCertificateError({
 	            eventId,
@@ -109,9 +114,18 @@ launchChrome().then(chrome => {
 			await Emulation.setVisibleSize({width: viewportWidth, height: viewportHeight});
 
 
-			// setup handlers
+			// List the resources
 		    Network.requestWillBeSent((params) => {
-		        //console.log(params.request.url);
+
+
+				fs.appendFile(resourcesFile, params.request.url + ' \r\n', (err) => {
+
+					if (err) console.log(err);
+					console.log('Resource added: ' + params.request.url);
+
+				});
+
+
 		    });
 
 
@@ -123,8 +137,29 @@ launchChrome().then(chrome => {
 	        await Page.loadEventFired();
 
 
+			// If delay needed
+			if (delay > 0) console.log('Waiting ' + delay + ' miliseconds');
+			await wait(delay);
+
+
+
 /*
-	        // Save the HTML ?
+			// Save the HTML 1 !!!
+			const rootNode = await DOM.getDocument({ depth: -1 });
+			const pageSource = await DOM.getOuterHTML({
+				nodeId: rootNode.root.nodeId
+			});
+
+			fs.writeFile(htmlFile, pageSource.outerHTML, (err) => {
+
+				if (err) console.log(err);
+				console.log('HTML Saved: ' + htmlFile);
+
+			});
+
+
+
+	        // Save the HTML 2 !!!
 	        const result = await Runtime.evaluate({
 	            expression: 'document.documentElement.outerHTML'
 	        });
@@ -145,7 +180,7 @@ launchChrome().then(chrome => {
 */
 
 
-			// Full page screenshots
+			// Full page screenshots !!!
 			if (fullPage) {
 				const {root: {nodeId: documentNodeId}} = await DOM.getDocument();
 				const {nodeId: bodyNodeId} = await DOM.querySelector({
@@ -168,11 +203,7 @@ launchChrome().then(chrome => {
 			}
 
 
-			// If delay needed
-			if (delay > 0) console.log('Waiting ' + delay + ' miliseconds');
-			await wait(delay);
-
-
+			// Screenshot settings
 	        const {data} = await Page.captureScreenshot({
 		        format: format,
 		        fromSurface: true,
@@ -188,19 +219,43 @@ launchChrome().then(chrome => {
 */
 		    });
 
-	        fs.writeFile('screenshot.' + format, Buffer.from(data, 'base64'), 'base64', function(err) {
 
-		        if (err) {
+			if ( pageScreenshot != "done" ) {
 
-		        	console.error(err);
+		        fs.writeFile(pageScreenshot, Buffer.from(data, 'base64'), 'base64', function(err) {
 
-		        } else {
+			        if (err) {
 
-		        	console.log('Screenshot saved');
+			        	console.error(err);
 
-		        }
+			        } else {
 
-		    });
+			        	console.log('Page screenshot saved');
+
+			        }
+
+			    });
+
+			}
+
+
+			if ( projectScreenshot != "done" ) {
+
+		        fs.writeFile(projectScreenshot, Buffer.from(data, 'base64'), 'base64', function(err) {
+
+			        if (err) {
+
+			        	console.error(err);
+
+			        } else {
+
+			        	console.log('Project screenshot saved');
+
+			        }
+
+			    });
+
+			}
 
 
 	    } catch (err) {
@@ -211,6 +266,14 @@ launchChrome().then(chrome => {
 
 	        await client.close();
 	        chrome.kill();
+
+
+	        fs.appendFile(resourcesFile, 'DONE', (err) => {
+
+				if (err) console.log(err);
+				console.log('Resource listing is complete');
+
+			});
 
 	    }
 

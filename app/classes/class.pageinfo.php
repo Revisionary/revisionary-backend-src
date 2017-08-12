@@ -128,9 +128,6 @@ class Page {
         // Set the log file
         $this->logFile = $this->logDir."/".$this->logFileName.".log";
 
-        // Set the page cache file
-        $this->pageTempFile = $this->pageDir."/".$this->pageFileName;
-
         // Set the page cache URL
         $this->cachedUrl = $this->pageUri.$this->pageFileName;
 
