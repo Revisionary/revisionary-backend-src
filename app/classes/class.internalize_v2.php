@@ -309,7 +309,7 @@ class Internalize_v2 {
 		foreach ($this->resources as $resource) {
 
 			$content_type = "";
-			$resource_url = $resource;
+			$resource_url = trim($resource);
 
 			// If content type is specified
 			if ( strpos($resource, ' -> ') !== false ) {
@@ -322,7 +322,8 @@ class Internalize_v2 {
 
 
 			// Is valid URL?
-			if ( !filter_var($resource_url, FILTER_VALIDATE_URL) ) {
+			$url = parseUrl($resource_url);
+			if ( !$url ) {
 
 				$logger->info("Invalid URL skipped: $resource_url");
 				continue;
@@ -330,21 +331,20 @@ class Internalize_v2 {
 
 
 			// Parse the URL
-			$url = new \Purl\Url($resource_url);
-			$path_parts = pathinfo($url->path);
+			$path_parts = pathinfo($url['path']);
 			$extension = isset($path_parts['extension']) ? strtolower($path_parts['extension']) : "";
 
 
 			// If the resource is not belong to the domain, pass it.
-			if ( parseUrl($resource_url)['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] ) {
+			if ( $url['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] ) {
 
-				$logger->info("Resource skipped: $resource_url");
+				$logger->info("Resource skipped: $resource_url ***".$url['domain']."--".parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain']);
 				continue;
 			}
 
 
 
-			// Register the HTML file
+			// Register the HTML file !!! NO NEED FOR NOW
 			if ($content_type == "text/html") {
 
 

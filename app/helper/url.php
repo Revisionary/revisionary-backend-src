@@ -185,7 +185,7 @@ function parseUrl($url) {
 	$url = str_replace('"', '', $url);
 
 	if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
-	    return;
+	    return false;
 	}
 
 

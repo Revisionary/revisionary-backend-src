@@ -5,7 +5,6 @@ $page_ID = 27;
 
 
 
-
 // Logger
 $logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
 	'filename' => Page::ID($page_ID)->logFileName,
