@@ -88,7 +88,7 @@ class Internalize_v2 {
 	}
 
 
-	// 3. 	If job is ready to get done, open the site with slimerJS
+	// 3. 	If job is ready to get done, open the site with Chrome
 	// 3.1. Print all the loaded resources
 	// 3.2. Take screenshots
 	// 3.3. Close the site
@@ -257,10 +257,11 @@ class Internalize_v2 {
 		}
 
 
-		// Wait for the resources completely written
+		// Parse the resources
 		$resources = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($resources_file)));
 		$last_line = end($resources);
 
+		// Wait for the resources completely written
 		while ( $last_line != "DONE" && $queue->info($this->queue_ID)['queue_status'] == "working" ) {
 
 			$logger->info("Waiting 2 seconds for the resources file to complete. Last Resource: ". $last_line);
@@ -269,16 +270,18 @@ class Internalize_v2 {
 			$last_line = end($resources);
 
 		}
+
 		$resources = array_unique($resources);
 		array_pop($resources);
 		$this->resources = $resources;
 
 
-
 		// Update the queue status
 		$queue->update_status($this->queue_ID, "working", "Resources list is ready.", $process->getPid());
 
+		// Log
 		$logger->info("Resources list is ready.");
+
 
 		return true;
 
@@ -587,7 +590,7 @@ class Internalize_v2 {
 	}
 
 
-	// 6. Filter the HTML to correct URLs
+	// 6. HTML absolute URL filter to correct downloaded URLs
 	public function filterAndUpdateHTML() {
 		global $logger, $queue;
 
@@ -696,26 +699,35 @@ class Internalize_v2 {
 	    );
 
 
-/*
 	    // INTERNALIZE CSS FILES
 		$count_css = 0;
 		$html = preg_replace_callback(
 	        '/<(?<tagname>link)\s+[^<]*?(?:href)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
 	        function ($urls) use(&$count_css) {
 
+				// The found URL
 		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
 
 
+		        // Find in downloads
+		        $file_name = array_search($the_url, $this->cssToDownload);
+
 
 				// If file is from the remote url
-		        if ( parseUrl($the_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain']
-
-		        && ( strpos($urls[0], 'rel="stylesheet"') !== false || strpos($urls[0], "rel='stylesheet'") !== false || strpos($urls[0], "rel=stylesheet") !== false )
+		        if (
+		        	parseUrl($the_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] &&
+		        	$file_name !== false &&
+		        	(
+		        		strpos($urls[0], 'rel="stylesheet"') !== false ||
+		        		strpos($urls[0], "rel='stylesheet'") !== false ||
+		        		strpos($urls[0], "rel=stylesheet") !== false
+		        	)
 
 		        ) {
 
 			        $count_css++;
-		        	$css_file_name = $count_css.".css";
+		        	$css_file_name = $file_name.".css";
+
 
 					// Add the file to download list !!! NO NEED
 			        //$this->cssToDownload["css/".$css_file_name] = $the_url;
@@ -734,13 +746,13 @@ class Internalize_v2 {
 
 				}
 
+
 				return $urls[0];
 
 
 	        },
 	        $html
 	    );
-*/
 
 
 		// CONVERT ALL SRCSET ATTRIBUTES TO ABSOLUTE
@@ -779,24 +791,21 @@ class Internalize_v2 {
 	    );
 
 
-/*
 	    // IN PAGE STYLES
 		$html = preg_replace_callback(
 	        '/(?<tag><style+[^<]*?>)(?<content>[^<>]++)<\/style>/i',
-	        function ($urls) {
+	        function ($style) {
 
 		        // Specific Log
 				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
 
-		        return $urls['tag'].$this->filter_css($urls['content'])."</style>";
+		        return $style['tag'].$this->filter_css($style['content'])."</style>";
 
 	        },
 	        $html
 	    );
-*/
 
 
-/*
 	    // INLINE STYLES
 		$html = preg_replace_callback(
 	        '/<(?:[a-z0-9]*)\s+[^<]*?(?:style)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
@@ -817,7 +826,6 @@ class Internalize_v2 {
 	        },
 	        $html
 	    );
-*/
 
 
 
@@ -852,7 +860,9 @@ class Internalize_v2 {
 	}
 
 
-	// 7. Download the CSS files
+	// 7.   Download the CSS files
+	// 7.1. CSS absolute URL filter to correct downloaded URLs
+	// 7.1. Detect fonts and correct with downloaded ones
 	public function downloadCssFiles() {
 		global $logger, $queue;
 
@@ -967,6 +977,7 @@ class Internalize_v2 {
 			$path_parts = pathinfo($resource_url->path);
 			$extension = isset($path_parts['extension']) ? strtolower($path_parts['extension']) : "";
 
+			$fileName = $path_parts['filename'];
 			$fileName = $fileName.".".$extension;
 
 
@@ -1010,8 +1021,8 @@ class Internalize_v2 {
 	}
 
 
-	// 9. Update HTML with the downloaded CSS files, and font files?
-	public function updateHtmlWithNewCss() {
+	// 9. Complete the job!
+	public function completeTheJob() {
 		global $logger, $queue;
 
 
@@ -1025,23 +1036,15 @@ class Internalize_v2 {
 
 
 		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "HTML Updating started.");
+		$queue->update_status($this->queue_ID, "done", "Internalization is complete.");
 
 
 		// Init Log
-		$logger->info("HTML Updating started.");
+		$logger->info("Internalization is complete.");
 
 
-
-
-
+		return Page::ID($this->page_ID)->cachedUrl;
 	}
-
-
-
-
-
-
 
 
 
@@ -1097,35 +1100,126 @@ class Internalize_v2 {
 	function filter_css($css, $url = "") {
 		global $logger;
 
+
 		if (empty($url))
 			$url = Page::ID($this->page_ID)->remoteUrl;
 
-		// Internalize Fonts !!!
+
+		// Internalize Fonts - No Need for now !!!
 		//$css = $this->detectFonts($css, $url);
 
 
 		// Log
-		$logger->info('CSS Filtred: '.$url);
+		$logger->info('CSS filtering started: '.$url);
 
 
 		// All url()s
+		$count = 0;
 		$css = preg_replace_callback(
-	        '%url\s*\(\s*[\\\'"]?(?!(((?:https?:)?\/\/)|(?:data:?:)))([^\\\'")]+)[\\\'"]?\s*\)%',
+	        '/url\s*\(\s*[\\\'"]?(?<url>[^\\\'")]+)[\\\'"]?\s*\)/',
 	        function ($css_urls) use($url) {
-        		global $logger;
+        		global $logger, $count;
+
+				$url_found = $css_urls['url'];
+
+        		$relative_url = $url_found;
+        		$absolute_url = url_to_absolute($url, $url_found);
+				$new_url = $absolute_url;
 
 
-				// LOG:
-		        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$css_urls[3]."' -> '".url_to_absolute($url, $css_urls[3])."' \r\n", FILE_APPEND);
-
-		        // General Log
-				$logger->info('URL absoluted in CSS: '.$css_urls[3].' -> '.url_to_absolute($url, $css_urls[3]));
+        		// Absolution Logs
+				$logger->info('URL absoluted in CSS: '.$relative_url.' -> '.$new_url);
+		        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
-	            return "url('".url_to_absolute($url, $css_urls[3])."')";
+				$parsed_url = parseUrl($absolute_url);
+				$parsed_path = pathinfo($parsed_url['path']);
+		        $file_name = $parsed_path['filename'];
+		        $file_hash = isset($parsed_url['hash']) ? $parsed_url['hash'] : "";
+		        $file_extension_with_hash = isset($parsed_path['extension']) ? $parsed_path['extension'] : "";
+		        $file_extension = str_replace('#'.$file_hash, '', $file_extension_with_hash);
+		        $file_name_hashed = $file_name.".".$file_extension_with_hash;
+
+
+				// If not valid URL
+				if (
+					$file_name == "" ||
+					$file_extension == ""
+				) {
+
+					$logger->info('Invalid URL skipped in CSS: '.$url_found);
+
+					return "url('".$url_found."')";
+				}
+
+
+				// If not same domain URL
+				if (
+					$parsed_url['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain']
+				) {
+
+					$logger->info('Different domain URL skipped in CSS: '.$absolute_url);
+
+					return "url('".$url_found."')";
+				}
+
+
+				// Find in downloads
+				$downloaded_font = array_search($absolute_url, $this->fontsToDownload);
+				$downloaded_css = array_search($absolute_url, $this->cssToDownload);
+				$downloaded_image = array_search($absolute_url, $this->imagesToDownload);
+
+
+				if (
+					$file_extension == "ttf" ||
+					$file_extension == "otf" ||
+					$file_extension == "woff" ||
+					$file_extension == "woff2" ||
+					$file_extension == "svg" ||
+					$file_extension == "eot"
+
+					//$downloaded_font !== false
+				) {
+
+
+					$new_url = Page::ID($this->page_ID)->pageUri."fonts/".$file_name_hashed;
+
+
+					// Font Logs
+					$logger->info('Font Detected: '.$relative_url.' -> '.$new_url);
+			        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+
+
+				} elseif ( $downloaded_css !== false ) {
+
+
+					$new_url = Page::ID($this->page_ID)->pageUri."css/".$downloaded_css.".css";
+
+
+					// CSS Import Logs
+					$logger->info('Imported CSS Detected: '.$relative_url.' -> '.$new_url);
+			        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Imported CSS Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+
+
+				} elseif ( $downloaded_image !== false ) {
+
+					// Image Detected
+					$logger->info('Image Detected: '.$relative_url.' -> '.$new_url);
+			        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Image Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+
+				}
+
+				$count++;
+
+	            return "url('".$new_url."')";
 	        },
 	        $css
 	    );
+
+
+
+		// Log
+		$logger->info('CSS filtering finished: '.$url);
 
 
 		return $css;
@@ -1135,71 +1229,6 @@ class Internalize_v2 {
 
 	// FILTER JS ?? !!!
 	function filter_js() {
-
-	}
-
-
-	// DETECT FONTS
-	function detectFonts($css, $url = "") {
-
-	$pattern = <<<'LOD'
-~
-(?(DEFINE)
-    (?<quoted_content>
-        (["']) (?>[^"'\\]++ | \\{2} | \\. | (?!\g{-1})["'] )*+ \g{-1}
-    )
-    (?<comment> /\* .*? \*/ )
-    (?<url_skip> (?: https?: | data: ) [^"'\s)}]*+ )
-    (?<other_content>
-        (?> [^u}/"']++ | \g<quoted_content> | \g<comment>
-          | \Bu | u(?!rl\s*+\() | /(?!\*)
-          | \g<url_start> \g<url_skip> ["']?+
-        )++
-    )
-    (?<anchor> \G(?<!^) ["']?+ | @font-face \s*+ { )
-    (?<url_start> url\( \s*+ ["']?+ )
-)
-
-\g<comment> (*SKIP)(*FAIL) |
-
-\g<anchor> \g<other_content>?+ \g<url_start> \K [./]*+
-
-( [^"'\s)}]*+ )    # url
-~xs
-LOD;
-
-		$css = preg_replace_callback(
-	        $pattern,
-	        function ($urls) use($url) {
-
-		        $font_remote_url = url_to_absolute($url, $urls[0]);
-
-		        $parsed_url = parseUrl($font_remote_url);
-		        $font_file_name = basename($parsed_url['path']);
-		        $font_file_name_hash = $font_file_name.($parsed_url['hash'] != "" ? "#".$parsed_url['hash'] : "");
-
-
-				// Add the file to quee
-	            $this->fontsToDownload["fonts/".$font_file_name] = $font_remote_url;
-
-
-	            if ($this->debug) echo "detectFonts: ".$url." - ".$urls[0]."<br>";
-
-
-	            // LOG:
-	            file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$url."' -> '".$urls[0]."' \r\n", FILE_APPEND);
-
-
-				// Change the URL
-	            //return site_url("get-font/?font=".$font_file_name_hash);
-	            return Page::ID($this->page_ID)->pageUri."fonts/".$font_file_name_hash;
-
-	        },
-	        $css
-	    );
-
-
-	return $css;
 
 	}
 
