@@ -70,7 +70,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 		$device_count = 0;
 		foreach (post('devices') as $deviceID) {
 
-			$page_id = $db->insert ('pages', array(
+			$page_id = $db->insert('pages', array(
 				"page_name" => post('page-name'),
 				"page_url" => post('page-url'),
 				"project_ID" => $project_id,

@@ -102,9 +102,14 @@ class Queue {
 
 		$data = array(
 			'queue_status' 	=> $queue_status,
-			'queue_message' => $queue_message,
-			'queue_PID' 	=> $queue_PID
+			'queue_message' => $queue_message
 		);
+
+
+		// If PID is written
+		if ($queue_PID !== null)
+			$data['queue_PID'] = $queue_PID;
+
 
 		$db->where ('queue_ID', $queue_ID);
 		if ($db->update('queues', $data)) {

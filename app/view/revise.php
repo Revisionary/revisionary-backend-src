@@ -10,7 +10,8 @@ $(function(){
 		// Send the new data with process ID
 		$.post(ajax_url, {
 			'type':'internalize-status',
-			'pageID': <?=$_url[1]?>,
+			'page_ID': <?=$_url[1]?>,
+			'queue_ID': <?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
 			'processID' : <?=$process->getPid()?>
 		}, function(result){
 
@@ -682,13 +683,13 @@ $(function(){
 							?>
 
 							<a href="<?=site_url('project/'.$projectID)?>" class="sections">
-								<?=Page::ID($pageID)->getPageInfo('page_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+								<?=Page::ID($page_ID)->getPageInfo('page_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 							</a>
 						</div>
 
 
-						<div class="date created">Date Created: <span><?=date( "d M Y, g:i A", strtotime(Page::ID($pageID)->getPageInfo('page_created')) )?></span></div>
-						<div class="date updated">Last Updated: <span><?=date( "d M Y, g:i A", strtotime(Page::ID($pageID)->getPageInfo('page_modified')) )?></span></div>
+						<div class="date created">Date Created: <span><?=date( "d M Y, g:i A", strtotime(Page::ID($page_ID)->getPageInfo('page_created')) )?></span></div>
+						<div class="date updated">Last Updated: <span><?=date( "d M Y, g:i A", strtotime(Page::ID($page_ID)->getPageInfo('page_modified')) )?></span></div>
 
 
 					</div>
@@ -699,7 +700,7 @@ $(function(){
 							<a href="#" class="select-device">Device <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 							<div class="device-icon"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i></div>
 						</div>
-						<a href="#" class="version-selector"><?=Page::ID($pageID)->pageVersion?></a>
+						<a href="#" class="version-selector"><?=Page::ID($page_ID)->pageVersion?></a>
 
 
 					</div>

@@ -7,7 +7,7 @@ class Internalize {
 
 
 	// The page ID
-	public $pageId;
+	public $page_ID;
 
 	// The remote URL
 	public $remoteUrl;
@@ -38,22 +38,22 @@ class Internalize {
 
 
 	// SETTERS:
-	public function __construct($pageId) {
+	public function __construct($page_ID) {
 
 
 		// Set the page ID
-		$this->pageId = $pageId;
+		$this->page_ID = $page_ID;
 
 
 		// Set the remote URL
-		$this->remoteUrl = Page::ID($this->pageId)->remoteUrl;
+		$this->remoteUrl = Page::ID($this->page_ID)->remoteUrl;
 
 		if (isset($_GET['new_url']) && $_GET['new_url'] != "" ) // !!!
 			$this->remoteUrl = $_GET['new_url'];
 
 
 		// Set the log file
-        $this->logDir = Page::ID($this->pageId)->logDir;
+        $this->logDir = Page::ID($this->page_ID)->logDir;
 
 
 		// Set the log file
@@ -61,11 +61,11 @@ class Internalize {
 
 
 		// Set project file
-        $this->projectImage = Page::ID($this->pageId)->projectDir."/".Project::ID( Page::ID($this->pageId)->getPageInfo('project_ID') )->getProjectInfo('project_pic');
+        $this->projectImage = Page::ID($this->page_ID)->projectDir."/".Project::ID( Page::ID($this->page_ID)->getPageInfo('project_ID') )->getProjectInfo('project_pic');
 
 
 		// Set page image file
-        $this->pageImage = Page::ID($this->pageId)->pageDeviceDir."/".Page::ID($this->pageId)->getPageInfo('page_pic');
+        $this->pageImage = Page::ID($this->page_ID)->pageDeviceDir."/".Page::ID($this->page_ID)->getPageInfo('page_pic');
 
     }
 
@@ -104,17 +104,17 @@ class Internalize {
 
 
 		// Do nothing if already saved
-		if ( file_exists( Page::ID($this->pageId)->pageFile ) ) return false;
+		if ( file_exists( Page::ID($this->page_ID)->pageFile ) ) return false;
 
 
 		// Create the log folder if not exists
-		if ( !file_exists(Page::ID($this->pageId)->logDir) )
-			mkdir(Page::ID($this->pageId)->logDir, 0755, true);
-		@chmod(Page::ID($this->pageId)->logDir, 0755);
+		if ( !file_exists(Page::ID($this->page_ID)->logDir) )
+			mkdir(Page::ID($this->page_ID)->logDir, 0755, true);
+		@chmod(Page::ID($this->page_ID)->logDir, 0755);
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."/_html.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_html.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
 
 
 
@@ -162,14 +162,14 @@ class Internalize {
 		// SAVING:
 
 		// Create the folder if not exists
-		if ( !file_exists(Page::ID($this->pageId)->pageDir."/") )
-			mkdir(Page::ID($this->pageId)->pageDir."/", 0755, true);
-		@chmod(Page::ID($this->pageId)->pageDir."/", 0755);
+		if ( !file_exists(Page::ID($this->page_ID)->pageDir."/") )
+			mkdir(Page::ID($this->page_ID)->pageDir."/", 0755, true);
+		@chmod(Page::ID($this->page_ID)->pageDir."/", 0755);
 
 
 		// Save the file if not exists - PHP METHOD
-		if ( !file_exists( Page::ID($this->pageId)->pageFile ) )
-			$saved = file_put_contents( Page::ID($this->pageId)->pageFile, $html, FILE_TEXT);
+		if ( !file_exists( Page::ID($this->page_ID)->pageFile ) )
+			$saved = file_put_contents( Page::ID($this->page_ID)->pageFile, $html, FILE_TEXT);
 
 
 /*
@@ -177,17 +177,17 @@ class Internalize {
 	SLIMER JS METHOD - HAS PROBLEMS NOW !!!
 
 		// Save the file if not exists
-		if ( !file_exists( Page::ID($this->pageId)->pageFile ) ) {
+		if ( !file_exists( Page::ID($this->page_ID)->pageFile ) ) {
 
 
 			// Get device ID
-			$url = Page::ID($this->pageId)->remoteUrl;
-			$deviceID = Page::ID($this->pageId)->getPageInfo('device_ID');
+			$url = Page::ID($this->page_ID)->remoteUrl;
+			$deviceID = Page::ID($this->page_ID)->getPageInfo('device_ID');
 			$width = Device::ID($deviceID)->getDeviceInfo('device_width');
 			$height = Device::ID($deviceID)->getDeviceInfo('device_height');
 
-			$output_image = Page::ID($this->pageId)->pageDeviceDir."/".Page::ID($this->pageId)->getPageInfo('page_pic');
-			$output_html = Page::ID($this->pageId)->pageFile;
+			$output_image = Page::ID($this->page_ID)->pageDeviceDir."/".Page::ID($this->page_ID)->getPageInfo('page_pic');
+			$output_html = Page::ID($this->page_ID)->pageFile;
 
 
 			// Create the HTML and Screenshot
@@ -206,7 +206,7 @@ class Internalize {
 			$saved = false;
 			if (file_exists($output_html)) $saved = true;
 
-			//$saved = file_put_contents( Page::ID($this->pageId)->pageFile, $html, FILE_TEXT);
+			//$saved = file_put_contents( Page::ID($this->page_ID)->pageFile, $html, FILE_TEXT);
 
 		}
 */
@@ -214,13 +214,13 @@ class Internalize {
 
 
 		// LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - PROJECT ID: ".Page::ID($this->pageId)->projectId." | PAGE ID: ".$this->pageId." | DEVICE: ".Page::ID($this->pageId)->pageDevice." | VERSION: ".Page::ID($this->pageId)->pageVersion." \r\n", FILE_APPEND);
-		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$saved ? " <b>NOT</b>":'')." DOWNLOADED: '".$this->remoteUrl."' \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - PROJECT ID: ".Page::ID($this->page_ID)->projectId." | PAGE ID: ".$this->page_ID." | DEVICE: ".Page::ID($this->page_ID)->pageDevice." | VERSION: ".Page::ID($this->page_ID)->pageVersion." \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$saved ? " <b>NOT</b>":'')." DOWNLOADED: '".$this->remoteUrl."' \r\n", FILE_APPEND);
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."/_html.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$saved ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->pageId)->logDir."/_html.log", Page::ID($this->pageId)->logDir.(!$saved ? '/__' : '/')."html.log");
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_html.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$saved ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_html.log", Page::ID($this->page_ID)->logDir.(!$saved ? '/__' : '/')."html.log");
 
 
 		// Return the HTML if successful
@@ -238,7 +238,7 @@ class Internalize {
 	public function filterAndUpdateHTML($html) {
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
 
 
 		// Add Necessary Spaces - done for a bug
@@ -267,7 +267,7 @@ class Internalize {
 	        function ($urls) {
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->remoteUrl."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->remoteUrl."' \r\n", FILE_APPEND);
 
 		        return $urls[0]."<base href='".$this->remoteUrl."'>";
 
@@ -293,7 +293,7 @@ class Internalize {
 
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
@@ -338,13 +338,13 @@ class Internalize {
 
 
 			        // Specific Log
-					file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".Page::ID($this->pageId)->pageUri."css/".$css_file_name."' \r\n", FILE_APPEND);
+					file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".Page::ID($this->page_ID)->pageUri."css/".$css_file_name."' \r\n", FILE_APPEND);
 
 
 			        // Change the URL
 					return str_replace(
 		            	$the_url,
-		            	Page::ID($this->pageId)->pageUri."css/".$css_file_name,
+		            	Page::ID($this->page_ID)->pageUri."css/".$css_file_name,
 		            	$urls[0]
 		            );
 
@@ -381,7 +381,7 @@ class Internalize {
 
 
 				// Specific Log
-				file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Srcset Absoluted: '".$the_url."' -> '".$new_srcset."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Srcset Absoluted: '".$the_url."' -> '".$new_srcset."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
@@ -400,7 +400,7 @@ class Internalize {
 	        function ($urls) {
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
 
 		        return $urls['tag'].$this->filter_css($urls['content'])."</style>";
 
@@ -418,7 +418,7 @@ class Internalize {
 		        $filtred_css = $this->filter_css($the_css);
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inline Style Filtred: '".$the_css."' -> '".$filtred_css."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inline Style Filtred: '".$the_css."' -> '".$filtred_css."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
@@ -435,17 +435,17 @@ class Internalize {
 		// SAVING:
 
 		// Save the file if not exists
-		if ( file_exists( Page::ID($this->pageId)->pageFile ) )
-			$updated = file_put_contents( Page::ID($this->pageId)->pageFile, $html, FILE_TEXT);
+		if ( file_exists( Page::ID($this->page_ID)->pageFile ) )
+			$updated = file_put_contents( Page::ID($this->page_ID)->pageFile, $html, FILE_TEXT);
 
 
 		// LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$updated ? " <b>NOT</b>":'')." FILTRED \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$updated ? " <b>NOT</b>":'')." FILTRED \r\n", FILE_APPEND);
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$updated ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->pageId)->logDir."/_filter.log", Page::ID($this->pageId)->logDir.(!$updated ? '/__' : '/')."filter.log");
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$updated ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_filter.log", Page::ID($this->page_ID)->logDir.(!$updated ? '/__' : '/')."filter.log");
 
 
 		// Return the HTML if successful
@@ -464,11 +464,11 @@ class Internalize {
 
 
 		// INIT LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - CSS DOWNLOAD STARTED {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - CSS DOWNLOAD STARTED {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->cssToDownload)."} \r\n", FILE_APPEND);
 
 
 		// Download them
@@ -484,11 +484,11 @@ class Internalize {
 
 
 			// LOG:
-			file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] -- CSS".(!$css_downloaded ? " <b>NOT</b>":'')." DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] -- CSS".(!$css_downloaded ? " <b>NOT</b>":'')." DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
 
 
 			// Specific Log
-			file_put_contents( Page::ID($this->pageId)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
 
 
 			if (!$css_downloaded) $css_downloaded_has_error = true;
@@ -497,12 +497,12 @@ class Internalize {
 
 
 		// FINISH LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - CSS DOWNLOAD FINISHED".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - CSS DOWNLOAD FINISHED".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->pageId)->logDir."/_css.log", Page::ID($this->pageId)->logDir.($css_downloaded_has_error ? '/__' : '/')."css.log");
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_css.log", Page::ID($this->page_ID)->logDir.($css_downloaded_has_error ? '/__' : '/')."css.log");
 
 
 		// Return true if no error
@@ -516,11 +516,11 @@ class Internalize {
 
 
 		// INIT LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - FONT DOWNLOAD STARTED {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - FONT DOWNLOAD STARTED {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->fontsToDownload)."} \r\n", FILE_APPEND);
 
 
 		$font_downloaded_has_error = false;
@@ -528,11 +528,11 @@ class Internalize {
 			$font_downloaded = $this->download_remote_file($url, $fileName, "fonts");
 
 			// LOG:
-			file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] -- FONT".(!$font_downloaded ? " <b>NOT</b>":'')." DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] -- FONT".(!$font_downloaded ? " <b>NOT</b>":'')." DOWNLOADED: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
 
 
 			// Specific Log
-			file_put_contents( Page::ID($this->pageId)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] -".(!$font_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' \r\n", FILE_APPEND);
+			file_put_contents( Page::ID($this->page_ID)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] -".(!$font_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' \r\n", FILE_APPEND);
 
 
 			if (!$font_downloaded) $font_downloaded_has_error = true;
@@ -542,12 +542,12 @@ class Internalize {
 
 		// FINISH LOG:
 		// LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - FONT DOWNLOAD FINISHED".($font_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - FONT DOWNLOAD FINISHED".($font_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->pageId)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] - Finished".($font_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->pageId)->logDir."/_font.log", Page::ID($this->pageId)->logDir.($font_downloaded_has_error ? '/__' : '/')."font.log");
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_font.log", "[".date("Y-m-d h:i:sa")."] - Finished".($font_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_font.log", Page::ID($this->page_ID)->logDir.($font_downloaded_has_error ? '/__' : '/')."font.log");
 
 
 		// Return true if no error
@@ -560,14 +560,14 @@ class Internalize {
 	public function capturePage($project_capture = false) {
 		global $db;
 
-		$pageID = $this->pageId;
-		$projectID = Page::ID($pageID)->getPageInfo('project_ID');
+		$page_ID = $this->page_ID;
+		$projectID = Page::ID($page_ID)->getPageInfo('project_ID');
 
 
 		// Add image names to database
-		if ( Page::ID($pageID)->getPageInfo('page_pic') == null ) {
+		if ( Page::ID($page_ID)->getPageInfo('page_pic') == null ) {
 
-			$db->where('page_ID', $pageID);
+			$db->where('page_ID', $page_ID);
 			$db->update('pages', array(
 				'page_pic' => "page.jpg"
 			), 1);
@@ -584,8 +584,8 @@ class Internalize {
 		}
 
 
-		$page_image = Page::ID($pageID)->pageDeviceDir."/".Page::ID($pageID)->getPageInfo('page_pic');
-		$project_image = Page::ID($pageID)->projectDir."/".Project::ID( $projectID )->getProjectInfo('project_pic');
+		$page_image = Page::ID($page_ID)->pageDeviceDir."/".Page::ID($page_ID)->getPageInfo('page_pic');
+		$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $projectID )->getProjectInfo('project_pic');
 
 		$page_captured = file_exists($page_image);
 		$project_captured = file_exists($project_image);
@@ -595,8 +595,8 @@ class Internalize {
 
 
 		// Get info
-		$url = Page::ID($this->pageId)->remoteUrl;
-		$deviceID = Page::ID($this->pageId)->getPageInfo('device_ID');
+		$url = Page::ID($this->page_ID)->remoteUrl;
+		$deviceID = Page::ID($this->page_ID)->getPageInfo('device_ID');
 		$width = Device::ID($deviceID)->getDeviceInfo('device_width');
 		$height = Device::ID($deviceID)->getDeviceInfo('device_height');
 		$page_image = $page_captured ? "done" : $page_image;
@@ -613,7 +613,7 @@ class Internalize {
 
 
 		// LOG:
-		file_put_contents( Page::ID($this->pageId)->logFile, "[".date("Y-m-d h:i:sa")."] - CAPTURE PROCESS STRING: '".$process_string."' \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - CAPTURE PROCESS STRING: '".$process_string."' \r\n", FILE_APPEND);
 
 
 	}
@@ -641,14 +641,14 @@ class Internalize {
 		// SAVING:
 
 		// Create the folder if not exists
-		if ( !file_exists(Page::ID($this->pageId)->pageDir."/$folderName/") )
-			mkdir(Page::ID($this->pageId)->pageDir."/$folderName/", 0755, true);
-		@chmod(Page::ID($this->pageId)->pageDir."/$folderName/", 0755);
+		if ( !file_exists(Page::ID($this->page_ID)->pageDir."/$folderName/") )
+			mkdir(Page::ID($this->page_ID)->pageDir."/$folderName/", 0755, true);
+		@chmod(Page::ID($this->page_ID)->pageDir."/$folderName/", 0755);
 
 		// Save the file if not exists
 		$downloaded = false;
-		if ( !file_exists( Page::ID($this->pageId)->pageDir."/".$fileName ) )
-			$downloaded = file_put_contents( Page::ID($this->pageId)->pageDir."/".$fileName, $fileContent, FILE_BINARY);
+		if ( !file_exists( Page::ID($this->page_ID)->pageDir."/".$fileName ) )
+			$downloaded = file_put_contents( Page::ID($this->page_ID)->pageDir."/".$fileName, $fileContent, FILE_BINARY);
 
 
 		// Return true if successful
@@ -679,7 +679,7 @@ class Internalize {
 
 
 				// LOG:
-		        file_put_contents( Page::ID($this->pageId)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$css_urls[3]."' -> '".url_to_absolute($url, $css_urls[3])."' \r\n", FILE_APPEND);
+		        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$css_urls[3]."' -> '".url_to_absolute($url, $css_urls[3])."' \r\n", FILE_APPEND);
 
 
 	            return "url('".url_to_absolute($url, $css_urls[3])."')";
@@ -747,12 +747,12 @@ LOD;
 
 
 	            // LOG:
-	            file_put_contents( Page::ID($this->pageId)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$url."' -> '".$urls[0]."' \r\n", FILE_APPEND);
+	            file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$url."' -> '".$urls[0]."' \r\n", FILE_APPEND);
 
 
 				// Change the URL
 	            //return site_url("get-font/?font=".$font_file_name_hash);
-	            return Page::ID($this->pageId)->pageUri."fonts/".$font_file_name_hash;
+	            return Page::ID($this->page_ID)->pageUri."fonts/".$font_file_name_hash;
 
 	        },
 	        $css

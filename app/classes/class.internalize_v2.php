@@ -37,10 +37,11 @@ class Internalize_v2 {
 
 
 	// When initialized
-	public function __construct($page_ID) {
+	public function __construct($page_ID, $queue_ID) {
 
 		// Set the page ID
 		$this->page_ID = $page_ID;
+		$this->queue_ID = $queue_ID;
 
 	}
 
@@ -48,18 +49,6 @@ class Internalize_v2 {
 
 
 	// JOBS:
-
-	// 1. Add the job to the queue
-	public function addToQueue() {
-		global $db, $logger, $queue;
-
-		$this->queue_ID = $queue->new_job('internalize', $this->page_ID, "Waiting other works to be done.");
-
-		if ($this->queue_ID)
-			return $this->queue_ID;
-
-		return false;
-	}
 
 
 	// 2. Wait for the queue
@@ -105,14 +94,14 @@ class Internalize_v2 {
 
 
 		// Get page and project IDs
-		$pageID = $this->page_ID;
-		$projectID = Page::ID($pageID)->getPageInfo('project_ID');
+		$page_ID = $this->page_ID;
+		$projectID = Page::ID($page_ID)->getPageInfo('project_ID');
 
 
 		// Add image names to database
-		if ( Page::ID($pageID)->getPageInfo('page_pic') == null ) {
+		if ( Page::ID($page_ID)->getPageInfo('page_pic') == null ) {
 
-			$db->where('page_ID', $pageID);
+			$db->where('page_ID', $page_ID);
 			$db->update('pages', array(
 				'page_pic' => "page.jpg" // !!! Create a random number
 			), 1);
@@ -130,10 +119,10 @@ class Internalize_v2 {
 
 
 		// Screenshots and HTML file
-		$page_image = Page::ID($pageID)->pageDeviceDir."/".Page::ID($pageID)->getPageInfo('page_pic');
-		$project_image = Page::ID($pageID)->projectDir."/".Project::ID( $projectID )->getProjectInfo('project_pic');
-		$htmlFile = Page::ID($pageID)->pageFile;
-		$resourcesFile = Page::ID($pageID)->logDir.'/resources.log';
+		$page_image = Page::ID($page_ID)->pageDeviceDir."/".Page::ID($page_ID)->getPageInfo('page_pic');
+		$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $projectID )->getProjectInfo('project_pic');
+		$htmlFile = Page::ID($page_ID)->pageFile;
+		$resourcesFile = Page::ID($page_ID)->logDir.'/resources.log';
 
 
 		// Are they exist?
@@ -155,14 +144,14 @@ class Internalize_v2 {
 			$logger->info('HTML, Page/Project Screenshots and resources.log file are already exist. Browser job is skipped.');
 
 
-			return false;
+			return true;
 		}
 
 
 		// Get info
-		$url = Page::ID($pageID)->remoteUrl;
-		$logDir = Page::ID($pageID)->logDir;
-		$deviceID = Page::ID($pageID)->getPageInfo('device_ID');
+		$url = Page::ID($page_ID)->remoteUrl;
+		$logDir = Page::ID($page_ID)->logDir;
+		$deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
 		$width = Device::ID($deviceID)->getDeviceInfo('device_width');
 		$height = Device::ID($deviceID)->getDeviceInfo('device_height');
 		$page_image = $page_captured ? "done" : $page_image;
@@ -192,7 +181,7 @@ class Internalize_v2 {
 
 
 		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "Browser job has started.", $process->getPid());
+		$queue->update_status($this->queue_ID, "working", "Browser job has started.");
 
 
 		// LOGS
@@ -277,7 +266,7 @@ class Internalize_v2 {
 
 
 		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "Resources list is ready.", $process->getPid());
+		$queue->update_status($this->queue_ID, "working", "Resources list is ready.");
 
 		// Log
 		$logger->info("Resources list is ready.");

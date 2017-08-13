@@ -4,7 +4,7 @@ class Page {
 
 
 	// The page ID
-	public static $pageId;
+	public static $page_ID;
 
 	// The page version
 	public $pageVersion;
@@ -94,7 +94,7 @@ class Page {
 		// Paths
         $userPath = "user-".$this->userId;
         $projectPath = "project-".$this->projectId;
-        $pagePath = "page-".($this->getPageInfo('parent_page_ID') != null ? $this->getPageInfo('parent_page_ID') : self::$pageId);
+        $pagePath = "page-".($this->getPageInfo('parent_page_ID') != null ? $this->getPageInfo('parent_page_ID') : self::$page_ID);
         $devicePath = "device-".$this->pageDevice;
         $versionPath = $this->pageVersion;
 
@@ -141,10 +141,10 @@ class Page {
 
 
 	// ID Setter
-    public static function ID($pageId) {
+    public static function ID($page_ID) {
 
 	    // Set the page ID
-		self::$pageId = $pageId;
+		self::$page_ID = $page_ID;
 		return new static;
 
     }
@@ -158,7 +158,7 @@ class Page {
     public function getPageInfo($column) {
 	    global $db;
 
-	    $db->where('page_ID', self::$pageId);
+	    $db->where('page_ID', self::$page_ID);
 	    $page = $db->getOne('pages', $column);
 		if ($page)
 			return $page[$column];
@@ -173,7 +173,7 @@ class Page {
 
 
 		$db->where('version_user_ID', $this->getPageInfo('user_ID'));
-		$db->where('version_page_ID', self::$pageId);
+		$db->where('version_page_ID', self::$page_ID);
 
 		// Show the final one
 		$db->orderBy('version_number');

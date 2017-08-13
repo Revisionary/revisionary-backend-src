@@ -4,16 +4,16 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 
 
 // Get the page ID
-$pageID = $_url[1];
+$page_ID = $_url[1];
 
 // Get parent page ID
-$parentPageID = Page::ID($pageID)->getPageInfo('parent_page_ID');
+$parentpage_ID = Page::ID($page_ID)->getPageInfo('parent_page_ID');
 
 // Get project ID
-$projectID = Page::ID($pageID)->getPageInfo('project_ID');
+$projectID = Page::ID($page_ID)->getPageInfo('project_ID');
 
 // Get device ID
-$deviceID = Page::ID($pageID)->getPageInfo('device_ID');
+$deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
 
 // Get the device sizes
 $width = Device::ID($deviceID)->getDeviceInfo('device_width');
@@ -26,34 +26,39 @@ $deviceCat = $db->getOne('device_categories');
 $deviceIcon = $deviceCat['device_cat_icon'];
 
 // Page Category
-$db->where('page_cat_page_ID', $pageID);
-$db->orWhere('page_cat_page_ID', $parentPageID);
+$db->where('page_cat_page_ID', $page_ID);
+$db->orWhere('page_cat_page_ID', $parentpage_ID);
 $pageCatID = $db->getValue('page_cat_connect', 'page_cat_ID');
 
 $db->where('cat_ID', $pageCatID);
 $pageCat = $db->getOne('categories');
 
+
+// Screenshots
+$page_image = Page::ID($page_ID)->pageDeviceDir."/".Page::ID($page_ID)->getPageInfo('page_pic');
+$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $projectID )->getProjectInfo('project_pic');
+
 //print_r($pageCat); exit();
 
 
 // If first time downloading - !!! NO NEED FOR NOW
-//if (Page::ID($pageID)->getPageInfo('page_downloaded') == 0) {
+//if (Page::ID($page_ID)->getPageInfo('page_downloaded') == 0) {
 
 
 	// INTERNAL REDIRECTIONS:
 
 	// Http to Https Redirection
-	if ( substr(Page::ID($pageID)->remoteUrl, 0, 8) == "https://" && !ssl) {
+	if ( substr(Page::ID($page_ID)->remoteUrl, 0, 8) == "https://" && !ssl) {
 
-		header( 'Location: '.site_url('revise/'.$pageID, true) ); // Force HTTPS
+		header( 'Location: '.site_url('revise/'.$page_ID, true) ); // Force HTTPS
 		die();
 
 	}
 
 	// Https to Http Redirection
-	if ( substr(Page::ID($pageID)->remoteUrl, 0, 7) == "http://" && ssl) {
+	if ( substr(Page::ID($page_ID)->remoteUrl, 0, 7) == "http://" && ssl) {
 
-		header( 'Location: '.site_url('revise/'.$pageID, false, true) ); // Force HTTP
+		header( 'Location: '.site_url('revise/'.$page_ID, false, true) ); // Force HTTP
 		die();
 
 	}
@@ -66,7 +71,7 @@ $pageCat = $db->getOne('categories');
 	// Bring the headers
 	$OriginalUserAgent = ini_get('user_agent');
 	ini_set('user_agent', 'Mozilla/5.0');
-	$headers = @get_headers(Page::ID($pageID)->remoteUrl, 1);
+	$headers = @get_headers(Page::ID($page_ID)->remoteUrl, 1);
 	ini_set('user_agent', $OriginalUserAgent);
 
 	var_dump($headers);
@@ -92,12 +97,12 @@ $pageCat = $db->getOne('categories');
 
 
 		// Update the NEW remoteUrl on DB
-		$db->where ('page_ID', $pageID);
+		$db->where ('page_ID', $page_ID);
 		$db->update ('pages', ['page_url' => $new_location]);
 
 
 		// Refresh the page for preventing redirects
-		header( 'Location: ' . site_url('revise/'.$pageID) );
+		header( 'Location: ' . site_url('revise/'.$page_ID) );
 		die();
 
 
@@ -105,22 +110,22 @@ $pageCat = $db->getOne('categories');
 	} else {
 
 		// Try non-ssl if the url is on SSL?
-		if ( substr(Page::ID($pageID)->remoteUrl, 0, 8) == "https://" ) {
+		if ( substr(Page::ID($page_ID)->remoteUrl, 0, 8) == "https://" ) {
 
 			// Update the nonSSL remoteUrl on DB !!!???
-			$db->where ('page_ID', $pageID);
-			$db->update ('pages', ['page_url' => "http://".substr(Page::ID($pageID)->remoteUrl, 8)]);
+			$db->where ('page_ID', $page_ID);
+			$db->update ('pages', ['page_url' => "http://".substr(Page::ID($page_ID)->remoteUrl, 8)]);
 
 
 			// Refresh the page to try non-ssl
-			header( 'Location: ' . site_url('revise/'.$pageID) );
+			header( 'Location: ' . site_url('revise/'.$page_ID) );
 			die();
 
 
 		// If nothing works
 		} else {
 
-			header( 'Location: ' . site_url('?error='.Page::ID($pageID)->remoteUrl) );
+			header( 'Location: ' . site_url('?error='.Page::ID($page_ID)->remoteUrl) );
 			die();
 
 		}
@@ -134,14 +139,135 @@ $pageCat = $db->getOne('categories');
 
 
 // Create the log folder if not exists
-if ( !file_exists(Page::ID($pageID)->logDir) )
-	mkdir(Page::ID($pageID)->logDir, 0755, true);
-@chmod(Page::ID($pageID)->logDir, 0755);
+if ( !file_exists(Page::ID($page_ID)->logDir) )
+	mkdir(Page::ID($page_ID)->logDir, 0755, true);
+@chmod(Page::ID($page_ID)->logDir, 0755);
 
 
-// Initiate Internalizator
-$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$pageID.' '.session_id().' '.$projectID);
-$process->run(Page::ID($pageID)->logDir."/internalize.log", true);
+
+
+
+
+
+
+/*
+// Initial checks of existing files
+$need_to_wait = true;
+// If folder is already exist
+if (
+	file_exists(Page::ID($page_ID)->pageDir) // Folder is exist
+) {
+
+
+
+
+	// Check if the HTML file properly downloaded
+	if (
+		file_exists(Page::ID($page_ID)->pageFile) && // HTML is downloaded?
+		file_exists(Page::ID($page_ID)->logDir."/resources.log") && // Resources ready?
+		file_exists( $page_image ) && // Page image ready?
+		file_exists( $project_image ) && // // Project image ready?
+		!file_exists( Page::ID($page_ID)->logDir."/__html.log" ) && // No error on HTML download
+		!file_exists( Page::ID($page_ID)->logDir."/__css.log" ) && // No error on CSS download
+		!file_exists( Page::ID($page_ID)->logDir."/__filter.log" ) && // No error on filtering
+		!file_exists( Page::ID($page_ID)->logDir."/__font.log" ) // No error on font download
+	) {
+
+		$need_to_wait = false;
+
+	} else {
+
+
+	}
+
+}
+*/
+
+
+
+
+
+
+
+
+// Check if queue is already working
+$db->where('queue_type', 'internalize');
+$db->where('queue_object_ID', $page_ID);
+$db->where('queue_status', 'working');
+$existing_queue = $db->getOne('queues');
+$queue_ID = "";
+
+
+// If already working queue exists
+if ($existing_queue) {
+
+
+	$queue_ID = $existing_queue['queue_PID'];
+
+	// Set the process ID to check
+	$process = BackgroundProcess::createFromPID( $queue_ID );
+
+
+// If no need to re-internalize
+} elseif (
+
+	file_exists(Page::ID($page_ID)->pageDir) && // Folder is exist
+	file_exists(Page::ID($page_ID)->pageFile) && // HTML is downloaded?
+	file_exists(Page::ID($page_ID)->logDir."/resources.log") && // Resources ready?
+	file_exists( $page_image ) && // Page image ready?
+	file_exists( $project_image ) && // // Project image ready?
+	!file_exists( Page::ID($page_ID)->logDir."/__html.log" ) && // No error on HTML download
+	!file_exists( Page::ID($page_ID)->logDir."/__css.log" ) && // No error on CSS download
+	!file_exists( Page::ID($page_ID)->logDir."/__filter.log" ) && // No error on filtering
+	!file_exists( Page::ID($page_ID)->logDir."/__font.log" ) // No error on font download
+
+) {
+
+
+	// Initiate Internalizator
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$projectID);
+	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+
+
+// Needs to be completely internalized
+} else {
+
+
+	// Remove the existing and wrong files
+	if ( file_exists(Page::ID($page_ID)->pageDir) )
+		deleteDirectory(Page::ID($page_ID)->pageDir);
+
+
+	// Re-Create the log folder if not exists
+	if ( !file_exists(Page::ID($page_ID)->logDir) )
+		mkdir(Page::ID($page_ID)->logDir, 0755, true);
+	@chmod(Page::ID($page_ID)->logDir, 0755);
+
+
+	// Logger
+	$logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
+		'filename' => Page::ID($page_ID)->logFileName,
+	    'extension' => 'log', // changes the log file extension
+	));
+
+
+
+
+	// Add a new job to the queue
+	$queue = new Queue();
+	$queue_ID = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.");
+
+
+	// Initiate Internalizator
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$projectID.' '.$queue_ID);
+	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+
+
+	// Update the queue status
+	$queue->update_status($queue_ID, "working", "Waiting other works to be done.", $process->getPid());
+
+
+}
 
 
 

@@ -9,6 +9,8 @@ set_time_limit(0);
 $page_ID = $argv[1];
 $sessionID = $argv[2];
 $project_ID = $argv[3];
+$queue_ID = $argv[4];
+$need_to_wait = isset($queue_ID) && is_numeric($queue_ID) ? true : false;
 
 
 // Correct the session ID
@@ -39,10 +41,9 @@ $queue = new Queue();
 
 
 // Initialize internalizator
-$internalize = new Internalize_v2($page_ID);
+$internalize = new Internalize_v2($page_ID, $queue_ID);
 
-$queue_ID = $job_ready = $browser_done = $files_detected = $html_downloaded = $html_filtred = $css_downloaded = $fonts_downloaded = false;
-$need_to_wait = true;
+$job_ready = $browser_done = $files_detected = $html_downloaded = $html_filtred = $css_downloaded = $fonts_downloaded = false;
 
 
 
@@ -50,60 +51,6 @@ $need_to_wait = true;
 
 
 // JOBS:
-
-
-// 0. Initial checks of existing files
-
-// If folder is already exist
-if (
-	file_exists(Page::ID($page_ID)->pageDir) // Folder is exist
-) {
-
-	$page_image = Page::ID($page_ID)->pageDeviceDir."/".Page::ID($page_ID)->getPageInfo('page_pic');
-	$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $project_ID )->getProjectInfo('project_pic');
-
-
-	// Check if the HTML file properly downloaded
-	if (
-		file_exists(Page::ID($page_ID)->pageFile) && // HTML is downloaded?
-		file_exists(Page::ID($page_ID)->logDir."/resources.log") && // Resources ready?
-		file_exists( $page_image ) && // Page image ready?
-		file_exists( $project_image ) && // // Project image ready?
-		!file_exists( Page::ID($page_ID)->logDir."/__html.log" ) && // No error on HTML download
-		!file_exists( Page::ID($page_ID)->logDir."/__css.log" ) && // No error on CSS download
-		!file_exists( Page::ID($page_ID)->logDir."/__filter.log" ) && // No error on filtering
-		!file_exists( Page::ID($page_ID)->logDir."/__font.log" ) // No error on font download
-	) {
-
-		$need_to_wait = false;
-
-	} else {
-
-
-		// DELETE THE CACHE
-		if ( file_exists(Page::ID($page_ID)->pageDir) )
-			deleteDirectory(Page::ID($page_ID)->pageDir);
-
-
-		// Create the log folder if not exists
-		if ( !file_exists(Page::ID($page_ID)->logDir) )
-			mkdir(Page::ID($page_ID)->logDir, 0755, true);
-		@chmod(Page::ID($page_ID)->logDir, 0755);
-
-
-	}
-
-
-
-
-}
-
-
-
-
-
-// 1. Add the job to the queue
-if ($need_to_wait) $queue_ID = $internalize->addToQueue();
 
 
 // 2. Wait for the queue
