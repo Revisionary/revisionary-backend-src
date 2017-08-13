@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.1
+-- version 4.7.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 31, 2017 at 01:20 AM
+-- Generation Time: Aug 13, 2017 at 05:06 PM
 -- Server version: 5.6.35
--- PHP Version: 7.1.5
+-- PHP Version: 7.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -194,7 +194,7 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_user`
 (24, 'Cüneyt\'s Contact', 'cuneyt.jpg', 'http://www.cuneyt-tas.com/iletisim/', NULL, NULL, '2017-06-25 11:20:36', '2017-07-18 20:28:48', 5, 4, NULL, 5),
 (25, 'Hawaii Home', 'hawaiih.jpg', 'http://www.hawaiilassi.com/', NULL, NULL, '2017-07-10 12:01:17', '2017-07-10 12:01:17', 11, 4, NULL, 4),
 (26, 'Twelve12 iMac', 'home.png', 'https://www.twelve12.com/', NULL, NULL, '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 1, 10, 1),
-(27, 'Vanta Home', 'page.jpg', 'http://vantaquest.twelve12.com/', NULL, NULL, '2017-07-29 09:02:20', '2017-07-30 16:53:21', 14, 4, NULL, 1);
+(27, 'Vanta Home', 'page.jpg', 'http://vantaquest.twelve12.com/', NULL, NULL, '2017-07-29 09:02:20', '2017-08-13 13:27:15', 14, 4, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -307,12 +307,7 @@ CREATE TABLE `queues` (
 --
 
 INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, `queue_status`, `queue_updated`, `queue_created`, `queue_message`, `user_ID`) VALUES
-(83, 'internalize', 27, NULL, 'done', '2017-07-30 21:26:04', '2017-07-30 21:19:38', 'HTML Filtred.', 1),
-(84, 'internalize', 27, NULL, 'done', '2017-07-30 22:04:27', '2017-07-30 21:25:54', 'HTML Filtred.', 1),
-(85, 'internalize', 27, NULL, 'done', '2017-07-30 22:05:35', '2017-07-30 22:04:21', 'HTML Filtred.', 1),
-(86, 'internalize', 27, NULL, 'done', '2017-07-30 22:10:12', '2017-07-30 22:05:31', 'CSS downloads finished.', 1),
-(87, 'internalize', 27, NULL, 'done', '2017-07-30 22:16:29', '2017-07-30 22:10:07', 'CSS downloads finished.', 1),
-(88, 'internalize', 27, NULL, 'working', '2017-07-30 22:16:42', '2017-07-30 22:16:23', 'CSS downloads finished.', 1);
+(221, 'internalize', 27, NULL, 'done', '2017-08-13 14:05:35', '2017-08-13 14:05:27', 'Internalization is complete.', 1);
 
 -- --------------------------------------------------------
 
@@ -633,7 +628,7 @@ ALTER TABLE `project_cat_connect`
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
 --
 -- AUTO_INCREMENT for table `shares`
 --

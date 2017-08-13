@@ -140,7 +140,7 @@ if ( !file_exists(Page::ID($pageID)->logDir) )
 
 
 // Initiate Internalizator
-$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$pageID.' '.session_id());
+$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$pageID.' '.session_id().' '.$projectID);
 $process->run(Page::ID($pageID)->logDir."/internalize.log", true);
 
 
