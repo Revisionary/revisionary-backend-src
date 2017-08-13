@@ -95,7 +95,7 @@ class Internalize_v2 {
 
 		// Get page and project IDs
 		$page_ID = $this->page_ID;
-		$projectID = Page::ID($page_ID)->getPageInfo('project_ID');
+		$project_ID = Page::ID($page_ID)->getPageInfo('project_ID');
 
 
 		// Add image names to database
@@ -108,9 +108,9 @@ class Internalize_v2 {
 
 		}
 
-		if ( Project::ID( $projectID )->getProjectInfo('project_pic') == null ) {
+		if ( Project::ID( $project_ID )->getProjectInfo('project_pic') == null ) {
 
-			$db->where('project_ID', $projectID);
+			$db->where('project_ID', $project_ID);
 			$db->update('projects', array(
 				'project_pic' => "proj.jpg" // !!! Create a random number
 			), 1);
@@ -120,7 +120,7 @@ class Internalize_v2 {
 
 		// Screenshots and HTML file
 		$page_image = Page::ID($page_ID)->pageDeviceDir."/".Page::ID($page_ID)->getPageInfo('page_pic');
-		$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $projectID )->getProjectInfo('project_pic');
+		$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $project_ID )->getProjectInfo('project_pic');
 		$htmlFile = Page::ID($page_ID)->pageFile;
 		$resourcesFile = Page::ID($page_ID)->logDir.'/resources.log';
 
@@ -161,7 +161,7 @@ class Internalize_v2 {
 
 
 /*
-		// Process directories - SlimerJS - Firefox
+		// Process directories - SlimerJS - Firefox !!!
 		$slimerjs = realpath('..')."/bin/slimerjs-0.10.3/slimerjs";
 		$capturejs = dir."/app/bgprocess/firefox.js";
 

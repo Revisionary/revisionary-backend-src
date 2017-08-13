@@ -10,7 +10,7 @@ $page_ID = $_url[1];
 $parentpage_ID = Page::ID($page_ID)->getPageInfo('parent_page_ID');
 
 // Get project ID
-$projectID = Page::ID($page_ID)->getPageInfo('project_ID');
+$project_ID = Page::ID($page_ID)->getPageInfo('project_ID');
 
 // Get device ID
 $deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
@@ -36,7 +36,7 @@ $pageCat = $db->getOne('categories');
 
 // Screenshots
 $page_image = Page::ID($page_ID)->pageDeviceDir."/".Page::ID($page_ID)->getPageInfo('page_pic');
-$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $projectID )->getProjectInfo('project_pic');
+$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $project_ID )->getProjectInfo('project_pic');
 
 //print_r($pageCat); exit();
 
@@ -225,7 +225,7 @@ if ($existing_queue) {
 
 
 	// Initiate Internalizator
-	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$projectID);
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID);
 	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
 
 
@@ -259,12 +259,12 @@ if ($existing_queue) {
 
 
 	// Initiate Internalizator
-	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$projectID.' '.$queue_ID);
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
 	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
 
 
-	// Update the queue status
-	$queue->update_status($queue_ID, "working", "Waiting other works to be done.", $process->getPid());
+	// Add the PID to the queue
+	$queue->update_status($queue_ID, "waiting", "Waiting other works to be done.", $process->getPid());
 
 
 }

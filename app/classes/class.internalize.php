@@ -561,7 +561,7 @@ class Internalize {
 		global $db;
 
 		$page_ID = $this->page_ID;
-		$projectID = Page::ID($page_ID)->getPageInfo('project_ID');
+		$project_ID = Page::ID($page_ID)->getPageInfo('project_ID');
 
 
 		// Add image names to database
@@ -574,9 +574,9 @@ class Internalize {
 
 		}
 
-		if ( Project::ID( $projectID )->getProjectInfo('project_pic') == null ) {
+		if ( Project::ID( $project_ID )->getProjectInfo('project_pic') == null ) {
 
-			$db->where('project_ID', $projectID);
+			$db->where('project_ID', $project_ID);
 			$db->update('projects', array(
 				'project_pic' => "proj.jpg"
 			), 1);
@@ -585,7 +585,7 @@ class Internalize {
 
 
 		$page_image = Page::ID($page_ID)->pageDeviceDir."/".Page::ID($page_ID)->getPageInfo('page_pic');
-		$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $projectID )->getProjectInfo('project_pic');
+		$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $project_ID )->getProjectInfo('project_pic');
 
 		$page_captured = file_exists($page_image);
 		$project_captured = file_exists($project_image);

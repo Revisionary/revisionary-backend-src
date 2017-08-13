@@ -1,4 +1,6 @@
 <?php
+use Cocur\BackgroundProcess\BackgroundProcess;
+
 
 // If not logged in, go login page
 if (!userloggedIn()) {
@@ -32,7 +34,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 
 	// Add the project
-	$project_id = $db->insert ('projects', array(
+	$project_ID = $db->insert ('projects', array(
 		"project_name" => post('project-name'),
 		"user_ID" => currentUserID()
 	));
@@ -42,7 +44,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 	if (post('category') != "0") {
 
 		$cat_id = $db->insert ('project_cat_connect', array(
-			"project_cat_project_ID" => $project_id,
+			"project_cat_project_ID" => $project_ID,
 			"project_cat_ID" => post('category'),
 			"project_cat_connect_user_ID" => currentUserID()
 		));
@@ -55,7 +57,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 		$cat_id = $db->insert ('sorting', array(
 			"sort_type" => 'project',
-			"sort_object_ID" => $project_id,
+			"sort_object_ID" => $project_ID,
 			"sort_number" => post('order'),
 			"sorter_user_ID" => currentUserID()
 		));
@@ -70,26 +72,71 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 		$device_count = 0;
 		foreach (post('devices') as $deviceID) {
 
-			$page_id = $db->insert('pages', array(
+			$page_ID = $db->insert('pages', array(
 				"page_name" => post('page-name'),
 				"page_url" => post('page-url'),
-				"project_ID" => $project_id,
+				"project_ID" => $project_ID,
 				"device_ID" => $deviceID,
 				"parent_page_ID" => $parent_page_ID,
 				"user_ID" => currentUserID()
 			));
 
-			if ( $device_count == 0 ) $parent_page_ID = $page_id;
-
+			if ( $device_count == 0 ) $parent_page_ID = $page_ID;
 			$device_count++;
+
+
+
+
+
+
+			// ADD TO QUEUE
+
+			// Remove the existing and wrong files
+			if ( file_exists(Page::ID($page_ID)->pageDir) )
+				deleteDirectory(Page::ID($page_ID)->pageDir);
+
+
+			// Re-Create the log folder if not exists
+			if ( !file_exists(Page::ID($page_ID)->logDir) )
+				mkdir(Page::ID($page_ID)->logDir, 0755, true);
+			@chmod(Page::ID($page_ID)->logDir, 0755);
+
+
+			// Logger
+			$logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
+				'filename' => Page::ID($page_ID)->logFileName,
+			    'extension' => 'log', // changes the log file extension
+			));
+
+
+
+
+			// Add a new job to the queue
+			$queue = new Queue();
+			$queue_ID = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.");
+
+
+			// Initiate Internalizator
+			$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
+			$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+
+
+			// Add the PID to the queue
+			$queue->update_status($queue_ID, "waiting", "Waiting other works to be done.", $process->getPid());
+
+
+
+
+
+
 		}
 
 	}
 
 
 
-	if($project_id) {
-		header('Location: '.site_url('project/'.$project_id.'?add-first-page'));
+	if($project_ID) {
+		header('Location: '.site_url('project/'.$project_ID.'?add-first-page'));
 		die();
 	}
 

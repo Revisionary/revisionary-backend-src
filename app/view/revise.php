@@ -667,14 +667,14 @@ $(function(){
 
 						<div class="breadcrumbs">
 							<a href="<?=site_url('projects')?>" class="projects">
-								<?=Project::ID($projectID)->getProjectInfo('project_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+								<?=Project::ID($project_ID)->getProjectInfo('project_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 							</a>
 							<sep>></sep>
 
 							<?php
 							if ($pageCat['cat_name'] != "") {
 							?>
-							<a href="<?=site_url('project/'.$projectID.'/'.permalink($pageCat['cat_name']))?>" class="pages">
+							<a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>" class="pages">
 								<?=$pageCat['cat_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 							</a>
 							<sep>></sep>
@@ -682,7 +682,7 @@ $(function(){
 							}
 							?>
 
-							<a href="<?=site_url('project/'.$projectID)?>" class="sections">
+							<a href="<?=site_url('project/'.$project_ID)?>" class="sections">
 								<?=Page::ID($page_ID)->getPageInfo('page_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 							</a>
 						</div>
