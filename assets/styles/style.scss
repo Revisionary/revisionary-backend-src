@@ -14,12 +14,14 @@ html, body {
 
 .container {
 	margin: 0 auto;
+	width: 95%;
 	max-width: $site-width;
 }
 
 
 #page {
 	overflow: hidden;
+}
 
 /**
  * Typography
@@ -275,6 +277,7 @@ a {
 	letter-spacing: 3px;
 }
 
+/*
 .dropdown-container {
 	position: relative;
 
@@ -339,15 +342,7 @@ a {
 			}
 	    }
 
-		.notifications {
-		    background-color: white;
-		    border: 1px solid;
-		    display: block;
-		    padding: 15px 20px;
-		    text-align: center;
-		    font-size: 12px;
-		    line-height: 15px;
-		}
+
 	}
 
 	.dropdown-opener:hover + nav.dropdown,
@@ -371,6 +366,184 @@ a {
 	    ul {
 		    margin: 0;
 	    }
+	}
+
+}
+*/
+
+
+
+.notifications {
+    background-color: white;
+    border: 1px solid;
+    display: block;
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+
+.dropdown-container {
+	position: relative;
+
+	& > .dropdown-opener {
+		cursor: pointer;
+		margin-bottom: 0;
+
+		&:hover {
+
+			& + nav.dropdown {
+				pointer-events: auto;
+				opacity: 1;
+				-webkit-transition-delay: 0s; /* Safari */
+				transition-delay: 0s;
+			}
+
+		}
+
+	}
+
+	& > nav.dropdown { // TOP MENU
+		cursor: pointer;
+		margin-top: -15px;
+		padding-top: 15px;
+		position: absolute;
+		z-index: 2;
+		left: 0;
+		pointer-events: none;
+		opacity: 0;
+		transition: 500ms;
+
+
+		&:hover {
+			pointer-events: auto;
+			opacity: 1;
+		}
+
+
+		& > ul {
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+
+			& > li {
+				margin-bottom: -2px;
+
+				& > * { // Usually A or SPAN
+					background-color: #fff;
+					padding: 5px;
+					border: 2px solid black;
+					display: block;
+					white-space: nowrap;
+
+					&:hover {
+						color: $color-secondary;
+					}
+
+					& > i,
+					&.dropdown-container > .dropdown-opener > i {
+						width: 22px;
+						text-align: center;
+					}
+
+
+					&.dropdown-container {
+
+						& > nav.dropdown {
+							left: 100%;
+							top: 0;
+						    margin-left: -10px;
+						    padding-left: 10px;
+						}
+					}
+				}
+
+			}
+
+		}
+
+		&.selectable { // SELECTABLE TOP MENU
+
+
+			& > ul {
+
+
+				& > li {
+
+
+					& > * {
+						padding: 5px 5px 5px 30px;
+					}
+
+					&.selected {
+
+
+						& > * {
+							position: relative;
+
+							&:before {
+							    content: "\f00c";
+							    font-family: FontAwesome;
+							    position: absolute;
+								left: 4px;
+							    top: 50%;
+							    margin-top: -9px;
+							    line-height: 18px;
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+			&.addable {
+
+				& > ul {
+
+
+					& > li {
+						margin-top: -2px;
+
+
+						& > * {
+							position: relative;
+							padding: 5px 5px 5px 30px;
+
+							&:before {
+							    content: "\f067";
+							    font-family: FontAwesome;
+							    position: absolute;
+								left: 6px;
+							    top: 50%;
+							    margin-top: -9px;
+							    line-height: 18px;
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	} // nav.dropdown
+
+} // .dropdown-container
+
+
+.device-adder {
+
+	a {
+		font-size: 15px;
+		line-height: 18px;
+		letter-spacing: 0;
 	}
 
 }
@@ -651,7 +824,6 @@ header {
 }
 
 .under-main-title {
-    margin-top: -15px;
     margin-bottom: 10px;
 
     .member-selector {
@@ -974,6 +1146,16 @@ section > div:last-child .side-content {
 	    background-color: rgba(0, 0, 0, 0.75);
 	}
 
+	.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{
+		background-color: #000;
+		background-color: rgba(0, 0, 0, 0.9);
+	}
+
+	.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar {
+	    background-color: #000;
+	    background-color: rgba(0, 0, 0, 0.85);
+    }
+
 	&:not(.more-options) {
 
 		.less-options, .more-options-wrapper, .section-title {
@@ -1001,12 +1183,12 @@ section > div:last-child .side-content {
 		list-style: none;
 		margin-top: 0;
 
-		li {
+		& > li {
 			text-align: left;
 			padding-left: 40px;
 			margin-top: 10px;
 
-			i {
+			& > i {
 				display: inline-block;
 			    width: 60px;
 			    text-align: center;
@@ -1015,9 +1197,17 @@ section > div:last-child .side-content {
 			    bottom: -6px;
 			}
 
-			span {
+			& > span {
 				font-size: 18px;
 				letter-spacing: 1px;
+			}
+
+			& > a.remove-device {
+				color: #d6d6d6;
+
+				&:hover {
+					color: black;
+				}
 			}
 		}
 	}
@@ -1457,7 +1647,7 @@ footer {
 
 
 
-} /* END OF #page */
+//} /* END OF #page */
 
 
 /**

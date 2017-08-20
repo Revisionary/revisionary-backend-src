@@ -389,6 +389,56 @@ if ( request('action') == "rename") {
 }
 
 
+// ADD NEW CATEGORY
+if ( request('action') == "add-new-category") {
+
+	$type = request('data-type');
+
+
+	// Security Check
+	if (
+		$type != "project" &&
+		$type != "page"
+	) {
+		$status = "fail";
+	}
+
+
+	// DB Checks !!! If exists...
+
+
+	// If no problem, DB Update
+	if ($status != "fail") {
+
+
+		// Add a new category
+		$dbData = Array(
+			"cat_type" => $type,
+			"cat_name" => 'Untitled',
+			"cat_user_ID" => currentUserID()
+		);
+
+		if ( is_numeric( request('project_ID') ) ) // !!! Security Issue, check the ID from DB
+			$dbData['cat_type'] = request('project_ID');
+
+		$cat_ID = $db->insert('categories', $dbData);
+		if ($cat_ID) $status = "successful";
+
+
+	}
+
+
+	// Redirect if not ajax
+	if ( request('ajax') != true ) {
+		$_SESSION["js_nonce"] = null;
+
+		header('Location: '.$_SERVER['HTTP_REFERER']);
+		die();
+	}
+
+}
+
+
 
 // CREATE THE RESPONSE
 $data = array();

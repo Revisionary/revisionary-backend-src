@@ -26,9 +26,10 @@ $(function() {
 	var maxHeight = $('iframe').height();
 
 	$(window).resize(function(evt) {
+
 	    var $window = $(window);
-	    var width = $window.width();
-	    var height = $window.height();
+	    var width = $window.width() - 20; // -20 for the borders
+	    var height = $window.height() - 20; // -20 for the borders
 	    var scale;
 
 	    // early exit
@@ -42,6 +43,7 @@ $(function() {
 
 	    $('iframe').css({'-webkit-transform': 'scale(' + scale + ')'});
 	    $('.iframe-container').css({ width: maxWidth * scale, height: maxHeight * scale });
+
 	}).resize();
 
 

@@ -44,8 +44,17 @@
 					}
 
 				?>
+					<?php
 
-					<a href="#"><span style="font-family: Arial; font-weight: bold;">+</span></a>
+
+
+					$action_url = 'ajax?type=data-action&data-type='.$dataType.'&nonce='.$_SESSION['js_nonce'];
+
+					if ($dataType == "page")
+						$action_url .= '&project_ID='.$project_ID;
+
+					?>
+					<a href="<?=site_url($action_url.'&action=add-new-category')?>" class="action" data-action="add-new-category"><span style="font-family: Arial; font-weight: bold;">+</span></a>
 
 				</div>
 
@@ -57,7 +66,7 @@
 					?>
 					<div class="dropdown-container">
 						<span class="dropdown-opener">DEVICE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-						<nav class="dropdown xl-left lower">
+						<nav class="dropdown selectable xl-left">
 							<ul class="device-selector">
 
 								<li <?= $deviceFilter == "" || $deviceFilter == "all" ? ' class="selected"' : ""?>>
@@ -84,7 +93,7 @@
 
 					<div class="dropdown-container" style="margin-left: 15px;">
 						<span class="dropdown-opener">SIZE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-						<nav class="dropdown xl-left lower">
+						<nav class="dropdown selectable xl-left">
 							<ul class="size-selector">
 								<li class="selected"><a href="#" data-column="6">6 Column</a></li>
 								<li><a href="#" data-column="5">5 Column</a></li>
@@ -97,7 +106,7 @@
 
 					<div class="dropdown-container" style="margin-left: 15px;">
 						<span class="dropdown-opener">SORT <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-						<nav class="dropdown xl-left lower">
+						<nav class="dropdown selectable xl-left">
 							<ul class="order-selector">
 								<li <?=!isset($_GET['order']) || get('order') == "custom" ? ' class="selected"' : ""?>>
 									<a href="<?=current_url('', 'order')?>" data-order="custom">Custom</a>

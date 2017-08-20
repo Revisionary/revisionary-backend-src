@@ -60,20 +60,16 @@
 					</a>
 
 					<nav class="dropdown user-menu">
-						<div class="notifications">
-							There's nothing to mention now.<br/>
-							Your notifications will be here.
-						</div>
-
-						<div class="user-menu-content">
-							<ul class="user-menu-items">
-								<li class="menu-item"><a href="<?=site_url('projects')?>">Projects</a></li>
-								<li class="menu-item"><a href="<?=site_url('profile/'.User::ID()->userName)?>">Profile</a></li>
-								<li class="menu-item"><a href="<?=site_url('account')?>">Account</a></li>
-								<li class="menu-item"><a href="<?=site_url('logout')?>">Logout</a></li>
-							</ul>
-						</div>
-
+						<ul>
+							<li class="notifications">
+								There's nothing to mention now.<br/>
+								Your notifications will be here.
+							</li>
+							<li><a href="<?=site_url('projects')?>">Projects</a></li>
+							<li><a href="<?=site_url('profile/'.User::ID()->userName)?>">Profile</a></li>
+							<li><a href="<?=site_url('account')?>">Account</a></li>
+							<li><a href="<?=site_url('logout')?>">Logout</a></li>
+						</ul>
 					</nav>
 				</div>
 

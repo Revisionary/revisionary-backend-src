@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.2
+-- version 4.7.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 13, 2017 at 07:22 PM
+-- Generation Time: Aug 20, 2017 at 10:49 PM
 -- Server version: 5.6.35
--- PHP Version: 7.1.6
+-- PHP Version: 7.1.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -82,9 +82,7 @@ CREATE TABLE `deletes` (
 --
 
 INSERT INTO `deletes` (`delete_ID`, `delete_type`, `deleted_object_ID`, `deleter_user_ID`) VALUES
-(21, 'page', 4, 1),
-(22, 'project', 17, 1),
-(23, 'project', 16, 1);
+(21, 'page', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -142,7 +140,7 @@ INSERT INTO `device_categories` (`device_cat_ID`, `device_cat_name`, `device_cat
 (1, 'Desktop', 'fa-desktop', 0),
 (2, 'Tablet', 'fa-tablet', 2),
 (3, 'Mobile', 'fa-mobile', 3),
-(4, 'Custom', 'fa-window-restore', 4),
+(4, 'Custom...', 'fa-window-restore', 4),
 (5, 'Laptop', 'fa-laptop', 1);
 
 -- --------------------------------------------------------
@@ -197,7 +195,11 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_user`
 (25, 'Hawaii Home', 'hawaiih.jpg', 'http://www.hawaiilassi.com/', NULL, NULL, '2017-07-10 12:01:17', '2017-07-10 12:01:17', 11, 4, NULL, 4),
 (26, 'Twelve12 iMac', 'home.png', 'https://www.twelve12.com/', NULL, NULL, '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 1, 10, 1),
 (27, 'Vanta Home', 'page.jpg', 'http://vantaquest.twelve12.com/', NULL, NULL, '2017-07-29 09:02:20', '2017-08-13 13:27:15', 14, 4, NULL, 1),
-(28, 'Hawaii Home', 'page.jpg', 'http://www.hawaiilassi.com/', NULL, NULL, '2017-08-13 14:11:28', '2017-08-13 14:14:22', 15, 7, NULL, 1);
+(29, 'Golden Home', 'page.jpg', 'https://www.goldenstatewm.com/', NULL, NULL, '2017-08-13 16:57:01', '2017-08-13 16:57:30', 18, 4, NULL, 1),
+(31, 'CloudStep Home', 'page.jpg', 'https://www.cloudstep.com/', NULL, NULL, '2017-08-13 17:08:53', '2017-08-13 17:08:53', 20, 4, NULL, 1),
+(32, 'Home', 'page.jpg', 'http://serdarkiziltepe.com/', NULL, NULL, '2017-08-19 11:36:57', '2017-08-19 11:36:57', 21, 4, NULL, 1),
+(33, 'Hawaii Home', 'page.jpg', 'http://www.hawaiilassi.com/', NULL, NULL, '2017-08-20 17:36:28', '2017-08-20 17:36:28', 22, 4, NULL, 1),
+(34, 'Hawaii Home', 'page.jpg', 'http://www.hawaiilassi.com/', NULL, NULL, '2017-08-20 17:36:28', '2017-08-20 17:37:09', 22, 6, 33, 1);
 
 -- --------------------------------------------------------
 
@@ -260,9 +262,10 @@ INSERT INTO `projects` (`project_ID`, `project_name`, `project_pic`, `project_cr
 (10, 'Auro WM', 'auro.jpg', '2017-07-07 11:11:08', 1),
 (11, 'Hawaii Lassi', 'hawaii.jpg', '2017-07-10 12:00:36', 4),
 (14, 'VantaQuest', 'proj.jpg', '2017-07-29 09:02:20', 1),
-(15, 'Hawaii Lassi', 'proj.jpg', '2017-08-13 14:11:28', 1),
-(16, 'TEST', NULL, '2017-08-13 14:18:37', 1),
-(17, 'Test2', NULL, '2017-08-13 14:20:26', 1);
+(18, 'Golden State', 'proj.jpg', '2017-08-13 16:57:01', 1),
+(20, 'CloudStep', 'proj.jpg', '2017-08-13 17:08:53', 1),
+(21, 'İbo\'s Site', 'proj.jpg', '2017-08-19 11:36:57', 1),
+(22, 'Hawaii Lassi', 'proj.jpg', '2017-08-20 17:36:28', 1);
 
 -- --------------------------------------------------------
 
@@ -282,15 +285,16 @@ CREATE TABLE `project_cat_connect` (
 --
 
 INSERT INTO `project_cat_connect` (`project_cat_connect_ID`, `project_cat_project_ID`, `project_cat_ID`, `project_cat_connect_user_ID`) VALUES
-(926, 7, 2, 1),
-(927, 1, 2, 1),
-(928, 5, 2, 1),
-(929, 8, 1, 1),
-(930, 9, 1, 1),
-(931, 10, 1, 1),
-(934, 14, 1, 1),
-(935, 15, 1, 1),
-(936, 16, 1, 1);
+(1266, 1, 2, 1),
+(1267, 5, 2, 1),
+(1268, 8, 1, 1),
+(1269, 9, 1, 1),
+(1270, 10, 1, 1),
+(1271, 14, 1, 1),
+(1272, 18, 1, 1),
+(1273, 20, 1, 1),
+(1274, 21, 1, 1),
+(1275, 22, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -315,8 +319,14 @@ CREATE TABLE `queues` (
 --
 
 INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, `queue_status`, `queue_updated`, `queue_created`, `queue_message`, `user_ID`) VALUES
-(239, 'internalize', 28, 41499, 'done', '2017-08-13 16:17:54', '2017-08-13 16:17:23', 'Internalization is complete.', 1),
-(240, 'internalize', 28, 41684, 'done', '2017-08-13 16:22:16', '2017-08-13 16:21:49', 'Internalization is complete.', 1);
+(242, 'internalize', 28, 42292, 'done', '2017-08-13 16:57:29', '2017-08-13 16:54:59', 'Internalization is complete.', 1),
+(243, 'internalize', 29, 42454, 'done', '2017-08-13 16:57:59', '2017-08-13 16:57:05', 'Internalization is complete.', 1),
+(245, 'internalize', 31, 42690, 'done', '2017-08-13 17:09:31', '2017-08-13 17:08:53', 'Internalization is complete.', 1),
+(246, 'internalize', 32, 15398, 'done', '2017-08-19 11:37:12', '2017-08-19 11:36:57', 'Internalization is complete.', 1),
+(247, 'internalize', 10, 15519, 'done', '2017-08-19 11:49:33', '2017-08-19 11:49:11', 'Internalization is complete.', 1),
+(248, 'internalize', 33, 18789, 'done', '2017-08-20 17:37:09', '2017-08-20 17:36:28', 'Internalization is complete.', 1),
+(249, 'internalize', 34, 18791, 'done', '2017-08-20 17:37:58', '2017-08-20 17:36:28', 'Internalization is complete.', 1),
+(250, 'internalize', 34, 18891, 'working', '2017-08-20 17:37:59', '2017-08-20 17:36:59', 'Started downloading HTML file.', 1);
 
 -- --------------------------------------------------------
 
@@ -378,22 +388,25 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (2486, 'category', 5, 10, 1),
 (2487, 'page', 8, 11, 1),
 (2488, 'page', 9, 12, 1),
-(2617, 'category', 0, 0, 1),
-(2618, 'project', 4, 1, 1),
-(2619, 'project', 6, 2, 1),
-(2620, 'project', 3, 3, 1),
-(2621, 'category', 2, 4, 1),
-(2622, 'project', 7, 5, 1),
-(2623, 'project', 1, 6, 1),
-(2624, 'project', 5, 7, 1),
-(2625, 'category', 1, 8, 1),
-(2626, 'project', 8, 9, 1),
-(2627, 'project', 9, 10, 1),
-(2628, 'project', 10, 11, 1),
-(2631, 'project', 14, 12, 1),
-(2632, 'project', 15, 13, 1),
-(2633, 'project', 16, 14, 1),
-(2634, 'project', 17, 4, 1);
+(2760, 'category', 9, 3, 1),
+(3020, 'category', 13, 3, 1),
+(3036, 'category', 0, 0, 1),
+(3037, 'project', 3, 1, 1),
+(3038, 'project', 6, 2, 1),
+(3039, 'project', 4, 3, 1),
+(3040, 'project', 7, 4, 1),
+(3041, 'category', 2, 5, 1),
+(3042, 'project', 1, 6, 1),
+(3043, 'project', 5, 7, 1),
+(3044, 'category', 1, 8, 1),
+(3045, 'project', 8, 9, 1),
+(3046, 'project', 9, 10, 1),
+(3047, 'project', 10, 11, 1),
+(3048, 'project', 14, 12, 1),
+(3049, 'project', 18, 13, 1),
+(3050, 'project', 20, 14, 1),
+(3051, 'project', 21, 15, 1),
+(3052, 'project', 22, 16, 1);
 
 -- --------------------------------------------------------
 
@@ -600,12 +613,12 @@ ALTER TABLE `archives`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -620,7 +633,7 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
@@ -630,17 +643,17 @@ ALTER TABLE `page_cat_connect`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=937;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1276;
 --
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
 --
 -- AUTO_INCREMENT for table `shares`
 --
@@ -650,7 +663,7 @@ ALTER TABLE `shares`
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2635;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3053;
 --
 -- AUTO_INCREMENT for table `users`
 --

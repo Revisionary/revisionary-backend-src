@@ -22,7 +22,6 @@ $(function() {
 	    items: '[draggable="true"]',
 	    forcePlaceholderSize: true
 	}).bind('sortupdate', function(e, ui) {
-	    addNewPageButtons();
 
 
 	    // Update the order
@@ -56,6 +55,26 @@ $(function() {
 	});
 
 
+	// DRAG DETECTOR
+	$('.sortable [draggable="true"]').bind('dragstart', function( event ) {
+
+
+		// Remove all add new boxes
+		$('.add-new-block').css('opacity', '0');
+
+
+	}).bind('dragend', function( event ){
+
+
+		// Re-add them
+    	addNewPageButtons();
+
+
+    });
+
+
+
+
 
 	// ACTIONS
 	$('.actions a').click(function(e) {
@@ -78,6 +97,7 @@ $(function() {
 		}
 
 
+		// Confirmations
 		var confirm_text;
 
 		if ( action =='archive' )
@@ -95,7 +115,7 @@ $(function() {
 
 
 		// If confirmed, send data
-		if (action == "rename" || confirm(confirm_text) ) {
+		if (action == "rename" || action == "add-new-category" || confirm(confirm_text) ) {
 
 			var url = $(this).attr('href');
 			var block = parent_item.parent().parent();
@@ -122,18 +142,40 @@ $(function() {
 
 							$('.filter [data-cat-id="' + parent_item.attr('data-cat-id') + '"]').text( input.val() );
 
-						} else {
+						} else if (action == "add-new-category") {
 
+							alert('New category added!');
+
+						} else { // Archive / Delete / Remove
+
+
+							// If a category is deleting
 							if ( parent_item.hasClass('cat-separator') ) {
+
+								var deleted_cat_id = parent_item.attr('data-cat-id');
+
+
+								// Remove from filter bar
+								$('.filter [data-cat-id="' + deleted_cat_id + '"]').remove();
+
+
+								// Remove the category
 								parent_item.remove();
+
+
+								// Update the add new blocks
 								addNewPageButtons();
-							}
-							else
+
+
+
+							} else
 								block.remove();
 
 						}
 
 						$('.progress').css('width', "100%");
+
+
 					} else {
 
 						if (action == "rename") {
@@ -319,6 +361,82 @@ $(function() {
 
 
 	addNewPageButtons();
+
+
+
+
+	// Add new device to modal
+	$('.device-add > li > a').click(function(e) {
+
+		var listed_device = $(this).parent();
+
+		var device_id = $(this).attr('data-device-id');
+		var device_width = $(this).attr('data-device-width');
+		var device_height = $(this).attr('data-device-height');
+		var device_cat_name = $(this).attr('data-device-cat-name');
+		var device_cat_icon = $(this).attr('data-device-cat-icon');
+
+
+		var new_device_html = '\
+			<li>\
+				<input type="hidden" name="devices[]" value="'+device_id+'"/>\
+				<i class="fa '+ device_cat_icon +'" aria-hidden="true"></i> <span>'+device_cat_name+' ('+device_width+' x '+device_height+')</span>\
+				<a href="#" class="remove-device"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+			</li>\
+		';
+
+		$('.selected-devices').append(new_device_html);
+
+		listed_device.hide();
+
+		// Show all the remove buttons
+		$('.selected-devices a.remove-device').show();
+
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
+
+	// Delete selected device from the list
+	$(document).on('click', '.selected-devices a.remove-device', function(e) {
+
+
+		var listed_device = $(this).parent();
+
+		var device = listed_device.find('input');
+		var device_id = device.attr('value');
+
+
+		// Show in the list
+		$('.device-add > li > a[data-device-id="'+device_id+'"]').parent().show();
+
+
+		// Remove the device
+		listed_device.remove();
+
+
+		// Count the selected devices and if less than 2, hide that remover
+		if ( $('.selected-devices > li').length < 2 ) {
+
+			$('.selected-devices a.remove-device').hide();
+
+		}
+
+
+		console.log('REMOVE', device_id);
+
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
+
+
 
 });
 
