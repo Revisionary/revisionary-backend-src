@@ -60,7 +60,7 @@ $(function() {
 
 
 		// Remove all add new boxes
-		$('.add-new-block').css('opacity', '0');
+		$('.add-new-block').css('opacity', '0').css('width', '0').css('padding', '0');
 
 
 	}).bind('dragend', function( event ){
