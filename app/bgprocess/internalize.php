@@ -9,8 +9,8 @@ set_time_limit(0);
 $page_ID = $argv[1];
 $sessionID = $argv[2];
 $project_ID = $argv[3];
-$queue_ID = $argv[4];
-$need_to_wait = isset($queue_ID) && is_numeric($queue_ID) ? true : false;
+$queue_ID = isset($argv[4]) && is_numeric($argv[4]) ? $argv[4] : "";
+$need_to_wait = $queue_ID != "" ? true : false;
 
 
 // Correct the session ID
@@ -29,10 +29,14 @@ session_write_close();
 
 
 // Logger
-$logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
-	'filename' => Page::ID($page_ID)->logFileName,
-    'extension' => 'log', // changes the log file extension
-));
+$logger = new Katzgrau\KLogger\Logger(
+	Page::ID($page_ID)->logDir,
+	Psr\Log\LogLevel::DEBUG,
+	array(
+		'filename' => Page::ID($page_ID)->logFileName,
+	    'extension' => 'log', // changes the log file extension
+	)
+);
 
 // Queue
 $queue = new Queue();

@@ -228,19 +228,109 @@ if (request('action') == "remove") {
 		// Category Remove
 		if ($type == "category") {
 
+
+			// Remove from sorting
+			$db->where('sort_type', 'category');
+			$db->where('sort_object_ID', request('id'));
+			$db->where('sorter_user_ID', currentUserID());
+			$db->delete('sorting');
+
+
+			// Remove the category
 			$db->where('cat_ID', request('id'));
 			$db->where('cat_user_ID', currentUserID());
 			$removed = $db->delete('categories');
 			if ( $removed ) $status = "successful";
 
+
 		} elseif ($type == "project" || $type == "page") {
 
-			// Remove the folder
-			if ($type == "project")
+			// If project is removing
+			if ($type == "project") {
+
+
+				// Remove the project folder
 				deleteDirectory( dir."/assets/cache/user-".currentUserID()."/project-".request('id')."/" );
 
+
+				// Check all the categories belong to it
+				$db->where('cat_type', request('id'));
+				$db->where('cat_user_ID', currentUserID());
+				$categories = $db->get('categories');
+
+
+				// Remove all the categories
+				foreach ($categories as $category) {
+
+					// Remove from sorting
+					$db->where('sort_type', 'category');
+					$db->where('sort_object_ID', $category['cat_ID']);
+					$db->where('sorter_user_ID', currentUserID());
+					$db->delete('sorting');
+
+
+					// Remove the category
+					$db->where('cat_ID', $category['cat_ID']);
+					$db->where('cat_user_ID', currentUserID());
+					$db->delete('categories');
+
+				}
+
+
+
+				// Check all the pages belong to it
+				$db->where('project_ID', request('id'));
+				$pages = $db->get('pages');
+
+
+				// Remove all the pages
+				foreach ($pages as $page) {
+
+
+					// Remove from archives
+					$db->where('archive_type', 'page');
+					$db->where('archived_object_ID', $page['page_ID']);
+					$db->where('archiver_user_ID', currentUserID());
+					$db->delete('archives');
+
+
+					// Remove from deletes
+					$db->where('delete_type', 'page');
+					$db->where('deleted_object_ID', $page['page_ID']);
+					$db->where('deleter_user_ID', currentUserID());
+					$db->delete('deletes');
+
+
+					// Remove from sorting
+					$db->where('sort_type', 'page');
+					$db->where('sort_object_ID', $page['page_ID']);
+					$db->where('sorter_user_ID', currentUserID());
+					$db->delete('sorting');
+
+
+					// Remove from shares
+					$db->where('share_type', 'page');
+					$db->where('shared_object_ID', $page['page_ID']);
+					$db->where('share_to', currentUserID());
+					$db->delete('shares');
+
+
+/*
+					// Remove the item - !!! NO NEED BECAUSE OF CASCADING
+					$db->where('page_ID', $page['page_ID']);
+					$db->where('user_ID', currentUserID());
+					$db->delete('pages');
+*/
+
+
+				}
+
+
+			}
+
+			// Remove the page folder
 			if ($type == "page")
-				deleteDirectory( Page::ID( request('id') )->pageDir."/" );
+				deleteDirectory( dir."/assets/cache/user-".currentUserID()."/project-".Page::ID( request('id') )->projectId."/page-".request('id')."/device-".Page::ID( request('id') )->pageDevice."/" );
 
 
 			// Remove from archives
@@ -264,6 +354,14 @@ if (request('action') == "remove") {
 			$db->delete('sorting');
 
 
+			// Remove from shares
+			$db->where('share_type', $type);
+			$db->where('shared_object_ID', request('id'));
+			$db->where('share_to', currentUserID());
+			$db->delete('shares');
+
+
+			// Remove the item
 			$db->where($type.'_ID', request('id'));
 			$db->where('user_ID', currentUserID());
 			$removed = $db->delete($type.'s');

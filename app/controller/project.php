@@ -38,20 +38,19 @@ $db->where('shared_object_ID', $_url[1]);
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
 
+
 // Get the project ID
 $project_ID = $_url[1];
-
 
 // Get the order
 $order = isset($_GET['order']) ? $_GET['order'] : '';
 
-
 // Category Filter
 $catFilter = isset($_url[2]) ? $_url[2] : '';
 
-
 // Device Filter
 $deviceFilter = get('device');
+
 
 
 // PAGES DATA MODEL
@@ -96,6 +95,20 @@ if (
 	) $sharedPages = true;
 
 
+	// Check if any my archived page
+	$archivedPages = false;
+	if (
+		array_search(currentUserID(), array_column($allPages, 'archiver_user_ID')) !== false
+	) $archivedPages = true;
+
+
+	// Check if any my deleted page
+	$deletedPages = false;
+	if (
+		array_search(currentUserID(), array_column($allPages, 'deleter_user_ID')) !== false
+	) $deletedPages = true;
+
+
 	// Check if here is archived or deleted pages
 	$archivePages = false;
 	if ($catFilter == "archived" || $catFilter == "deleted")
@@ -103,7 +116,7 @@ if (
 
 
 	// Otherwise !!!
-	if (!$myPages && !$sharedPages && !$archivePages) {
+	if (!$myPages && !$sharedPages && !$archivedPages && !$deletedPages && !$archivePages) {
 
 		header('Location: '.site_url('projects'));
 		die();

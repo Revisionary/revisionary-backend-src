@@ -666,7 +666,7 @@ $(function(){
 
 
 						<div class="breadcrumbs">
-							<a href="<?=site_url('projects')?>" class="projects">
+							<a href="<?=site_url('project/'.$project_ID)?>" class="projects">
 								<?=Project::ID($project_ID)->getProjectInfo('project_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 							</a>
 							<sep>></sep>

@@ -218,9 +218,9 @@ $(function() {
 		openModal('#add-new');
 
 		var thisBlock = $(this).parent().parent();
-		var catID = thisBlock.prevAll('.cat-separator:first').attr('data-cat-id');
+		var catID = thisBlock.prevAll('.cat-separator:first').attr('data-cat-id') || 0;
 		var catName = thisBlock.prevAll('.cat-separator:first').find('.name').text();
-		var orderNumber = thisBlock.prev('.block').attr('data-order');
+		var orderNumber = thisBlock.prev('.block').attr('data-order') || 0;
 
 		$('#add-new .to').html("To <b></b> Section");
 		$('#add-new .to > b').text(catName);

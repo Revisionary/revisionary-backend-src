@@ -23,18 +23,21 @@
 			foreach ($theCategorizedData as $category) {
 
 
-				// Category Bar
-				if (
-					$catFilter == "" ||
-					$catFilter == "mine"
-				) {
-
-					$action_url = 'ajax?type=data-action&data-type=category&nonce='.$_SESSION['js_nonce'].'&id='.$category['cat_ID'];
+				// Category action URL
+				$action_url = 'ajax?type=data-action&data-type=category&nonce='.$_SESSION['js_nonce'].'&id='.$category['cat_ID'];
 			?>
-
+				<!-- Category Bar -->
 				<div
 					id="<?=permalink($category['cat_name'])?>"
-					class="col xl-1-1 cat-separator name-field <?=$category['cat_name'] == "Uncategorized" ? 'xl-hidden' : ''?>"
+					class="col xl-1-1 cat-separator name-field <?php
+						if (
+							$category['cat_name'] == "Uncategorized" ||
+							(
+								$catFilter != "" &&
+								$catFilter != "mine"
+							)
+						) echo 'xl-hidden';
+						?>"
 					data-order="<?=$category['sort_number']?>"
 					data-id="<?=$category['cat_ID']?>"
 					data-cat-id="<?=$category['cat_ID']?>"
@@ -54,9 +57,9 @@
 				</div>
 
 			<?php
-				}
 
 
+				// Block Data
 				$theData = $category['theData'];
 
 
@@ -195,13 +198,13 @@
 											$db->joinWhere("deletes del", "del.delete_type", "page");
 
 
+											// Exclude archived and deleted ones
+											$db->where('arc.archived_object_ID IS NULL');
+											$db->where('del.deleted_object_ID IS NULL');
+
+
 											// Exclude other projects
 											$db->where('project_ID', $block['project_ID']);
-
-
-											// Exclude archived and deleted ones
-											$db->where('del.deleted_object_ID IS NULL');
-											$db->where('arc.archived_object_ID IS NULL');
 
 
 											// If project is not belong to current user

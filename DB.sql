@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 20, 2017 at 10:49 PM
+-- Generation Time: Aug 22, 2017 at 10:26 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.8
 
@@ -33,13 +33,6 @@ CREATE TABLE `archives` (
   `archiver_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `archives`
---
-
-INSERT INTO `archives` (`archive_ID`, `archive_type`, `archived_object_ID`, `archiver_user_ID`) VALUES
-(28, 'project', 2, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -53,17 +46,6 @@ CREATE TABLE `categories` (
   `cat_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `categories`
---
-
-INSERT INTO `categories` (`cat_ID`, `cat_name`, `cat_type`, `cat_user_ID`) VALUES
-(1, 'Twelve12 Related', 'project', 1),
-(2, 'Hello World!', 'project', 1),
-(3, 'Main Pages', '8', 1),
-(4, 'Portfolio Pages', '8', 1),
-(5, 'Blog Pages', '8', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -76,13 +58,6 @@ CREATE TABLE `deletes` (
   `deleted_object_ID` bigint(20) NOT NULL,
   `deleter_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `deletes`
---
-
-INSERT INTO `deletes` (`delete_ID`, `delete_type`, `deleted_object_ID`, `deleter_user_ID`) VALUES
-(21, 'page', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -164,43 +139,6 @@ CREATE TABLE `pages` (
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `pages`
---
-
-INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_user`, `page_pass`, `page_created`, `page_modified`, `project_ID`, `device_ID`, `parent_page_ID`, `user_ID`) VALUES
-(1, 'About', 'about.png', 'https://www.twelve12.com/about-us/', NULL, NULL, '2017-06-24 14:20:44', '2017-07-18 20:27:39', 8, 4, NULL, 1),
-(2, 'Contact', 'contact.png', 'https://www.twelve12.com/contact/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(3, 'GM Properties', 'gm.png', 'https://www.twelve12.com/project/gm-properties/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(4, '128 Online', '128.png', 'https://www.twelve12.com/project/128-online-store/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(5, 'Vampire Tools', 'vampire.png', 'https://www.twelve12.com/project/vampire-tools/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(6, 'inMotion', 'inmotion.png', 'https://www.twelve12.com/project/inmotion/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(7, 'The Kitchen', 'kitchen.png', 'https://www.twelve12.com/project/the-kitchen-at-westwood/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(8, 'Blog 1', 'blog1.png', 'https://www.twelve12.com/blog/branding/brand-way-box/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(9, 'Blog 2', 'blog2.png', 'https://www.twelve12.com/blog/branding/branding-tips/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 4, NULL, 1),
-(10, 'Twelve12 Home', 'home.png', 'https://www.twelve12.com/', NULL, NULL, '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 4, NULL, 2),
-(11, 'Bilal\'s Home', 'bilal.png', 'http://www.bilaltas.net/', NULL, NULL, '2017-06-25 00:21:09', '2017-06-25 00:21:09', 1, 4, NULL, 1),
-(12, 'Cüneyt\'s Home', 'cuneyt.jpg', 'http://www.cuneyt-tas.com/', NULL, NULL, '2017-06-25 11:20:36', '2017-07-18 20:29:02', 5, 4, NULL, 5),
-(13, 'BBC Home', 'bbc.png', 'http://www.bbc.com/', NULL, NULL, '2017-06-26 08:05:02', '2017-06-26 08:05:02', 6, 4, NULL, 1),
-(14, 'About', 'about.png', 'https://www.twelve12.com/about-us/', NULL, NULL, '2017-06-24 14:20:44', '2017-06-24 14:20:44', 8, 7, 1, 1),
-(15, 'SoundCloud Home', 'soundcloud.jpg', 'https://soundcloud.com/', NULL, NULL, '2017-07-02 15:49:58', '2017-07-02 15:49:58', 2, 4, NULL, 1),
-(16, '7Diamonds Home', '7diamonds.png', 'https://7diamonds.com', NULL, NULL, '2017-07-02 18:15:06', '2017-07-02 18:15:06', 9, 4, NULL, 1),
-(17, 'Envato Home', 'envato.jpg', 'https://envato.com/', NULL, NULL, '2017-07-06 14:26:32', '2017-07-06 14:26:32', 7, 6, NULL, 1),
-(18, 'Auro Home', 'aurohome.jpg', 'https://www.aurowm.com/', NULL, NULL, '2017-07-07 11:11:40', '2017-07-07 11:11:40', 10, 4, NULL, 1),
-(19, 'Youtube Home', 'youtube.jpg', 'https://www.youtube.com/', NULL, NULL, '2017-07-07 16:28:49', '2017-07-07 16:28:49', 4, 4, NULL, 1),
-(20, 'Auro Home Mobile', 'auro.jpg', 'https://www.aurowm.com/', NULL, NULL, '2017-07-08 13:14:32', '2017-07-08 13:14:32', 10, 7, 18, 1),
-(21, 'Auro Tablet Home', 'auro_t.jpg', 'https://www.aurowm.com/', NULL, NULL, '2017-07-08 16:11:01', '2017-07-08 16:11:01', 10, 6, 18, 1),
-(22, 'TWSJ Home', 'twsj.jpg', 'https://www.wsj.com/europe', NULL, NULL, '2017-07-08 19:06:53', '2017-07-08 19:06:53', 3, 5, NULL, 1),
-(24, 'Cüneyt\'s Contact', 'cuneyt.jpg', 'http://www.cuneyt-tas.com/iletisim/', NULL, NULL, '2017-06-25 11:20:36', '2017-07-18 20:28:48', 5, 4, NULL, 5),
-(25, 'Hawaii Home', 'hawaiih.jpg', 'http://www.hawaiilassi.com/', NULL, NULL, '2017-07-10 12:01:17', '2017-07-10 12:01:17', 11, 4, NULL, 4),
-(26, 'Twelve12 iMac', 'home.png', 'https://www.twelve12.com/', NULL, NULL, '2017-06-24 14:38:34', '2017-06-24 14:38:34', 8, 1, 10, 1),
-(27, 'Vanta Home', 'page.jpg', 'http://vantaquest.twelve12.com/', NULL, NULL, '2017-07-29 09:02:20', '2017-08-13 13:27:15', 14, 4, NULL, 1),
-(29, 'Golden Home', 'page.jpg', 'https://www.goldenstatewm.com/', NULL, NULL, '2017-08-13 16:57:01', '2017-08-13 16:57:30', 18, 4, NULL, 1),
-(31, 'CloudStep Home', 'page.jpg', 'https://www.cloudstep.com/', NULL, NULL, '2017-08-13 17:08:53', '2017-08-13 17:08:53', 20, 4, NULL, 1),
-(32, 'Home', 'page.jpg', 'http://serdarkiziltepe.com/', NULL, NULL, '2017-08-19 11:36:57', '2017-08-19 11:36:57', 21, 4, NULL, 1),
-(33, 'Hawaii Home', 'page.jpg', 'http://www.hawaiilassi.com/', NULL, NULL, '2017-08-20 17:36:28', '2017-08-20 17:36:28', 22, 4, NULL, 1),
-(34, 'Hawaii Home', 'page.jpg', 'http://www.hawaiilassi.com/', NULL, NULL, '2017-08-20 17:36:28', '2017-08-20 17:37:09', 22, 6, 33, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -213,23 +151,6 @@ CREATE TABLE `page_cat_connect` (
   `page_cat_ID` bigint(20) NOT NULL,
   `page_cat_connect_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `page_cat_connect`
---
-
-INSERT INTO `page_cat_connect` (`page_cat_connect_ID`, `page_cat_page_ID`, `page_cat_ID`, `page_cat_connect_user_ID`) VALUES
-(84, 14, 3, 1),
-(325, 4, 4, 1),
-(402, 10, 3, 1),
-(403, 1, 3, 1),
-(404, 2, 3, 1),
-(405, 6, 4, 1),
-(406, 7, 4, 1),
-(407, 5, 4, 1),
-(408, 3, 4, 1),
-(409, 8, 5, 1),
-(410, 9, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -245,28 +166,6 @@ CREATE TABLE `projects` (
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `projects`
---
-
-INSERT INTO `projects` (`project_ID`, `project_name`, `project_pic`, `project_created`, `user_ID`) VALUES
-(1, 'Bilal TAS', 'bilal-tas.png', '2017-06-18 15:21:32', 1),
-(2, 'SoundCloud', 'soundcloud.png', '2017-06-18 15:26:34', 1),
-(3, 'TWSJ', 'twsj.png', '2017-06-18 15:27:35', 1),
-(4, 'Youtube', 'youtube.png', '2017-06-18 15:28:12', 1),
-(5, 'Cuneyt TAS', 'cuneyt-tas.png', '2017-06-18 15:28:34', 5),
-(6, 'BBC', 'bbc.png', '2017-06-18 15:29:25', 1),
-(7, 'Envato', 'envato.png', '2017-06-18 15:29:25', 1),
-(8, 'Twelve12', 'twelve12.png', '2017-06-18 17:54:24', 2),
-(9, '7Diamonds Dev', '7diamonds.png', '2017-06-29 04:11:01', 1),
-(10, 'Auro WM', 'auro.jpg', '2017-07-07 11:11:08', 1),
-(11, 'Hawaii Lassi', 'hawaii.jpg', '2017-07-10 12:00:36', 4),
-(14, 'VantaQuest', 'proj.jpg', '2017-07-29 09:02:20', 1),
-(18, 'Golden State', 'proj.jpg', '2017-08-13 16:57:01', 1),
-(20, 'CloudStep', 'proj.jpg', '2017-08-13 17:08:53', 1),
-(21, 'İbo\'s Site', 'proj.jpg', '2017-08-19 11:36:57', 1),
-(22, 'Hawaii Lassi', 'proj.jpg', '2017-08-20 17:36:28', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -279,22 +178,6 @@ CREATE TABLE `project_cat_connect` (
   `project_cat_ID` bigint(20) NOT NULL,
   `project_cat_connect_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `project_cat_connect`
---
-
-INSERT INTO `project_cat_connect` (`project_cat_connect_ID`, `project_cat_project_ID`, `project_cat_ID`, `project_cat_connect_user_ID`) VALUES
-(1266, 1, 2, 1),
-(1267, 5, 2, 1),
-(1268, 8, 1, 1),
-(1269, 9, 1, 1),
-(1270, 10, 1, 1),
-(1271, 14, 1, 1),
-(1272, 18, 1, 1),
-(1273, 20, 1, 1),
-(1274, 21, 1, 1),
-(1275, 22, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -314,20 +197,6 @@ CREATE TABLE `queues` (
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `queues`
---
-
-INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, `queue_status`, `queue_updated`, `queue_created`, `queue_message`, `user_ID`) VALUES
-(242, 'internalize', 28, 42292, 'done', '2017-08-13 16:57:29', '2017-08-13 16:54:59', 'Internalization is complete.', 1),
-(243, 'internalize', 29, 42454, 'done', '2017-08-13 16:57:59', '2017-08-13 16:57:05', 'Internalization is complete.', 1),
-(245, 'internalize', 31, 42690, 'done', '2017-08-13 17:09:31', '2017-08-13 17:08:53', 'Internalization is complete.', 1),
-(246, 'internalize', 32, 15398, 'done', '2017-08-19 11:37:12', '2017-08-19 11:36:57', 'Internalization is complete.', 1),
-(247, 'internalize', 10, 15519, 'done', '2017-08-19 11:49:33', '2017-08-19 11:49:11', 'Internalization is complete.', 1),
-(248, 'internalize', 33, 18789, 'done', '2017-08-20 17:37:09', '2017-08-20 17:36:28', 'Internalization is complete.', 1),
-(249, 'internalize', 34, 18791, 'done', '2017-08-20 17:37:58', '2017-08-20 17:36:28', 'Internalization is complete.', 1),
-(250, 'internalize', 34, 18891, 'working', '2017-08-20 17:37:59', '2017-08-20 17:36:59', 'Started downloading HTML file.', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -342,15 +211,6 @@ CREATE TABLE `shares` (
   `sharer_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `shares`
---
-
-INSERT INTO `shares` (`share_ID`, `share_type`, `shared_object_ID`, `share_to`, `sharer_user_ID`) VALUES
-(1, 'project', 8, '3', 2),
-(2, 'page', 10, '1', 2),
-(3, 'project', 5, '1', 5);
-
 -- --------------------------------------------------------
 
 --
@@ -364,49 +224,6 @@ CREATE TABLE `sorting` (
   `sort_number` bigint(20) NOT NULL DEFAULT '0',
   `sorter_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `sorting`
---
-
-INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, `sorter_user_ID`) VALUES
-(961, 'page', 14, 1, 1),
-(2069, 'project', 2, 4, 1),
-(2144, 'page', 4, 10, 1),
-(2318, 'page', 12, 1, 1),
-(2319, 'page', 24, 2, 1),
-(2395, 'category', 6, 10, 1),
-(2477, 'category', 3, 1, 1),
-(2478, 'page', 10, 2, 1),
-(2479, 'page', 1, 3, 1),
-(2480, 'page', 2, 4, 1),
-(2481, 'category', 4, 5, 1),
-(2482, 'page', 6, 6, 1),
-(2483, 'page', 7, 7, 1),
-(2484, 'page', 5, 8, 1),
-(2485, 'page', 3, 9, 1),
-(2486, 'category', 5, 10, 1),
-(2487, 'page', 8, 11, 1),
-(2488, 'page', 9, 12, 1),
-(2760, 'category', 9, 3, 1),
-(3020, 'category', 13, 3, 1),
-(3036, 'category', 0, 0, 1),
-(3037, 'project', 3, 1, 1),
-(3038, 'project', 6, 2, 1),
-(3039, 'project', 4, 3, 1),
-(3040, 'project', 7, 4, 1),
-(3041, 'category', 2, 5, 1),
-(3042, 'project', 1, 6, 1),
-(3043, 'project', 5, 7, 1),
-(3044, 'category', 1, 8, 1),
-(3045, 'project', 8, 9, 1),
-(3046, 'project', 9, 10, 1),
-(3047, 'project', 10, 11, 1),
-(3048, 'project', 14, 12, 1),
-(3049, 'project', 18, 13, 1),
-(3050, 'project', 20, 14, 1),
-(3051, 'project', 21, 15, 1),
-(3052, 'project', 22, 16, 1);
 
 -- --------------------------------------------------------
 
@@ -436,7 +253,7 @@ INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `use
 (2, 'ike', 'ike@twelve12.com', '$2y$10$UcoctpiTNtf9grzFmz53lut7X4l3EBspRC4xz/Qn/qJ1VWWIq81n.', 'Ike', 'Elimsa', 'ike.png', 0, '2017-06-17 22:28:00', 4),
 (3, 'sara', 'sara@twelve12.com', '$2y$10$UcoctpiTNtf9grzFmz53lut7X4l3EBspRC4xz/Qn/qJ1VWWIq81n.', 'Sara', 'Atalay', 'sara.png', 0, '2017-06-17 22:28:00', 3),
 (4, 'matt', 'metin@twelve12.com', '$2y$10$UcoctpiTNtf9grzFmz53lut7X4l3EBspRC4xz/Qn/qJ1VWWIq81n.', 'Matt', 'Pasaoglu', 'matt.png', 0, '2017-06-18 13:51:00', 2),
-(5, 'joey-goksu', 'joey@twelve12.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Joey', 'Goksu', 'joey.png', 0, '2017-06-25 09:28:07', 2);
+(5, 'cuneyt', 'cuneyt@twelve12.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Cuneyt', 'Tas', 'joey.png', 0, '2017-06-25 09:28:07', 2);
 
 -- --------------------------------------------------------
 
@@ -608,72 +425,72 @@ ALTER TABLE `versions`
 -- AUTO_INCREMENT for table `archives`
 --
 ALTER TABLE `archives`
-  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `device_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `device_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `device_categories`
 --
 ALTER TABLE `device_categories`
-  MODIFY `device_cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `device_cat_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
 ALTER TABLE `page_cat_connect`
-  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=411;
+  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1276;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `shares`
 --
 ALTER TABLE `shares`
-  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3053;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user_levels`
 --
 ALTER TABLE `user_levels`
-  MODIFY `user_level_ID` smallint(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_level_ID` smallint(5) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `versions`
 --

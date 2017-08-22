@@ -101,12 +101,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joshcam/PHP-MySQLi-Database-Class.git",
-                "reference": "8e750e65e99c5c85f39c6f356b2ea9e83a473b41"
+                "reference": "687780a9b2142ca65d3ba39df6aa909bd5ad8d9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joshcam/PHP-MySQLi-Database-Class/zipball/8e750e65e99c5c85f39c6f356b2ea9e83a473b41",
-                "reference": "8e750e65e99c5c85f39c6f356b2ea9e83a473b41",
+                "url": "https://api.github.com/repos/joshcam/PHP-MySQLi-Database-Class/zipball/687780a9b2142ca65d3ba39df6aa909bd5ad8d9c",
+                "reference": "687780a9b2142ca65d3ba39df6aa909bd5ad8d9c",
                 "shasum": ""
             },
             "require": {
@@ -138,7 +138,7 @@
                 }
             ],
             "description": "PHP MySQL Wrapper and object mapper which utilizes MySQLi and prepared statements",
-            "time": "2017-07-21 00:19:13"
+            "time": "2017-08-14T18:58:42+00:00"
         },
         {
             "name": "jwage/purl",
@@ -230,7 +230,7 @@
             "keywords": [
                 "logging"
             ],
-            "time": "2017-06-21 15:11:16"
+            "time": "2017-06-21T15:11:16+00:00"
         },
         {
             "name": "psr/log",

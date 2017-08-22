@@ -13,6 +13,12 @@ $config['default_language'] = 'en';
 
 define('domain' , 'revisionaryapp.com');
 define('dir', realpath('.'));
+define('backdir', realpath('..'));
+define('logdir', backdir."/logs");
+define('bindir', backdir."/bin");
+define('sessiondir', backdir."/sessions");
+define('session_lifetime', 9999);
+define('session_name', 'revisionary_session');
 define('model' , dir . '/app/model');
 define('view' , dir . '/app/view');
 define('controller', dir . '/app/controller');

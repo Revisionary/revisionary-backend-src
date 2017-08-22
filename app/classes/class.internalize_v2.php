@@ -98,29 +98,14 @@ class Internalize_v2 {
 		$project_ID = Page::ID($page_ID)->getPageInfo('project_ID');
 
 
-		// Add image names to database
-		if ( Page::ID($page_ID)->getPageInfo('page_pic') == null ) {
-
-			$db->where('page_ID', $page_ID);
-			$db->update('pages', array(
-				'page_pic' => "page.jpg" // !!! Create a random number
-			), 1);
-
-		}
-
-		if ( Project::ID( $project_ID )->getProjectInfo('project_pic') == null ) {
-
-			$db->where('project_ID', $project_ID);
-			$db->update('projects', array(
-				'project_pic' => "proj.jpg" // !!! Create a random number
-			), 1);
-
-		}
-
-
 		// Screenshots and HTML file
-		$page_image = Page::ID($page_ID)->pageDeviceDir."/".Page::ID($page_ID)->getPageInfo('page_pic');
-		$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $project_ID )->getProjectInfo('project_pic');
+		//$page_image = Page::ID($page_ID)->pageDeviceDir."/".Page::ID($page_ID)->getPageInfo('page_pic');
+		$page_image_name = "page.jpg";
+		$page_image = Page::ID($page_ID)->pageDeviceDir."/".$page_image_name;
+		//$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $project_ID )->getProjectInfo('project_pic');
+		$project_image_name = "proj.jpg";
+		$project_image = Page::ID($page_ID)->projectDir."/".$project_image_name;
+
 		$htmlFile = Page::ID($page_ID)->pageFile;
 		$resourcesFile = Page::ID($page_ID)->logDir.'/resources.log';
 
@@ -162,7 +147,7 @@ class Internalize_v2 {
 
 /*
 		// Process directories - SlimerJS - Firefox !!!
-		$slimerjs = realpath('..')."/bin/slimerjs-0.10.3/slimerjs";
+		$slimerjs = bindir."/slimerjs-0.10.3/slimerjs";
 		$capturejs = dir."/app/bgprocess/firefox.js";
 
 		$process_string = "$slimerjs $capturejs $url $width $height $page_image $project_image $logDir";
@@ -170,7 +155,7 @@ class Internalize_v2 {
 
 
 		// Process directories - NodeJS - Chrome
-		$nodejs = realpath('..')."/bin/nodejs-mac/bin/node";
+		$nodejs = bindir."/nodejs-mac/bin/node";
 		$scriptFile = dir."/app/bgprocess/chrome.js";
 		$process_string = "$nodejs $scriptFile --url=$url --viewportWidth=$width --viewportHeight=$height --pageScreenshot=$page_image --projectScreenshot=$project_image --htmlFile=$htmlFile --resourcesFile=$resourcesFile --logDir=$logDir";
 
@@ -210,6 +195,42 @@ class Internalize_v2 {
 
 			// Log
 			$logger->info("Browser job is done.");
+
+		}
+
+
+		// Re-check the files
+		$page_captured = file_exists($page_image);
+		$project_captured = file_exists($project_image);
+		$html_captured = file_exists($htmlFile);
+		$resourcesFile_captured = file_exists($resourcesFile);
+
+
+
+		// Add image names to database
+		if ( $page_captured ) {
+
+			$db->where('page_ID', $page_ID);
+			$db->update('pages', array(
+				'page_pic' => $page_image_name
+			), 1);
+
+
+			// Log
+			$logger->info("Page screenshot is taken: ".$page_image_name);
+
+		}
+
+		if ( $project_captured ) {
+
+			$db->where('project_ID', $project_ID);
+			$db->update('projects', array(
+				'project_pic' => $project_image_name
+			), 1);
+
+
+			// Log
+			$logger->info("Project screenshot is taken: ".$project_image_name);
 
 		}
 

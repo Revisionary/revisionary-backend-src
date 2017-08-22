@@ -147,65 +147,32 @@ if ( !file_exists(Page::ID($page_ID)->logDir) )
 
 
 
-
-
-
-/*
-// Initial checks of existing files
-$need_to_wait = true;
-// If folder is already exist
-if (
-	file_exists(Page::ID($page_ID)->pageDir) // Folder is exist
-) {
-
-
-
-
-	// Check if the HTML file properly downloaded
-	if (
-		file_exists(Page::ID($page_ID)->pageFile) && // HTML is downloaded?
-		file_exists(Page::ID($page_ID)->logDir."/resources.log") && // Resources ready?
-		file_exists( $page_image ) && // Page image ready?
-		file_exists( $project_image ) && // // Project image ready?
-		!file_exists( Page::ID($page_ID)->logDir."/__html.log" ) && // No error on HTML download
-		!file_exists( Page::ID($page_ID)->logDir."/__css.log" ) && // No error on CSS download
-		!file_exists( Page::ID($page_ID)->logDir."/__filter.log" ) && // No error on filtering
-		!file_exists( Page::ID($page_ID)->logDir."/__font.log" ) // No error on font download
-	) {
-
-		$need_to_wait = false;
-
-	} else {
-
-
-	}
-
-}
-*/
-
-
-
-
-
-
-
-
 // Check if queue is already working
-$db->where('queue_type', 'internalize');
-$db->where('queue_object_ID', $page_ID);
 $db->where('queue_status', 'working');
+$db->orWhere('queue_status', 'waiting');
+
+$db->where('queue_type', 'internalize');
+$db->where('queue_object_ID', $page_ID); // !!! Does not work?
+
 $existing_queue = $db->getOne('queues');
 $queue_ID = "";
 
 
 // If already working queue exists
-if ($existing_queue) {
+if (
+	$existing_queue &&
+	$existing_queue['queue_object_ID'] == $page_ID &&
+	$existing_queue['queue_type'] == 'internalize'
+) {
 
+	$queue_PID = $existing_queue['queue_PID'];
+	$queue_ID = $existing_queue['queue_ID'];
 
-	$queue_ID = $existing_queue['queue_PID'];
+	// Site log
+	$log->info( ucfirst($existing_queue['queue_status'])." Queue found. Page: #$page_ID User: #".currentUserID()." Queue ID: #$queue_ID Queue PID: #$queue_PID");
 
 	// Set the process ID to check
-	$process = BackgroundProcess::createFromPID( $queue_ID );
+	$process = BackgroundProcess::createFromPID( $queue_PID );
 
 
 // If no need to re-internalize
@@ -224,6 +191,10 @@ if ($existing_queue) {
 ) {
 
 
+	// Site log
+	$log->info("Already downloaded page #$page_ID is opening for user #".currentUserID().".");
+
+
 	// Initiate Internalizator
 	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID);
 	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
@@ -231,6 +202,10 @@ if ($existing_queue) {
 
 // Needs to be completely internalized
 } else {
+
+
+	// Site log
+	$log->error("Page #$page_ID needs to be re-internalized for user #".currentUserID().".");
 
 
 	// Remove the existing and wrong files
@@ -265,6 +240,10 @@ if ($existing_queue) {
 
 	// Add the PID to the queue
 	$queue->update_status($queue_ID, "waiting", "Waiting other works to be done.", $process->getPid());
+
+
+	// Site log
+	$log->info("Page #$page_ID added to the queue #$queue_ID. Process ID: #".$process->getPid()." User: #".currentUserID().".");
 
 
 }
