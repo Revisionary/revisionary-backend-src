@@ -256,7 +256,8 @@
 
 											if (
 												$catFilter != "archived" &&
-												$catFilter != "deleted"
+												$catFilter != "deleted" &&
+												$deviceFilter == ""
 											) {
 
 
