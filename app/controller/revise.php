@@ -148,21 +148,30 @@ if ( !file_exists(Page::ID($page_ID)->logDir) )
 
 
 // Check if queue is already working
+/*
 $db->where('queue_status', 'working');
 $db->orWhere('queue_status', 'waiting');
+*/
 
 $db->where('queue_type', 'internalize');
-$db->where('queue_object_ID', $page_ID); // !!! Does not work?
+$db->where('queue_object_ID', $page_ID);
 
 $existing_queue = $db->getOne('queues');
 $queue_ID = "";
+
+/*
+var_dump($existing_queue);
+die();
+*/
 
 
 // If already working queue exists
 if (
 	$existing_queue &&
-	$existing_queue['queue_object_ID'] == $page_ID &&
-	$existing_queue['queue_type'] == 'internalize'
+	(
+		$existing_queue['queue_status'] == "waiting" ||
+		$existing_queue['queue_status'] == "working"
+	)
 ) {
 
 	$queue_PID = $existing_queue['queue_PID'];
