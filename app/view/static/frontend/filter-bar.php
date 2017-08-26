@@ -129,6 +129,7 @@
 							<ul class="tool-selector">
 								<li><a href="#">Github Integration</a></li>
 								<li><a href="#">BitBucket Integration</a></li>
+								<li><a href="#">Asana Integration</a></li>
 								<li><a href="#">Trello Integration</a></li>
 								<li><a href="#">More Apps...</a></li>
 

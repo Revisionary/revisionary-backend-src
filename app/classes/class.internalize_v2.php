@@ -532,6 +532,13 @@ class Internalize_v2 {
 
 		// Get the HTML
 		$content = @file_get_contents(Page::ID($this->page_ID)->remoteUrl, FILE_TEXT, stream_context_create($ContextOptions));
+
+
+		// If fails, try without context
+		if (!$content)
+			$content = @file_get_contents(Page::ID($this->page_ID)->remoteUrl, FILE_TEXT);
+
+
 		$html = $content;
 
 

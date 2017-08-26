@@ -152,12 +152,11 @@ $db->where('queue_type', 'internalize');
 $db->where('queue_object_ID', $page_ID);
 
 
-/*
 $db->where('queue_status', 'working');
 $db->orWhere('queue_status', 'waiting');
-*/
 
-$existing_queue = $db->get('queues')[0];
+
+$existing_queue = $db->get('queues');
 $queue_ID = "";
 $process_ID = "";
 $process_status = "";
@@ -169,16 +168,13 @@ die();
 
 
 // If already working queue exists
-/*
-&&
-	(
-		$existing_queue['queue_status'] == "waiting" ||
-		$existing_queue['queue_status'] == "working"
-	)
-*/
 if (
-	$existing_queue !== null
+	$existing_queue !== null &&
+	count($existing_queue) > 0
 ) {
+
+	$existing_queue = $existing_queue[0];
+
 
 	$process_status = "DB: ".ucfirst($existing_queue['queue_status'])." Queue Found. Process ID: ".$existing_queue['queue_PID']." Queue ID: ".$existing_queue['queue_ID'];
 

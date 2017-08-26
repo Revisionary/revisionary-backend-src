@@ -41,8 +41,9 @@ if ( isset($_POST['login-submit']) ) {
 		// Username check
 		$db->where("user_name", $userName);
 		$db->orWhere("user_email", $userName);
-		$user = $db->getOne("users", "user_ID, user_password");
-		if (!$user) {
+		$user = $db->getOne("users");
+
+		if ($user === null) {
 			$errors[] = "Your username or password is wrong.";
 		}
 
@@ -72,6 +73,8 @@ if ( isset($_POST['login-submit']) ) {
 
 // Generate new nonce for form
 $_SESSION["login_nonce"] = uniqid(mt_rand(), true);
+
+
 
 $page_title = "Login - Revisionary App";
 require view('login');
