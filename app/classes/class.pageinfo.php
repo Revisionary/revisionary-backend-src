@@ -65,6 +65,16 @@ class Page {
 	public $pageCharSet = "";
 
 
+	// Paths
+	public $userPath;
+	public $projectPath;
+	public $pagePath;
+	public $devicePath;
+	public $versionPath;
+	public $fullPath;
+
+
+
 	// Debug
 	public $debug = false;
 
@@ -92,13 +102,13 @@ class Page {
 
 
 		// Paths
-        $userPath = "user-".$this->userId;
-        $projectPath = "project-".$this->projectId;
-        $pagePath = "page-".($this->getPageInfo('parent_page_ID') != null ? $this->getPageInfo('parent_page_ID') : self::$page_ID);
-        $devicePath = "device-".$this->pageDevice;
-        $versionPath = $this->pageVersion;
+        $userPath = $this->userPath = "user-".$this->userId;
+        $projectPath = $this->projectPath = "project-".$this->projectId;
+        $pagePath = $this->pagePath = "page-".($this->getPageInfo('parent_page_ID') != null ? $this->getPageInfo('parent_page_ID') : self::$page_ID);
+        $devicePath = $this->devicePath = "device-".$this->pageDevice;
+        $versionPath = $this->versionPath = $this->pageVersion;
 
-		$fullPath = $userPath."/".$projectPath."/".$pagePath."/".$devicePath."/".$versionPath."/";
+		$fullPath = $this->fullPath = $userPath."/".$projectPath."/".$pagePath."/".$devicePath."/".$versionPath."/";
 
 
         // Set the project directory

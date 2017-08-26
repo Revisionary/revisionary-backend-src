@@ -244,12 +244,14 @@
 
 										<?php
 										if ($dataType == "page") {
+
+											$pageStatus = Page::ID($block['page_ID'])->getPageStatus()['status'];
 										?>
 
 
 											<!-- Current Device -->
-											<a href="<?=site_url('revise/'.$block['page_ID'])?>" title="<?=$block['device_name']?>">
-												<i class="fa <?=$block['device_cat_icon']?>" aria-hidden="true"></i>
+											<a href="<?=site_url('revise/'.$block['page_ID'])?>" title="<?=$block['device_name']?>" data-status="<?=$pageStatus?>">
+												<i class="fa <?=$block['device_cat_icon']?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
 											</a>
 
 											<?php
@@ -263,10 +265,13 @@
 
 
 												foreach (array_merge($block['parentPageData'], $block['subPageData']) as $device) {
+
+
+													$pageStatus = Page::ID($device['page_ID'])->getPageStatus()['status'];
 											?>
 
-											<a href="<?=site_url('revise/'.$device['page_ID'])?>" title="<?=$device['device_name']?>">
-												<i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i>
+											<a href="<?=site_url('revise/'.$device['page_ID'])?>" title="<?=$device['device_name']?>" data-status="<?=$pageStatus?>">
+												<i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
 											</a>
 
 											<?php

@@ -12,7 +12,7 @@ $(function(){
 			'type':'internalize-status',
 			'page_ID': <?=$_url[1]?>,
 			'queue_ID': <?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
-			'processID' : <?=$process->getPid()?>
+			'processID' : <?=$process_ID?>
 		}, function(result){
 
 

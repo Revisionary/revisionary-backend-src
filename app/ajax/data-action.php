@@ -330,7 +330,7 @@ if (request('action') == "remove") {
 
 			// Remove the page folder
 			if ($type == "page")
-				deleteDirectory( dir."/assets/cache/user-".currentUserID()."/project-".Page::ID( request('id') )->projectId."/page-".request('id')."/device-".Page::ID( request('id') )->pageDevice."/" );
+				deleteDirectory( dir."/assets/cache/user-".currentUserID()."/".Page::ID( request('id') )->projectPath."/".Page::ID( request('id') )->pagePath."/".Page::ID( request('id') )->devicePath."/" );
 
 
 			// Remove from archives

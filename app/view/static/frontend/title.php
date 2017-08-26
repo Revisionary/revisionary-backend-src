@@ -33,7 +33,7 @@
 	<div class="col xl-center title">
 
 		<div class="dropdown-container" style="display: inline-block;">
-			<h1 class="dropdown-opener bullet bigger-bullet"><?=$title == "pages" ? Project::ID($_url[1])->projectName : strtoupper($title)?></h1>
+			<a href="<?=site_url($url_prefix)?>" class="dropdown-opener"><h1 class="bullet bigger-bullet"><?=$title == "pages" ? Project::ID($_url[1])->projectName : strtoupper($title)?></h1></a>
 			<nav class="dropdown selectable">
 				<ul class="projects-menu xl-left">
 					<li class="menu-item <?=$catFilter == "" ? "selected" : ""?>">

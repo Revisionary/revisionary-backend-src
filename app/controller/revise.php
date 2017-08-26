@@ -148,40 +148,54 @@ if ( !file_exists(Page::ID($page_ID)->logDir) )
 
 
 // Check if queue is already working
+$db->where('queue_type', 'internalize');
+$db->where('queue_object_ID', $page_ID);
+
+
 /*
 $db->where('queue_status', 'working');
 $db->orWhere('queue_status', 'waiting');
 */
 
-$db->where('queue_type', 'internalize');
-$db->where('queue_object_ID', $page_ID);
-
-$existing_queue = $db->getOne('queues');
+$existing_queue = $db->get('queues')[0];
 $queue_ID = "";
+$process_ID = "";
+$process_status = "";
 
 /*
-var_dump($existing_queue);
+var_dump($existing _queue);
 die();
 */
 
 
 // If already working queue exists
-if (
-	$existing_queue &&
+/*
+&&
 	(
 		$existing_queue['queue_status'] == "waiting" ||
 		$existing_queue['queue_status'] == "working"
 	)
+*/
+if (
+	$existing_queue !== null
 ) {
+
+	$process_status = "DB: ".ucfirst($existing_queue['queue_status'])." Queue Found. Process ID: ".$existing_queue['queue_PID']." Queue ID: ".$existing_queue['queue_ID'];
+
 
 	$queue_PID = $existing_queue['queue_PID'];
 	$queue_ID = $existing_queue['queue_ID'];
+
 
 	// Site log
 	$log->info( ucfirst($existing_queue['queue_status'])." Queue found. Page: #$page_ID User: #".currentUserID()." Queue ID: #$queue_ID Queue PID: #$queue_PID");
 
 	// Set the process ID to check
 	$process = BackgroundProcess::createFromPID( $queue_PID );
+	$process_ID = $queue_PID;
+
+
+	$process_status .= " BackgroundProcess::getPid() -> ". $process->getPid();
 
 
 // If no need to re-internalize
@@ -199,6 +213,8 @@ if (
 
 ) {
 
+	$process_status = "Already downloaded page #$page_ID is opening for user #".currentUserID().".";
+
 
 	// Site log
 	$log->info("Already downloaded page #$page_ID is opening for user #".currentUserID().".");
@@ -207,10 +223,16 @@ if (
 	// Initiate Internalizator
 	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID);
 	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+	$process_ID = $process->getPid();
+
+
+	$process_status .= " BackgroundProcess::getPid() -> ". $process->getPid();
 
 
 // Needs to be completely internalized
 } else {
+
+	$process_status = "Page #$page_ID needs to be re-internalized for user #".currentUserID().".";
 
 
 	// Site log
@@ -236,7 +258,6 @@ if (
 
 
 
-
 	// Add a new job to the queue
 	$queue = new Queue();
 	$queue_ID = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.");
@@ -245,6 +266,10 @@ if (
 	// Initiate Internalizator
 	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
 	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+	$process_ID = $process->getPid();
+
+
+	$process_status .= " BackgroundProcess::getPid() -> ". $process->getPid();
 
 
 	// Add the PID to the queue
@@ -256,6 +281,16 @@ if (
 
 
 }
+
+/*
+echo "<pre>";
+print_r($existing_queue);
+echo "</pre>";
+
+echo $process_status."<br>";
+echo $process_ID;
+die();
+*/
 
 
 
