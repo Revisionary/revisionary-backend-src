@@ -42,6 +42,24 @@
 							</picture>
 						</a>
 
+						<ul class="shares project_shares">
+
+							<li>
+								<input type="hidden" name="project_shares[]" value="3"/>
+								<a href="http://new.revisionaryapp.com/sara">
+									<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-3/sara.png);"></picture>
+								</a>
+							</li>
+
+							<li>
+								<input type="hidden" name="project_shares[]" value="4"/>
+								<a href="http://new.revisionaryapp.com/sara">
+									<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-3/sara.png);"></picture>
+								</a>
+							</li>
+
+						</ul>
+
 
 						<!-- Other Shared People
 						<a href="http://new.revisionaryapp.com/sara">
@@ -138,6 +156,25 @@
 								<span <?=User::ID()->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID()->firstName, 0, 1).substr(User::ID()->lastName, 0, 1)?></span>
 							</picture>
 						</a>
+
+
+						<ul class="shares page_shares">
+
+							<li>
+								<input type="hidden" name="page_shares[]" value="3"/>
+								<a href="http://new.revisionaryapp.com/sara">
+									<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-3/sara.png);"></picture>
+								</a>
+							</li>
+
+							<li>
+								<input type="hidden" name="page_shares[]" value="4"/>
+								<a href="http://new.revisionaryapp.com/sara">
+									<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-3/sara.png);"></picture>
+								</a>
+							</li>
+
+						</ul>
 
 
 						<!-- Other Shared People
