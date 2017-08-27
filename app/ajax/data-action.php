@@ -311,7 +311,8 @@ if (request('action') == "remove") {
 					// Remove from shares
 					$db->where('share_type', 'page');
 					$db->where('shared_object_ID', $page['page_ID']);
-					$db->where('share_to', currentUserID());
+					$db->where('sharer_user_ID', currentUserID());
+					$db->orWhere('share_to', currentUserID());
 					$db->delete('shares');
 
 
@@ -357,7 +358,8 @@ if (request('action') == "remove") {
 			// Remove from shares
 			$db->where('share_type', $type);
 			$db->where('shared_object_ID', request('id'));
-			$db->where('share_to', currentUserID());
+			$db->where('sharer_user_ID', currentUserID());
+			$db->orWhere('share_to', currentUserID());
 			$db->delete('shares');
 
 

@@ -120,12 +120,14 @@
 									<div class="col xl-4-12 xl-left xl-top people">
 
 										<!-- Owner -->
-										<a href="<?=site_url(User::ID($block['user_ID'])->userName)?>">
-											<picture class="profile-picture" style="background-image: url(<?=User::ID($block['user_ID'])->userPicUrl?>);"></picture>
+										<a href="<?=site_url(User::ID($block['user_ID'])->userName)?>" data-tooltip="<?=User::ID($block['user_ID'])->fullName?>">
+											<picture class="profile-picture" <?=User::ID($block['user_ID'])->printPicture()?>>
+												<span <?=User::ID($block['user_ID'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($block['user_ID'])->firstName, 0, 1).substr(User::ID($block['user_ID'])->lastName, 0, 1)?></span>
+											</picture>
 										</a>
 
-										<?php
 
+										<?php
 
 										// SHARES QUERY
 
@@ -142,10 +144,34 @@
 										foreach ($blockShares as $share) {
 										?>
 
-										<!-- Other Shared People -->
-										<a href="<?=site_url(User::ID($share['share_to'])->userName)?>">
-											<picture class="profile-picture" style="background-image: url(<?=User::ID($share['share_to'])->userPicUrl?>);"></picture>
+										<!-- Other Shared Person -->
+											<?php
+
+												if ( is_numeric($share['share_to']) ) {
+
+											?>
+										<a href="<?=site_url(User::ID($share['share_to'])->userName)?>" data-tooltip="<?=User::ID($share['share_to'])->fullName?>">
+											<picture class="profile-picture" <?=User::ID($share['share_to'])->printPicture()?>>
+												<span <?=User::ID($share['share_to'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?></span>
+											</picture>
 										</a>
+											<?php
+
+												} else {
+
+											?>
+										<a href="#" data-tooltip="<?=$share['share_to']?>">
+											<picture class="profile-picture email">
+												<i class="fa fa-envelope" aria-hidden="true"></i>
+											</picture>
+										</a>
+
+											<?php
+
+												}
+
+											?>
+
 
 										<?php
 										}
@@ -250,8 +276,8 @@
 
 
 											<!-- Current Device -->
-											<a href="<?=site_url('revise/'.$block['page_ID'])?>" title="<?=$block['device_name']?>" data-status="<?=$pageStatus?>">
-												<i class="fa <?=$block['device_cat_icon']?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
+											<a href="<?=site_url('revise/'.$block['page_ID'])?>" data-status="<?=$pageStatus?>">
+												<i class="fa <?=$block['device_cat_icon']?>" data-tooltip="<?=$block['device_name']?>: <?=ucfirst($pageStatus)?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
 											</a>
 
 											<?php
@@ -270,8 +296,8 @@
 													$pageStatus = Page::ID($device['page_ID'])->getPageStatus()['status'];
 											?>
 
-											<a href="<?=site_url('revise/'.$device['page_ID'])?>" title="<?=$device['device_name']?>" data-status="<?=$pageStatus?>">
-												<i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
+											<a href="<?=site_url('revise/'.$device['page_ID'])?>" data-status="<?=$pageStatus?>">
+												<i class="fa <?=$device['device_cat_icon']?>" data-tooltip="<?=$device['device_name']?>: <?=ucfirst($pageStatus)?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
 											</a>
 
 											<?php
@@ -294,7 +320,7 @@
 									<div class="col xl-4-12 xl-left share">
 
 
-										<a href="#"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+										<a href="#" data-tooltip="Share"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
 
 
 									</div>
@@ -315,7 +341,7 @@
 
 										?>
 
-										<a href="#">v<?=empty($pageVersion) ? "0.1" : $pageVersion?></a>
+										<a href="#" data-tooltip="Versions: Not working right now.">v<?=empty($pageVersion) ? "0.1" : $pageVersion?></a>
 
 										<?php
 										}
@@ -330,16 +356,16 @@
 
 											if ($catFilter == "archived" || $catFilter == "deleted") {
 										?>
-										<a href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>" data-action="recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
+										<a href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>" data-action="recover" data-tooltip="Recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
 										<?php
 											} else {
 										?>
-										<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
+										<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-tooltip="Archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
 										<?php
 											}
 
 										?>
-										<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+										<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
 
 									</div>

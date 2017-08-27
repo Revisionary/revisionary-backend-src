@@ -479,8 +479,12 @@ a {
  */
 
 
-.tooltip {
-	cursor: help;
+[data-tooltip] {
+	position: relative;
+
+	&.tooltip {
+		cursor: help;
+	}
 
 	&:hover:after{
 	    padding: 4px;
@@ -488,8 +492,8 @@ a {
 	    color: white;
 	    content: attr(data-tooltip);
 	    position: absolute;
-	    bottom: 25px;
-	    left: 0;
+	    top: -100%;
+	    right: 0;
 	    text-transform: initial;
 	    font-family: 'Roboto Condensed', sans-serif;
 	    font-size: 12px;
@@ -513,6 +517,18 @@ picture.profile-picture {
     background-size: cover;
     border-radius: 50%;
     position: relative;
+
+    &.email {
+
+
+	    i {
+			font-size: 10px;
+			position: relative;
+			top: -6px;
+			left: 4px;
+	    }
+
+    }
 
     span {
 		font-weight: normal;
@@ -1521,6 +1537,7 @@ footer {
 		    .people {
 				a {
 					display: inline-block;
+					line-height: 21px;
 
 					picture {
 						margin: 0;

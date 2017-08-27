@@ -31,7 +31,7 @@
 				<div class="more-options-wrapper">
 
 
-					<h3>Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
+					<h3>Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Sharing to emails that are not users is not working right now." aria-hidden="true"></i></h3>
 					<div class="people">
 
 
@@ -133,7 +133,7 @@
 					</span>
 
 
-					<h3>Page Members <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
+					<h3>Page Members <i class="fa fa-question-circle tooltip" data-tooltip="Sharing to emails that are not users is not working right now." aria-hidden="true"></i></h3>
 					<div class="people">
 
 

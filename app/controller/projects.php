@@ -102,6 +102,23 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 			$device_count++;
 
 
+				// Add the project shares
+				if ( is_array(post('page_shares')) && count(post('page_shares')) > 0 ) {
+
+					foreach (post('page_shares') as $share_to) {
+
+						$share_ID = $db->insert('shares', array(
+							"share_type" => 'page',
+							"shared_object_ID" => $page_ID,
+							"share_to" => $share_to,
+							"sharer_user_ID" => currentUserID()
+						));
+
+					}
+
+				}
+
+
 
 
 
