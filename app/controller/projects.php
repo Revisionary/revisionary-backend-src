@@ -83,7 +83,12 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 
 	// Add the first pages
-	if (post('page-url') != "" && post('page-name') != "" && is_array(post('devices'))) {
+	if (
+		post('page-url') != "" &&
+		post('page-name') != "" &&
+		is_array(post('devices')) &&
+		count(post('devices')) > 0
+	) {
 
 		$parent_page_ID = null;
 		$device_count = 0;
@@ -102,7 +107,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 			$device_count++;
 
 
-				// Add the project shares
+				// Add the page shares
 				if ( is_array(post('page_shares')) && count(post('page_shares')) > 0 ) {
 
 					foreach (post('page_shares') as $share_to) {
@@ -170,7 +175,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 
 	if($project_ID) {
-		header('Location: '.site_url('project/'.$project_ID.'?add-first-page'));
+		header('Location: '.site_url('project/'.$project_ID.'#add-first-page'));
 		die();
 	}
 

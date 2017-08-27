@@ -140,6 +140,9 @@
 										// Get the data
 										$blockShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
+										// Is shared to someone
+										$isShared = false;
+
 
 										foreach ($blockShares as $share) {
 										?>
@@ -174,6 +177,11 @@
 
 
 										<?php
+
+											// Is shared to someone
+											if ($share['sharer_user_ID'] == currentUserID())
+												$isShared = true;
+
 										}
 										?>
 
@@ -378,7 +386,7 @@
 
 
 									<span class="name-field">
-										<?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" aria-hidden="true"></i> ' : ''?><a href="<?=$block_url?>" class="invert-hover name"><?=$block[$dataType.'_name']?></a>
+										<?=$isShared ? '<i class="fa fa-share-square-o" aria-hidden="true"></i>' : ""?><?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" aria-hidden="true"></i> ' : ''?><a href="<?=$block_url?>" class="invert-hover name"><?=$block[$dataType.'_name']?></a>
 
 										<?php
 										if ($block['user_ID'] == currentUserID()) {
@@ -426,7 +434,7 @@
 
 						<div class="box xl-center">
 
-							<a href="#" class="add-new-box wrap xl-flexbox xl-middle xl-center" style="min-height: inherit; letter-spacing: normal;">
+							<a href="#" data-type="<?=$dataType?>" class="add-new-box wrap xl-flexbox xl-middle xl-center" style="min-height: inherit; letter-spacing: normal;">
 								<div class="col">
 									New <?=ucfirst($dataType)?>
 									<div class="plus-icon" style="font-family: Arial; font-size: 90px; line-height: 80px;">+</div>

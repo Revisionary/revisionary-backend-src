@@ -217,6 +217,7 @@ $(function() {
 
 		openModal('#add-new');
 
+		var type = $(this).attr('data-type');
 		var thisBlock = $(this).parent().parent();
 		var catID = thisBlock.prevAll('.cat-separator:first').attr('data-cat-id') || 0;
 		var catName = thisBlock.prevAll('.cat-separator:first').find('.name').text();
@@ -240,7 +241,7 @@ $(function() {
 		// Focus to the input
 		setTimeout(function() {
 
-			$('#add-new input[name="project-name"]').focus();
+			$('#add-new input[name="'+type+'-name"]').focus();
 
 		}, 500);
 
@@ -297,6 +298,45 @@ $(function() {
 		$('body').removeClass('popup-open');
 
 	}
+
+
+	// Open the new page modal if project is just added
+	if(window.location.hash == "#add-first-page") {
+
+
+		openModal('#add-new');
+
+		var thisBlock = $('.add-new-template');
+		var catID = thisBlock.prevAll('.cat-separator:first').attr('data-cat-id') || 0;
+		var catName = thisBlock.prevAll('.cat-separator:first').find('.name').text();
+		var orderNumber = thisBlock.prev('.block').attr('data-order') || 0;
+
+		$('#add-new .to').html("To <b></b> Section");
+		$('#add-new .to > b').text(catName);
+
+		if (catName == "Uncategorized")
+			$('#add-new .to').html("");
+
+
+		// Category ID input update
+		$('#add-new input[name="category"]').attr('value', catID);
+
+
+		// Order number input update
+		$('#add-new input[name="order"]').attr('value', ( typeof orderNumber !== 'undefined' ? parseInt(orderNumber) + 1 : 0 ));
+
+
+		// Focus to the input
+		setTimeout(function() {
+
+			$('#add-new input[name="page-name"]').focus();
+
+		}, 500);
+
+
+
+	}
+
 
 
 	// NEW PAGE/PROJECT CLONES
@@ -506,6 +546,8 @@ $(function() {
 					} else if ( data.status == "invalid-email" ) {
 
 						input.addClass('error');
+
+					} else {
 
 					}
 
