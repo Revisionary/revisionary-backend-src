@@ -20,7 +20,7 @@
 
 				<h4 class="section-title xl-left">Project Info</h4>
 
-				<h3>Site Name <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+				<h3>Site Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
 				<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." required/>
 
 
@@ -31,7 +31,7 @@
 				<div class="more-options-wrapper">
 
 
-					<h3>Project Members <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+					<h3>Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
 					<div class="people">
 
 
@@ -42,33 +42,20 @@
 							</picture>
 						</a>
 
-						<ul class="shares project_shares">
-
-							<li>
-								<input type="hidden" name="project_shares[]" value="3"/>
-								<a href="http://new.revisionaryapp.com/sara">
-									<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-3/sara.png);"></picture>
-								</a>
-							</li>
-
-							<li>
-								<input type="hidden" name="project_shares[]" value="4"/>
-								<a href="http://new.revisionaryapp.com/sara">
-									<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-3/sara.png);"></picture>
-								</a>
-							</li>
+						<ul class="shares project user">
 
 						</ul>
 
 
-						<!-- Other Shared People
-						<a href="http://new.revisionaryapp.com/sara">
-							<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-3/sara.png);"></picture>
-						</a>-->
-
-
 						<!-- Add New -->
 						<a href="#" class="new-member"><span style="font-family: Arial; font-weight: bold;">+</span></a>
+
+						<input class="share-email" type="email" name="project-share-email" data-type="project" placeholder='Type an e-mail address and hit "Enter"...' style="display: none; max-width: 75%;"/>
+
+
+						<ul class="shares project email">
+
+						</ul>
 
 
 					</div>
@@ -77,15 +64,15 @@
 
 					<h4 class="section-title xl-left">Page Info</h4>
 
-					<h3>First Page URL <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+					<h3>First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
 					<input type="url" name="page-url" placeholder="https://example.com/..." required disabled/>
 
 
-					<h3>Page Name <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
 					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." required disabled/>
 
 
-					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
 					<ul class="selected-devices">
 						<li>
 							<input type="hidden" name="devices[]" value="4"/>
@@ -146,7 +133,7 @@
 					</span>
 
 
-					<h3>Page Members <i class="fa fa-question-circle" aria-hidden="true"></i></h3>
+					<h3>Page Members <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
 					<div class="people">
 
 
@@ -157,34 +144,20 @@
 							</picture>
 						</a>
 
-
-						<ul class="shares page_shares">
-
-							<li>
-								<input type="hidden" name="page_shares[]" value="3"/>
-								<a href="http://new.revisionaryapp.com/sara">
-									<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-3/sara.png);"></picture>
-								</a>
-							</li>
-
-							<li>
-								<input type="hidden" name="page_shares[]" value="4"/>
-								<a href="http://new.revisionaryapp.com/sara">
-									<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-3/sara.png);"></picture>
-								</a>
-							</li>
+						<ul class="shares page user">
 
 						</ul>
 
 
-						<!-- Other Shared People
-						<a href="http://new.revisionaryapp.com/sara">
-							<picture class="profile-picture" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-3/sara.png);"></picture>
-						</a>-->
-
-
 						<!-- Add New -->
 						<a href="#" class="new-member"><span style="font-family: Arial; font-weight: bold;">+</span></a>
+
+						<input class="share-email" type="email" data-type="page" placeholder='Type an e-mail address and hit "Enter"...' style="display: none; max-width: 75%;"/>
+
+
+						<ul class="shares page email">
+
+						</ul>
 
 
 					</div>

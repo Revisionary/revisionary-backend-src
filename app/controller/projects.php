@@ -34,7 +34,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 
 	// Add the project
-	$project_ID = $db->insert ('projects', array(
+	$project_ID = $db->insert('projects', array(
 		"project_name" => post('project-name'),
 		"user_ID" => currentUserID()
 	));
@@ -43,7 +43,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 	// Add the Category
 	if (post('category') != "0") {
 
-		$cat_id = $db->insert ('project_cat_connect', array(
+		$cat_id = $db->insert('project_cat_connect', array(
 			"project_cat_project_ID" => $project_ID,
 			"project_cat_ID" => post('category'),
 			"project_cat_connect_user_ID" => currentUserID()
@@ -55,12 +55,29 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 	// Add the order
 	if (post('order') != "0") {
 
-		$cat_id = $db->insert ('sorting', array(
+		$cat_id = $db->insert('sorting', array(
 			"sort_type" => 'project',
 			"sort_object_ID" => $project_ID,
 			"sort_number" => post('order'),
 			"sorter_user_ID" => currentUserID()
 		));
+
+	}
+
+
+	// Add the project shares
+	if ( is_array(post('project_shares')) && count(post('project_shares')) > 0 ) {
+
+		foreach (post('project_shares') as $user_ID) {
+
+			$share_ID = $db->insert('shares', array(
+				"share_type" => 'project',
+				"shared_object_ID" => $project_ID,
+				"share_to" => $user_ID,
+				"sharer_user_ID" => currentUserID()
+			));
+
+		}
 
 	}
 

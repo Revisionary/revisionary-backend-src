@@ -116,7 +116,7 @@
 
 							<div class="box xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
 
-								<div class="wrap overlay xl-flexbox xl-between xl-5 members">
+								<div class="wrap overlay xl-flexbox xl-top xl-between xl-5 members">
 									<div class="col xl-4-12 xl-left xl-top people">
 
 										<!-- Owner -->

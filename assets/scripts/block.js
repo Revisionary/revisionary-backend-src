@@ -364,7 +364,6 @@ $(function() {
 
 
 
-
 	// Add new device to modal
 	$('.device-add > li > a').click(function(e) {
 
@@ -397,6 +396,162 @@ $(function() {
 		return false;
 
 	});
+
+
+
+	// Add user toggle
+	$('.new-member').click(function(e) {
+
+		$(this).next().fadeToggle();
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
+	// Add new user
+	$('.new-member + input').keydown(function (e){
+
+		var input = $(this);
+		var type = $(this).attr('data-type');
+		var userList = $('.shares.user.'+type);
+		var emailList = $('.shares.email.'+type);
+
+		function userTemplate_html(user_ID, userLink, userPhoto, userName, type, deletable = true) {
+
+			return '\
+				<li class="'+ (!deletable ? 'undeletable' : '') +'">\
+					'+ (deletable ? '<input type="hidden" name="'+type+'_shares[]" value="' + user_ID + '"/>' : '') +'\
+					<a href="' + userLink + '">\
+						<picture class="profile-picture" ' + userPhoto + '>\
+							'+userName+'\
+						</picture>\
+					</a>\
+					<a href="#" class="remove-share" data-type="'+type+'" data-value="'+user_ID+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+				</li>\
+			';
+
+		}
+
+		function emailTemplate_html(email, type, deletable = true) {
+
+			return '\
+				<li class="'+ (!deletable ? 'undeletable' : '') +'">\
+					'+ (deletable ? '<input type="hidden" name="'+type+'_shares[]" value="' + email + '"/>' : '') +'\
+					<span>\
+						'+email+'\
+						<a href="#" class="remove-share" data-type="'+type+' data-value="'+email+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+					</span>\
+				</li>\
+			';
+
+		}
+
+
+	    if(e.keyCode == 13) {
+
+		    input.prop('disabled', true);
+
+
+			// AJAX Send data
+			$.post(ajax_url, {
+
+				'type'	: 'user-check',
+				'nonce'	: nonce,
+				'email'	: input.val()
+
+			}, function(result){
+
+				$.each(result.data, function(key, data){
+
+
+					console.log(key, data);
+
+
+					// If user found
+					if ( data.status == "found" ) {
+
+
+						// Add if not already exists
+						if ( !userList.find('[value="'+data.user_ID+'"]').length )
+							userList.append(userTemplate_html(data.user_ID, data.user_link, data.user_photo, data.user_name, type));
+
+
+						// Also add to the page shares list
+						if ( type == "project" && $('.shares.user.page').length && !$('.shares.user.page [data-value="'+data.user_ID+'"]').length ) {
+							$('.shares.user.page').append(userTemplate_html(data.user_ID, data.user_link, data.user_photo, data.user_name, type, false));
+						}
+
+
+						input.removeClass('error');
+						input.val('');
+
+					} else if ( data.status == "not-found" ) {
+
+
+						if ( !emailList.find('[value="'+input.val()+'"]').length )
+							emailList.append(emailTemplate_html(input.val(), type));
+
+
+						// Also add to the page shares list
+						if ( type == "project" && $('.shares.email.page').length && !$('.shares.email.page [data-value="'+input.val()+'"]').length ) {
+							$('.shares.email.page').append(emailTemplate_html(input.val(), type, false));
+						}
+
+
+						input.removeClass('error');
+						input.val('');
+
+					} else if ( data.status == "invalid-email" ) {
+
+						input.addClass('error');
+
+					}
+
+					input.prop('disabled', false);
+
+				});
+
+			}, 'json');
+
+
+
+		    e.preventDefault();
+		    return false;
+	    }
+
+	});
+
+
+
+	// Delete selected shared person from the list
+	$(document).on('click', '.shares a.remove-share', function(e) {
+
+
+		var share = $(this).closest('li');
+		var type = $(this).attr('data-type');
+		var value = $(this).attr('data-value');
+
+
+		// Remove the share
+		share.remove();
+
+
+		// Remove from page list
+		if ( type == "project" && $('.shares > li.undeletable a.remove-share[data-value="'+value+'"]').length ) {
+
+			$('.shares a.remove-share[data-value="'+value+'"]').closest('li').remove();
+
+		}
+
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
 
 
 
