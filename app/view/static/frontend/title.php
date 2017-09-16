@@ -83,20 +83,49 @@
 
 			<span class="people">
 
-
 				<!-- Owner -->
-				<a href="<?=site_url(User::ID( Project::ID( $_url[1])->getProjectInfo('user_ID') )->userName)?>">
-					<picture class="profile-picture" style="background-image: url(<?=User::ID( Project::ID($_url[1])->getProjectInfo('user_ID') )->userPicUrl?>);"><div class="notif-no">3</div></picture>
+				<a href="<?=site_url(User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->userName)?>" data-tooltip="<?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->fullName?>">
+					<picture class="profile-picture" <?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->printPicture()?>>
+						<span <?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->firstName, 0, 1).substr(User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->lastName, 0, 1)?></span>
+						<div class="notif-no">3</div>
+					</picture>
 				</a>
 
 				<?php
 				foreach ($projectShares as $share) {
 				?>
 
-				<!-- Other shared people -->
-				<a href="<?=site_url(User::ID($share['share_to'])->userName)?>">
-					<picture class="profile-picture" style="background-image: url(<?=User::ID($share['share_to'])->userPicUrl?>);"><div class="notif-no">1</div></picture>
+
+				<!-- Other Shared Person -->
+					<?php
+
+						if ( is_numeric($share['share_to']) ) {
+
+					?>
+				<a href="<?=site_url(User::ID($share['share_to'])->userName)?>" data-tooltip="<?=User::ID($share['share_to'])->fullName?>">
+					<picture class="profile-picture" <?=User::ID($share['share_to'])->printPicture()?>>
+						<span <?=User::ID($share['share_to'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?></span>
+						<div class="notif-no">1</div>
+					</picture>
 				</a>
+					<?php
+
+						} else {
+
+					?>
+				<a href="#"	data-tooltip="<?=$share['share_to']?>">
+					<picture class="profile-picture email xl-left">
+						<i class="fa fa-envelope" aria-hidden="true"></i>
+					</picture>
+				</a>
+
+					<?php
+
+						}
+
+					?>
+
+
 
 				<?php
 				}

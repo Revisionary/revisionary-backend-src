@@ -121,8 +121,7 @@ function the_data() {
 			if (  $projectSharedID !== false ) {
 
 				// Show everything belong to sharer
-				$db->where('user_ID = '.$projectShares[$projectSharedID]['sharer_user_ID']);
-				$db->orWhere('user_ID = '.currentUserID());
+				$db->where('(user_ID = '.$projectShares[$projectSharedID]['sharer_user_ID'].' OR user_ID = '.currentUserID().')');
 
 			}
 
