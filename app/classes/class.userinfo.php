@@ -18,6 +18,9 @@ class User {
 	// The full name
 	public $fullName;
 
+	// The email
+	public $email;
+
 	// The user picture name
 	public $userPic;
 
@@ -42,11 +45,14 @@ class User {
 		// Set the full name
         $this->fullName = $this->getUserInfo('user_first_name')." ".$this->getUserInfo('user_last_name');
 
+		// Set the email
+        $this->email = $this->getUserInfo('user_email');
+
 		// Set the user picture URL
         $this->userPic = $this->getUserInfo('user_picture');
 
 		// Set the user picture URL
-        $this->userPicUrl = cache_url('user-'.self::$userId.'/'.$this->getUserInfo('user_picture'));
+        $this->userPicUrl = $this->getUserInfo('user_picture') != "" ? cache_url('user-'.self::$userId.'/'.$this->getUserInfo('user_picture')) : "";
 
     }
 

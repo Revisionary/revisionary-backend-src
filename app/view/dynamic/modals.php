@@ -370,24 +370,26 @@
 
 <div id="share" class="popup-window xl-center xl-5-12 scrollable-content">
 	<h2>Share</h2>
-	<h5 class="to">The <b>Youtube</b> Project</h5>
+	<h5 class="to">The <b>Youtube</b> <?=ucfirst($dataType)?></h5>
 
 	<form action="" method="post">
 
 		<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
+		<input type="hidden" name="project_ID" value=""/>
 
 
 
 		<div class="wrap xl-center xl-gutter-8">
 			<div class="col xl-9-10">
 
-				<h4 class="xl-left">Project Members</h4>
+				<h4 class="xl-left"><?=ucfirst($dataType)?> Members <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h4>
 
 
 
 				<ul class="xl-left members">
 
 					<!-- Owner -->
+<!--
 					<li class="inline-guys member">
 
 						<picture class="profile-picture big" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-1/bill.png);">
@@ -400,8 +402,10 @@
 						</div>
 
 					</li>
+-->
 
 					<!-- Shared Person -->
+<!--
 					<li class="inline-guys member">
 
 						<picture class="profile-picture big" >
@@ -419,11 +423,10 @@
 					<li class="inline-guys member">
 
 						<picture class="profile-picture big" >
-							<span><i class="fa fa-user" aria-hidden="true"></i></span>
+							<span><i class="fa fa-envelope" aria-hidden="true"></i></span>
 						</picture>
 
 						<div>
-<!-- 							<span class="full-name">Bilal TAS</span> -->
 							<span class="email">info@twelve12.com</span>
 						</div>
 
@@ -444,6 +447,7 @@
 						<a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 
 					</li>
+-->
 				</ul><br/>
 
 
@@ -467,7 +471,7 @@
 					<div class="col">
 
 
-						<button class="dark small" disabled>Add</button>
+						<button class="dark small add-member" disabled>Add</button>
 
 
 					</div>

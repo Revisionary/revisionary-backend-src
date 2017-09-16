@@ -255,11 +255,90 @@ $(function() {
 	// Share Modal
 	$(document).on('click', '.share-button', function(e) {
 
+		var theBox = $(this).parent().parent().parent().parent();
+		var boxName = theBox.find('.name').text();
+
+
+		// Change the name
+		$('#share .to > b').text(boxName);
+
+
+		function memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable) {
+
+			var hasPic = 'class="has-pic"';
+
+			if (mStatus != 'email' ) email = '('+email+')';
+			if (mStatus == 'email' ) nameabbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
+			if (userImageUrl == "") hasPic = "";
+
+			return '\
+				<li class="inline-guys member '+mStatus+' '+unremoveable+'">\
+					<picture class="profile-picture big" style="background-image: url('+userImageUrl+');">\
+						<span '+hasPic+'>'+nameabbr+'</span>\
+					</picture>\
+					<div>\
+						<span class="full-name">'+fullName+'</span>\
+						<span class="email">'+email+'</span>\
+					</div>\
+					<a href="#" class="remove remove-member" data-userid="'+userId+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+				</li>\
+			';
+
+		}
+
+
+		// Remove the old people
+		$('#share .members').html('');
+
+
+		// Add the people
+		theBox.find('.people > a').each(function(i, member) {
+
+			console.log(i, member);
+
+			var mStatus = $(member).attr('data-mstatus');
+			var email = $(member).attr('data-email');
+			var fullName = $(member).attr('data-fullname');
+			var nameabbr = $(member).attr('data-nameabbr');
+			var userImageUrl = $(member).attr('data-avatar');
+			var userId = $(member).attr('data-userId');
+			var unremoveable = $(member).attr('data-unremoveable');
+
+
+			$('#share .members').append(
+				memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable)
+			);
+
+
+
+
+		});
+
+
+		// Open the modal
 		openModal('#share');
 
 
 		e.preventDefault();
 		return false;
+
+	});
+
+
+	// Share input
+	$('#share .share-email').on('keyup', function() {
+
+		var inputVal = $(this).val();
+
+		if ( inputVal.length > 0 ) {
+
+			$('#share button.add-member').prop('disabled', false);
+
+		} else {
+
+			$('#share button.add-member').prop('disabled', true);
+
+		}
 
 	});
 

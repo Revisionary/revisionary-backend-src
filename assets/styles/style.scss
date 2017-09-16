@@ -1230,6 +1230,12 @@ input.share-email {
 		margin-bottom: 20px;
 		position: relative;
 
+
+		&.owner .remove,
+		&.unremoveable .remove {
+			display: none;
+		}
+
 		.email {
 			//color: #d6d6d6;
 		}
@@ -1306,6 +1312,10 @@ button {
 			background: linear-gradient(45deg, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 13%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 		}
+	}
+
+	& + #first-section {
+		margin-top: 2px;
 	}
 }
 
@@ -1571,6 +1581,10 @@ footer {
 						width: 18px;
 						height: 18px;
 						border-color: white;
+
+						& > span {
+							font-size: 10px;
+						}
 					}
 				}
 		    }

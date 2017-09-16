@@ -120,7 +120,15 @@
 									<div class="col xl-4-12 xl-left xl-top people">
 
 										<!-- Owner -->
-										<a href="<?=site_url(User::ID($block['user_ID'])->userName)?>" data-tooltip="<?=User::ID($block['user_ID'])->fullName?>">
+										<a href="<?=site_url(User::ID($block['user_ID'])->userName)?>"
+											data-tooltip="<?=User::ID($block['user_ID'])->fullName?>"
+											data-mstatus="owner"
+											data-fullname="<?=User::ID($block['user_ID'])->fullName?>"
+											data-nameabbr="<?=substr(User::ID($block['user_ID'])->firstName, 0, 1).substr(User::ID($block['user_ID'])->lastName, 0, 1)?>"
+											data-email="<?=User::ID($block['user_ID'])->email?>"
+											data-avatar="<?=User::ID($block['user_ID'])->userPicUrl?>"
+											data-userid="<?=$block['user_ID']?>"
+										>
 											<picture class="profile-picture" <?=User::ID($block['user_ID'])->printPicture()?>>
 												<span <?=User::ID($block['user_ID'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($block['user_ID'])->firstName, 0, 1).substr(User::ID($block['user_ID'])->lastName, 0, 1)?></span>
 											</picture>
@@ -153,7 +161,16 @@
 												if ( is_numeric($share['share_to']) ) {
 
 											?>
-										<a href="<?=site_url(User::ID($share['share_to'])->userName)?>" data-tooltip="<?=User::ID($share['share_to'])->fullName?>">
+										<a href="<?=site_url(User::ID($share['share_to'])->userName)?>"
+											data-tooltip="<?=User::ID($share['share_to'])->fullName?>"
+											data-mstatus="user"
+											data-fullname="<?=User::ID($share['share_to'])->fullName?>"
+											data-nameabbr="<?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?>"
+											data-email="<?=User::ID($share['share_to'])->email?>"
+											data-avatar="<?=User::ID($share['share_to'])->userPicUrl?>"
+											data-userid="<?=$share['share_to']?>"
+											data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
+										>
 											<picture class="profile-picture" <?=User::ID($share['share_to'])->printPicture()?>>
 												<span <?=User::ID($share['share_to'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?></span>
 											</picture>
@@ -163,7 +180,16 @@
 												} else {
 
 											?>
-										<a href="#" data-tooltip="<?=$share['share_to']?>">
+										<a href="#"
+											data-tooltip="<?=$share['share_to']?>"
+											data-mstatus="email"
+											data-fullname=""
+											data-nameabbr=""
+											data-email="<?=$share['share_to']?>"
+											data-avatar=""
+											data-userid="<?=$share['share_to']?>"
+											data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
+										>
 											<picture class="profile-picture email">
 												<i class="fa fa-envelope" aria-hidden="true"></i>
 											</picture>
