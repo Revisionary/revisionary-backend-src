@@ -252,10 +252,25 @@ $(function() {
 	});
 
 
-	// Close New Page/Project Modal
-	$('#add-new .cancel-button').on('click', function(e) {
+	// Share Modal
+	$(document).on('click', '.share-button', function(e) {
 
-		closeModal('#add-new');
+		openModal('#share');
+
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
+
+	// Close Modal
+	$('.cancel-button').on('click', function(e) {
+
+		var popup = $(this).closest('.popup-window').attr('id');
+
+		closeModal('#' + popup);
 
 		e.preventDefault();
 		return false;
@@ -478,10 +493,10 @@ $(function() {
 
 			return '\
 				<li class="'+ (!deletable ? 'undeletable' : '') +'">\
-					'+ (deletable ? '<input type="hidden" name="'+type+'_shares[]" value="' + email + '"/>' : '') +'\
+					'+ (deletable ? '<input type="hidden" name="'+type+'_shares[]" value="'+email+'"/>' : '') +'\
 					<span>\
 						'+email+'\
-						<a href="#" class="remove-share" data-type="'+type+' data-value="'+email+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+						<a href="#" class="remove-share" data-type="'+type+'" data-value="'+email+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 					</span>\
 				</li>\
 			';

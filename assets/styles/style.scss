@@ -1068,8 +1068,8 @@ input.share-email {
 
 /* Popup Window */
 .popup-window {
-	position: relative;
-	top: -600px;
+	position: absolute;
+	top: -100vh;
     background-color: white;
     border: 10px solid black;
     padding: 20px 40px 40px;
@@ -1078,7 +1078,7 @@ input.share-email {
     transition: 500ms;
 
     &.active {
-	    top: 0;
+	    top: 5vh;
     }
 
     h2 {
@@ -1220,6 +1220,33 @@ input.share-email {
 		font-size: 18px;
 	}
 
+}
+
+
+.members {
+	list-style-type: none;
+
+	& > .member {
+		margin-bottom: 20px;
+		position: relative;
+
+		.email {
+			//color: #d6d6d6;
+		}
+
+		.remove {
+			position: absolute;
+			right: 0;
+			top: 50%;
+			margin-top: -5px;
+			color: #d6d6d6;
+
+			&:hover {
+				color: $color;
+			}
+		}
+
+	}
 }
 
 

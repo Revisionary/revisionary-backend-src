@@ -3,7 +3,7 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 
 
 // If not logged in, go login page
-if (!userloggedIn()) {
+if ( !userloggedIn() ) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }
@@ -83,12 +83,15 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 
 	// Add the first pages
+	$firstPageAdded = false;
 	if (
 		post('page-url') != "" &&
 		post('page-name') != "" &&
 		is_array(post('devices')) &&
 		count(post('devices')) > 0
 	) {
+
+		$firstPageAdded = true;
 
 		$parent_page_ID = null;
 		$device_count = 0;
@@ -166,16 +169,17 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 
 
-
-
-		}
+		} // Page devices loop
 
 	}
 
 
 
 	if($project_ID) {
-		header('Location: '.site_url('project/'.$project_ID.'#add-first-page'));
+
+		$hash = $firstPageAdded ? "" : "#add-first-page";
+
+		header('Location: '.site_url('project/'.$project_ID.$hash));
 		die();
 	}
 

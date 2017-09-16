@@ -353,3 +353,132 @@
 
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="share" class="popup-window xl-center xl-5-12 scrollable-content">
+	<h2>Share</h2>
+	<h5 class="to">The <b>Youtube</b> Project</h5>
+
+	<form action="" method="post">
+
+		<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
+
+
+
+		<div class="wrap xl-center xl-gutter-8">
+			<div class="col xl-9-10">
+
+				<h4 class="xl-left">Project Members</h4>
+
+
+
+				<ul class="xl-left members">
+
+					<!-- Owner -->
+					<li class="inline-guys member">
+
+						<picture class="profile-picture big" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-1/bill.png);">
+							<span class="has-pic">BT</span>
+						</picture>
+
+						<div>
+							<span class="full-name">Bilal TAS</span>
+							<span class="email">(bilaltas@me.com)</span>
+						</div>
+
+					</li>
+
+					<!-- Shared Person -->
+					<li class="inline-guys member">
+
+						<picture class="profile-picture big" >
+							<span>IE</span>
+						</picture>
+
+						<div>
+							<span class="full-name">Ike Elimsa</span>
+							<span class="email">(ikeelimsa@gmail.com)</span>
+						</div>
+
+						<a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+
+					</li>
+					<li class="inline-guys member">
+
+						<picture class="profile-picture big" >
+							<span><i class="fa fa-user" aria-hidden="true"></i></span>
+						</picture>
+
+						<div>
+<!-- 							<span class="full-name">Bilal TAS</span> -->
+							<span class="email">info@twelve12.com</span>
+						</div>
+
+						<a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+
+					</li>
+					<li class="inline-guys member">
+
+						<picture class="profile-picture big" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-1/bill.png);">
+							<span class="has-pic">BT</span>
+						</picture>
+
+						<div>
+							<span class="full-name">Cuneyt TAS</span>
+							<span class="email">(cuneyttas@hotmail.com.tr)</span>
+						</div>
+
+						<a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+
+					</li>
+				</ul><br/>
+
+
+
+				<!-- Add New -->
+				<input class="share-email" type="email" data-type="page" placeholder='Type an e-mail address and hit "Enter"...' style="max-width: 75%;"/><br/><br/>
+
+
+
+
+
+				<!-- Actions -->
+				<div class="wrap xl-2 xl-center">
+					<div class="col">
+
+
+						<button class="cancel-button light small">Close</button>
+
+
+					</div>
+					<div class="col">
+
+
+						<button class="dark small" disabled>Add</button>
+
+
+					</div>
+				</div>
+				<br/>
+
+
+			</div>
+		</div>
+
+	</form>
+
+
+</div>
