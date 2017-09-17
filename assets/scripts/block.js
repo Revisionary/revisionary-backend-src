@@ -491,90 +491,42 @@ $(function() {
 		console.log(memberID, objectID);
 
 
-		// AJAX Send data
-		$.post(ajax_url, {
+		if ( confirm('Are you sure you want to unshare?') ) {
 
-			'type'		: 'unshare',
-			'data-type'	: dataType,
-			'nonce'		: nonce,
-			'object_ID'	: objectID,
-			'user_ID'	: memberID
+			// AJAX Send data
+			$.post(ajax_url, {
 
-		}, function(result){
+				'type'		: 'unshare',
+				'data-type'	: dataType,
+				'nonce'		: nonce,
+				'object_ID'	: objectID,
+				'user_ID'	: memberID
 
-			$.each(result.data, function(key, data){
+			}, function(result){
 
+				$.each(result.data, function(key, data){
 
-				console.log(key, data);
+					console.log(key, data);
 
-				// If member is unshared
-				if ( data.status == "unshared" ) {
+					// If member is unshared
+					if ( data.status == "unshared" ) {
 
-					// Remove the member
-					member.remove();
-
-
-					// Remove from box people
-					$('.block[data-id="'+objectID+'"] .people a[data-userid="'+memberID+'"]').remove();
-					$('.block[data-id="'+objectID+'"] .people a[data-email="'+memberID+'"]').remove();
-
-				}
+						// Remove the member
+						member.remove();
 
 
-/*
-				// If user added
-				if ( data.status == "user-added" ) {
+						// Remove from box people
+						$('.block[data-id="'+objectID+'"] .people a[data-userid="'+memberID+'"]').remove();
+						$('.block[data-id="'+objectID+'"] .people a[data-email="'+memberID+'"]').remove();
 
-					// Add to members
-					$('#share .members').append(
-						memberTemplate('user', input.val(), data.user_fullname, data.user_nameabbr, data.user_avatar, data.user_ID, "", objectID)
-					);
+					}
 
 
-					// Add to the box
-					theBox.find('.people').append(
-						memberTemplateSmall('user', input.val(), data.user_fullname, data.user_nameabbr, data.user_avatar, data.user_ID, "")
-					);
+				});
 
+			}, 'json');
 
-					input.removeClass('error');
-					input.val('');
-
-				} else if ( data.status == "email-added" ) {
-
-					// Add to members
-					$('#share .members').append(
-						memberTemplate('email', input.val(), '', '', '', '', '', objectID)
-					);
-
-
-					// Add to the box
-					theBox.find('.people').append(
-						memberTemplateSmall('email', input.val(), '', '', '', '', '')
-					);
-
-
-					input.removeClass('error');
-					input.val('');
-
-				} else if ( data.status == "invalid-email" ) {
-
-					input.addClass('error');
-
-				} else {
-
-					input.addClass(data.status);
-
-				}
-*/
-
-				//input.prop('disabled', false);
-
-			});
-
-		}, 'json');
-
-
+		}
 
 
 

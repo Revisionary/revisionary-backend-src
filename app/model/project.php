@@ -121,7 +121,7 @@ function the_data() {
 		if ( $project['user_ID'] != currentUserID() && $projectSharedID !== false ) {
 
 			// Show everything belong to sharer
-			$db->where('(user_ID = '.$projectShares[$projectSharedID]['sharer_user_ID'].' OR user_ID = '.currentUserID().')');
+			$db->where('(user_ID = '.$projectShares[$projectSharedID]['sharer_user_ID'].' OR user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
 
 		} else { // If the project is current user's or shared to him, or he has his own pages in it
 
