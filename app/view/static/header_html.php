@@ -46,6 +46,7 @@
 		<script>
 			var ajax_url = '<?=site_url('ajax')?>';
 			var nonce = '<?=$_SESSION["js_nonce"]?>';
+			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
 		</script>
 
 		<link rel="icon" href="<?=asset_url('images/revisionary-icon.png')?>" sizes="32x32">

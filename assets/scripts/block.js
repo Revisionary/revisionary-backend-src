@@ -75,7 +75,6 @@ $(function() {
 
 
 
-
 	// ACTIONS
 	$('.actions a').click(function(e) {
 
@@ -252,39 +251,65 @@ $(function() {
 	});
 
 
+
+	function memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable, objectID) {
+
+		var hasPic = 'class="has-pic"';
+		var printPic = 'style="background-image: url('+userImageUrl+');"';
+
+		if (mStatus != 'email' ) email = '('+email+')';
+		if (mStatus == 'email' ) nameabbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
+		if (mStatus == 'email' ) userId = email;
+		if (userImageUrl == "") hasPic = printPic = "";
+
+		return '\
+			<li class="inline-guys member '+mStatus+' '+unremoveable+'">\
+				<picture class="profile-picture big" '+printPic+'>\
+					<span '+hasPic+'>'+nameabbr+'</span>\
+				</picture>\
+				<div>\
+					<span class="full-name">'+fullName+'</span>\
+					<span class="email">'+email+'</span>\
+				</div>\
+				<a href="#" class="remove remove-member" data-userid="'+userId+'" data-id="'+objectID+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+			</li>\
+		';
+
+	}
+
+	function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable) {
+
+		var hasPic = 'class="has-pic"';
+		var printPic = 'style="background-image: url('+userImageUrl+');"';
+
+		if (userImageUrl == "") hasPic = printPic = "";
+
+		return '\
+			<a href="#" data-tooltip="'+(mStatus == 'email' ? email : fullName)+'" data-mstatus="'+mStatus+'" data-fullname="'+fullName+'" data-nameabbr="'+nameabbr+'" data-email="'+email+'" data-avatar="'+userImageUrl+'" data-userid="'+userId+'" data-unremoveable="'+unremoveable+'">\
+				<picture class="profile-picture" '+printPic+'>\
+					<span '+hasPic+'>'+(mStatus == 'email' ? '<i class="fa fa-envelope" aria-hidden="true"></i>' : nameabbr)+'</span>\
+				</picture>\
+			</a>\
+		';
+
+	}
+
+
+
 	// Share Modal
 	$(document).on('click', '.share-button', function(e) {
 
 		var theBox = $(this).parent().parent().parent().parent();
 		var boxName = theBox.find('.name').text();
+		var objectID = theBox.attr('data-id');
 
 
 		// Change the name
 		$('#share .to > b').text(boxName);
 
 
-		function memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable) {
-
-			var hasPic = 'class="has-pic"';
-
-			if (mStatus != 'email' ) email = '('+email+')';
-			if (mStatus == 'email' ) nameabbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
-			if (userImageUrl == "") hasPic = "";
-
-			return '\
-				<li class="inline-guys member '+mStatus+' '+unremoveable+'">\
-					<picture class="profile-picture big" style="background-image: url('+userImageUrl+');">\
-						<span '+hasPic+'>'+nameabbr+'</span>\
-					</picture>\
-					<div>\
-						<span class="full-name">'+fullName+'</span>\
-						<span class="email">'+email+'</span>\
-					</div>\
-					<a href="#" class="remove remove-member" data-userid="'+userId+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
-				</li>\
-			';
-
-		}
+		// Add the ID
+		$('.share-email').attr('data-id', objectID);
 
 
 		// Remove the old people
@@ -304,7 +329,7 @@ $(function() {
 
 
 			$('#share .members').append(
-				memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable)
+				memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable, objectID)
 			);
 
 		});
@@ -334,6 +359,227 @@ $(function() {
 			$('#share button.add-member').prop('disabled', true);
 
 		}
+
+	});
+
+
+
+
+	function addShare(element) {
+
+		var input = element;
+		var type = element.attr('data-type');
+		var objectID = element.attr('data-id');
+		var theBox = $('.block[data-id="'+objectID+'"]');
+		var memberList = $('.members');
+
+
+
+	    input.prop('disabled', true);
+
+	    console.log(type, nonce, objectID, input.val());
+
+
+		// AJAX Send data
+		$.post(ajax_url, {
+
+			'type'		: 'share',
+			'data-type'	: type,
+			'nonce'		: nonce,
+			'object_ID'	: objectID,
+			'email'		: input.val()
+
+		}, function(result){
+
+			$.each(result.data, function(key, data){
+
+
+				console.log(key, data);
+
+
+				// If user added
+				if ( data.status == "user-added" ) {
+
+					// Add to members
+					$('#share .members').append(
+						memberTemplate('user', input.val(), data.user_fullname, data.user_nameabbr, data.user_avatar, data.user_ID, "", objectID)
+					);
+
+
+					// Add to the box
+					theBox.find('.people').append(
+						memberTemplateSmall('user', input.val(), data.user_fullname, data.user_nameabbr, data.user_avatar, data.user_ID, "")
+					);
+
+
+					input.removeClass('error');
+					input.val('');
+
+				} else if ( data.status == "email-added" ) {
+
+					// Add to members
+					$('#share .members').append(
+						memberTemplate('email', input.val(), '', '', '', '', '', objectID)
+					);
+
+
+					// Add to the box
+					theBox.find('.people').append(
+						memberTemplateSmall('email', input.val(), '', '', '', '', '')
+					);
+
+
+					input.removeClass('error');
+					input.val('');
+
+				} else if ( data.status == "invalid-email" ) {
+
+					input.addClass('error');
+
+				} else {
+
+					input.addClass(data.status);
+
+				}
+
+				input.prop('disabled', false);
+
+			});
+
+		}, 'json');
+
+
+    }
+
+
+
+
+	// Add Member Button
+	$('.add-member').on('click', function(e) {
+
+		addShare( $('#share-email') );
+
+		e.preventDefault();
+		return false;
+	});
+
+
+	// Add new member
+	$('.share-email').keydown(function (e){
+
+
+	    if(e.keyCode == 13) {
+
+			addShare( $(this) );
+
+		    e.preventDefault();
+		    return false;
+	    }
+
+	});
+
+
+
+	// Unshare Member
+	$(document).on('click', '.remove-member', function(e) {
+
+		var member = $(this).parent();
+		var memberID = $(this).attr('data-userid');
+		var objectID = $(this).attr('data-id');
+
+
+		console.log(memberID, objectID);
+
+
+		// AJAX Send data
+		$.post(ajax_url, {
+
+			'type'		: 'unshare',
+			'data-type'	: dataType,
+			'nonce'		: nonce,
+			'object_ID'	: objectID,
+			'user_ID'	: memberID
+
+		}, function(result){
+
+			$.each(result.data, function(key, data){
+
+
+				console.log(key, data);
+
+				// If member is unshared
+				if ( data.status == "unshared" ) {
+
+					// Remove the member
+					member.remove();
+
+
+					// Remove from box people
+					$('.block[data-id="'+objectID+'"] .people a[data-userid="'+memberID+'"]').remove();
+					$('.block[data-id="'+objectID+'"] .people a[data-email="'+memberID+'"]').remove();
+
+				}
+
+
+/*
+				// If user added
+				if ( data.status == "user-added" ) {
+
+					// Add to members
+					$('#share .members').append(
+						memberTemplate('user', input.val(), data.user_fullname, data.user_nameabbr, data.user_avatar, data.user_ID, "", objectID)
+					);
+
+
+					// Add to the box
+					theBox.find('.people').append(
+						memberTemplateSmall('user', input.val(), data.user_fullname, data.user_nameabbr, data.user_avatar, data.user_ID, "")
+					);
+
+
+					input.removeClass('error');
+					input.val('');
+
+				} else if ( data.status == "email-added" ) {
+
+					// Add to members
+					$('#share .members').append(
+						memberTemplate('email', input.val(), '', '', '', '', '', objectID)
+					);
+
+
+					// Add to the box
+					theBox.find('.people').append(
+						memberTemplateSmall('email', input.val(), '', '', '', '', '')
+					);
+
+
+					input.removeClass('error');
+					input.val('');
+
+				} else if ( data.status == "invalid-email" ) {
+
+					input.addClass('error');
+
+				} else {
+
+					input.addClass(data.status);
+
+				}
+*/
+
+				//input.prop('disabled', false);
+
+			});
+
+		}, 'json');
+
+
+
+
+
+		e.preventDefault();
+		return false;
 
 	});
 

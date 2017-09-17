@@ -453,7 +453,7 @@
 
 
 				<!-- Add New -->
-				<input class="share-email" type="email" data-type="page" placeholder='Type an e-mail address and hit "Enter"...' style="max-width: 75%;"/><br/><br/>
+				<input id="share-email" class="share-email" type="email" data-type="<?=$dataType?>" data-id="" placeholder='Type an e-mail address and hit "Enter"...' style="max-width: 75%;"/><br/><br/>
 
 
 

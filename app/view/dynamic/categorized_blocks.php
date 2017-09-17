@@ -128,6 +128,7 @@
 											data-email="<?=User::ID($block['user_ID'])->email?>"
 											data-avatar="<?=User::ID($block['user_ID'])->userPicUrl?>"
 											data-userid="<?=$block['user_ID']?>"
+											data-unremoveable="unremoveable"
 										>
 											<picture class="profile-picture" <?=User::ID($block['user_ID'])->printPicture()?>>
 												<span <?=User::ID($block['user_ID'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($block['user_ID'])->firstName, 0, 1).substr(User::ID($block['user_ID'])->lastName, 0, 1)?></span>
