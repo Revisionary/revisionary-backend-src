@@ -294,8 +294,6 @@ $(function() {
 		// Add the people
 		theBox.find('.people > a').each(function(i, member) {
 
-			console.log(i, member);
-
 			var mStatus = $(member).attr('data-mstatus');
 			var email = $(member).attr('data-email');
 			var fullName = $(member).attr('data-fullname');

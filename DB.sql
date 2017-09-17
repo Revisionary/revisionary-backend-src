@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 16, 2017 at 05:43 PM
+-- Generation Time: Sep 17, 2017 at 11:55 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.8
 
@@ -55,7 +55,8 @@ INSERT INTO `categories` (`cat_ID`, `cat_name`, `cat_type`, `cat_user_ID`) VALUE
 (2, 'Twelve12 Related', 'project', 1),
 (3, 'Main Pages', '12', 1),
 (4, 'Portfolio Pages', '12', 1),
-(5, 'Blog Pages', '12', 1);
+(5, 'Blog Pages', '12', 1),
+(6, 'Main Sayfalar', '13', 1);
 
 -- --------------------------------------------------------
 
@@ -244,7 +245,9 @@ INSERT INTO `page_cat_connect` (`page_cat_connect_ID`, `page_cat_page_ID`, `page
 (16, 87, 4, 1),
 (17, 88, 4, 1),
 (18, 89, 5, 1),
-(19, 90, 5, 1);
+(19, 90, 5, 1),
+(24, 51, 6, 1),
+(25, 77, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -302,20 +305,20 @@ CREATE TABLE `project_cat_connect` (
 --
 
 INSERT INTO `project_cat_connect` (`project_cat_connect_ID`, `project_cat_project_ID`, `project_cat_ID`, `project_cat_connect_user_ID`) VALUES
-(283, 5, 1, 1),
-(284, 13, 1, 1),
-(285, 11, 1, 1),
-(286, 12, 2, 1),
-(287, 14, 2, 1),
-(288, 16, 2, 1),
-(289, 17, 2, 1),
-(290, 21, 2, 1),
-(291, 18, 2, 1),
-(292, 19, 2, 1),
-(293, 20, 2, 1),
-(294, 15, 2, 1),
-(295, 24, 2, 1),
-(296, 23, 2, 1);
+(463, 5, 1, 1),
+(464, 11, 1, 1),
+(465, 13, 1, 1),
+(466, 12, 2, 1),
+(467, 14, 2, 1),
+(468, 16, 2, 1),
+(469, 17, 2, 1),
+(470, 21, 2, 1),
+(471, 18, 2, 1),
+(472, 19, 2, 1),
+(473, 20, 2, 1),
+(474, 15, 2, 1),
+(475, 24, 2, 1),
+(476, 23, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -385,12 +388,14 @@ CREATE TABLE `shares` (
 
 INSERT INTO `shares` (`share_ID`, `share_type`, `shared_object_ID`, `share_to`, `sharer_user_ID`) VALUES
 (3, 'project', 23, '4', 1),
-(4, 'project', 23, '5', 1),
+(4, 'project', 23, '5', 2),
 (5, 'page', 79, '5', 1),
 (6, 'page', 80, '5', 1),
 (7, 'page', 81, '5', 1),
 (8, 'page', 83, '4', 1),
-(9, 'page', 84, '4', 1);
+(9, 'page', 84, '4', 1),
+(10, 'project', 23, '6', 1),
+(11, 'project', 23, 'test@gmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -415,7 +420,6 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (24, 'project', 13, 1, 5),
 (273, 'page', 75, 1, 1),
 (274, 'page', 76, 1, 1),
-(275, 'page', 77, 1, 1),
 (276, 'page', 78, 1, 1),
 (277, 'page', 79, 2, 1),
 (278, 'page', 80, 2, 1),
@@ -434,27 +438,30 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (307, 'page', 89, 1, 1),
 (308, 'page', 90, 2, 1),
 (330, 'page', 91, 1, 1),
-(373, 'category', 0, 0, 1),
-(374, 'project', 1, 1, 1),
-(375, 'project', 2, 2, 1),
-(376, 'project', 3, 3, 1),
-(377, 'project', 4, 4, 1),
-(378, 'category', 1, 5, 1),
-(379, 'project', 5, 6, 1),
-(380, 'project', 13, 7, 1),
-(381, 'project', 11, 8, 1),
-(382, 'category', 2, 9, 1),
-(383, 'project', 12, 10, 1),
-(384, 'project', 14, 11, 1),
-(385, 'project', 16, 12, 1),
-(386, 'project', 17, 13, 1),
-(387, 'project', 21, 14, 1),
-(388, 'project', 18, 15, 1),
-(389, 'project', 19, 16, 1),
-(390, 'project', 20, 17, 1),
-(391, 'project', 15, 18, 1),
-(392, 'project', 24, 19, 1),
-(393, 'project', 23, 20, 1);
+(403, 'category', 6, 1, 1),
+(404, 'page', 51, 2, 1),
+(405, 'page', 77, 3, 1),
+(595, 'category', 0, 0, 1),
+(596, 'project', 1, 1, 1),
+(597, 'project', 2, 2, 1),
+(598, 'project', 4, 3, 1),
+(599, 'project', 3, 4, 1),
+(600, 'category', 1, 5, 1),
+(601, 'project', 5, 6, 1),
+(602, 'project', 11, 7, 1),
+(603, 'project', 13, 8, 1),
+(604, 'category', 2, 9, 1),
+(605, 'project', 12, 10, 1),
+(606, 'project', 14, 11, 1),
+(607, 'project', 16, 12, 1),
+(608, 'project', 17, 13, 1),
+(609, 'project', 21, 14, 1),
+(610, 'project', 18, 15, 1),
+(611, 'project', 19, 16, 1),
+(612, 'project', 20, 17, 1),
+(613, 'project', 15, 18, 1),
+(614, 'project', 24, 19, 1),
+(615, 'project', 23, 20, 1);
 
 -- --------------------------------------------------------
 
@@ -484,7 +491,8 @@ INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `use
 (2, 'ike', 'ike@twelve12.com', '$2y$10$UcoctpiTNtf9grzFmz53lut7X4l3EBspRC4xz/Qn/qJ1VWWIq81n.', 'Ike', 'Elimsa', 'ike.png', 0, '2017-06-17 22:28:00', 4),
 (3, 'sara', 'sara@twelve12.com', '$2y$10$UcoctpiTNtf9grzFmz53lut7X4l3EBspRC4xz/Qn/qJ1VWWIq81n.', 'Sara', 'Atalay', 'sara.png', 0, '2017-06-17 22:28:00', 3),
 (4, 'matt', 'metin@twelve12.com', '$2y$10$UcoctpiTNtf9grzFmz53lut7X4l3EBspRC4xz/Qn/qJ1VWWIq81n.', 'Matt', 'Pasaoglu', 'matt.png', 0, '2017-06-18 13:51:00', 2),
-(5, 'cuneyt', 'cuneyt@twelve12.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Cuneyt', 'Tas', 'joey.png', 0, '2017-06-25 09:28:07', 2);
+(5, 'cuneyt', 'cuneyt@twelve12.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Cuneyt', 'Tas', 'joey.png', 0, '2017-06-25 09:28:07', 2),
+(6, 'serdar-kiziltepe', 'serdar.kiziltepe@gmail.com', '$2y$10$xOHRtNIOyPEQ9zo/LdN.NuKeCrDPvu51bRczoHbbD4h13Jz..ZD6e', 'Serdar', 'Kiziltepe', NULL, 0, '2017-09-16 19:57:18', 2);
 
 -- --------------------------------------------------------
 
@@ -656,17 +664,17 @@ ALTER TABLE `versions`
 -- AUTO_INCREMENT for table `archives`
 --
 ALTER TABLE `archives`
-  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -686,7 +694,7 @@ ALTER TABLE `pages`
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
 ALTER TABLE `page_cat_connect`
-  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT for table `projects`
 --
@@ -696,7 +704,7 @@ ALTER TABLE `projects`
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=297;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=477;
 --
 -- AUTO_INCREMENT for table `queues`
 --
@@ -706,17 +714,17 @@ ALTER TABLE `queues`
 -- AUTO_INCREMENT for table `shares`
 --
 ALTER TABLE `shares`
-  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=394;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=616;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `user_levels`
 --
