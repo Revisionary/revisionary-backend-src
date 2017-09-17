@@ -46,9 +46,10 @@ function wait(ms) {
  *     False launches a full version of Chrome.
  * @return {Promise<ChromeLauncher>}
  */
-function launchChrome(headless = false) {
+function launchChrome(headless = true) {
   return chromeLauncher.launch({
 	//chromePath: "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome", // Activate and change this if you have more than one type of Chrome
+	chromePath: "/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary", // Activate and change this if you have more than one type of Chrome
 	port: 9222, // Uncomment to force a specific port of your choice.
 	chromeFlags: [
 		//'--window-size='+viewportWidth+','+viewportHeight,

@@ -18,14 +18,14 @@
 <div class="wrap xl-flexbox xl-middle xl-3">
 	<div class="col xl-left">
 		<?php
-		if ($title == "pages") {
+		if ($title == "pages" || ($title == "projects" && ($catFilter == "archived" || $catFilter == "deleted"))) {
 
 			$goBackLink = $catFilter == "archived" || $catFilter == "deleted" ? site_url($url_prefix) : site_url('projects');
 
 		?>
 
 		<!-- Return to projects -->
-		<a href="<?=$goBackLink?>" class="invert-hover" style="letter-spacing: 2.5px;">< PROJECT<?=$catFilter == "archived" || $catFilter == "deleted" ? "" : "S"?></a>
+		<a href="<?=$goBackLink?>" class="invert-hover" style="letter-spacing: 2.5px;">< PROJECT<?=$catFilter == "archived" || $catFilter == "deleted" ? "" : "S"?><?=$title == "projects" ? "S" : ""?></a>
 
 		<?php
 		}
