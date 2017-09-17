@@ -157,7 +157,7 @@ class Internalize_v2 {
 		// Process directories - NodeJS - Chrome
 		$nodejs = bindir."/nodejs-mac/bin/node";
 		$scriptFile = dir."/app/bgprocess/chrome.js";
-		$process_string = "$nodejs $scriptFile --url=$url --viewportWidth=$width --viewportHeight=$height --pageScreenshot=$page_image --projectScreenshot=$project_image --htmlFile=$htmlFile --resourcesFile=$resourcesFile --logDir=$logDir";
+		$process_string = "$nodejs $scriptFile --url=$url --viewportWidth=$width --viewportHeight=$height --pageScreenshot=$page_image --projectScreenshot=$project_image --htmlFile=$htmlFile --resourcesFile=$resourcesFile --logDir=$logDir --delay=1000";
 
 
 		// Do the process

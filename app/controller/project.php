@@ -38,6 +38,28 @@ $db->where('shared_object_ID', $_url[1]);
 // Project shares data
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
+//var_dump($projectShares); die();
+
+
+
+// Check if any my pages in the project
+
+// Bring the shared ones
+$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
+$db->joinWhere("shares s", "s.share_type", "page");
+$db->joinWhere("shares s", "s.share_to", currentUserID());
+
+// Ony my pages or shared to me
+$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+
+// Exclude the other projects
+$db->where('project_ID', $_url[1]);
+
+// My pages in this project
+$allMyPages = $db->get('pages p');
+
+//var_dump($allMyPages); die();
+
 
 
 // Get the project ID
@@ -67,65 +89,17 @@ print_r($theCategorizedData); exit();
 */
 
 
-// If project doesn't belong to me
+// SECURITY CHECK
+// If project doesn't belong to me and if no page belong to me
 if (
-	$project['user_ID'] != currentUserID() &&
-	array_search(currentUserID(), array_column($projectShares, 'share_to')) === false
+	$project['user_ID'] != currentUserID() && // If the project isn't belong to me
+	array_search(currentUserID(), array_column($projectShares, 'share_to')) === false && // And, if the project isn't shared to me
+	count($allMyPages) == 0 // And, if there is no my page in it
 ) {
 
-
-	// Collect all the pages data
-	$allPages = array();
-	foreach ($theCategorizedData as $category) {
-		foreach ($category['theData'] as $page) {
-
-			$allPages[] = $page;
-
-		}
-	}
-
-
-	// Check if any my page
-	$myPages = false;
-	if (
-		array_search(currentUserID(), array_column($allPages, 'user_ID')) !== false
-	) $myPages = true;
-
-
-	// Check if any my shared page
-	$sharedPages = false;
-	if (
-		array_search(currentUserID(), array_column($allPages, 'share_to')) !== false
-	) $sharedPages = true;
-
-
-	// Check if any my archived page
-	$archivedPages = false;
-	if (
-		array_search(currentUserID(), array_column($allPages, 'archiver_user_ID')) !== false
-	) $archivedPages = true;
-
-
-	// Check if any my deleted page
-	$deletedPages = false;
-	if (
-		array_search(currentUserID(), array_column($allPages, 'deleter_user_ID')) !== false
-	) $deletedPages = true;
-
-
-	// Check if here is archived or deleted pages
-	$archivePages = false;
-	if ($catFilter == "archived" || $catFilter == "deleted")
-		$archivePages = true;
-
-
-	// Otherwise !!!
-	if (!$myPages && !$sharedPages && !$archivedPages && !$deletedPages && !$archivePages) {
-
-		header('Location: '.site_url('projects'));
-		die();
-
-	}
+	// Redirect to "Projects" page
+	header('Location: '.site_url('projects'));
+	die();
 
 }
 

@@ -31,6 +31,7 @@ function the_data() {
 	if ($order == "date") $db->orderBy("cat_name", "asc");
 
 
+	// The Page Categories array
 	$pageCategories = $db->get('categories catt', null, '');
 
 
@@ -112,21 +113,17 @@ function the_data() {
 			$db->where('user_ID != '.currentUserID());
 
 
-		// If project is not belong to current user
-		if ( $project['user_ID'] != currentUserID() ) {
+		// True if project is shared to current user
+		$projectSharedID = array_search(currentUserID(), array_column($projectShares, 'share_to'));
 
 
-			// Project is shared to current user
-			$projectSharedID = array_search(currentUserID(), array_column($projectShares, 'share_to'));
-			if (  $projectSharedID !== false ) {
+		// If project is not belong to current user and is shared to him
+		if ( $project['user_ID'] != currentUserID() && $projectSharedID !== false ) {
 
-				// Show everything belong to sharer
-				$db->where('(user_ID = '.$projectShares[$projectSharedID]['sharer_user_ID'].' OR user_ID = '.currentUserID().')');
+			// Show everything belong to sharer
+			$db->where('(user_ID = '.$projectShares[$projectSharedID]['sharer_user_ID'].' OR user_ID = '.currentUserID().')');
 
-			}
-
-
-		} else { // If the project is current user's or shared to him
+		} else { // If the project is current user's or shared to him, or he has his own pages in it
 
 			// Show only current user's
 			$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');

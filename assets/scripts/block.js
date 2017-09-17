@@ -307,9 +307,6 @@ $(function() {
 				memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable)
 			);
 
-
-
-
 		});
 
 

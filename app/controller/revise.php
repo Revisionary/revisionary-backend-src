@@ -152,8 +152,7 @@ $db->where('queue_type', 'internalize');
 $db->where('queue_object_ID', $page_ID);
 
 
-$db->where('queue_status', 'working');
-$db->orWhere('queue_status', 'waiting');
+$db->where("(queue_status = 'working' OR queue_status = 'waiting')");
 
 
 $existing_queue = $db->get('queues');
