@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 17, 2017 at 11:55 AM
+-- Generation Time: Sep 18, 2017 at 06:20 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.8
 
@@ -216,7 +216,10 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_user`
 (88, 'GM Properties', 'page.jpg', 'https://www.twelve12.com/project/gm-properties/', NULL, NULL, '2017-08-27 18:17:57', '2017-08-27 18:18:12', 12, 4, NULL, 1),
 (89, 'Blog 1', 'page.jpg', 'http://www.twelve12.com/blog/branding/brand-way-box/', NULL, NULL, '2017-08-27 18:20:02', '2017-08-27 18:20:13', 12, 4, NULL, 1),
 (90, 'Blog 2', 'page.jpg', 'http://www.twelve12.com/blog/branding/defining-brand-twelve12/', NULL, NULL, '2017-08-27 18:20:18', '2017-08-27 18:20:39', 12, 4, NULL, 1),
-(91, 'Vampire New Home', 'page.jpg', 'https://www.vampiretools.com/', NULL, NULL, '2017-08-29 12:13:51', '2017-08-29 12:14:07', 24, 4, NULL, 1);
+(91, 'Vampire New Home', 'page.jpg', 'https://www.vampiretools.com/', NULL, NULL, '2017-08-29 12:13:51', '2017-08-29 12:14:07', 24, 4, NULL, 1),
+(107, 'RF Home', 'page.jpg', 'http://recordfixer.twelve12.com/', NULL, NULL, '2017-09-17 13:42:34', '2017-09-17 13:42:40', 27, 4, NULL, 1),
+(108, 'About', 'page.jpg', 'http://recordfixer.twelve12.com/about/', NULL, NULL, '2017-09-17 13:44:47', '2017-09-17 13:44:54', 27, 4, NULL, 1),
+(109, 'Contact', 'page.jpg', 'http://recordfixer.twelve12.com/contact/', NULL, NULL, '2017-09-17 13:47:12', '2017-09-17 13:47:18', 27, 4, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -285,7 +288,8 @@ INSERT INTO `projects` (`project_ID`, `project_name`, `project_pic`, `project_cr
 (20, 'Juniper Cleaning', 'proj.jpg', '2017-08-26 18:18:42', 1),
 (21, 'Cloud Compli', 'proj.jpg', '2017-08-26 18:44:02', 1),
 (23, 'Jova Digital', 'proj.jpg', '2017-08-26 20:49:41', 1),
-(24, 'Vampire Tools', 'proj.jpg', '2017-08-29 12:13:23', 1);
+(24, 'Vampire Tools', 'proj.jpg', '2017-08-29 12:13:23', 1),
+(27, 'Record Fixer', 'proj.jpg', '2017-09-17 13:42:13', 1);
 
 -- --------------------------------------------------------
 
@@ -305,20 +309,21 @@ CREATE TABLE `project_cat_connect` (
 --
 
 INSERT INTO `project_cat_connect` (`project_cat_connect_ID`, `project_cat_project_ID`, `project_cat_ID`, `project_cat_connect_user_ID`) VALUES
-(463, 5, 1, 1),
-(464, 11, 1, 1),
-(465, 13, 1, 1),
-(466, 12, 2, 1),
-(467, 14, 2, 1),
-(468, 16, 2, 1),
-(469, 17, 2, 1),
-(470, 21, 2, 1),
-(471, 18, 2, 1),
-(472, 19, 2, 1),
-(473, 20, 2, 1),
-(474, 15, 2, 1),
-(475, 24, 2, 1),
-(476, 23, 2, 1);
+(559, 5, 1, 1),
+(560, 11, 1, 1),
+(561, 13, 1, 1),
+(562, 12, 2, 1),
+(563, 14, 2, 1),
+(564, 17, 2, 1),
+(565, 16, 2, 1),
+(566, 21, 2, 1),
+(567, 18, 2, 1),
+(568, 19, 2, 1),
+(569, 20, 2, 1),
+(570, 15, 2, 1),
+(571, 24, 2, 1),
+(572, 23, 2, 1),
+(573, 27, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -366,7 +371,25 @@ INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, 
 (103, 'internalize', 89, 31247, 'done', '2017-08-27 18:20:26', '2017-08-27 18:20:02', 'Internalization is complete.', 1),
 (104, 'internalize', 90, 31286, 'done', '2017-08-27 18:20:53', '2017-08-27 18:20:18', 'Internalization is complete.', 1),
 (105, 'internalize', 91, 5645, 'done', '2017-08-29 12:14:21', '2017-08-29 12:13:51', 'Internalization is complete.', 1),
-(106, 'internalize', 92, 4995, 'done', '2017-08-30 20:50:27', '2017-08-30 20:50:09', 'Internalization is complete.', 1);
+(106, 'internalize', 92, 4995, 'done', '2017-08-30 20:50:27', '2017-08-30 20:50:09', 'Internalization is complete.', 1),
+(107, 'internalize', 92, 24561, 'done', '2017-09-17 11:26:53', '2017-09-17 11:26:37', 'Internalization is complete.', 1),
+(108, 'internalize', 93, 24563, 'done', '2017-09-17 11:27:15', '2017-09-17 11:26:37', 'Internalization is complete.', 1),
+(109, 'internalize', 94, 24565, 'done', '2017-09-17 11:27:30', '2017-09-17 11:26:37', 'Internalization is complete.', 1),
+(110, 'internalize', 95, 24567, 'done', '2017-09-17 11:28:03', '2017-09-17 11:26:37', 'Internalization is complete.', 1),
+(111, 'internalize', 96, 24569, 'done', '2017-09-17 11:28:19', '2017-09-17 11:26:37', 'Internalization is complete.', 1),
+(112, 'internalize', 97, 25056, 'done', '2017-09-17 11:34:44', '2017-09-17 11:34:29', 'Internalization is complete.', 1),
+(113, 'internalize', 98, 25058, 'done', '2017-09-17 11:35:00', '2017-09-17 11:34:29', 'Internalization is complete.', 1),
+(114, 'internalize', 99, 25060, 'done', '2017-09-17 11:35:12', '2017-09-17 11:34:29', 'Internalization is complete.', 1),
+(115, 'internalize', 100, 25062, 'done', '2017-09-17 11:35:25', '2017-09-17 11:34:29', 'Internalization is complete.', 1),
+(116, 'internalize', 101, 25064, 'done', '2017-09-17 11:35:44', '2017-09-17 11:34:29', 'Internalization is complete.', 1),
+(117, 'internalize', 102, 25322, 'done', '2017-09-17 11:37:51', '2017-09-17 11:37:38', 'Internalization is complete.', 1),
+(118, 'internalize', 103, 25324, 'done', '2017-09-17 11:38:39', '2017-09-17 11:37:38', 'Internalization is complete.', 1),
+(119, 'internalize', 104, 25463, 'done', '2017-09-17 11:41:19', '2017-09-17 11:41:04', 'Internalization is complete.', 1),
+(120, 'internalize', 105, 25598, 'done', '2017-09-17 11:44:02', '2017-09-17 11:43:45', 'Internalization is complete.', 1),
+(121, 'internalize', 106, 26842, 'done', '2017-09-17 13:34:28', '2017-09-17 13:34:14', 'Internalization is complete.', 1),
+(122, 'internalize', 107, 27127, 'done', '2017-09-17 13:42:48', '2017-09-17 13:42:34', 'Internalization is complete.', 1),
+(123, 'internalize', 108, 27514, 'done', '2017-09-17 13:45:02', '2017-09-17 13:44:47', 'Internalization is complete.', 1),
+(124, 'internalize', 109, 27544, 'done', '2017-09-17 13:47:27', '2017-09-17 13:47:12', 'Internalization is complete.', 1);
 
 -- --------------------------------------------------------
 
@@ -378,7 +401,7 @@ CREATE TABLE `shares` (
   `share_ID` bigint(20) NOT NULL,
   `share_type` varchar(10) NOT NULL,
   `shared_object_ID` bigint(20) NOT NULL,
-  `share_to` varchar(20) NOT NULL,
+  `share_to` varchar(100) NOT NULL,
   `sharer_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -395,7 +418,9 @@ INSERT INTO `shares` (`share_ID`, `share_type`, `shared_object_ID`, `share_to`, 
 (8, 'page', 83, '4', 1),
 (9, 'page', 84, '4', 1),
 (10, 'project', 23, '6', 1),
-(11, 'project', 23, 'test@gmail.com', 1);
+(11, 'project', 23, 'test@gmail.com', 1),
+(57, 'page', 50, '6', 2),
+(58, 'project', 12, '6', 1);
 
 -- --------------------------------------------------------
 
@@ -441,27 +466,31 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (403, 'category', 6, 1, 1),
 (404, 'page', 51, 2, 1),
 (405, 'page', 77, 3, 1),
-(595, 'category', 0, 0, 1),
-(596, 'project', 1, 1, 1),
-(597, 'project', 2, 2, 1),
-(598, 'project', 4, 3, 1),
-(599, 'project', 3, 4, 1),
-(600, 'category', 1, 5, 1),
-(601, 'project', 5, 6, 1),
-(602, 'project', 11, 7, 1),
-(603, 'project', 13, 8, 1),
-(604, 'category', 2, 9, 1),
-(605, 'project', 12, 10, 1),
-(606, 'project', 14, 11, 1),
-(607, 'project', 16, 12, 1),
-(608, 'project', 17, 13, 1),
-(609, 'project', 21, 14, 1),
-(610, 'project', 18, 15, 1),
-(611, 'project', 19, 16, 1),
-(612, 'project', 20, 17, 1),
-(613, 'project', 15, 18, 1),
-(614, 'project', 24, 19, 1),
-(615, 'project', 23, 20, 1);
+(645, 'page', 107, 1, 1),
+(646, 'page', 108, 2, 1),
+(647, 'page', 109, 3, 1),
+(714, 'category', 0, 0, 1),
+(715, 'project', 1, 1, 1),
+(716, 'project', 2, 2, 1),
+(717, 'project', 4, 3, 1),
+(718, 'project', 3, 4, 1),
+(719, 'category', 1, 5, 1),
+(720, 'project', 5, 6, 1),
+(721, 'project', 11, 7, 1),
+(722, 'project', 13, 8, 1),
+(723, 'category', 2, 9, 1),
+(724, 'project', 12, 10, 1),
+(725, 'project', 14, 11, 1),
+(726, 'project', 17, 12, 1),
+(727, 'project', 16, 13, 1),
+(728, 'project', 21, 14, 1),
+(729, 'project', 18, 15, 1),
+(730, 'project', 19, 16, 1),
+(731, 'project', 20, 17, 1),
+(732, 'project', 15, 18, 1),
+(733, 'project', 24, 19, 1),
+(734, 'project', 23, 20, 1),
+(735, 'project', 27, 21, 1);
 
 -- --------------------------------------------------------
 
@@ -664,7 +693,7 @@ ALTER TABLE `versions`
 -- AUTO_INCREMENT for table `archives`
 --
 ALTER TABLE `archives`
-  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `categories`
 --
@@ -674,7 +703,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -689,7 +718,7 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
@@ -699,27 +728,27 @@ ALTER TABLE `page_cat_connect`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=477;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=574;
 --
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 --
 -- AUTO_INCREMENT for table `shares`
 --
 ALTER TABLE `shares`
-  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 --
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=616;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=736;
 --
 -- AUTO_INCREMENT for table `users`
 --
