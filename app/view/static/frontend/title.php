@@ -90,7 +90,7 @@
 				<a href="<?=site_url(User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->userName)?>" data-tooltip="<?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->fullName?>">
 					<picture class="profile-picture" <?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->printPicture()?>>
 						<span <?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->firstName, 0, 1).substr(User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->lastName, 0, 1)?></span>
-						<div class="notif-no">3</div>
+						<!-- <div class="notif-no">3</div> -->
 					</picture>
 				</a>
 
@@ -108,7 +108,7 @@
 				<a href="<?=site_url(User::ID($share['share_to'])->userName)?>" data-tooltip="<?=User::ID($share['share_to'])->fullName?>">
 					<picture class="profile-picture" <?=User::ID($share['share_to'])->printPicture()?>>
 						<span <?=User::ID($share['share_to'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?></span>
-						<div class="notif-no">1</div>
+						<!-- <div class="notif-no">1</div> -->
 					</picture>
 				</a>
 					<?php
