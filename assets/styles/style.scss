@@ -691,7 +691,7 @@ pin {
     }
 
     &.complete {
-    	color: $color;
+    	color: $color !important;
     	background-color: white;
 		border: 1px solid $color;
 
