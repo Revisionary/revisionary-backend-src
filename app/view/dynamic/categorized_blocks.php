@@ -268,21 +268,17 @@
 											$db->where('project_ID', $block['project_ID']);
 
 
-											// If project is not belong to current user
-											if ( $block['user_ID'] != currentUserID() ) {
+											// True if project is shared to current user
+											$blockSharedID = array_search(currentUserID(), array_column($blockShares, 'share_to'));
 
 
-												// Project is shared to current user
-												$blockSharedID = array_search(currentUserID(), array_column($blockShares, 'share_to'));
-												if (  $blockSharedID !== false ) {
+											// If project is not belong to current user and is shared to him
+											if ( $block['user_ID'] != currentUserID() && $blockSharedID !== false ) {
 
-													// Show everything belong to sharer
-													$db->where('user_ID = '.$blockShares[$blockSharedID]['sharer_user_ID']);
+												// Show everything belong to sharer
+												$db->where('(user_ID = '.$blockShares[$blockSharedID]['sharer_user_ID'].' OR user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
 
-												}
-
-
-											} else { // If the project is current user's or shared to him
+											} else { // If the project is current user's or shared to him, or he has his own pages in it
 
 												// Show only current user's
 												$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
