@@ -77,7 +77,7 @@
 					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." required disabled/>
 
 
-					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
+					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Custom device option is not working right now." aria-hidden="true"></i></h3>
 					<ul class="selected-devices">
 						<li>
 							<input type="hidden" name="devices[]" value="4"/>
@@ -234,7 +234,7 @@
 				<!-- More Options -->
 				<div class="more-options-wrapper">
 
-					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
+					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Custom device option is not working right now." aria-hidden="true"></i></h3>
 					<ul class="selected-devices">
 						<li>
 							<input type="hidden" name="devices[]" value="4"/>
@@ -478,7 +478,7 @@
 
 				<?php } ?>
 
-				<h4 class="xl-left"><span class="data-type"><?=ucfirst($dataType)?></span> Members <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h4>
+				<h4 class="xl-left"><span class="data-type"><?=ucfirst($dataType)?></span> Members <i class="fa fa-question-circle tooltip" data-tooltip="The members who can access this <?=$dataType?>." aria-hidden="true"></i></h4>
 
 
 

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 18, 2017 at 06:20 PM
+-- Generation Time: Sep 24, 2017 at 11:25 PM
 -- Server version: 5.6.35
--- PHP Version: 7.1.8
+-- PHP Version: 7.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -56,7 +56,9 @@ INSERT INTO `categories` (`cat_ID`, `cat_name`, `cat_type`, `cat_user_ID`) VALUE
 (3, 'Main Pages', '12', 1),
 (4, 'Portfolio Pages', '12', 1),
 (5, 'Blog Pages', '12', 1),
-(6, 'Main Sayfalar', '13', 1);
+(6, 'Main Sayfalar', '13', 1),
+(7, 'Test', '28', 1),
+(8, 'My Pages', '5', 1);
 
 -- --------------------------------------------------------
 
@@ -219,7 +221,12 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_user`
 (91, 'Vampire New Home', 'page.jpg', 'https://www.vampiretools.com/', NULL, NULL, '2017-08-29 12:13:51', '2017-08-29 12:14:07', 24, 4, NULL, 1),
 (107, 'RF Home', 'page.jpg', 'http://recordfixer.twelve12.com/', NULL, NULL, '2017-09-17 13:42:34', '2017-09-17 13:42:40', 27, 4, NULL, 1),
 (108, 'About', 'page.jpg', 'http://recordfixer.twelve12.com/about/', NULL, NULL, '2017-09-17 13:44:47', '2017-09-17 13:44:54', 27, 4, NULL, 1),
-(109, 'Contact', 'page.jpg', 'http://recordfixer.twelve12.com/contact/', NULL, NULL, '2017-09-17 13:47:12', '2017-09-17 13:47:18', 27, 4, NULL, 1);
+(109, 'Contact', 'page.jpg', 'http://recordfixer.twelve12.com/contact/', NULL, NULL, '2017-09-17 13:47:12', '2017-09-17 13:47:18', 27, 4, NULL, 1),
+(110, 'Home', 'page.jpg', 'https://www.coolsis.com/', NULL, NULL, '2017-09-20 07:39:06', '2017-09-20 07:39:23', 28, 4, NULL, 1),
+(111, 'Home', 'page.jpg', 'https://www.pacificchorale.org', NULL, NULL, '2017-09-20 07:50:29', '2017-09-20 07:50:37', 29, 4, NULL, 1),
+(112, 'Home', 'page.jpg', 'https://thelookfitness.com/', NULL, NULL, '2017-09-20 08:00:14', '2017-09-20 08:00:27', 30, 4, NULL, 1),
+(113, 'My Resume', 'page.jpg', 'http://www.bilaltas.net/resume/my-resume/', NULL, NULL, '2017-09-24 18:25:50', '2017-09-24 18:25:58', 5, 6, 78, 1),
+(114, 'My Resume', 'page.jpg', 'http://www.bilaltas.net/resume/my-resume/', NULL, NULL, '2017-09-24 18:26:31', '2017-09-24 18:26:35', 5, 10, 78, 1);
 
 -- --------------------------------------------------------
 
@@ -250,7 +257,11 @@ INSERT INTO `page_cat_connect` (`page_cat_connect_ID`, `page_cat_page_ID`, `page
 (18, 89, 5, 1),
 (19, 90, 5, 1),
 (24, 51, 6, 1),
-(25, 77, 6, 1);
+(25, 77, 6, 1),
+(26, 110, 7, 1),
+(27, 13, 8, 1),
+(28, 78, 8, 1),
+(29, 79, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -289,7 +300,10 @@ INSERT INTO `projects` (`project_ID`, `project_name`, `project_pic`, `project_cr
 (21, 'Cloud Compli', 'proj.jpg', '2017-08-26 18:44:02', 1),
 (23, 'Jova Digital', 'proj.jpg', '2017-08-26 20:49:41', 1),
 (24, 'Vampire Tools', 'proj.jpg', '2017-08-29 12:13:23', 1),
-(27, 'Record Fixer', 'proj.jpg', '2017-09-17 13:42:13', 1);
+(27, 'Record Fixer', 'proj.jpg', '2017-09-17 13:42:13', 1),
+(28, 'Coolsis', 'proj.jpg', '2017-09-20 07:39:00', 1),
+(29, 'Pacific Chorale', 'proj.jpg', '2017-09-20 07:50:03', 1),
+(30, 'The Look Fitness', 'proj.jpg', '2017-09-20 08:00:14', 1);
 
 -- --------------------------------------------------------
 
@@ -309,21 +323,24 @@ CREATE TABLE `project_cat_connect` (
 --
 
 INSERT INTO `project_cat_connect` (`project_cat_connect_ID`, `project_cat_project_ID`, `project_cat_ID`, `project_cat_connect_user_ID`) VALUES
-(559, 5, 1, 1),
-(560, 11, 1, 1),
-(561, 13, 1, 1),
-(562, 12, 2, 1),
-(563, 14, 2, 1),
-(564, 17, 2, 1),
-(565, 16, 2, 1),
-(566, 21, 2, 1),
-(567, 18, 2, 1),
-(568, 19, 2, 1),
-(569, 20, 2, 1),
-(570, 15, 2, 1),
-(571, 24, 2, 1),
-(572, 23, 2, 1),
-(573, 27, 2, 1);
+(816, 5, 1, 1),
+(817, 13, 1, 1),
+(818, 11, 1, 1),
+(819, 12, 2, 1),
+(820, 14, 2, 1),
+(821, 17, 2, 1),
+(822, 16, 2, 1),
+(823, 21, 2, 1),
+(824, 18, 2, 1),
+(825, 19, 2, 1),
+(826, 20, 2, 1),
+(827, 15, 2, 1),
+(828, 24, 2, 1),
+(829, 23, 2, 1),
+(830, 27, 2, 1),
+(831, 28, 2, 1),
+(832, 29, 2, 1),
+(833, 30, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -389,7 +406,13 @@ INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, 
 (121, 'internalize', 106, 26842, 'done', '2017-09-17 13:34:28', '2017-09-17 13:34:14', 'Internalization is complete.', 1),
 (122, 'internalize', 107, 27127, 'done', '2017-09-17 13:42:48', '2017-09-17 13:42:34', 'Internalization is complete.', 1),
 (123, 'internalize', 108, 27514, 'done', '2017-09-17 13:45:02', '2017-09-17 13:44:47', 'Internalization is complete.', 1),
-(124, 'internalize', 109, 27544, 'done', '2017-09-17 13:47:27', '2017-09-17 13:47:12', 'Internalization is complete.', 1);
+(124, 'internalize', 109, 27544, 'done', '2017-09-17 13:47:27', '2017-09-17 13:47:12', 'Internalization is complete.', 1),
+(125, 'internalize', 110, 6492, 'done', '2017-09-20 07:39:58', '2017-09-20 07:39:06', 'Internalization is complete.', 1),
+(126, 'internalize', 111, 6646, 'done', '2017-09-20 07:50:57', '2017-09-20 07:50:29', 'Internalization is complete.', 1),
+(127, 'internalize', 112, 6767, 'done', '2017-09-20 08:00:50', '2017-09-20 08:00:14', 'Internalization is complete.', 1),
+(128, 'internalize', 6, 10635, 'done', '2017-09-20 21:14:25', '2017-09-20 21:12:31', 'Internalization is complete.', 1),
+(129, 'internalize', 113, 2842, 'done', '2017-09-24 18:26:04', '2017-09-24 18:25:50', 'Internalization is complete.', 1),
+(130, 'internalize', 114, 2919, 'done', '2017-09-24 18:26:40', '2017-09-24 18:26:31', 'Internalization is complete.', 1);
 
 -- --------------------------------------------------------
 
@@ -413,10 +436,7 @@ INSERT INTO `shares` (`share_ID`, `share_type`, `shared_object_ID`, `share_to`, 
 (3, 'project', 23, '4', 1),
 (4, 'project', 23, '5', 2),
 (5, 'page', 79, '5', 1),
-(6, 'page', 80, '5', 1),
-(7, 'page', 81, '5', 1),
 (8, 'page', 83, '4', 1),
-(9, 'page', 84, '4', 1),
 (10, 'project', 23, '6', 1),
 (11, 'project', 23, 'test@gmail.com', 1),
 (57, 'page', 50, '6', 2),
@@ -445,8 +465,6 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (24, 'project', 13, 1, 5),
 (273, 'page', 75, 1, 1),
 (274, 'page', 76, 1, 1),
-(276, 'page', 78, 1, 1),
-(277, 'page', 79, 2, 1),
 (278, 'page', 80, 2, 1),
 (279, 'page', 81, 2, 1),
 (291, 'page', 84, 4, 1),
@@ -469,28 +487,38 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (645, 'page', 107, 1, 1),
 (646, 'page', 108, 2, 1),
 (647, 'page', 109, 3, 1),
-(714, 'category', 0, 0, 1),
-(715, 'project', 1, 1, 1),
-(716, 'project', 2, 2, 1),
-(717, 'project', 4, 3, 1),
-(718, 'project', 3, 4, 1),
-(719, 'category', 1, 5, 1),
-(720, 'project', 5, 6, 1),
-(721, 'project', 11, 7, 1),
-(722, 'project', 13, 8, 1),
-(723, 'category', 2, 9, 1),
-(724, 'project', 12, 10, 1),
-(725, 'project', 14, 11, 1),
-(726, 'project', 17, 12, 1),
-(727, 'project', 16, 13, 1),
-(728, 'project', 21, 14, 1),
-(729, 'project', 18, 15, 1),
-(730, 'project', 19, 16, 1),
-(731, 'project', 20, 17, 1),
-(732, 'project', 15, 18, 1),
-(733, 'project', 24, 19, 1),
-(734, 'project', 23, 20, 1),
-(735, 'project', 27, 21, 1);
+(739, 'category', 7, 1, 1),
+(740, 'page', 110, 2, 1),
+(742, 'page', 111, 1, 1),
+(1015, 'project', 1, 1, 1),
+(1016, 'project', 4, 2, 1),
+(1017, 'project', 2, 3, 1),
+(1018, 'project', 3, 4, 1),
+(1019, 'category', 1, 5, 1),
+(1020, 'project', 5, 6, 1),
+(1021, 'project', 13, 7, 1),
+(1022, 'project', 11, 8, 1),
+(1023, 'category', 2, 9, 1),
+(1024, 'project', 12, 10, 1),
+(1025, 'project', 14, 11, 1),
+(1026, 'project', 17, 12, 1),
+(1027, 'project', 16, 13, 1),
+(1028, 'project', 21, 14, 1),
+(1029, 'project', 18, 15, 1),
+(1030, 'project', 19, 16, 1),
+(1031, 'project', 20, 17, 1),
+(1032, 'project', 15, 18, 1),
+(1033, 'project', 24, 19, 1),
+(1034, 'project', 23, 20, 1),
+(1035, 'project', 27, 21, 1),
+(1036, 'project', 28, 22, 1),
+(1037, 'project', 29, 23, 1),
+(1038, 'project', 30, 24, 1),
+(1039, 'category', 0, 0, 1),
+(1040, 'category', 8, 1, 1),
+(1041, 'page', 13, 2, 1),
+(1042, 'page', 78, 3, 1),
+(1043, 'page', 79, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -698,7 +726,7 @@ ALTER TABLE `archives`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `deletes`
 --
@@ -718,27 +746,27 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
 ALTER TABLE `page_cat_connect`
-  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=574;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=834;
 --
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 --
 -- AUTO_INCREMENT for table `shares`
 --
@@ -748,7 +776,7 @@ ALTER TABLE `shares`
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=736;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1044;
 --
 -- AUTO_INCREMENT for table `users`
 --
