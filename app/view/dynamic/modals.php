@@ -111,7 +111,17 @@
 												$devices = $db->get('devices');
 												foreach ($devices as $device) {
 												?>
-												<li><a href="#" data-device-id="<?=$device['device_ID']?>" data-device-width="<?=$device['device_width']?>" data-device-height="<?=$device['device_height']?>" data-device-cat-name="<?=$device_cat['device_cat_name']?>" data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"><?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)</a></li>
+												<li>
+													<a href="#"
+														data-device-id="<?=$device['device_ID']?>"
+														data-device-width="<?=$device['device_width']?>"
+														data-device-height="<?=$device['device_height']?>"
+														data-device-cat-name="<?=$device_cat['device_cat_name']?>"
+														data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
+													>
+														<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
+													</a>
+												</li>
 												<?php
 												}
 
@@ -258,7 +268,17 @@
 												$devices = $db->get('devices');
 												foreach ($devices as $device) {
 												?>
-												<li><a href="#" data-device-id="<?=$device['device_ID']?>" data-device-width="<?=$device['device_width']?>" data-device-height="<?=$device['device_height']?>" data-device-cat-name="<?=$device_cat['device_cat_name']?>" data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"><?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)</a></li>
+												<li>
+													<a href="#"
+														data-device-id="<?=$device['device_ID']?>"
+														data-device-width="<?=$device['device_width']?>"
+														data-device-height="<?=$device['device_height']?>"
+														data-device-cat-name="<?=$device_cat['device_cat_name']?>"
+														data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
+													>
+														<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
+													</a>
+												</li>
 												<?php
 												}
 
@@ -370,7 +390,7 @@
 
 <div id="share" class="popup-window xl-center xl-5-12 scrollable-content">
 	<h2>Share</h2>
-	<h5 class="to">The <b>Youtube</b> <?=ucfirst($dataType)?></h5>
+	<h5 class="to">The <b>Name</b> <span class="data-type"><?=ucfirst($dataType)?></span></h5>
 
 	<form action="" method="post">
 
@@ -382,72 +402,88 @@
 		<div class="wrap xl-center xl-gutter-8">
 			<div class="col xl-9-10">
 
-				<h4 class="xl-left"><?=ucfirst($dataType)?> Members <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h4>
+				<?php if ( $dataType == "page" ) { ?>
+
+					<div class="project-shares">
+						<h4 class="xl-left">Project Members <i class="fa fa-question-circle tooltip" data-tooltip="These members below can access all the pages in this project." aria-hidden="true"></i></h4>
+
+
+						<ul class="xl-left members project-php">
+
+							<!-- Owner -->
+							<li class="inline-guys member">
+
+								<picture class="profile-picture big" <?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->printPicture()?>>
+									<span <?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->firstName, 0, 1).substr(User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->lastName, 0, 1)?></span>
+								</picture>
+
+								<div>
+									<span class="full-name"><?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->fullName?></span>
+									<span class="email">(<?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->email?>)</span>
+									<span class="owner-badge">Owner</span>
+								</div>
+
+							</li>
+
+
+
+							<?php
+							foreach ($projectShares as $share) {
+							?>
+
+								<?php if ( is_numeric($share['share_to']) ) { ?>
+
+								<!-- Shared Person -->
+								<li class="inline-guys member">
+
+									<picture class="profile-picture big" <?=User::ID($share['share_to'])->printPicture()?>>
+										<span <?=User::ID($share['share_to'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?></span>
+									</picture>
+
+									<div>
+										<span class="full-name"><?=User::ID($share['share_to'])->fullName?></span>
+										<span class="email">(<?=User::ID($share['share_to'])->email?>)</span>
+									</div>
+
+									<!-- <a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a> -->
+
+								</li>
+
+								<?php } else { ?>
+
+
+								<li class="inline-guys member">
+
+									<picture class="profile-picture big" >
+										<span><i class="fa fa-envelope" aria-hidden="true"></i></span>
+									</picture>
+
+									<div>
+										<span class="email"><?=$share['share_to']?></span>
+									</div>
+
+									<!-- <a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a> -->
+
+								</li>
+
+
+								<?php } ?>
+
+							<?php
+							}
+							?>
+
+						</ul><br/>
+					</div>
+
+				<?php } ?>
+
+				<h4 class="xl-left"><span class="data-type"><?=ucfirst($dataType)?></span> Members <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h4>
 
 
 
 				<ul class="xl-left members">
 
-					<!-- Owner -->
-<!--
-					<li class="inline-guys member">
-
-						<picture class="profile-picture big" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-1/bill.png);">
-							<span class="has-pic">BT</span>
-						</picture>
-
-						<div>
-							<span class="full-name">Bilal TAS</span>
-							<span class="email">(bilaltas@me.com)</span>
-						</div>
-
-					</li>
--->
-
-					<!-- Shared Person -->
-<!--
-					<li class="inline-guys member">
-
-						<picture class="profile-picture big" >
-							<span>IE</span>
-						</picture>
-
-						<div>
-							<span class="full-name">Ike Elimsa</span>
-							<span class="email">(ikeelimsa@gmail.com)</span>
-						</div>
-
-						<a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-
-					</li>
-					<li class="inline-guys member">
-
-						<picture class="profile-picture big" >
-							<span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-						</picture>
-
-						<div>
-							<span class="email">info@twelve12.com</span>
-						</div>
-
-						<a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-
-					</li>
-					<li class="inline-guys member">
-
-						<picture class="profile-picture big" style="background-image: url(http://new.revisionaryapp.com/assets/cache/user-1/bill.png);">
-							<span class="has-pic">BT</span>
-						</picture>
-
-						<div>
-							<span class="full-name">Cuneyt TAS</span>
-							<span class="email">(cuneyttas@hotmail.com.tr)</span>
-						</div>
-
-						<a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-
-					</li>
--->
 				</ul><br/>
 
 

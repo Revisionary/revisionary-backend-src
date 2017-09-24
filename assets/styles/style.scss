@@ -449,6 +449,14 @@ a {
 
 .device-adder {
 
+	& * {
+		color: $color !important;
+
+		&:hover {
+			color: $color-secondary !important;
+		}
+	}
+
 	a {
 		font-size: 15px;
 		line-height: 18px;
@@ -492,12 +500,14 @@ a {
 	    color: white;
 	    content: attr(data-tooltip);
 	    position: absolute;
-	    top: -100%;
+	    bottom: 100%;
 	    right: 0;
 	    text-transform: initial;
 	    font-family: 'Roboto Condensed', sans-serif;
 	    font-size: 12px;
-	    white-space: nowrap;
+	    width: 120px;
+	    text-align: center;
+	    //white-space: nowrap;
 	}
 
 }
@@ -1230,6 +1240,14 @@ input.share-email {
 		margin-bottom: 20px;
 		position: relative;
 
+		.owner-badge {
+			border: 1px solid $color;
+		    text-transform: uppercase;
+		    font-size: 10px;
+		    line-height: 10px;
+		    padding: 0px 3px;
+		}
+
 
 		&.owner .remove,
 		&.unremoveable .remove {
@@ -1640,7 +1658,7 @@ footer {
 			& > div:not(.people):not(.pages) {
 			    padding: 0 2px;
 
-				a {
+				& > a {
 					opacity: 0.65;
 
 					&:hover {

@@ -256,10 +256,12 @@ $(function() {
 
 		var hasPic = 'class="has-pic"';
 		var printPic = 'style="background-image: url('+userImageUrl+');"';
+		var ownerBadge = '';
 
 		if (mStatus != 'email' ) email = '('+email+')';
 		if (mStatus == 'email' ) nameabbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
 		if (mStatus == 'email' ) userId = email;
+		if (mStatus == 'owner' ) ownerBadge = '<span class="owner-badge">Owner</span>';
 		if (userImageUrl == "") hasPic = printPic = "";
 
 		return '\
@@ -270,6 +272,7 @@ $(function() {
 				<div>\
 					<span class="full-name">'+fullName+'</span>\
 					<span class="email">'+email+'</span>\
+					'+ownerBadge+'\
 				</div>\
 				<a href="#" class="remove remove-member" data-userid="'+userId+'" data-id="'+objectID+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 			</li>\
@@ -299,9 +302,11 @@ $(function() {
 	// Share Modal
 	$(document).on('click', '.share-button', function(e) {
 
-		var theBox = $(this).parent().parent().parent().parent();
-		var boxName = theBox.find('.name').text();
-		var objectID = theBox.attr('data-id');
+		var projectShare = $(this).hasClass('project') ? true : false;
+
+		var theBox = projectShare ? $('.under-main-title') : $(this).parent().parent().parent().parent();
+		var boxName = projectShare ? $('h1.project-title').text() : theBox.find('.name').text();
+		var objectID = projectShare ? $('h1.project-title').attr('data-id') : theBox.attr('data-id');
 
 
 		// Change the name
@@ -312,8 +317,23 @@ $(function() {
 		$('.share-email').attr('data-id', objectID);
 
 
+		// Page or project modal?
+		$('#share-email').attr('data-type', projectShare ? "project" : "page");
+
+
+		// Hide PHP project shares
+		if (projectShare)
+			$('#share .project-shares').hide();
+		else
+			$('#share .project-shares').show();
+
+
+		// Correct the title
+		$('#share .data-type').text(dataType == 'project' || projectShare ? 'Project' : 'Page');
+
+
 		// Remove the old people
-		$('#share .members').html('');
+		$('#share .members:not(.project-php)').html('');
 
 
 		// Add the people
@@ -328,7 +348,7 @@ $(function() {
 			var unremoveable = $(member).attr('data-unremoveable');
 
 
-			$('#share .members').append(
+			$('#share .members:not(.project-php)').append(
 				memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable, objectID)
 			);
 
@@ -370,7 +390,7 @@ $(function() {
 		var input = element;
 		var type = element.attr('data-type');
 		var objectID = element.attr('data-id');
-		var theBox = $('.block[data-id="'+objectID+'"]');
+		var theBox = type == 'project' && $('.under-main-title .people').length ? $('.under-main-title') : $('.block[data-id="'+objectID+'"]');
 		var memberList = $('.members');
 
 
@@ -414,6 +434,8 @@ $(function() {
 
 					input.removeClass('error');
 					input.val('');
+					$('#share button.add-member').prop('disabled', true);
+
 
 				} else if ( data.status == "email-added" ) {
 
@@ -431,6 +453,7 @@ $(function() {
 
 					input.removeClass('error');
 					input.val('');
+					$('#share button.add-member').prop('disabled', true);
 
 				} else if ( data.status == "invalid-email" ) {
 
@@ -483,6 +506,7 @@ $(function() {
 	// Unshare Member
 	$(document).on('click', '.remove-member', function(e) {
 
+		var type = $('#share-email').attr('data-type');
 		var member = $(this).parent();
 		var memberID = $(this).attr('data-userid');
 		var objectID = $(this).attr('data-id');
@@ -497,7 +521,7 @@ $(function() {
 			$.post(ajax_url, {
 
 				'type'		: 'unshare',
-				'data-type'	: dataType,
+				'data-type'	: type,
 				'nonce'		: nonce,
 				'object_ID'	: objectID,
 				'user_ID'	: memberID
@@ -518,6 +542,9 @@ $(function() {
 						// Remove from box people
 						$('.block[data-id="'+objectID+'"] .people a[data-userid="'+memberID+'"]').remove();
 						$('.block[data-id="'+objectID+'"] .people a[data-email="'+memberID+'"]').remove();
+
+						if ( type == "project" && $('.under-main-title .people').length )
+							$('.under-main-title .people a[data-email="'+memberID+'"]').remove();
 
 					}
 

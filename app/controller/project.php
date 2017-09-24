@@ -106,6 +106,80 @@ if (
 
 
 
+// ADD NEW DEVICE
+if ( is_numeric(get('new_device')) && is_numeric(get('page_ID')) && get('nonce') == $_SESSION["new_device_nonce"] ) {
+
+
+	// DB Checks !!! (Page exists?, Device exists?, etc.)
+
+	$device_ID = get('new_device');
+	$parent_page_ID = get('page_ID');
+	$page_name = Page::ID($parent_page_ID)->getPageInfo('page_name');
+	$page_url = Page::ID($parent_page_ID)->getPageInfo('page_url');
+
+
+
+	// Add the new page with the device
+	$page_ID = $db->insert('pages', array(
+		"page_name" => $page_name,
+		"page_url" => $page_url,
+		"project_ID" => $project_ID,
+		"device_ID" => $device_ID,
+		"parent_page_ID" => $parent_page_ID,
+		"user_ID" => currentUserID()
+	));
+
+
+
+
+
+	// ADD TO QUEUE
+
+	// Remove the existing and wrong files
+	if ( file_exists(Page::ID($page_ID)->pageDir) )
+		deleteDirectory(Page::ID($page_ID)->pageDir);
+
+
+	// Re-Create the log folder if not exists
+	if ( !file_exists(Page::ID($page_ID)->logDir) )
+		mkdir(Page::ID($page_ID)->logDir, 0755, true);
+	@chmod(Page::ID($page_ID)->logDir, 0755);
+
+
+	// Logger
+	$logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
+		'filename' => Page::ID($page_ID)->logFileName,
+	    'extension' => 'log', // changes the log file extension
+	));
+
+
+
+
+	// Add a new job to the queue
+	$queue = new Queue();
+	$queue_ID = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.");
+
+
+	// Initiate Internalizator
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
+	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+
+
+	// Add the PID to the queue
+	$queue->update_status($queue_ID, "waiting", "Waiting other works to be done.", $process->getPid());
+
+
+
+
+
+	// Redirect to "Revise" page
+	header('Location: '.site_url('revise/'.$page_ID));
+	die();
+}
+
+
+
+
 // ADD NEW PAGE
 if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_nonce"] ) {
 
@@ -164,8 +238,8 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 			$device_count++;
 
 
-			// Add the page shares
-			if ( is_array(post('page_shares')) && count(post('page_shares')) > 0 ) {
+			// Add the page share to only parent page
+			if ( is_array(post('page_shares')) && count(post('page_shares')) > 0 && $device_count == 1 ) {
 
 				foreach (post('page_shares') as $share_to) {
 
@@ -323,6 +397,15 @@ $additionalHeadJS = [
 $additionalBodyJS = [
 	'vendor/jquery.mCustomScrollbar.concat.min.js'
 ];
+
+
+// Generate new nonce for add new modals
+$_SESSION["add_new_nonce"] = uniqid(mt_rand(), true);
+
+
+// Generate new nonce for add new devices
+$_SESSION["new_device_nonce"] = uniqid(mt_rand(), true);
+
 
 $page_title = Project::ID($_url[1])->projectName." Project - Revisionary App";
 require view('dynamic/categorized_blocks');

@@ -119,19 +119,24 @@
 								<div class="wrap overlay xl-flexbox xl-top xl-between xl-5 members">
 									<div class="col xl-4-12 xl-left xl-top people">
 
+										<?php
+										$block_user_ID = $block['user_ID'];
+										$block_user = User::ID($block_user_ID);
+										?>
+
 										<!-- Owner -->
-										<a href="<?=site_url(User::ID($block['user_ID'])->userName)?>"
-											data-tooltip="<?=User::ID($block['user_ID'])->fullName?>"
+										<a href="<?=site_url($block_user->userName)?>"
+											data-tooltip="<?=$block_user->fullName?>"
 											data-mstatus="owner"
-											data-fullname="<?=User::ID($block['user_ID'])->fullName?>"
-											data-nameabbr="<?=substr(User::ID($block['user_ID'])->firstName, 0, 1).substr(User::ID($block['user_ID'])->lastName, 0, 1)?>"
-											data-email="<?=User::ID($block['user_ID'])->email?>"
-											data-avatar="<?=User::ID($block['user_ID'])->userPicUrl?>"
-											data-userid="<?=$block['user_ID']?>"
+											data-fullname="<?=$block_user->fullName?>"
+											data-nameabbr="<?=substr($block_user->firstName, 0, 1).substr($block_user->lastName, 0, 1)?>"
+											data-email="<?=$block_user->email?>"
+											data-avatar="<?=$block_user->userPicUrl?>"
+											data-userid="<?=$block_user_ID?>"
 											data-unremoveable="unremoveable"
 										>
-											<picture class="profile-picture" <?=User::ID($block['user_ID'])->printPicture()?>>
-												<span <?=User::ID($block['user_ID'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($block['user_ID'])->firstName, 0, 1).substr(User::ID($block['user_ID'])->lastName, 0, 1)?></span>
+											<picture class="profile-picture" <?=$block_user->printPicture()?>>
+												<span <?=$block_user->userPic != "" ? "class='has-pic'" : ""?>><?=substr($block_user->firstName, 0, 1).substr($block_user->lastName, 0, 1)?></span>
 											</picture>
 										</a>
 
@@ -156,24 +161,25 @@
 										foreach ($blockShares as $share) {
 										?>
 
-										<!-- Other Shared Person -->
 											<?php
+												$shared_user_ID = $share['share_to'];
 
 												if ( is_numeric($share['share_to']) ) {
-
+													$shared_user = User::ID($shared_user_ID);
 											?>
-										<a href="<?=site_url(User::ID($share['share_to'])->userName)?>"
-											data-tooltip="<?=User::ID($share['share_to'])->fullName?>"
+
+										<a href="<?=site_url($shared_user->userName)?>"
+											data-tooltip="<?=$shared_user->fullName?>"
 											data-mstatus="user"
-											data-fullname="<?=User::ID($share['share_to'])->fullName?>"
-											data-nameabbr="<?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?>"
-											data-email="<?=User::ID($share['share_to'])->email?>"
-											data-avatar="<?=User::ID($share['share_to'])->userPicUrl?>"
-											data-userid="<?=$share['share_to']?>"
+											data-fullname="<?=$shared_user->fullName?>"
+											data-nameabbr="<?=substr($shared_user->firstName, 0, 1).substr($shared_user->lastName, 0, 1)?>"
+											data-email="<?=$shared_user->email?>"
+											data-avatar="<?=$shared_user->userPicUrl?>"
+											data-userid="<?=$shared_user_ID?>"
 											data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 										>
-											<picture class="profile-picture" <?=User::ID($share['share_to'])->printPicture()?>>
-												<span <?=User::ID($share['share_to'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?></span>
+											<picture class="profile-picture" <?=$shared_user->printPicture()?>>
+												<span <?=$shared_user->userPic != "" ? "class='has-pic'" : ""?>><?=substr($shared_user->firstName, 0, 1).substr($shared_user->lastName, 0, 1)?></span>
 											</picture>
 										</a>
 											<?php
@@ -182,13 +188,13 @@
 
 											?>
 										<a href="#"
-											data-tooltip="<?=$share['share_to']?>"
+											data-tooltip="<?=$shared_user_ID?>"
 											data-mstatus="email"
 											data-fullname=""
 											data-nameabbr=""
-											data-email="<?=$share['share_to']?>"
+											data-email="<?=$shared_user_ID?>"
 											data-avatar=""
-											data-userid="<?=$share['share_to']?>"
+											data-userid="<?=$shared_user_ID?>"
 											data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 										>
 											<picture class="profile-picture email">
@@ -333,15 +339,72 @@
 
 											<?php
 												}
+											?>
+											<span class="dropdown-container">
+												<a href="#" class="dropdown-opener add-device"><span style="font-family: Arial;">+</span></a>
+												<nav class="dropdown xl-left">
+													<ul class="device-adder">
+														<?php
+														$db->orderBy('device_cat_order', 'asc');
+														$device_cats = $db->get('device_categories');
+														foreach ($device_cats as $device_cat) {
+														?>
 
-												echo '<a href="#"><span style="font-family: Arial;">+</span></a>';
+														<li>
 
+															<div class="dropdown-container">
+																<div class="dropdown-opener">
+																	<i class="fa <?=$device_cat['device_cat_icon']?>" aria-hidden="true"></i> <?=$device_cat['device_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+																</div>
+																<nav class="dropdown selectable addable xl-left">
+																	<ul class="device-addd">
+																		<?php
+																		$db->where('device_cat_ID', $device_cat['device_cat_ID']);
+																		$db->orderBy('device_order', 'asc');
+																		$devices = $db->get('devices');
+																		foreach ($devices as $device) {
+																		?>
+																		<li>
+																			<a href="?new_device=<?=$device['device_ID']?>&page_ID=<?=$block['page_ID']?>&nonce=<?=$_SESSION["new_device_nonce"]?>"
+																				data-device-id="<?=$device['device_ID']?>"
+																				data-device-width="<?=$device['device_width']?>"
+																				data-device-height="<?=$device['device_height']?>"
+																				data-device-cat-name="<?=$device_cat['device_cat_name']?>"
+																				data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
+																			>
+																				<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
+																			</a>
+																		</li>
+																		<?php
+																		}
+
+																		// Custom Device
+																		if ($device_cat['device_cat_name'] == "Custom...") {
+																		?>
+																		<li><a href="#" data-device-id="<?=$device['device_ID']?>">Add New</a></li>
+																		<?php
+																		}
+																		?>
+																	</ul>
+																</nav>
+
+															</div>
+
+														</li>
+
+														<?php
+														}
+														?>
+													</ul>
+												</nav>
+											<?php
 											}
 											?>
 
 										<?php
 										}
 										?>
+											</span>
 
 
 
