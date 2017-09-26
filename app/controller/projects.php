@@ -111,7 +111,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 
 				// Add the page shares
-				if ( is_array(post('page_shares')) && count(post('page_shares')) > 0 ) {
+				if ( is_array(post('page_shares')) && count(post('page_shares')) > 0 && $device_count == 1 ) {
 
 					foreach (post('page_shares') as $share_to) {
 

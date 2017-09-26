@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 24, 2017 at 11:25 PM
+-- Generation Time: Sep 26, 2017 at 11:36 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.6
 
@@ -226,7 +226,8 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_user`
 (111, 'Home', 'page.jpg', 'https://www.pacificchorale.org', NULL, NULL, '2017-09-20 07:50:29', '2017-09-20 07:50:37', 29, 4, NULL, 1),
 (112, 'Home', 'page.jpg', 'https://thelookfitness.com/', NULL, NULL, '2017-09-20 08:00:14', '2017-09-20 08:00:27', 30, 4, NULL, 1),
 (113, 'My Resume', 'page.jpg', 'http://www.bilaltas.net/resume/my-resume/', NULL, NULL, '2017-09-24 18:25:50', '2017-09-24 18:25:58', 5, 6, 78, 1),
-(114, 'My Resume', 'page.jpg', 'http://www.bilaltas.net/resume/my-resume/', NULL, NULL, '2017-09-24 18:26:31', '2017-09-24 18:26:35', 5, 10, 78, 1);
+(114, 'My Resume', 'page.jpg', 'http://www.bilaltas.net/resume/my-resume/', NULL, NULL, '2017-09-24 18:26:31', '2017-09-24 18:26:35', 5, 10, 78, 1),
+(115, 'Resume Page', 'page.jpg', 'http://www.cuneyt-tas.com/ozgecmis/', NULL, NULL, '2017-09-25 08:45:25', '2017-09-25 08:45:32', 13, 9, 77, 1);
 
 -- --------------------------------------------------------
 
@@ -412,7 +413,8 @@ INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, 
 (127, 'internalize', 112, 6767, 'done', '2017-09-20 08:00:50', '2017-09-20 08:00:14', 'Internalization is complete.', 1),
 (128, 'internalize', 6, 10635, 'done', '2017-09-20 21:14:25', '2017-09-20 21:12:31', 'Internalization is complete.', 1),
 (129, 'internalize', 113, 2842, 'done', '2017-09-24 18:26:04', '2017-09-24 18:25:50', 'Internalization is complete.', 1),
-(130, 'internalize', 114, 2919, 'done', '2017-09-24 18:26:40', '2017-09-24 18:26:31', 'Internalization is complete.', 1);
+(130, 'internalize', 114, 2919, 'done', '2017-09-24 18:26:40', '2017-09-24 18:26:31', 'Internalization is complete.', 1),
+(131, 'internalize', 115, 6367, 'done', '2017-09-25 08:45:37', '2017-09-25 08:45:25', 'Internalization is complete.', 1);
 
 -- --------------------------------------------------------
 
@@ -726,7 +728,7 @@ ALTER TABLE `archives`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `deletes`
 --
@@ -746,7 +748,7 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
@@ -766,7 +768,7 @@ ALTER TABLE `project_cat_connect`
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 --
 -- AUTO_INCREMENT for table `shares`
 --
