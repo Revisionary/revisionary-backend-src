@@ -697,7 +697,73 @@ $(function(){
 
 
 						<div class="device-selector">
-							<a href="#" class="select-device">Device <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+
+							<span class="dropdown-container">
+
+								<a href="#" class="dropdown-opener select-device">
+									Device <i class="fa fa-caret-down" aria-hidden="true"></i>
+								</a>
+								<?php
+/*
+									echo $parentpage_ID;
+									die();
+*/
+
+								if ( $parentpage_ID == null ) $parentpage_ID = $page_ID;
+
+								// SUB PAGES QUERY
+
+								// Check if other devices available
+								$db->where("parent_page_ID", $parentpage_ID);
+								$db->orWhere("page_ID", $parentpage_ID);
+
+								// Bring the archive info
+								$db->join("archives arc", "arc.archived_object_ID = p.page_ID", "LEFT");
+								$db->joinWhere("archives arc", "arc.archiver_user_ID", currentUserID());
+								$db->joinWhere("archives arc", "arc.archive_type", "page");
+
+								// Bring the delete info
+								$db->join("deletes del", "del.deleted_object_ID = p.page_ID", "LEFT");
+								$db->joinWhere("deletes del", "del.deleter_user_ID", currentUserID());
+								$db->joinWhere("deletes del", "del.delete_type", "page");
+
+								// Exclude deleted and archived
+								$db->where('del.deleted_object_ID IS NULL');
+								$db->where('arc.archived_object_ID IS NULL');
+
+								// Bring the devices
+								$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
+
+								// Bring the device category info
+								$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
+
+								// Order by IDs
+								$db->orderBy('d.device_ID', 'asc');
+
+								$existing_devices = $db->get('pages p');
+
+								?>
+								<nav class="dropdown">
+									<ul class="xl-left">
+									<?php
+									foreach ($existing_devices as $device) {
+										if ($device['page_ID'] == $page_ID) continue;
+									?>
+
+										<li>
+											<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i> <?=$device['device_cat_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)</a>
+										</li>
+
+									<?php
+									}
+									?>
+										<li>
+											<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a>
+										</li>
+									</ul>
+								</nav>
+							</span>
+
 							<div class="device-icon"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i></div>
 						</div>
 						<a href="#" class="version-selector"><?=Page::ID($page_ID)->pageVersion?></a>
