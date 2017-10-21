@@ -179,7 +179,11 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 		$hash = $firstPageAdded ? "" : "#add-first-page";
 
-		header('Location: '.site_url('project/'.$project_ID.$hash));
+		if ($firstPageAdded)
+			header('Location: '.site_url('revise/'.$parent_page_ID));
+		else
+			header('Location: '.site_url('project/'.$project_ID.'#add-first-page'));
+
 		die();
 	}
 

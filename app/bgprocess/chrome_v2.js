@@ -51,7 +51,7 @@ function wait(ms) {
 	// Launch the Chrome Browser
 	const browser = await puppeteer.launch({
 		//executablePath: '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary',
-		headless: false
+		headless: true
 	});
 
 

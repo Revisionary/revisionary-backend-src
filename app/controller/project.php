@@ -331,7 +331,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 
 	if($project_ID) {
-		header('Location: '.site_url('project/'.$project_ID.'?added'));
+		header('Location: '.site_url('revise/'.$parent_page_ID));
 		die();
 	}
 
