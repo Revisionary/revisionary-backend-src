@@ -23,6 +23,8 @@ class Queue {
 	    $db->where('queue_status', 'waiting');
 	    $db->orWhere('queue_status', 'working');
 
+		$db->orderBy('queue_ID', 'asc');
+
 	    $works = $db->get('queues');
 		if ($works) {
 
@@ -44,7 +46,11 @@ class Queue {
 	    $count = count($current_works) - 1;
 
 
-		if ($current_works[0]['queue_ID'] == $queue_ID) {
+		// Allow only two job at a time !!!
+		if (
+			$current_works[0]['queue_ID'] == $queue_ID ||
+			$current_works[1]['queue_ID'] == $queue_ID
+		) {
 
 			$logger->info("Job $queue_ID is ready!");
 			return true;

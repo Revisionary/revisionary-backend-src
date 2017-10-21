@@ -231,6 +231,9 @@ function the_data() {
 			// Bring the device category info
 			$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
 
+			// Order by IDs
+			$db->orderBy('d.device_ID', 'asc');
+
 			$subPages = $db->get('pages p');
 			foreach ($subPages as $subPage) {
 

@@ -326,8 +326,11 @@
 											) {
 
 
+												$all_devices = array_merge($block['parentPageData'], $block['subPageData']);
 
-												foreach (array_merge($block['parentPageData'], $block['subPageData']) as $device) {
+												//print_r(array_merge($block['parentPageData'], $block['subPageData'])); exit();
+
+												foreach ($all_devices as $device) {
 
 
 													$pageStatus = Page::ID($device['page_ID'])->getPageStatus()['status'];

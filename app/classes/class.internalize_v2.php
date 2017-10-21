@@ -156,7 +156,7 @@ class Internalize_v2 {
 
 		// Process directories - NodeJS - Chrome
 		$nodejs = bindir."/nodejs-mac/bin/node";
-		$scriptFile = dir."/app/bgprocess/chrome.js";
+		$scriptFile = dir."/app/bgprocess/chrome_v2.js";
 		$process_string = "$nodejs $scriptFile --url=$url --viewportWidth=$width --viewportHeight=$height --pageScreenshot=$page_image --projectScreenshot=$project_image --htmlFile=$htmlFile --resourcesFile=$resourcesFile --logDir=$logDir --delay=1000";
 
 
@@ -175,14 +175,33 @@ class Internalize_v2 {
 
 
 		// Wait for the process done
+		$timeout = 30; // seconds
+		$eta = 0;
 		while (
 			$process->isRunning() &&
 			$queue->info($this->queue_ID)['queue_status'] == "working"
 		) {
 
-			$logger->info("Waiting 2 seconds for the process to be complete");
-			sleep(2);
+			$waitfor = 2; // seconds
 
+			$logger->info("Waiting $waitfor seconds for the process to be complete");
+			sleep($waitfor);
+
+			$eta = $eta + $waitfor;
+
+			if ($eta >= $timeout) {
+
+				// Update the queue status
+				$queue->update_status($this->queue_ID, "error", "Resource file timeout.");
+
+
+				// Log
+				$logger->error("Resource file timeout.");
+
+				break;
+
+				return false;
+			}
 		}
 
 

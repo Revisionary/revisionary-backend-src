@@ -2,7 +2,12 @@
 
 	<div class="bg-overlay">
 
-		<?php require view('dynamic/modals'); ?>
+		<?php
+
+			// Projects and Pages Modals
+			if ($_url[0] == "projects" || $_url[0] == "project") require view('dynamic/modals');
+
+		?>
 
 	</div>
 
