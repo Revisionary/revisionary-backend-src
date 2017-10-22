@@ -19,6 +19,9 @@ $deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
 $width = Device::ID($deviceID)->getDeviceInfo('device_width');
 $height = Device::ID($deviceID)->getDeviceInfo('device_height');
 
+// Get device name
+$device_name = Device::ID($deviceID)->getDeviceInfo('device_name');
+
 // Get the device icon
 $deviceCatID = Device::ID($deviceID)->getDeviceInfo('device_cat_ID');
 $db->where('device_cat_ID', $deviceCatID);
@@ -302,6 +305,11 @@ $additionalBodyJS = [
 	'vendor/jquery.mCustomScrollbar.concat.min.js',
 	'revise.js'
 ];
+
+
+// Generate new nonce for add new devices
+$_SESSION["new_device_nonce"] = uniqid(mt_rand(), true);
+
 
 $page_title = "Revision Mode";
 require view('revise');

@@ -88,8 +88,8 @@
 
 						// Combined Devices
 						if (
-							$catFilter != "archived" &&
-							$catFilter != "deleted" &&
+							//$catFilter != "archived" &&
+							//$catFilter != "deleted" &&
 							$deviceFilter == "" &&
 							array_search($block['parent_page_ID'], array_column($onlyPageData, 'page_ID')) !== false
 						) continue;
@@ -320,97 +320,93 @@
 											<?php
 
 											if (
-												$catFilter != "archived" &&
-												$catFilter != "deleted" &&
+												//$catFilter != "archived" &&
+												//$catFilter != "deleted" &&
 												$deviceFilter == ""
 											) {
 
 
 												$all_devices = array_merge($block['parentPageData'], $block['subPageData']);
-
 												//print_r(array_merge($block['parentPageData'], $block['subPageData'])); exit();
-
 												foreach ($all_devices as $device) {
 
-
 													$pageStatus = Page::ID($device['page_ID'])->getPageStatus()['status'];
+
 											?>
 
-											<a href="<?=site_url('revise/'.$device['page_ID'])?>" data-status="<?=$pageStatus?>">
-												<i class="fa <?=$device['device_cat_icon']?>" data-tooltip="<?=$device['device_name']?>: <?=ucfirst($pageStatus)?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
-											</a>
+													<a href="<?=site_url('revise/'.$device['page_ID'])?>" data-status="<?=$pageStatus?>">
+														<i class="fa <?=$device['device_cat_icon']?>" data-tooltip="<?=$device['device_name']?>: <?=ucfirst($pageStatus)?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
+													</a>
 
-											<?php
+												<?php
 												}
-											?>
-											<span class="dropdown-container">
-												<a href="#" class="dropdown-opener add-device"><span style="font-family: Arial;">+</span></a>
-												<nav class="dropdown xl-left">
-													<ul class="device-adder">
-														<?php
-														$db->orderBy('device_cat_order', 'asc');
-														$device_cats = $db->get('device_categories');
-														foreach ($device_cats as $device_cat) {
-														?>
+												?>
+												<span class="dropdown-container">
+													<a href="#" class="dropdown-opener add-device"><span style="font-family: Arial;">+</span></a>
+													<nav class="dropdown xl-left">
+														<ul class="device-adder">
+															<?php
+															$db->orderBy('device_cat_order', 'asc');
+															$device_cats = $db->get('device_categories');
+															foreach ($device_cats as $device_cat) {
+															?>
 
-														<li>
+															<li>
 
-															<div class="dropdown-container">
-																<div class="dropdown-opener">
-																	<i class="fa <?=$device_cat['device_cat_icon']?>" aria-hidden="true"></i> <?=$device_cat['device_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+																<div class="dropdown-container">
+																	<div class="dropdown-opener">
+																		<i class="fa <?=$device_cat['device_cat_icon']?>" aria-hidden="true"></i> <?=$device_cat['device_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+																	</div>
+																	<nav class="dropdown selectable addable xl-left">
+																		<ul class="device-addd">
+																			<?php
+																			$db->where('device_cat_ID', $device_cat['device_cat_ID']);
+																			$db->where('device_user_ID', 1);
+																			$db->orderBy('device_order', 'asc');
+																			$devices = $db->get('devices');
+																			foreach ($devices as $device) {
+																			?>
+																			<li>
+																				<a href="?new_device=<?=$device['device_ID']?>&page_ID=<?=$block['page_ID']?>&nonce=<?=$_SESSION["new_device_nonce"]?>"
+																					data-device-id="<?=$device['device_ID']?>"
+																					data-device-width="<?=$device['device_width']?>"
+																					data-device-height="<?=$device['device_height']?>"
+																					data-device-cat-name="<?=$device_cat['device_cat_name']?>"
+																					data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
+																				>
+																					<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
+																				</a>
+																			</li>
+																			<?php
+																			}
+
+																			// Custom Device
+																			if ($device_cat['device_cat_name'] == "Custom...") {
+																			?>
+																			<li><a href="#" data-device-id="<?=$device['device_ID']?>">Add New</a></li>
+																			<?php
+																			}
+																			?>
+																		</ul>
+																	</nav>
+
 																</div>
-																<nav class="dropdown selectable addable xl-left">
-																	<ul class="device-addd">
-																		<?php
-																		$db->where('device_cat_ID', $device_cat['device_cat_ID']);
-																		$db->orderBy('device_order', 'asc');
-																		$devices = $db->get('devices');
-																		foreach ($devices as $device) {
-																		?>
-																		<li>
-																			<a href="?new_device=<?=$device['device_ID']?>&page_ID=<?=$block['page_ID']?>&nonce=<?=$_SESSION["new_device_nonce"]?>"
-																				data-device-id="<?=$device['device_ID']?>"
-																				data-device-width="<?=$device['device_width']?>"
-																				data-device-height="<?=$device['device_height']?>"
-																				data-device-cat-name="<?=$device_cat['device_cat_name']?>"
-																				data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
-																			>
-																				<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
-																			</a>
-																		</li>
-																		<?php
-																		}
 
-																		// Custom Device
-																		if ($device_cat['device_cat_name'] == "Custom...") {
-																		?>
-																		<li><a href="#" data-device-id="<?=$device['device_ID']?>">Add New</a></li>
-																		<?php
-																		}
-																		?>
-																	</ul>
-																</nav>
+															</li>
 
-															</div>
-
-														</li>
-
-														<?php
-														}
-														?>
-													</ul>
-												</nav>
+															<?php
+															}
+															?>
+														</ul>
+													</nav>
+												</span>
 											<?php
-											}
+											} // If not Archived or Deleted or filtred
 											?>
 
 										<?php
-										}
+										} // if ($dataType == "page")
 										?>
-											</span>
-
-
-
 
 
 									</div>
@@ -449,7 +445,31 @@
 
 
 										<?php
+
 											$action_url = 'ajax?type=data-action&data-type='.$dataType.'&nonce='.$_SESSION['js_nonce'].'&id='.$block[$dataType.'_ID'];
+
+
+											// Add the subpages
+											if (
+												$dataType == "page" &&
+												isset($all_devices) &&
+												count($all_devices) > 0
+											) {
+
+												$subPages = "";
+
+												foreach ($all_devices as $device) {
+
+													$subPages .= $device['page_ID'].",";
+
+												}
+
+												$subPages = trim($subPages, ",");
+
+												$action_url .= "&subpages=$subPages";
+
+											}
+
 
 											if ($catFilter == "archived" || $catFilter == "deleted") {
 										?>
@@ -460,7 +480,6 @@
 										<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-tooltip="Archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
 										<?php
 											}
-
 										?>
 										<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 

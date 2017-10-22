@@ -62,12 +62,18 @@ $(function() {
 		// Remove all add new boxes
 		$('.add-new-block').css('opacity', '0').css('width', '0').css('padding', '0');
 
+		// Remove all the device navigations
+		$('.devices nav.dropdown').hide();
+
 
 	}).bind('dragend', function( event ){
 
 
 		// Re-add them
     	addNewPageButtons();
+
+		// Show all the device navigations
+		$('.devices nav.dropdown').show();
 
 
     });

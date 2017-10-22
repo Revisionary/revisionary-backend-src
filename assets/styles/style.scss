@@ -339,7 +339,9 @@ a {
 			& > li {
 				margin-bottom: -2px;
 
-				& > * { // Usually A or SPAN
+				& > a,
+				& > span,
+				& > div { // Usually A or SPAN
 					background-color: #fff;
 					padding: 5px;
 					border: 2px solid black;

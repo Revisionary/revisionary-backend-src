@@ -311,10 +311,9 @@
     .dropdown-container {
 
 	    .dropdown {
-		    left: 100%;
+		    left: calc(100% - 2px);
 		    bottom: 0;
-		    padding-top: 0;
-	        padding-left: 5px;
+		    top: auto !important;
 
 		    & > ul {
 
@@ -324,6 +323,10 @@
 					& > a,
 					& > a > i {
 						color: black !important;
+
+						&:hover {
+							color: $color-secondary !important;
+						}
 					}
 
 			    }

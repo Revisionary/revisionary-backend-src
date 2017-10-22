@@ -132,6 +132,28 @@ if (request('action') == "archive") {
 		if ($id) $status = "successful";
 
 
+		// If a page is being archived, also recover the subpages as well
+		if ($type == 'page' && request('subpages') != "") {
+
+			$subPages = explode(',', request('subpages'));
+
+			foreach($subPages as $subPage_ID) {
+
+				// Add the new record
+				$dbData = Array (
+					"archive_type" => $type,
+					"archived_object_ID" => $subPage_ID,
+					"archiver_user_ID" => currentUserID()
+				);
+				$id = $db->insert('archives', $dbData);
+				if ($id) $status = "successful";
+
+			}
+
+
+		}
+
+
 	}
 
 	// Redirect if not ajax
@@ -169,6 +191,7 @@ if (request('action') == "delete") {
 	// If no problem, DB Update
 	if ($status != 'fail') {
 
+
 		// Delete the old record
 		$db->where('delete_type', $type);
 		$db->where('deleted_object_ID', request('id'));
@@ -184,6 +207,29 @@ if (request('action') == "delete") {
 		);
 		$id = $db->insert('deletes', $dbData);
 		if ($id) $status = "successful";
+
+
+
+		// If a page is being deleted, also delete the subpages as well
+		if ($type == 'page' && request('subpages') != "") {
+
+			$subPages = explode(',', request('subpages'));
+
+			foreach($subPages as $subPage_ID) {
+
+				// Add the new record
+				$dbData = Array (
+					"delete_type" => $type,
+					"deleted_object_ID" => $subPage_ID,
+					"deleter_user_ID" => currentUserID()
+				);
+				$id = $db->insert('deletes', $dbData);
+				if ($id) $status = "successful";
+
+			}
+
+
+		}
 
 
 	}
@@ -369,6 +415,58 @@ if (request('action') == "remove") {
 			$removed = $db->delete($type.'s');
 			if ( $removed ) $status = "successful";
 
+
+
+			// If a page is being deleted, also delete the subpages as well
+			if ($type == 'page' && request('subpages') != "") {
+
+				$subPages = explode(',', request('subpages'));
+
+				foreach($subPages as $subPage_ID) {
+
+					deleteDirectory( dir."/assets/cache/user-".currentUserID()."/".Page::ID( $subPage_ID )->projectPath."/".Page::ID( $subPage_ID )->pagePath."/".Page::ID( $subPage_ID )->devicePath."/" );
+
+					// Remove from archives
+					$db->where('archive_type', $type);
+					$db->where('archived_object_ID', $subPage_ID);
+					$db->where('archiver_user_ID', currentUserID());
+					$db->delete('archives');
+
+
+					// Remove from deletes
+					$db->where('delete_type', $type);
+					$db->where('deleted_object_ID', $subPage_ID);
+					$db->where('deleter_user_ID', currentUserID());
+					$db->delete('deletes');
+
+
+					// Remove from sorting
+					$db->where('sort_type', $type);
+					$db->where('sort_object_ID', $subPage_ID);
+					$db->where('sorter_user_ID', currentUserID());
+					$db->delete('sorting');
+
+
+					// Remove from shares
+					$db->where('share_type', $type);
+					$db->where('shared_object_ID', $subPage_ID);
+					$db->where('sharer_user_ID', currentUserID());
+					$db->orWhere('share_to', currentUserID());
+					$db->delete('shares');
+
+
+					// Remove the item
+					$db->where($type.'_ID', $subPage_ID);
+					$db->where('user_ID', currentUserID());
+					$removed = $db->delete($type.'s');
+					if ( $removed ) $status = "successful";
+
+				}
+
+
+			}
+
+
 		}
 
 	}
@@ -420,6 +518,26 @@ if ( substr(request('action'), 0, 8) == "recover-") {
 		$db->where($recover_type.'r_user_ID', currentUserID());
 		$deleted = $db->delete($recover_type.'s');
 		if ($deleted) $status = "successful";
+
+
+		// If a page is being recovered, also recover the subpages as well
+		if ($type == 'page' && request('subpages') != "") {
+
+			$subPages = explode(',', request('subpages'));
+
+			foreach($subPages as $subPage_ID) {
+
+				// Delete the old record
+				$db->where($recover_type.'_type', $type);
+				$db->where($recover_type.'d_object_ID', $subPage_ID);
+				$db->where($recover_type.'r_user_ID', currentUserID());
+				$deleted = $db->delete($recover_type.'s');
+				if ($deleted) $status = "successful";
+
+			}
+
+
+		}
 	}
 
 	// Redirect if not ajax

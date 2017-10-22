@@ -757,14 +757,70 @@ $(function(){
 									<?php
 									}
 									?>
-										<li>
-											<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a>
+										<li class="dropdown-container">
+											<a href="#" class="dropdown-opener add-device">Add New <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+											<nav class="dropdown xl-left">
+												<ul class="device-adder">
+													<?php
+													$db->orderBy('device_cat_order', 'asc');
+													$device_cats = $db->get('device_categories');
+													foreach ($device_cats as $device_cat) {
+													?>
+
+													<li>
+
+														<div class="dropdown-container">
+															<div class="dropdown-opener">
+																<i class="fa <?=$device_cat['device_cat_icon']?>" aria-hidden="true"></i> <?=$device_cat['device_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+															</div>
+															<nav class="dropdown selectable addable xl-left">
+																<ul class="device-addd">
+																	<?php
+																	$db->where('device_cat_ID', $device_cat['device_cat_ID']);
+																	$db->where('device_user_ID', 1);
+																	$db->orderBy('device_order', 'asc');
+																	$devices = $db->get('devices');
+																	foreach ($devices as $device) {
+																	?>
+																	<li>
+																		<a href="<?=site_url("project/$project_ID?new_device=".$device['device_ID']."&page_ID=$page_ID&nonce=".$_SESSION["new_device_nonce"])?>"
+																			data-device-id="<?=$device['device_ID']?>"
+																			data-device-width="<?=$device['device_width']?>"
+																			data-device-height="<?=$device['device_height']?>"
+																			data-device-cat-name="<?=$device_cat['device_cat_name']?>"
+																			data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
+																		>
+																			<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
+																		</a>
+																	</li>
+																	<?php
+																	}
+
+																	// Custom Device
+																	if ($device_cat['device_cat_name'] == "Custom...") {
+																	?>
+																	<li><a href="#" data-device-id="<?=$device['device_ID']?>">Add New</a></li>
+																	<?php
+																	}
+																	?>
+																</ul>
+															</nav>
+
+														</div>
+
+													</li>
+
+													<?php
+													}
+													?>
+												</ul>
+											</nav>
 										</li>
 									</ul>
 								</nav>
 							</span>
 
-							<div class="device-icon"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i></div>
+							<div class="device-icon" data-tooltip="<?=$device_name?>"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i></div>
 						</div>
 						<a href="#" class="version-selector"><?=Page::ID($page_ID)->pageVersion?></a>
 
