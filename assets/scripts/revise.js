@@ -271,19 +271,24 @@ function runTheInspector() {
 
 
 				// Live reactions
-				if (currentPinMode == "live" && focused_element_editable) {
+				if (currentPinMode == "live" || currentPinMode == "private") {
 
-					log('GO LIVE');
-					switchCursorMode('live');
-					focused_element.css('outline', '2px dashed green', 'important');
+					if (focused_element_editable) {
 
-				} else if (currentPinMode == "live" && !focused_element_editable) {
+						switchCursorMode(currentPinMode == "private" ? 'private-live' : 'live');
+						focused_element.css('outline', '2px dashed ' + (currentPinMode == "private" ? '#FC0FB3' : 'green'), 'important');
 
-					switchCursorMode('standard');
+					} else {
+
+						switchCursorMode(currentPinMode == "private" ? 'private' : 'standard');
+
+					}
 
 				}
 
-			}
+
+
+			} // If cursor active
 
 
 		}).on('click', function(e) { // Detect the mouse clicks in frame

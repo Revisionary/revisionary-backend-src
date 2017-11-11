@@ -868,7 +868,7 @@ $(function(){
 					ONLY COMMENT <pin class="add-new" data-pin-mode="standard">+</pin>
 				</a>
 				<a href="#" class="activate-private-live-mode">
-					LIVEABLE PRIVATE COMMENT <pin class="add-new" data-pin-mode="private-live">+</pin>
+					LIVEABLE PRIVATE COMMENT <pin class="add-new" data-pin-mode="private">+</pin>
 				</a>
 			</div>
 
