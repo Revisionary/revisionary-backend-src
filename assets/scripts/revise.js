@@ -39,6 +39,7 @@ mouseInTheFrame = false;
 // Hovers
 hoveringText = false;
 hoveringImage = false;
+hoveringButton = false;
 
 /*
 MIGHT BE NEEDED
@@ -108,10 +109,10 @@ function runTheInspector() {
 
 		    // Focused Element
 	        focused_element = $(e.target);
-	        focused_element_index = focused_element.attr('data-element-index');
+	        focused_element_index = focused_element.attr('data-element-index'); // !!!
 	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 	        focused_element_children = focused_element.children();
-	        focused_element_grand_children = focused_element.children().children();
+	        focused_element_grand_children = focused_element_children.children();
 
 
 			// Follow the mouse cursor
@@ -146,21 +147,47 @@ function runTheInspector() {
 			}
 */
 
+
 			// Work only if cursor is active
 			if (cursorActive) {
 
 
-				// Check Element Editable?
+				// Re-Focus if only child element has no child and has content
+				if (
+					focused_element_text == "" && // Focused element has no content
+					focused_element_children.length == 1 && // Has only one child
+					focused_element_grand_children.length == 0 && // No grand child
+					focused_element_children.first().text().trim() != "" // Grand child should have content
+				) {
+
+					// Re-Focus to the child element
+					focused_element = focused_element_children.first();
+			        focused_element_index = focused_element.attr('data-element-index'); // !!!
+			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+			        focused_element_children = focused_element.children();
+			        focused_element_grand_children = focused_element_children.children();
+
+				}
+
+
+
+				// See what am I focusing
+				console.log( focused_element.prop("tagName") );
+
+
+
+				// Check element text editable
+				hoveringText = false;
 		        focused_element_editable = false;
 		        focused_element_html_editable = false;
 		        if (
 				        (
 				        	focused_element.prop("tagName") == "A" ||
-				        	focused_element.prop("tagName") == "STRONG" ||
 				        	focused_element.prop("tagName") == "B" ||
-				        	focused_element.prop("tagName") == "IMG" || // CHECK THIS !!!
+				        	focused_element.prop("tagName") == "STRONG" ||
 				        	focused_element.prop("tagName") == "TEXTAREA" ||
 				        	focused_element.prop("tagName") == "LABEL" ||
+				        	focused_element.prop("tagName") == "BUTTON" ||
 				        	focused_element.prop("tagName") == "P" ||
 				        	focused_element.prop("tagName") == "DIV" ||
 				        	focused_element.prop("tagName") == "SPAN" ||
@@ -173,39 +200,74 @@ function runTheInspector() {
 				        	focused_element.prop("tagName") == "H6"
 			        	)
 			        	&&
-			        	focused_element.children().length == 0 &&
-			        	focused_element.text().trim() != "" &&
-			        	focused_element.html() != "&nbsp;"
+			        	focused_element_text.trim() != "" && // If not empty
+			        	focused_element.html() != "&nbsp;" && // If really not empty
+			        	focused_element_children.length == 0 // If doesn't have any child
 		        ) {
-					focused_element_editable = true; // Completely Editable
+
+					hoveringText = true;
+					focused_element_editable = true; // Obviously Text Editable
+					focused_element_html_editable = true;
+					console.log( '* Obviously Text Editable: ' + focused_element.prop("tagName") );
+					console.log( 'Focused Element Text: ' + focused_element_text );
+
 				}
 
 
-				// Check Partial HTML Editable?
-				var each_child_has_only_child = false;
-				focused_element_children.each(function() { // Check each child
-					if (
-						$(this).children().length <= 1 &&
-						$(this).children().text().trim() != ""
-					) each_child_has_only_child = true;
-				});
 
+				// Check element image editable
+				hoveringImage = false;
+		        if ( focused_element.prop("tagName") == "IMG" ) {
+
+					hoveringImage = true;
+					focused_element_editable = true; // Obviously Image Editable
+					console.log( '* Obviously Image Editable: ' + focused_element.prop("tagName") );
+					console.log( 'Focused Element Image: ' + focused_element.attr('src') );
+
+				}
+
+
+
+				// Check if element has children but doesn't have grand children
 				if (
 					focused_element_children.length > 0 && // Has child
-						(
-							focused_element_grand_children.length <= 1 ||  // No grand child or only one grand child
-							each_child_has_only_child // Or each child has only one child
-						) &&
-					focused_element.text().trim() != "" // And, also have to have text
+					focused_element_grand_children.length == 0 && // No grand child
+					focused_element_text.trim() != "" && // And, also have to have text
+					focused_element.html() != "&nbsp;" // And, also have to have text
 				) {
+
+					hoveringText = true;
 					focused_element_editable = true;
 					focused_element_html_editable = true;
+					console.log( '* Text Editable (No Grand Child): ' + focused_element.prop("tagName") );
+					console.log( 'Focused Element Text: ' + focused_element_text );
+
+				}
+
+
+
+				// Check the submit buttons
+				hoveringButton = false;
+		        if (
+		        	focused_element.prop("tagName") == "INPUT" &&
+		        	(
+		        		focused_element.attr("type") == "submit" ||
+		        		focused_element.attr("type") == "reset"
+		        	)
+		        ) {
+
+					hoveringButton = true;
+					focused_element_editable = true; // Obviously Image Editable
+					console.log( '* Button Editable: ' + focused_element.prop("tagName") );
+					console.log( 'Focused Button Text: ' + focused_element.attr('value') );
+
 				}
 
 
 
 				// Clean Other Outlines
 				iframe.find('body *').css('outline', '');
+
 
 
 				// Live reactions
@@ -245,12 +307,14 @@ function runTheInspector() {
 
 
 
+/*
 	// Mouse cursor capture !!!
 	$(document).on('mousemove', function(e){
 
 		//log( mouseInTheFrame );
 
 	});
+*/
 
 }
 
