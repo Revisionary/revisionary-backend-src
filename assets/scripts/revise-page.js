@@ -1,3 +1,5 @@
+var iframeScale = 1;
+
 // When document is ready
 $(function() {
 
@@ -30,7 +32,6 @@ $(function() {
 	    var $window = $(window);
 	    var width = $window.width() - 20; // -20 for the borders
 	    var height = $window.height() - 20; // -20 for the borders
-	    var scale;
 
 	    // early exit
 	    if(width >= maxWidth && height >= maxHeight) {
@@ -39,10 +40,10 @@ $(function() {
 	        return;
 	    }
 
-	    scale = Math.min(width/maxWidth, height/maxHeight);
+	    iframeScale = Math.min(width/maxWidth, height/maxHeight);
 
-	    $('iframe').css({'-webkit-transform': 'scale(' + scale + ')'});
-	    $('.iframe-container').css({ width: maxWidth * scale, height: maxHeight * scale });
+	    $('iframe').css({'-webkit-transform': 'scale(' + iframeScale + ')'});
+	    $('.iframe-container').css({ width: maxWidth * iframeScale, height: maxHeight * iframeScale });
 
 	}).resize();
 

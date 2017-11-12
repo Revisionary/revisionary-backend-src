@@ -115,10 +115,12 @@ function runTheInspector() {
 	        focused_element_grand_children = focused_element_children.children();
 
 
+
 			// Follow the mouse cursor
+			var offset = $('#the-page').offset();
 			$('.mouse-cursor').css({
-				left:  e.screenX,
-				top:   e.screenY - 70
+				left:  e.clientX * iframeScale + offset.left,
+				top:   e.clientY * iframeScale + offset.top
 			});
 
 
