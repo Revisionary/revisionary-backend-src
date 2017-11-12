@@ -106,6 +106,12 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 				"user_ID" => currentUserID()
 			));
 
+			// Add its initial version
+			$version_ID = $db->insert('versions', array(
+				"version_page_ID" => $page_ID,
+				"version_user_ID" => currentUserID()
+			));
+
 			if ( $device_count == 0 ) $parent_page_ID = $page_ID;
 			$device_count++;
 

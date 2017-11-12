@@ -141,6 +141,35 @@ $(function(){
 
 		<iframe id="the-page" src="" data-url="" width="<?=$width?>" height="<?=$height?>" scrolling="auto" style="min-width: <?=$width?>px; min-height: <?=$height?>px;"></iframe>
 
+		<div id="pins">
+		<?php
+
+			// Get the pin data
+			//$db->where('pin_', '');
+			$pins = $db->get('pins');
+
+			$pin_index = 1;
+			foreach($pins as $pin) {
+				?>
+
+
+				<pin
+					class="pin big"
+					data-pin-mode="live"
+					data-pin-x="<?=$pin['pin_x']?>"
+					data-pin-y="<?=$pin['pin_y']?>"
+					style="top: <?=$pin['pin_y']?>px; left: <?=$pin['pin_x']?>px;"
+				><?=$pin_index?></pin>
+
+
+				<?php
+				$pin_index++;
+			}
+
+		?>
+
+		</div>
+
 	</div>
 
 	<main>

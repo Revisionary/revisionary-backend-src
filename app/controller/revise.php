@@ -298,12 +298,12 @@ $additionalCSS = [
 ];
 
 $additionalHeadJS = [
-	'revise-page.js'
+	'globals.js'
 ];
 
 $additionalBodyJS = [
 	'vendor/jquery.mCustomScrollbar.concat.min.js',
-	'revise.js'
+	'revise-page.js'
 ];
 
 

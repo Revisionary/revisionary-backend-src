@@ -1,8 +1,4 @@
-var activator, cursorActive, currentPinMode
-var pinModeSelector, pinModeSelectorOpen
-var cursor, currentCursorMode, currentPinNumber;
-var mouseInTheFrame;
-var hoveringText, hoveringImage;
+// VARIABLES
 var iframe;
 
 // Global Focus Variables
@@ -17,29 +13,37 @@ var focused_element,
 	focused_element_editable,
 	focused_element_html_editable;
 
-
-
-// VARIABLES
 // Activator Pin
-activator = $('.inspect-activator').children('pin');
-cursorActive = activator.hasClass('active');
+var activator;
+var cursorActive;
 
 // Pin Mode Selector
-pinModeSelector = $('.pin-mode-selector');
-pinModeSelectorOpen = pinModeSelector.parent().hasClass('selector-open');
+var pinModeSelector;
+var pinModeSelectorOpen;
 
 // Detect initial cursor mode
-cursor = $('.mouse-cursor');
-currentPinMode = activator.data('pin-mode');
-currentPinNumber = 1;
+var cursor;
+var currentPinMode;
+var currentCursorMode;
+var currentPinNumber = 1;
 
 // Iframe ???
-mouseInTheFrame = false;
+var mouseInTheFrame = false;
 
 // Hovers
-hoveringText = false;
-hoveringImage = false;
-hoveringButton = false;
+var hoveringText = false;
+var hoveringImage = false;
+var hoveringButton = false;
+
+// Scrolls
+var scrollOffset_top = 0;
+var scrollOffset_left = 0;
+
+// Initial Scale
+var iframeScale = 1;
+
+// Pin Window
+var pinWindowOpen = false;
 
 /*
 MIGHT BE NEEDED
@@ -51,31 +55,18 @@ currentDevice = "Desktop";
 */
 
 
-// Inspect activator
-activator.click(function(e) {
-	toggleCursorActive();
+// When document is ready, fill the variables
+$(function() {
 
-	e.preventDefault();
-	return false;
-});
+	activator = $('.inspect-activator').children('pin');
+	cursorActive = activator.hasClass('active');
 
-// Pin mode selector
-pinModeSelector.click(function(e) {
-	togglePinModeSelector();
+	pinModeSelector = $('.pin-mode-selector');
+	pinModeSelectorOpen = pinModeSelector.parent().hasClass('selector-open');
 
-	e.preventDefault();
-	return false;
-});
+	cursor = $('.mouse-cursor');
+	currentPinMode = activator.data('pin-mode');
 
-// Pin mode change
-$('.pin-modes a').click(function(e) {
-
-	var selectedPinMode = $(this).children('pin').data('pin-mode');
-
-	switchPinMode(selectedPinMode);
-
-	e.preventDefault();
-	return false;
 });
 
 
@@ -122,6 +113,7 @@ function runTheInspector() {
 				left:  e.clientX * iframeScale + offset.left,
 				top:   e.clientY * iframeScale + offset.top
 			});
+
 
 
 			// Disable cursor if on some places ??
@@ -190,6 +182,9 @@ function runTheInspector() {
 				        	focused_element.prop("tagName") == "TEXTAREA" ||
 				        	focused_element.prop("tagName") == "LABEL" ||
 				        	focused_element.prop("tagName") == "BUTTON" ||
+				        	focused_element.prop("tagName") == "TIME" ||
+				        	focused_element.prop("tagName") == "DATE" ||
+				        	focused_element.prop("tagName") == "ADDRESS" ||
 				        	focused_element.prop("tagName") == "P" ||
 				        	focused_element.prop("tagName") == "DIV" ||
 				        	focused_element.prop("tagName") == "SPAN" ||
@@ -295,15 +290,29 @@ function runTheInspector() {
 
 		}).on('click', function(e) { // Detect the mouse clicks in frame
 
+
 			// If cursor
 			if (cursorActive) {
 
 
+				putPin(e.pageX, e.pageY, currentCursorMode);
+
+
 			}
+
 
 			// Prevent clicking something?
 			e.preventDefault();
 			return false;
+
+		}).on('scroll', function(e) { // Detect the scroll to re-position pins
+
+			scrollOffset_top = $(this).scrollTop();
+			scrollOffset_left = $(this).scrollLeft();
+
+
+		    // Re-Locate the pins
+		    relocatePins();
 
 		});
 
@@ -322,105 +331,5 @@ function runTheInspector() {
 
 	});
 */
-
-}
-
-
-// FUNCTION: Switch to a different pin mode
-function switchPinMode(pinMode) {
-
-	log(pinMode);
-
-	activator.attr('data-pin-mode', pinMode);
-
-	if (pinMode == "live")
-		switchCursorMode('standard');
-	else
-		switchCursorMode(pinMode);
-
-
-	currentPinMode = pinMode;
-
-	if (pinModeSelectorOpen) togglePinModeSelector(true);
-
-}
-
-
-// FUNCTION: Switch to a different cursor mode
-function switchCursorMode(cursorMode) {
-
-	log(cursorMode);
-
-	cursor.attr('data-pin-mode', cursorMode);
-	currentCursorMode = cursorMode;
-
-}
-
-
-// FUNCTION: Toggle Inspect Mode
-function toggleCursorActive(forceClose = false, forceOpen = false) {
-
-	if ( (cursorActive || forceClose) && !forceOpen ) {
-
-		// Deactivate
-		activator.removeClass('active');
-
-		// Hide the cursor
-		cursor.fadeOut();
-
-		// Show the original cursor
-		iframe.find('body, body *').css('cursor', '', '');
-
-		// Enable all the links
-	    // ...
-
-
-		cursorActive = false;
-		focused_element = null;
-
-	} else {
-
-
-		// Activate
-		activator.addClass('active');
-
-		// Show the cursor
-		cursor.fadeIn();
-
-		// Hide the original cursor
-		iframe.find('body, body *').css('cursor', 'none', 'important');
-
-		// Disable all the links
-	    // ...
-
-
-		cursorActive = true;
-		if (pinModeSelectorOpen) togglePinModeSelector(true);
-
-	}
-
-}
-
-
-// FUNCTION: Toggle Pin Mode Selector
-function togglePinModeSelector(forceClose = false) {
-
-	if (pinModeSelectorOpen || forceClose) {
-
-		pinModeSelector.removeClass('open');
-		pinModeSelector.parent().removeClass('selector-open');
-		$('#pin-mode-selector').fadeOut();
-		pinModeSelectorOpen = false;
-		if (!cursorActive) toggleCursorActive();
-
-	} else {
-
-		pinModeSelector.addClass('open');
-		pinModeSelector.parent().addClass('selector-open');
-		$('#pin-mode-selector').fadeIn();
-		pinModeSelectorOpen = true;
-		if (cursorActive) toggleCursorActive(true);
-
-	}
 
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 22, 2017 at 06:59 PM
+-- Generation Time: Nov 12, 2017 at 10:48 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.8
 
@@ -234,7 +234,24 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_user`
 (119, 'Home Page', 'page.jpg', 'https://www.pacificchorale.org/', NULL, NULL, NULL, '2017-09-27 17:13:02', '2017-09-27 17:18:48', 31, 6, 116, 1),
 (120, 'Home Page', 'page.jpg', 'https://www.pacificchorale.org/', NULL, NULL, NULL, '2017-09-27 17:13:02', '2017-09-27 17:20:09', 31, 9, 116, 1),
 (133, 'Home', 'page.jpg', 'http://soho.twelve12.com/', NULL, NULL, NULL, '2017-09-30 00:09:09', '2017-09-30 00:09:18', 32, 4, NULL, 1),
-(134, 'Home', 'page.jpg', 'http://soho.twelve12.com/', NULL, NULL, NULL, '2017-09-30 00:09:47', '2017-09-30 00:09:56', 32, 3, 133, 1);
+(134, 'Home', 'page.jpg', 'http://soho.twelve12.com/', NULL, NULL, NULL, '2017-09-30 00:09:47', '2017-09-30 00:09:56', 32, 3, 133, 1),
+(170, 'Home', 'page.jpg', 'http://dnomak.com/', NULL, NULL, NULL, '2017-10-27 14:35:22', '2017-10-27 14:35:34', 37, 4, NULL, 1),
+(171, 'Home', 'page.jpg', 'http://dnomak.com/', NULL, NULL, NULL, '2017-10-27 14:35:22', '2017-10-27 14:35:34', 37, 6, 170, 1),
+(172, 'Home', 'page.jpg', 'http://dnomak.com/', NULL, NULL, NULL, '2017-10-27 14:36:24', '2017-10-27 14:36:33', 37, 9, 171, 1),
+(173, 'Home', 'page.jpg', 'https://www.unitedstreetsofart.com/', NULL, NULL, NULL, '2017-10-29 17:17:53', '2017-10-29 17:18:06', 38, 4, NULL, 1),
+(174, 'Home', 'page.jpg', 'https://www.unitedstreetsofart.com/', NULL, NULL, NULL, '2017-10-29 17:17:54', '2017-10-29 17:18:08', 38, 6, 173, 1),
+(175, 'Home', 'page.jpg', 'https://www.unitedstreetsofart.com/', NULL, NULL, NULL, '2017-10-29 17:17:54', '2017-10-29 17:18:41', 38, 9, 173, 1),
+(176, 'Home', 'page.jpg', 'https://www.7diamonds.com', NULL, NULL, NULL, '2017-10-29 17:33:56', '2017-10-29 17:34:09', 39, 4, NULL, 1),
+(177, 'Home', 'page.jpg', 'https://www.7diamonds.com', NULL, NULL, NULL, '2017-10-29 17:33:56', '2017-10-29 17:34:09', 39, 1, 176, 1),
+(178, 'Home', 'page.jpg', 'https://www.7diamonds.com', NULL, NULL, NULL, '2017-10-29 17:33:56', '2017-10-29 17:34:35', 39, 5, 176, 1),
+(179, 'Home', 'page.jpg', 'https://www.7diamonds.com', NULL, NULL, NULL, '2017-10-29 17:33:56', '2017-10-29 17:34:35', 39, 6, 176, 1),
+(180, 'Home', 'page.jpg', 'https://www.7diamonds.com', NULL, NULL, NULL, '2017-10-29 17:33:56', '2017-10-29 17:35:04', 39, 9, 176, 1),
+(181, 'Home Page', 'page.jpg', 'http://www.cuneyt-tas.com', NULL, NULL, NULL, '2017-10-29 17:39:01', '2017-10-29 17:39:09', 13, 4, NULL, 1),
+(182, 'Test Home', 'page.jpg', 'http://dev.cuneyt-tas.com/', NULL, NULL, NULL, '2017-11-12 09:29:56', '2017-11-12 09:30:05', 40, 4, NULL, 1),
+(183, 'Test Home', 'page.jpg', 'http://dev.cuneyt-tas.com/', NULL, NULL, NULL, '2017-11-12 09:29:57', '2017-11-12 09:30:05', 40, 9, 182, 1),
+(184, 'Intro Page', 'page.jpg', 'http://dev.web-estimator.com/', NULL, NULL, NULL, '2017-11-12 13:01:28', '2017-11-12 13:01:34', 41, 4, NULL, 1),
+(185, 'Intro Page', 'page.jpg', 'http://dev.web-estimator.com/', NULL, NULL, NULL, '2017-11-12 13:01:28', '2017-11-12 13:01:34', 41, 7, 184, 1),
+(187, 'WP Home', 'page.jpg', 'http://localhost/wordpress/', NULL, NULL, NULL, '2017-11-12 19:02:11', '2017-11-12 19:02:17', 42, 4, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -257,19 +274,39 @@ INSERT INTO `page_cat_connect` (`page_cat_connect_ID`, `page_cat_page_ID`, `page
 (6, 84, 3, 1),
 (11, 50, 3, 1),
 (24, 51, 6, 1),
-(25, 77, 6, 1),
 (26, 110, 7, 1),
 (27, 13, 8, 1),
 (28, 78, 8, 1),
 (29, 79, 8, 1),
-(126, 82, 3, 1),
-(127, 83, 3, 1),
-(128, 85, 4, 1),
-(129, 86, 4, 1),
-(130, 87, 4, 1),
-(131, 88, 4, 1),
-(132, 90, 5, 1),
-(133, 89, 5, 1);
+(142, 82, 3, 1),
+(143, 83, 3, 1),
+(144, 85, 4, 1),
+(145, 86, 4, 1),
+(146, 87, 4, 1),
+(147, 88, 4, 1),
+(148, 90, 5, 1),
+(149, 89, 5, 1),
+(151, 181, 6, 1),
+(152, 77, 6, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pins`
+--
+
+CREATE TABLE `pins` (
+  `pin_ID` bigint(20) NOT NULL,
+  `pin_type` varchar(10) NOT NULL,
+  `pin_private` tinyint(1) NOT NULL DEFAULT '0',
+  `pin_complete` tinyint(1) NOT NULL DEFAULT '0',
+  `pin_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `pin_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `pin_x` int(20) NOT NULL DEFAULT '10',
+  `pin_y` int(20) NOT NULL DEFAULT '10',
+  `version_ID` bigint(20) NOT NULL,
+  `user_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -312,7 +349,13 @@ INSERT INTO `projects` (`project_ID`, `project_name`, `project_pic`, `project_cr
 (28, 'Coolsis', 'proj.jpg', '2017-09-20 07:39:00', 1),
 (30, 'The Look Fitness', 'proj.jpg', '2017-09-20 08:00:14', 1),
 (31, 'Pacific Chorale', 'proj.jpg', '2017-09-27 17:11:49', 1),
-(32, 'Soho Taco', 'proj.jpg', '2017-09-30 00:09:09', 1);
+(32, 'Soho Taco', 'proj.jpg', '2017-09-30 00:09:09', 1),
+(37, 'Doğukan', 'proj.jpg', '2017-10-27 14:35:22', 1),
+(38, 'US Art', 'proj.jpg', '2017-10-29 17:17:38', 1),
+(39, '7 Diamonds New', 'proj.jpg', '2017-10-29 17:33:56', 1),
+(40, 'Cuneyt TEST', 'proj.jpg', '2017-11-12 09:29:56', 1),
+(41, 'Web Estimator (CHECK!)', 'proj.jpg', '2017-11-12 13:01:28', 1),
+(42, 'WP Test', 'proj.jpg', '2017-11-12 13:03:12', 1);
 
 -- --------------------------------------------------------
 
@@ -350,7 +393,12 @@ INSERT INTO `project_cat_connect` (`project_cat_connect_ID`, `project_cat_projec
 (1246, 27, 2, 1),
 (1247, 30, 2, 1),
 (1248, 31, 2, 1),
-(1249, 32, 2, 1);
+(1249, 32, 2, 1),
+(1252, 38, 2, 1),
+(1253, 39, 2, 1),
+(1254, 40, 2, 1),
+(1255, 41, 2, 1),
+(1256, 42, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -396,7 +444,36 @@ INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, 
 (99, 'internalize', 162, 16192, 'done', '2017-10-22 14:13:23', '2017-10-22 14:12:55', 'Internalization is complete.', 1),
 (100, 'internalize', 163, 16194, 'done', '2017-10-22 14:13:34', '2017-10-22 14:12:55', 'Internalization is complete.', 1),
 (101, 'internalize', 164, 16723, 'done', '2017-10-22 14:28:44', '2017-10-22 14:28:35', 'Internalization is complete.', 1),
-(102, 'internalize', 165, 16939, 'done', '2017-10-22 14:42:05', '2017-10-22 14:41:15', 'Internalization is complete.', 1);
+(102, 'internalize', 165, 16939, 'done', '2017-10-22 14:42:05', '2017-10-22 14:41:15', 'Internalization is complete.', 1),
+(103, 'internalize', 166, 19435, 'done', '2017-10-22 20:41:07', '2017-10-22 20:40:59', 'Internalization is complete.', 1),
+(104, 'internalize', 167, 19437, 'done', '2017-10-22 20:41:07', '2017-10-22 20:40:59', 'Internalization is complete.', 1),
+(105, 'internalize', 168, 19439, 'done', '2017-10-22 20:41:13', '2017-10-22 20:40:59', 'Internalization is complete.', 1),
+(106, 'internalize', 169, 19441, 'done', '2017-10-22 20:41:13', '2017-10-22 20:40:59', 'Internalization is complete.', 1),
+(107, 'internalize', 170, 5234, 'done', '2017-10-27 14:35:38', '2017-10-27 14:35:22', 'Internalization is complete.', 1),
+(108, 'internalize', 171, 5236, 'done', '2017-10-27 14:35:38', '2017-10-27 14:35:22', 'Internalization is complete.', 1),
+(109, 'internalize', 172, 5355, 'done', '2017-10-27 14:36:35', '2017-10-27 14:36:24', 'Internalization is complete.', 1),
+(110, 'internalize', 173, 10934, 'done', '2017-10-29 17:18:30', '2017-10-29 17:17:53', 'Internalization is complete.', 1),
+(111, 'internalize', 174, 10936, 'done', '2017-10-29 17:18:32', '2017-10-29 17:17:54', 'Internalization is complete.', 1),
+(112, 'internalize', 175, 10938, 'done', '2017-10-29 17:19:05', '2017-10-29 17:17:54', 'Internalization is complete.', 1),
+(113, 'internalize', 176, 11192, 'done', '2017-10-29 17:34:22', '2017-10-29 17:33:56', 'Internalization is complete.', 1),
+(114, 'internalize', 177, 11194, 'done', '2017-10-29 17:34:22', '2017-10-29 17:33:56', 'Internalization is complete.', 1),
+(115, 'internalize', 178, 11196, 'done', '2017-10-29 17:34:47', '2017-10-29 17:33:56', 'Internalization is complete.', 1),
+(116, 'internalize', 179, 11198, 'done', '2017-10-29 17:34:47', '2017-10-29 17:33:56', 'Internalization is complete.', 1),
+(117, 'internalize', 180, 11200, 'done', '2017-10-29 17:35:19', '2017-10-29 17:33:56', 'Internalization is complete.', 1),
+(118, 'internalize', 181, 11457, 'done', '2017-10-29 17:39:17', '2017-10-29 17:39:01', 'Internalization is complete.', 1),
+(119, 'internalize', 50, 27905, 'done', '2017-11-11 16:21:49', '2017-11-11 16:21:25', 'Internalization is complete.', 1),
+(120, 'internalize', 50, 28416, 'done', '2017-11-11 17:01:15', '2017-11-11 17:00:48', 'Internalization is complete.', 1),
+(121, 'internalize', 82, 28890, 'done', '2017-11-11 17:03:18', '2017-11-11 17:03:02', 'Internalization is complete.', 1),
+(122, 'internalize', 82, 29011, 'done', '2017-11-11 17:04:45', '2017-11-11 17:04:26', 'Internalization is complete.', 1),
+(123, 'internalize', 133, 29978, 'done', '2017-11-11 17:37:24', '2017-11-11 17:36:57', 'Internalization is complete.', 1),
+(124, 'internalize', 116, 30291, 'done', '2017-11-11 17:41:28', '2017-11-11 17:40:39', 'Internalization is complete.', 1),
+(125, 'internalize', 182, 2738, 'done', '2017-11-12 09:30:09', '2017-11-12 09:29:56', 'Internalization is complete.', 1),
+(126, 'internalize', 183, 2740, 'done', '2017-11-12 09:30:09', '2017-11-12 09:29:57', 'Internalization is complete.', 1),
+(127, 'internalize', 184, 4578, 'done', '2017-11-12 13:01:36', '2017-11-12 13:01:28', 'Internalization is complete.', 1),
+(128, 'internalize', 185, 4580, 'done', '2017-11-12 13:01:36', '2017-11-12 13:01:28', 'Internalization is complete.', 1),
+(129, 'internalize', 186, 4686, 'error', '2017-11-12 13:03:30', '2017-11-12 13:03:20', 'Process is not working.', 1),
+(130, 'internalize', 186, 4927, 'done', '2017-11-12 13:06:55', '2017-11-12 13:06:47', 'Internalization is complete.', 1),
+(131, 'internalize', 187, 7172, 'done', '2017-11-12 19:02:20', '2017-11-12 19:02:11', 'Internalization is complete.', 1);
 
 -- --------------------------------------------------------
 
@@ -423,12 +500,12 @@ INSERT INTO `shares` (`share_ID`, `share_type`, `shared_object_ID`, `share_to`, 
 (8, 'page', 83, '4', 1),
 (10, 'project', 23, '6', 1),
 (11, 'project', 23, 'test@gmail.com', 1),
-(57, 'page', 50, '6', 2),
 (58, 'project', 12, '6', 1),
 (59, 'page', 116, '2', 1),
 (60, 'page', 116, 'test@gmail.com', 1),
 (61, 'project', 31, '3', 1),
-(62, 'project', 32, '5', 1);
+(62, 'project', 32, '5', 1),
+(65, 'project', 37, 'me@dnomak.com', 1);
 
 -- --------------------------------------------------------
 
@@ -458,9 +535,7 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (291, 'page', 84, 4, 1),
 (298, 'page', 50, 2, 1),
 (330, 'page', 91, 1, 1),
-(403, 'category', 6, 1, 1),
 (404, 'page', 51, 2, 1),
-(405, 'page', 77, 3, 1),
 (645, 'page', 107, 1, 1),
 (646, 'page', 108, 2, 1),
 (647, 'page', 109, 3, 1),
@@ -501,18 +576,31 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (1611, 'project', 30, 23, 1),
 (1612, 'project', 31, 24, 1),
 (1613, 'project', 32, 25, 1),
-(1687, 'category', 0, 0, 1),
-(1688, 'category', 3, 1, 1),
-(1689, 'page', 82, 2, 1),
-(1690, 'page', 83, 3, 1),
-(1691, 'category', 4, 4, 1),
-(1692, 'page', 85, 5, 1),
-(1693, 'page', 86, 6, 1),
-(1694, 'page', 87, 7, 1),
-(1695, 'page', 88, 8, 1),
-(1696, 'category', 5, 9, 1),
-(1697, 'page', 90, 10, 1),
-(1698, 'page', 89, 11, 1);
+(1700, 'project', 37, 5, 1),
+(1714, 'category', 3, 1, 1),
+(1715, 'page', 82, 2, 1),
+(1716, 'page', 83, 3, 1),
+(1717, 'category', 4, 4, 1),
+(1718, 'page', 85, 5, 1),
+(1719, 'page', 86, 6, 1),
+(1720, 'page', 87, 7, 1),
+(1721, 'page', 88, 8, 1),
+(1722, 'category', 5, 9, 1),
+(1723, 'page', 90, 10, 1),
+(1724, 'page', 89, 11, 1),
+(1725, 'project', 38, 27, 1),
+(1726, 'page', 173, 1, 1),
+(1727, 'page', 174, 1, 1),
+(1728, 'page', 175, 1, 1),
+(1729, 'project', 39, 28, 1),
+(1731, 'category', 0, 0, 1),
+(1732, 'category', 6, 1, 1),
+(1733, 'page', 181, 2, 1),
+(1734, 'page', 77, 3, 1),
+(1735, 'project', 40, 29, 1),
+(1736, 'project', 41, 30, 1),
+(1737, 'project', 42, 31, 1),
+(1739, 'page', 187, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -583,13 +671,20 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 
 CREATE TABLE `versions` (
   `version_ID` bigint(20) NOT NULL,
-  `version_name` text NOT NULL,
-  `version_number` float NOT NULL,
+  `version_name` varchar(100) NOT NULL DEFAULT 'Initial version',
+  `version_number` float NOT NULL DEFAULT '0.1',
   `version_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `version_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `version_page_ID` bigint(20) NOT NULL,
   `version_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `versions`
+--
+
+INSERT INTO `versions` (`version_ID`, `version_name`, `version_number`, `version_created`, `version_modified`, `version_page_ID`, `version_user_ID`) VALUES
+(2, 'Initial version', 0.1, '2017-11-12 19:02:11', '2017-11-12 19:02:11', 187, 1);
 
 --
 -- Indexes for dumped tables
@@ -647,6 +742,14 @@ ALTER TABLE `page_cat_connect`
   ADD KEY `page_cat_connect_ibfk_1` (`page_cat_connect_user_ID`),
   ADD KEY `page_cat_connect_ibfk_2` (`page_cat_ID`),
   ADD KEY `page_cat_connect_ibfk_3` (`page_cat_page_ID`);
+
+--
+-- Indexes for table `pins`
+--
+ALTER TABLE `pins`
+  ADD PRIMARY KEY (`pin_ID`),
+  ADD KEY `user_ID` (`user_ID`),
+  ADD KEY `version_ID` (`version_ID`);
 
 --
 -- Indexes for table `projects`
@@ -715,17 +818,17 @@ ALTER TABLE `versions`
 -- AUTO_INCREMENT for table `archives`
 --
 ALTER TABLE `archives`
-  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -740,37 +843,42 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
 ALTER TABLE `page_cat_connect`
-  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+--
+-- AUTO_INCREMENT for table `pins`
+--
+ALTER TABLE `pins`
+  MODIFY `pin_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1251;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1257;
 --
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
 --
 -- AUTO_INCREMENT for table `shares`
 --
 ALTER TABLE `shares`
-  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 --
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1699;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1740;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -785,7 +893,7 @@ ALTER TABLE `user_levels`
 -- AUTO_INCREMENT for table `versions`
 --
 ALTER TABLE `versions`
-  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --
@@ -830,6 +938,13 @@ ALTER TABLE `page_cat_connect`
   ADD CONSTRAINT `page_cat_connect_ibfk_1` FOREIGN KEY (`page_cat_connect_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `page_cat_connect_ibfk_2` FOREIGN KEY (`page_cat_ID`) REFERENCES `categories` (`cat_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `page_cat_connect_ibfk_3` FOREIGN KEY (`page_cat_page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `pins`
+--
+ALTER TABLE `pins`
+  ADD CONSTRAINT `pins_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `pins_ibfk_2` FOREIGN KEY (`version_ID`) REFERENCES `versions` (`version_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `projects`
