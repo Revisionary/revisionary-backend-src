@@ -123,14 +123,54 @@ function runTheInspector() {
 	    iframe = $('iframe').contents();
 
 
+		// INDEX WORKS
+		// Count the indexed elements
+		indexCount = iframe.find('body *[data-element-index]').length;
+		elementCount = iframe.find('body *').length;
+
+
+		// Check if the file already indexed
+		if ( elementCount > indexCount ) {
+
+			console.log('NEEDS TO BE INDEXED', iframe.find('body *').length, iframe.find('body *[data-element-index]').length);
+
+
+			// Add all the HTML element indexes
+			iframe.find('body *:not([data-element-index])').each(function(i) {
+
+				var elementIndex = i;
+
+				if (i <= indexCount) elementIndex = indexCount + 1
+
+				$(this).attr('data-element-index', elementIndex);
+				console.log(i + ': New element index added: ', $(this).prop("tagName"), elementIndex);
+
+				indexCount++;
+
+			});
+
+
+			// Send this state of the "body" tag to DB? or File? to save !!! Security Issue?!!!
+			var newBodyHTML = iframe.find('body').prop('outerHTML');
+
+			console.log(newBodyHTML);
+
+
+
+		}
+
+
+
 		// CURSOR WORKS
 		// Close Pin Mode pinTypeSelector - If on revise mode !!!
 		toggleCursorActive(false, true);
 
-		// Update the cursor number
+		// Update the cursor number with the existing pins
 		changePinNumber(currentPinNumber);
 
 
+
+		// PAGE INTERACTIONS
 		// Hide the loading overlay
 		$('#loading').fadeOut();
 
@@ -141,7 +181,9 @@ function runTheInspector() {
 
 		});
 
-		// Body class
+
+
+		// Body class !!! ???
 		$('body').addClass('ready');
 
 
@@ -332,13 +374,6 @@ function runTheInspector() {
 
 			// If cursor
 			if (cursorActive) {
-
-				// Add all the HTML element indexes
-				iframe.find('body *').each(function(i) {
-
-					if ( $(this).attr('data-elemnt-index') == null ) $(this).attr('data-elemnt-index', i);
-
-				});
 
 
 				// Add a pin and open a pin window !!!
@@ -570,7 +605,7 @@ function putPin(pinX, pinY, pinType) {
 	// Disable the inspector
 	toggleCursorActive(true); // Force deactivate
 
-	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, pinType);
+	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, pinType, focused_element_index);
 
 	// Increase the pin number
 	changePinNumber(currentPinNumber + 1);

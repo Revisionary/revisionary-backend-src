@@ -2,6 +2,11 @@
 var iframe,
 	pins;
 
+// HTML Element Indexes
+var fileIndexed = false;
+var indexCount = 0;
+var elementCount = 0;
+
 // Global Focus Variables
 var focused_element,
 	focused_element_children,
