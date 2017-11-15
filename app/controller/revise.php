@@ -4,7 +4,15 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 
 
 // Get the page ID
-$page_ID = $_url[1];
+$page_ID = $_url[1]; // Check if page exists !!!
+
+// Get the version number
+$version_number = isset($_url[2]) ? $_url[2] : 1; // Check if version exists !!!
+
+// Get the version ID
+$db->where('page_ID', $page_ID);
+$db->where('version_number', $version_number);
+$version_ID = $db->getOne('versions')['version_ID'];
 
 // Get parent page ID
 $parentpage_ID = Page::ID($page_ID)->getPageInfo('parent_page_ID');

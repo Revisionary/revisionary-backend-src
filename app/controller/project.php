@@ -131,8 +131,8 @@ if ( is_numeric(get('new_device')) && is_numeric(get('page_ID')) && get('nonce')
 
 	// Add its initial version
 	$version_ID = $db->insert('versions', array(
-		"version_page_ID" => $page_ID,
-		"version_user_ID" => currentUserID()
+		"page_ID" => $page_ID,
+		"user_ID" => currentUserID()
 	));
 
 
@@ -242,8 +242,8 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 			// Add its initial version
 			$version_ID = $db->insert('versions', array(
-				"version_page_ID" => $page_ID,
-				"version_user_ID" => currentUserID()
+				"page_ID" => $page_ID,
+				"user_ID" => currentUserID()
 			));
 
 			if ( $device_count == 0 ) $parent_page_ID = $page_ID;

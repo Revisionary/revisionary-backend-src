@@ -621,15 +621,15 @@ pin {
     color: white;
     box-shadow: 0px 0px 10px 1px rgba(255,255,255,0.5);
 
-    &[data-pin-mode="live"] {
-	    box-shadow: 0px 0px 8px 1px #149440;
-    }
-
-    &[data-pin-mode="private"] {
+    &[data-pin-private="1"] {
 	    box-shadow: 0px 0px 8px 1px #FC0F42;
     }
 
-    &[data-pin-mode="private-live"] {
+    &[data-pin-type="live"] {
+	    box-shadow: 0px 0px 8px 1px #149440;
+    }
+
+    &[data-pin-type="live"][data-pin-private="1"] {
 	    box-shadow: 0px 0px 8px 1px #FC0FB3;
     }
 
@@ -645,15 +645,15 @@ pin {
 		line-height: 35px;
 		margin: 0 10px;
 
-		&[data-pin-mode="live"] {
-		    box-shadow: 0px 0px 18px 1px #149440;
-	    }
-
-		&[data-pin-mode="private"] {
+		&[data-pin-private="1"] {
 		    box-shadow: 0px 0px 18px 1px #FC0F42;
 		}
 
-		&[data-pin-mode="private-live"] {
+		&[data-pin-type="live"] {
+		    box-shadow: 0px 0px 18px 1px #149440;
+	    }
+
+		&[data-pin-type="live"][data-pin-private="1"] {
 		    box-shadow: 0px 0px 15px 0.5px #FC0FB3;
 		}
 
@@ -668,15 +668,15 @@ pin {
 		line-height: 45px;
 		font-size: 14px;
 
-		&[data-pin-mode="live"] {
-		    box-shadow: 0px 0px 18px 1px #149440;
-	    }
-
-		&[data-pin-mode="private"] {
+		&[data-pin-private="1"] {
 		    box-shadow: 0px 0px 18px 1px #FC0F42;
 		}
 
-		&[data-pin-mode="private-live"] {
+		&[data-pin-type="live"] {
+		    box-shadow: 0px 0px 18px 1px #149440;
+	    }
+
+		&[data-pin-type="live"][data-pin-private="1"] {
 		    box-shadow: 0px 0px 18px 1px #FC0FB3;
 		}
 
@@ -703,7 +703,7 @@ pin {
 	    }
     }
 
-    &.complete {
+    &[data-pin-complete="1"] {
     	color: $color !important;
     	background-color: white;
 		border: 1px solid $color;

@@ -182,8 +182,8 @@ class Page {
 	    global $db;
 
 
-		$db->where('version_user_ID', $this->getPageInfo('user_ID'));
-		$db->where('version_page_ID', self::$page_ID);
+		$db->where('user_ID', $this->getPageInfo('user_ID'));
+		$db->where('page_ID', self::$page_ID);
 
 		// Show the final one
 		$db->orderBy('version_number');

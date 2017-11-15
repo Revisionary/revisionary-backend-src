@@ -1,119 +1,5 @@
 <?php require view('static/header_html'); ?>
 
-<script>
-// When page is ready
-$(function(){
-
-	// Post the request to AJAX
-	var processInterval = setInterval(function(){
-
-		// Send the new data with process ID
-		$.post(ajax_url, {
-			'type':'internalize-status',
-			'page_ID': <?=$_url[1]?>,
-			'queue_ID': <?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
-			'processID' : <?=$process_ID?>
-		}, function(result){
-
-
-			$.each(result.data, function(key, data){
-
-				// Append the log !!!
-				if (key != "final")	console.log(key, data);
-
-
-				// Update the proggress bar
-				var width = 0;
-				if (data.processStatus == 'downloading')
-					width = 12.5;
-
-				if (data.processStatus == 'downloading-html')
-					width = 12.5;
-
-				if (data.processStatus == 'downloaded-html')
-					width = 25;
-
-				if (data.processStatus == 'downloading-css')
-					width = 25;
-
-				if (parseFloat(data.totalCss) > 0)
-					width = width + (35 * parseFloat(data.downloadedCss) / parseFloat(data.totalCss) );
-
-				if (data.processStatus == 'downloaded-css')
-					width = 60;
-
-
-				if (data.processStatus == 'downloading-fonts')
-					width = 60;
-
-				if (parseFloat(data.totalFont) > 0)
-					width = width + (40 * parseFloat(data.downloadedFont) / parseFloat(data.totalFont) );
-
-				if (data.processStatus == 'downloaded-fonts')
-					width = 100;
-
-
-				if (data.processStatus == 'ready')
-					width = 100;
-
-				$('.progress').css('width', width + "%" );
-
-
-				// Print the current status
-				$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
-
-
-				// Don't repeat checking when done
-				if (data.status == "not-running") {
-					clearInterval(processInterval);
-					if (width != 100) $('#loading-info').text( 'Error');
-				}
-
-
-				// If successfully downloaded
-				if (data.processStatus == "ready") {
-
-					// Update the iframe url
-					$('iframe').attr('src', data.pageUrl);
-
-					// Run the inspector
-					runTheInspector();
-
-					// When iframe loaded
-					$('iframe').on('load', function(){
-
-						// Close Pin Mode pinModeSelector - If on revise mode !!!
-						toggleCursorActive();
-
-						// Hide the loading overlay
-						$('#loading').fadeOut();
-
-						// Close all the tabs
-						$('.opener').each(function() {
-
-							toggleTab( $(this) );
-
-						});
-
-						// Body class
-						$('body').addClass('ready');
-
-					});
-
-				}
-
-
-
-			});
-
-		}, 'json');
-
-
-	}, 500); // Interval
-
-});
-</script>
-
 <div id="loading" class="overlay">
 	<div class="progress-bar">
 		<div class="progress">
@@ -133,7 +19,7 @@ $(function(){
 	<span class="loading-text"><div class="gps_ring"></div> <span id="loading-info">LOADING...</span></span>
 </div>
 
-<div id="pin-mode-selector" class="overlay" style="display: none;"></div>
+<div id="pin-type-selector" class="overlay" style="display: none;"></div>
 
 <div id="page" class="site">
 
@@ -145,7 +31,7 @@ $(function(){
 		<?php
 
 			// Get the pin data
-			//$db->where('pin_', '');
+			$db->where('version_ID', $version_ID);
 			$pins = $db->get('pins');
 
 			$pin_index = 1;
@@ -155,7 +41,10 @@ $(function(){
 
 				<pin
 					class="pin big"
-					data-pin-mode="live"
+					data-pin-type="<?=$pin['pin_type']?>"
+					data-pin-private="<?=$pin['pin_private']?>"
+					data-pin-complete="<?=$pin['pin_complete']?>"
+					data-pin-user-id="<?=$pin['user_ID']?>"
 					data-pin-x="<?=$pin['pin_x']?>"
 					data-pin-y="<?=$pin['pin_y']?>"
 					style="top: <?=$pin['pin_y']?>px; left: <?=$pin['pin_x']?>px;"
@@ -192,7 +81,7 @@ $(function(){
 								<div class="pin standard incomplete">
 
 									<a href="#" class="pin-locator">
-										<pin class="mid" data-pin-mode="standard">1
+										<pin class="mid" data-pin-type="standard">1
 											<div class="notif-no">2</div>
 										</pin>
 									</a>
@@ -269,7 +158,7 @@ $(function(){
 								<div class="pin live incomplete">
 
 									<a href="#" class="pin-locator">
-										<pin class="mid" data-pin-mode="live">2
+										<pin class="mid" data-pin-type="live">2
 											<!-- <div class="notif-no">2</div> -->
 										</pin>
 									</a>
@@ -346,7 +235,7 @@ $(function(){
 								<div class="pin live complete">
 
 									<a href="#" class="pin-locator">
-										<pin class="complete mid" data-pin-mode="live">3
+										<pin class="complete mid" data-pin-type="live" data-pin-complete="1">3
 											<!-- <div class="notif-no">1</div> -->
 										</pin>
 									</a>
@@ -423,7 +312,7 @@ $(function(){
 								<div class="pin private incomplete">
 
 									<a href="#" class="pin-locator">
-										<pin class="mid" data-pin-mode="private">4
+										<pin class="mid" data-pin-type="standard" data-pin-private="1">4
 											<!-- <div class="notif-no">2</div> -->
 										</pin>
 									</a>
@@ -500,7 +389,7 @@ $(function(){
 								<div class="pin private incomplete">
 
 									<a href="#" class="pin-locator">
-										<pin class="mid" data-pin-mode="private-live">5
+										<pin class="mid" data-pin-type="live" data-pin-private="1">5
 											<!-- <div class="notif-no">2</div> -->
 										</pin>
 									</a>
@@ -577,7 +466,7 @@ $(function(){
 								<div class="pin live incomplete">
 
 									<a href="#" class="pin-locator">
-										<pin class="mid" data-pin-mode="live">6
+										<pin class="mid" data-pin-type="live">6
 											<!-- <div class="notif-no">2</div> -->
 										</pin>
 									</a>
@@ -882,30 +771,123 @@ $(function(){
 		<div class="add-pin-options">
 
 			<a href="#" class="inspect-activator">
-				<pin class="add-new big" data-pin-mode="live">+</pin>
+				<pin class="add-new big" data-pin-type="live">+</pin>
 			</a>
-			<a href="#" class="pin-mode-selector">
+			<a href="#" class="pin-type-selector">
 				<i class="fa fa-caret-down" aria-hidden="true"></i>
 				<i class="fa fa-caret-up open-icon" aria-hidden="true"></i>
 			</a>
 
-			<div class="pin-modes">
+			<div class="pin-types">
 				<a href="#" class="activate-live-mode">
-					LIVE PREFERRED COMMENT <pin class="add-new" data-pin-mode="live">+</pin>
+					LIVE PREFERRED COMMENT <pin class="add-new" data-pin-type="live" data-pin-private="0">+</pin>
 				</a>
 				<a href="#" class="activate-standard-mode">
-					ONLY COMMENT <pin class="add-new" data-pin-mode="standard">+</pin>
+					ONLY COMMENT <pin class="add-new" data-pin-type="standard" data-pin-private="0">+</pin>
 				</a>
 				<a href="#" class="activate-private-live-mode">
-					LIVEABLE PRIVATE COMMENT <pin class="add-new" data-pin-mode="private">+</pin>
+					LIVEABLE PRIVATE COMMENT <pin class="add-new" data-pin-type="live" data-pin-private="1">+</pin>
 				</a>
 			</div>
 
 		</div>
-		<pin class="mouse-cursor big" data-pin-mode="live">1</pin>
+		<pin class="mouse-cursor big" data-pin-type="live">1</pin>
 
 
 	</main> <!-- main -->
 </div> <!-- #page.site -->
+
+<script>
+// When page is ready
+$(function(){
+
+	// Post the request to AJAX
+	var processInterval = setInterval(function(){
+
+		// Send the new data with process ID
+		$.post(ajax_url, {
+			'type':'internalize-status',
+			'page_ID': <?=$_url[1]?>,
+			'queue_ID': <?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
+			'processID' : <?=$process_ID?>
+		}, function(result){
+
+
+			$.each(result.data, function(key, data){
+
+				// Append the log !!!
+				if (key != "final")	console.log(key, data);
+
+
+				// Update the proggress bar
+				var width = 0;
+				if (data.processStatus == 'downloading')
+					width = 12.5;
+
+				if (data.processStatus == 'downloading-html')
+					width = 12.5;
+
+				if (data.processStatus == 'downloaded-html')
+					width = 25;
+
+				if (data.processStatus == 'downloading-css')
+					width = 25;
+
+				if (parseFloat(data.totalCss) > 0)
+					width = width + (35 * parseFloat(data.downloadedCss) / parseFloat(data.totalCss) );
+
+				if (data.processStatus == 'downloaded-css')
+					width = 60;
+
+
+				if (data.processStatus == 'downloading-fonts')
+					width = 60;
+
+				if (parseFloat(data.totalFont) > 0)
+					width = width + (40 * parseFloat(data.downloadedFont) / parseFloat(data.totalFont) );
+
+				if (data.processStatus == 'downloaded-fonts')
+					width = 100;
+
+
+				if (data.processStatus == 'ready')
+					width = 100;
+
+				$('.progress').css('width', width + "%" );
+
+
+				// Print the current status
+				$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
+
+
+				// Don't repeat checking when done
+				if (data.status == "not-running") {
+					clearInterval(processInterval);
+					if (width != 100) $('#loading-info').text( 'Error');
+				}
+
+
+				// If successfully downloaded
+				if (data.processStatus == "ready") {
+
+					// Update the iframe url
+					$('iframe').attr('src', data.pageUrl);
+
+					// Run the inspector
+					runTheInspector();
+
+				}
+
+
+
+			});
+
+		}, 'json');
+
+
+	}, 500); // Interval
+
+});
+</script>
 
 <?php require view('static/footer_html'); ?>

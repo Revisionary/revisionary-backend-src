@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 12, 2017 at 10:48 PM
+-- Generation Time: Nov 15, 2017 at 03:47 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.8
 
@@ -251,7 +251,8 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_user`
 (183, 'Test Home', 'page.jpg', 'http://dev.cuneyt-tas.com/', NULL, NULL, NULL, '2017-11-12 09:29:57', '2017-11-12 09:30:05', 40, 9, 182, 1),
 (184, 'Intro Page', 'page.jpg', 'http://dev.web-estimator.com/', NULL, NULL, NULL, '2017-11-12 13:01:28', '2017-11-12 13:01:34', 41, 4, NULL, 1),
 (185, 'Intro Page', 'page.jpg', 'http://dev.web-estimator.com/', NULL, NULL, NULL, '2017-11-12 13:01:28', '2017-11-12 13:01:34', 41, 7, 184, 1),
-(187, 'WP Home', 'page.jpg', 'http://localhost/wordpress/', NULL, NULL, NULL, '2017-11-12 19:02:11', '2017-11-12 19:02:17', 42, 4, NULL, 1);
+(187, 'WP Home', 'page.jpg', 'http://localhost/wordpress/', NULL, NULL, NULL, '2017-11-12 19:02:11', '2017-11-12 19:02:17', 42, 4, NULL, 1),
+(188, 'WP Home', 'page.jpg', 'http://localhost/wordpress/', NULL, NULL, NULL, '2017-11-15 08:58:22', '2017-11-15 08:58:31', 42, 7, 187, 1);
 
 -- --------------------------------------------------------
 
@@ -307,6 +308,20 @@ CREATE TABLE `pins` (
   `version_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pins`
+--
+
+INSERT INTO `pins` (`pin_ID`, `pin_type`, `pin_private`, `pin_complete`, `pin_created`, `pin_modified`, `pin_x`, `pin_y`, `version_ID`, `user_ID`) VALUES
+(1, 'standard', 0, 0, '2017-11-15 10:03:42', '2017-11-15 10:03:42', 400, 600, 2, 1),
+(2, 'live', 0, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 500, 600, 2, 1),
+(3, 'standard', 1, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 600, 600, 2, 1),
+(4, 'live', 1, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 700, 600, 2, 1),
+(5, 'standard', 0, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:31', 400, 700, 2, 1),
+(6, 'live', 0, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:34', 500, 700, 2, 1),
+(7, 'standard', 1, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:37', 600, 700, 2, 1),
+(8, 'live', 1, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:39', 700, 700, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -473,7 +488,10 @@ INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, 
 (128, 'internalize', 185, 4580, 'done', '2017-11-12 13:01:36', '2017-11-12 13:01:28', 'Internalization is complete.', 1),
 (129, 'internalize', 186, 4686, 'error', '2017-11-12 13:03:30', '2017-11-12 13:03:20', 'Process is not working.', 1),
 (130, 'internalize', 186, 4927, 'done', '2017-11-12 13:06:55', '2017-11-12 13:06:47', 'Internalization is complete.', 1),
-(131, 'internalize', 187, 7172, 'done', '2017-11-12 19:02:20', '2017-11-12 19:02:11', 'Internalization is complete.', 1);
+(131, 'internalize', 187, 7172, 'done', '2017-11-12 19:02:20', '2017-11-12 19:02:11', 'Internalization is complete.', 1),
+(132, 'internalize', 188, 3332, 'done', '2017-11-15 08:58:34', '2017-11-15 08:58:22', 'Internalization is complete.', 1),
+(133, 'internalize', 188, 3966, 'done', '2017-11-15 09:43:28', '2017-11-15 09:43:18', 'Internalization is complete.', 1),
+(134, 'internalize', 187, 4039, 'done', '2017-11-15 09:45:39', '2017-11-15 09:45:29', 'Internalization is complete.', 1);
 
 -- --------------------------------------------------------
 
@@ -672,19 +690,20 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 CREATE TABLE `versions` (
   `version_ID` bigint(20) NOT NULL,
   `version_name` varchar(100) NOT NULL DEFAULT 'Initial version',
-  `version_number` float NOT NULL DEFAULT '0.1',
+  `version_number` bigint(20) NOT NULL DEFAULT '1',
   `version_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `version_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `version_page_ID` bigint(20) NOT NULL,
-  `version_user_ID` bigint(20) NOT NULL
+  `page_ID` bigint(20) NOT NULL,
+  `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `versions`
 --
 
-INSERT INTO `versions` (`version_ID`, `version_name`, `version_number`, `version_created`, `version_modified`, `version_page_ID`, `version_user_ID`) VALUES
-(2, 'Initial version', 0.1, '2017-11-12 19:02:11', '2017-11-12 19:02:11', 187, 1);
+INSERT INTO `versions` (`version_ID`, `version_name`, `version_number`, `version_created`, `version_modified`, `page_ID`, `user_ID`) VALUES
+(2, 'Initial version', 1, '2017-11-12 19:02:11', '2017-11-15 09:40:45', 187, 1),
+(3, 'Initial version', 1, '2017-11-15 08:58:22', '2017-11-15 09:40:47', 188, 1);
 
 --
 -- Indexes for dumped tables
@@ -807,8 +826,8 @@ ALTER TABLE `user_levels`
 --
 ALTER TABLE `versions`
   ADD PRIMARY KEY (`version_ID`),
-  ADD KEY `user_ID` (`version_user_ID`),
-  ADD KEY `page_ID` (`version_page_ID`);
+  ADD KEY `user_ID` (`user_ID`),
+  ADD KEY `page_ID` (`page_ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -828,7 +847,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -843,7 +862,7 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=188;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
@@ -853,7 +872,7 @@ ALTER TABLE `page_cat_connect`
 -- AUTO_INCREMENT for table `pins`
 --
 ALTER TABLE `pins`
-  MODIFY `pin_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `pin_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `projects`
 --
@@ -868,12 +887,12 @@ ALTER TABLE `project_cat_connect`
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 --
 -- AUTO_INCREMENT for table `shares`
 --
 ALTER TABLE `shares`
-  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 --
 -- AUTO_INCREMENT for table `sorting`
 --
@@ -893,7 +912,7 @@ ALTER TABLE `user_levels`
 -- AUTO_INCREMENT for table `versions`
 --
 ALTER TABLE `versions`
-  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --
@@ -982,8 +1001,8 @@ ALTER TABLE `users`
 -- Constraints for table `versions`
 --
 ALTER TABLE `versions`
-  ADD CONSTRAINT `versions_ibfk_2` FOREIGN KEY (`version_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `versions_ibfk_3` FOREIGN KEY (`version_page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `versions_ibfk_2` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `versions_ibfk_3` FOREIGN KEY (`page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

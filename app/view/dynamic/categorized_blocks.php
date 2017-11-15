@@ -221,14 +221,14 @@
 									</div>
 									<div class="col xl-8-12 xl-right xl-top pins">
 
-										<pin data-pin-mode="live">13
+										<pin data-pin-type="live">13
 											<div class="notif-no">3</div>
 											<div class="pin-title">Live</div>
 										</pin>
-										<pin data-pin-mode="standard">7
+										<pin data-pin-type="standard">7
 											<div class="pin-title">Standard</div>
 										</pin>
-										<pin data-pin-mode="private">4
+										<pin data-pin-type="live" data-pin-private="1">4
 											<div class="pin-title">Private</div>
 										</pin>
 
@@ -424,8 +424,8 @@
 										// VERSION
 										if ($dataType == "page") {
 
-											$db->where('version_page_ID', $block['page_ID']);
-											$db->where('version_user_ID', currentUserID());
+											$db->where('page_ID', $block['page_ID']);
+											$db->where('user_ID', currentUserID());
 
 											// Show the final one
 											$db->orderBy('version_number');
@@ -571,14 +571,14 @@
 				<div class="col" style="margin-bottom: 60px;">
 
 					<div class="pin-statistics">
-						<pin class="mid" data-pin-mode="live">13
+						<pin class="mid" data-pin-type="live">13
 							<div class="notif-no">3</div>
 							<div class="pin-title dark-color">Live</div>
 						</pin>
-						<pin class="mid" data-pin-mode="standard">7
+						<pin class="mid" data-pin-type="standard">7
 							<div class="pin-title dark-color">Standard</div>
 						</pin>
-						<pin class="mid" data-pin-mode="private">4
+						<pin class="mid" data-pin-type="live" data-pin-private="1">4
 							<div class="pin-title dark-color">Private</div>
 						</pin>
 					</div>

@@ -20,7 +20,7 @@ $(function() {
 	});
 
 
-	// Inspect activator
+	// Cursor activator
 	activator.click(function(e) {
 		toggleCursorActive();
 
@@ -30,8 +30,8 @@ $(function() {
 
 
 	// Pin mode selector
-	pinModeSelector.click(function(e) {
-		togglePinModeSelector();
+	pinTypeSelector.click(function(e) {
+		togglePinTypeSelector();
 
 		e.preventDefault();
 		return false;
@@ -39,11 +39,12 @@ $(function() {
 
 
 	// Pin mode change
-	$('.pin-modes a').click(function(e) {
+	$('.pin-types a').click(function(e) {
 
-		var selectedPinMode = $(this).children('pin').data('pin-mode');
+		var selectedPinType = $(this).children('pin').data('pin-type');
+		var selectedPinPrivate = $(this).children('pin').data('pin-private');
 
-		switchPinMode(selectedPinMode);
+		switchPinType(selectedPinType, selectedPinPrivate);
 
 		e.preventDefault();
 		return false;
@@ -80,6 +81,22 @@ $(function() {
 	}).resize();
 
 
+
+	// Hovering a pin?
+	hoveringPin = false;
+	$('#pins > pin').on('mouseover', function() {
+
+		hoveringPin = true;
+		console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type") );
+
+	}).on('mouseout', function() {
+
+		hoveringPin = false;
+		console.log( 'Un-Hovering a Pin: ' + $(this).attr("data-pin-type") );
+
+	});
+
+
 });
 
 
@@ -96,10 +113,292 @@ $(window).on("load", function (e) {
 });
 
 
-// FUNCTION: Tab Toggler
-function toggleTab(tab, slow = false) {
+function runTheInspector() {
 
-	var speed = slow ? 1000 : 500;
+	// WHEN IFRAME HAS LOADED
+	$('iframe').on('load', function(){
+
+
+		// Iframe element
+	    iframe = $('iframe').contents();
+
+
+
+		// Close Pin Mode pinTypeSelector - If on revise mode !!!
+		toggleCursorActive(false, true);
+
+		// Hide the loading overlay
+		$('#loading').fadeOut();
+
+		// Close all the tabs
+		$('.opener').each(function() {
+
+			toggleTab( $(this), true );
+
+		});
+
+		// Body class
+		$('body').addClass('ready');
+
+
+	    // Show current process on loading overlay with progress bar
+	    // ...
+
+
+    	// Remove the loading overlay ???
+		// $('#loading-overlay').fadeOut();
+
+
+	    // Update the title
+		if ( iframe.find('title').length ) {
+			$('title').text( "Revise Page: " + iframe.find('title').text() );
+		}
+
+
+		// MOUSE ACTIONS
+	    iframe.on('mousemove', function(e) { // Detect the mouse moves in frame
+
+
+		    // Focused Element
+	        focused_element = $(e.target);
+	        focused_element_index = focused_element.attr('data-element-index'); // !!!
+	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+	        focused_element_children = focused_element.children();
+	        focused_element_grand_children = focused_element_children.children();
+
+
+
+			// Follow the mouse cursor
+			var offset = $('#the-page').offset();
+			$('.mouse-cursor').css({
+				left:  e.clientX * iframeScale + offset.left,
+				top:   e.clientY * iframeScale + offset.top
+			});
+
+
+			// Disable cursor if on some places ??
+/*
+			if (
+				cursorActive &&
+
+				(
+					focusedElement.hasClass('revisionary-comment-window') ||
+					focusedElement.hasClass('more-info') ||
+					focusedElement.parents('.revisionary-comment-window').length ||
+					focusedElement.hasClass('revisionary-pin') ||
+					focusedElement.parents('.revisionary-pin').length
+				)
+			) {
+
+				// Deactivate the inspect mode
+				toggleCursorActive(true);
+
+			} else {
+
+				// Reactivate the inspect mode
+				toggleCursorActive(false, true);
+
+			}
+*/
+
+
+			// Work only if cursor is active
+			if (cursorActive && !hoveringPin) {
+
+
+				// Re-Focus if only child element has no child and has content
+				if (
+					focused_element_text == "" && // Focused element has no content
+					focused_element_children.length == 1 && // Has only one child
+					focused_element_grand_children.length == 0 && // No grand child
+					focused_element_children.first().text().trim() != "" // Grand child should have content
+				) {
+
+					// Re-Focus to the child element
+					focused_element = focused_element_children.first();
+			        focused_element_index = focused_element.attr('data-element-index'); // !!!
+			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+			        focused_element_children = focused_element.children();
+			        focused_element_grand_children = focused_element_children.children();
+
+				}
+
+
+
+				// See what am I focusing
+				console.log( focused_element.prop("tagName") );
+
+
+
+				// Check element text editable
+				hoveringText = false;
+		        focused_element_editable = false;
+		        focused_element_html_editable = false;
+		        if (
+				        (
+				        	focused_element.prop("tagName") == "A" ||
+				        	focused_element.prop("tagName") == "B" ||
+				        	focused_element.prop("tagName") == "STRONG" ||
+				        	focused_element.prop("tagName") == "TEXTAREA" ||
+				        	focused_element.prop("tagName") == "LABEL" ||
+				        	focused_element.prop("tagName") == "BUTTON" ||
+				        	focused_element.prop("tagName") == "TIME" ||
+				        	focused_element.prop("tagName") == "DATE" ||
+				        	focused_element.prop("tagName") == "ADDRESS" ||
+				        	focused_element.prop("tagName") == "P" ||
+				        	focused_element.prop("tagName") == "DIV" ||
+				        	focused_element.prop("tagName") == "SPAN" ||
+				        	focused_element.prop("tagName") == "LI" ||
+				        	focused_element.prop("tagName") == "H1" ||
+				        	focused_element.prop("tagName") == "H2" ||
+				        	focused_element.prop("tagName") == "H3" ||
+				        	focused_element.prop("tagName") == "H4" ||
+				        	focused_element.prop("tagName") == "H5" ||
+				        	focused_element.prop("tagName") == "H6"
+			        	)
+			        	&&
+			        	focused_element_text.trim() != "" && // If not empty
+			        	focused_element.html() != "&nbsp;" && // If really not empty
+			        	focused_element_children.length == 0 // If doesn't have any child
+		        ) {
+
+					hoveringText = true;
+					focused_element_editable = true; // Obviously Text Editable
+					focused_element_html_editable = true;
+					console.log( '* Obviously Text Editable: ' + focused_element.prop("tagName") );
+					console.log( 'Focused Element Text: ' + focused_element_text );
+
+				}
+
+
+
+				// Check element image editable
+				hoveringImage = false;
+		        if ( focused_element.prop("tagName") == "IMG" ) {
+
+					hoveringImage = true;
+					focused_element_editable = true; // Obviously Image Editable
+					console.log( '* Obviously Image Editable: ' + focused_element.prop("tagName") );
+					console.log( 'Focused Element Image: ' + focused_element.attr('src') );
+
+				}
+
+
+
+				// Check if element has children but doesn't have grand children
+				if (
+					focused_element_children.length > 0 && // Has child
+					focused_element_grand_children.length == 0 && // No grand child
+					focused_element_text.trim() != "" && // And, also have to have text
+					focused_element.html() != "&nbsp;" // And, also have to have text
+				) {
+
+					hoveringText = true;
+					focused_element_editable = true;
+					focused_element_html_editable = true;
+					console.log( '* Text Editable (No Grand Child): ' + focused_element.prop("tagName") );
+					console.log( 'Focused Element Text: ' + focused_element_text );
+
+				}
+
+
+
+				// Check the submit buttons
+				hoveringButton = false;
+		        if (
+		        	focused_element.prop("tagName") == "INPUT" &&
+		        	(
+		        		focused_element.attr("type") == "submit" ||
+		        		focused_element.attr("type") == "reset"
+		        	)
+		        ) {
+
+					hoveringButton = true;
+					focused_element_editable = true; // Obviously Image Editable
+					console.log( '* Button Editable: ' + focused_element.prop("tagName") );
+					console.log( 'Focused Button Text: ' + focused_element.attr('value') );
+
+				}
+
+
+
+				// Clean Other Outlines
+				iframe.find('body *').css('outline', '');
+
+
+
+				// Live reactions
+				if (currentPinType == "live") {
+
+					if (focused_element_editable) {
+
+						switchCursorType('live');
+						focused_element.css('outline', '2px dashed ' + (currentPinPrivate == 1 ? '#FC0FB3' : 'green'), 'important');
+
+					} else {
+
+						switchCursorType('standard');
+
+					}
+
+				}
+
+
+
+			} // If cursor active
+
+
+		}).on('click', function(e) { // Detect the mouse clicks in frame
+
+
+			// If cursor
+			if (cursorActive) {
+
+
+				putPin(e.pageX, e.pageY, currentCursorType);
+
+
+			}
+
+
+			// Prevent clicking something?
+			e.preventDefault();
+			return false;
+
+		}).on('scroll', function(e) { // Detect the scroll to re-position pins
+
+			scrollOffset_top = $(this).scrollTop();
+			scrollOffset_left = $(this).scrollLeft();
+
+
+		    // Re-Locate the pins
+		    relocatePins();
+
+		});
+
+
+
+	});
+
+
+
+
+/*
+	// Mouse cursor capture !!!
+	$(document).on('mousemove', function(e){
+
+		//log( mouseInTheFrame );
+
+	});
+*/
+
+}
+
+
+// FUNCTION: Tab Toggler
+function toggleTab(tab, forceClose = false) {
+
+	var speed = 500;
 
 	var container = tab.parent();
 	var containerWidth = container.outerWidth();
@@ -108,7 +407,7 @@ function toggleTab(tab, slow = false) {
 
 	if ( sideElement.hasClass('top-left') || sideElement.hasClass('bottom-left') ) {
 
-		if (container.hasClass('open')) {
+		if (container.hasClass('open') || forceClose) {
 
 			sideElement.animate({
 				left: -containerWidth,
@@ -128,7 +427,7 @@ function toggleTab(tab, slow = false) {
 
 	} else {
 
-		if (container.hasClass('open')) {
+		if (container.hasClass('open') || forceClose) {
 
 			sideElement.animate({
 				right: -containerWidth,
@@ -176,32 +475,37 @@ function relocatePins() {
 
 
 // FUNCTION: Switch to a different pin mode
-function switchPinMode(pinMode) {
+function switchPinType(pinType, pinPrivate) {
 
-	log(pinMode);
-
-	activator.attr('data-pin-mode', pinMode);
-
-	if (pinMode == "live")
-		switchCursorMode('standard');
-	else
-		switchCursorMode(pinMode);
+	log('Switched Pin Type: ', pinType);
+	log('Switched Pin Private? ', pinPrivate);
 
 
-	currentPinMode = pinMode;
+	currentPinType = pinType;
+	currentPinPrivate = pinPrivate;
 
-	if (pinModeSelectorOpen) togglePinModeSelector(true);
+
+	// Change the activator color
+	activator.attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate);
+
+
+	// Change the cursor color
+	switchCursorType(pinType == "live" ? 'standard' : pinType, currentPinPrivate);
+
+
+	// Close the type selector
+	if (pinTypeSelectorOpen) togglePinTypeSelector(true);
 
 }
 
 
 // FUNCTION: Switch to a different cursor mode
-function switchCursorMode(cursorMode) {
+function switchCursorType(cursorType) {
 
-	log(cursorMode);
+	log(cursorType);
 
-	cursor.attr('data-pin-mode', cursorMode);
-	currentCursorMode = cursorMode;
+	cursor.attr('data-pin-type', cursorType).attr('data-pin-private', currentPinPrivate);
+	currentCursorType = cursorType;
 
 }
 
@@ -244,7 +548,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 		cursorActive = true;
-		if (pinModeSelectorOpen) togglePinModeSelector(true);
+		if (pinTypeSelectorOpen) togglePinTypeSelector(true); // Force Close
 
 	}
 
@@ -252,22 +556,22 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 // FUNCTION: Toggle Pin Mode Selector
-function togglePinModeSelector(forceClose = false) {
+function togglePinTypeSelector(forceClose = false) {
 
-	if (pinModeSelectorOpen || forceClose) {
+	if (pinTypeSelectorOpen || forceClose) {
 
-		pinModeSelector.removeClass('open');
-		pinModeSelector.parent().removeClass('selector-open');
-		$('#pin-mode-selector').fadeOut();
-		pinModeSelectorOpen = false;
+		pinTypeSelector.removeClass('open');
+		pinTypeSelector.parent().removeClass('selector-open');
+		$('#pin-type-selector').fadeOut();
+		pinTypeSelectorOpen = false;
 		if (!cursorActive) toggleCursorActive();
 
 	} else {
 
-		pinModeSelector.addClass('open');
-		pinModeSelector.parent().addClass('selector-open');
-		$('#pin-mode-selector').fadeIn();
-		pinModeSelectorOpen = true;
+		pinTypeSelector.addClass('open');
+		pinTypeSelector.parent().addClass('selector-open');
+		$('#pin-type-selector').fadeIn();
+		pinTypeSelectorOpen = true;
 		if (cursorActive) toggleCursorActive(true);
 
 	}
