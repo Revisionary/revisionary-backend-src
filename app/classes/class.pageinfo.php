@@ -6,6 +6,9 @@ class Page {
 	// The page ID
 	public static $page_ID;
 
+	// The selected page version
+	public static $setPageVersion;
+
 	// The page version
 	public $pageVersion;
 
@@ -89,7 +92,8 @@ class Page {
         $this->projectId = $this->getPageInfo('project_ID');
 
         // Set the version number
-        $this->pageVersion = $this->getPageVersion();
+        if (self::$setPageVersion == null) $this->pageVersion = $this->getPageVersion();
+        else $this->pageVersion = self::$setPageVersion;
 
         // Set the device
         $this->pageDevice = $this->getPageInfo('device_ID');
@@ -151,10 +155,12 @@ class Page {
 
 
 	// ID Setter
-    public static function ID($page_ID) {
+    public static function ID($page_ID, $setVersion = null) {
 
 	    // Set the page ID
 		self::$page_ID = $page_ID;
+		if ($setVersion != null) self::$setPageVersion = "v".$setVersion;
+
 		return new static;
 
     }
@@ -177,10 +183,9 @@ class Page {
     }
 
 
-    // Get the page version !!!
+    // Get the page version
     public function getPageVersion() {
 	    global $db;
-
 
 		$db->where('user_ID', $this->getPageInfo('user_ID'));
 		$db->where('page_ID', self::$page_ID);

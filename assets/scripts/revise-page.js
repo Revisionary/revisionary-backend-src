@@ -134,7 +134,6 @@ function runTheInspector() {
 
 			console.log('NEEDS TO BE INDEXED', iframe.find('body *').length, iframe.find('body *[data-element-index]').length);
 
-
 			// Add all the HTML element indexes
 			iframe.find('body *:not([data-element-index])').each(function(i) {
 
@@ -149,11 +148,24 @@ function runTheInspector() {
 
 			});
 
-
 			// Send this state of the "body" tag to DB? or File? to save !!! Security Issue?!!!
 			var newBodyHTML = iframe.find('body').prop('outerHTML');
 
-			console.log(newBodyHTML);
+			$.post(ajax_url, {
+				'type'	  	 : 'add-element-indexed-html',
+				'nonce'	  	 : element_index_nonce,
+				'version_ID' : 123,
+				'bodyHTML'	 : newBodyHTML
+			}, function(result){
+
+				console.log(result.data);
+
+				$.each(result.data, function(key, data){
+
+
+				});
+
+			}, 'json');
 
 
 

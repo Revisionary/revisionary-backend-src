@@ -1,5 +1,11 @@
 <?php require view('static/header_html'); ?>
 
+<script>
+
+	element_index_nonce = '<?=$_SESSION["element_index_nonce"]?>';
+
+</script>
+
 <div id="loading" class="overlay">
 	<div class="progress-bar">
 		<div class="progress">

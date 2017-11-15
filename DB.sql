@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 15, 2017 at 03:47 PM
+-- Generation Time: Nov 15, 2017 at 08:30 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.8
 
@@ -305,6 +305,7 @@ CREATE TABLE `pins` (
   `pin_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pin_x` int(20) NOT NULL DEFAULT '10',
   `pin_y` int(20) NOT NULL DEFAULT '10',
+  `pin_element_index` bigint(20) NOT NULL,
   `version_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -313,15 +314,15 @@ CREATE TABLE `pins` (
 -- Dumping data for table `pins`
 --
 
-INSERT INTO `pins` (`pin_ID`, `pin_type`, `pin_private`, `pin_complete`, `pin_created`, `pin_modified`, `pin_x`, `pin_y`, `version_ID`, `user_ID`) VALUES
-(1, 'standard', 0, 0, '2017-11-15 10:03:42', '2017-11-15 10:03:42', 400, 600, 2, 1),
-(2, 'live', 0, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 500, 600, 2, 1),
-(3, 'standard', 1, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 600, 600, 2, 1),
-(4, 'live', 1, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 700, 600, 2, 1),
-(5, 'standard', 0, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:31', 400, 700, 2, 1),
-(6, 'live', 0, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:34', 500, 700, 2, 1),
-(7, 'standard', 1, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:37', 600, 700, 2, 1),
-(8, 'live', 1, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:39', 700, 700, 2, 1);
+INSERT INTO `pins` (`pin_ID`, `pin_type`, `pin_private`, `pin_complete`, `pin_created`, `pin_modified`, `pin_x`, `pin_y`, `pin_element_index`, `version_ID`, `user_ID`) VALUES
+(1, 'standard', 0, 0, '2017-11-15 10:03:42', '2017-11-15 10:03:42', 400, 600, 0, 2, 1),
+(2, 'live', 0, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 500, 600, 0, 2, 1),
+(3, 'standard', 1, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 600, 600, 0, 2, 1),
+(4, 'live', 1, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 700, 600, 0, 2, 1),
+(5, 'standard', 0, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:31', 400, 700, 0, 2, 1),
+(6, 'live', 0, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:34', 500, 700, 0, 2, 1),
+(7, 'standard', 1, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:37', 600, 700, 0, 2, 1),
+(8, 'live', 1, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:39', 700, 700, 0, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -491,7 +492,8 @@ INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, 
 (131, 'internalize', 187, 7172, 'done', '2017-11-12 19:02:20', '2017-11-12 19:02:11', 'Internalization is complete.', 1),
 (132, 'internalize', 188, 3332, 'done', '2017-11-15 08:58:34', '2017-11-15 08:58:22', 'Internalization is complete.', 1),
 (133, 'internalize', 188, 3966, 'done', '2017-11-15 09:43:28', '2017-11-15 09:43:18', 'Internalization is complete.', 1),
-(134, 'internalize', 187, 4039, 'done', '2017-11-15 09:45:39', '2017-11-15 09:45:29', 'Internalization is complete.', 1);
+(134, 'internalize', 187, 4039, 'done', '2017-11-15 09:45:39', '2017-11-15 09:45:29', 'Internalization is complete.', 1),
+(135, 'internalize', 188, 4565, 'done', '2017-11-15 17:26:56', '2017-11-15 17:26:44', 'Internalization is complete.', 1);
 
 -- --------------------------------------------------------
 
@@ -887,7 +889,7 @@ ALTER TABLE `project_cat_connect`
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 --
 -- AUTO_INCREMENT for table `shares`
 --

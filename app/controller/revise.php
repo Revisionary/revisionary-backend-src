@@ -306,7 +306,7 @@ $additionalCSS = [
 ];
 
 $additionalHeadJS = [
-	'globals.js'
+	'revise-globals.js'
 ];
 
 $additionalBodyJS = [
@@ -317,6 +317,10 @@ $additionalBodyJS = [
 
 // Generate new nonce for add new devices
 $_SESSION["new_device_nonce"] = uniqid(mt_rand(), true);
+
+
+// Generate new nonce for add new devices
+$_SESSION["element_index_nonce"] = uniqid(mt_rand(), true);
 
 
 $page_title = "Revision Mode";

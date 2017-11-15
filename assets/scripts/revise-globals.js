@@ -1,13 +1,14 @@
-// VARIABLES
+// GLOBAL VARIABLES
 var iframe,
 	pins;
 
-// HTML Element Indexes
+// HTML Element Index
 var fileIndexed = false;
 var indexCount = 0;
 var elementCount = 0;
+var element_index_nonce;
 
-// Global Focus Variables
+// Focus Variables
 var focused_element,
 	focused_element_children,
 	focused_element_grand_children,
