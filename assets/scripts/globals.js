@@ -1,5 +1,6 @@
 // VARIABLES
-var iframe;
+var iframe,
+	pins;
 
 // Global Focus Variables
 var focused_element,
@@ -63,6 +64,8 @@ currentDevice = "Desktop";
 // When document is ready, fill the variables
 $(function() {
 
+	pins = $('#pins > pin');
+
 	activator = $('.inspect-activator').children('pin');
 	cursorActive = activator.hasClass('active');
 
@@ -71,5 +74,6 @@ $(function() {
 
 	cursor = $('.mouse-cursor');
 	currentPinType = activator.data('pin-type');
+	currentPinNumber = pins.length + 1;
 
 });

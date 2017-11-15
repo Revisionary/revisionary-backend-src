@@ -123,9 +123,13 @@ function runTheInspector() {
 	    iframe = $('iframe').contents();
 
 
-
+		// CURSOR WORKS
 		// Close Pin Mode pinTypeSelector - If on revise mode !!!
 		toggleCursorActive(false, true);
+
+		// Update the cursor number
+		changePinNumber(currentPinNumber);
+
 
 		// Hide the loading overlay
 		$('#loading').fadeOut();
@@ -175,31 +179,6 @@ function runTheInspector() {
 				top:   e.clientY * iframeScale + offset.top
 			});
 
-
-			// Disable cursor if on some places ??
-/*
-			if (
-				cursorActive &&
-
-				(
-					focusedElement.hasClass('revisionary-comment-window') ||
-					focusedElement.hasClass('more-info') ||
-					focusedElement.parents('.revisionary-comment-window').length ||
-					focusedElement.hasClass('revisionary-pin') ||
-					focusedElement.parents('.revisionary-pin').length
-				)
-			) {
-
-				// Deactivate the inspect mode
-				toggleCursorActive(true);
-
-			} else {
-
-				// Reactivate the inspect mode
-				toggleCursorActive(false, true);
-
-			}
-*/
 
 
 			// Work only if cursor is active
@@ -354,7 +333,15 @@ function runTheInspector() {
 			// If cursor
 			if (cursorActive) {
 
+				// Add all the HTML element indexes
+				iframe.find('body *').each(function(i) {
 
+					if ( $(this).attr('data-elemnt-index') == null ) $(this).attr('data-elemnt-index', i);
+
+				});
+
+
+				// Add a pin and open a pin window !!!
 				putPin(e.pageX, e.pageY, currentCursorType);
 
 
@@ -380,17 +367,6 @@ function runTheInspector() {
 
 	});
 
-
-
-
-/*
-	// Mouse cursor capture !!!
-	$(document).on('mousemove', function(e){
-
-		//log( mouseInTheFrame );
-
-	});
-*/
 
 }
 
@@ -579,16 +555,25 @@ function togglePinTypeSelector(forceClose = false) {
 }
 
 
+// FUNCTION: Change the pin number on cursor
+function changePinNumber(pinNumber) {
+
+	cursor.text(pinNumber);
+	currentPinNumber = pinNumber;
+
+}
+
+
 // FUNCTION: Put a pin to cordinates
 function putPin(pinX, pinY, pinType) {
 
 	// Disable the inspector
-	toggleCursorActive(true);
+	toggleCursorActive(true); // Force deactivate
 
+	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, pinType);
 
-	console.log('Put A Pin NOW!', pinX, pinY, pinType);
-
-
+	// Increase the pin number
+	changePinNumber(currentPinNumber + 1);
 
 }
 
