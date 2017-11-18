@@ -2,6 +2,10 @@
 var iframe,
 	pins;
 
+// IDs
+var page_ID;
+var version_ID;
+
 // HTML Element Index
 var fileIndexed = false;
 var indexCount = 0;

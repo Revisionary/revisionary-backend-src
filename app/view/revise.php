@@ -2,7 +2,9 @@
 
 <script>
 
+	page_ID = '<?=$page_ID?>';
 	element_index_nonce = '<?=$_SESSION["element_index_nonce"]?>';
+	version_number = '<?=$version_number?>';
 
 </script>
 

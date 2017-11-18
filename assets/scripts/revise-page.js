@@ -87,12 +87,12 @@ $(function() {
 	$('#pins > pin').on('mouseover', function() {
 
 		hoveringPin = true;
-		console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type") );
+		console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete") );
 
 	}).on('mouseout', function() {
 
 		hoveringPin = false;
-		console.log( 'Un-Hovering a Pin: ' + $(this).attr("data-pin-type") );
+		console.log( 'Un-Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete") );
 
 	});
 
@@ -154,7 +154,8 @@ function runTheInspector() {
 			$.post(ajax_url, {
 				'type'	  	 : 'add-element-indexed-html',
 				'nonce'	  	 : element_index_nonce,
-				'version_ID' : 123,
+				'page_ID'	 : page_ID,
+				'version_number' : version_number,
 				'bodyHTML'	 : newBodyHTML
 			}, function(result){
 

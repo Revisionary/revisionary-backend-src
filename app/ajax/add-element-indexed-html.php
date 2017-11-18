@@ -8,14 +8,26 @@ if ( request("nonce") !== $_SESSION["element_index_nonce"] )
 	return;
 
 
-/*
-$db->where();
-$version = $db->getOne('versions');
-*/
+// DO THE SECURITY CHECKS!
+
+
+
+// Get the page ID
+$page_ID = request('page_ID');
+$version_number = request('version_number');
+$page_file = Page::ID($page_ID, $version_number)->pageFile;
+
 
 // 1. GET THE OLD HTML
+$page_HTML = file_get_contents($page_file);
+
+
 // 2. FIND THE LARGEST "<body ..... </body>" AND REPLACE WITH THE NEW ONE: request('bodyHTML');
+$new_HTML = preg_replace('/<body.*\/body>/s', $_POST['bodyHTML'], $page_HTML);
+
+
 // 3. SAVE THE FILE
+$saved = file_put_contents( $page_file, $new_HTML, FILE_TEXT);
 
 
 
@@ -26,7 +38,9 @@ $data['data'] = array(
 	'status' => $status,
 	'nonce' => request('nonce'),
 	'S_nonce' => $_SESSION['element_index_nonce'],
-	'TEST' => Page::ID(187, 44)->pageUri
+	'TEST' => Page::ID($page_ID, $version_number)->pageFile,
+	'HTML' => $page_HTML,
+	'saved' => $saved
 
 );
 
