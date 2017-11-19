@@ -67,17 +67,18 @@ $(function() {
 	// Iframe Fit to the screen
 	var maxWidth  = $('iframe').width();
 	var maxHeight = $('iframe').height();
+	$('.iframe-container').css({ width: maxWidth, height: maxHeight });
 
 	$(window).resize(function(evt) {
 
 	    var $window = $(window);
-	    var width = $window.width() - 20; // -20 for the borders
-	    var height = $window.height() - 20; // -20 for the borders
+	    var width = $window.width() - 26; // -(10+10) for the borders
+	    var height = $window.height() - 26; // -(10+10) for the borders
 
 	    // early exit
 	    if(width >= maxWidth && height >= maxHeight) {
 	        $('iframe').css({'-webkit-transform': ''});
-	        $('.iframe-container').css({ width: '', height: '' });
+	        //$('.iframe-container').css({ width: '', height: '' });
 	        return;
 	    }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 15, 2017 at 08:30 PM
+-- Generation Time: Nov 20, 2017 at 01:57 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.8
 
@@ -252,7 +252,11 @@ INSERT INTO `pages` (`page_ID`, `page_name`, `page_pic`, `page_url`, `page_user`
 (184, 'Intro Page', 'page.jpg', 'http://dev.web-estimator.com/', NULL, NULL, NULL, '2017-11-12 13:01:28', '2017-11-12 13:01:34', 41, 4, NULL, 1),
 (185, 'Intro Page', 'page.jpg', 'http://dev.web-estimator.com/', NULL, NULL, NULL, '2017-11-12 13:01:28', '2017-11-12 13:01:34', 41, 7, 184, 1),
 (187, 'WP Home', 'page.jpg', 'http://localhost/wordpress/', NULL, NULL, NULL, '2017-11-12 19:02:11', '2017-11-12 19:02:17', 42, 4, NULL, 1),
-(188, 'WP Home', 'page.jpg', 'http://localhost/wordpress/', NULL, NULL, NULL, '2017-11-15 08:58:22', '2017-11-15 08:58:31', 42, 7, 187, 1);
+(188, 'WP Home', 'page.jpg', 'http://localhost/wordpress/', NULL, NULL, NULL, '2017-11-15 08:58:22', '2017-11-15 08:58:31', 42, 7, 187, 1),
+(189, 'Home', 'page.jpg', 'http://maximumturkey.com/', NULL, NULL, NULL, '2017-11-17 21:20:23', '2017-11-17 21:20:39', 43, 4, NULL, 1),
+(190, 'Home', 'page.jpg', 'http://maximumturkey.com/', NULL, NULL, NULL, '2017-11-17 21:20:23', '2017-11-17 21:20:39', 43, 6, 189, 1),
+(191, 'Home', 'page.jpg', 'http://maximumturkey.com/', NULL, NULL, NULL, '2017-11-17 21:20:23', '2017-11-17 21:21:02', 43, 7, 189, 1),
+(195, 'Home', 'page.jpg', 'http://juicebot.twelve12.com/', NULL, NULL, NULL, '2017-11-19 11:45:00', '2017-11-19 11:45:08', 45, 4, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -315,14 +319,14 @@ CREATE TABLE `pins` (
 --
 
 INSERT INTO `pins` (`pin_ID`, `pin_type`, `pin_private`, `pin_complete`, `pin_created`, `pin_modified`, `pin_x`, `pin_y`, `pin_element_index`, `version_ID`, `user_ID`) VALUES
-(1, 'standard', 0, 0, '2017-11-15 10:03:42', '2017-11-15 10:03:42', 400, 600, 0, 2, 1),
-(2, 'live', 0, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 500, 600, 0, 2, 1),
-(3, 'standard', 1, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 600, 600, 0, 2, 1),
-(4, 'live', 1, 0, '2017-11-15 10:03:42', '2017-11-15 10:10:45', 700, 600, 0, 2, 1),
-(5, 'standard', 0, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:31', 400, 700, 0, 2, 1),
-(6, 'live', 0, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:34', 500, 700, 0, 2, 1),
-(7, 'standard', 1, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:37', 600, 700, 0, 2, 1),
-(8, 'live', 1, 1, '2017-11-15 10:03:42', '2017-11-15 10:20:39', 700, 700, 0, 2, 1);
+(1, 'standard', 0, 0, '2017-11-15 10:03:42', '2017-11-19 22:55:47', 140, 140, 0, 2, 1),
+(2, 'live', 0, 0, '2017-11-15 10:03:42', '2017-11-19 22:12:43', 233, 736, 12, 2, 1),
+(3, 'standard', 1, 0, '2017-11-15 10:03:42', '2017-11-19 22:29:01', 1040, 489, 0, 2, 1),
+(4, 'live', 1, 0, '2017-11-15 10:03:42', '2017-11-19 22:13:41', 666, 818, 13, 2, 1),
+(5, 'standard', 0, 1, '2017-11-15 10:03:42', '2017-11-19 22:55:43', 1167, 778, 0, 2, 1),
+(6, 'live', 0, 1, '2017-11-15 10:03:42', '2017-11-19 22:29:22', 213, 967, 0, 2, 1),
+(7, 'standard', 1, 1, '2017-11-15 10:03:42', '2017-11-19 22:29:45', 577, 1038, 0, 2, 1),
+(8, 'live', 1, 1, '2017-11-15 10:03:42', '2017-11-19 22:33:06', 833, 1449, 0, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -370,8 +374,10 @@ INSERT INTO `projects` (`project_ID`, `project_name`, `project_pic`, `project_cr
 (38, 'US Art', 'proj.jpg', '2017-10-29 17:17:38', 1),
 (39, '7 Diamonds New', 'proj.jpg', '2017-10-29 17:33:56', 1),
 (40, 'Cuneyt TEST', 'proj.jpg', '2017-11-12 09:29:56', 1),
-(41, 'Web Estimator (CHECK!)', 'proj.jpg', '2017-11-12 13:01:28', 1),
-(42, 'WP Test', 'proj.jpg', '2017-11-12 13:03:12', 1);
+(41, 'Web Estimator', 'proj.jpg', '2017-11-12 13:01:28', 1),
+(42, 'WP Test', 'proj.jpg', '2017-11-12 13:03:12', 1),
+(43, 'Maximum Turkey', 'proj.jpg', '2017-11-17 21:19:47', 1),
+(45, 'JuiceBot', 'proj.jpg', '2017-11-19 11:45:00', 1);
 
 -- --------------------------------------------------------
 
@@ -391,30 +397,28 @@ CREATE TABLE `project_cat_connect` (
 --
 
 INSERT INTO `project_cat_connect` (`project_cat_connect_ID`, `project_cat_project_ID`, `project_cat_ID`, `project_cat_connect_user_ID`) VALUES
-(1231, 13, 1, 1),
-(1232, 5, 1, 1),
-(1233, 11, 1, 1),
-(1234, 12, 2, 1),
-(1235, 14, 2, 1),
-(1236, 17, 2, 1),
-(1237, 16, 2, 1),
-(1238, 21, 2, 1),
-(1239, 18, 2, 1),
-(1240, 19, 2, 1),
-(1241, 20, 2, 1),
-(1242, 15, 2, 1),
-(1243, 24, 2, 1),
-(1244, 28, 2, 1),
-(1245, 23, 2, 1),
-(1246, 27, 2, 1),
-(1247, 30, 2, 1),
-(1248, 31, 2, 1),
-(1249, 32, 2, 1),
-(1252, 38, 2, 1),
-(1253, 39, 2, 1),
-(1254, 40, 2, 1),
-(1255, 41, 2, 1),
-(1256, 42, 2, 1);
+(2199, 13, 1, 1),
+(2200, 5, 1, 1),
+(2201, 11, 1, 1),
+(2202, 12, 2, 1),
+(2203, 14, 2, 1),
+(2204, 17, 2, 1),
+(2205, 16, 2, 1),
+(2206, 21, 2, 1),
+(2207, 18, 2, 1),
+(2208, 19, 2, 1),
+(2209, 20, 2, 1),
+(2210, 15, 2, 1),
+(2211, 24, 2, 1),
+(2212, 28, 2, 1),
+(2213, 23, 2, 1),
+(2214, 27, 2, 1),
+(2215, 30, 2, 1),
+(2216, 31, 2, 1),
+(2217, 32, 2, 1),
+(2218, 38, 2, 1),
+(2219, 39, 2, 1),
+(2220, 45, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -493,7 +497,30 @@ INSERT INTO `queues` (`queue_ID`, `queue_type`, `queue_object_ID`, `queue_PID`, 
 (132, 'internalize', 188, 3332, 'done', '2017-11-15 08:58:34', '2017-11-15 08:58:22', 'Internalization is complete.', 1),
 (133, 'internalize', 188, 3966, 'done', '2017-11-15 09:43:28', '2017-11-15 09:43:18', 'Internalization is complete.', 1),
 (134, 'internalize', 187, 4039, 'done', '2017-11-15 09:45:39', '2017-11-15 09:45:29', 'Internalization is complete.', 1),
-(135, 'internalize', 188, 4565, 'done', '2017-11-15 17:26:56', '2017-11-15 17:26:44', 'Internalization is complete.', 1);
+(135, 'internalize', 188, 4565, 'done', '2017-11-15 17:26:56', '2017-11-15 17:26:44', 'Internalization is complete.', 1),
+(136, 'internalize', 189, 6146, 'done', '2017-11-17 21:20:50', '2017-11-17 21:20:23', 'Internalization is complete.', 1),
+(137, 'internalize', 190, 6148, 'done', '2017-11-17 21:20:50', '2017-11-17 21:20:23', 'Internalization is complete.', 1),
+(138, 'internalize', 191, 6150, 'done', '2017-11-17 21:21:11', '2017-11-17 21:20:23', 'Internalization is complete.', 1),
+(139, 'internalize', 192, 11362, 'done', '2017-11-18 15:59:43', '2017-11-18 15:59:19', 'Internalization is complete.', 1),
+(140, 'internalize', 193, 11364, 'done', '2017-11-18 15:59:43', '2017-11-18 15:59:19', 'Internalization is complete.', 1),
+(141, 'internalize', 194, 11367, 'done', '2017-11-18 16:00:04', '2017-11-18 15:59:19', 'Internalization is complete.', 1),
+(142, 'internalize', 195, 12688, 'done', '2017-11-19 11:45:14', '2017-11-19 11:45:00', 'Internalization is complete.', 1),
+(143, 'internalize', 195, 14607, 'done', '2017-11-19 11:48:58', '2017-11-19 11:48:48', 'Internalization is complete.', 1),
+(144, 'internalize', 195, 14682, 'done', '2017-11-19 11:50:32', '2017-11-19 11:50:23', 'Internalization is complete.', 1),
+(145, 'internalize', 195, 15433, 'done', '2017-11-19 12:32:37', '2017-11-19 12:32:25', 'Internalization is complete.', 1),
+(146, 'internalize', 184, 15796, 'done', '2017-11-19 12:41:17', '2017-11-19 12:41:11', 'Internalization is complete.', 1),
+(147, 'internalize', 184, 15863, 'done', '2017-11-19 12:42:42', '2017-11-19 12:42:36', 'Internalization is complete.', 1),
+(148, 'internalize', 184, 15927, 'done', '2017-11-19 12:43:21', '2017-11-19 12:43:14', 'Internalization is complete.', 1),
+(149, 'internalize', 184, 16113, 'done', '2017-11-19 12:45:17', '2017-11-19 12:45:11', 'Internalization is complete.', 1),
+(150, 'internalize', 184, 16222, 'done', '2017-11-19 12:46:05', '2017-11-19 12:45:58', 'Internalization is complete.', 1),
+(151, 'internalize', 184, 16506, 'done', '2017-11-19 12:49:47', '2017-11-19 12:49:40', 'Internalization is complete.', 1),
+(152, 'internalize', 184, 16555, 'done', '2017-11-19 12:50:16', '2017-11-19 12:50:10', 'Internalization is complete.', 1),
+(153, 'internalize', 184, 16621, 'done', '2017-11-19 12:52:28', '2017-11-19 12:52:21', 'Internalization is complete.', 1),
+(154, 'internalize', 184, 16816, 'done', '2017-11-19 12:55:12', '2017-11-19 12:55:05', 'Internalization is complete.', 1),
+(155, 'internalize', 184, 17112, 'done', '2017-11-19 13:06:30', '2017-11-19 13:06:23', 'Internalization is complete.', 1),
+(156, 'internalize', 184, 17386, 'done', '2017-11-19 13:17:21', '2017-11-19 13:17:14', 'Internalization is complete.', 1),
+(157, 'internalize', 184, 17450, 'done', '2017-11-19 13:18:23', '2017-11-19 13:18:16', 'Internalization is complete.', 1),
+(158, 'internalize', 195, 18569, 'done', '2017-11-19 13:51:29', '2017-11-19 13:51:12', 'Internalization is complete.', 1);
 
 -- --------------------------------------------------------
 
@@ -571,32 +598,6 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (1098, 'page', 119, 1, 1),
 (1099, 'page', 120, 1, 1),
 (1143, 'page', 133, 2, 1),
-(1589, 'project', 3, 1, 1),
-(1590, 'project', 2, 2, 1),
-(1591, 'project', 4, 3, 1),
-(1592, 'project', 1, 4, 1),
-(1593, 'category', 1, 5, 1),
-(1594, 'project', 13, 6, 1),
-(1595, 'project', 5, 7, 1),
-(1596, 'project', 11, 8, 1),
-(1597, 'category', 2, 9, 1),
-(1598, 'project', 12, 10, 1),
-(1599, 'project', 14, 11, 1),
-(1600, 'project', 17, 12, 1),
-(1601, 'project', 16, 13, 1),
-(1602, 'project', 21, 14, 1),
-(1603, 'project', 18, 15, 1),
-(1604, 'project', 19, 16, 1),
-(1605, 'project', 20, 17, 1),
-(1606, 'project', 15, 18, 1),
-(1607, 'project', 24, 19, 1),
-(1608, 'project', 28, 20, 1),
-(1609, 'project', 23, 21, 1),
-(1610, 'project', 27, 22, 1),
-(1611, 'project', 30, 23, 1),
-(1612, 'project', 31, 24, 1),
-(1613, 'project', 32, 25, 1),
-(1700, 'project', 37, 5, 1),
 (1714, 'category', 3, 1, 1),
 (1715, 'page', 82, 2, 1),
 (1716, 'page', 83, 3, 1),
@@ -608,19 +609,50 @@ INSERT INTO `sorting` (`sort_ID`, `sort_type`, `sort_object_ID`, `sort_number`, 
 (1722, 'category', 5, 9, 1),
 (1723, 'page', 90, 10, 1),
 (1724, 'page', 89, 11, 1),
-(1725, 'project', 38, 27, 1),
 (1726, 'page', 173, 1, 1),
 (1727, 'page', 174, 1, 1),
 (1728, 'page', 175, 1, 1),
-(1729, 'project', 39, 28, 1),
-(1731, 'category', 0, 0, 1),
 (1732, 'category', 6, 1, 1),
 (1733, 'page', 181, 2, 1),
 (1734, 'page', 77, 3, 1),
-(1735, 'project', 40, 29, 1),
-(1736, 'project', 41, 30, 1),
-(1737, 'project', 42, 31, 1),
-(1739, 'page', 187, 1, 1);
+(1739, 'page', 187, 1, 1),
+(1741, 'page', 189, 1, 1),
+(1742, 'page', 190, 1, 1),
+(1743, 'page', 191, 1, 1),
+(2776, 'category', 0, 0, 1),
+(2777, 'project', 3, 1, 1),
+(2778, 'project', 2, 2, 1),
+(2779, 'project', 4, 3, 1),
+(2780, 'project', 1, 4, 1),
+(2781, 'project', 43, 5, 1),
+(2782, 'project', 40, 6, 1),
+(2783, 'project', 37, 7, 1),
+(2784, 'project', 41, 8, 1),
+(2785, 'project', 42, 9, 1),
+(2786, 'category', 1, 10, 1),
+(2787, 'project', 13, 11, 1),
+(2788, 'project', 5, 12, 1),
+(2789, 'project', 11, 13, 1),
+(2790, 'category', 2, 14, 1),
+(2791, 'project', 12, 15, 1),
+(2792, 'project', 14, 16, 1),
+(2793, 'project', 17, 17, 1),
+(2794, 'project', 16, 18, 1),
+(2795, 'project', 21, 19, 1),
+(2796, 'project', 18, 20, 1),
+(2797, 'project', 19, 21, 1),
+(2798, 'project', 20, 22, 1),
+(2799, 'project', 15, 23, 1),
+(2800, 'project', 24, 24, 1),
+(2801, 'project', 28, 25, 1),
+(2802, 'project', 23, 26, 1),
+(2803, 'project', 27, 27, 1),
+(2804, 'project', 30, 28, 1),
+(2805, 'project', 31, 29, 1),
+(2806, 'project', 32, 30, 1),
+(2807, 'project', 38, 31, 1),
+(2808, 'project', 39, 32, 1),
+(2809, 'project', 45, 33, 1);
 
 -- --------------------------------------------------------
 
@@ -705,7 +737,12 @@ CREATE TABLE `versions` (
 
 INSERT INTO `versions` (`version_ID`, `version_name`, `version_number`, `version_created`, `version_modified`, `page_ID`, `user_ID`) VALUES
 (2, 'Initial version', 1, '2017-11-12 19:02:11', '2017-11-15 09:40:45', 187, 1),
-(3, 'Initial version', 1, '2017-11-15 08:58:22', '2017-11-15 09:40:47', 188, 1);
+(3, 'Initial version', 1, '2017-11-15 08:58:22', '2017-11-15 09:40:47', 188, 1),
+(4, 'Initial version', 1, '2017-11-17 21:20:23', '2017-11-17 21:20:23', 189, 1),
+(5, 'Initial version', 1, '2017-11-17 21:20:23', '2017-11-17 21:20:23', 190, 1),
+(6, 'Initial version', 1, '2017-11-17 21:20:23', '2017-11-17 21:20:23', 191, 1),
+(10, 'Initial version', 1, '2017-11-19 11:45:00', '2017-11-19 11:45:00', 195, 1),
+(11, 'Secodary version', 2, '2017-11-19 11:45:00', '2017-11-19 11:45:00', 195, 1);
 
 --
 -- Indexes for dumped tables
@@ -844,12 +881,12 @@ ALTER TABLE `archives`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `deletes`
 --
 ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `devices`
 --
@@ -864,7 +901,7 @@ ALTER TABLE `device_categories`
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
+  MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
 --
 -- AUTO_INCREMENT for table `page_cat_connect`
 --
@@ -879,27 +916,27 @@ ALTER TABLE `pins`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1257;
+  MODIFY `project_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2221;
 --
 -- AUTO_INCREMENT for table `queues`
 --
 ALTER TABLE `queues`
-  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `queue_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
 --
 -- AUTO_INCREMENT for table `shares`
 --
 ALTER TABLE `shares`
-  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 --
 -- AUTO_INCREMENT for table `sorting`
 --
 ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1740;
+  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2810;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -914,7 +951,7 @@ ALTER TABLE `user_levels`
 -- AUTO_INCREMENT for table `versions`
 --
 ALTER TABLE `versions`
-  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- Constraints for dumped tables
 --
