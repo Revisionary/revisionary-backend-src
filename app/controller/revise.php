@@ -320,6 +320,7 @@ $additionalCSS = [
 ];
 
 $additionalHeadJS = [
+	'process.js',
 	'revise-globals.js'
 ];
 

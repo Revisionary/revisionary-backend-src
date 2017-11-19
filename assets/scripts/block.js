@@ -25,11 +25,10 @@ $(function() {
 
 
 	    // Update the order
-	    var orderData = updateOrderNumbers();
+	    var orderData = updateOrderNumbers(); //console.log(orderData);
 
-		//console.log(orderData);
-
-		$('.progress').css('width', "0%");
+		// Start the process
+		var actionID = newProcess();
 
 	    // AJAX update the order
 		$.post(ajax_url, {
@@ -45,7 +44,7 @@ $(function() {
 				console.log(key, data);
 
 				// Progressbar Update
-				if ( data.status == "successful" ) $('.progress').css('width', "100%");
+				if ( data.status == "successful" ) endProcess(actionID);
 
 			});
 
@@ -125,8 +124,9 @@ $(function() {
 			var url = $(this).attr('href');
 			var block = parent_item.parent().parent();
 
-			$('.progress').css('width', "0%");
 
+			// Start progress bar action
+			var actionID = newProcess();
 
 
 			// AJAX Send data
@@ -178,7 +178,8 @@ $(function() {
 
 						}
 
-						$('.progress').css('width', "100%");
+						// End the process
+						endProcess(actionID);
 
 
 					} else {

@@ -10,12 +10,11 @@
 
 </script>
 
+
+<div class="progress-bar"></div>
+
 <div id="loading" class="overlay">
-	<div class="progress-bar">
-		<div class="progress">
-			<div class="gradient"></div>
-		</div>
-	</div>
+
 	<div class="progress-info">
 		<ul>
 <!--
@@ -816,6 +815,8 @@ $(function(){
 	// Post the request to AJAX
 	var processInterval = setInterval(function(){
 
+		var loadingProcessID = newProcess();
+
 		// Send the new data with process ID
 		$.post(ajax_url, {
 			'type':'internalize-status',
@@ -865,7 +866,12 @@ $(function(){
 				if (data.processStatus == 'ready')
 					width = 100;
 
-				$('.progress').css('width', width + "%" );
+
+				editProcess(loadingProcessID, width);
+
+
+				if (width == 100)
+					endProcess(loadingProcessID);
 
 
 				// Print the current status

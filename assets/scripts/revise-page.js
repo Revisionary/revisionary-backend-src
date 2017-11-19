@@ -186,6 +186,8 @@ $(function() {
 		    // Update the pin location on DB !!!
 		    console.log('Update the new pin location on DB!');
 
+			// Start the process
+			var relocateProcessID = newProcess();
 
 		    $.post(ajax_url, {
 				'type'	  	 : 'relocate-pin',
@@ -195,12 +197,10 @@ $(function() {
 				'pin_y' 	 : focusedPin.attr('data-pin-y')
 			}, function(result){
 
+				// Finish the process
+				endProcess(relocateProcessID);
+
 				console.log(result.data);
-
-				$.each(result.data, function(key, data){
-
-
-				});
 
 			}, 'json');
 

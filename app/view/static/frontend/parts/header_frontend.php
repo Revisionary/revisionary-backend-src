@@ -12,9 +12,6 @@
 	</div>
 
 	<div class="progress-bar">
-		<div class="progress">
-			<div class="gradient"></div>
-		</div>
 	</div>
 
 	<main id="first-section">
