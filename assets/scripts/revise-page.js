@@ -285,6 +285,10 @@ function runTheInspector() {
 
 			console.log('Send the BODY');
 
+
+			// Start the indexing process
+			var indexingProcessID = newProcess();
+
 			$.post(ajax_url, {
 				'type'	  	 : 'add-element-indexed-html',
 				'nonce'	  	 : element_index_nonce,
@@ -295,10 +299,8 @@ function runTheInspector() {
 
 				console.log(result.data);
 
-				$.each(result.data, function(key, data){
-
-
-				});
+				// Finish the process
+				endProcess(indexingProcessID);
 
 			}, 'json');
 

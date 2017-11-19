@@ -503,8 +503,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 }
 
 .mouse-cursor {
-	user-select: none;
-	pointer-events: none;
+	user-select: none !important;
+	pointer-events: none !important;
 	border: 0.5px solid;
 }
 

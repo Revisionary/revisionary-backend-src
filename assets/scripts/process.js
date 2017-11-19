@@ -26,7 +26,7 @@ $(document).ready(function() {
 
 
 // FUNCTION: Start Process
-function newProcess() {
+function newProcess() { // Add timeout function here !!!
 
 	var newProcessID = processCount + 1;
 
@@ -77,7 +77,7 @@ function endProcess(processID) {
 
 
 	// Remove the process
-	process.fadeOut(300, function() {
+	process.fadeOut(1000, function() {
 		$(this).remove();
 	});
 
