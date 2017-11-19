@@ -100,10 +100,25 @@ $(function() {
 	var pinDragging = false;
 	$(document).on('mouseover', '#pins > pin', function(e) {
 
+		console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-element-index") );
+
+
 		hoveringPin = true;
+
+
+		// Hide the cursor
 		cursor.stop().fadeOut();
 
-		console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete") );
+
+		// Outline the element if this is a live pin
+		if ($(this).attr("data-pin-type") == "live") {
+
+			var hoveringPinPrivate = $(this).attr("data-pin-private");
+
+			iframe.find('body *').css('outline', 'none');
+			iframe.find('body *[data-element-index="'+ $(this).attr("data-element-index") +'"]').css('outline', '2px dashed ' + (hoveringPinPrivate == 1 ? '#FC0FB3' : 'green'), 'important');
+
+		}
 
 
 		e.preventDefault();
@@ -151,7 +166,6 @@ $(function() {
 		var pinWasDragging = pinDragging;
 		pinClicked = false;
 		pinDragging = false;
-		focusedPin = null;
 		hoveringPin = true;
 
 
@@ -173,8 +187,28 @@ $(function() {
 		    console.log('Update the new pin location on DB!');
 
 
+		    $.post(ajax_url, {
+				'type'	  	 : 'relocate-pin',
+				'nonce'	  	 : pin_nonce,
+				'pin_ID'	 : focusedPin.attr('data-pin-id'),
+				'pin_x' 	 : focusedPin.attr('data-pin-x'),
+				'pin_y' 	 : focusedPin.attr('data-pin-y')
+			}, function(result){
+
+				console.log(result.data);
+
+				$.each(result.data, function(key, data){
+
+
+				});
+
+			}, 'json');
+
+
 	    }
 
+
+		focusedPin = null;
 
 		e.preventDefault();
 
@@ -344,6 +378,7 @@ function runTheInspector() {
 	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 	        focused_element_children = focused_element.children();
 	        focused_element_grand_children = focused_element_children.children();
+	        focused_element_pin = $('#pins > pin[data-element-index="'+ focused_element_index +'"]');
 
 
 
@@ -365,6 +400,7 @@ function runTheInspector() {
 			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 			        focused_element_children = focused_element.children();
 			        focused_element_grand_children = focused_element_children.children();
+					focused_element_pin = $('#pins > pin[data-element-index="'+ focused_element_index +'"]');
 
 				}
 
@@ -505,15 +541,43 @@ function runTheInspector() {
 				// Clean Other Outlines
 				iframe.find('body *').css('outline', '');
 
+				// Reset the pin opacity
+				pins.css('opacity', '');
 
 
-				// Live reactions
+
+				// LIVE REACTIONS
 				if (currentPinType == "live") {
 
 					if (focused_element_editable) {
 
 						switchCursorType('live');
 						focused_element.css('outline', '2px dashed ' + (currentPinPrivate == 1 ? '#FC0FB3' : 'green'), 'important');
+
+
+						// Check if it already has a pin
+						if ( focused_element_pin.length ) {
+
+							focused_element_has_live_pin = true;
+
+
+							// Point to the pin
+							$('#pins > pin:not([data-element-index="'+ focused_element_index +'"])').css('opacity', '0.2');
+
+
+							// If this has a private pin, make the outline pink
+							if ( focused_element_pin.attr('data-pin-private') == 1 ) {
+
+								focused_element.css('outline', '2px dashed #FC0FB3', 'important');
+
+							}
+
+
+							console.log('This element already has a live pin.');
+
+						}
+
+
 
 					} else {
 

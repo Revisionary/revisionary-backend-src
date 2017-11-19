@@ -6,6 +6,8 @@
 	element_index_nonce = '<?=$_SESSION["element_index_nonce"]?>';
 	version_number = '<?=$version_number?>';
 
+	var pin_nonce = '<?=$_SESSION["pin_nonce"]?>';
+
 </script>
 
 <div id="loading" class="overlay">
@@ -53,8 +55,10 @@
 					data-pin-private="<?=$pin['pin_private']?>"
 					data-pin-complete="<?=$pin['pin_complete']?>"
 					data-pin-user-id="<?=$pin['user_ID']?>"
+					data-pin-id="<?=$pin['pin_ID']?>"
 					data-pin-x="<?=$pin['pin_x']?>"
 					data-pin-y="<?=$pin['pin_y']?>"
+					data-element-index="<?=$pin['pin_element_index']?>"
 					style="top: <?=$pin['pin_y']?>px; left: <?=$pin['pin_x']?>px;"
 				><?=$pin_index?></pin>
 

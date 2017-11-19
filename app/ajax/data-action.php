@@ -123,7 +123,7 @@ if (request('action') == "archive") {
 
 
 		// Add the new record
-		$dbData = Array (
+		$dbData = array(
 			"archive_type" => $type,
 			"archived_object_ID" => request('id'),
 			"archiver_user_ID" => currentUserID()
@@ -140,7 +140,7 @@ if (request('action') == "archive") {
 			foreach($subPages as $subPage_ID) {
 
 				// Add the new record
-				$dbData = Array (
+				$dbData = array(
 					"archive_type" => $type,
 					"archived_object_ID" => $subPage_ID,
 					"archiver_user_ID" => currentUserID()
