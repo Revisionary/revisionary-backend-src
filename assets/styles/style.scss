@@ -730,7 +730,7 @@ pin {
     }
 
     &.mouse-cursor {
-	    position: fixed;
+	    position: absolute;
 	    transition: none;
 	    cursor: none;
 	    pointer-events: none;

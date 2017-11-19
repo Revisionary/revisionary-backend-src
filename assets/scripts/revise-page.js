@@ -2,6 +2,18 @@
 $(function() {
 
 
+	// Detect cursor moves
+	$(window).mousemove(function(e) {
+
+		// Iframe offset
+		offset = $('#the-page').offset();
+
+		containerX = e.clientX - offset.left;
+		containerY = e.clientY - offset.top;
+
+	});
+
+
 	// Tab opener
 	$('.opener').click(function(e) {
 		toggleTab( $(this) );
@@ -82,19 +94,105 @@ $(function() {
 
 
 
-	// Hovering a pin?
+	// PIN DRAG & DROP
 	hoveringPin = false;
-	$('#pins > pin').on('mouseover', function() {
+	var pinClicked = false;
+	var pinDragging = false;
+	$(document).on('mouseover', '#pins > pin', function(e) {
 
 		hoveringPin = true;
+		cursor.stop().fadeOut();
+
 		console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete") );
 
-	}).on('mouseout', function() {
+
+		e.preventDefault();
+
+	}).on('mousedown', '#pins > pin', function(e) {
+
+		console.log('CLICKED TO A PIN!');
+
+
+		focusedPin = $(this);
+		pinClicked = true;
+		pinDragging = false;
+
+
+		// Disable the iframe
+		$('#the-page').css('pointer-events', 'none');
+
+
+		e.preventDefault();
+
+	}).on('mousemove', function(e) {
+
+
+		if (pinClicked) {
+
+			console.log('PIN IS MOVING!');
+
+			pinDragging = true;
+
+			var pinSize = 45;
+			var pos_x = containerX - pinSize/2;
+			var pos_y = containerY - pinSize/2;
+
+			relocatePins(focusedPin, pos_x, pos_y);
+
+		}
+
+
+		e.preventDefault();
+
+	}).on('mouseup', function(e) {
+
+		console.log('PIN UN-CLICKED!');
+
+		var pinWasDragging = pinDragging;
+		pinClicked = false;
+		pinDragging = false;
+		focusedPin = null;
+		hoveringPin = true;
+
+
+		// Enable the iframe
+		$('#the-page').css('pointer-events', 'auto');
+
+
+		// Show the pin window if not dragging
+	    if (!pinWasDragging) {
+
+
+	        console.log('TOGGLE THE PIN WINDOW!');
+
+
+	    } else {
+
+
+		    // Update the pin location on DB !!!
+		    console.log('Update the new pin location on DB!');
+
+
+	    }
+
+
+		e.preventDefault();
+
+	}).on('mouseout', '#pins > pin', function(e) {
+
+		console.log('MOUSE OUT FROM PIN!', pinDragging);
 
 		hoveringPin = false;
-		console.log( 'Un-Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete") );
+
+
+		// Show the cursor
+		if (cursorActive && !pinDragging) cursor.stop().fadeIn();
+
+
+		e.preventDefault();
 
 	});
+
 
 
 });
@@ -132,7 +230,7 @@ function runTheInspector() {
 		// Check if the file already indexed
 		if ( elementCount > indexCount ) {
 
-			console.log('NEEDS TO BE INDEXED', iframe.find('body *').length, iframe.find('body *[data-element-index]').length);
+			console.log('PAGE NEEDS TO BE INDEXED', iframe.find('body *').length, iframe.find('body *[data-element-index]').length);
 
 			// Add all the HTML element indexes
 			iframe.find('body *:not([data-element-index])').each(function(i) {
@@ -218,21 +316,34 @@ function runTheInspector() {
 	    iframe.on('mousemove', function(e) { // Detect the mouse moves in frame
 
 
+			// Iframe offset - NO NEED FOR NOW !!!
+			offset = $('#the-page').offset();
+
+		    // Mouse coordinates according to the screen - NO NEED FOR NOW !!!
+		    screenX = e.clientX * iframeScale + offset.left;
+		    screenY = e.clientY * iframeScale + offset.top;
+
+		    // Mouse coordinates according to the iframe container
+		    containerX = e.clientX * iframeScale;
+		    containerY = e.clientY * iframeScale;
+
+		    // Follow the mouse cursor
+			$('.mouse-cursor').css({
+				left:  containerX,
+				top:   containerY
+			});
+
+			console.log('Screen: ', screenX, screenY);
+			console.log('Container: ', containerX, containerY);
+
+
+
 		    // Focused Element
 	        focused_element = $(e.target);
 	        focused_element_index = focused_element.attr('data-element-index'); // !!!
 	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 	        focused_element_children = focused_element.children();
 	        focused_element_grand_children = focused_element_children.children();
-
-
-
-			// Follow the mouse cursor
-			var offset = $('#the-page').offset();
-			$('.mouse-cursor').css({
-				left:  e.clientX * iframeScale + offset.left,
-				top:   e.clientY * iframeScale + offset.top
-			});
 
 
 
@@ -510,18 +621,37 @@ function toggleTab(tab, forceClose = false) {
 
 
 // FUNCTION: Re-Locate Pins
-function relocatePins() {
+function relocatePins(pin_selector = null, x = null, y = null) {
 
+	var pins = pin_selector || $('#pins > pin');
 
-    $('#pins > pin').each(function() {
+    pins.each(function() {
 
 	    var pin = $(this);
-	    var pin_x = pin.attr('data-pin-x');
-	    var pin_y = pin.attr('data-pin-y');
+	    var pin_x = x || pin.attr('data-pin-x');
+	    var pin_y = y || pin.attr('data-pin-y');
 
 
-	    var scrolled_pin_x = parseInt(pin_x) * iframeScale - scrollOffset_left * iframeScale;
-	    var scrolled_pin_y = parseInt(pin_y) * iframeScale - scrollOffset_top * iframeScale;
+	    var scrollX = scrollOffset_left * iframeScale;
+	    var scrollY = scrollOffset_top * iframeScale;
+
+
+	    var pinX = parseInt(pin_x) * iframeScale;
+	    var pinY = parseInt(pin_y) * iframeScale;
+
+
+	    var scrolled_pin_x = pinX - scrollX;
+	    var scrolled_pin_y = pinY - scrollY;
+
+
+	    if (x && y) {
+		    scrolled_pin_x = x;
+		    scrolled_pin_y = y;
+
+		    pin.attr('data-pin-x', (scrolled_pin_x / iframeScale) + scrollOffset_left );
+			pin.attr('data-pin-y', (scrolled_pin_y / iframeScale) + scrollOffset_top );
+
+	    }
 
 
 	    pin.css('left', scrolled_pin_x + "px");

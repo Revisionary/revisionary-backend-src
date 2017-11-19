@@ -42,14 +42,20 @@ var currentPinComplete = 0;
 
 var currentPinNumber = 1;
 
-// Iframe ???
+// Mouse
+var offset = 0;
 var mouseInTheFrame = false;
+var screenX = 0
+var screenY = 0
+var containerX = 0
+var containerY = 0
 
 // Hovers
 var hoveringText = false;
 var hoveringImage = false;
 var hoveringButton = false;
 var hoveringPin = false;
+var focusedPin = null;
 
 // Scrolls
 var scrollOffset_top = 0;

@@ -67,6 +67,8 @@
 
 		</div>
 
+		<pin class="mouse-cursor big" data-pin-type="live">1</pin>
+
 	</div>
 
 	<main>
@@ -799,8 +801,6 @@
 			</div>
 
 		</div>
-		<pin class="mouse-cursor big" data-pin-type="live">1</pin>
-
 
 	</main> <!-- main -->
 </div> <!-- #page.site -->
