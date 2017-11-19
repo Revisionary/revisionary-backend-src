@@ -7,12 +7,26 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 $page_ID = $_url[1]; // Check if page exists !!!
 
 // Get the version number
-$version_number = isset($_url[2]) ? $_url[2] : 1; // Check if version exists !!!
+$version_number = isset($_url[2]) ? $_url[2] : null; // Check if version exists !!!
 
-// Get the version ID
+// Get the latest version
 $db->where('page_ID', $page_ID);
-$db->where('version_number', $version_number);
-$version_ID = $db->getOne('versions')['version_ID'];
+if ( isset($version_number) ) $db->where('version_number', $version_number);
+$db->orderBy('version_number');
+$version = $db->getOne('versions');
+
+// If version found
+if ($version) {
+	$version_ID = $version['version_ID'];
+	$version_number = $version['version_number'];
+} else {
+
+	// GIVE AN ERROR !!! Redirect to home
+
+	$version_ID = 0;
+	$version_number = "0.1";
+}
+
 
 // Get parent page ID
 $parentpage_ID = Page::ID($page_ID)->getPageInfo('parent_page_ID');

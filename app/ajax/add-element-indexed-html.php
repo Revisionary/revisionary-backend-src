@@ -18,13 +18,12 @@ $version_number = request('version_number');
 $page_file = Page::ID($page_ID, $version_number)->pageFile;
 
 
+
 // 1. GET THE OLD HTML
 $page_HTML = file_get_contents($page_file);
 
-
 // 2. FIND THE LARGEST "<body ..... </body>" AND REPLACE WITH THE NEW ONE: request('bodyHTML');
 $new_HTML = preg_replace('/<body.*\/body>/s', $_POST['bodyHTML'], $page_HTML);
-
 
 // 3. SAVE THE FILE
 $saved = file_put_contents( $page_file, $new_HTML, FILE_TEXT);

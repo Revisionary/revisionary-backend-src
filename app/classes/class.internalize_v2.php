@@ -545,7 +545,7 @@ class Internalize_v2 {
 		    ),
 	        "http" => array (
 	            "follow_location" => true, // follow redirects
-	            "user_agent" => "Mozilla/5.0"
+	            "user_agent" => "Mozilla/5.0" // Use the current user's agent !!!
 	        )
 		);
 
@@ -707,11 +707,19 @@ class Internalize_v2 {
 
 		// CONVERT ALL HREF, SRC ATTRIBUTES TO ABSOLUTE  !!! - Correct with existing revisionary page urls ??? (target="_parent")
 		$html = preg_replace_callback(
-	        '/<(?<tagname>link|a|script|img)\s+[^<]*?(?:href|src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
+	        '/<(?<tagname>link|a|script|img)\s+[^<]*?(?<attr>href|src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
 	        function ($urls) {
 
+
+		        // Found parts
+		        $full_tag = $urls[0];
+		        $attribute = $urls['attr'];
 		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+
+
+		        // Absoluted URL
 		        $new_url = url_to_absolute(Page::ID($this->page_ID)->remoteUrl, $the_url);
+
 
 		        if (parseUrl($the_url)['host'] != "" )
 		        	$new_url = url_to_absolute(parseUrl($the_url)['full_host'], $the_url);
@@ -721,15 +729,30 @@ class Internalize_v2 {
 		        	$new_url = $the_url;
 
 
+		        // Update the HTML element
+	            $new_full_tag = str_replace(
+	            	"$attribute='$the_url", // with single quote
+	            	"$attribute='$new_url",
+	            	$full_tag
+	            );
+
+	            $new_full_tag = str_replace(
+	            	"$attribute=\"$the_url", // with double quotes
+	            	"$attribute=\"$new_url",
+	            	$new_full_tag
+	            );
+
+
+		        // TEMP Specific Log !!!
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - ABSSSS: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
+
+
 		        // Specific Log
 				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
 
 
-	            return str_replace(
-	            	$the_url,
-	            	$new_url,
-	            	$urls[0]
-	            );
+	            return $new_full_tag;
 	        },
 	        $html
 	    );

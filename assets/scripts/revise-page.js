@@ -151,6 +151,8 @@ function runTheInspector() {
 			// Send this state of the "body" tag to DB? or File? to save !!! Security Issue?!!!
 			var newBodyHTML = iframe.find('body').prop('outerHTML');
 
+			console.log('Send the BODY');
+
 			$.post(ajax_url, {
 				'type'	  	 : 'add-element-indexed-html',
 				'nonce'	  	 : element_index_nonce,
@@ -167,8 +169,6 @@ function runTheInspector() {
 				});
 
 			}, 'json');
-
-
 
 		}
 
@@ -273,6 +273,7 @@ function runTheInspector() {
 				        	focused_element.prop("tagName") == "A" ||
 				        	focused_element.prop("tagName") == "B" ||
 				        	focused_element.prop("tagName") == "STRONG" ||
+				        	focused_element.prop("tagName") == "SMALL" ||
 				        	focused_element.prop("tagName") == "TEXTAREA" ||
 				        	focused_element.prop("tagName") == "LABEL" ||
 				        	focused_element.prop("tagName") == "BUTTON" ||
@@ -327,11 +328,45 @@ function runTheInspector() {
 					focused_element.html() != "&nbsp;" // And, also have to have text
 				) {
 
-					hoveringText = true;
-					focused_element_editable = true;
-					focused_element_html_editable = true;
-					console.log( '* Text Editable (No Grand Child): ' + focused_element.prop("tagName") );
-					console.log( 'Focused Element Text: ' + focused_element_text );
+
+					// Also check the children's tagname
+					var hardToEdit = false;
+					focused_element_children.each(function() {
+
+						if (
+							$(this).prop("tagName") != "BR" &&
+				        	$(this).prop("tagName") != "A" &&
+				        	$(this).prop("tagName") != "B" &&
+				        	$(this).prop("tagName") != "STRONG" &&
+				        	$(this).prop("tagName") != "SMALL" &&
+				        	$(this).prop("tagName") != "TEXTAREA" &&
+				        	$(this).prop("tagName") != "LABEL" &&
+				        	$(this).prop("tagName") != "BUTTON" &&
+				        	$(this).prop("tagName") != "TIME" &&
+				        	$(this).prop("tagName") != "DATE" &&
+				        	$(this).prop("tagName") != "ADDRESS" &&
+				        	$(this).prop("tagName") != "P" &&
+				        	$(this).prop("tagName") != "SPAN" &&
+				        	$(this).prop("tagName") != "LI" &&
+				        	$(this).prop("tagName") != "H1" &&
+				        	$(this).prop("tagName") != "H2" &&
+				        	$(this).prop("tagName") != "H3" &&
+				        	$(this).prop("tagName") != "H4" &&
+				        	$(this).prop("tagName") != "H5" &&
+				        	$(this).prop("tagName") != "H6"
+						) hardToEdit = true;
+
+					});
+
+					if (!hardToEdit) {
+
+						hoveringText = true;
+						focused_element_editable = true;
+						focused_element_html_editable = true;
+						console.log( '* Text Editable (No Grand Child): ' + focused_element.prop("tagName") );
+						console.log( 'Focused Element Text: ' + focused_element_text );
+
+					}
 
 				}
 
