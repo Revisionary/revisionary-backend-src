@@ -310,9 +310,12 @@ $(function() {
 
 		var projectShare = $(this).hasClass('project') ? true : false;
 
-		var theBox = projectShare ? $('.under-main-title') : $(this).parent().parent().parent().parent();
-		var boxName = projectShare ? $('h1.project-title').text() : theBox.find('.name').text();
-		var objectID = projectShare ? $('h1.project-title').attr('data-id') : theBox.attr('data-id');
+		var theBox = projectShare && dataType == "page" ? $('.under-main-title') : $(this).parent().parent().parent().parent();
+		var boxName = projectShare && dataType == "page" ? $('h1.project-title').text() : theBox.find('.name').text();
+		var objectID = projectShare && dataType == "page" ? $('h1.project-title').attr('data-id') : theBox.attr('data-id');
+
+
+		console.log('Data Type: ', dataType); console.log('projectShare: ', projectShare);
 
 
 		// Change the name

@@ -413,7 +413,7 @@
 									<div class="col xl-4-12 xl-left share">
 
 
-										<a href="#" class="share-button" data-tooltip="Share"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+										<a href="#" class="share-button <?=$dataType?>" data-tooltip="Share"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
 
 
 									</div>
