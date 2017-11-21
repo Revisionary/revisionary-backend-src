@@ -812,10 +812,11 @@
 // When page is ready
 $(function(){
 
+	var loadingProcessID = newProcess();
+
+
 	// Post the request to AJAX
 	var processInterval = setInterval(function(){
-
-		var loadingProcessID = newProcess();
 
 		// Send the new data with process ID
 		$.post(ajax_url, {

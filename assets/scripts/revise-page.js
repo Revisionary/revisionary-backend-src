@@ -162,54 +162,59 @@ $(function() {
 
 	}).on('mouseup', function(e) {
 
-		console.log('PIN UN-CLICKED!');
 
-		var pinWasDragging = pinDragging;
-		pinClicked = false;
-		pinDragging = false;
-		hoveringPin = true;
+		if (pinClicked) {
 
+			console.log('PIN UN-CLICKED!');
 
-		// Enable the iframe
-		$('#the-page').css('pointer-events', 'auto');
-
-
-		// Show the pin window if not dragging
-	    if (!pinWasDragging) {
+			var pinWasDragging = pinDragging;
+			pinClicked = false;
+			pinDragging = false;
+			hoveringPin = true;
 
 
-	        console.log('TOGGLE THE PIN WINDOW!');
+			// Enable the iframe
+			$('#the-page').css('pointer-events', 'auto');
 
 
-	    } else {
+			// Show the pin window if not dragging
+		    if (!pinWasDragging) {
 
 
-		    // Update the pin location on DB !!!
-		    console.log('Update the new pin location on DB!');
-
-			// Start the process
-			var relocateProcessID = newProcess();
-
-		    $.post(ajax_url, {
-				'type'	  	 : 'relocate-pin',
-				'nonce'	  	 : pin_nonce,
-				'pin_ID'	 : focusedPin.attr('data-pin-id'),
-				'pin_x' 	 : focusedPin.attr('data-pin-x'),
-				'pin_y' 	 : focusedPin.attr('data-pin-y')
-			}, function(result){
-
-				// Finish the process
-				endProcess(relocateProcessID);
-
-				console.log(result.data);
-
-			}, 'json');
+		        console.log('TOGGLE THE PIN WINDOW!');
 
 
-	    }
+		    } else {
 
 
-		focusedPin = null;
+			    // Update the pin location on DB !!!
+			    console.log('Update the new pin location on DB!');
+
+				// Start the process
+				var relocateProcessID = newProcess();
+
+			    $.post(ajax_url, {
+					'type'	  	 : 'relocate-pin',
+					'nonce'	  	 : pin_nonce,
+					'pin_ID'	 : focusedPin.attr('data-pin-id'),
+					'pin_x' 	 : focusedPin.attr('data-pin-x'),
+					'pin_y' 	 : focusedPin.attr('data-pin-y')
+				}, function(result){
+
+					// Finish the process
+					endProcess(relocateProcessID);
+
+					console.log(result.data);
+
+				}, 'json');
+
+
+		    }
+
+
+			focusedPin = null;
+
+		}
 
 		e.preventDefault();
 
@@ -370,8 +375,11 @@ function runTheInspector() {
 				top:   containerY
 			});
 
+
+/*
 			console.log('Screen: ', screenX, screenY);
 			console.log('Container: ', containerX, containerY);
+*/
 
 
 

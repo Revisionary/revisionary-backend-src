@@ -19,6 +19,7 @@ $page_file = Page::ID($page_ID, $version_number)->pageFile;
 
 
 
+/*
 // 1. GET THE OLD HTML
 $page_HTML = file_get_contents($page_file);
 
@@ -27,6 +28,7 @@ $new_HTML = preg_replace('/<body.*\/body>/s', $_POST['bodyHTML'], $page_HTML);
 
 // 3. SAVE THE FILE
 $saved = file_put_contents( $page_file, $new_HTML, FILE_TEXT);
+*/
 
 
 
@@ -38,8 +40,6 @@ $data['data'] = array(
 	'nonce' => request('nonce'),
 	'S_nonce' => $_SESSION['element_index_nonce'],
 	'TEST' => Page::ID($page_ID, $version_number)->pageFile,
-	'HTML' => $page_HTML,
-	'saved' => $saved
 
 );
 
