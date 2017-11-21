@@ -213,6 +213,7 @@ class Page {
 
 
 
+/*
 		if (file_exists($this->logDir."/_html.log"))
 			$process_status = [
 				"status" => "downloading-html",
@@ -230,6 +231,7 @@ class Page {
 				"status" => "downloaded-html",
 				"description" => "Starting to download CSS files"
 			];
+*/
 
 
 
@@ -274,7 +276,7 @@ class Page {
 
 
 		if (
-			file_exists($this->logDir."/html.log") &&
+			//file_exists($this->logDir."/html.log") && // NO NEED NOW !!!
 			file_exists($this->logDir."/css.log") &&
 			file_exists($this->logDir."/font.log")
 		)

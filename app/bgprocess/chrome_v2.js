@@ -100,10 +100,23 @@ function wait(ms) {
 
 
 	// Navigate to the URL
-	await page.goto(url, {waitUntil: 'networkidle'});
+	const response = await page.goto(url, {waitUntil: 'networkidle'});
+	const html = await response.text();
 
 
-	// Save the HTML !!!
+	// Save the HTML if not already
+	if ( htmlFile != "done" ) {
+
+
+		fs.writeFile(htmlFile, html, (err) => {
+
+			if (err) console.log(err);
+			console.log('HTML file has been created: ' + htmlFile);
+
+		});
+
+
+	}
 
 
 	// If delay needed

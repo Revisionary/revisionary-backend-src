@@ -62,9 +62,10 @@ if ($queue_ID) $job_ready = $internalize->waitForQueue();
 
 
 // 3. 	If job is ready to get done, open the site with Chrome
-// 3.1. Print all the loaded resources
-// 3.2. Take screenshots
-// 3.3. Close the site
+// 3.1. Create the HTML file
+// 3.2. Print all the loaded resources
+// 3.3. Take screenshots
+// 3.4. Close the site
 if ($job_ready) $browser_done = $internalize->browserWorks();
 
 
@@ -72,8 +73,12 @@ if ($job_ready) $browser_done = $internalize->browserWorks();
 if ($browser_done) $files_detected = $internalize->detectFilesToDownload();
 
 
+/*
+	DEPRECATED !!! Browser will do the job.
+*/
 // 5. Download HTML
-if ($files_detected) $html_downloaded = $internalize->downloadHtml();
+//if ($files_detected) $html_downloaded = $internalize->downloadHtml();
+if ($files_detected) $html_downloaded = true;
 
 
 // 6. HTML absolute URL filter to correct downloaded URLs

@@ -105,16 +105,16 @@ $(function() {
 		var confirm_text;
 
 		if ( action =='archive' )
-			confirm_text = "Are you sure you want to archive this?";
+			confirm_text = `Are you sure you want to archive this ${dataType}?`;
 
 		if ( action =='delete' )
-			confirm_text = "Are you sure you want to delete this?";
+			confirm_text = `Are you sure you want to delete this ${dataType}?`;
 
 		if ( action =='recover' )
-			confirm_text = "Are you sure you want to recover this?";
+			confirm_text = `Are you sure you want to recover this ${dataType}?`;
 
 		if ( action =='remove' )
-			confirm_text = "Are you sure you want to completely remove this?";
+			confirm_text = `Are you sure you want to completely remove this ${dataType}? Keep in mind that no one will be able to access this ${dataType}`+ (dataType == 'project' ? ' and its pages' : '') +` anymore!`;
 
 
 
@@ -127,7 +127,6 @@ $(function() {
 
 			// Start progress bar action
 			var actionID = newProcess();
-
 
 			// AJAX Send data
 			$.get(url, {ajax:true, inputText: ( action == "rename" ? input.val() : '' )}, function(result){
@@ -407,6 +406,9 @@ $(function() {
 	    console.log(type, nonce, objectID, input.val());
 
 
+		// Start the process
+		var actionID = newProcess();
+
 		// AJAX Send data
 		$.post(ajax_url, {
 
@@ -428,7 +430,7 @@ $(function() {
 				if ( data.status == "user-added" ) {
 
 					// Add to members
-					$('#share .members').append(
+					$('#share .members:not(.project-php)').append(
 						memberTemplate('user', input.val(), data.user_fullname, data.user_nameabbr, data.user_avatar, data.user_ID, "", objectID)
 					);
 
@@ -473,6 +475,10 @@ $(function() {
 				}
 
 				input.prop('disabled', false);
+
+
+				// Finish the process
+				endProcess(actionID);
 
 			});
 
@@ -524,6 +530,9 @@ $(function() {
 
 		if ( confirm('Are you sure you want to unshare?') ) {
 
+			// Start the process
+			var actionID = newProcess();
+
 			// AJAX Send data
 			$.post(ajax_url, {
 
@@ -550,8 +559,15 @@ $(function() {
 						$('.block[data-id="'+objectID+'"] .people a[data-userid="'+memberID+'"]').remove();
 						$('.block[data-id="'+objectID+'"] .people a[data-email="'+memberID+'"]').remove();
 
-						if ( type == "project" && $('.under-main-title .people').length )
+						// If project members, remove from the project members section under the title
+						if ( type == "project" && $('.under-main-title .people').length ) {
+							$('.under-main-title .people a[data-userid="'+memberID+'"]').remove();
 							$('.under-main-title .people a[data-email="'+memberID+'"]').remove();
+						}
+
+
+						// Finish the process
+						endProcess(actionID);
 
 					}
 
@@ -815,6 +831,9 @@ $(function() {
 		    input.prop('disabled', true);
 
 
+			// Start the process
+			var actionID = newProcess();
+
 			// AJAX Send data
 			$.post(ajax_url, {
 
@@ -873,6 +892,9 @@ $(function() {
 					}
 
 					input.prop('disabled', false);
+
+					// Finish the process
+					endProcess(actionID);
 
 				});
 

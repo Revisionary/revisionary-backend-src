@@ -118,7 +118,7 @@ class Internalize_v2 {
 
 
 		// If both already captured and page is already internalized, return
-		if ( $project_captured && $page_captured && $html_captured  && $resourcesFile_captured ) {
+		if ( $project_captured && $page_captured && $html_captured && $resourcesFile_captured ) {
 
 
 			// Update the queue status
@@ -280,6 +280,22 @@ class Internalize_v2 {
 
 			// Log
 			$logger->error("Resource file is not exist.");
+
+
+			return false;
+		}
+
+
+		// HTML file check
+		if (!file_exists($htmlFile)) {
+
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "error", "HTML file is not exist.");
+
+
+			// Log
+			$logger->error("HTML file is not exist.");
 
 
 			return false;
@@ -492,6 +508,9 @@ class Internalize_v2 {
 	}
 
 
+	/*
+		DEPRECATED !!! Browser will do the job.
+	*/
 	// 5. Download HTML
 	public function downloadHtml() {
 		global $logger, $queue;
