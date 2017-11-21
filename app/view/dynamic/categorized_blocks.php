@@ -159,6 +159,18 @@
 
 
 										foreach ($blockShares as $share) {
+
+											// Don't show the shared people who I didn't share to and whom shared by a person I didn't share with. :O
+											if (
+												$block_user_ID == currentUserID() &&
+												$share['sharer_user_ID'] != currentUserID()
+											) {
+
+												$projectSharedToSharer = array_search($share['sharer_user_ID'], array_column($blockShares, 'share_to'));
+												if ( $projectSharedToSharer === false ) continue;
+
+											}
+
 										?>
 
 											<?php

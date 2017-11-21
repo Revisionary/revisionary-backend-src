@@ -38,7 +38,7 @@ $db->where('shared_object_ID', $_url[1]);
 // Project shares data
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
-//var_dump($projectShares); die();
+//echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
 
 
 
