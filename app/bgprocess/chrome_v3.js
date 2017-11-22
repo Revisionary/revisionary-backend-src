@@ -8,10 +8,13 @@ const puppeteer = require('puppeteer');
 const argv = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
 const util = require('util');
+const URL = require('url').URL;
 
 
 // CLI Args
 const url = argv.url || 'https://www.google.com';
+const parsedRemoteUrl = new URL(url);
+
 const viewportWidth = argv.viewportWidth || 1440;
 const viewportHeight = argv.viewportHeight || 900;
 
@@ -55,7 +58,7 @@ function wait(ms) {
 	// Launch the Chrome Browser
 	const browser = await puppeteer.launch({
 		//executablePath: '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary',
-		headless: true
+		headless: false
 	});
 
 
@@ -96,9 +99,26 @@ function wait(ms) {
 	page.on('load', () => {
 
 
-		// If delay needed
-		if (delay > 0) console.log('Waiting ' + delay + ' miliseconds');
-		await wait(delay);
+		// Create the necessary files and folders
+
+		// Logs folder
+		if (!fs.existsSync(logDir)){
+		    fs.mkdirSync(logDir);
+		}
+
+		// CSS folder
+		if (!fs.existsSync(siteDir + '/css')){
+		    fs.mkdirSync(siteDir + '/css');
+		}
+
+		// Fonts folder
+		if (!fs.existsSync(siteDir + '/fonts')){
+		    fs.mkdirSync(siteDir + '/fonts');
+		}
+
+		// Create the log files
+		fs.closeSync(fs.openSync(logDir+'/_css.log', 'w'));
+		fs.closeSync(fs.openSync(logDir+'/_font.log', 'w'));
 
 
 		responses.map(async (resp, i) => {

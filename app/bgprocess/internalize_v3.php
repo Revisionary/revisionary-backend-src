@@ -50,7 +50,11 @@ $internalize = new Internalize_v3($page_ID, $queue_ID);
 $job_ready = $browser_done = $files_detected = $html_filtred = $css_filtred = false;
 
 
-
+echo "Page ID: $page_ID, ";
+echo "SessionID: $sessionID, ";
+echo "Project ID: $project_ID, ";
+echo "Queue ID: $queue_ID, ";
+echo "Need to wait: $need_to_wait ";
 
 
 
@@ -69,7 +73,7 @@ if ($queue_ID) $job_ready = $internalize->waitForQueue();
 // 2.6. Close the site
 if ($job_ready) $browser_done = $internalize->browserWorks();
 
-
+/*
 // 3. Parse and detect downloaded files
 //if ($browser_done) $files_detected = $internalize->detectDownloadedFiles();
 
@@ -86,3 +90,4 @@ if ($job_ready) $browser_done = $internalize->browserWorks();
 $css_filtred = true;
 // 6. Complete the job!
 if ($css_filtred) $iframeLink = $internalize->completeTheJob();
+*/
