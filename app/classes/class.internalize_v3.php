@@ -2,7 +2,23 @@
 use Cocur\BackgroundProcess\BackgroundProcess;
 
 
-class Internalize_v2 {
+/*
+	PLAN:
+
+	1. Browser works
+	1.1. Download HTML
+	1.2. Download CSS files
+	1.3. Download Fonts
+	2. Parse the downloaded files logs
+	2.1. Detect downloaded CSS files
+	2.2. Detect downloaded fonts
+	3. Filter and update HTML file
+	4. Filter and update CSS files
+
+*/
+
+
+class Internalize_v3 {
 
 
 
@@ -666,7 +682,7 @@ class Internalize_v2 {
 		$logger->info("HTML Filter started.");
 
 
-		// Do nothing if the HTML file is not exist
+		// Do nothing if already saved
 		if ( !file_exists( Page::ID($this->page_ID)->pageFile ) ) {
 
 			// Log
