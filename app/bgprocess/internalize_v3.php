@@ -45,9 +45,9 @@ $queue = new Queue();
 
 
 // Initialize internalizator
-$internalize = new Internalize_v2($page_ID, $queue_ID);
+$internalize = new Internalize_v3($page_ID, $queue_ID);
 
-$job_ready = $browser_done = $files_detected = $html_downloaded = $html_filtred = $css_downloaded = $fonts_downloaded = false;
+$job_ready = $browser_done = $files_detected = $html_filtred = $css_filtred = false;
 
 
 
@@ -56,44 +56,33 @@ $job_ready = $browser_done = $files_detected = $html_downloaded = $html_filtred 
 
 // JOBS:
 
-
-// 2. Wait for the queue
+// 1. Wait for the queue
 if ($queue_ID) $job_ready = $internalize->waitForQueue();
 
 
-// 3. 	If job is ready to get done, open the site with Chrome
-// 3.1. Create the HTML file
-// 3.2. Print all the loaded resources
-// 3.3. Take screenshots
-// 3.4. Close the site
+// 2. 	If job is ready to get done, open the site with Chrome
+// 2.1. Download the HTML file
+// 2.2. Download the CSS files
+// 2.3. Download the fonts
+// 2.4. Print all the downloaded resources
+// 2.5. Take screenshots
+// 2.6. Close the site
 if ($job_ready) $browser_done = $internalize->browserWorks();
 
 
-// 4. Parse and detect files to download
-if ($browser_done) $files_detected = $internalize->detectFilesToDownload();
+// 3. Parse and detect downloaded files
+//if ($browser_done) $files_detected = $internalize->detectDownloadedFiles();
 
 
-/*
-	DEPRECATED !!! Browser will do the job.
-*/
-// 5. Download HTML
-//if ($files_detected) $html_downloaded = $internalize->downloadHtml();
-if ($files_detected) $html_downloaded = true;
+// 4. HTML absolute URL filter to correct downloaded URLs
+//if ($files_detected) $html_filtred = $internalize->filterAndUpdateHTML();
 
 
-// 6. HTML absolute URL filter to correct downloaded URLs
-if ($html_downloaded) $html_filtred = $internalize->filterAndUpdateHTML();
+// 5. Filter CSS files
+// 5.1. Absolute URL filter to correct downloaded URLs
+// 5.2. Detect fonts and correct with downloaded ones
+//if ($html_filtred) $css_filtred = $internalize->filterAndUpdateCSSfiles();
 
-
-// 7.   Download the CSS files
-// 7.1. CSS absolute URL filter to correct downloaded URLs
-// 7.1. Detect fonts and correct with downloaded ones
-if ($html_filtred) $css_downloaded = $internalize->downloadCssFiles();
-
-
-// 8. Download the font files
-if ($css_downloaded) $fonts_downloaded = $internalize->downloadFontFiles();
-
-
-// 9. Complete the job!
-if ($fonts_downloaded) $iframeLink = $internalize->completeTheJob();
+$css_filtred = true;
+// 6. Complete the job!
+if ($css_filtred) $iframeLink = $internalize->completeTheJob();

@@ -3,7 +3,7 @@
 
 
 const puppeteer = require('puppeteer');
-const devices = require('puppeteer/DeviceDescriptors');
+//const devices = require('puppeteer/DeviceDescriptors'); // NO NEED FOR NOW !!!
 
 const argv = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
@@ -18,18 +18,22 @@ const viewportHeight = argv.viewportHeight || 900;
 
 const pageScreenshot = argv.pageScreenshot || 'done';
 const projectScreenshot = argv.projectScreenshot || 'done';
+
 const htmlFile = argv.htmlFile || 'done';
-const resourcesFile = argv.resourcesFile || 'done';
+const CSSFilesList = argv.CSSFilesList || 'done';
+const fontFilesList = argv.fontFilesList || 'done';
+
+const siteDir = argv.siteDir || 'done';
 const logDir = argv.logDir;
 
 
 const format = argv.format === 'png' ? 'png' : 'jpeg';
 const userAgent = argv.userAgent || false;
-const fullPage = argv.full;
+const fullPage = argv.full || false;
 const delay = argv.delay || 0;
 
 
-// Console Info
+// Console Info, browser.log
 console.log('URL: ' + url);
 if(fullPage) console.log("Will capture full page");
 
@@ -58,25 +62,177 @@ function wait(ms) {
 
 	// Open a new tab
 	const page = await browser.newPage();
-	await page.setRequestInterceptionEnabled(true);
 
 
 
-	// List the requests to the requests file
+	// List the requests and responses
+	const responses = [];
 	page.on('request', request => {
 
-		// Write to the resources file
-		fs.appendFile(resourcesFile, request.url + ' \r\n', (err) => {
+
+		// Write to the requests file
+		fs.appendFile(logDir + '/requests.log', request.resourceType + ' -> ' + request.url + ' \r\n', (err) => {
 
 			if (err) console.log(err);
-			console.log(request.resourceType + ' Resource added: ' + request.url);
+			console.log('Request Added: ', request.resourceType + ' -> ' + request.url);
 
 		});
 
-		console.log(request.resourceType + ' -> ' + request.url);
 
-		request.continue();
+
+	}).on('response', resp => {
+
+	  responses.push(resp);
+
 	});
+
+
+
+
+	// Download the necessary responses
+	let cssCount = 0;
+	let fontCount = 0;
+	let jsCount = 0;
+	page.on('load', () => {
+
+
+		// If delay needed
+		if (delay > 0) console.log('Waiting ' + delay + ' miliseconds');
+		await wait(delay);
+
+
+		responses.map(async (resp, i) => {
+
+			// The request info
+			const request = await resp.request();
+
+			// Get the URL
+			const url = request.url;
+			const parsedUrl = new URL(url);
+
+			// Get the file type
+			const fileType = request.resourceType;
+
+			// Get the file content
+			const buffer = await resp.buffer();
+
+			// Get the filename
+			const split = parsedUrl.pathname.split('/');
+			let fileName = split[split.length - 1];
+
+			if (fileName == '') {
+			  fileName += 'file';
+			}
+
+			if (!fileName.includes('.')) {
+
+			    if (fileType == 'document') {
+
+					fileName += '.html';
+
+			    } else if (fileType == 'stylesheet') {
+
+					fileName += '.css';
+
+			    } else if (fileType == 'script') {
+
+					fileName += '.js';
+
+			    }
+
+			}
+
+			// Get the file extension
+			const extsplit = fileName.split('.');
+			const fileExtension = extsplit[extsplit.length - 1];
+
+
+			// If on the same host
+			if ( parsedRemoteUrl.hostname == parsedUrl.hostname ) {
+
+
+				// HTML File
+				if (fileType == 'document' && htmlFile != 'done') {
+
+					// Create the file
+				    fs.writeFileSync(htmlFile, buffer);
+				    console.log('HTML DOWNLOADED: ', fileName + " -> " + htmlFile);
+
+				}
+
+
+				// CSS Files
+				if (fileType == 'stylesheet' && CSSFilesList != 'done' ) {
+
+					cssCount++;
+
+
+					// Create the file
+				    fs.writeFileSync(siteDir + '/css/' + cssCount + '.' + fileExtension, buffer);
+
+
+					// Write to the downloaded CSS list file
+					fs.appendFile(logDir+'/_css.log', cssCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n', (err) => {
+
+						if (err) console.log(err);
+						console.log('CSS Downloaded: ', cssCount+'.'+fileExtension + ' -> ' + request.url);
+
+					});
+
+				}
+
+
+				// Font Files
+				if (fileType == 'font' && fontFilesList != 'done') {
+
+					fontCount++;
+
+					// Create the file
+				    fs.writeFileSync(siteDir + '/fonts/' + fontCount+'.'+fileExtension, buffer);
+
+
+				    // Write to the downloaded fonts list file
+					fs.appendFile(logDir+'/_font.log', fontCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n', (err) => {
+
+						if (err) console.log(err);
+						console.log('Font Downloaded: ', fontCount+'.'+fileExtension + ' -> ' + request.url);
+
+					});
+
+				}
+
+
+/*
+				// JS Files - NO NEED YET
+				if (fileType == 'script') {
+
+					jsCount++;
+
+					// Create the file
+				    fs.writeFileSync(jsCount + '.' + fileExtension, buffer);
+				    console.log('JS DOWNLOADED: ', fileName + " is written as " + jsCount + '.' + fileExtension);
+
+				}
+*/
+
+
+			}
+
+
+
+			console.log('****************');
+			console.log('File Type: ', fileType);
+			console.log('URL: ', url);
+			console.log('File Name: ', fileName);
+			console.log('File Extension: ', fileExtension);
+			console.log('****************');
+
+		});
+
+
+	});
+
+
 
 
 
@@ -99,39 +255,16 @@ function wait(ms) {
 	}
 
 
+
 	// Navigate to the URL
-	const response = await page.goto(url, {waitUntil: 'networkidle'});
-	const html = await response.text();
+	await page.goto(url, {waitUntil: 'networkidle'});
 
-
-	// Save the HTML if not already
-	if ( htmlFile != "done" ) {
-
-
-		fs.writeFile(htmlFile, html, (err) => {
-
-			if (err) console.log(err);
-			console.log('HTML file has been created: ' + htmlFile);
-
-		});
-
-
-	}
 
 
 	// If delay needed
 	if (delay > 0) console.log('Waiting ' + delay + ' miliseconds');
 	await wait(delay);
 
-
-/*
-	// Take a screenshot
-	await page.screenshot({
-		type: format,
-		quality: 80,
-		path: 'screenshot.' + format,
-	});
-*/
 
 
 	// Take the page screenshot if not already
@@ -169,17 +302,24 @@ function wait(ms) {
 
 
 
-	// Write to the resources file
-	fs.appendFile(resourcesFile, 'DONE', (err) => {
+	// Rename the log files
+	fs.rename(logDir+'/_css.log', CSSFilesList, (err) => {
 
 		if (err) console.log(err);
-		console.log('DONE - Browser job is ended.');
+		console.log('CSS DOWNLOADS HAVE BEEN COMPLETED!');
+
+	});
+
+	fs.rename(logDir+'/_font.log', fontFilesList, (err) => {
+
+		if (err) console.log(err);
+		console.log('FONT DOWNLOADS HAVE BEEN COMPLETED!');
 
 	});
 
 
 
-	// Close the browser !!!
+	// Close the browser !!! Before that, do the other device works?!!
 	await browser.close();
 
 
