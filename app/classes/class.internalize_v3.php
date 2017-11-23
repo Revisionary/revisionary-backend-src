@@ -445,12 +445,13 @@ class Internalize_v3 {
 
 		}
 
+
 		// Get the HTML from the downloaded file
 		$html = file_get_contents(Page::ID($this->page_ID)->pageFile);
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
 
 
 
@@ -480,7 +481,7 @@ class Internalize_v3 {
 	        function ($urls) {
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
 
 		        return $urls[0]."<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
 
@@ -528,12 +529,12 @@ class Internalize_v3 {
 
 
 		        // Found URL Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
 
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
 
 
 	            return $new_full_tag;
@@ -573,7 +574,7 @@ class Internalize_v3 {
 
 
 			        // Specific Log
-					file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".Page::ID($this->page_ID)->pageUri."css/".$css_file_name."' \r\n", FILE_APPEND);
+					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".Page::ID($this->page_ID)->pageUri."css/".$css_file_name."' \r\n", FILE_APPEND);
 
 
 			        // Change the URL
@@ -617,7 +618,7 @@ class Internalize_v3 {
 
 
 				// Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Srcset Absoluted: '".$the_url."' -> '".$new_srcset."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Srcset Absoluted: '".$the_url."' -> '".$new_srcset."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
@@ -636,7 +637,7 @@ class Internalize_v3 {
 	        function ($style) {
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
 
 		        return $style['tag'].$this->filter_css($style['content'])."</style>";
 
@@ -654,7 +655,7 @@ class Internalize_v3 {
 		        $filtred_css = $this->filter_css($the_css);
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Inline Style Filtred: '".$the_css."' -> '".$filtred_css."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Inline Style Filtred: '".$the_css."' -> '".$filtred_css."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
@@ -676,8 +677,8 @@ class Internalize_v3 {
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$updated ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->page_ID)->logDir."/_filter.log", Page::ID($this->page_ID)->logDir.(!$updated ? '/__' : '/')."filter.log");
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$updated ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_html-filter.log", Page::ID($this->page_ID)->logDir.(!$updated ? '/__' : '/')."html-filter.log");
 
 
 		if ($updated) {
@@ -724,7 +725,7 @@ class Internalize_v3 {
 
 
 		// Specific Log !!!
-		//file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->downloadedCSS)."} \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->downloadedCSS)."} \r\n", FILE_APPEND);
 
 
 
@@ -734,7 +735,7 @@ class Internalize_v3 {
 		foreach ($this->downloadedCSS as $info) {
 
 			$fileName = $info['new_file_name'];
-			$css_url = $info['new_file_name'];
+			$css_url = $info['url'];
 			$fileUri = Page::ID($this->page_ID)->pageDir."/css/".$fileName;
 
 
@@ -751,7 +752,7 @@ class Internalize_v3 {
 
 
 			// Specific Log
-			//file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_filtered ? " <b>NOT</b>":'')." Filtered: '".$css_url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_filtered ? " <b>NOT</b>":'')." Filtered: '".$css_url."' -> '".$fileName."' \r\n", FILE_APPEND);
 
 			if (!$css_filtered) $css_filtered_has_error = true;
 
@@ -761,8 +762,8 @@ class Internalize_v3 {
 
 
 		// Specific Log
-		//file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_filtered_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		//rename(Page::ID($this->page_ID)->logDir."/_css.log", Page::ID($this->page_ID)->logDir.($css_filtered_has_error ? '/__' : '/')."css.log");
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_filtered_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_css-filter.log", Page::ID($this->page_ID)->logDir.($css_filtered_has_error ? '/__' : '/')."css-filter.log");
 
 
 		// Return true if no error
@@ -848,7 +849,7 @@ class Internalize_v3 {
 
         		// Absolution Logs
 				$logger->info('URL absoluted in CSS: '.$relative_url.' -> '.$new_url);
-		        //file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+		        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				$parsed_url = parseUrl($absolute_url);
@@ -910,10 +911,10 @@ class Internalize_v3 {
 
 					// Font Logs
 					$logger->info('Font Detected: '.$relative_url.' -> '.$new_url);
-			        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+			        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
-				} elseif ( $downloaded_css !== false ) {
+				} elseif ( $css_resource_key !== false ) {
 
 
 					$new_url = Page::ID($this->page_ID)->pageUri."css/".$downloaded_css;
@@ -921,7 +922,7 @@ class Internalize_v3 {
 
 					// CSS Import Logs
 					$logger->info('Imported CSS Detected: '.$relative_url.' -> '.$new_url);
-			        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Imported CSS Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+			        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Imported CSS Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				}

@@ -64,8 +64,8 @@ if (!fs.existsSync(siteDir + '/fonts')){
 }
 
 // Create the log files
-fs.closeSync(fs.openSync(logDir+'/_css.log', 'w'));
-fs.closeSync(fs.openSync(logDir+'/_font.log', 'w'));
+fs.writeFileSync(logDir+'/_css.log', '');
+fs.writeFileSync(logDir+'/_font.log', '');
 
 
 
@@ -93,12 +93,8 @@ fs.closeSync(fs.openSync(logDir+'/_font.log', 'w'));
 
 
 		// Write to the requests file
-		fs.appendFile(logDir + '/browser-requests.log', request.resourceType + ' -> ' + request.url + ' \r\n', (err) => {
-
-			if (err) console.log(err);
-			console.log('Request Added: ', request.resourceType + ' -> ' + request.url);
-
-		});
+		fs.appendFileSync(logDir + '/browser-requests.log', request.resourceType + ' -> ' + request.url + ' \r\n');
+		console.log('Request Added: ', request.resourceType + ' -> ' + request.url);
 
 
 
@@ -206,12 +202,12 @@ fs.closeSync(fs.openSync(logDir+'/_font.log', 'w'));
 					fontCount++;
 
 					// Create the file
-				    fs.writeFileSync(siteDir + '/fonts/' + fontCount+'.'+fileExtension, buffer);
+				    fs.writeFileSync(siteDir + '/fonts/' + fileName, buffer);
 
 
 				    // Write to the downloaded fonts list file
-					fs.appendFileSync(logDir+'/_font.log', fontCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n');
-					console.log('Font Downloaded: ', fontCount+'.'+fileExtension + ' -> ' + request.url);
+					fs.appendFileSync(logDir+'/_font.log', fileName + ' -> ' + request.url + ' \r\n');
+					console.log('Font Downloaded: ', fileName + ' -> ' + request.url);
 
 				}
 
