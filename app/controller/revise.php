@@ -60,8 +60,12 @@ $pageCat = $db->getOne('categories');
 
 
 // Screenshots
-$page_image = Page::ID($page_ID)->pageDeviceDir."/".Page::ID($page_ID)->getPageInfo('page_pic');
-$project_image = Page::ID($page_ID)->projectDir."/".Project::ID( $project_ID )->getProjectInfo('project_pic');
+$page_image_name = "page.jpg";
+$page_image = Page::ID($page_ID)->pageDeviceDir."/".$page_image_name;
+
+$project_image_name = "proj.jpg";
+$project_image = Page::ID($page_ID)->projectDir."/".$project_image_name;
+
 
 //print_r($pageCat); exit();
 
@@ -312,6 +316,32 @@ echo $process_status."<br>";
 echo $process_ID;
 die();
 */
+
+
+// Update the screenshots on DB
+$page_captured = file_exists($page_image);
+$project_captured = file_exists($project_image);
+
+
+
+// Add image names to database
+if ( $page_captured && Page::ID($page_ID)->getPageInfo('page_pic') == null ) {
+
+	$db->where('page_ID', $page_ID);
+	$db->update('pages', array(
+		'page_pic' => $page_image_name
+	), 1);
+
+}
+
+if ( $project_captured && Project::ID( $project_ID )->getProjectInfo('project_pic') == null ) {
+
+	$db->where('project_ID', $project_ID);
+	$db->update('projects', array(
+		'project_pic' => $project_image_name
+	), 1);
+
+}
 
 
 

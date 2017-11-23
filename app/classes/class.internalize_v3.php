@@ -252,39 +252,6 @@ class Internalize_v3 {
 		$CSSFiles_captured = file_exists($CSSFilesList);
 		$fontFiles_captured = file_exists($fontFilesList);
 
-		$page_captured = file_exists($page_image);
-		$project_captured = file_exists($project_image);
-
-
-
-		// Add image names to database
-		if ( $page_captured ) {
-
-			$db->where('page_ID', $page_ID);
-			$db->update('pages', array(
-				'page_pic' => $page_image_name
-			), 1);
-
-
-			// Log
-			$logger->info("Page screenshot is taken: ".$page_image_name);
-
-		}
-
-		if ( $project_captured ) {
-
-			$db->where('project_ID', $project_ID);
-			$db->update('projects', array(
-				'project_pic' => $project_image_name
-			), 1);
-
-
-			// Log
-			$logger->info("Project screenshot is taken: ".$project_image_name);
-
-		}
-
-
 
 		// HTML file check
 		if (!file_exists($htmlFile)) {
@@ -798,7 +765,7 @@ class Internalize_v3 {
 	}
 
 
-	// 9. Complete the job!
+	// 6. Complete the job!
 	public function completeTheJob() {
 		global $logger, $queue;
 
