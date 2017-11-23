@@ -328,7 +328,6 @@ class Internalize_v3 {
 		// Parse the downloaded CSS list !!!
 		$downloaded_css = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($CSSFilesList)));
 		$downloaded_css = array_unique($downloaded_css);
-		array_pop($downloaded_css);
 		$this->downloadedCSS = $downloaded_css;
 
 
@@ -336,7 +335,6 @@ class Internalize_v3 {
 		// Parse the downloaded fonts list !!!
 		$downloaded_font = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($fontFilesList)));
 		$downloaded_font = array_unique($downloaded_font);
-		array_pop($downloaded_font);
 		$this->downloadedFont = $downloaded_font;
 
 
@@ -359,7 +357,7 @@ class Internalize_v3 {
 	}
 
 
-	// 3. Parse and detect downloaded files
+	// 3. Parse and detect downloaded files !!!
 	public function detectDownloadedFiles() {
 		global $db, $logger, $queue;
 
