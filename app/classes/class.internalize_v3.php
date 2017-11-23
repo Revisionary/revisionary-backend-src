@@ -335,23 +335,20 @@ class Internalize_v3 {
 
 
 
-
-
-		// Parse the downloaded CSS list !!!
+		// Parse the downloaded CSS list
 		$downloaded_css = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($CSSFilesList)));
-		$downloaded_css = array_unique($downloaded_css);
+		$downloaded_css = array_filter(array_unique($downloaded_css));
 		$this->downloadedCSS = $downloaded_css;
 
 
-
-		// Parse the downloaded fonts list !!!
+		// Parse the downloaded fonts list
 		$downloaded_font = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($fontFilesList)));
-		$downloaded_font = array_unique($downloaded_font);
+		$downloaded_font = array_filter(array_unique($downloaded_font));
 		$this->downloadedFonts = $downloaded_font;
 
 
 
-		// Log !!!
+		// Log
 		$logger->debug("Downloaded CSS files:", $this->downloadedCSS);
 		$logger->debug("Downloaded Font files:", $this->downloadedFonts);
 
@@ -492,7 +489,7 @@ class Internalize_v3 {
 
 		// CONVERT ALL HREF, SRC ATTRIBUTES TO ABSOLUTE !!! - Correct with existing revisionary page urls ??? (target="_parent")
 		$html = preg_replace_callback(
-	        '/<(?<tagname>link|a|script|img)\s+[^<]*?(?<attr>href|src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
+	        '/<(?<tagname>link|a|script|img)\s+[^<]*?(?<attr>href|src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/is',
 	        function ($urls) {
 
 
@@ -723,9 +720,28 @@ class Internalize_v3 {
 		// Init Log
 		$logger->info("CSS filtering started.");
 
+		// Init Log
+		$logger->debug("Total CSS: ". count($this->downloadedCSS), $this->downloadedCSS);
+
+
+
+		// Do nothing if there is no CSS file
+		if ( count($this->downloadedCSS) == 0 ) {
+
+			// Log
+			$logger->info("There is no CSS file to filter.");
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "working", "CSS filtering is skipped. (No CSS file)");
+
+			return true;
+
+		}
+
+
 
 		// Specific Log !!!
-		file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->downloadedCSS)."} \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->downloadedCSS)."} \r\n", FILE_APPEND);
 
 
 
@@ -752,7 +768,7 @@ class Internalize_v3 {
 
 
 			// Specific Log
-			file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_filtered ? " <b>NOT</b>":'')." Filtered: '".$css_url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_filtered ? " <b>NOT</b>":'')." Filtered: '".$css_url."' -> '".$fileName."' \r\n", FILE_APPEND);
 
 			if (!$css_filtered) $css_filtered_has_error = true;
 
@@ -762,8 +778,9 @@ class Internalize_v3 {
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_filtered_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->page_ID)->logDir."/_css-filter.log", Page::ID($this->page_ID)->logDir.($css_filtered_has_error ? '/__' : '/')."css-filter.log");
+		file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_filtered_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		if ($css_filtered_has_error)
+			rename(Page::ID($this->page_ID)->logDir."/css-filter.log", Page::ID($this->page_ID)->logDir."/__css-filter.log");
 
 
 		// Return true if no error
@@ -849,7 +866,7 @@ class Internalize_v3 {
 
         		// Absolution Logs
 				$logger->info('URL absoluted in CSS: '.$relative_url.' -> '.$new_url);
-		        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+		        file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				$parsed_url = parseUrl($absolute_url);
@@ -911,7 +928,7 @@ class Internalize_v3 {
 
 					// Font Logs
 					$logger->info('Font Detected: '.$relative_url.' -> '.$new_url);
-			        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+			        file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				} elseif ( $css_resource_key !== false ) {
@@ -922,7 +939,7 @@ class Internalize_v3 {
 
 					// CSS Import Logs
 					$logger->info('Imported CSS Detected: '.$relative_url.' -> '.$new_url);
-			        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Imported CSS Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+			        file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] - Imported CSS Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				}

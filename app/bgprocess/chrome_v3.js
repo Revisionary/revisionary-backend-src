@@ -45,6 +45,14 @@ console.log("Width: " + viewportWidth + " Height: " + viewportHeight);
 if (userAgent) console.log("User Agent: " + userAgent);
 
 
+/*
+// Delay Function !!! Do we need that?
+function wait(ms) {
+	return new Promise(r => setTimeout(r, ms)).then(() => "Yay");
+}
+*/
+
+
 
 // Create the necessary files and folders
 
@@ -103,6 +111,13 @@ fs.writeFileSync(logDir+'/_font.log', '');
 		responses.push(resp);
 
 	}).on('load', () => { // Download and list the files on response
+
+
+/*
+		// Wait before downloading !!! Do we need that?
+		console.log('Waiting ' + delay + ' miliseconds to download files');
+		wait(delay*10);
+*/
 
 
 		const totalResponse = responses.length;
@@ -263,8 +278,10 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 	// If delay needed
 	if ( delay > 0 && (pageScreenshot != "done" || projectScreenshot != "done") ) {
+
 		await console.log('Waiting ' + delay + ' miliseconds for screenshot');
 		await page.waitFor(delay);
+
 	}
 
 
