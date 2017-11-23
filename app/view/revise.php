@@ -837,10 +837,6 @@ $(function(){
 				var width = data.processPercentage;
 
 
-				if (parseFloat(data.totalCss) > 0)
-					width = width + (35 * parseFloat(data.downloadedCss) / parseFloat(data.totalCss) );
-
-
 				editProcess(loadingProcessID, width);
 
 

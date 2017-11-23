@@ -262,7 +262,7 @@ function runTheInspector() {
 
 
 	/*
-	// INDEX WORKS - NOT NOW !!! For now, only the static content will be editable!
+		// INDEX WORKS - NOT NOW !!! For now, only the static content will be editable!
 		// Count the indexed elements
 		indexCount = iframe.find('body *[data-element-index]').length;
 		elementCount = iframe.find('body *').length;

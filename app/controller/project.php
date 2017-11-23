@@ -167,8 +167,8 @@ if ( is_numeric(get('new_device')) && is_numeric(get('page_ID')) && get('nonce')
 
 
 	// Initiate Internalizator
-	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
-	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
+	$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log.log", true);
 
 
 	// Add the PID to the queue
@@ -324,8 +324,8 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 
 			// Initiate Internalizator
-			$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
-			$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+			$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
+			$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
 
 
 			// Add the PID to the queue
