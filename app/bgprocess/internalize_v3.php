@@ -73,21 +73,18 @@ if ($queue_ID) $job_ready = $internalize->waitForQueue();
 // 2.6. Close the site
 if ($job_ready) $browser_done = $internalize->browserWorks();
 
-/*
+
 // 3. Parse and detect downloaded files
-//if ($browser_done) $files_detected = $internalize->detectDownloadedFiles();
+if ($browser_done) $files_detected = $internalize->detectDownloadedFiles();
 
 
 // 4. HTML absolute URL filter to correct downloaded URLs
-//if ($files_detected) $html_filtred = $internalize->filterAndUpdateHTML();
-
+if ($files_detected) $html_filtred = $internalize->filterAndUpdateHTML();
 
 // 5. Filter CSS files
 // 5.1. Absolute URL filter to correct downloaded URLs
 // 5.2. Detect fonts and correct with downloaded ones
-//if ($html_filtred) $css_filtred = $internalize->filterAndUpdateCSSfiles();
+if ($html_filtred) $css_filtred = $internalize->filterAndUpdateCSSfiles();
 
-$css_filtred = true;
 // 6. Complete the job!
 if ($css_filtred) $iframeLink = $internalize->completeTheJob();
-*/

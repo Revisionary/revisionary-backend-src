@@ -137,7 +137,7 @@ class Page {
         $this->logDir = $this->pageDir."/logs";
 
         // Set the log file name
-        $this->logFileName = "process";
+        $this->logFileName = "internalize-process-php";
 
         // Set the log file
         $this->logFile = $this->logDir."/".$this->logFileName.".log";

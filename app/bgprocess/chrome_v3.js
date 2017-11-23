@@ -18,7 +18,6 @@ const parsedRemoteUrl = new URL(url);
 const viewportWidth = argv.viewportWidth || 1440;
 const viewportHeight = argv.viewportHeight || 900;
 
-
 const pageScreenshot = argv.pageScreenshot || 'done';
 const projectScreenshot = argv.projectScreenshot || 'done';
 
@@ -29,27 +28,45 @@ const fontFilesList = argv.fontFilesList || 'done';
 const siteDir = argv.siteDir || 'done';
 const logDir = argv.logDir;
 
-
 const format = argv.format === 'png' ? 'png' : 'jpeg';
 const userAgent = argv.userAgent || false;
 const fullPage = argv.full || false;
 const delay = argv.delay || 0;
 
 
+
 // Console Info, browser.log
 console.log('URL: ' + url);
 if(fullPage) console.log("Will capture full page");
 
-if(delay > 0) console.log("Will delay for " + delay + "miliseconds");
+if(delay > 0) console.log("Will delay for " + delay + "miliseconds for screenshot");
 
 console.log("Width: " + viewportWidth + " Height: " + viewportHeight);
 if (userAgent) console.log("User Agent: " + userAgent);
 
 
-// Delay Function
-function wait(ms) {
-	return new Promise(r => setTimeout(r, ms)).then(() => "Yay");
+
+// Create the necessary files and folders
+
+// Logs folder
+if (!fs.existsSync(logDir)){
+    fs.mkdirSync(logDir);
 }
+
+// CSS folder
+if (!fs.existsSync(siteDir + '/css')){
+    fs.mkdirSync(siteDir + '/css');
+}
+
+// Fonts folder
+if (!fs.existsSync(siteDir + '/fonts')){
+    fs.mkdirSync(siteDir + '/fonts');
+}
+
+// Create the log files
+fs.closeSync(fs.openSync(logDir+'/_css.log', 'w'));
+fs.closeSync(fs.openSync(logDir+'/_font.log', 'w'));
+
 
 
 (async() => {
@@ -58,7 +75,7 @@ function wait(ms) {
 	// Launch the Chrome Browser
 	const browser = await puppeteer.launch({
 		//executablePath: '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary',
-		headless: false
+		headless: true
 	});
 
 
@@ -70,11 +87,13 @@ function wait(ms) {
 
 	// List the requests and responses
 	const responses = [];
-	page.on('request', request => {
+	let cssCount = 0;
+	let fontCount = 0;
+	await page.on('request', request => { // List the requests
 
 
 		// Write to the requests file
-		fs.appendFile(logDir + '/requests.log', request.resourceType + ' -> ' + request.url + ' \r\n', (err) => {
+		fs.appendFile(logDir + '/browser-requests.log', request.resourceType + ' -> ' + request.url + ' \r\n', (err) => {
 
 			if (err) console.log(err);
 			console.log('Request Added: ', request.resourceType + ' -> ' + request.url);
@@ -83,44 +102,16 @@ function wait(ms) {
 
 
 
-	}).on('response', resp => {
+	}).on('response', resp => { // List the responses
 
-	  responses.push(resp);
+		responses.push(resp);
 
-	});
-
-
+	}).on('load', () => { // Download and list the files on response
 
 
-	// Download the necessary responses
-	let cssCount = 0;
-	let fontCount = 0;
-	let jsCount = 0;
-	page.on('load', () => {
+		const totalResponse = responses.length;
 
-
-		// Create the necessary files and folders
-
-		// Logs folder
-		if (!fs.existsSync(logDir)){
-		    fs.mkdirSync(logDir);
-		}
-
-		// CSS folder
-		if (!fs.existsSync(siteDir + '/css')){
-		    fs.mkdirSync(siteDir + '/css');
-		}
-
-		// Fonts folder
-		if (!fs.existsSync(siteDir + '/fonts')){
-		    fs.mkdirSync(siteDir + '/fonts');
-		}
-
-		// Create the log files
-		fs.closeSync(fs.openSync(logDir+'/_css.log', 'w'));
-		fs.closeSync(fs.openSync(logDir+'/_font.log', 'w'));
-
-
+		// Foreach for responses
 		responses.map(async (resp, i) => {
 
 			// The request info
@@ -167,6 +158,15 @@ function wait(ms) {
 			const fileExtension = extsplit[extsplit.length - 1];
 
 
+			// LOGS
+			console.log('****************');
+			console.log('File Type: ', fileType);
+			console.log('URL: ', url);
+			console.log('File Name: ', fileName);
+			console.log('File Extension: ', fileExtension);
+			console.log('****************');
+
+
 			// If on the same host
 			if ( parsedRemoteUrl.hostname == parsedUrl.hostname ) {
 
@@ -177,6 +177,8 @@ function wait(ms) {
 					// Create the file
 				    fs.writeFileSync(htmlFile, buffer);
 				    console.log('HTML DOWNLOADED: ', fileName + " -> " + htmlFile);
+
+				    // INDEX THE HTML ELEMENTS HERE !!!
 
 				}
 
@@ -192,12 +194,8 @@ function wait(ms) {
 
 
 					// Write to the downloaded CSS list file
-					fs.appendFile(logDir+'/_css.log', cssCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n', (err) => {
-
-						if (err) console.log(err);
-						console.log('CSS Downloaded: ', cssCount+'.'+fileExtension + ' -> ' + request.url);
-
-					});
+					fs.appendFileSync(logDir+'/_css.log', cssCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n');
+					console.log('CSS Downloaded: ', cssCount+'.'+fileExtension + ' -> ' + request.url);
 
 				}
 
@@ -212,42 +210,28 @@ function wait(ms) {
 
 
 				    // Write to the downloaded fonts list file
-					fs.appendFile(logDir+'/_font.log', fontCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n', (err) => {
-
-						if (err) console.log(err);
-						console.log('Font Downloaded: ', fontCount+'.'+fileExtension + ' -> ' + request.url);
-
-					});
+					fs.appendFileSync(logDir+'/_font.log', fontCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n');
+					console.log('Font Downloaded: ', fontCount+'.'+fileExtension + ' -> ' + request.url);
 
 				}
-
-
-/*
-				// JS Files - NO NEED YET
-				if (fileType == 'script') {
-
-					jsCount++;
-
-					// Create the file
-				    fs.writeFileSync(jsCount + '.' + fileExtension, buffer);
-				    console.log('JS DOWNLOADED: ', fileName + " is written as " + jsCount + '.' + fileExtension);
-
-				}
-*/
 
 
 			}
 
 
+			if (totalResponse == i + 1) {
 
-			console.log('****************');
-			console.log('File Type: ', fileType);
-			console.log('URL: ', url);
-			console.log('File Name: ', fileName);
-			console.log('File Extension: ', fileExtension);
-			console.log('****************');
+				// Rename the log files
+				fs.renameSync(logDir+'/_css.log', CSSFilesList);
+				console.log('CSS DOWNLOADS HAVE BEEN COMPLETED!');
 
-		});
+				fs.renameSync(logDir+'/_font.log', fontFilesList);
+				console.log('FONT DOWNLOADS HAVE BEEN COMPLETED!');
+
+			}
+
+
+		}); // Responses loop
 
 
 	});
@@ -282,8 +266,10 @@ function wait(ms) {
 
 
 	// If delay needed
-	if (delay > 0) console.log('Waiting ' + delay + ' miliseconds');
-	await wait(delay);
+	if ( delay > 0 && (pageScreenshot != "done" || projectScreenshot != "done") ) {
+		await console.log('Waiting ' + delay + ' miliseconds for screenshot');
+		await page.waitFor(delay);
+	}
 
 
 
@@ -319,23 +305,6 @@ function wait(ms) {
 
 
 	}
-
-
-
-	// Rename the log files
-	fs.rename(logDir+'/_css.log', CSSFilesList, (err) => {
-
-		if (err) console.log(err);
-		console.log('CSS DOWNLOADS HAVE BEEN COMPLETED!');
-
-	});
-
-	fs.rename(logDir+'/_font.log', fontFilesList, (err) => {
-
-		if (err) console.log(err);
-		console.log('FONT DOWNLOADS HAVE BEEN COMPLETED!');
-
-	});
 
 
 

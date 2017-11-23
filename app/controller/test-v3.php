@@ -1,6 +1,37 @@
 <?php
 use Cocur\BackgroundProcess\BackgroundProcess;
 
+
+
+/*
+$array = array();
+
+$array[] = array(
+	'file_name' => '1.css',
+	'url' => 'https://www.asd.com/css/style1.css'
+);
+$array[] = array(
+	'file_name' => '2.css',
+	'url' => 'https://www.asd.com/css/style2.css'
+);
+$array[] = array(
+	'file_name' => '3.css',
+	'url' => 'https://www.asd.com/css/style3.css'
+);
+$array[] = array(
+	'file_name' => '4.css',
+	'url' => 'https://www.asd.com/css/style4.css'
+);
+
+
+var_dump(  );
+array_search('', array_column($array, 'url'))
+
+
+
+die();
+*/
+
 $page_ID = 199;
 $project_ID = Page::ID($page_ID)->getPageInfo('project_ID');
 
@@ -33,10 +64,12 @@ if ( $process_ID != '' ) {
 
 
 		$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
-		$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+		$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
 		$process_ID = $process->getPid();
 
-	}else $process = BackgroundProcess::createFromPID( $process_ID );
+		header('Location: /test-v3?pid='.$process_ID);
+
+	} else $process = BackgroundProcess::createFromPID( $process_ID );
 
 
 

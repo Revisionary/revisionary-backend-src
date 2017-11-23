@@ -168,12 +168,24 @@ class Internalize_v3 {
 		// Process directories - NodeJS - Chrome
 		$nodejs = bindir."/nodejs-mac/bin/node";
 		$scriptFile = dir."/app/bgprocess/chrome_v3.js";
-		$process_string = "$nodejs $scriptFile --url=$url --viewportWidth=$width --viewportHeight=$height --htmlFile=$htmlFile --CSSFilesList=$CSSFilesList --fontFilesList=$fontFilesList --pageScreenshot=$page_image --projectScreenshot=$project_image --siteDir=$siteDir --logDir=$logDir --delay=1000";
+
+		$process_string = "$nodejs $scriptFile ";
+		$process_string .= "--url=$url ";
+		$process_string .= "--viewportWidth=$width ";
+		$process_string .= "--viewportHeight=$height ";
+		$process_string .= "--htmlFile=$htmlFile ";
+		$process_string .= "--CSSFilesList=$CSSFilesList ";
+		$process_string .= "--fontFilesList=$fontFilesList ";
+		$process_string .= "--pageScreenshot=$page_image ";
+		$process_string .= "--projectScreenshot=$project_image ";
+		$process_string .= "--siteDir=$siteDir ";
+		$process_string .= "--logDir=$logDir ";
+		$process_string .= "--delay=1000"; // Screenshot Delay
 
 
 		// Do the process
 		$process = new BackgroundProcess($process_string);
-		$process->run($logDir."/browser.log", true);
+		$process->run($logDir."/browser-process-js.log", true);
 
 
 		// Update the queue status
@@ -335,13 +347,13 @@ class Internalize_v3 {
 		// Parse the downloaded fonts list !!!
 		$downloaded_font = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($fontFilesList)));
 		$downloaded_font = array_unique($downloaded_font);
-		$this->downloadedFont = $downloaded_font;
+		$this->downloadedFonts = $downloaded_font;
 
 
 
 		// Log !!!
 		$logger->debug("Downloaded CSS files:", $this->downloadedCSS);
-		$logger->debug("Downloaded Font files:", $this->downloadedFont);
+		$logger->debug("Downloaded Font files:", $this->downloadedFonts);
 
 
 
@@ -372,180 +384,26 @@ class Internalize_v3 {
 
 
 		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "Started parsing the resources.");
+		$queue->update_status($this->queue_ID, "working", "Started parsing the downloaded files list.");
 
 		// Log
-		$logger->info("Start parsing the resources.", $this->resources);
+		$logger->info("Started parsing the downloaded files lists.");
 
 
 
+		// PARSE THE DOWNLOADED FILES
 
+		// Update the real list
+		$this->downloadedCSS = $this->parseResources($this->downloadedCSS);
+		$this->downloadedFonts = $this->parseResources($this->downloadedFonts);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		$count = 0;
-		foreach ($this->resources as $resource) {
-
-			$content_type = "";
-			$resource_url = trim($resource);
-
-			// If content type is specified
-			if ( strpos($resource, ' -> ') !== false ) {
-
-				$resource = explode(' -> ', $resource);
-				$content_type = trim($resource[0]);
-				$resource_url = trim($resource[1]);
-
-			}
-
-
-			// Is valid URL?
-			$url = parseUrl($resource_url);
-			if ( !$url ) {
-
-				$logger->info("Invalid URL skipped: $resource_url");
-				continue;
-			}
-
-
-			// Parse the URL
-			$path_parts = pathinfo($url['path']);
-			$extension = isset($path_parts['extension']) ? strtolower($path_parts['extension']) : "";
-
-
-			// If the resource is not belong to the domain, pass it.
-			if ( $url['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] ) {
-
-				$logger->info("Resource skipped: $resource_url ***".$url['domain']."--".parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain']);
-				continue;
-			}
-
-
-
-			// Register the HTML file !!! NO NEED FOR NOW
-			if ($content_type == "text/html") {
-
-
-				// If redirected?
-				if ( $resource_url != Page::ID($this->page_ID)->remoteUrl ) {
-
-					$old_url = Page::ID($this->page_ID)->remoteUrl;
-
-					// Update the remote URL on database
-					$data = array(
-						'page_url' => $resource_url
-					);
-					$db->where ('page_ID', $this->page_ID);
-					if ( $db->update('pages', $data) )
-					    $logger->info("Page URL has updated. Old URL: $old_url", $data);
-					else
-					    $logger->error("Page URL couldn't be updated. ".$db->getLastError()." - Old URL: $old_url", $data);
-				}
-
-				// Add to the list
-				$this->downloadedHTML[] = $resource_url;
-				$logger->info("HTML page added to the download queue: $resource_url");
-
-
-			} elseif (
-				$content_type == "text/css" ||
-				$extension == "css"
-			) {
-
-
-				// Add to the list
-				$this->downloadedCSS[] = $resource_url;
-				$logger->info("CSS file added to the download queue: $resource_url");
-
-
-			} elseif (
-				strpos($content_type, 'javascript') !== false ||
-				$content_type == "application/javascript" ||
-				$extension == "js"
-			) {
-
-
-				// Add to the list
-				$this->downloadedJS[] = $resource_url;
-				$logger->info("JS file added to the download queue: $resource_url");
-
-
-			} elseif (
-				strpos($content_type, 'font') !== false ||
-				$content_type == "font/otf" ||
-				$content_type == "font/ttf" ||
-				$content_type == "font/woff" ||
-				$content_type == "font/woff2" ||
-				$content_type == "image/svg+xml" ||
-				$content_type == "application/x-font-ttf" ||
-				$content_type == "application/x-font-truetype" ||
-				$content_type == "application/x-font-opentype" ||
-				$content_type == "application/font-woff" ||
-				$content_type == "application/font-woff2" ||
-				$content_type == "application/octet-stream" ||
-				$content_type == "application/vnd.ms-fontobject" ||
-				$content_type == "application/font-sfnt" ||
-				$extension == "ttf" ||
-				$extension == "otf" ||
-				$extension == "woff" ||
-				$extension == "woff2" ||
-				$extension == "svg" ||
-				$extension == "eot"
-			) {
-
-
-				// Add to the list
-				$this->downloadedFonts[] = $resource_url;
-				$logger->info("Font file added to the download queue: $resource_url");
-
-
-			} elseif (
-				strpos($content_type, 'image/') !== false ||
-				$extension == "jpg" ||
-				$extension == "jpeg" ||
-				$extension == "png" ||
-				$extension == "gif"
-			) {
-
-
-				// Add to the list
-				$this->downloadedImages[] = $resource_url;
-				$logger->info("Image file added to the download queue: $resource_url");
-
-
-			} else {
-
-
-				// Add to the list
-				$logger->info("Couldn't added to any list: $resource_url");
-
-
-			}
-
-
-			$count++;
-		}
 
 
 		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "Parsing $count resources finished.");
+		$queue->update_status($this->queue_ID, "working", "Parsing resources finished.");
 
 		// Log
-		$logger->info("Parsing $count resources finished.");
+		$logger->info("Parsing resources finished.");
 
 
 		return true;
@@ -574,14 +432,14 @@ class Internalize_v3 {
 		$logger->info("HTML Filter started.");
 
 
-		// Do nothing if already saved
+		// Do nothing if there is no HTML file
 		if ( !file_exists( Page::ID($this->page_ID)->pageFile ) ) {
 
 			// Log
 			$logger->error("HTML file is not exist.");
 
 			// Update the queue status
-			$queue->update_status($this->queue_ID, "error", "HTML couldn't be filtred.");
+			$queue->update_status($this->queue_ID, "error", "HTML couldn't be filtred. (No file)");
 
 			return false;
 
@@ -631,7 +489,7 @@ class Internalize_v3 {
 	    );
 
 
-		// CONVERT ALL HREF, SRC ATTRIBUTES TO ABSOLUTE  !!! - Correct with existing revisionary page urls ??? (target="_parent")
+		// CONVERT ALL HREF, SRC ATTRIBUTES TO ABSOLUTE !!! - Correct with existing revisionary page urls ??? (target="_parent")
 		$html = preg_replace_callback(
 	        '/<(?<tagname>link|a|script|img)\s+[^<]*?(?<attr>href|src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
 	        function ($urls) {
@@ -669,8 +527,8 @@ class Internalize_v3 {
 	            );
 
 
-		        // TEMP Specific Log !!!
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - ABSSSS: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
+		        // Found URL Log
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
 
 
 		        // Specific Log
@@ -695,13 +553,14 @@ class Internalize_v3 {
 
 
 		        // Find in downloads
-		        $file_name = array_search($the_url, $this->downloadedCSS);
+		        $resource_key = array_search($the_url, array_column($this->downloadedCSS, 'url'));
+				$css_file_name = $this->downloadedCSS[$resource_key]['new_file_name'];
 
 
 				// If file is from the remote url
 		        if (
 		        	parseUrl($the_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] &&
-		        	$file_name !== false &&
+		        	$css_file_name !== false &&
 		        	(
 		        		strpos($urls[0], 'rel="stylesheet"') !== false ||
 		        		strpos($urls[0], "rel='stylesheet'") !== false ||
@@ -711,11 +570,6 @@ class Internalize_v3 {
 		        ) {
 
 			        $count_css++;
-		        	$css_file_name = $file_name.".css";
-
-
-					// Add the file to download list !!! NO NEED
-			        //$this->downloadedCSS["css/".$css_file_name] = $the_url;
 
 
 			        // Specific Log
@@ -776,7 +630,7 @@ class Internalize_v3 {
 	    );
 
 
-	    // IN PAGE STYLES
+	    // FILTER IN PAGE STYLES
 		$html = preg_replace_callback(
 	        '/(?<tag><style+[^<]*?>)(?<content>[^<>]++)<\/style>/i',
 	        function ($style) {
@@ -791,7 +645,7 @@ class Internalize_v3 {
 	    );
 
 
-	    // INLINE STYLES
+	    // FILTER INLINE STYLES
 		$html = preg_replace_callback(
 	        '/<(?:[a-z0-9]*)\s+[^<]*?(?:style)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
 	        function ($urls) {
@@ -861,40 +715,45 @@ class Internalize_v3 {
 		}
 
 
-		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "CSS downloading started.");
 
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "CSS filtering started.");
 
 		// Init Log
-		$logger->info("CSS downloading started.");
+		$logger->info("CSS filtering started.");
 
 
-		// Specific Log
-		file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->downloadedCSS)."} \r\n", FILE_APPEND);
+		// Specific Log !!!
+		//file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->downloadedCSS)."} \r\n", FILE_APPEND);
 
 
-		// Download them
+
+		// Filter them
 		$count = 0;
-		$css_downloaded_has_error = false;
-		foreach ($this->downloadedCSS as $fileName => $url) {
+		$css_filtered_has_error = false;
+		foreach ($this->downloadedCSS as $info) {
 
-			$fileName = $fileName.".css";
+			$fileName = $info['new_file_name'];
+			$css_url = $info['new_file_name'];
+			$fileUri = Page::ID($this->page_ID)->pageDir."/css/".$fileName;
 
 
-			$css_downloaded = $this->download_remote_file($url, $fileName, "css");
+			// Get the old CSS
+			$old_css = file_get_contents($fileUri);
 
-			// In case of error, try non-ssl if it's ssl
-			if (!$css_downloaded && substr($url, 0, 8) == "https://") {
-				$url = "http://".substr($url, 8);
-				$css_downloaded = $this->download_remote_file($url, $fileName, "css");
-			}
+
+			// Filter
+			$filteredCSS = $this->filter_css($old_css, $css_url);
+
+
+			// Save the new CSS
+			$css_filtered = file_put_contents($fileUri, $filteredCSS);
 
 
 			// Specific Log
-			file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_downloaded ? " <b>NOT</b>":'')." Downloaded: '".$url."' -> '".$fileName."' \r\n", FILE_APPEND);
+			//file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_filtered ? " <b>NOT</b>":'')." Filtered: '".$css_url."' -> '".$fileName."' \r\n", FILE_APPEND);
 
-
-			if (!$css_downloaded) $css_downloaded_has_error = true;
+			if (!$css_filtered) $css_filtered_has_error = true;
 
 			$count++;
 		}
@@ -902,26 +761,26 @@ class Internalize_v3 {
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_downloaded_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->page_ID)->logDir."/_css.log", Page::ID($this->page_ID)->logDir.($css_downloaded_has_error ? '/__' : '/')."css.log");
+		//file_put_contents( Page::ID($this->page_ID)->logDir."/_css.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_filtered_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		//rename(Page::ID($this->page_ID)->logDir."/_css.log", Page::ID($this->page_ID)->logDir.($css_filtered_has_error ? '/__' : '/')."css.log");
 
 
 		// Return true if no error
-		if (!$css_downloaded_has_error) {
+		if (!$css_filtered_has_error) {
 
 			// Update the queue status
-			$queue->update_status($this->queue_ID, "working", "$count CSS downloads finished.");
+			$queue->update_status($this->queue_ID, "working", "$count CSS filtering finished.");
 
-			$logger->info("$count CSS Downloads finished");
+			$logger->info("$count CSS filtering finished");
 			return true;
 		}
 
 
 		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "$count CSS downloads finished with error(s).");
+		$queue->update_status($this->queue_ID, "working", "$count CSS filtering finished with error(s).");
 
 
-		$logger->error("$count CSS Downloads finished with error(s).");
+		$logger->error("$count CSS filtering finished with error(s).");
 		return false;
 
 	}
@@ -989,7 +848,7 @@ class Internalize_v3 {
 
         		// Absolution Logs
 				$logger->info('URL absoluted in CSS: '.$relative_url.' -> '.$new_url);
-		        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+		        //file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				$parsed_url = parseUrl($absolute_url);
@@ -1024,10 +883,16 @@ class Internalize_v3 {
 				}
 
 
-				// Find in downloads
-				$downloaded_font = array_search($absolute_url, $this->downloadedFonts);
-				$downloaded_css = array_search($absolute_url, $this->downloadedCSS);
-				$downloaded_image = array_search($absolute_url, $this->downloadedImages);
+
+		        // Find CSS in downloads
+		        $css_resource_key = array_search($absolute_url, array_column($this->downloadedCSS, 'url'));
+				$downloaded_css = $this->downloadedCSS[$css_resource_key]['new_file_name'];
+
+
+		        // Find Font in downloads
+		        $font_resource_key = array_search($absolute_url, array_column($this->downloadedFonts, 'url'));
+				$css_file_name = $this->downloadedFonts[$font_resource_key]['new_file_name'];
+
 
 
 				if (
@@ -1037,8 +902,6 @@ class Internalize_v3 {
 					$file_extension == "woff2" ||
 					$file_extension == "svg" ||
 					$file_extension == "eot"
-
-					//$downloaded_font !== false
 				) {
 
 
@@ -1053,19 +916,13 @@ class Internalize_v3 {
 				} elseif ( $downloaded_css !== false ) {
 
 
-					$new_url = Page::ID($this->page_ID)->pageUri."css/".$downloaded_css.".css";
+					$new_url = Page::ID($this->page_ID)->pageUri."css/".$downloaded_css;
 
 
 					// CSS Import Logs
 					$logger->info('Imported CSS Detected: '.$relative_url.' -> '.$new_url);
 			        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Imported CSS Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
-
-				} elseif ( $downloaded_image !== false ) {
-
-					// Image Detected
-					$logger->info('Image Detected: '.$relative_url.' -> '.$new_url);
-			        file_put_contents( Page::ID($this->page_ID)->logDir."/filter-css.log", "[".date("Y-m-d h:i:sa")."] - Image Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 				}
 
@@ -1089,6 +946,44 @@ class Internalize_v3 {
 
 	// FILTER JS - NOT YET !!!
 	function filter_js() {
+
+	}
+
+
+	// RESOURCE LOG PARSER
+	function parseResources($listOfSource = array()) {
+		global $logger;
+
+		$logger->debug("Initial list: ", $listOfSource);
+
+
+		$parsedDownloadList = array();
+		foreach ($listOfSource as $resource) {
+
+			$resource = trim($resource);
+			$resource_split = explode(' -> ', $resource);
+
+			$new_file_name = trim($resource_split[0]);
+			$resource_url = trim($resource_split[1]);
+
+
+			// Prepared data
+			$parsed_resource = array(
+				'new_file_name' => $new_file_name,
+				'url' 			=> $resource_url
+			);
+
+
+			// Add to the list
+			$parsedDownloadList[] = $parsed_resource;
+			$logger->info("Downloaded file parsed: ", $parsed_resource);
+
+		}
+
+
+		// Return the updated list
+		$logger->info("New parsed list: ", $parsedDownloadList);
+		return $parsedDownloadList;
 
 	}
 
