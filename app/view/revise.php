@@ -714,7 +714,7 @@
 																	foreach ($devices as $device) {
 																	?>
 																	<li>
-																		<a href="<?=site_url("project/$project_ID?new_device=".$device['device_ID']."&page_ID=$page_ID&nonce=".$_SESSION["new_device_nonce"])?>"
+																		<a href="<?=site_url("project/$project_ID?new_device=".$device['device_ID']."&page_ID=$parentpage_ID&nonce=".$_SESSION["new_device_nonce"])?>"
 																			data-device-id="<?=$device['device_ID']?>"
 																			data-device-width="<?=$device['device_width']?>"
 																			data-device-height="<?=$device['device_height']?>"

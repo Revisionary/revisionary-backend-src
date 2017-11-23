@@ -357,7 +357,7 @@ $additionalHeadJS = [
 
 $additionalBodyJS = [
 	'vendor/jquery.mCustomScrollbar.concat.min.js',
-	'vendor/selectorator.js',
+	//'vendor/selectorator.js', // NOT NOW !!!
 	'revise-page.js'
 ];
 

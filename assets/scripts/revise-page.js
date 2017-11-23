@@ -420,9 +420,9 @@ function runTheInspector() {
 
 
 				// See what am I focusing
-				//console.log( focused_element.prop("tagName") );
+				console.log( focused_element.prop("tagName"), focused_element_index );
 				// UNIQUE SELECTORS !!!
-				console.log( focused_element.getSelector()[0] );
+				//console.log( focused_element.getSelector()[0] );
 
 
 
