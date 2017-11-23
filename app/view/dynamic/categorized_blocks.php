@@ -320,7 +320,7 @@
 										<?php
 										if ($dataType == "page") {
 
-											$pageStatus = Page::ID($block['page_ID'])->getPageStatus()['status'];
+											$pageStatus = Page::ID($block['page_ID'])->getPageStatus(true)['status'];
 										?>
 
 
@@ -342,7 +342,7 @@
 												//print_r(array_merge($block['parentPageData'], $block['subPageData'])); exit();
 												foreach ($all_devices as $device) {
 
-													$pageStatus = Page::ID($device['page_ID'])->getPageStatus()['status'];
+													$pageStatus = Page::ID($device['page_ID'])->getPageStatus(true)['status'];
 
 											?>
 

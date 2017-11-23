@@ -204,7 +204,7 @@ class Page {
 
 
     // Get the page download status
-    public function getPageStatus() {
+    public function getPageStatus($static = false) {
 
 		$process_status = [
 			"status" => "downloading",
@@ -244,8 +244,8 @@ class Page {
 			file_exists($this->logDir."/font.log")
 		)
 			$process_status = [
-				"status" => "downloading-page",
-				"description" => "Downloading the page",
+				"status" => "downloaded-page",
+				"description" => "Page is downloaded",
 				"percentage" => 25
 			];
 
@@ -311,6 +311,27 @@ class Page {
 				"description" => "Ready! Starting",
 				"percentage" => 100
 			];
+
+
+		if ($static) {
+
+			// DAMAGED PAGES
+			if (
+				!file_exists($this->pageFile) ||
+				!file_exists($this->logDir."/css.log") ||
+				!file_exists($this->logDir."/font.log") ||
+				!file_exists($this->logDir."/html-filter.log") ||
+				!file_exists($this->logDir."/css-filter.log")
+			)
+				$process_status = [
+					"status" => "download-needed",
+					"description" => "Download needed",
+					"percentage" => 0
+				];
+
+		}
+
+
 
 
 		return $process_status;
