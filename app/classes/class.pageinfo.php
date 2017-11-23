@@ -208,81 +208,108 @@ class Page {
 
 		$process_status = [
 			"status" => "downloading",
-			"description" => "Page is downloading"
+			"description" => "Page is downloading",
+			"percentage" => 0
 		];
 
 
-
-/*
-		if (file_exists($this->logDir."/_html.log"))
+		if (!file_exists($this->logDir))
 			$process_status = [
-				"status" => "downloading-html",
-				"description" => "HTML is downloading"
-			];
-
-		if (file_exists($this->logDir."/__html.log"))
-			$process_status = [
-				"status" => "download-error-html",
-				"description" => "HTML couldn't downloaded"
-			];
-
-		if (file_exists($this->logDir."/html.log"))
-			$process_status = [
-				"status" => "downloaded-html",
-				"description" => "Starting to download CSS files"
-			];
-*/
-
-
-
-		if (file_exists($this->logDir."/_css.log"))
-			$process_status = [
-				"status" => "downloading-css",
-				"description" => "CSS files are downloading"
-			];
-
-		if (file_exists($this->logDir."/__css.log"))
-			$process_status = [
-				"status" => "download-error-css",
-				"description" => "CSS files couldn't downloaded"
-			];
-
-		if (file_exists($this->logDir."/css.log"))
-			$process_status = [
-				"status" => "downloaded-css",
-				"description" => "Starting to download fonts"
+				"status" => "Ready to Download",
+				"description" => "Page needs to be downloaded",
+				"percentage" => 0
 			];
 
 
 
-		if (file_exists($this->logDir."/_font.log"))
-			$process_status = [
-				"status" => "downloading-fonts",
-				"description" => "Fonts are downloading"
-			];
-
-		if (file_exists($this->logDir."/__font.log"))
-			$process_status = [
-				"status" => "download-error-fonts",
-				"description" => "Fonts could't downloaded"
-			];
-
-		if (file_exists($this->logDir."/font.log"))
-			$process_status = [
-				"status" => "downloaded-font",
-				"description" => "Fonts are downloaded"
-			];
-
-
-
+		// 25% - DOWNLOADING THE PAGE
 		if (
-			//file_exists($this->logDir."/html.log") && // NO NEED NOW !!!
+			!file_exists($this->pageFile) &&
+			(
+				file_exists($this->logDir."/_css.log") ||
+				file_exists($this->logDir."/_font.log")
+			)
+		)
+			$process_status = [
+				"status" => "downloading-page",
+				"description" => "Downloading the page",
+				"percentage" => 25
+			];
+
+
+		// 25% - PAGE IS DOWNLOADED
+		if (
+			file_exists($this->pageFile) &&
 			file_exists($this->logDir."/css.log") &&
 			file_exists($this->logDir."/font.log")
 		)
 			$process_status = [
+				"status" => "downloading-page",
+				"description" => "Downloading the page",
+				"percentage" => 25
+			];
+
+
+
+		// 50% - UPDATING THE PAGE
+		if (file_exists($this->logDir."/_html-filter.log"))
+			$process_status = [
+				"status" => "updating-html",
+				"description" => "Updating the page",
+				"percentage" => 50
+			];
+
+		if (file_exists($this->logDir."/__html-filter.log"))
+			$process_status = [
+				"status" => "updating-html-error",
+				"description" => "The page couldn't be updated",
+				"percentage" => 0
+			];
+
+		if (file_exists($this->logDir."/html-filter.log"))
+			$process_status = [
+				"status" => "updated-html",
+				"description" => "Page updated",
+				"percentage" => 70
+			];
+
+
+
+		// 75% - FIXING THE STYLES
+		if (file_exists($this->logDir."/_css-filter.log"))
+			$process_status = [
+				"status" => "updating-css",
+				"description" => "Fixing the styles",
+				"percentage" => 75
+			];
+
+		if (file_exists($this->logDir."/css-filter.log"))
+			$process_status = [
+				"status" => "updated-css",
+				"description" => "Styles are perfected",
+				"percentage" => 95
+			];
+
+		if (file_exists($this->logDir."/__css-filter.log"))
+			$process_status = [
+				"status" => "updating-css-error",
+				"description" => "The styles couldn't be fixed",
+				"percentage" => 0
+			];
+
+
+
+		// 100% - READY
+		if (
+			file_exists($this->logDir."/css.log") &&
+			file_exists($this->logDir."/font.log") &&
+			file_exists($this->logDir."/html-filter.log") &&
+			file_exists($this->logDir."/css-filter.log")
+		)
+			$process_status = [
 				"status" => "ready",
-				"description" => "Ready! Starting"
+				"description" => "Ready! Starting",
+				"percentage" => 100
 			];
 
 
@@ -302,8 +329,8 @@ class Page {
 		if ( file_exists($file) )
 			$content = file_get_contents($file);
 
-		if ($type == "downloaded")
-			return substr_count($content, 'Downloaded');
+		if ($type == "filtred")
+			return substr_count($content, 'Filtred');
 
 
 		preg_match('#\{TOTAL:(?<total>.*?)\}#', $content, $match);

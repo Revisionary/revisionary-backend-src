@@ -834,38 +834,11 @@ $(function(){
 
 
 				// Update the proggress bar
-				var width = 0;
-				if (data.processStatus == 'downloading')
-					width = 12.5;
+				var width = data.processPercentage;
 
-				if (data.processStatus == 'downloading-html')
-					width = 12.5;
-
-				if (data.processStatus == 'downloaded-html')
-					width = 25;
-
-				if (data.processStatus == 'downloading-css')
-					width = 25;
 
 				if (parseFloat(data.totalCss) > 0)
 					width = width + (35 * parseFloat(data.downloadedCss) / parseFloat(data.totalCss) );
-
-				if (data.processStatus == 'downloaded-css')
-					width = 60;
-
-
-				if (data.processStatus == 'downloading-fonts')
-					width = 60;
-
-				if (parseFloat(data.totalFont) > 0)
-					width = width + (40 * parseFloat(data.downloadedFont) / parseFloat(data.totalFont) );
-
-				if (data.processStatus == 'downloaded-fonts')
-					width = 100;
-
-
-				if (data.processStatus == 'ready')
-					width = 100;
 
 
 				editProcess(loadingProcessID, width);

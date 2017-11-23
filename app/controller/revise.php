@@ -223,13 +223,14 @@ if (
 
 	file_exists(Page::ID($page_ID)->pageDir) && // Folder is exist
 	file_exists(Page::ID($page_ID)->pageFile) && // HTML is downloaded?
-	file_exists(Page::ID($page_ID)->logDir."/resources.log") && // Resources ready?
+	file_exists(Page::ID($page_ID)->logDir."/css.log") && // CSS resources ready?
+	file_exists(Page::ID($page_ID)->logDir."/font.log") && // Font resources ready?
 	file_exists( $page_image ) && // Page image ready?
 	file_exists( $project_image ) && // // Project image ready?
-	!file_exists( Page::ID($page_ID)->logDir."/__html.log" ) && // No error on HTML download
-	!file_exists( Page::ID($page_ID)->logDir."/__css.log" ) && // No error on CSS download
-	!file_exists( Page::ID($page_ID)->logDir."/__filter.log" ) && // No error on filtering
-	!file_exists( Page::ID($page_ID)->logDir."/__font.log" ) // No error on font download
+	file_exists( Page::ID($page_ID)->logDir."/html-filter.log" ) && // No error on HTML filtering
+	file_exists( Page::ID($page_ID)->logDir."/css.log" ) && // No error on CSS download
+	file_exists( Page::ID($page_ID)->logDir."/css-filter.log" ) && // No error on CSS filtering
+	file_exists( Page::ID($page_ID)->logDir."/font.log" ) // No error on font download
 
 ) {
 
@@ -241,8 +242,8 @@ if (
 
 
 	// Initiate Internalizator
-	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID);
-	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$project_ID);
+	$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
 	$process_ID = $process->getPid();
 
 
@@ -284,8 +285,8 @@ if (
 
 
 	// Initiate Internalizator
-	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
-	$process->run(Page::ID($page_ID)->logDir."/internalize.log", true);
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
+	$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
 	$process_ID = $process->getPid();
 
 

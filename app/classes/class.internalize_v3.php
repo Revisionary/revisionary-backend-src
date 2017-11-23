@@ -725,62 +725,56 @@ class Internalize_v3 {
 
 
 
-		// Do nothing if there is no CSS file
-		if ( count($this->downloadedCSS) == 0 ) {
-
-			// Log
-			$logger->info("There is no CSS file to filter.");
-
-			// Update the queue status
-			$queue->update_status($this->queue_ID, "working", "CSS filtering is skipped. (No CSS file)");
-
-			return true;
-
-		}
+		// Specific Log
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->downloadedCSS)."} \r\n", FILE_APPEND);
 
 
 
-		// Specific Log !!!
-		file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->downloadedCSS)."} \r\n", FILE_APPEND);
 
-
-
-		// Filter them
 		$count = 0;
 		$css_filtered_has_error = false;
-		foreach ($this->downloadedCSS as $info) {
-
-			$fileName = $info['new_file_name'];
-			$css_url = $info['url'];
-			$fileUri = Page::ID($this->page_ID)->pageDir."/css/".$fileName;
 
 
-			// Get the old CSS
-			$old_css = file_get_contents($fileUri);
+		// Do nothing if there is no CSS file
+		if ( count($this->downloadedCSS) > 0 ) {
 
 
-			// Filter
-			$filteredCSS = $this->filter_css($old_css, $css_url);
+			// Filter them
+			foreach ($this->downloadedCSS as $info) {
+
+				$fileName = $info['new_file_name'];
+				$css_url = $info['url'];
+				$fileUri = Page::ID($this->page_ID)->pageDir."/css/".$fileName;
 
 
-			// Save the new CSS
-			$css_filtered = file_put_contents($fileUri, $filteredCSS);
+				// Get the old CSS
+				$old_css = file_get_contents($fileUri);
 
 
-			// Specific Log
-			file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_filtered ? " <b>NOT</b>":'')." Filtered: '".$css_url."' -> '".$fileName."' \r\n", FILE_APPEND);
+				// Filter
+				$filteredCSS = $this->filter_css($old_css, $css_url);
 
-			if (!$css_filtered) $css_filtered_has_error = true;
 
-			$count++;
+				// Save the new CSS
+				$css_filtered = file_put_contents($fileUri, $filteredCSS);
+
+
+				// Specific Log
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_filtered ? " <b>NOT</b>":'')." Filtered: '".$css_url."' -> '".$fileName."' \r\n", FILE_APPEND);
+
+				if (!$css_filtered) $css_filtered_has_error = true;
+
+				$count++;
+			}
+
+
 		}
 
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_filtered_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		if ($css_filtered_has_error)
-			rename(Page::ID($this->page_ID)->logDir."/css-filter.log", Page::ID($this->page_ID)->logDir."/__css-filter.log");
+		file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_filtered_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename(Page::ID($this->page_ID)->logDir."/_css-filter.log", Page::ID($this->page_ID)->logDir."/".($css_filtered_has_error ? "__" : "")."css-filter.log");
 
 
 		// Return true if no error
@@ -866,7 +860,7 @@ class Internalize_v3 {
 
         		// Absolution Logs
 				$logger->info('URL absoluted in CSS: '.$relative_url.' -> '.$new_url);
-		        file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+		        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				$parsed_url = parseUrl($absolute_url);
@@ -928,7 +922,7 @@ class Internalize_v3 {
 
 					// Font Logs
 					$logger->info('Font Detected: '.$relative_url.' -> '.$new_url);
-			        file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+			        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				} elseif ( $css_resource_key !== false ) {
@@ -939,7 +933,7 @@ class Internalize_v3 {
 
 					// CSS Import Logs
 					$logger->info('Imported CSS Detected: '.$relative_url.' -> '.$new_url);
-			        file_put_contents( Page::ID($this->page_ID)->logDir."/css-filter.log", "[".date("Y-m-d h:i:sa")."] - Imported CSS Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+			        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Imported CSS Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				}

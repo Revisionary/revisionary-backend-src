@@ -54,9 +54,10 @@ $data = array(
 	'processID' => $process->getPid(),
 	'processStatus' => Page::ID($page_ID)->pageStatus['status'],
 	'processDescription' => Page::ID($page_ID)->pageStatus['description'],
+	'processPercentage' => Page::ID($page_ID)->pageStatus['percentage'],
 
-	'CSS Files' => Page::ID($page_ID)->getDownloadedQuantity('downloaded', 'css')."/".Page::ID($page_ID)->getDownloadedQuantity('total', 'css'),
-	'Font Files' => Page::ID($page_ID)->getDownloadedQuantity('downloaded', 'font')."/".Page::ID($page_ID)->getDownloadedQuantity('total', 'font'),
+	'CSS Files' => Page::ID($page_ID)->getDownloadedQuantity('filtred', 'css-filter')."/".Page::ID($page_ID)->getDownloadedQuantity('total', 'css-filter'),
+
 
 
 
@@ -66,15 +67,13 @@ $data = array(
 		'status' => $status,
 		'processStatus' => Page::ID($page_ID)->pageStatus['status'],
 		'processDescription' => Page::ID($page_ID)->pageStatus['description'],
+		'processPercentage' => Page::ID($page_ID)->pageStatus['percentage'],
 		'processID' => $process->getPid(),
 		'queue_ID' => $queue_ID,
 		'pageUrl' => Page::ID($page_ID)->cachedUrl,
 
-		'totalCss' => Page::ID($page_ID)->getDownloadedQuantity('total', 'css'),
-		'downloadedCss' => Page::ID($page_ID)->getDownloadedQuantity('downloaded', 'css'),
-
-		'totalFont' => Page::ID($page_ID)->getDownloadedQuantity('total', 'font'),
-		'downloadedFont' => Page::ID($page_ID)->getDownloadedQuantity('downloaded', 'font'),
+		'totalCss' => Page::ID($page_ID)->getDownloadedQuantity('total', 'css-filter'),
+		'downloadedCss' => Page::ID($page_ID)->getDownloadedQuantity('filtred', 'css-filter'),
 	]
 );
 
