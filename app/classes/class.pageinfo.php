@@ -225,31 +225,59 @@ class Page {
 			];
 
 
+		if ($static) {
 
-		// 25% - DOWNLOADING THE PAGE
+			// DAMAGED PAGES
+			if (
+				!file_exists($this->pageFile) ||
+				!file_exists($this->logDir."/css.log") ||
+				!file_exists($this->logDir."/font.log") ||
+				!file_exists($this->logDir."/html-filter.log") ||
+				!file_exists($this->logDir."/css-filter.log")
+			)
+				$process_status = [
+					"status" => "download-needed",
+					"description" => "Download needed",
+					"percentage" => 0
+				];
+
+		}
+
+
+
+		// 25% - DOWNLOADING THE PAGE AND STYLES
 		if (
 			file_exists($this->logDir."/_css.log") ||
 			file_exists($this->logDir."/_font.log")
 		)
 			$process_status = [
 				"status" => "downloading-page",
-				"description" => "Downloading the page",
+				"description" => "Downloading the page and styles",
 				"percentage" => 25
 			];
 
 
-		// 25% - PAGE IS DOWNLOADED
+		// 25% - STYLES ARE DOWNLOADED
 		if (
-			file_exists($this->pageFile) &&
 			file_exists($this->logDir."/css.log") &&
 			file_exists($this->logDir."/font.log")
 		)
 			$process_status = [
-				"status" => "downloaded-page",
-				"description" => "Page is downloaded",
+				"status" => "downloaded-styles",
+				"description" => "Styles are downloaded",
 				"percentage" => 25
 			];
 
+
+		// 35% - PAGE IS DOWNLOADED
+		if (
+			file_exists($this->pageFile)
+		)
+			$process_status = [
+				"status" => "downloaded-page",
+				"description" => "Page is downloaded",
+				"percentage" => 35
+			];
 
 
 		// 50% - UPDATING THE PAGE
@@ -312,27 +340,6 @@ class Page {
 				"description" => "Ready! Starting",
 				"percentage" => 100
 			];
-
-
-		if ($static) {
-
-			// DAMAGED PAGES
-			if (
-				!file_exists($this->pageFile) ||
-				!file_exists($this->logDir."/css.log") ||
-				!file_exists($this->logDir."/font.log") ||
-				!file_exists($this->logDir."/html-filter.log") ||
-				!file_exists($this->logDir."/css-filter.log")
-			)
-				$process_status = [
-					"status" => "download-needed",
-					"description" => "Download needed",
-					"percentage" => 0
-				];
-
-		}
-
-
 
 
 		return $process_status;

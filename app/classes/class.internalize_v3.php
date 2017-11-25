@@ -206,6 +206,7 @@ class Internalize_v3 {
 			$process->isRunning() &&
 			$queue->info($this->queue_ID)['queue_status'] == "working" &&
 			(
+				!file_exists($htmlFile) ||
 				!file_exists($siteDir."/logs/css.log") ||
 				!file_exists($siteDir."/logs/font.log")
 			)
@@ -854,6 +855,7 @@ class Internalize_v3 {
 
 
         		// Absolution Logs
+				$logger->debug('Full URL absoluted in CSS: ', $css_urls);
 				$logger->info('URL absoluted in CSS: '.$relative_url.' -> '.$new_url);
 		        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
@@ -898,17 +900,20 @@ class Internalize_v3 {
 
 		        // Find Font in downloads
 		        $font_resource_key = array_search($absolute_url, array_column($this->downloadedFonts, 'url'));
-				$css_file_name = $this->downloadedFonts[$font_resource_key]['new_file_name'];
+				$font_file_name = $this->downloadedFonts[$font_resource_key]['new_file_name'];
 
 
 
 				if (
-					$file_extension == "ttf" ||
-					$file_extension == "otf" ||
-					$file_extension == "woff" ||
-					$file_extension == "woff2" ||
-					$file_extension == "svg" ||
-					$file_extension == "eot"
+					$font_resource_key !== false &&
+					(
+						$file_extension == "ttf" ||
+						$file_extension == "otf" ||
+						$file_extension == "woff" ||
+						$file_extension == "woff2" ||
+						$file_extension == "svg" ||
+						$file_extension == "eot"
+					)
 				) {
 
 

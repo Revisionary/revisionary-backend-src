@@ -1,7 +1,7 @@
 // CLI Direct Screenshot:
 // chrome --headless --disable-gpu --hide-scrollbars --window-size=1440,900 --screenshot=screen.png https://www.twelve12.com/
 
-
+// REQUIREMENTS
 const puppeteer = require('puppeteer');
 //const devices = require('puppeteer/DeviceDescriptors'); // NO NEED FOR NOW !!!
 
@@ -9,6 +9,7 @@ const argv = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
 const util = require('util');
 const URL = require('url').URL;
+
 
 
 // CLI Args
@@ -39,10 +40,11 @@ const delay = argv.delay || 0;
 console.log('URL: ' + url);
 if(fullPage) console.log("Will capture full page");
 
-if(delay > 0) console.log("Will delay for " + delay + "miliseconds for screenshot");
+if(delay > 0) console.log("Will delay for " + delay + " miliseconds for screenshot");
 
 console.log("Width: " + viewportWidth + " Height: " + viewportHeight);
 if (userAgent) console.log("User Agent: " + userAgent);
+
 
 
 /*
@@ -80,10 +82,11 @@ fs.writeFileSync(logDir+'/_font.log', '');
 (async() => {
 
 
+
 	// Launch the Chrome Browser
 	const browser = await puppeteer.launch({
 		//executablePath: '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary',
-		headless: false
+		headless: true
 	});
 
 
@@ -96,22 +99,9 @@ fs.writeFileSync(logDir+'/_font.log', '');
 	// List the requests and responses
 	const responses = [];
 	let cssCount = 0;
-	let fontCount = 0;
-	await page.on('request', request => { // List the requests
+	await page.on('response', resp => { // List the responses
 
-
-/*
-		// NO NEED !!!
-		// Write to the requests file
-		fs.appendFileSync(logDir + '/browser-requests.log', request.resourceType + ' -> ' + request.url + ' \r\n');
-		console.log('Request Added: ', request.resourceType + ' -> ' + request.url);
-*/
-
-
-
-	}).on('response', resp => { // List the responses
-
-		responses.push(resp);
+		responses.push(resp); //console.log( 'Response URL: ', resp.url );
 
 	}).on('load', () => { // Download and list the files on response
 
@@ -124,9 +114,10 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 
 		const totalResponse = responses.length;
+		console.log('Total Response: ', totalResponse);
 
 		// Foreach for responses
-		responses.map(async (resp, i) => {
+		const responsesProcessed = responses.map(async (resp, i) => {
 
 			// The request info
 			const request = await resp.request();
@@ -219,8 +210,6 @@ fs.writeFileSync(logDir+'/_font.log', '');
 				// Font Files
 				if (fileType == 'font' && fontFilesList != 'done') {
 
-					fontCount++;
-
 					// Create the file
 				    fs.writeFileSync(siteDir + '/fonts/' + fileName, buffer);
 
@@ -238,10 +227,10 @@ fs.writeFileSync(logDir+'/_font.log', '');
 			if (totalResponse == i + 1) {
 
 				// Rename the log files
-				fs.renameSync(logDir+'/_css.log', CSSFilesList);
+				await fs.renameSync(logDir+'/_css.log', CSSFilesList);
 				console.log('CSS DOWNLOADS HAVE BEEN COMPLETED!');
 
-				fs.renameSync(logDir+'/_font.log', fontFilesList);
+				await fs.renameSync(logDir+'/_font.log', fontFilesList);
 				console.log('FONT DOWNLOADS HAVE BEEN COMPLETED!');
 
 			}
@@ -251,8 +240,6 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 
 	});
-
-
 
 
 
@@ -278,16 +265,18 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 	// Navigate to the URL
 	const response = await page.goto(url, {
-        waitUntil: 'networkidle2'
-        //timeout: 3000000
+        waitUntil: 'networkidle0',
+        timeout: 3000000
     });
+
+
+
+	// Create the HTML file
     const html = await response.text();
-
-
 	if (htmlFile != 'done') {
 
 		// Create the file
-	    fs.writeFileSync(htmlFile, html);
+	    await fs.writeFileSync(htmlFile, html);
 	    console.log('HTML is written');
 
 	}
