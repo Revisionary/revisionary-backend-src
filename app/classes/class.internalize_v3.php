@@ -97,6 +97,7 @@ class Internalize_v3 {
 
 		// Get page and project IDs
 		$page_ID = $this->page_ID;
+		$parent_page_ID = Page::ID($page_ID)->getPageInfo('parent_page_ID');
 		$project_ID = Page::ID($page_ID)->getPageInfo('project_ID');
 
 
@@ -298,6 +299,33 @@ class Internalize_v3 {
 
 
 			return false;
+		}
+
+
+
+		// TRY UPDATING SCREENSHOT NAMES !!! Find better solution for all device screenshots, caching the checks?!
+
+		// Add image names to database
+		$parent_page_image = Page::ID($parent_page_ID)->pageDeviceDir."/".$page_image_name;
+		$parent_page_captured = file_exists($parent_page_image);
+		if ( $parent_page_captured && Page::ID($parent_page_ID)->getPageInfo('page_pic') == null ) {
+
+			$db->where('page_ID', $parent_page_ID);
+			$db->update('pages', array(
+				'page_pic' => $page_image_name
+			), 1);
+
+		}
+
+
+		$project_captured = file_exists($project_image);
+		if ( $project_captured && Project::ID( $project_ID )->getProjectInfo('project_pic') == null ) {
+
+			$db->where('project_ID', $project_ID);
+			$db->update('projects', array(
+				'project_pic' => $project_image_name
+			), 1);
+
 		}
 
 

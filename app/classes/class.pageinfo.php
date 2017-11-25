@@ -155,10 +155,12 @@ class Page {
 
 
 	// ID Setter
-    public static function ID($page_ID, $setVersion = null) {
+    public static function ID($page_ID = null, $setVersion = null) {
 
 	    // Set the page ID
-		self::$page_ID = $page_ID;
+		if ($page_ID != null) self::$page_ID = $page_ID;
+
+		// Set the version number
 		if ($setVersion != null) self::$setPageVersion = "v".$setVersion;
 
 		return new static;
@@ -359,6 +361,166 @@ class Page {
 			return $match['total'];
 
 		return "";
+
+    }
+
+
+
+    // ACTIONS
+
+    // Add a new page
+    public function addNew(
+    	string $page_url,
+    	string $page_name,
+    	int $project_ID, // The project_ID that new page is belong to
+    	int $category_ID = 0, // The category_ID that new page is belong to
+    	int $order_number = 0, // The order number
+    	array $devices = array(4), // Array of device_IDs
+    	array $page_shares = array(), // Array of users that needs to be shared to
+    	bool $start_downloading = true
+    ) {
+	    global $db, $logger;
+
+
+		// Security check !!!
+		if (
+			$page_url == "" ||
+			$page_name == "" ||
+			!is_numeric( $project_ID ) ||
+			!is_numeric( $category_ID ) ||
+			!is_numeric( $order_number )
+
+		) return false;
+
+
+
+		// More DB Checks of arguments !!!
+
+
+
+		// START ADDING
+		$parent_page_ID = null;
+		$device_count = 0;
+		foreach ($devices as $device_ID) {
+
+			// Add the page to "pages" table
+			$page_ID = $db->insert('pages', array(
+				"page_name" => $page_name,
+				"page_url" => $page_url,
+				"project_ID" => $project_ID,
+				"device_ID" => $device_ID,
+				"parent_page_ID" => $parent_page_ID,
+				"user_ID" => currentUserID()
+			));
+
+			// Add its initial version to "versions" table
+			$version_ID = $db->insert('versions', array(
+				"page_ID" => $page_ID,
+				"user_ID" => currentUserID()
+			));
+
+			// Record the parent_page_ID as the first page added
+			if ( $device_count == 0 ) $parent_page_ID = $page_ID;
+			$device_count++;
+
+
+			// Add the page share to only parent page - USE SHARE API LATER !!!
+			if ( count($page_shares) > 0 && $device_count == 1 ) {
+
+
+				// Add each people that need to be shared
+				foreach ($page_shares as $share_to) {
+
+					$share_ID = $db->insert('shares', array(
+						"share_type" => 'page',
+						"shared_object_ID" => $page_ID,
+						"share_to" => $share_to,
+						"sharer_user_ID" => currentUserID()
+					));
+
+				}
+
+
+			}
+
+
+			// Add the Category
+			if ($category_ID != "0") {
+
+				// Add category record to the "page_cat_connect" table
+				$cat_id = $db->insert('page_cat_connect', array(
+					"page_cat_page_ID" => $page_ID,
+					"page_cat_ID" => $category_ID,
+					"page_cat_connect_user_ID" => currentUserID()
+				));
+
+			}
+
+
+			// Add the order
+			if ($order_number != "0") {
+
+				// Add order number to the "sorting" table
+				$cat_id = $db->insert('sorting', array(
+					"sort_type" => 'page',
+					"sort_object_ID" => $page_ID,
+					"sort_number" => $order_number,
+					"sorter_user_ID" => currentUserID()
+				));
+
+			}
+
+
+
+			// START DOWNLOADING
+			if ($start_downloading) {
+
+
+
+				// ADD TO QUEUE
+
+				// Remove the existing and wrong files
+				if ( file_exists(Page::ID($page_ID)->pageDir) )
+					deleteDirectory(Page::ID($page_ID)->pageDir);
+
+
+				// Re-Create the log folder if not exists
+				if ( !file_exists(Page::ID($page_ID)->logDir) )
+					mkdir(Page::ID($page_ID)->logDir, 0755, true);
+				@chmod(Page::ID($page_ID)->logDir, 0755);
+
+
+				// Logger
+				$logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
+					'filename' => Page::ID($page_ID)->logFileName,
+				    'extension' => 'log', // changes the log file extension
+				));
+
+
+
+
+				// Add a new job to the queue
+				$queue = new Queue();
+				$queue_ID = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.");
+
+
+				// Initiate Internalizator
+				$process = new Cocur\BackgroundProcess\BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
+				$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
+
+
+				// Add the PID to the queue
+				$queue->update_status($queue_ID, "waiting", "Waiting other works to be done.", $process->getPid());
+
+
+
+			}
+
+
+		} // The device loop
+
+
+		return $parent_page_ID;
 
     }
 
