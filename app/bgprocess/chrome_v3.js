@@ -100,9 +100,12 @@ fs.writeFileSync(logDir+'/_font.log', '');
 	await page.on('request', request => { // List the requests
 
 
+/*
+		// NO NEED !!!
 		// Write to the requests file
 		fs.appendFileSync(logDir + '/browser-requests.log', request.resourceType + ' -> ' + request.url + ' \r\n');
 		console.log('Request Added: ', request.resourceType + ' -> ' + request.url);
+*/
 
 
 
@@ -182,7 +185,8 @@ fs.writeFileSync(logDir+'/_font.log', '');
 			if ( parsedRemoteUrl.hostname == parsedUrl.hostname ) {
 
 
-				// HTML File
+/*
+				// HTML File - DOESN'T WORK IN SOME CASES !!! (wsj.com for example)
 				if (fileType == 'document' && htmlFile != 'done') {
 
 					// Create the file
@@ -192,6 +196,7 @@ fs.writeFileSync(logDir+'/_font.log', '');
 				    // INDEX THE HTML ELEMENTS HERE !!!
 
 				}
+*/
 
 
 				// CSS Files
@@ -272,7 +277,20 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 
 	// Navigate to the URL
-	await page.goto(url, {waitUntil: 'networkidle'});
+	const response = await page.goto(url, {
+        waitUntil: 'networkidle2'
+        //timeout: 3000000
+    });
+    const html = await response.text();
+
+
+	if (htmlFile != 'done') {
+
+		// Create the file
+	    fs.writeFileSync(htmlFile, html);
+	    console.log('HTML is written');
+
+	}
 
 
 
