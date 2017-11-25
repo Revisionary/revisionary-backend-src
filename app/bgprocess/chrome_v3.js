@@ -83,7 +83,7 @@ fs.writeFileSync(logDir+'/_font.log', '');
 	// Launch the Chrome Browser
 	const browser = await puppeteer.launch({
 		//executablePath: '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary',
-		headless: true
+		headless: false
 	});
 
 

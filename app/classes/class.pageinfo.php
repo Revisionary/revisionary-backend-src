@@ -208,6 +208,8 @@ class Page {
     // Get the page download status
     public function getPageStatus($static = false) {
 
+
+		// 0% - PAGE IS DOWNLOADING
 		$process_status = [
 			"status" => "downloading",
 			"description" => "Page is downloading",
@@ -226,11 +228,8 @@ class Page {
 
 		// 25% - DOWNLOADING THE PAGE
 		if (
-			!file_exists($this->pageFile) &&
-			(
-				file_exists($this->logDir."/_css.log") ||
-				file_exists($this->logDir."/_font.log")
-			)
+			file_exists($this->logDir."/_css.log") ||
+			file_exists($this->logDir."/_font.log")
 		)
 			$process_status = [
 				"status" => "downloading-page",
@@ -403,30 +402,28 @@ class Page {
 		$device_count = 0;
 		foreach ($devices as $device_ID) {
 
-			// Add the page to "pages" table
-			$page_ID = $db->insert('pages', array(
-				"page_name" => $page_name,
-				"page_url" => $page_url,
-				"project_ID" => $project_ID,
-				"device_ID" => $device_ID,
-				"parent_page_ID" => $parent_page_ID,
-				"user_ID" => currentUserID()
-			));
 
-			// Add its initial version to "versions" table
-			$version_ID = $db->insert('versions', array(
-				"page_ID" => $page_ID,
-				"user_ID" => currentUserID()
-			));
+
+			// Add the device
+			$page_ID = Device::ID()->addNew(
+				$device_ID,
+				$parent_page_ID,
+				$page_url,
+				$page_name,
+				$project_ID,
+				$start_downloading
+			);
+
+
 
 			// Record the parent_page_ID as the first page added
 			if ( $device_count == 0 ) $parent_page_ID = $page_ID;
 			$device_count++;
 
 
-			// Add the page share to only parent page - USE SHARE API LATER !!!
-			if ( count($page_shares) > 0 && $device_count == 1 ) {
 
+			// SHARE - Add the page share to only parent page - USE SHARE API LATER !!!
+			if ( count($page_shares) > 0 && $device_count == 1 ) {
 
 				// Add each people that need to be shared
 				foreach ($page_shares as $share_to) {
@@ -440,11 +437,11 @@ class Page {
 
 				}
 
-
 			}
 
 
-			// Add the Category
+
+			// CATEGORIZE
 			if ($category_ID != "0") {
 
 				// Add category record to the "page_cat_connect" table
@@ -457,7 +454,8 @@ class Page {
 			}
 
 
-			// Add the order
+
+			// ORDER
 			if ($order_number != "0") {
 
 				// Add order number to the "sorting" table
@@ -470,51 +468,6 @@ class Page {
 
 			}
 
-
-
-			// START DOWNLOADING
-			if ($start_downloading) {
-
-
-
-				// ADD TO QUEUE
-
-				// Remove the existing and wrong files
-				if ( file_exists(Page::ID($page_ID)->pageDir) )
-					deleteDirectory(Page::ID($page_ID)->pageDir);
-
-
-				// Re-Create the log folder if not exists
-				if ( !file_exists(Page::ID($page_ID)->logDir) )
-					mkdir(Page::ID($page_ID)->logDir, 0755, true);
-				@chmod(Page::ID($page_ID)->logDir, 0755);
-
-
-				// Logger
-				$logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
-					'filename' => Page::ID($page_ID)->logFileName,
-				    'extension' => 'log', // changes the log file extension
-				));
-
-
-
-
-				// Add a new job to the queue
-				$queue = new Queue();
-				$queue_ID = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.");
-
-
-				// Initiate Internalizator
-				$process = new Cocur\BackgroundProcess\BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
-				$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
-
-
-				// Add the PID to the queue
-				$queue->update_status($queue_ID, "waiting", "Waiting other works to be done.", $process->getPid());
-
-
-
-			}
 
 
 		} // The device loop

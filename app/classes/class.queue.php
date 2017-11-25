@@ -46,10 +46,10 @@ class Queue {
 	    $count = count($current_works) - 1;
 
 
-		// Allow only two job at a time !!!
+		// Allow only one or two job at a time !!!
 		if (
-			$current_works[0]['queue_ID'] == $queue_ID ||
-			$current_works[1]['queue_ID'] == $queue_ID
+			$current_works[0]['queue_ID'] == $queue_ID
+			//|| $current_works[1]['queue_ID'] == $queue_ID
 		) {
 
 			$logger->info("Job $queue_ID is ready!");
@@ -77,8 +77,9 @@ class Queue {
     // JOBS:
 
     // Add a new job to the queue
-    public function new_job($queue_type, $queue_object_ID, $queue_message = "") {
+    public function new_job($queue_type, $queue_object_ID, $queue_message = "", $session_ID = null) {
 	    global $db, $logger;
+
 
 		$data = array(
 			"queue_type" => $queue_type,
@@ -86,12 +87,38 @@ class Queue {
 			"queue_message" => $queue_message,
 			"user_ID" => currentUserID()
 		);
-
 		$queue_ID = $db->insert('queues', $data);
+
+
 
 		if($queue_ID) {
 
 			$logger->info('Queue Added: '.$queue_ID, $data);
+
+
+			// START THE PROCESS IF TYPE IS INTERNALIZE
+			if ($queue_type == 'internalize') {
+
+				$page_ID = $queue_object_ID;
+
+
+				// Initiate Internalizator
+				$process = new Cocur\BackgroundProcess\BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.$session_ID.' '.$queue_ID);
+				$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
+				$process_ID = $process->getPid();
+
+
+				// Add the PID to the queue
+				$this->update_status($queue_ID, "waiting", "Waiting other works to be done.", $process_ID);
+
+				return [
+					'queue_ID' => $queue_ID,
+					'process_ID' => $process_ID
+				];
+
+			}
+
+
 			return $queue_ID;
 
 		}

@@ -190,7 +190,7 @@ $process_ID = "";
 $process_status = "";
 
 /*
-var_dump($existing _queue);
+var_dump($existing_queue);
 die();
 */
 
@@ -246,7 +246,7 @@ if (
 
 
 	// Initiate Internalizator
-	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$project_ID);
+	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id());
 	$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
 	$process_ID = $process->getPid();
 
@@ -282,30 +282,21 @@ if (
 	));
 
 
-
+	// NEW QUEUE
 	// Add a new job to the queue
 	$queue = new Queue();
-	$queue_ID = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.");
-
-
-	// Initiate Internalizator
-	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
-	$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
-	$process_ID = $process->getPid();
-
-
-	$process_status .= " BackgroundProcess::getPid() -> ". $process->getPid();
-
-
-	// Add the PID to the queue
-	$queue->update_status($queue_ID, "waiting", "Waiting other works to be done.", $process->getPid());
+	$queue_results = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.", session_id());
+	$process_ID = $queue_results['process_ID'];
+	$queue_ID = $queue_results['queue_ID'];
 
 
 	// Site log
-	$log->info("Page #$page_ID added to the queue #$queue_ID. Process ID: #".$process->getPid()." User: #".currentUserID().".");
+	$log->info("Page #$page_ID added to the queue #$queue_ID. Process ID: #".$process_ID." User: #".currentUserID().".");
 
 
 }
+
+
 
 /*
 echo "<pre>";
@@ -318,10 +309,10 @@ die();
 */
 
 
+
 // Update the screenshots on DB
 $page_captured = file_exists($page_image);
 $project_captured = file_exists($project_image);
-
 
 
 // Add image names to database

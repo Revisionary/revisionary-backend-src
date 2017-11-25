@@ -91,91 +91,19 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 		count(post('devices')) > 0
 	) {
 
-		$firstPageAdded = true;
 
-		$parent_page_ID = null;
-		$device_count = 0;
-		foreach (post('devices') as $deviceID) {
+		// Add the pages
+		$parent_page_ID = Page::ID()->addNew(
+			post('page-url'),
+			post('page-name'),
+			$project_ID,
+			0, // Category ID
+			post('order'),
+			post('devices'),
+			is_array(post('page_shares')) ? post('page_shares') : array()
+		);
 
-			$page_ID = $db->insert('pages', array(
-				"page_name" => post('page-name'),
-				"page_url" => post('page-url'),
-				"project_ID" => $project_ID,
-				"device_ID" => $deviceID,
-				"parent_page_ID" => $parent_page_ID,
-				"user_ID" => currentUserID()
-			));
-
-			// Add its initial version
-			$version_ID = $db->insert('versions', array(
-				"page_ID" => $page_ID,
-				"user_ID" => currentUserID()
-			));
-
-			if ( $device_count == 0 ) $parent_page_ID = $page_ID;
-			$device_count++;
-
-
-				// Add the page shares
-				if ( is_array(post('page_shares')) && count(post('page_shares')) > 0 && $device_count == 1 ) {
-
-					foreach (post('page_shares') as $share_to) {
-
-						$share_ID = $db->insert('shares', array(
-							"share_type" => 'page',
-							"shared_object_ID" => $page_ID,
-							"share_to" => $share_to,
-							"sharer_user_ID" => currentUserID()
-						));
-
-					}
-
-				}
-
-
-
-
-
-
-			// ADD TO QUEUE
-
-			// Remove the existing and wrong files
-			if ( file_exists(Page::ID($page_ID)->pageDir) )
-				deleteDirectory(Page::ID($page_ID)->pageDir);
-
-
-			// Re-Create the log folder if not exists
-			if ( !file_exists(Page::ID($page_ID)->logDir) )
-				mkdir(Page::ID($page_ID)->logDir, 0755, true);
-			@chmod(Page::ID($page_ID)->logDir, 0755);
-
-
-			// Logger
-			$logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
-				'filename' => Page::ID($page_ID)->logFileName,
-			    'extension' => 'log', // changes the log file extension
-			));
-
-
-
-
-			// Add a new job to the queue
-			$queue = new Queue();
-			$queue_ID = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.");
-
-
-			// Initiate Internalizator
-			$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$project_ID.' '.$queue_ID);
-			$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
-
-
-			// Add the PID to the queue
-			$queue->update_status($queue_ID, "waiting", "Waiting other works to be done.", $process->getPid());
-
-
-
-
-		} // Page devices loop
+		if ($parent_page_ID) $firstPageAdded = true;
 
 	}
 

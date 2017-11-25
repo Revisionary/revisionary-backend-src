@@ -8,9 +8,7 @@ set_time_limit(0);
 // Get the data
 $page_ID = $argv[1];
 $sessionID = $argv[2];
-$project_ID = $argv[3];
-$queue_ID = isset($argv[4]) && is_numeric($argv[4]) ? $argv[4] : "";
-$need_to_wait = $queue_ID != "" ? true : false;
+$queue_ID = isset($argv[3]) && is_numeric($argv[3]) ? $argv[3] : "";
 
 
 // Correct the session ID
@@ -26,8 +24,6 @@ session_write_close();
 
 
 
-
-
 // Logger
 $logger = new Katzgrau\KLogger\Logger(
 	Page::ID($page_ID)->logDir,
@@ -38,23 +34,22 @@ $logger = new Katzgrau\KLogger\Logger(
 	)
 );
 
-// Queue
+
+// Initiate Queue class
 $queue = new Queue();
-
-
 
 
 // Initialize internalizator
 $internalize = new Internalize_v3($page_ID, $queue_ID);
 
+
+// Reset the variables
 $job_ready = $browser_done = $files_detected = $html_filtred = $css_filtred = false;
 
 
-echo "Page ID: $page_ID, ";
-echo "SessionID: $sessionID, ";
-echo "Project ID: $project_ID, ";
-echo "Queue ID: $queue_ID, ";
-echo "Need to wait: $need_to_wait ";
+echo "Queue ID: $queue_ID  \r\n";
+echo "Page ID: $page_ID \r\n";
+echo "SessionID: $sessionID \r\n";
 
 
 
@@ -81,10 +76,12 @@ if ($browser_done) $files_detected = $internalize->detectDownloadedFiles();
 // 4. HTML absolute URL filter to correct downloaded URLs
 if ($files_detected) $html_filtred = $internalize->filterAndUpdateHTML();
 
+
 // 5. Filter CSS files
 // 5.1. Absolute URL filter to correct downloaded URLs
 // 5.2. Detect fonts and correct with downloaded ones
 if ($html_filtred) $css_filtred = $internalize->filterAndUpdateCSSfiles();
+
 
 // 6. Complete the job!
 if ($css_filtred) $iframeLink = $internalize->completeTheJob();
