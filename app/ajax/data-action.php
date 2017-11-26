@@ -4,7 +4,7 @@ $status = "initiated";
 
 
 // NONCE CHECK
-if ( request("nonce") !== $_SESSION["js_nonce"] )
+if (request("nonce") !== $_SESSION["js_nonce"])
 	return;
 
 
@@ -480,7 +480,7 @@ if (request('action') == "remove") {
 
 
 // RECOVER
-if ( substr(request('action'), 0, 8) == "recover-") {
+if (substr(request('action'), 0, 8) == "recover-") {
 
 	$recover_type = substr(request('action'), 8, -1);
 
@@ -549,7 +549,7 @@ if ( substr(request('action'), 0, 8) == "recover-") {
 
 
 // RENAME
-if ( request('action') == "rename") {
+if (request('action') == "rename") {
 
 	$type = request('data-type');
 
@@ -605,7 +605,7 @@ if ( request('action') == "rename") {
 
 
 // ADD NEW CATEGORY
-if ( request('action') == "add-new-category") {
+if (request('action') == "add-new-category") {
 
 	$type = request('data-type');
 
