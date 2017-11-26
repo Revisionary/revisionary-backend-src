@@ -35,6 +35,8 @@ var easy_html_elements = [
 	"H5",
 	"H6"
 ];
+var easy_with_br = easy_html_elements;
+easy_with_br.push("BR");
 
 // Focus Variables
 var focused_element,

@@ -474,7 +474,7 @@ function runTheInspector() {
 					focused_element_children.each(function() {
 
 						// In easy HTML elements?
-						if (easy_html_elements.indexOf( $(this).prop("tagName") ) != -1 ) hardToEdit = false;
+						if (easy_with_br.indexOf( $(this).prop("tagName") ) != -1 ) hardToEdit = false;
 
 					});
 
@@ -510,9 +510,9 @@ function runTheInspector() {
 
 
 						if (
-							easy_html_elements.indexOf( child.prop("tagName") ) != -1 && // Child is easy to edit
+							easy_with_br.indexOf( child.prop("tagName") ) != -1 && // Child is easy to edit
 							grandChildren.length == 1 && // Grand child has no more than 1 child
-							easy_html_elements.indexOf( grandChildren.first().prop("tagName") ) != -1 // And that guy is easy to edit as well
+							easy_with_br.indexOf( grandChildren.first().prop("tagName") ) != -1 // And that guy is easy to edit as well
 						)
 
 							easyToEdit = true;
