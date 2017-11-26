@@ -16,13 +16,13 @@ class Page {
 	public $pageDevice;
 
 	// The project ID
-	public $projectId;
+	public $project_ID;
 
 	// The remote URL
 	public $remoteUrl;
 
 	// Current user ID
-	public $userId;
+	public $user_ID;
 
 
 	// Project Directory
@@ -89,7 +89,7 @@ class Page {
 	public function __construct() {
 
 		// Set the project ID
-        $this->projectId = $this->getPageInfo('project_ID');
+        $this->project_ID = $this->getPageInfo('project_ID');
 
         // Set the version number
         if (self::$setPageVersion == null) $this->pageVersion = $this->getPageVersion();
@@ -102,12 +102,12 @@ class Page {
         $this->remoteUrl = $this->getPageInfo('page_url');
 
         // Set the user ID
-        $this->userId = $this->getPageInfo('user_ID');
+        $this->user_ID = $this->getPageInfo('user_ID');
 
 
 		// Paths
-        $userPath = $this->userPath = "user-".$this->userId;
-        $projectPath = $this->projectPath = "project-".$this->projectId;
+        $userPath = $this->userPath = "user-".$this->user_ID;
+        $projectPath = $this->projectPath = "project-".$this->project_ID;
         $pagePath = $this->pagePath = "page-".($this->getPageInfo('parent_page_ID') != null ? $this->getPageInfo('parent_page_ID') : self::$page_ID);
         $devicePath = $this->devicePath = "device-".$this->pageDevice;
         $versionPath = $this->versionPath = $this->pageVersion;
@@ -131,7 +131,7 @@ class Page {
         $this->pageFile = $this->pageDir."/".$this->pageFileName;
 
         // Set the page image file path
-        $this->pageImagePath = $userPath."/".$projectPath."/".$pagePath."/".$devicePath."/".$this->getPageInfo('page_pic');
+        $this->pageImagePath = $this->pageDeviceDir."/".$this->getPageInfo('page_pic');
 
         // Set the log file
         $this->logDir = $this->pageDir."/logs";

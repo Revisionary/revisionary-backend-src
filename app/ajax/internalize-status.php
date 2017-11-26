@@ -47,7 +47,7 @@ $data = array(
 
 	// JUST TO SEE
 	'page_ID' => $page_ID,
-	'userID' => Page::ID($page_ID)->userId,
+	'userID' => Page::ID($page_ID)->user_ID,
 	'queue_ID' => $queue_ID,
 
 	'status' => $status,

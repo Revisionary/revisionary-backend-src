@@ -70,6 +70,32 @@
 					// Block URL
 					$block_url = site_url('project/'.$block[$dataType.'_ID']);
 
+
+					// THUMBNAIL CHECK
+					if ( $block[$dataType.'_pic'] == null ) {
+
+
+						// Update the screenshots on DB
+						$block_image_name = $dataType.'.jpg';
+
+						if ($dataType == "project") $block_image_uri = Project::ID($block[$dataType.'_ID'])->projectDir."/$block_image_name";
+						else $block_image_uri = Page::ID($block[$dataType.'_ID'])->pageDeviceDir."/$block_image_name";
+
+
+						// Add image names to database
+						if ( file_exists($block_image_uri) ) {
+
+							$db->where($dataType.'_ID', $block[$dataType.'_ID']);
+							$db->update($dataType.'s', array(
+								$dataType.'_pic' => $block_image_name
+							), 1);
+
+							$block[$dataType.'_pic'] = $block_image_name;
+
+						}
+
+					}
+
 					// Project Image URL
 					$block_image_url = cache_url('user-'.$block['user_ID'].'/project-'.$block[$dataType.'_ID'].'/'.$block[$dataType.'_pic']);
 

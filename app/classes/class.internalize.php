@@ -214,7 +214,7 @@ class Internalize {
 
 
 		// LOG:
-		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - PROJECT ID: ".Page::ID($this->page_ID)->projectId." | PAGE ID: ".$this->page_ID." | DEVICE: ".Page::ID($this->page_ID)->pageDevice." | VERSION: ".Page::ID($this->page_ID)->pageVersion." \r\n", FILE_APPEND);
+		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - PROJECT ID: ".Page::ID($this->page_ID)->project_ID." | PAGE ID: ".$this->page_ID." | DEVICE: ".Page::ID($this->page_ID)->pageDevice." | VERSION: ".Page::ID($this->page_ID)->pageVersion." \r\n", FILE_APPEND);
 		file_put_contents( Page::ID($this->page_ID)->logFile, "[".date("Y-m-d h:i:sa")."] - HTML".(!$saved ? " <b>NOT</b>":'')." DOWNLOADED: '".$this->remoteUrl."' \r\n", FILE_APPEND);
 
 

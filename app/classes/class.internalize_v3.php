@@ -108,11 +108,8 @@ class Internalize_v3 {
 		$CSSFilesList = $siteDir."/logs/css.log";
 		$fontFilesList = $siteDir."/logs/font.log";
 
-		$page_image_name = "page.jpg";
-		$page_image = Page::ID($page_ID)->pageDeviceDir."/".$page_image_name;
-
-		$project_image_name = "proj.jpg";
-		$project_image = Page::ID($page_ID)->projectDir."/".$project_image_name;
+		$page_image = Page::ID($page_ID)->pageDeviceDir."/".page_image_name;
+		$project_image = Page::ID($page_ID)->projectDir."/".project_image_name;
 
 
 
@@ -249,11 +246,7 @@ class Internalize_v3 {
 		}
 
 
-		// Re-check the files
-		$html_captured = file_exists($htmlFile);
-		$CSSFiles_captured = file_exists($CSSFilesList);
-		$fontFiles_captured = file_exists($fontFilesList);
-
+		// RE-CHECK FILES
 
 		// HTML file check
 		if (!file_exists($htmlFile)) {
@@ -304,43 +297,15 @@ class Internalize_v3 {
 
 
 
-		// TRY UPDATING SCREENSHOT NAMES !!! Find better solution for all device screenshots, caching the checks?!
-
-		// Add image names to database
-		$parent_page_image = Page::ID($parent_page_ID)->pageDeviceDir."/".$page_image_name;
-		$parent_page_captured = file_exists($parent_page_image);
-		if ( $parent_page_captured && Page::ID($parent_page_ID)->getPageInfo('page_pic') == null ) {
-
-			$db->where('page_ID', $parent_page_ID);
-			$db->update('pages', array(
-				'page_pic' => $page_image_name
-			), 1);
-
-		}
-
-
-		$project_image = Page::ID($page_ID)->projectDir."/".$project_image_name;
-		$project_captured = file_exists($project_image);
-		if ( $project_captured && Project::ID( $project_ID )->getProjectInfo('project_pic') == null ) {
-
-			$db->where('project_ID', $project_ID);
-			$db->update('projects', array(
-				'project_pic' => $project_image_name
-			), 1);
-
-		}
-
-
-
 		// Parse the downloaded CSS list
 		$downloaded_css = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($CSSFilesList)));
-		$downloaded_css = array_filter(array_unique($downloaded_css));
+		$downloaded_css = array_filter(array_unique($downloaded_css)); // Clean
 		$this->downloadedCSS = $downloaded_css;
 
 
 		// Parse the downloaded fonts list
 		$downloaded_font = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($fontFilesList)));
-		$downloaded_font = array_filter(array_unique($downloaded_font));
+		$downloaded_font = array_filter(array_unique($downloaded_font)); // Clean
 		$this->downloadedFonts = $downloaded_font;
 
 

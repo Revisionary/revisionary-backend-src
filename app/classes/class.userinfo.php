@@ -4,7 +4,7 @@ class User {
 
 
 	// The page ID
-	public static $userId;
+	public static $user_ID;
 
 	// The page version
 	public $userName;
@@ -52,20 +52,20 @@ class User {
         $this->userPic = $this->getUserInfo('user_picture');
 
 		// Set the user picture URL
-        $this->userPicUrl = $this->getUserInfo('user_picture') != "" ? cache_url('user-'.self::$userId.'/'.$this->getUserInfo('user_picture')) : "";
+        $this->userPicUrl = $this->getUserInfo('user_picture') != "" ? cache_url('user-'.self::$user_ID.'/'.$this->getUserInfo('user_picture')) : "";
 
     }
 
 
 
 	// ID Setter
-    public static function ID($userId = null) {
+    public static function ID($user_ID = null) {
 
-		if ($userId == null)
-			$userId = currentUserID();
+		if ($user_ID == null)
+			$user_ID = currentUserID();
 
 	    // Set the user ID
-		self::$userId = $userId;
+		self::$user_ID = $user_ID;
 		return new static;
 
     }
@@ -80,7 +80,7 @@ class User {
 	    global $db;
 
 	    // GET IT FROM DB...
-	    $db->where("user_ID", self::$userId);
+	    $db->where("user_ID", self::$user_ID);
 		$user = $db->getOne("users");
 		if ($user)
 			return $user[$column];

@@ -27,3 +27,7 @@ define('ssl' , (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (iss
 define('secure_url', "https://secure." . domain);
 define('unsecure_url', "http://new." . domain);
 define('url', ssl ? secure_url : unsecure_url);
+
+// TEMP - Image Names !!!
+define('project_image_name', 'project.jpg');
+define('page_image_name', 'page.jpg');

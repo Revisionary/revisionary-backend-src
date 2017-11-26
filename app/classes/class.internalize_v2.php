@@ -616,7 +616,7 @@ class Internalize_v2 {
 
 
 		// LOG:
-		$logger->info("PROJECT ID: ".Page::ID($this->page_ID)->projectId." | PAGE ID: ".$this->page_ID." | DEVICE: ".Page::ID($this->page_ID)->pageDevice." | VERSION: ".Page::ID($this->page_ID)->pageVersion);
+		$logger->info("PROJECT ID: ".Page::ID($this->page_ID)->project_ID." | PAGE ID: ".$this->page_ID." | DEVICE: ".Page::ID($this->page_ID)->pageDevice." | VERSION: ".Page::ID($this->page_ID)->pageVersion);
 
 
 

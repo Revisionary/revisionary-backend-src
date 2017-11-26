@@ -258,7 +258,7 @@ $(function() {
 
 
 
-	function memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable, objectID) {
+	function memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, user_ID, unremoveable, objectID) {
 
 		var hasPic = 'class="has-pic"';
 		var printPic = 'style="background-image: url('+userImageUrl+');"';
@@ -266,7 +266,7 @@ $(function() {
 
 		if (mStatus != 'email' ) email = '('+email+')';
 		if (mStatus == 'email' ) nameabbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
-		if (mStatus == 'email' ) userId = email;
+		if (mStatus == 'email' ) user_ID = email;
 		if (mStatus == 'owner' ) ownerBadge = '<span class="owner-badge">Owner</span>';
 		if (userImageUrl == "") hasPic = printPic = "";
 
@@ -280,13 +280,13 @@ $(function() {
 					<span class="email">'+email+'</span>\
 					'+ownerBadge+'\
 				</div>\
-				<a href="#" class="remove remove-member" data-userid="'+userId+'" data-id="'+objectID+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+				<a href="#" class="remove remove-member" data-userid="'+user_ID+'" data-id="'+objectID+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 			</li>\
 		';
 
 	}
 
-	function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable) {
+	function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, user_ID, unremoveable) {
 
 		var hasPic = 'class="has-pic"';
 		var printPic = 'style="background-image: url('+userImageUrl+');"';
@@ -294,7 +294,7 @@ $(function() {
 		if (userImageUrl == "") hasPic = printPic = "";
 
 		return '\
-			<a href="#" data-tooltip="'+(mStatus == 'email' ? email : fullName)+'" data-mstatus="'+mStatus+'" data-fullname="'+fullName+'" data-nameabbr="'+nameabbr+'" data-email="'+email+'" data-avatar="'+userImageUrl+'" data-userid="'+userId+'" data-unremoveable="'+unremoveable+'">\
+			<a href="#" data-tooltip="'+(mStatus == 'email' ? email : fullName)+'" data-mstatus="'+mStatus+'" data-fullname="'+fullName+'" data-nameabbr="'+nameabbr+'" data-email="'+email+'" data-avatar="'+userImageUrl+'" data-userid="'+user_ID+'" data-unremoveable="'+unremoveable+'">\
 				<picture class="profile-picture" '+printPic+'>\
 					<span '+hasPic+'>'+(mStatus == 'email' ? '<i class="fa fa-envelope" aria-hidden="true"></i>' : nameabbr)+'</span>\
 				</picture>\
@@ -353,12 +353,12 @@ $(function() {
 			var fullName = $(member).attr('data-fullname');
 			var nameabbr = $(member).attr('data-nameabbr');
 			var userImageUrl = $(member).attr('data-avatar');
-			var userId = $(member).attr('data-userId');
+			var user_ID = $(member).attr('data-user_ID');
 			var unremoveable = $(member).attr('data-unremoveable');
 
 
 			$('#share .members:not(.project-php)').append(
-				memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, userId, unremoveable, objectID)
+				memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, user_ID, unremoveable, objectID)
 			);
 
 		});
