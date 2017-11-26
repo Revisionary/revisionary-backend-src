@@ -197,8 +197,9 @@ class Internalize_v3 {
 
 
 		// Wait for the downloaded files lists
-		$timeout = 30; // seconds
+		$timeout = 50; // seconds - Temporarily 50 !!!
 		$eta = 0;
+		$out_of_time = false;
 		while (
 			$process->isRunning() &&
 			$queue->info($this->queue_ID)['queue_status'] == "working" &&
@@ -218,17 +219,30 @@ class Internalize_v3 {
 
 			if ($eta >= $timeout) {
 
-				// Update the queue status
-				$queue->update_status($this->queue_ID, "error", "Downloaded files lists timeout.");
-
-
-				// Log
-				$logger->error("Downloaded files lists timeout.");
-
+				$out_of_time = true;
 				break;
 
-				return false;
 			}
+		}
+
+
+		// Timeout error
+		if ($out_of_time) {
+
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "error", "Downloaded files lists timeout.");
+
+
+			// Log
+			$logger->error("Downloaded files lists timeout.");
+
+
+			// Stop the process
+			if ( $process->isRunning() ) $process->stop();
+
+			return false;
+
 		}
 
 

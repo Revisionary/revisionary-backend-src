@@ -333,7 +333,7 @@
 											$block_count = $db->getValue("pages p", "count(*)");
 											?>
 
-												<div class="page-count"><?=$block_count?> <br>Pages</div>
+												<div class="page-count"><?=$block_count?> <br>Page<?=$block_count > 1 ? 's' : ''?></div>
 
 												<i class="fa fa-search" aria-hidden="true" style="font-size: 120px;"></i>
 											</a>
