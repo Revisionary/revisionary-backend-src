@@ -426,37 +426,15 @@ function runTheInspector() {
 
 
 
-				// Check element text editable
+				// Check element text editable: <p>Lorem ipsum dolor sit amet...
 				hoveringText = false;
 		        focused_element_editable = false;
 		        focused_element_html_editable = false;
 		        if (
-				        (
-				        	focused_element.prop("tagName") == "A" ||
-				        	focused_element.prop("tagName") == "B" ||
-				        	focused_element.prop("tagName") == "STRONG" ||
-				        	focused_element.prop("tagName") == "SMALL" ||
-				        	focused_element.prop("tagName") == "TEXTAREA" ||
-				        	focused_element.prop("tagName") == "LABEL" ||
-				        	focused_element.prop("tagName") == "BUTTON" ||
-				        	focused_element.prop("tagName") == "TIME" ||
-				        	focused_element.prop("tagName") == "DATE" ||
-				        	focused_element.prop("tagName") == "ADDRESS" ||
-				        	focused_element.prop("tagName") == "P" ||
-				        	focused_element.prop("tagName") == "DIV" ||
-				        	focused_element.prop("tagName") == "SPAN" ||
-				        	focused_element.prop("tagName") == "LI" ||
-				        	focused_element.prop("tagName") == "H1" ||
-				        	focused_element.prop("tagName") == "H2" ||
-				        	focused_element.prop("tagName") == "H3" ||
-				        	focused_element.prop("tagName") == "H4" ||
-				        	focused_element.prop("tagName") == "H5" ||
-				        	focused_element.prop("tagName") == "H6"
-			        	)
-			        	&&
-			        	focused_element_text.trim() != "" && // If not empty
-			        	focused_element.html() != "&nbsp;" && // If really not empty
-			        	focused_element_children.length == 0 // If doesn't have any child
+			        easy_html_elements.indexOf( focused_element.prop("tagName") ) != -1 && // In easy HTML elements?
+		        	focused_element_text.trim() != "" && // If not empty
+		        	focused_element.html() != "&nbsp;" && // If really not empty
+		        	focused_element_children.length == 0 // If doesn't have any child
 		        ) {
 
 					hoveringText = true;
@@ -469,7 +447,7 @@ function runTheInspector() {
 
 
 
-				// Check element image editable
+				// Check element image editable: <img src="#">...
 				hoveringImage = false;
 		        if ( focused_element.prop("tagName") == "IMG" ) {
 
@@ -482,7 +460,7 @@ function runTheInspector() {
 
 
 
-				// Check if element has children but doesn't have grand children
+				// Check if element has children but doesn't have grand children: <p>Lorem ipsum <a href="#">dolor</a> sit amet...
 				if (
 					focused_element_children.length > 0 && // Has child
 					focused_element_grand_children.length == 0 && // No grand child
@@ -492,31 +470,11 @@ function runTheInspector() {
 
 
 					// Also check the children's tagname
-					var hardToEdit = false;
+					var hardToEdit = true;
 					focused_element_children.each(function() {
 
-						if (
-							$(this).prop("tagName") != "BR" &&
-				        	$(this).prop("tagName") != "A" &&
-				        	$(this).prop("tagName") != "B" &&
-				        	$(this).prop("tagName") != "STRONG" &&
-				        	$(this).prop("tagName") != "SMALL" &&
-				        	$(this).prop("tagName") != "TEXTAREA" &&
-				        	$(this).prop("tagName") != "LABEL" &&
-				        	$(this).prop("tagName") != "BUTTON" &&
-				        	$(this).prop("tagName") != "TIME" &&
-				        	$(this).prop("tagName") != "DATE" &&
-				        	$(this).prop("tagName") != "ADDRESS" &&
-				        	$(this).prop("tagName") != "P" &&
-				        	$(this).prop("tagName") != "SPAN" &&
-				        	$(this).prop("tagName") != "LI" &&
-				        	$(this).prop("tagName") != "H1" &&
-				        	$(this).prop("tagName") != "H2" &&
-				        	$(this).prop("tagName") != "H3" &&
-				        	$(this).prop("tagName") != "H4" &&
-				        	$(this).prop("tagName") != "H5" &&
-				        	$(this).prop("tagName") != "H6"
-						) hardToEdit = true;
+						// In easy HTML elements?
+						if (easy_html_elements.indexOf( $(this).prop("tagName") ) != -1 ) hardToEdit = false;
 
 					});
 
@@ -534,7 +492,49 @@ function runTheInspector() {
 
 
 
-				// Check the submit buttons
+				// Chech if element has only one grand child and it doesn't have any child: <p>Lorem ipsum <a href="#"><strong>dolor</strong></a> sit amet...
+				if (
+					focused_element_children.length > 0 && // Has child
+					focused_element_grand_children.length > 0 && // Has grand child
+					focused_element_text.trim() != "" && // And, also have to have text
+					focused_element.html() != "&nbsp;" // And, also have to have text
+				) {
+
+
+					// Also check the children's tagname
+					var easyToEdit = false;
+					focused_element_children.each(function() {
+
+						var child = $(this);
+						var grandChildren = child.children();
+
+
+						if (
+							easy_html_elements.indexOf( child.prop("tagName") ) != -1 && // Child is easy to edit
+							grandChildren.length == 1 && // Grand child has no more than 1 child
+							easy_html_elements.indexOf( grandChildren.first().prop("tagName") ) != -1 // And that guy is easy to edit as well
+						)
+
+							easyToEdit = true;
+
+					});
+
+					if (easyToEdit) {
+
+						hoveringText = true;
+						focused_element_editable = true;
+						focused_element_html_editable = true;
+						console.log( '* Text Editable (One Grand Child): ' + focused_element.prop("tagName") );
+						console.log( 'Focused Element Text: ' + focused_element_text );
+
+					}
+
+
+				}
+
+
+
+				// Check the submit buttons: <input type="submit | reset">...
 				hoveringButton = false;
 		        if (
 		        	focused_element.prop("tagName") == "INPUT" &&

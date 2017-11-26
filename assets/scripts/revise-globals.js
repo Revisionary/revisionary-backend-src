@@ -11,6 +11,30 @@ var fileIndexed = false;
 var indexCount = 0;
 var elementCount = 0;
 var element_index_nonce;
+var easy_html_elements = [
+    "A",
+	"B",
+	"I",
+	"EM",
+	"STRONG",
+	"SMALL",
+	"TEXTAREA",
+	"LABEL",
+	"BUTTON",
+	"TIME",
+	"DATE",
+	"ADDRESS",
+	"P",
+	"DIV",
+	"SPAN",
+	"LI",
+	"H1",
+	"H2",
+	"H3",
+	"H4",
+	"H5",
+	"H6"
+];
 
 // Focus Variables
 var focused_element,
