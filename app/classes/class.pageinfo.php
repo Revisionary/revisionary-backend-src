@@ -389,14 +389,7 @@ class Page {
 
 
 		// Security check !!!
-		if (
-			$page_url == "" ||
-			$page_name == "" ||
-			!is_numeric( $project_ID ) ||
-			!is_numeric( $category_ID ) ||
-			!is_numeric( $order_number )
-
-		) return false;
+		if ( $page_url == "" || $page_name == "" ) return false;
 
 
 
