@@ -99,7 +99,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 			$project_ID,
 			0, // Category ID
 			post('order'),
-			post('devices'),
+			is_array(post('devices')) ? post('devices') : array(), // Device IDs array
 			is_array(post('page_shares')) ? post('page_shares') : array()
 		);
 

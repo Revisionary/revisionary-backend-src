@@ -513,6 +513,11 @@ a {
 	    //white-space: nowrap;
 	}
 
+	&.bottom-tooltip:hover:after {
+		bottom: auto;
+		top: 100%;
+	}
+
 }
 
 .light-border picture.profile-picture {

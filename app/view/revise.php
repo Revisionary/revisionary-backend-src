@@ -751,7 +751,7 @@
 								</nav>
 							</span>
 
-							<div class="device-icon" data-tooltip="<?=$device_name?>"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i></div>
+							<div class="device-icon bottom-tooltip" data-tooltip="<?=$device_name?>"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i></div>
 						</div>
 						<a href="#" class="version-selector"><?=Page::ID($page_ID)->pageVersion?></a>
 

@@ -184,18 +184,18 @@
 
 
 				<!-- Actions -->
-				<div class="wrap xl-2 xl-center">
-					<div class="col">
-
-
-						<button class="cancel-button light small">Cancel</button>
-
-
-					</div>
+				<div class="wrap xl-2 xl-center xl-flexbox">
 					<div class="col">
 
 
 						<button class="dark small">Add</button>
+
+
+					</div>
+					<div class="col xl-first">
+
+
+						<button class="cancel-button light small">Cancel</button>
 
 
 					</div>
@@ -341,18 +341,18 @@
 
 
 				<!-- Actions -->
-				<div class="wrap xl-2 xl-center">
-					<div class="col">
-
-
-						<button class="cancel-button light small">Cancel</button>
-
-
-					</div>
+				<div class="wrap xl-2 xl-center xl-flexbox">
 					<div class="col">
 
 
 						<button class="dark small">Add</button>
+
+
+					</div>
+					<div class="col xl-first">
+
+
+						<button class="cancel-button light small">Cancel</button>
 
 
 					</div>
@@ -496,18 +496,18 @@
 
 
 				<!-- Actions -->
-				<div class="wrap xl-2 xl-center">
-					<div class="col">
-
-
-						<button class="cancel-button light small">Close</button>
-
-
-					</div>
+				<div class="wrap xl-2 xl-center xl-flexbox">
 					<div class="col">
 
 
 						<button class="dark small add-member" disabled>Add</button>
+
+
+					</div>
+					<div class="col xl-first">
+
+
+						<button class="cancel-button light small">Close</button>
 
 
 					</div>

@@ -319,6 +319,7 @@ class Internalize_v3 {
 		}
 
 
+		$project_image = Page::ID($page_ID)->projectDir."/".$project_image_name;
 		$project_captured = file_exists($project_image);
 		if ( $project_captured && Project::ID( $project_ID )->getProjectInfo('project_pic') == null ) {
 
