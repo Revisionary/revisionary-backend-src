@@ -398,15 +398,17 @@ class Internalize_v3 {
 			$logger->error("HTML file is not exist.");
 
 			// Update the queue status
-			$queue->update_status($this->queue_ID, "error", "HTML couldn't be filtred. (No file)");
+			$queue->update_status($this->queue_ID, "error", "HTML couldn't be filtered. (No file)");
 
 			return false;
 
 		}
 
 
+		// GET HTML CONTENT
 		// Get the HTML from the downloaded file
 		$html = file_get_contents(Page::ID($this->page_ID)->pageFile);
+
 
 
 		// Specific Log
@@ -434,24 +436,27 @@ class Internalize_v3 {
 		$html = placeNeccessarySpaces($html);
 
 
-		// INCLUDE THE BASE
+
+		// INCLUDE THE BASE - DO FOR ONCE !!!
 		$html = preg_replace_callback(
 	        '/<head([\>]|[\s][^<]*?\>)/i',
 	        function ($urls) {
 
+		        $head_tag = $urls[0];
+
 		        // Specific Log
 				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
 
-		        return $urls[0]."<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+		        return $head_tag."<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
 
 	        },
 	        $html
 	    );
 
 
-		// CONVERT ALL HREF, SRC ATTRIBUTES TO ABSOLUTE !!! - Correct with existing revisionary page urls ??? (target="_parent")
+		// INTERNALIZE CSS FILES
 		$html = preg_replace_callback(
-	        '/<(?<tagname>link|a|script|img)\s+[^<]*?(?<attr>href|src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/is',
+	        '/<(?<tagname>link)\s+[^<]*?(?<attr>href)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/is',
 	        function ($urls) {
 
 
@@ -465,12 +470,47 @@ class Internalize_v3 {
 		        $new_url = url_to_absolute(Page::ID($this->page_ID)->remoteUrl, $the_url);
 
 
+				// If it has host, but no protocol (without http or https)
 		        if (parseUrl($the_url)['host'] != "" )
 		        	$new_url = url_to_absolute(parseUrl($the_url)['full_host'], $the_url);
 
-		        // If not on our server, don't do it
+
+		        // If not on our server, don't touch it
 		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] )
 		        	$new_url = $the_url;
+
+
+
+				// Find in downloads
+		        $css_resource_key = array_search($new_url, array_column($this->downloadedCSS, 'url'));
+
+
+		        // If file is from the remote url, and already downloaded
+		        if (
+		        	parseUrl($new_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] &&
+		        	$css_resource_key !== false &&
+		        	(	// Check if this is really stylesheet calling tag
+		        		strpos($full_tag, 'rel="stylesheet"') !== false ||
+		        		strpos($full_tag, "rel='stylesheet'") !== false ||
+		        		strpos($full_tag, "rel=stylesheet") !== false
+		        	)
+
+		        ) {
+
+			        // Downloaded file name
+					$css_file_name = $this->downloadedCSS[$css_resource_key]['new_file_name'];
+
+
+			        // Change the URL again with the downloaded file
+			        $new_url = Page::ID($this->page_ID)->pageUri."css/".$css_file_name;
+
+
+
+			        // Specific Log
+					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+
+				}
+
 
 
 		        // Update the HTML element
@@ -487,6 +527,7 @@ class Internalize_v3 {
 	            );
 
 
+
 		        // Found URL Log
 				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
 
@@ -501,93 +542,6 @@ class Internalize_v3 {
 	        $html
 	    );
 
-
-	    // INTERNALIZE CSS FILES
-		$count_css = 0;
-		$html = preg_replace_callback(
-	        '/<(?<tagname>link)\s+[^<]*?(?:href)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
-	        function ($urls) use(&$count_css) {
-
-				// The found URL
-		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
-
-
-		        // Find in downloads
-		        $resource_key = array_search($the_url, array_column($this->downloadedCSS, 'url'));
-				$css_file_name = $this->downloadedCSS[$resource_key]['new_file_name'];
-
-
-				// If file is from the remote url
-		        if (
-		        	parseUrl($the_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] &&
-		        	$css_file_name !== false &&
-		        	(
-		        		strpos($urls[0], 'rel="stylesheet"') !== false ||
-		        		strpos($urls[0], "rel='stylesheet'") !== false ||
-		        		strpos($urls[0], "rel=stylesheet") !== false
-		        	)
-
-		        ) {
-
-			        $count_css++;
-
-
-			        // Specific Log
-					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".Page::ID($this->page_ID)->pageUri."css/".$css_file_name."' \r\n", FILE_APPEND);
-
-
-			        // Change the URL
-					return str_replace(
-		            	$the_url,
-		            	Page::ID($this->page_ID)->pageUri."css/".$css_file_name,
-		            	$urls[0]
-		            );
-
-				}
-
-
-				return $urls[0];
-
-
-	        },
-	        $html
-	    );
-
-
-		// CONVERT ALL SRCSET ATTRIBUTES TO ABSOLUTE
-		$html = preg_replace_callback(
-	        '/<(?:img)\s+[^<]*?(?:srcset)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/i',
-	        function ($urls) {
-
-		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
-
-				$attr = explode(',', $the_url);
-
-			    $new_srcset = "";
-
-				foreach ( $attr as $src ) {
-
-					$url_exp = array_filter(explode(' ', trim($src)));
-					$url = $url_exp[0];
-					$size = $url_exp[1];
-
-					$new_srcset .= url_to_absolute(Page::ID($this->page_ID)->remoteUrl, $url)." ".$size.(end($attr) != $src ? ", " : "");
-
-				}
-
-
-				// Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Srcset Absoluted: '".$the_url."' -> '".$new_srcset."' \r\n", FILE_APPEND);
-
-
-	            return str_replace(
-	            	$the_url,
-	            	$new_srcset,
-	            	$urls[0]
-	            );
-	        },
-	        $html
-	    );
 
 
 	    // FILTER IN PAGE STYLES
