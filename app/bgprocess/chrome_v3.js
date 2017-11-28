@@ -3,6 +3,7 @@
 
 // REQUIREMENTS
 const puppeteer = require('puppeteer');
+const headless = true;
 //const devices = require('puppeteer/DeviceDescriptors'); // NO NEED FOR NOW !!!
 
 const argv = require('minimist')(process.argv.slice(2));
@@ -86,7 +87,7 @@ fs.writeFileSync(logDir+'/_font.log', '');
 	// Launch the Chrome Browser
 	const browser = await puppeteer.launch({
 		//executablePath: '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary',
-		headless: true
+		headless: headless
 	});
 
 
@@ -265,7 +266,7 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 	// Navigate to the URL
 	const response = await page.goto(url, {
-        waitUntil: 'networkidle2',
+        waitUntil: 'networkidle0',
         timeout: 3000000
     });
 

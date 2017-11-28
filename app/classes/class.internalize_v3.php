@@ -201,7 +201,7 @@ class Internalize_v3 {
 		$eta = 0;
 		$out_of_time = false;
 		while (
-			$process->isRunning() &&
+			//$process->isRunning() && // Even though process looks done, wait for the important files !!!
 			$queue->info($this->queue_ID)['queue_status'] == "working" &&
 			(
 				!file_exists($htmlFile) ||
