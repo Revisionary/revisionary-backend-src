@@ -209,10 +209,10 @@ class Page {
     public function getPageStatus($static = false) {
 
 
-		// 0% - PAGE IS DOWNLOADING
+		// 0% - WAITING FOR THE QUEUE
 		$process_status = [
-			"status" => "downloading",
-			"description" => "Page is downloading",
+			"status" => "waiting",
+			"description" => "Waiting for the queue",
 			"percentage" => 0
 		];
 
@@ -257,7 +257,18 @@ class Page {
 			];
 
 
-		// 25% - STYLES ARE DOWNLOADED
+		// 25% - PAGE IS DOWNLOADED
+		if (
+			file_exists($this->pageFile)
+		)
+			$process_status = [
+				"status" => "downloaded-page",
+				"description" => "Page is downloaded",
+				"percentage" => 25
+			];
+
+
+		// 35% - STYLES ARE DOWNLOADED
 		if (
 			file_exists($this->logDir."/css.log") &&
 			file_exists($this->logDir."/font.log")
@@ -265,17 +276,6 @@ class Page {
 			$process_status = [
 				"status" => "downloaded-styles",
 				"description" => "Styles are downloaded",
-				"percentage" => 25
-			];
-
-
-		// 35% - PAGE IS DOWNLOADED
-		if (
-			file_exists($this->pageFile)
-		)
-			$process_status = [
-				"status" => "downloaded-page",
-				"description" => "Page is downloaded",
 				"percentage" => 35
 			];
 
