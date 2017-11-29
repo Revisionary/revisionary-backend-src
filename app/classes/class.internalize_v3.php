@@ -451,21 +451,59 @@ class Internalize_v3 {
 
 
 
-		// INCLUDE THE BASE - DO FOR ONCE !!!
+		// INCLUDE THE BASE
+		$countHead = 0;
 		$html = preg_replace_callback(
 	        '/<head([\>]|[\s][^<]*?\>)/i',
 	        function ($urls) {
+		        global $countHead;
+		        $countHead++;
 
 		        $head_tag = $urls[0];
 
-		        // Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
+		        if ( $countHead == 1 ) {
 
-		        return $head_tag."<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+			        // Specific Log
+					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
+
+			        return $head_tag."<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+
+		        }
+
+		        return $head_tag;
 
 	        },
 	        $html
 	    );
+
+	    // If no <head> tag, add it after the <html> tag
+	    if ($countHead == 0) {
+
+			$countHtml = 0;
+			$html = preg_replace_callback(
+		        '/<html([\>]|[\s][^<]*?\>)/i',
+		        function ($urls) {
+			        global $countHtml;
+			        $countHtml++;
+
+			        $html_tag = $urls[0];
+
+			        if ( $countHtml == 1 ) {
+
+				        // Specific Log
+						file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
+
+				        return $html_tag."<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+
+			        }
+
+			        return $html_tag;
+
+		        },
+		        $html
+		    );
+
+	    }
 
 
 		// INTERNALIZE CSS FILES

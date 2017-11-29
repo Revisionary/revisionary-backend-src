@@ -2,6 +2,9 @@
 
 use Cocur\BackgroundProcess\BackgroundProcess;
 
+// Force re-internalize on each refresh for debugging !!!
+$forceReInternalize = false;
+
 
 // Get the page ID
 $page_ID = $_url[1]; // Check if page exists !!!
@@ -195,7 +198,7 @@ die();
 // If already working queue exists
 if (
 
-	//2 === 3 && // !!! TEMP for reinternalization
+	!$forceReInternalize &&
 
 	$existing_queue !== null &&
 	count($existing_queue) > 0
@@ -225,7 +228,7 @@ if (
 // If no need to re-internalize
 } elseif (
 
-	//2 === 3 && // !!! TEMP for reinternalization
+	!$forceReInternalize &&
 
 	file_exists(Page::ID($page_ID)->pageDir) && // Folder is exist
 	file_exists(Page::ID($page_ID)->pageFile) && // HTML is downloaded?
