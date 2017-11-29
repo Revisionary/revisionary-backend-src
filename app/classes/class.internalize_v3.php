@@ -829,12 +829,10 @@ class Internalize_v3 {
 
 		        // Find CSS in downloads
 		        $css_resource_key = array_search($absolute_url, array_column($this->downloadedCSS, 'url'));
-				$downloaded_css = $this->downloadedCSS[$css_resource_key]['new_file_name'];
 
 
 		        // Find Font in downloads
 		        $font_resource_key = array_search($absolute_url, array_column($this->downloadedFonts, 'url'));
-				$font_file_name = $this->downloadedFonts[$font_resource_key]['new_file_name'];
 
 
 
@@ -850,6 +848,8 @@ class Internalize_v3 {
 					)
 				) {
 
+					// Downloaded file name
+					$font_file_name = $this->downloadedFonts[$font_resource_key]['new_file_name'];
 
 					$new_url = Page::ID($this->page_ID)->pageUri."fonts/".$file_name_hashed;
 
@@ -861,6 +861,8 @@ class Internalize_v3 {
 
 				} elseif ( $css_resource_key !== false ) {
 
+					// Downloaded file name
+					$downloaded_css = $this->downloadedCSS[$css_resource_key]['new_file_name'];
 
 					$new_url = Page::ID($this->page_ID)->pageUri."css/".$downloaded_css;
 
