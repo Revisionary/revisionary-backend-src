@@ -194,6 +194,9 @@ die();
 
 // If already working queue exists
 if (
+
+	//2 === 3 && // !!! TEMP for reinternalization
+
 	$existing_queue !== null &&
 	count($existing_queue) > 0
 ) {
@@ -221,6 +224,8 @@ if (
 
 // If no need to re-internalize
 } elseif (
+
+	//2 === 3 && // !!! TEMP for reinternalization
 
 	file_exists(Page::ID($page_ID)->pageDir) && // Folder is exist
 	file_exists(Page::ID($page_ID)->pageFile) && // HTML is downloaded?

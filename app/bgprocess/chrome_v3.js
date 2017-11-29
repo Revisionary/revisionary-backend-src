@@ -37,6 +37,14 @@ const delay = argv.delay || 0;
 
 
 
+// Blocked Requests
+const blocked = require(__dirname + '/blocked.json');
+const blockedRegExp = new RegExp('(' + blocked.join('|') + ')', 'i');
+
+const truncate = (str, len) => str.length > len ? str.slice(0, len) + '…' : str;
+
+
+
 // Console Info, browser.log
 console.log('URL: ' + url);
 if(fullPage) console.log("Will capture full page");
@@ -48,12 +56,10 @@ if (userAgent) console.log("User Agent: " + userAgent);
 
 
 
-/*
 // Delay Function !!! Do we need that?
 function wait(ms) {
 	return new Promise(r => setTimeout(r, ms)).then(() => "Yay");
 }
-*/
 
 
 
@@ -97,71 +103,109 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 
 
-	// List the requests and responses
-	const responses = [];
+	// REQUEST
+	let timeIsOver = false;
+	let reqCount = 0;
+	const nowTime = +new Date();
+	await page.setRequestInterception(true);
+	page.on('request', (request) => {
+
+        const { url, method, resourceType } = request;
+
+        // Skip data URIs
+        if (/^data:/i.test(url)){
+          request.continue();
+          return;
+        }
+
+        const seconds = (+new Date() - nowTime) / 1000;
+        const shortURL = truncate(url, 70);
+        const otherResources = /^(manifest|other)$/i.test(resourceType);
+        // Abort requests that exceeds 15 seconds
+        // Also abort if more than 100 requests
+        if (seconds > 15 || reqCount > 100 || timeIsOver){
+          console.log(`❌⏳ ${method} ${shortURL}`);
+          request.abort();
+        } else if (blockedRegExp.test(url) || otherResources){
+          console.log(`❌ ${method} ${shortURL}`);
+          request.abort();
+        } else {
+          console.log(`✅ ${method} ${shortURL}`);
+          request.continue();
+          reqCount++;
+        }
+
+    });
+
+
+
+	// RESPONSE
+	let responseCount = 0;
 	let cssCount = 0;
-	await page.on('response', resp => { // List the responses
+	let htmlCount = 0;
 
-		responses.push(resp); //console.log( 'Response URL: ', resp.url );
+	let responseReject;
+	const responsePromise = new Promise((_, reject) => {
+		responseReject = reject;
+	});
+    page.on('response', async (resp) => {
 
-	}).on('load', () => { // Download and list the files on response
-
-
-/*
-		// Wait before downloading !!! Do we need that?
-		console.log('Waiting ' + delay + ' miliseconds to download files');
-		wait(delay*10);
-*/
+		responseCount++;
 
 
-		const totalResponse = responses.length;
-		console.log('Total Response: ', totalResponse);
+		// The request info
+		const request = await resp.request();
 
-		// Foreach for responses
-		const responsesProcessed = responses.map(async (resp, i) => {
+		// Get the URL
+		const url = request.url;
+		const parsedUrl = new URL(url);
 
-			// The request info
-			const request = await resp.request();
+		// Get the file type
+		const fileType = request.resourceType;
 
-			// Get the URL
-			const url = request.url;
-			const parsedUrl = new URL(url);
+		// Get the file content
+		const buffer = await resp.buffer();
 
-			// Get the file type
-			const fileType = request.resourceType;
+		// Get the filename
+		const split = parsedUrl.pathname.split('/');
+		let fileName = split[split.length - 1];
 
-			// Get the file content
-			const buffer = await resp.buffer();
+		if (fileName == '') {
+		  fileName += 'index';
+		}
 
-			// Get the filename
-			const split = parsedUrl.pathname.split('/');
-			let fileName = split[split.length - 1];
+		if (!fileName.includes('.')) {
 
-			if (fileName == '') {
-			  fileName += 'file';
-			}
+		    if (fileType == 'document') {
 
-			if (!fileName.includes('.')) {
+				fileName += '.html';
 
-			    if (fileType == 'document') {
+		    } else if (fileType == 'stylesheet') {
 
-					fileName += '.html';
+				fileName += '.css';
 
-			    } else if (fileType == 'stylesheet') {
+		    } else if (fileType == 'script') {
 
-					fileName += '.css';
+				fileName += '.js';
 
-			    } else if (fileType == 'script') {
+		    }
 
-					fileName += '.js';
+		}
 
-			    }
+		// Get the file extension
+		const extsplit = fileName.split('.');
+		const fileExtension = extsplit[extsplit.length - 1];
 
-			}
 
-			// Get the file extension
-			const extsplit = fileName.split('.');
-			const fileExtension = extsplit[extsplit.length - 1];
+		// Prevent infinite redirects
+		const location = resp.headers['location'];
+        if (location && location.includes(parsedRemoteUrl.hostname)){
+          responseReject(new Error('Possible infinite redirects detected.'));
+        }
+
+
+		// If on the same host
+		if ( parsedRemoteUrl.hostname == parsedUrl.hostname && !timeIsOver ) {
 
 
 			// LOGS
@@ -173,71 +217,52 @@ fs.writeFileSync(logDir+'/_font.log', '');
 			console.log('****************');
 
 
-			// If on the same host
-			if ( parsedRemoteUrl.hostname == parsedUrl.hostname ) {
+			// HTML File
+			if (fileType == 'document' && htmlFile != 'done' && htmlCount == 0) {
 
+				htmlCount++;
 
-/*
-				// HTML File - DOESN'T WORK IN SOME CASES !!! (wsj.com for example)
-				if (fileType == 'document' && htmlFile != 'done') {
+				// Create the file
+			    fs.writeFileSync(htmlFile, buffer);
+			    console.log('HTML Downloaded: ', fileName + " -> " + htmlFile);
 
-					// Create the file
-				    fs.writeFileSync(htmlFile, buffer);
-				    console.log('HTML DOWNLOADED: ', fileName + " -> " + htmlFile);
-
-				    // INDEX THE HTML ELEMENTS HERE !!!
-
-				}
-*/
-
-
-				// CSS Files
-				if (fileType == 'stylesheet' && CSSFilesList != 'done' ) {
-
-					cssCount++;
-
-
-					// Create the file
-				    fs.writeFileSync(siteDir + '/css/' + cssCount + '.' + fileExtension, buffer);
-
-
-					// Write to the downloaded CSS list file
-					fs.appendFileSync(logDir+'/_css.log', cssCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n');
-					console.log('CSS Downloaded: ', cssCount+'.'+fileExtension + ' -> ' + request.url);
-
-				}
-
-
-				// Font Files
-				if (fileType == 'font' && fontFilesList != 'done') {
-
-					// Create the file
-				    fs.writeFileSync(siteDir + '/fonts/' + fileName, buffer);
-
-
-				    // Write to the downloaded fonts list file
-					fs.appendFileSync(logDir+'/_font.log', fileName + ' -> ' + request.url + ' \r\n');
-					console.log('Font Downloaded: ', fileName + ' -> ' + request.url);
-
-				}
-
+			    // INDEX THE HTML ELEMENTS HERE !!!
 
 			}
 
 
-			if (totalResponse == i + 1) {
+			// CSS Files
+			if (fileType == 'stylesheet' && CSSFilesList != 'done' ) {
 
-				// Rename the log files
-				await fs.renameSync(logDir+'/_css.log', CSSFilesList);
-				console.log('CSS DOWNLOADS HAVE BEEN COMPLETED!');
+				cssCount++;
 
-				await fs.renameSync(logDir+'/_font.log', fontFilesList);
-				console.log('FONT DOWNLOADS HAVE BEEN COMPLETED!');
+
+				// Create the file
+			    fs.writeFileSync(siteDir + '/css/' + cssCount + '.' + fileExtension, buffer);
+
+
+				// Write to the downloaded CSS list file
+				fs.appendFileSync(logDir+'/_css.log', cssCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n');
+				console.log('CSS Downloaded: ', cssCount+'.'+fileExtension + ' -> ' + request.url);
 
 			}
 
 
-		}); // Responses loop
+			// Font Files
+			if (fileType == 'font' && fontFilesList != 'done') {
+
+				// Create the file
+			    fs.writeFileSync(siteDir + '/fonts/' + fileName, buffer);
+
+
+			    // Write to the downloaded fonts list file
+				fs.appendFileSync(logDir+'/_font.log', fileName + ' -> ' + request.url + ' \r\n');
+				console.log('Font Downloaded: ', fileName + ' -> ' + request.url);
+
+			}
+
+
+		}
 
 
 	});
@@ -272,15 +297,31 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 
 
-	// Create the HTML file
-    const html = await response.text();
-	if (htmlFile != 'done') {
+/*
+	// Pause all media and stop buffering - Gives an error now !!!
+	page.frames().forEach((frame) => {
+		frame.evaluate(() => {
+			document.querySelectorAll('video, audio').forEach(m => {
+				if (!m) return;
+				if (m.pause) m.pause();
+				m.preload = 'none';
+			});
+		});
+	});
+*/
 
-		// Create the file
-	    await fs.writeFileSync(htmlFile, html);
-	    console.log('HTML is written');
 
-	}
+
+	// COMPLETE THE JOB
+	//await page.waitFor(10000);
+	// Rename the log files
+	fs.renameSync(logDir+'/_css.log', CSSFilesList);
+	console.log('CSS DOWNLOADS HAVE BEEN COMPLETED!');
+
+	fs.renameSync(logDir+'/_font.log', fontFilesList);
+	console.log('FONT DOWNLOADS HAVE BEEN COMPLETED!');
+
+	timeIsOver = true;
 
 
 
@@ -291,7 +332,6 @@ fs.writeFileSync(logDir+'/_font.log', '');
 		await page.waitFor(delay);
 
 	}
-
 
 
 	// Take the page screenshot if not already
