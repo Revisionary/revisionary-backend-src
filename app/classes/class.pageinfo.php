@@ -411,7 +411,7 @@ class Page {
 				$page_url,
 				$page_name,
 				$project_ID,
-				$start_downloading
+				$start_downloading && $parent_page_ID == null
 			);
 
 
@@ -474,6 +474,41 @@ class Page {
 
 
 		return $parent_page_ID;
+
+    }
+
+
+
+    // Edit a page !!!
+    public function edit() {
+
+    }
+
+
+
+    // Archive a page !!!
+    public function archive() {
+
+    }
+
+
+
+    // Delete a page !!!
+    public function delete() {
+
+    }
+
+
+
+    // Remove a page !!!
+    public function remove() {
+
+    }
+
+
+
+    // Share to someone !!!
+    public function share() {
 
     }
 
