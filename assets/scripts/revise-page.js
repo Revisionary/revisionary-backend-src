@@ -101,7 +101,7 @@ $(function() {
 	var pinDragging = false;
 	$(document).on('mouseover', '#pins > pin', function(e) {
 
-		console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-element-index") );
+		console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-revisionary-index") );
 
 
 		hoveringPin = true;
@@ -117,7 +117,7 @@ $(function() {
 			var hoveringPinPrivate = $(this).attr("data-pin-private");
 
 			iframe.find('body *').css('outline', 'none');
-			iframe.find('body *[data-element-index="'+ $(this).attr("data-element-index") +'"]').css('outline', '2px dashed ' + (hoveringPinPrivate == 1 ? '#FC0FB3' : 'green'), 'important');
+			iframe.find('body *[data-revisionary-index="'+ $(this).attr("data-revisionary-index") +'"]').css('outline', '2px dashed ' + (hoveringPinPrivate == 1 ? '#FC0FB3' : 'green'), 'important');
 
 		}
 
@@ -264,23 +264,23 @@ function runTheInspector() {
 	/*
 		// INDEX WORKS - NOT NOW !!! For now, only the static content will be editable!
 		// Count the indexed elements
-		indexCount = iframe.find('body *[data-element-index]').length;
+		indexCount = iframe.find('body *[data-revisionary-index]').length;
 		elementCount = iframe.find('body *').length;
 
 
 		// Check if the file already indexed
 		if ( elementCount > indexCount ) {
 
-			console.log('PAGE NEEDS TO BE INDEXED', iframe.find('body *').length, iframe.find('body *[data-element-index]').length);
+			console.log('PAGE NEEDS TO BE INDEXED', iframe.find('body *').length, iframe.find('body *[data-revisionary-index]').length);
 
 			// Add all the HTML element indexes
-			iframe.find('body *:not([data-element-index])').each(function(i) {
+			iframe.find('body *:not([data-revisionary-index])').each(function(i) {
 
 				var elementIndex = i;
 
 				if (i <= indexCount) elementIndex = indexCount + 1
 
-				$(this).attr('data-element-index', elementIndex);
+				$(this).attr('data-revisionary-index', elementIndex);
 				console.log(i + ': New element index added: ', $(this).prop("tagName"), elementIndex);
 
 				indexCount++;
@@ -387,11 +387,11 @@ function runTheInspector() {
 
 		    // Focused Element
 	        focused_element = $(e.target);
-	        focused_element_index = focused_element.attr('data-element-index'); // !!!
+	        focused_element_index = focused_element.attr('data-revisionary-index'); // !!!
 	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 	        focused_element_children = focused_element.children();
 	        focused_element_grand_children = focused_element_children.children();
-	        focused_element_pin = $('#pins > pin[data-element-index="'+ focused_element_index +'"]');
+	        focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
 
 
 
@@ -409,11 +409,11 @@ function runTheInspector() {
 
 					// Re-Focus to the child element
 					focused_element = focused_element_children.first();
-			        focused_element_index = focused_element.attr('data-element-index'); // !!!
+			        focused_element_index = focused_element.attr('data-revisionary-index'); // !!!
 			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 			        focused_element_children = focused_element.children();
 			        focused_element_grand_children = focused_element_children.children();
-					focused_element_pin = $('#pins > pin[data-element-index="'+ focused_element_index +'"]');
+					focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
 
 				}
 
@@ -577,7 +577,7 @@ function runTheInspector() {
 
 
 							// Point to the pin
-							$('#pins > pin:not([data-element-index="'+ focused_element_index +'"])').css('opacity', '0.2');
+							$('#pins > pin:not([data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
 
 
 							// If this has a private pin, make the outline pink

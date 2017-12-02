@@ -28,6 +28,32 @@ class Internalize_v3 {
 	// Images to download !!! Not yet
 	public $downloadedImages = array();
 
+	public $easy_html_elements = array(
+	    "A",
+		"B",
+		"I",
+		"EM",
+		"STRONG",
+		"SMALL",
+		"TEXTAREA",
+		"LABEL",
+		"BUTTON",
+		"TIME",
+		"DATE",
+		"ADDRESS",
+		"P",
+		"DIV",
+		"SPAN",
+		"LI",
+		"H1",
+		"H2",
+		"H3",
+		"H4",
+		"H5",
+		"H6",
+		"IMG"
+	);
+
 
 
 	// When initialized
@@ -631,6 +657,64 @@ class Internalize_v3 {
 	        },
 	        $html
 	    );
+
+
+	    // PUT THE ELEMENT INDEXES
+	    $countElement = 0;
+		$html = preg_replace_callback(
+	        '/<body[^<]*?>|(?!^)\G(.*?)(?<tag><(?<tagname>[a-z1-9]+[1-9]?)\s?[^<]*?>)(?=.*<\/body>)/si',
+	        function ($matches) {
+		        global $countElement;
+		        $html_element = $matches[0];
+
+
+				// If it couldn't be found correctly
+		        if (
+		        	!isset($matches['tag']) ||
+		        	!isset($matches['tagname'])
+		        ) return $html_element;
+
+
+		        $tag 	  = $matches['tag'];
+		        $tag_name = $matches['tagname'];
+
+
+		        // If it isn't easily editable
+		        if ( !in_array(strtoupper($tag_name), $this->easy_html_elements) ) {
+
+					// Specific Log
+					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - SKIPPED TAGNAME TO INDEX: \r\n
+					".$tag_name." \r\n
+					".$tag."' \r\n \r\n", FILE_APPEND);
+
+
+			        return $html_element;
+			    }
+
+
+		        $countElement++;
+
+
+				// If ends with '/>'...
+				if ( substr($tag, -2 ) == '/>' ) $new_tag = str_replace('/>', ' data-revisionary-index="'.$countElement.'" />', $tag);
+
+				// If ends with only '>'...
+				elseif ( substr($tag, -1 ) == '>' ) $new_tag = str_replace('>', ' data-revisionary-index="'.$countElement.'">', $tag);
+
+
+				// Specific Log
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - ELEMENT TO INDEX: \r\n
+				".$tag." \r\n
+				".$new_tag."' \r\n \r\n", FILE_APPEND);
+
+
+		        $new_html_element = str_replace($tag, $new_tag, $html_element);
+
+
+		        return $new_html_element;
+	        },
+	        $html
+		);
 
 
 
