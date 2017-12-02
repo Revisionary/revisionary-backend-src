@@ -1,29 +1,17 @@
 <?php
-	$url = "http://junipercleaning.com/wp-content/cache/minify/eae17.css";
 
+	/* THE REGEX: /<body>|(?!^)\G(.*?)(?<tag><\w[^<]*?>)(?=.*<\/body>)/sig */
 
+	$page_ID = 15;
+	$version_number = 1;
+	$page_file = Page::ID($page_ID, $version_number)->pageFile;
 
-	// For the SSL Problem
-	$ContextOptions = array(
-	    "ssl" => array(
-	        "verify_peer" => false,
-	        "verify_peer_name" => false,
-	    ),
-        "http" => array (
-            "follow_location" => true, // follow redirects
-            "user_agent" => "Mozilla/5.0"
-        )
-	);
-
-	// Get the HTML
-	$content = file_get_contents($url, FILE_TEXT/* , stream_context_create($ContextOptions) */);
+	$page_HTML = file_get_contents($page_file);
 
 ?>
 
-<pre>
+<textarea>
 
-	Response Code: <?=get_http_response_code($url)?>
+	<?=$page_HTML?>
 
-	Content: <?=var_dump($content);?>
-
-</pre>
+</textarea>
