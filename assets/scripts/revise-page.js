@@ -261,60 +261,6 @@ function runTheInspector() {
 	    iframe = $('iframe').contents();
 
 
-	/*
-		// INDEX WORKS - NOT NOW !!! For now, only the static content will be editable!
-		// Count the indexed elements
-		indexCount = iframe.find('body *[data-revisionary-index]').length;
-		elementCount = iframe.find('body *').length;
-
-
-		// Check if the file already indexed
-		if ( elementCount > indexCount ) {
-
-			console.log('PAGE NEEDS TO BE INDEXED', iframe.find('body *').length, iframe.find('body *[data-revisionary-index]').length);
-
-			// Add all the HTML element indexes
-			iframe.find('body *:not([data-revisionary-index])').each(function(i) {
-
-				var elementIndex = i;
-
-				if (i <= indexCount) elementIndex = indexCount + 1
-
-				$(this).attr('data-revisionary-index', elementIndex);
-				console.log(i + ': New element index added: ', $(this).prop("tagName"), elementIndex);
-
-				indexCount++;
-
-			});
-
-			// Send this state of the "body" tag to DB? or File? to save !!! Security Issue?!!!
-			var newBodyHTML = iframe.find('body').prop('outerHTML');
-
-			console.log('Send the BODY');
-
-
-			// Start the indexing process
-			var indexingProcessID = newProcess();
-
-			$.post(ajax_url, {
-				'type'	  	 : 'add-element-indexed-html',
-				'nonce'	  	 : element_index_nonce,
-				'page_ID'	 : page_ID,
-				'version_number' : version_number,
-				'bodyHTML'	 : newBodyHTML
-			}, function(result){
-
-				console.log(result.data);
-
-				// Finish the process
-				endProcess(indexingProcessID);
-
-			}, 'json');
-
-		}
-*/
-
-
 
 		// CURSOR WORKS
 		// Close Pin Mode pinTypeSelector - If on revise mode !!!
