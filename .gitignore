@@ -1,3 +1,4 @@
+node_modules
 assets/cache/user-*/project-*/*.png
 assets/cache/user-*/project-*/*.jpg
 assets/cache/user-*/project-*/page-*/device-*

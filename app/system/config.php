@@ -23,9 +23,10 @@ define('model' , dir . '/app/model');
 define('view' , dir . '/app/view');
 define('controller', dir . '/app/controller');
 define('cache' , dir . '/assets/cache');
+define('port' , (isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : "") );
 define('ssl' , (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? true : false);
-define('secure_url', "https://secure." . domain);
-define('unsecure_url', "http://new." . domain);
+define('secure_url', "https://dev." . domain . (port != "" && port != "80" && port != "443" ? ":".port : "" ) );
+define('unsecure_url', "http://dev." . domain . (port != "" && port != "80" && port != "443" ? ":".port : "" ) );
 define('url', ssl ? secure_url : unsecure_url);
 
 // TEMP - Image Names !!!

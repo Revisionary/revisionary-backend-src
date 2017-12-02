@@ -4,9 +4,6 @@
 		<meta charset="utf-8">
 		<title><?=$page_title?></title>
 
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&amp;subset=latin%2Clatin-ext" type="text/css" media="all">
-		<link rel="stylesheet" href="<?=asset_url('styles/normalize.css')?>" media="screen">
-		<link rel="stylesheet" href="<?=asset_url('styles/flexiblegs-css.css')?>" media="screen">
 		<link rel="stylesheet" href="<?=asset_url('fonts/font-awesome/css/font-awesome.css')?>" media="screen">
 		<link rel="stylesheet" href="<?=asset_url('styles/style.css')?>" media="screen">
 

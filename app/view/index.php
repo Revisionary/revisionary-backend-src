@@ -12,7 +12,7 @@
 					<li>a Web Developer</li>
 					<li>a Website Customer</li>
 					<li>a Translator</li>
-					<li>a Web Critical</li>
+					<li>a Web Consultant</li>
 				</ul>
 			</div>
 
