@@ -345,7 +345,7 @@ function runTheInspector() {
 	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 	        focused_element_children = focused_element.children();
 	        focused_element_grand_children = focused_element_children.children();
-	        focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
+	        focused_element_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
 
 
 
@@ -544,7 +544,7 @@ function runTheInspector() {
 
 
 							// Point to the pin
-							$('#pins > pin:not([data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
+							$('#pins > pin:not([data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
 
 
 							// Color the element that has a pin according to the pin type
