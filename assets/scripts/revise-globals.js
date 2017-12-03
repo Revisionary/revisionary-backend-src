@@ -2,8 +2,10 @@
 var iframe;
 
 // IDs
+var user_ID;
 var page_ID;
 var version_ID;
+var version_number;
 
 // HTML Element Index
 var fileIndexed = false;

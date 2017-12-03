@@ -2,9 +2,14 @@
 
 <script>
 
+	user_ID = '<?=currentUserID()?>';
 	page_ID = '<?=$page_ID?>';
 	element_index_nonce = '<?=$_SESSION["element_index_nonce"]?>';
+
 	version_number = '<?=$version_number?>';
+	version_ID = '<?=$version_ID?>';
+
+
 
 	var pin_nonce = '<?=$_SESSION["pin_nonce"]?>';
 

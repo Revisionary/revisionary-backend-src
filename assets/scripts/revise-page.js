@@ -181,14 +181,14 @@ $(function() {
 		    if (!pinWasDragging) {
 
 
-		        console.log('TOGGLE THE PIN WINDOW!');
+		        console.log('TOGGLE THE PIN WINDOW !!!');
 
 
 		    } else {
 
 
-			    // Update the pin location on DB !!!
-			    console.log('Update the new pin location on DB!');
+			    // Update the pin location on DB
+			    console.log('Update the new pin location on DB');
 
 				// Start the process
 				var relocateProcessID = newProcess();
@@ -521,6 +521,7 @@ function runTheInspector() {
 
 
 				// LIVE REACTIONS
+				focused_element_has_live_pin = false;
 				if (currentPinType == "live") {
 
 					if (focused_element_editable) {
@@ -548,14 +549,14 @@ function runTheInspector() {
 						}
 
 
-
 					} else {
 
+						// If not editable, switch back to the standard pin
 						switchCursorType('standard');
 
 					}
 
-				}
+				} // If current pin type is 'live'
 
 
 
@@ -569,8 +570,22 @@ function runTheInspector() {
 			if (cursorActive) {
 
 
-				// Add a pin and open a pin window !!!
-				putPin(e.pageX, e.pageY, currentCursorType);
+				if (focused_element_has_live_pin) {
+
+					// Disable the inspector
+					toggleCursorActive(true); // Force deactivate
+
+
+					console.log('Toggle this pins live window !!!');
+
+
+				} else {
+
+					// Add a pin and open a pin window
+					putPin(e.pageX, e.pageY);
+
+				}
+
 
 
 			}
@@ -654,45 +669,10 @@ function toggleTab(tab, forceClose = false) {
 }
 
 
-// FUNCTION: Re-Locate Pins
-function relocatePins(pin_selector = null, x = null, y = null) {
+// FUNCTION: Color the element
+function outline(element, private_pin) {
 
-	var pins = pin_selector || $('#pins > pin');
-
-    pins.each(function() {
-
-	    var pin = $(this);
-	    var pin_x = x || pin.attr('data-pin-x');
-	    var pin_y = y || pin.attr('data-pin-y');
-
-
-	    var scrollX = scrollOffset_left * iframeScale;
-	    var scrollY = scrollOffset_top * iframeScale;
-
-
-	    var pinX = parseInt(pin_x) * iframeScale;
-	    var pinY = parseInt(pin_y) * iframeScale;
-
-
-	    var scrolled_pin_x = pinX - scrollX;
-	    var scrolled_pin_y = pinY - scrollY;
-
-
-	    if (x && y) {
-		    scrolled_pin_x = x;
-		    scrolled_pin_y = y;
-
-		    pin.attr('data-pin-x', (scrolled_pin_x / iframeScale) + scrollOffset_left );
-			pin.attr('data-pin-y', (scrolled_pin_y / iframeScale) + scrollOffset_top );
-
-	    }
-
-
-	    pin.css('left', scrolled_pin_x + "px");
-	    pin.css('top', scrolled_pin_y + "px");
-
-
-    });
+	element.css('outline', '2px dashed ' + (private_pin == 1 ? '#FC0FB3' : 'green'), 'important');
 
 }
 
@@ -811,20 +791,109 @@ function changePinNumber(pinNumber) {
 }
 
 
+// FUNCTION: Re-Locate Pins
+function relocatePins(pin_selector = null, x = null, y = null) {
+
+	var pins = pin_selector || $('#pins > pin');
+
+    pins.each(function() {
+
+	    var pin = $(this);
+	    var pin_x = x || pin.attr('data-pin-x');
+	    var pin_y = y || pin.attr('data-pin-y');
+
+
+	    var scrollX = scrollOffset_left * iframeScale;
+	    var scrollY = scrollOffset_top * iframeScale;
+
+
+	    var pinX = parseInt(pin_x) * iframeScale;
+	    var pinY = parseInt(pin_y) * iframeScale;
+
+
+	    var scrolled_pin_x = pinX - scrollX;
+	    var scrolled_pin_y = pinY - scrollY;
+
+
+	    if (x && y) {
+		    scrolled_pin_x = x;
+		    scrolled_pin_y = y;
+
+		    pin.attr('data-pin-x', (scrolled_pin_x / iframeScale) + scrollOffset_left );
+			pin.attr('data-pin-y', (scrolled_pin_y / iframeScale) + scrollOffset_top );
+
+	    }
+
+
+	    pin.css('left', scrolled_pin_x + "px");
+	    pin.css('top', scrolled_pin_y + "px");
+
+
+    });
+
+}
+
+
 // FUNCTION: Put a pin to cordinates
-function putPin(pinX, pinY, pinType) {
+function putPin(pinX, pinY) {
+
+	// Put it just on the pointer point
+	pinX = pinX - 45/2;
+	pinY = pinY - 45/2;
+
 
 	// Disable the inspector
 	toggleCursorActive(true); // Force deactivate
 
 
-	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, pinType, focused_element_index);
+	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, focused_element_index);
 
 
-	// Add the pin
+	var temporaryPinID = makeID();
+
+
+	// Add the pin to the DOM
 	$('#pins').append(
-		pinTemplate(pinType, currentPinPrivate, '0', 'USER-ID', 'PIN-ID', pinX, pinY, focused_element_index, currentPinNumber)
+		newPinTemplate(pinX, pinY, temporaryPinID, user_ID)
 	);
+
+
+
+    // Add pin to the DB
+    console.log('Add pin to the DB !!!');
+
+
+	// Start the process
+	var newPinProcessID = newProcess();
+
+    $.post(ajax_url, {
+		'type'	  	 		: 'pin-add',
+		'nonce'	  	 		: pin_nonce,
+		'pin_x' 	 		: pinX,
+		'pin_y' 	 		: pinY,
+		'pin_type' 	 		: currentCursorType,
+		'pin_private'		: currentPinPrivate,
+		'pin_element_index' : focused_element_index,
+		'pin_version_ID'	: version_ID,
+	}, function(result){
+
+		console.log(result.data);
+
+		var realPinID = result.data.real_pin_ID;
+
+		console.log('REAL PIN ID: '+realPinID);
+
+
+		// Update the pin ID !!!
+		$('#pins > pin[data-pin-id="'+temporaryPinID+'"]').attr('data-pin-id', realPinID);
+
+
+		// Finish the process
+		endProcess(newPinProcessID);
+
+	}, 'json');
+
+
 
 
 	// Re-Locate the pins
@@ -837,35 +906,37 @@ function putPin(pinX, pinY, pinType) {
 }
 
 
-// FUNCTION: Color the element
-function outline(element, private_pin) {
-
-	element.css('outline', '2px dashed ' + (private_pin == 1 ? '#FC0FB3' : 'green'), 'important');
-
-}
-
-
 // TEMPLATE: Pin template
-function pinTemplate(pin_type, pin_private, pin_complete, user_ID, pin_ID, pin_x, pin_y, pin_element_index, currentPinNumber) {
-
-	pin_x = pin_x - 45/2;
-	pin_y = pin_y - 45/2;
+function newPinTemplate(pin_x, pin_y, pin_ID, user_ID) {
 
 	return '\
 		<pin \
 			class="pin big" \
-			data-pin-type="'+pin_type+'" \
-			data-pin-private="'+pin_private+'" \
-			data-pin-complete="'+pin_complete+'" \
+			data-pin-type="'+currentCursorType+'" \
+			data-pin-private="'+currentPinPrivate+'" \
+			data-pin-complete="0" \
 			data-pin-user-id="'+user_ID+'" \
 			data-pin-id="'+pin_ID+'" \
 			data-pin-x="'+pin_x+'" \
 			data-pin-y="'+pin_y+'" \
-			data-revisionary-index="'+pin_element_index+'" \
+			data-revisionary-index="'+focused_element_index+'" \
 			style="top: '+pin_y+'px; left: '+pin_x+'px;" \
 		>'+currentPinNumber+'</pin> \
 	';
 
+}
+
+
+
+// FUNCTION: ID Creator
+function makeID() {
+	var text = "";
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	for (var i = 0; i < 5; i++)
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	return text;
 }
 
 

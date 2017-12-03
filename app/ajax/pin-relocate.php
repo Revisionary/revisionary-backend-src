@@ -33,6 +33,8 @@ $pin_locations = array(
 $pin_updated = $db->update('pins', $pin_locations);
 
 
+if ($pin_updated) $status = "Pin relocated: $pin_ID";
+
 
 // CREATE THE RESPONSE
 $data = array();
@@ -40,7 +42,7 @@ $data['data'] = array(
 
 	'status' => $status,
 	'nonce' => request('nonce'),
-	'S_nonce' => $_SESSION['element_index_nonce'],
+	'S_nonce' => $_SESSION['pin_nonce'],
 	'pin_x' => $pin_x,
 	'pin_y' => $pin_y,
 	'pin_ID' => $pin_ID
