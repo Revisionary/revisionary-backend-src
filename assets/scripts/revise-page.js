@@ -194,7 +194,7 @@ $(function() {
 				var relocateProcessID = newProcess();
 
 			    $.post(ajax_url, {
-					'type'	  	 : 'relocate-pin',
+					'type'	  	 : 'pin-relocate',
 					'nonce'	  	 : pin_nonce,
 					'pin_ID'	 : focusedPin.attr('data-pin-id'),
 					'pin_x' 	 : focusedPin.attr('data-pin-x'),
@@ -333,7 +333,8 @@ function runTheInspector() {
 
 		    // Focused Element
 	        focused_element = $(e.target);
-	        focused_element_index = focused_element.attr('data-revisionary-index'); // !!!
+	        focused_element_index = focused_element.attr('data-revisionary-index');
+	        focused_element_has_index = focused_element_index != null ? true : false;
 	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 	        focused_element_children = focused_element.children();
 	        focused_element_grand_children = focused_element_children.children();
@@ -355,7 +356,8 @@ function runTheInspector() {
 
 					// Re-Focus to the child element
 					focused_element = focused_element_children.first();
-			        focused_element_index = focused_element.attr('data-revisionary-index'); // !!!
+			        focused_element_index = focused_element.attr('data-revisionary-index');
+			        focused_element_has_index = focused_element_index != null ? true : false;
 			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 			        focused_element_children = focused_element.children();
 			        focused_element_grand_children = focused_element_children.children();
@@ -367,7 +369,7 @@ function runTheInspector() {
 
 				// See what am I focusing
 				console.log( focused_element.prop("tagName"), focused_element_index );
-				// UNIQUE SELECTORS !!!
+				// UNIQUE SELECTORS ? !!!
 				//console.log( focused_element.getSelector()[0] );
 
 
@@ -499,11 +501,22 @@ function runTheInspector() {
 
 
 
+				// Check if it doesn't have any element index: <p data-revisionary-index="16">...
+				if (focused_element_editable && !focused_element_has_index) {
+
+					focused_element_editable = false;
+					focused_element_html_editable = false;
+					console.log( '* Element editable but NO INDEX: ' + focused_element.prop("tagName") );
+
+				}
+
+
+
 				// Clean Other Outlines
 				iframe.find('body *').css('outline', '');
 
 				// Reset the pin opacity
-				pins.css('opacity', '');
+				$('#pins > pin').css('opacity', '');
 
 
 
@@ -513,7 +526,7 @@ function runTheInspector() {
 					if (focused_element_editable) {
 
 						switchCursorType('live');
-						focused_element.css('outline', '2px dashed ' + (currentPinPrivate == 1 ? '#FC0FB3' : 'green'), 'important');
+						outline(focused_element, currentPinPrivate);
 
 
 						// Check if it already has a pin
@@ -526,12 +539,8 @@ function runTheInspector() {
 							$('#pins > pin:not([data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
 
 
-							// If this has a private pin, make the outline pink
-							if ( focused_element_pin.attr('data-pin-private') == 1 ) {
-
-								focused_element.css('outline', '2px dashed #FC0FB3', 'important');
-
-							}
+							// Color the element that has a pin according to the pin type
+							outline(focused_element, focused_element_pin.attr('data-pin-private'));
 
 
 							console.log('This element already has a live pin.');
@@ -808,10 +817,54 @@ function putPin(pinX, pinY, pinType) {
 	// Disable the inspector
 	toggleCursorActive(true); // Force deactivate
 
+
 	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, pinType, focused_element_index);
+
+
+	// Add the pin
+	$('#pins').append(
+		pinTemplate(pinType, currentPinPrivate, '0', 'USER-ID', 'PIN-ID', pinX, pinY, focused_element_index, currentPinNumber)
+	);
+
+
+	// Re-Locate the pins
+	relocatePins();
+
 
 	// Increase the pin number
 	changePinNumber(currentPinNumber + 1);
+
+}
+
+
+// FUNCTION: Color the element
+function outline(element, private_pin) {
+
+	element.css('outline', '2px dashed ' + (private_pin == 1 ? '#FC0FB3' : 'green'), 'important');
+
+}
+
+
+// TEMPLATE: Pin template
+function pinTemplate(pin_type, pin_private, pin_complete, user_ID, pin_ID, pin_x, pin_y, pin_element_index, currentPinNumber) {
+
+	pin_x = pin_x - 45/2;
+	pin_y = pin_y - 45/2;
+
+	return '\
+		<pin \
+			class="pin big" \
+			data-pin-type="'+pin_type+'" \
+			data-pin-private="'+pin_private+'" \
+			data-pin-complete="'+pin_complete+'" \
+			data-pin-user-id="'+user_ID+'" \
+			data-pin-id="'+pin_ID+'" \
+			data-pin-x="'+pin_x+'" \
+			data-pin-y="'+pin_y+'" \
+			data-revisionary-index="'+pin_element_index+'" \
+			style="top: '+pin_y+'px; left: '+pin_x+'px;" \
+		>'+currentPinNumber+'</pin> \
+	';
 
 }
 

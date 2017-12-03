@@ -57,7 +57,7 @@
 					data-pin-id="<?=$pin['pin_ID']?>"
 					data-pin-x="<?=$pin['pin_x']?>"
 					data-pin-y="<?=$pin['pin_y']?>"
-					data-element-index="<?=$pin['pin_element_index']?>"
+					data-revisionary-index="<?=$pin['pin_element_index']?>"
 					style="top: <?=$pin['pin_y']?>px; left: <?=$pin['pin_x']?>px;"
 				><?=$pin_index?></pin>
 
