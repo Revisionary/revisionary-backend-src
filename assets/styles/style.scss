@@ -1154,6 +1154,16 @@ input.share-email {
 		padding: 0 10px;
 	}
 
+	.design-uploader {
+		font-size: 12px;
+
+		a {
+			font-size: 12px;
+			text-decoration: underline;
+			font-weight: bold;
+		}
+	}
+
 	.option-toggler,
 	.more-options {
 		display: block;

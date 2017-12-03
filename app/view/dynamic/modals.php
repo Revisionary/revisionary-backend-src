@@ -69,8 +69,9 @@
 
 					<h4 class="section-title xl-left">Page Info</h4>
 
-					<h3>First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
+					<h3>First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
 					<input type="url" name="page-url" placeholder="https://example.com/..." required disabled/>
+					<small class="design-uploader">or <a href="#">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
 
 
 					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
@@ -218,12 +219,13 @@
 			<div class="col xl-9-10">
 
 
+				<h3>URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
+				<input type="url" name="page-url" placeholder="https://example.com/..." required/>
+				<small class="design-uploader">or <a href="#">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
+
+
 				<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
 				<input type="text" name="page-name" placeholder="e.g. Home, About, ..." required/>
-
-
-				<h3>URL <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
-				<input type="url" name="page-url" placeholder="https://example.com/..." required/>
 
 
 				<a href="#" class="option-toggler more-options">More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
