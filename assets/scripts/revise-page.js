@@ -145,15 +145,22 @@ $(function() {
 
 		if (pinClicked) {
 
-			console.log('PIN IS MOVING!');
+			var focused_pin_id = focusedPin.attr('data-pin-id');
 
-			pinDragging = true;
+			// If not on DB, don't move it
+			if ( $.isNumeric(focused_pin_id) ) {
 
-			var pinSize = 45;
-			var pos_x = containerX - pinSize/2;
-			var pos_y = containerY - pinSize/2;
+				console.log('PIN IS MOVING!');
 
-			relocatePins(focusedPin, pos_x, pos_y);
+				pinDragging = true;
+
+				var pinSize = 45;
+				var pos_x = containerX - pinSize/2;
+				var pos_y = containerY - pinSize/2;
+
+				relocatePins(focusedPin, pos_x, pos_y);
+
+			}
 
 		}
 
@@ -931,7 +938,7 @@ function newPinTemplate(pin_x, pin_y, pin_ID, user_ID) {
 // FUNCTION: ID Creator
 function makeID() {
 	var text = "";
-	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 	for (var i = 0; i < 5; i++)
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
