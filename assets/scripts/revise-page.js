@@ -95,6 +95,16 @@ $(function() {
 
 
 
+	// Continue scrolling on any pin
+	$(document).on('mousewheel', '#pins > pin', function(e) {
+
+		var scrollDelta = e.originalEvent.wheelDelta;
+		iframe.scrollTop( scrollOffset_top - scrollDelta );
+
+	});
+
+
+
 	// PIN DRAG & DROP
 	hoveringPin = false;
 	var pinClicked = false;
@@ -376,8 +386,6 @@ function runTheInspector() {
 
 				// See what am I focusing
 				console.log( focused_element.prop("tagName"), focused_element_index );
-				// UNIQUE SELECTORS ? !!!
-				//console.log( focused_element.getSelector()[0] );
 
 
 

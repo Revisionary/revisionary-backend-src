@@ -42,7 +42,6 @@ if ($pin_ID) $status = "Added: $pin_ID";
 
 
 // CREATE THE RESPONSE
-$data = array();
 $data = array(
 
 	'status' => $status,
