@@ -75,6 +75,53 @@
 
 		</div>
 
+		<div id="pin-window">
+
+			<div class="wrap xl-flexbox xl-between top-actions">
+				<div class="col">
+
+					<div class="wrap xl-flexbox actions">
+						<div class="col action">
+
+							<pin
+								class="chosen-pin"
+								data-pin-type="live"
+								data-pin-private="0"
+							></pin>
+
+							<span class="dropdown-opener">LIVE EDIT</span>
+							<nav class="dropdown selectable xl-left">
+								<ul class="size-selector">
+									<li class="selected"><a href="#" data-column="6">6 Column</a></li>
+									<li><a href="#" data-column="5">5 Column</a></li>
+									<li><a href="#" data-column="4">4 Column</a></li>
+									<li><a href="#" data-column="3">3 Column</a></li>
+									<li><a href="#" data-column="2">2 Column</a></li>
+								</ul>
+							</nav>
+
+						</div>
+						<div class="col action">Assignee</div>
+					</div>
+
+				</div>
+				<div class="col"><a href="#" class="close-button">X</a></div>
+			</div>
+
+			<div class="content">
+
+			</div>
+
+			<div class="comment-actions">
+
+			</div>
+
+			<div class="bottom-actions">
+
+			</div>
+
+		</div>
+
 		<pin class="mouse-cursor big" data-pin-type="live">1</pin>
 
 	</div>

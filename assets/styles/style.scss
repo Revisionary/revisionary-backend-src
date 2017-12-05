@@ -1532,6 +1532,17 @@ footer {
 
 .name-field {
 
+	.share-icons {
+
+		i {
+			font-size: 10px;
+
+			&:nth-child(2) {
+				margin-left: 1px;
+			}
+		}
+	}
+
 	.actions {
 	    opacity: 0;
 	    transition: 700ms;

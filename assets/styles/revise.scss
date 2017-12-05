@@ -547,6 +547,42 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 }
 
 
+/* Pin Window */
+#pin-window {
+	top: 40px;
+	left: 40px;
+	background-color: white;
+	border: 5px solid $color;
+	padding: 20px;
+	position: absolute;
+	width: 300px;
+
+	& > .top-actions {
+
+		.close-button {
+		    font-family: Arial;
+		}
+
+		.action {
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    margin-left: 10px;
+
+		    & > span {
+			    margin-left: 5px;
+		    }
+
+		    &:first-child {
+			    margin-left: 0;
+		    }
+		}
+
+	}
+
+}
+
+
 /* Progress Bar */
 .progress-info {
     font-family: Montserrat, "Helvetica Neue", sans-serif;
