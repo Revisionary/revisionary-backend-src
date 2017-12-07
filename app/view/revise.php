@@ -81,7 +81,7 @@
 				<div class="col">
 
 					<div class="wrap xl-flexbox actions">
-						<div class="col action">
+						<div class="col action dropdown-container">
 
 							<pin
 								class="chosen-pin"
@@ -92,11 +92,9 @@
 							<span class="dropdown-opener">LIVE EDIT</span>
 							<nav class="dropdown selectable xl-left">
 								<ul class="size-selector">
-									<li class="selected"><a href="#" data-column="6">6 Column</a></li>
-									<li><a href="#" data-column="5">5 Column</a></li>
-									<li><a href="#" data-column="4">4 Column</a></li>
-									<li><a href="#" data-column="3">3 Column</a></li>
-									<li><a href="#" data-column="2">2 Column</a></li>
+									<li class="selected"><a href="#" data-column="6"><pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin> Column</a></li>
+									<li><a href="#" data-column="5"><pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin> Column</a></li>
+									<li><a href="#" data-column="4"><pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin> Column</a></li>
 								</ul>
 							</nav>
 
@@ -105,19 +103,27 @@
 					</div>
 
 				</div>
-				<div class="col"><a href="#" class="close-button">X</a></div>
+				<div class="col"><a href="#" class="close-button"><img src="<?=asset_url('icons/close-button.svg')?>" alt=""/></a></div>
+			</div>
+
+			<div class="image">
+				IMAGE CHANGER
 			</div>
 
 			<div class="content">
+				CONTENT CHANGER
+			</div>
 
+			<div class="comments">
+				COMMENTS
 			</div>
 
 			<div class="comment-actions">
-
+				NEW COMMENT
 			</div>
 
 			<div class="bottom-actions">
-
+				BOTTOM ACTIONS
 			</div>
 
 		</div>
