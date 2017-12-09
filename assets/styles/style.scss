@@ -517,6 +517,7 @@ a {
 	}
 
 	&:hover:after{
+		pointer-events: none;
 	    padding: 4px;
 	    background-color: black;
 	    color: white;

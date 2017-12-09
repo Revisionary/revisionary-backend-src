@@ -815,6 +815,8 @@ function changePinNumber(pinNumber) {
 function relocatePins(pin_selector = null, x = null, y = null) {
 
 	var pins = pin_selector || $('#pins > pin');
+	var pinWindow = $('#pin-window');
+
 
     pins.each(function() {
 
@@ -845,8 +847,15 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 	    }
 
 
+	    var window_x = scrolled_pin_x + 45;
+	    var window_y = scrolled_pin_y + 45;
+
+
 	    pin.css('left', scrolled_pin_x + "px");
 	    pin.css('top', scrolled_pin_y + "px");
+
+	    pinWindow.css('left', window_x + "px");
+	    pinWindow.css('top', window_y + "px");
 
 
     });
@@ -876,6 +885,12 @@ function putPin(pinX, pinY) {
 	$('#pins').append(
 		newPinTemplate(pinX, pinY, temporaryPinID, user_ID)
 	);
+
+
+
+	// Open the pin window
+	openPinWindow(pinX, pinY, temporaryPinID);
+
 
 
 
@@ -922,6 +937,41 @@ function putPin(pinX, pinY) {
 
 	// Increase the pin number
 	changePinNumber(currentPinNumber + 1);
+
+}
+
+
+// FUNCTION: Open the pin window
+function openPinWindow(pin_x, pin_y, pin_ID) {
+
+	var pinWindow = $('#pin-window');
+
+
+
+
+    var scrollX = scrollOffset_left * iframeScale;
+    var scrollY = scrollOffset_top * iframeScale;
+
+
+    var pinX = parseInt(pin_x) * iframeScale;
+    var pinY = parseInt(pin_y) * iframeScale;
+
+
+    var scrolled_pin_x = pinX - scrollX;
+    var scrolled_pin_y = pinY - scrollY;
+
+
+	var window_X = scrolled_pin_x + 45;
+	var window_Y = scrolled_pin_y + 45;
+
+
+	// Relocate the window
+	pinWindow.css('left', window_X);
+	pinWindow.css('top', window_Y);
+
+
+	// Reveal it
+	pinWindow.addClass('active');
 
 }
 

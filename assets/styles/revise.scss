@@ -558,6 +558,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 /* Pin Window */
 #pin-window {
+	pointer-events: none;
+	opacity: 0.1;
+
 	top: 40px;
 	left: 40px;
 	background-color: white;
@@ -565,6 +568,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 	padding: 20px;
 	position: absolute;
 	width: 300px;
+
+	&.active {
+		pointer-events: auto;
+		opacity: 1;
+	}
 
 	& > div {
 		margin-bottom: 25px;

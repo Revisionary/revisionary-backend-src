@@ -300,13 +300,13 @@
 						<nav class="dropdown">
 							<ul>
 								<li>
-									<a href="#" class="xl-left">
+									<a href="#" class="xl-left draw-rectangle" data-tooltip="Not working right now.">
 										<span><img src="<?=asset_url('icons/mark-rectangle.png')?>" width="15" height="10" alt=""/></span>
 										RECTANGLE
 									</a>
 								</li>
 								<li>
-									<a href="#" class="xl-left">
+									<a href="#" class="xl-left" data-tooltip="Not working right now.">
 										<span><img src="<?=asset_url('icons/mark-ellipse.png')?>" width="15" height="14" alt=""/></span>
 										ELLIPSE
 									</a>
@@ -315,10 +315,10 @@
 						</nav>
 					</div>
 					<div class="col action">
-						<a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> REMOVE</a>
+						<a href="#" class="remove-pin"><i class="fa fa-trash-o" aria-hidden="true"></i> REMOVE</a>
 					</div>
 					<div class="col action">
-						<a href="#">
+						<a href="#" class="complete-pin">
 							<pin
 								data-pin-type="standard"
 								data-pin-private="0"
