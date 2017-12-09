@@ -55,6 +55,7 @@ var focused_element,
 // Activator Pin
 var activator;
 var cursorActive;
+var cursorWasActive;
 
 // Pin Mode Selector
 var pinTypeSelector;

@@ -102,7 +102,7 @@ $(function() {
 
 
 
-	// Continue scrolling on any pin
+	// Continue scrolling on any pin or the pin window
 	$(document).on('mousewheel', '#pins > pin', function(e) {
 
 		var scrollDelta = e.originalEvent.wheelDelta;
@@ -608,9 +608,6 @@ function runTheInspector() {
 
 				if (focused_element_has_live_pin) {
 
-					// Disable the inspector
-					toggleCursorActive(true); // Force deactivate
-
 
 					// Open the pin window !!!
 					openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
@@ -740,6 +737,10 @@ function switchPinType(pinType, pinPrivate) {
 	// Close the type selector
 	if (pinTypeSelectorOpen) togglePinTypeSelector(true);
 
+
+	// Close the open pin window
+	if (pinWindowOpen) closePinWindow();
+
 }
 
 
@@ -796,6 +797,10 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 	}
 
+
+	// Close the open pin window
+	if (pinWindowOpen) closePinWindow();
+
 }
 
 
@@ -851,6 +856,9 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 	    pin_selector.attr('data-pin-x', (scrolled_pin_x / iframeScale) + scrollOffset_left );
 		pin_selector.attr('data-pin-y', (scrolled_pin_y / iframeScale) + scrollOffset_top );
 
+		pinWindow.attr('data-pin-x', (scrolled_pin_x / iframeScale) + scrollOffset_left);
+		pinWindow.attr('data-pin-y', (scrolled_pin_y / iframeScale) + scrollOffset_top);
+
 
 		pin_selector.css('left', scrolled_pin_x + "px");
 		pin_selector.css('top', scrolled_pin_y + "px");
@@ -883,8 +891,8 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 
 
 		// Current pin window location
-		window_x = parseInt(pinWindow.attr('data-pin-x'));
-		window_y = parseInt(pinWindow.attr('data-pin-y'));
+		window_x = parseInt(pinWindow.attr('data-pin-x')) * iframeScale;
+		window_y = parseInt(pinWindow.attr('data-pin-y')) * iframeScale;
 
 	    scrolled_window_x = window_x - scrollX + 45;
 	    scrolled_window_y = window_y - scrollY + 45;
@@ -895,9 +903,6 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 	// Relocate the pin window
 	pinWindow.css('left', scrolled_window_x + "px");
 	pinWindow.css('top', scrolled_window_y + "px");
-
-	pinWindow.attr('data-pin-x', window_x);
-	pinWindow.attr('data-pin-y', window_y);
 
 
 	console.log('SCROLLED WINDOW', scrolled_window_x, scrolled_window_y);
@@ -987,6 +992,13 @@ function putPin(pinX, pinY) {
 function openPinWindow(pin_x, pin_y, pin_ID) {
 
 
+	// Previous state of cursor
+	cursorWasActive = cursorActive;
+
+	// Disable the inspector
+	toggleCursorActive(true); // Force deactivate
+
+
     var pinX = parseInt(pin_x) * iframeScale;
     var pinY = parseInt(pin_y) * iframeScale;
 
@@ -1003,8 +1015,8 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	pinWindow.css('left', window_X);
 	pinWindow.css('top', window_Y);
 
-	pinWindow.attr('data-pin-x', pinX);
-	pinWindow.attr('data-pin-y', pinY);
+	pinWindow.attr('data-pin-x', pin_x);
+	pinWindow.attr('data-pin-y', pin_y);
 
 	pinWindow.attr('data-pin-id', pin_ID);
 
@@ -1024,6 +1036,9 @@ function closePinWindow() {
 	pinWindow.removeClass('active');
 
 	pinWindowOpen = false;
+
+
+	if (cursorWasActive) toggleCursorActive(false, true); // Force Open
 
 }
 
