@@ -249,7 +249,7 @@
 			    opacity: 0.4;
 		    }
 
-		    .comment-text .col {
+		    .comment-text {
 				font-size: 14px;
 				letter-spacing: 1px;
 		    }
@@ -568,6 +568,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 	& > div {
 		margin-bottom: 25px;
+		position: relative;
 
 		&:last-child {
 			margin-bottom: 0;
@@ -601,6 +602,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 		font-size: 12px;
 		line-height: 14px;
 		letter-spacing: 0;
+	}
+
+	.difference-swithch-wrap {
+		position: absolute;
+		right: 0;
 	}
 
 	.dropdown-container {
@@ -647,11 +653,51 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 		    height: 35px;
 
 			.comment-input {
+				outline: none;
 				border: 3px solid $color;
 				font-size: 14px;
 				line-height: 15px;
 				padding: 0 5px;
 				height: 30px;
+				width: 100%;
+			}
+
+		}
+
+	}
+
+	& > .bottom-actions {
+
+		.action {
+
+			& > a {
+				font-size: 14px;
+				line-height: 20px;
+				display: -webkit-flex;
+				display: -moz-flex;
+				display: -ms-flex;
+				display: -o-flex;
+				display: flex;
+				-ms-align-items: center;
+				align-items: center;
+
+				& > i:first-child,
+				& > pin:first-child {
+					font-size: 22px;
+					margin-right: 2px;
+				}
+
+				& > pin:first-child {
+					margin-right: 4px;
+
+					&:hover::before {
+						opacity: 1;
+					}
+				}
+
+			}
+
+			nav > ul > li > a {
 				width: 100%;
 			}
 

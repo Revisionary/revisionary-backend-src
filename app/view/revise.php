@@ -163,7 +163,7 @@
 					</div>
 				</div>
 
-				<div class="wrap xl-1 xl-right">
+				<div class="wrap xl-1 xl-right difference-swithch-wrap">
 					<a href="#" class="col switch difference-switch">
 						<i class="fa fa-random" aria-hidden="true"></i> SHOW DIFFERENCE
 					</a>
@@ -173,7 +173,7 @@
 
 			</div>
 
-			<div class="pin-comments">
+			<div class="pin-comments" style="margin-bottom: 15px;">
 
 				<div class="comment wrap xl-flexbox xl-top">
 					<a class="col xl-2-12 xl-left xl-first" href="#">
@@ -205,7 +205,7 @@
 
 
 						<picture class="profile-picture big square"
-							style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
+							style="background-image: url(<?=User::ID(1)->userPicUrl?>);"></picture>
 
 
 					</a>
@@ -213,7 +213,7 @@
 
 
 						<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
-							<a href="#" class="col xl-first comment-user-name"><?=User::ID(2)->fullName?></a>
+							<a href="#" class="col xl-first comment-user-name"><?=User::ID(1)->fullName?></a>
 							<span class="col comment-date">32 minutes ago</span>
 						</div>
 
@@ -230,7 +230,7 @@
 
 
 						<picture class="profile-picture big square"
-							style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
+							style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
 
 
 					</a>
@@ -238,7 +238,7 @@
 
 
 						<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
-							<a href="#" class="col xl-first comment-user-name"><?=User::ID(2)->fullName?></a>
+							<a href="#" class="col xl-first comment-user-name"><?=User::ID(4)->fullName?></a>
 							<span class="col comment-date">32 minutes ago</span>
 						</div>
 
@@ -291,7 +291,44 @@
 			</div>
 
 			<div class="bottom-actions">
-				BOTTOM ACTIONS
+
+				<div class="wrap xl-flexbox xl-between">
+					<div class="col action dropdown-container">
+						<a href="#" class="dropdown-opener">
+							<i class="fa fa-pencil-square-o" aria-hidden="true"></i> MARK <i class="fa fa-caret-down" aria-hidden="true"></i>
+						</a>
+						<nav class="dropdown">
+							<ul>
+								<li>
+									<a href="#" class="xl-left">
+										<span><img src="<?=asset_url('icons/mark-rectangle.png')?>" width="15" height="10" alt=""/></span>
+										RECTANGLE
+									</a>
+								</li>
+								<li>
+									<a href="#" class="xl-left">
+										<span><img src="<?=asset_url('icons/mark-ellipse.png')?>" width="15" height="14" alt=""/></span>
+										ELLIPSE
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<div class="col action">
+						<a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i> REMOVE</a>
+					</div>
+					<div class="col action">
+						<a href="#">
+							<pin
+								data-pin-type="standard"
+								data-pin-private="0"
+								data-pin-complete="1"
+							></pin>
+							COMPLETE
+						</a>
+					</div>
+				</div>
+
 			</div>
 
 		</div>
