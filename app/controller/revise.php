@@ -317,12 +317,22 @@ die();
 
 $additionalCSS = [
 	'jquery.mCustomScrollbar.css',
+	'popline-theme/default.css',
 	'revise.css'
 ];
 
 $additionalHeadJS = [
 	'process.js',
-	'revise-globals.js'
+	'revise-globals.js',
+	'vendor/popline/jquery.popline.js',
+	'vendor/popline/plugins/jquery.popline.link.js',
+	'vendor/popline/plugins/jquery.popline.blockquote.js',
+	'vendor/popline/plugins/jquery.popline.decoration.js',
+	'vendor/popline/plugins/jquery.popline.list.js',
+	'vendor/popline/plugins/jquery.popline.justify.js',
+	'vendor/popline/plugins/jquery.popline.blockformat.js',
+	'vendor/popline/plugins/jquery.popline.social.js',
+	'vendor/popline/plugins/jquery.popline.backcolor.js'
 ];
 
 $additionalBodyJS = [

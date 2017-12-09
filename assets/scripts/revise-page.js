@@ -2,6 +2,10 @@
 $(function() {
 
 
+	// TEST: CONTENT EDITOR PLUGIN
+	$(".edit-content").popline();
+
+
 	// Detect cursor moves
 	$(window).mousemove(function(e) {
 
@@ -117,6 +121,10 @@ $(function() {
 		hoveringPin = true;
 
 
+		// Reset the pin opacity
+		$('#pins > pin').css('opacity', '');
+
+
 		// Hide the cursor
 		cursor.stop().fadeOut();
 
@@ -172,10 +180,8 @@ $(function() {
 
 			}
 
+			e.preventDefault();
 		}
-
-
-		e.preventDefault();
 
 	}).on('mouseup', function(e) {
 
@@ -231,9 +237,8 @@ $(function() {
 
 			focusedPin = null;
 
+			e.preventDefault();
 		}
-
-		e.preventDefault();
 
 	}).on('mouseout', '#pins > pin', function(e) {
 
