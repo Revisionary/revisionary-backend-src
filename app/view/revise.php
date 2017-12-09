@@ -81,6 +81,9 @@
 			data-pin-edit-type="content"
 			data-pin-private="0"
 			data-pin-complete="0"
+			data-pin-x="30"
+			data-pin-y="30"
+			style="left: 10px; top: 10px;"
 		>
 
 			<div class="wrap xl-flexbox xl-between top-actions">

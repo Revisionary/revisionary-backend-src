@@ -559,10 +559,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 /* Pin Window */
 #pin-window {
 	pointer-events: none;
-	opacity: 0.1;
-
-	top: 40px;
-	left: 40px;
+	opacity: 0;
 	background-color: white;
 	border: 5px solid $color;
 	padding: 20px;

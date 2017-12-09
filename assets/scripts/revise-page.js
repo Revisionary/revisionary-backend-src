@@ -87,9 +87,12 @@ $(function() {
 	    }
 
 	    iframeScale = Math.min(width/maxWidth, height/maxHeight);
+	    iframeWidth = maxWidth * iframeScale;
+		iframeHeight = maxHeight * iframeScale;
+
 
 	    $('iframe').css({'-webkit-transform': 'scale(' + iframeScale + ')'});
-	    $('.iframe-container').css({ width: maxWidth * iframeScale, height: maxHeight * iframeScale });
+	    $('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
 
 
 	    // Re-Locate the pins
@@ -104,6 +107,17 @@ $(function() {
 
 		var scrollDelta = e.originalEvent.wheelDelta;
 		iframe.scrollTop( scrollOffset_top - scrollDelta );
+
+	});
+
+
+
+	// Close pin window
+	pinWindow.find('.close-button').click(function(e) {
+
+		closePinWindow();
+
+		e.preventDefault();
 
 	});
 
@@ -203,6 +217,8 @@ $(function() {
 			// Show the pin window if not dragging
 		    if (!pinWasDragging) {
 
+
+				togglePinWindow(focusedPin.attr('data-pin-x'), focusedPin.attr('data-pin-y'), focusedPin.attr('data-pin-id'));
 
 		        console.log('TOGGLE THE PIN WINDOW !!!');
 
@@ -596,7 +612,8 @@ function runTheInspector() {
 					toggleCursorActive(true); // Force deactivate
 
 
-					console.log('Toggle this pins live window !!!');
+					// Open the pin window !!!
+					openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
 
 
 				} else {
@@ -619,6 +636,10 @@ function runTheInspector() {
 
 			scrollOffset_top = $(this).scrollTop();
 			scrollOffset_left = $(this).scrollLeft();
+
+
+			scrollX = scrollOffset_left * iframeScale;
+			scrollY = scrollOffset_top * iframeScale;
 
 
 		    // Re-Locate the pins
@@ -814,51 +835,72 @@ function changePinNumber(pinNumber) {
 // FUNCTION: Re-Locate Pins
 function relocatePins(pin_selector = null, x = null, y = null) {
 
-	var pins = pin_selector || $('#pins > pin');
-	var pinWindow = $('#pin-window');
+
+	var scrolled_window_x, scrolled_window_y;
 
 
-    pins.each(function() {
+	if ( pin_selector ) {
 
-	    var pin = $(this);
-	    var pin_x = x || pin.attr('data-pin-x');
-	    var pin_y = y || pin.attr('data-pin-y');
+	    scrolled_pin_x = x > 0 ? x : 0;
+	    scrolled_pin_y = y > 0 ? y : 0;
 
-
-	    var scrollX = scrollOffset_left * iframeScale;
-	    var scrollY = scrollOffset_top * iframeScale;
+	    scrolled_pin_x = x < iframeWidth - 45 ? scrolled_pin_x : iframeWidth - 45;
+	    scrolled_pin_y = y < iframeHeight - 45 ? scrolled_pin_y : iframeHeight - 45;
 
 
-	    var pinX = parseInt(pin_x) * iframeScale;
-	    var pinY = parseInt(pin_y) * iframeScale;
+	    pin_selector.attr('data-pin-x', (scrolled_pin_x / iframeScale) + scrollOffset_left );
+		pin_selector.attr('data-pin-y', (scrolled_pin_y / iframeScale) + scrollOffset_top );
 
 
-	    var scrolled_pin_x = pinX - scrollX;
-	    var scrolled_pin_y = pinY - scrollY;
+		pin_selector.css('left', scrolled_pin_x + "px");
+		pin_selector.css('top', scrolled_pin_y + "px");
 
 
-	    if (x && y) {
-		    scrolled_pin_x = x;
-		    scrolled_pin_y = y;
+		// Pin Window location
+		scrolled_window_x = window_x = scrolled_pin_x + 45;
+		scrolled_window_y = window_y = scrolled_pin_y + 45;
 
-		    pin.attr('data-pin-x', (scrolled_pin_x / iframeScale) + scrollOffset_left );
-			pin.attr('data-pin-y', (scrolled_pin_y / iframeScale) + scrollOffset_top );
-
-	    }
+	} else {
 
 
-	    var window_x = scrolled_pin_x + 45;
-	    var window_y = scrolled_pin_y + 45;
+	    $('#pins > pin').each(function() {
+
+		    var pin = $(this);
 
 
-	    pin.css('left', scrolled_pin_x + "px");
-	    pin.css('top', scrolled_pin_y + "px");
-
-	    pinWindow.css('left', window_x + "px");
-	    pinWindow.css('top', window_y + "px");
+		    var pin_x = parseInt(pin.attr('data-pin-x')) * iframeScale;
+		    var pin_y = parseInt(pin.attr('data-pin-y')) * iframeScale;
 
 
-    });
+		    var scrolled_pin_x = pin_x - scrollX;
+		    var scrolled_pin_y = pin_y - scrollY;
+
+
+		    pin.css('left', scrolled_pin_x + "px");
+			pin.css('top', scrolled_pin_y + "px");
+
+	    });
+
+
+		// Current pin window location
+		window_x = parseInt(pinWindow.attr('data-pin-x'));
+		window_y = parseInt(pinWindow.attr('data-pin-y'));
+
+	    scrolled_window_x = window_x - scrollX + 45;
+	    scrolled_window_y = window_y - scrollY + 45;
+
+	}
+
+
+	// Relocate the pin window
+	pinWindow.css('left', scrolled_window_x + "px");
+	pinWindow.css('top', scrolled_window_y + "px");
+
+	pinWindow.attr('data-pin-x', window_x);
+	pinWindow.attr('data-pin-y', window_y);
+
+
+	console.log('SCROLLED WINDOW', scrolled_window_x, scrolled_window_y);
 
 }
 
@@ -944,14 +986,6 @@ function putPin(pinX, pinY) {
 // FUNCTION: Open the pin window
 function openPinWindow(pin_x, pin_y, pin_ID) {
 
-	var pinWindow = $('#pin-window');
-
-
-
-
-    var scrollX = scrollOffset_left * iframeScale;
-    var scrollY = scrollOffset_top * iframeScale;
-
 
     var pinX = parseInt(pin_x) * iframeScale;
     var pinY = parseInt(pin_y) * iframeScale;
@@ -969,9 +1003,36 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	pinWindow.css('left', window_X);
 	pinWindow.css('top', window_Y);
 
+	pinWindow.attr('data-pin-x', pinX);
+	pinWindow.attr('data-pin-y', pinY);
+
+	pinWindow.attr('data-pin-id', pin_ID);
+
 
 	// Reveal it
 	pinWindow.addClass('active');
+
+	pinWindowOpen = true;
+
+}
+
+
+// FUNCTION: Close pin window
+function closePinWindow() {
+
+	// Hide it
+	pinWindow.removeClass('active');
+
+	pinWindowOpen = false;
+
+}
+
+
+// FUNCTION: Toggle pin window
+function togglePinWindow(pin_x, pin_y, pin_ID) {
+
+	if (pinWindowOpen && pinWindow.attr('data-pin-id') == pin_ID) closePinWindow();
+	else openPinWindow(pin_x, pin_y, pin_ID);
 
 }
 

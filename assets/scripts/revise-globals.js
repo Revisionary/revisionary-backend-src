@@ -88,11 +88,16 @@ var focusedPin = null;
 // Scrolls
 var scrollOffset_top = 0;
 var scrollOffset_left = 0;
+var scrollX;
+var scrollY;
 
 // Initial Scale
 var iframeScale = 1;
+var iframeWidth = 0;
+var iframeHeight = 0;
 
 // Pin Window
+var	pinWindow;
 var pinWindowOpen = false;
 
 /*
@@ -110,6 +115,8 @@ $(function() {
 
 	activator = $('.inspect-activator').children('pin');
 	cursorActive = activator.hasClass('active');
+
+	pinWindow = $('#pin-window');
 
 	pinTypeSelector = $('.pin-type-selector');
 	pinTypeSelectorOpen = pinTypeSelector.parent().hasClass('selector-open');
