@@ -1055,6 +1055,8 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	pinWindow.attr('data-pin-y', pin_y);
 	pinWindow.attr('data-pin-id', pin_ID);
 
+	pinWindow.find('.edit-content').html(focused_element_text); // !!!
+
 
 	// Relocate the window
 	relocatePins();
