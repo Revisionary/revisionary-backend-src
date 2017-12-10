@@ -425,6 +425,48 @@ function runTheInspector() {
 
 
 
+				// Focus to the edited element if this is child of it
+				if (
+					!focused_element_has_index &&
+					focused_element.parent().length &&
+					$('#pins > pin[data-revisionary-index="'+ focused_element.parent().attr('data-revisionary-index') +'"][data-pin-type="live"]').length
+				) {
+
+					// Re-Focus to the parent element
+					focused_element = focused_element.parent();
+			        focused_element_index = focused_element.attr('data-revisionary-index');
+			        focused_element_has_index = focused_element_index != null ? true : false;
+			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+					focused_element_html = focused_element.html();
+			        focused_element_children = focused_element.children();
+			        focused_element_grand_children = focused_element_children.children();
+					focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
+
+				}
+
+
+
+				// Focus to the edited element if this is child of it
+				if (
+					!focused_element_has_index &&
+					focused_element.parent().parent().length &&
+					$('#pins > pin[data-revisionary-index="'+ focused_element.parent().parent().attr('data-revisionary-index') +'"][data-pin-type="live"]').length
+				) {
+
+					// Re-Focus to the parent element
+					focused_element = focused_element.parent().parent();
+			        focused_element_index = focused_element.attr('data-revisionary-index');
+			        focused_element_has_index = focused_element_index != null ? true : false;
+			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+					focused_element_html = focused_element.html();
+			        focused_element_children = focused_element.children();
+			        focused_element_grand_children = focused_element_children.children();
+					focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
+
+				}
+
+
+
 				// See what am I focusing
 				console.log( focused_element.prop("tagName"), focused_element_index );
 
@@ -1059,7 +1101,9 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 
 	var thePin = $('#pins > pin[data-pin-id="'+ pin_ID +'"]');
 	var thePinType = thePin.attr('data-pin-type');
+	var thePinPrivate = thePin.attr('data-pin-private');
 	var theIndex = thePin.attr('data-revisionary-index');
+	var thePinText = thePinPrivate == '1' ? 'PRIVATE COMMENT' : 'ONLY COMMENT';
 
 
 	// Previous state of window
@@ -1080,11 +1124,22 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 
 	// Add the pin window data !!!
 	pinWindow.attr('data-pin-type', thePinType);
-	pinWindow.attr('data-pin-private', thePin.attr('data-pin-private'));
+	pinWindow.attr('data-pin-private', thePinPrivate);
 	pinWindow.attr('data-pin-x', thePin.attr('data-pin-x'));
 	pinWindow.attr('data-pin-y', thePin.attr('data-pin-y'));
 	pinWindow.attr('data-pin-id', pin_ID);
 	pinWindow.attr('data-revisionary-index', theIndex);
+
+
+	// Update the pin type section
+	pinWindow.find('pin.chosen-pin').attr('data-pin-type', thePinType);
+	pinWindow.find('pin.chosen-pin').attr('data-pin-private', thePinPrivate);
+	pinWindow.find('pin.chosen-pin + span').text(thePinText);
+
+
+	// Arrange the convertor options
+	pinWindow.find('ul.type-convertor > li').show();
+	pinWindow.find('ul.type-convertor > li > a > pin[data-pin-type="'+thePinType+'"][data-pin-private="'+thePinPrivate+'"]').parent().parent().hide();
 
 
 	// Hide the editor
@@ -1093,6 +1148,12 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 
 	// If on 'Live' mode
 	if (thePinType == 'live') {
+
+		thePinText = thePinPrivate == '1' ? 'PRIVATE LIVE' : 'LIVE EDIT';
+
+
+		// Update the pin type section
+		pinWindow.find('pin.chosen-pin + span').text(thePinText);
 
 
 		// Show the content editor

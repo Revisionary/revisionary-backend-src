@@ -101,7 +101,14 @@
 							<span class="dropdown-opener">Live Edit <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 
 							<nav class="dropdown xl-left">
-								<ul class="size-selector">
+								<ul class="type-convertor">
+
+									<li>
+										<a href="#" class="xl-flexbox xl-middle">
+											<pin data-pin-type="live" data-pin-private="0"></pin>
+											<span>Live</span>
+										</a>
+									</li>
 
 									<li>
 										<a href="#" class="xl-flexbox xl-middle">
