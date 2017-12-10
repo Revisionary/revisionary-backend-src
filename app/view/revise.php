@@ -303,13 +303,13 @@
 						<nav class="dropdown">
 							<ul>
 								<li>
-									<a href="#" class="xl-left draw-rectangle" data-tooltip="Not working right now.">
+									<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon.">
 										<span><img src="<?=asset_url('icons/mark-rectangle.png')?>" width="15" height="10" alt=""/></span>
 										RECTANGLE
 									</a>
 								</li>
 								<li>
-									<a href="#" class="xl-left" data-tooltip="Not working right now.">
+									<a href="#" class="xl-left" data-tooltip="Coming soon.">
 										<span><img src="<?=asset_url('icons/mark-ellipse.png')?>" width="15" height="14" alt=""/></span>
 										ELLIPSE
 									</a>

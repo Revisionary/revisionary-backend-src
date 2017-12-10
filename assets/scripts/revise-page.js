@@ -115,9 +115,18 @@ $(function() {
 	// Close pin window
 	$('#pin-window .close-button').click(function(e) {
 
-		closePinWindow();
+		if (pinWindowOpen) closePinWindow();
 
 		e.preventDefault();
+
+	});
+
+
+
+	// Pin window content changes !!!
+	$(document).on('DOMSubtreeModified', '#pin-window', function(e) {
+
+		console.log('CHANGEDDD');
 
 	});
 
@@ -374,6 +383,7 @@ function runTheInspector() {
 	        focused_element_index = focused_element.attr('data-revisionary-index');
 	        focused_element_has_index = focused_element_index != null ? true : false;
 	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+	        focused_element_html = focused_element.html();
 	        focused_element_children = focused_element.children();
 	        focused_element_grand_children = focused_element_children.children();
 	        focused_element_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
@@ -397,6 +407,7 @@ function runTheInspector() {
 			        focused_element_index = focused_element.attr('data-revisionary-index');
 			        focused_element_has_index = focused_element_index != null ? true : false;
 			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+					focused_element_html = focused_element.html();
 			        focused_element_children = focused_element.children();
 			        focused_element_grand_children = focused_element_children.children();
 					focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
@@ -926,25 +937,23 @@ function relocatePins(pin_selector = null, x = null, y = null) {
     new_scrolled_window_x = scrolled_window_x < spaceWidth - pinWindowWidth ? scrolled_window_x : spaceWidth - pinWindowWidth;
     new_scrolled_window_y = scrolled_window_y < spaceHeight - pinWindowHeight ? scrolled_window_y : spaceHeight - pinWindowHeight;
 
-    console.log('SCROLLED WINDOW: ', scrolled_window_x, scrolled_window_y);
-
 
 	// Change the side of the window
 	if (
 		scrolled_window_x >= spaceWidth - pinWindowWidth &&
 		scrolled_window_y >= spaceHeight - pinWindowHeight
 	) {
-		console.log('OUCH!');
 
+		//console.log('OUCH!');
 		new_scrolled_window_x = scrolled_window_x - pinWindowWidth - 55;
 
 	}
 
 
-	//
+	// Make the pin window stay after scrolling up
 	if (scrolled_window_y > new_scrolled_window_y + pinWindowHeight) {
 
-		console.log('GOODBYE!');
+		//console.log('GOODBYE!');
 		new_scrolled_window_y = scrolled_window_y - pinWindowHeight;
 
 	}
@@ -1055,7 +1064,7 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	pinWindow.attr('data-pin-y', pin_y);
 	pinWindow.attr('data-pin-id', pin_ID);
 
-	pinWindow.find('.edit-content').html(focused_element_text); // !!!
+	pinWindow.find('.edit-content').html(focused_element_html); // !!!
 
 
 	// Relocate the window
