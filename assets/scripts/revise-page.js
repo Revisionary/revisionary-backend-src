@@ -136,7 +136,7 @@ $(function() {
 
 
 		// Reset the pin opacity
-		$('#pins > pin').css('opacity', '');
+		if (!pinWindowOpen) $('#pins > pin').css('opacity', '');
 
 
 		// Hide the cursor
@@ -881,14 +881,8 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 
 
 		// Pin Window location
-		scrolled_window_x = scrolled_pin_x + 45;
-		scrolled_window_y = scrolled_pin_y + 45;
-
-	    scrolled_window_x = scrolled_window_x > 0 ? scrolled_window_x : 0;
-	    scrolled_window_y = scrolled_window_y > 0 ? scrolled_window_y : 0;
-
-	    scrolled_window_x = x < iframeWidth - 45 ? scrolled_window_x : iframeWidth - 45;
-	    scrolled_window_y = y < iframeHeight - 45 ? scrolled_window_y : iframeHeight - 45;
+		scrolled_window_x = scrolled_pin_x + 50;
+		scrolled_window_y = scrolled_pin_y + 50;
 
 	} else {
 
@@ -916,15 +910,35 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 		var window_x = parseInt(pinWindow.attr('data-pin-x')) * iframeScale;
 		var window_y = parseInt(pinWindow.attr('data-pin-y')) * iframeScale;
 
-	    scrolled_window_x = window_x - scrollX + 45;
-	    scrolled_window_y = window_y - scrollY + 45;
+	    scrolled_window_x = window_x - scrollX + 50;
+	    scrolled_window_y = window_y - scrollY + 50;
+
+	}
+
+
+	var spaceWidth = (iframeWidth + ($(window).width() - iframeWidth) / 2) - 15;
+	var spaceHeight = (iframeHeight + ($(window).height() - iframeHeight) / 2) - 15;
+
+
+    new_scrolled_window_x = scrolled_window_x < spaceWidth - pinWindowWidth ? scrolled_window_x : spaceWidth - pinWindowWidth;
+    new_scrolled_window_y = scrolled_window_y < spaceHeight - pinWindowHeight ? scrolled_window_y : spaceHeight - pinWindowHeight;
+
+
+	// Change the side of the window
+	if (
+		scrolled_window_x >= spaceWidth - pinWindowWidth &&
+		scrolled_window_y >= spaceHeight - pinWindowHeight
+	) {
+		console.log('OUCH!!!');
+
+		new_scrolled_window_x = scrolled_window_x - pinWindowWidth - 55;
 
 	}
 
 
 	// Relocate the pin window
-	pinWindow.css('left', scrolled_window_x + "px");
-	pinWindow.css('top', scrolled_window_y + "px");
+	pinWindow.css('left', new_scrolled_window_x + "px");
+	pinWindow.css('top', new_scrolled_window_y + "px");
 
 }
 
@@ -1033,6 +1047,15 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	pinWindow.addClass('active');
 	pinWindowOpen = true;
 
+
+	// Show the pin
+	$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
+
+
+	// Update the pin window sizes
+	pinWindowWidth = pinWindow.outerWidth();
+	pinWindowHeight = pinWindow.outerHeight();
+
 }
 
 
@@ -1041,8 +1064,11 @@ function closePinWindow() {
 
 	// Hide it
 	pinWindow.removeClass('active');
-
 	pinWindowOpen = false;
+
+
+	// Reset the pin opacity
+	$('#pins > pin').css('opacity', '');
 
 
 	if (cursorWasActive) toggleCursorActive(false, true); // Force Open
