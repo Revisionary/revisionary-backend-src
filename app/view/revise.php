@@ -98,7 +98,7 @@
 								data-pin-type="live"
 								data-pin-private="0"
 							></pin>
-							<span class="dropdown-opener">Live Edit <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+							<span class="dropdown-opener"><span>Live Edit</span> <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 
 							<nav class="dropdown xl-left">
 								<ul class="type-convertor">
@@ -128,17 +128,10 @@
 							</nav>
 
 						</div>
-						<div class="col action dropdown-container">
+						<div class="col action" data-tooltip="Coming soon.">
 
 							<i class="fa fa-user-o" aria-hidden="true"></i>
-							<span class="dropdown-opener">Assignee <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-							<nav class="dropdown">
-								<ul>
-									<li>
-										<a href="#">NOT WORKING RIGHT NOW.</a>
-									</li>
-								</ul>
-							</nav>
+							<span>ASSIGNEE</span>
 
 						</div>
 					</div>

@@ -168,10 +168,6 @@ $(function() {
 		}
 
 
-		// Element to focus
-        focusedPin = $(this);
-
-
 		e.preventDefault();
 
 	}).on('mousedown', '#pins > pin', function(e) {
@@ -1134,12 +1130,16 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	// Update the pin type section
 	pinWindow.find('pin.chosen-pin').attr('data-pin-type', thePinType);
 	pinWindow.find('pin.chosen-pin').attr('data-pin-private', thePinPrivate);
-	pinWindow.find('pin.chosen-pin + span').text(thePinText);
+	pinWindow.find('pin.chosen-pin + span > span').text(thePinText);
 
 
 	// Arrange the convertor options
 	pinWindow.find('ul.type-convertor > li').show();
 	pinWindow.find('ul.type-convertor > li > a > pin[data-pin-type="'+thePinType+'"][data-pin-private="'+thePinPrivate+'"]').parent().parent().hide();
+
+	// Also remove the live option on comments
+	if (thePinType == "standard")
+		pinWindow.find('ul.type-convertor > li > a > pin[data-pin-type="live"][data-pin-private="0"]').parent().parent().hide();
 
 
 	// Hide the editor
@@ -1153,7 +1153,7 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 
 
 		// Update the pin type section
-		pinWindow.find('pin.chosen-pin + span').text(thePinText);
+		pinWindow.find('pin.chosen-pin + span > span').text(thePinText);
 
 
 		// Show the content editor
