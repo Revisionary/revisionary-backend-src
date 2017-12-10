@@ -149,7 +149,7 @@ $(function() {
 			var hoveringPinPrivate = $(this).attr("data-pin-private");
 
 			iframe.find('body *').css('outline', 'none');
-			iframe.find('body *[data-revisionary-index="'+ $(this).attr("data-revisionary-index") +'"]').css('outline', '2px dashed ' + (hoveringPinPrivate == 1 ? '#FC0FB3' : 'green'), 'important');
+			iframe.find('body *[data-revisionary-index="'+ $(this).attr("data-revisionary-index") +'"]').css('outline', '2px dashed ' + (hoveringPinPrivate == 1 ? '#FC0FB3' : '#7ED321'), 'important');
 
 		}
 
@@ -726,7 +726,7 @@ function toggleTab(tab, forceClose = false) {
 // FUNCTION: Color the element
 function outline(element, private_pin) {
 
-	element.css('outline', '2px dashed ' + (private_pin == 1 ? '#FC0FB3' : 'green'), 'important');
+	element.css('outline', '2px dashed ' + (private_pin == 1 ? '#FC0FB3' : '#7ED321'), 'important');
 
 }
 
