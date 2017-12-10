@@ -100,6 +100,8 @@ var iframeHeight = 0;
 // Pin Window
 var	pinWindow;
 var pinWindowOpen = false;
+var pinWindowWidth = 350;
+var pinWindowHeight = 515;
 
 /*
 MIGHT BE NEEDED
@@ -118,6 +120,8 @@ $(function() {
 	cursorActive = activator.hasClass('active');
 
 	pinWindow = $('#pin-window');
+	pinWindowWidth = pinWindow.outerWidth();
+	pinWindowHeight = pinWindow.outerHeight();
 
 	pinTypeSelector = $('.pin-type-selector');
 	pinTypeSelectorOpen = pinTypeSelector.parent().hasClass('selector-open');
