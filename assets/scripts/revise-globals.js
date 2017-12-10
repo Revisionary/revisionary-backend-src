@@ -119,6 +119,7 @@ $(function() {
 
 	activator = $('.inspect-activator').children('pin');
 	cursorActive = activator.hasClass('active');
+	cursorWasActive = cursorActive;
 
 	pinWindow = $('#pin-window');
 	pinWindowWidth = pinWindow.outerWidth();

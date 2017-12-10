@@ -75,14 +75,15 @@
 
 		</div>
 
-		<div id="pin-window"
-			data-pin-id="123"
+		<div id="pin-window" class="loading"
+			data-pin-id="0"
 			data-pin-type="live"
 			data-pin-edit-type="content"
 			data-pin-private="0"
 			data-pin-complete="0"
 			data-pin-x="30"
 			data-pin-y="30"
+			data-revisionary-index="0"
 			style="left: 10px; top: 10px;"
 		>
 
@@ -143,7 +144,7 @@
 				IMAGE CHANGER
 			</div>
 
-			<div class="content">
+			<div class="content-editor">
 
 				<div class="wrap xl-flexbox xl-between xl-bottom">
 					<div class="col">NEW CONTENT:</div>

@@ -124,7 +124,12 @@ $(function() {
 
 
 	// Pin window content changes !!!
-	$(document).on('DOMSubtreeModified', '#pin-window', function(e) {
+	$(document).on('DOMSubtreeModified', '#pin-window .edit-content', function(e) {
+
+		var elementIndex = $('#pin-window').attr('data-revisionary-index');
+		var changes = $(this).html();
+
+		iframe.find('[data-revisionary-index="'+ elementIndex +'"]').html(changes);
 
 		console.log('CHANGEDDD');
 
@@ -161,6 +166,10 @@ $(function() {
 			iframe.find('body *[data-revisionary-index="'+ $(this).attr("data-revisionary-index") +'"]').css('outline', '2px dashed ' + (hoveringPinPrivate == 1 ? '#FC0FB3' : '#7ED321'), 'important');
 
 		}
+
+
+		// Element to focus
+        focusedPin = $(this);
 
 
 		e.preventDefault();
@@ -227,9 +236,9 @@ $(function() {
 		    if (!pinWasDragging) {
 
 
-				togglePinWindow(focusedPin.attr('data-pin-x'), focusedPin.attr('data-pin-y'), focusedPin.attr('data-pin-id'));
-
 		        console.log('TOGGLE THE PIN WINDOW !!!');
+
+				togglePinWindow(focusedPin.attr('data-pin-x'), focusedPin.attr('data-pin-y'), focusedPin.attr('data-pin-id'));
 
 
 		    } else {
@@ -974,10 +983,6 @@ function putPin(pinX, pinY) {
 	pinY = pinY - 45/2;
 
 
-	// Disable the inspector
-	toggleCursorActive(true); // Force deactivate
-
-
 	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, focused_element_index);
 
 
@@ -993,7 +998,6 @@ function putPin(pinX, pinY) {
 
 	// Open the pin window
 	openPinWindow(pinX, pinY, temporaryPinID);
-
 
 
 
@@ -1024,6 +1028,11 @@ function putPin(pinX, pinY) {
 
 		// Update the pin ID !!!
 		$('#pins > pin[data-pin-id="'+temporaryPinID+'"]').attr('data-pin-id', realPinID);
+		$('#pin-window').attr('data-pin-id', realPinID);
+
+
+		// Remove the loading text on pin window
+		$('#pin-window').removeClass('loading');
 
 
 		// Finish the process
@@ -1048,11 +1057,21 @@ function putPin(pinX, pinY) {
 function openPinWindow(pin_x, pin_y, pin_ID) {
 
 
-	closePinWindow();
+	var thePin = $('#pins > pin[data-pin-id="'+ pin_ID +'"]');
+	var thePinType = thePin.attr('data-pin-type');
+	var theIndex = thePin.attr('data-revisionary-index');
+
+
+	// Previous state of window
+	pinWindowWasOpen = pinWindowOpen;
 
 
 	// Previous state of cursor
 	if (!pinWindowWasOpen) cursorWasActive = cursorActive;
+
+
+	// Close the previous window
+	closePinWindow();
 
 
 	// Disable the inspector
@@ -1060,11 +1079,34 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 
 
 	// Add the pin window data !!!
-	pinWindow.attr('data-pin-x', pin_x);
-	pinWindow.attr('data-pin-y', pin_y);
+	pinWindow.attr('data-pin-type', thePinType);
+	pinWindow.attr('data-pin-private', thePin.attr('data-pin-private'));
+	pinWindow.attr('data-pin-x', thePin.attr('data-pin-x'));
+	pinWindow.attr('data-pin-y', thePin.attr('data-pin-y'));
 	pinWindow.attr('data-pin-id', pin_ID);
+	pinWindow.attr('data-revisionary-index', theIndex);
 
-	pinWindow.find('.edit-content').html(focused_element_html); // !!!
+
+	// Hide the editor
+	pinWindow.find('.content-editor').hide();
+
+
+	// If on 'Live' mode
+	if (thePinType == 'live') {
+
+
+		// Show the content editor
+		pinWindow.find('.content-editor').show();
+
+
+		// GET THIS FROM DB!!
+		var theContent = iframe.find('[data-revisionary-index="'+ theIndex +'"]').html();
+
+
+		// Show the HTML content on the editor
+		pinWindow.find('.edit-content').html(theContent);
+
+	}
 
 
 	// Relocate the window
@@ -1074,6 +1116,11 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	// Reveal it
 	pinWindow.addClass('active');
 	pinWindowOpen = true;
+
+
+	// Don't remove the loading text if newly added
+	if ( $.isNumeric(pin_ID) )
+		pinWindow.removeClass('loading');
 
 
 	// Show the pin
@@ -1096,6 +1143,10 @@ function closePinWindow() {
 	// Hide it
 	pinWindow.removeClass('active');
 	pinWindowOpen = false;
+
+
+	// Add the loading text after loading
+	pinWindow.addClass('loading');
 
 
 	// Reset the pin opacity
