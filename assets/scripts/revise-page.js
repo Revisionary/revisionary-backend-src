@@ -774,13 +774,16 @@ function switchCursorType(cursorType) {
 // FUNCTION: Toggle Inspect Mode
 function toggleCursorActive(forceClose = false, forceOpen = false) {
 
+	cursor.stop();
+	var cursorVisible = cursor.is(":visible");
+
 	if ( (cursorActive || forceClose) && !forceOpen ) {
 
 		// Deactivate
 		activator.removeClass('active');
 
 		// Hide the cursor
-		cursor.fadeOut();
+		if (cursorVisible) cursor.fadeOut();
 
 		// Show the original cursor
 		iframe.find('body, body *').css('cursor', '', '');
@@ -799,7 +802,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 		activator.addClass('active');
 
 		// Show the cursor
-		cursor.fadeIn();
+		if (!cursorVisible) cursor.fadeIn();
 
 		// Hide the original cursor
 		iframe.find('body, body *').css('cursor', 'none', 'important');
@@ -923,15 +926,26 @@ function relocatePins(pin_selector = null, x = null, y = null) {
     new_scrolled_window_x = scrolled_window_x < spaceWidth - pinWindowWidth ? scrolled_window_x : spaceWidth - pinWindowWidth;
     new_scrolled_window_y = scrolled_window_y < spaceHeight - pinWindowHeight ? scrolled_window_y : spaceHeight - pinWindowHeight;
 
+    console.log('SCROLLED WINDOW: ', scrolled_window_x, scrolled_window_y);
+
 
 	// Change the side of the window
 	if (
 		scrolled_window_x >= spaceWidth - pinWindowWidth &&
 		scrolled_window_y >= spaceHeight - pinWindowHeight
 	) {
-		console.log('OUCH!!!');
+		console.log('OUCH!');
 
 		new_scrolled_window_x = scrolled_window_x - pinWindowWidth - 55;
+
+	}
+
+
+	//
+	if (scrolled_window_y > new_scrolled_window_y + pinWindowHeight) {
+
+		console.log('GOODBYE!');
+		new_scrolled_window_y = scrolled_window_y - pinWindowHeight;
 
 	}
 
@@ -1025,15 +1039,18 @@ function putPin(pinX, pinY) {
 function openPinWindow(pin_x, pin_y, pin_ID) {
 
 
+	closePinWindow();
+
+
 	// Previous state of cursor
-	cursorWasActive = cursorActive;
+	if (!pinWindowWasOpen) cursorWasActive = cursorActive;
 
 
 	// Disable the inspector
 	toggleCursorActive(true); // Force deactivate
 
 
-	// Add the pin window data
+	// Add the pin window data !!!
 	pinWindow.attr('data-pin-x', pin_x);
 	pinWindow.attr('data-pin-y', pin_y);
 	pinWindow.attr('data-pin-id', pin_ID);
@@ -1061,6 +1078,9 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 
 // FUNCTION: Close pin window
 function closePinWindow() {
+
+	// Previous state of window
+	pinWindowWasOpen = pinWindowOpen;
 
 	// Hide it
 	pinWindow.removeClass('active');

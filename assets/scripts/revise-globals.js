@@ -100,6 +100,7 @@ var iframeHeight = 0;
 // Pin Window
 var	pinWindow;
 var pinWindowOpen = false;
+var pinWindowWasOpen = false;
 var pinWindowWidth = 350;
 var pinWindowHeight = 515;
 
