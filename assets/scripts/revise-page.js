@@ -128,8 +128,12 @@ $(function() {
 
 		var elementIndex = $('#pin-window').attr('data-revisionary-index');
 		var changes = $(this).html();
+		var changedElement = iframe.find('[data-revisionary-index="'+ elementIndex +'"]');
 
-		iframe.find('[data-revisionary-index="'+ elementIndex +'"]').html(changes);
+		changedElement.html(changes);
+
+		if ( changedElement.attr('data-revisionary-edited') != '1' )
+			changedElement.attr('data-revisionary-edited', '1');
 
 		console.log('Content changed.');
 
@@ -358,9 +362,9 @@ function runTheInspector() {
 	    iframe.on('mousemove', function(e) { // Detect the mouse moves in frame
 
 
-			// Iframe offset - NO NEED FOR NOW !!!
+			// Iframe offset
 			offset = $('#the-page').offset();
-			console.log('OFFSET:', offset);
+			//console.log('OFFSET:', offset);
 
 
 		    // Mouse coordinates according to the screen - NO NEED FOR NOW !!!
@@ -394,14 +398,17 @@ function runTheInspector() {
 	        focused_element_children = focused_element.children();
 	        focused_element_grand_children = focused_element_children.children();
 	        focused_element_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
-
+			focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
+			focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
 
 
 			// Work only if cursor is active
 			if (cursorActive && !hoveringPin) {
 
 
-				// Re-Focus if only child element has no child and has content
+
+				// REFOCUS WORKS:
+				// Re-focus if only child element has no child and has content
 				if (
 					focused_element_text == "" && // Focused element has no content
 					focused_element_children.length == 1 && // Has only one child
@@ -409,7 +416,7 @@ function runTheInspector() {
 					focused_element_children.first().text().trim() != "" // Grand child should have content
 				) {
 
-					// Re-Focus to the child element
+					// Re-focus to the child element
 					focused_element = focused_element_children.first();
 			        focused_element_index = focused_element.attr('data-revisionary-index');
 			        focused_element_has_index = focused_element_index != null ? true : false;
@@ -418,20 +425,17 @@ function runTheInspector() {
 			        focused_element_children = focused_element.children();
 			        focused_element_grand_children = focused_element_children.children();
 					focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
+					focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
+					focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
 
 				}
 
 
+				// Re-focus to the edited element if this is child of it
+				if (focused_element_edited_parents.length) {
 
-				// Focus to the edited element if this is child of it
-				if (
-					!focused_element_has_index &&
-					focused_element.parent().length &&
-					$('#pins > pin[data-revisionary-index="'+ focused_element.parent().attr('data-revisionary-index') +'"][data-pin-type="live"]').length
-				) {
-
-					// Re-Focus to the parent element
-					focused_element = focused_element.parent();
+					// Re-focus to the parent edited element
+					focused_element = $(focused_element_edited_parents[0]);
 			        focused_element_index = focused_element.attr('data-revisionary-index');
 			        focused_element_has_index = focused_element_index != null ? true : false;
 			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
@@ -439,27 +443,10 @@ function runTheInspector() {
 			        focused_element_children = focused_element.children();
 			        focused_element_grand_children = focused_element_children.children();
 					focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
+					focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
+					focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
 
-				}
-
-
-
-				// Focus to the edited element if this is child of it
-				if (
-					!focused_element_has_index &&
-					focused_element.parent().parent().length &&
-					$('#pins > pin[data-revisionary-index="'+ focused_element.parent().parent().attr('data-revisionary-index') +'"][data-pin-type="live"]').length
-				) {
-
-					// Re-Focus to the parent element
-					focused_element = focused_element.parent().parent();
-			        focused_element_index = focused_element.attr('data-revisionary-index');
-			        focused_element_has_index = focused_element_index != null ? true : false;
-			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
-					focused_element_html = focused_element.html();
-			        focused_element_children = focused_element.children();
-			        focused_element_grand_children = focused_element_children.children();
-					focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
+					console.log('ALREADY EDITED ELEMENT!!!');
 
 				}
 
@@ -603,6 +590,17 @@ function runTheInspector() {
 					focused_element_editable = false;
 					focused_element_html_editable = false;
 					console.log( '* Element editable but NO INDEX: ' + focused_element.prop("tagName") );
+
+				}
+
+
+
+				// If focused element has edited child, don't focus it
+				if (focused_element_has_edited_child) {
+
+					focused_element_editable = false;
+					focused_element_html_editable = false;
+					console.log( '* Element editable but there is edited child: ' + focused_element.prop("tagName") );
 
 				}
 

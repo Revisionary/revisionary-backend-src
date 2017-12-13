@@ -50,7 +50,9 @@ var focused_element,
 	focused_element_has_pin,
 	focused_element_has_live_pin,
 	focused_element_editable,
-	focused_element_html_editable;
+	focused_element_html_editable,
+	focused_element_edited_parents,
+	focused_element_has_edited_child;
 
 // Activator Pin
 var activator;
