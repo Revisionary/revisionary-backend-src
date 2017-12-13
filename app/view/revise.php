@@ -75,269 +75,271 @@
 
 		</div>
 
-		<div id="pin-window" class="loading"
-			data-pin-id="0"
-			data-pin-type="live"
-			data-pin-edit-type="content"
-			data-pin-private="0"
-			data-pin-complete="0"
-			data-pin-x="30"
-			data-pin-y="30"
-			data-revisionary-index="0"
-			style="left: 10px; top: 10px;"
-		>
+		<pin class="mouse-cursor big" data-pin-type="live">1</pin>
 
-			<div class="wrap xl-flexbox xl-between top-actions">
-				<div class="col">
+	</div>
 
-					<div class="wrap xl-flexbox actions">
-						<div class="col action dropdown-container">
 
-							<pin
-								class="chosen-pin"
-								data-pin-type="live"
-								data-pin-private="0"
-							></pin>
-							<span class="dropdown-opener"><span>Live Edit</span> <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 
-							<nav class="dropdown xl-left">
-								<ul class="type-convertor">
+	<div id="pin-window" class="loading"
+		data-pin-id="0"
+		data-pin-type="live"
+		data-pin-edit-type="content"
+		data-pin-private="0"
+		data-pin-complete="0"
+		data-pin-x="30"
+		data-pin-y="30"
+		data-revisionary-index="0"
+		style="left: 10px; top: 10px;"
+	>
 
-									<li>
-										<a href="#" class="xl-flexbox xl-middle">
-											<pin data-pin-type="live" data-pin-private="0"></pin>
-											<span>Live</span>
-										</a>
-									</li>
+		<div class="wrap xl-flexbox xl-between top-actions">
+			<div class="col">
 
-									<li>
-										<a href="#" class="xl-flexbox xl-middle">
-											<pin data-pin-type="standard" data-pin-private="0"></pin>
-											<span>Only Comment</span>
-										</a>
-									</li>
-
-									<li>
-										<a href="#" class="xl-flexbox xl-middle">
-											<pin data-pin-type="live" data-pin-private="1"></pin>
-											<span>Private</span>
-										</a>
-									</li>
-
-								</ul>
-							</nav>
-
-						</div>
-						<div class="col action" data-tooltip="Coming soon.">
-
-							<i class="fa fa-user-o" aria-hidden="true"></i>
-							<span>ASSIGNEE</span>
-
-						</div>
-					</div>
-
-				</div>
-				<div class="col"><a href="#" class="close-button"><img src="<?=asset_url('icons/close-button.svg')?>" alt=""/></a></div>
-			</div>
-
-			<div class="image-editor">
-				IMAGE CHANGER
-			</div>
-
-			<div class="content-editor">
-
-				<div class="wrap xl-flexbox xl-between xl-bottom">
-					<div class="col">NEW CONTENT:</div>
-					<div class="col">
-
-						<a href="#" class="switch edits-switch">
-							<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
-							SHOW ORIGINAL
-						</a>
-
-					</div>
-				</div>
-
-				<div class="wrap xl-1">
-					<div class="col">
-						<div class="edit-content" contenteditable="true">
-							TEST
-							CONTENT
-						</div>
-					</div>
-				</div>
-
-				<div class="wrap xl-1 xl-right difference-swithch-wrap">
-					<a href="#" class="col switch difference-switch">
-						<i class="fa fa-random" aria-hidden="true"></i> SHOW DIFFERENCE
-					</a>
-				</div>
-
-
-
-			</div>
-
-			<div class="pin-comments" style="margin-bottom: 15px;">
-
-				<div class="comment wrap xl-flexbox xl-top">
-					<a class="col xl-2-12 xl-left xl-first" href="#">
-
-
-						<picture class="profile-picture big square"
-							style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
-
-
-					</a>
-					<div class="col xl-10-12 comment-inner-wrapper">
-
-
-						<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
-							<a href="#" class="col xl-first comment-user-name"><?=User::ID(2)->fullName?></a>
-							<span class="col comment-date">32 minutes ago</span>
-						</div>
-
-						<div class="comment-text xl-left">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-						</div>
-
-
-					</div>
-				</div>
-
-				<div class="comment wrap xl-flexbox xl-top">
-					<a class="col xl-2-12 xl-left xl-first" href="#">
-
-
-						<picture class="profile-picture big square"
-							style="background-image: url(<?=User::ID(1)->userPicUrl?>);"></picture>
-
-
-					</a>
-					<div class="col xl-10-12 comment-inner-wrapper">
-
-
-						<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
-							<a href="#" class="col xl-first comment-user-name"><?=User::ID(1)->fullName?></a>
-							<span class="col comment-date">32 minutes ago</span>
-						</div>
-
-						<div class="comment-text xl-left">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-						</div>
-
-
-					</div>
-				</div>
-
-				<div class="comment wrap xl-flexbox xl-top">
-					<a class="col xl-2-12 xl-left xl-first" href="#">
-
-
-						<picture class="profile-picture big square"
-							style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
-
-
-					</a>
-					<div class="col xl-10-12 comment-inner-wrapper">
-
-
-						<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
-							<a href="#" class="col xl-first comment-user-name"><?=User::ID(4)->fullName?></a>
-							<span class="col comment-date">32 minutes ago</span>
-						</div>
-
-						<div class="comment-text xl-left">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-						</div>
-
-
-					</div>
-				</div>
-
-				<div class="comment wrap xl-flexbox xl-top">
-					<a class="col xl-2-12 xl-left xl-first" href="#">
-
-
-						<picture class="profile-picture big square"
-							style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
-
-
-					</a>
-					<div class="col xl-10-12 comment-inner-wrapper">
-
-
-						<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
-							<a href="#" class="col xl-first comment-user-name"><?=User::ID(2)->fullName?></a>
-							<span class="col comment-date">32 minutes ago</span>
-						</div>
-
-						<div class="comment-text xl-left">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-						</div>
-
-
-					</div>
-				</div>
-
-			</div>
-
-			<div class="comment-actions">
-
-				<div class="wrap xl-flexbox xl-between">
-					<div class="col comment-input-col">
-						<input type="text" class="comment-input" placeholder="Your comments..."/>
-					</div>
-					<div class="col">
-						<a href="#"><img src="<?=asset_url('icons/comment-send.svg')?>" alt=""/></a>
-					</div>
-				</div>
-
-			</div>
-
-			<div class="bottom-actions">
-
-				<div class="wrap xl-flexbox xl-between">
+				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown-container">
-						<a href="#" class="dropdown-opener">
-							<i class="fa fa-pencil-square-o" aria-hidden="true"></i> MARK <i class="fa fa-caret-down" aria-hidden="true"></i>
-						</a>
-						<nav class="dropdown">
-							<ul>
+
+						<pin
+							class="chosen-pin"
+							data-pin-type="live"
+							data-pin-private="0"
+						></pin>
+						<span class="dropdown-opener"><span>Live Edit</span> <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+
+						<nav class="dropdown xl-left">
+							<ul class="type-convertor">
+
 								<li>
-									<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon.">
-										<span><img src="<?=asset_url('icons/mark-rectangle.png')?>" width="15" height="10" alt=""/></span>
-										RECTANGLE
+									<a href="#" class="xl-flexbox xl-middle">
+										<pin data-pin-type="live" data-pin-private="0"></pin>
+										<span>Live</span>
 									</a>
 								</li>
+
 								<li>
-									<a href="#" class="xl-left" data-tooltip="Coming soon.">
-										<span><img src="<?=asset_url('icons/mark-ellipse.png')?>" width="15" height="14" alt=""/></span>
-										ELLIPSE
+									<a href="#" class="xl-flexbox xl-middle">
+										<pin data-pin-type="standard" data-pin-private="0"></pin>
+										<span>Only Comment</span>
 									</a>
 								</li>
+
+								<li>
+									<a href="#" class="xl-flexbox xl-middle">
+										<pin data-pin-type="live" data-pin-private="1"></pin>
+										<span>Private</span>
+									</a>
+								</li>
+
 							</ul>
 						</nav>
+
 					</div>
-					<div class="col action">
-						<a href="#" class="remove-pin"><i class="fa fa-trash-o" aria-hidden="true"></i> REMOVE</a>
-					</div>
-					<div class="col action">
-						<a href="#" class="complete-pin">
-							<pin
-								data-pin-type="standard"
-								data-pin-private="0"
-								data-pin-complete="1"
-							></pin>
-							COMPLETE
-						</a>
+					<div class="col action" data-tooltip="Coming soon.">
+
+						<i class="fa fa-user-o" aria-hidden="true"></i>
+						<span>ASSIGNEE</span>
+
 					</div>
 				</div>
 
+			</div>
+			<div class="col"><a href="#" class="close-button"><img src="<?=asset_url('icons/close-button.svg')?>" alt=""/></a></div>
+		</div>
+
+		<div class="image-editor">
+			IMAGE CHANGER
+		</div>
+
+		<div class="content-editor">
+
+			<div class="wrap xl-flexbox xl-between xl-bottom">
+				<div class="col">NEW CONTENT:</div>
+				<div class="col">
+
+					<a href="#" class="switch edits-switch">
+						<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
+						SHOW ORIGINAL
+					</a>
+
+				</div>
+			</div>
+
+			<div class="wrap xl-1">
+				<div class="col">
+					<div class="edit-content" contenteditable="true">
+						TEST
+						CONTENT
+					</div>
+				</div>
+			</div>
+
+			<div class="wrap xl-1 xl-right difference-swithch-wrap">
+				<a href="#" class="col switch difference-switch">
+					<i class="fa fa-random" aria-hidden="true"></i> SHOW DIFFERENCE
+				</a>
+			</div>
+
+
+
+		</div>
+
+		<div class="pin-comments" style="margin-bottom: 15px;">
+
+			<div class="comment wrap xl-flexbox xl-top">
+				<a class="col xl-2-12 xl-left xl-first" href="#">
+
+
+					<picture class="profile-picture big square"
+						style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
+
+
+				</a>
+				<div class="col xl-10-12 comment-inner-wrapper">
+
+
+					<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
+						<a href="#" class="col xl-first comment-user-name"><?=User::ID(2)->fullName?></a>
+						<span class="col comment-date">32 minutes ago</span>
+					</div>
+
+					<div class="comment-text xl-left">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					</div>
+
+
+				</div>
+			</div>
+
+			<div class="comment wrap xl-flexbox xl-top">
+				<a class="col xl-2-12 xl-left xl-first" href="#">
+
+
+					<picture class="profile-picture big square"
+						style="background-image: url(<?=User::ID(1)->userPicUrl?>);"></picture>
+
+
+				</a>
+				<div class="col xl-10-12 comment-inner-wrapper">
+
+
+					<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
+						<a href="#" class="col xl-first comment-user-name"><?=User::ID(1)->fullName?></a>
+						<span class="col comment-date">32 minutes ago</span>
+					</div>
+
+					<div class="comment-text xl-left">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					</div>
+
+
+				</div>
+			</div>
+
+			<div class="comment wrap xl-flexbox xl-top">
+				<a class="col xl-2-12 xl-left xl-first" href="#">
+
+
+					<picture class="profile-picture big square"
+						style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
+
+
+				</a>
+				<div class="col xl-10-12 comment-inner-wrapper">
+
+
+					<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
+						<a href="#" class="col xl-first comment-user-name"><?=User::ID(4)->fullName?></a>
+						<span class="col comment-date">32 minutes ago</span>
+					</div>
+
+					<div class="comment-text xl-left">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					</div>
+
+
+				</div>
+			</div>
+
+			<div class="comment wrap xl-flexbox xl-top">
+				<a class="col xl-2-12 xl-left xl-first" href="#">
+
+
+					<picture class="profile-picture big square"
+						style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
+
+
+				</a>
+				<div class="col xl-10-12 comment-inner-wrapper">
+
+
+					<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
+						<a href="#" class="col xl-first comment-user-name"><?=User::ID(2)->fullName?></a>
+						<span class="col comment-date">32 minutes ago</span>
+					</div>
+
+					<div class="comment-text xl-left">
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					</div>
+
+
+				</div>
 			</div>
 
 		</div>
 
-		<pin class="mouse-cursor big" data-pin-type="live">1</pin>
+		<div class="comment-actions">
+
+			<div class="wrap xl-flexbox xl-between">
+				<div class="col comment-input-col">
+					<input type="text" class="comment-input" placeholder="Your comments..."/>
+				</div>
+				<div class="col">
+					<a href="#"><img src="<?=asset_url('icons/comment-send.svg')?>" alt=""/></a>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="bottom-actions">
+
+			<div class="wrap xl-flexbox xl-between">
+				<div class="col action dropdown-container">
+					<a href="#" class="dropdown-opener">
+						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> MARK <i class="fa fa-caret-down" aria-hidden="true"></i>
+					</a>
+					<nav class="dropdown">
+						<ul>
+							<li>
+								<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon.">
+									<span><img src="<?=asset_url('icons/mark-rectangle.png')?>" width="15" height="10" alt=""/></span>
+									RECTANGLE
+								</a>
+							</li>
+							<li>
+								<a href="#" class="xl-left" data-tooltip="Coming soon.">
+									<span><img src="<?=asset_url('icons/mark-ellipse.png')?>" width="15" height="14" alt=""/></span>
+									ELLIPSE
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				<div class="col action">
+					<a href="#" class="remove-pin"><i class="fa fa-trash-o" aria-hidden="true"></i> REMOVE</a>
+				</div>
+				<div class="col action">
+					<a href="#" class="complete-pin">
+						<pin
+							data-pin-type="standard"
+							data-pin-private="0"
+							data-pin-complete="1"
+						></pin>
+						COMPLETE
+					</a>
+				</div>
+			</div>
+
+		</div>
 
 	</div>
 

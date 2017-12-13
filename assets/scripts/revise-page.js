@@ -69,8 +69,8 @@ $(function() {
 
 
 	// Iframe Fit to the screen
-	var maxWidth  = $('iframe').width();
-	var maxHeight = $('iframe').height();
+	var maxWidth  = iframeWidth = $('iframe').width();
+	var maxHeight = iframeHeight = $('iframe').height();
 	$('.iframe-container').css({ width: maxWidth, height: maxHeight });
 
 	$(window).resize(function(evt) {
@@ -131,7 +131,7 @@ $(function() {
 
 		iframe.find('[data-revisionary-index="'+ elementIndex +'"]').html(changes);
 
-		console.log('CHANGEDDD');
+		console.log('Content changed.');
 
 	});
 
@@ -196,8 +196,6 @@ $(function() {
 			// If not on DB, don't move it
 			if ( $.isNumeric(focused_pin_id) ) {
 
-				console.log('PIN IS MOVING!');
-
 				pinDragging = true;
 
 				var pinSize = 45;
@@ -205,6 +203,8 @@ $(function() {
 				var pos_y = containerY - pinSize/2;
 
 				relocatePins(focusedPin, pos_x, pos_y);
+
+				//console.log('PIN IS MOVING!', pos_x, pos_y);
 
 			}
 
@@ -360,6 +360,8 @@ function runTheInspector() {
 
 			// Iframe offset - NO NEED FOR NOW !!!
 			offset = $('#the-page').offset();
+			console.log('OFFSET:', offset);
+
 
 		    // Mouse coordinates according to the screen - NO NEED FOR NOW !!!
 		    screenX = e.clientX * iframeScale + offset.left;
@@ -918,9 +920,6 @@ function changePinNumber(pinNumber) {
 function relocatePins(pin_selector = null, x = null, y = null) {
 
 
-	var scrolled_window_x, scrolled_window_y;
-
-
 	if ( pin_selector ) {
 
 	    var scrolled_pin_x = x > 0 ? x : 0;
@@ -929,21 +928,23 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 	    scrolled_pin_x = x < iframeWidth - 45 ? scrolled_pin_x : iframeWidth - 45;
 	    scrolled_pin_y = y < iframeHeight - 45 ? scrolled_pin_y : iframeHeight - 45;
 
-
-	    pin_selector.attr('data-pin-x', (scrolled_pin_x / iframeScale) + scrollOffset_left );
-		pin_selector.attr('data-pin-y', (scrolled_pin_y / iframeScale) + scrollOffset_top );
-
-		pinWindow.attr('data-pin-x', (scrolled_pin_x / iframeScale) + scrollOffset_left);
-		pinWindow.attr('data-pin-y', (scrolled_pin_y / iframeScale) + scrollOffset_top);
-
-
 		pin_selector.css('left', scrolled_pin_x + "px");
 		pin_selector.css('top', scrolled_pin_y + "px");
 
 
-		// Pin Window location
-		scrolled_window_x = scrolled_pin_x + 50;
-		scrolled_window_y = scrolled_pin_y + 50;
+		var realPinX = (scrolled_pin_x / iframeScale) + scrollOffset_left;
+		var realPinY = (scrolled_pin_y / iframeScale) + scrollOffset_top;
+
+
+		// Update the registered pin location
+	    pin_selector.attr('data-pin-x', realPinX);
+		pin_selector.attr('data-pin-y', realPinY );
+
+
+		// Update the registered pin window location as well
+		pinWindow.attr('data-pin-x', realPinX);
+		pinWindow.attr('data-pin-y', realPinY);
+
 
 	} else {
 
@@ -967,22 +968,24 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 	    });
 
 
-		// Current pin window location
-		var window_x = parseInt(pinWindow.attr('data-pin-x')) * iframeScale;
-		var window_y = parseInt(pinWindow.attr('data-pin-y')) * iframeScale;
-
-	    scrolled_window_x = window_x - scrollX + 50;
-	    scrolled_window_y = window_y - scrollY + 50;
-
 	}
 
 
-	var spaceWidth = (iframeWidth + ($(window).width() - iframeWidth) / 2) - 15;
-	var spaceHeight = (iframeHeight + ($(window).height() - iframeHeight) / 2) - 15;
+	// Current pin window location
+	var window_x = parseInt(pinWindow.attr('data-pin-x')) * iframeScale;
+	var window_y = parseInt(pinWindow.attr('data-pin-y')) * iframeScale;
 
 
-    new_scrolled_window_x = scrolled_window_x < spaceWidth - pinWindowWidth ? scrolled_window_x : spaceWidth - pinWindowWidth;
-    new_scrolled_window_y = scrolled_window_y < spaceHeight - pinWindowHeight ? scrolled_window_y : spaceHeight - pinWindowHeight;
+    var scrolled_window_x = window_x + offset.left - scrollX + 50;
+    var scrolled_window_y = window_y + offset.top - scrollY + 50;
+
+
+	var spaceWidth = offset.left + iframeWidth + offset.left - 10;
+	var spaceHeight = offset.top + iframeHeight + offset.top - 10;
+
+
+    var new_scrolled_window_x = scrolled_window_x < spaceWidth - pinWindowWidth ? scrolled_window_x : spaceWidth - pinWindowWidth;
+    var new_scrolled_window_y = scrolled_window_y < spaceHeight - pinWindowHeight ? scrolled_window_y : spaceHeight - pinWindowHeight;
 
 
 	// Change the side of the window
