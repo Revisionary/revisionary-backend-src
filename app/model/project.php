@@ -117,6 +117,10 @@ function the_data() {
 		$projectSharedID = array_search(currentUserID(), array_column($projectShares, 'share_to'));
 
 
+		// True if parent page is shared to current user ??? !!!
+
+
+
 		// If project is not belong to current user and is shared to him
 		if ( $project['user_ID'] != currentUserID() && $projectSharedID !== false ) {
 

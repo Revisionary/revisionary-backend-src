@@ -18,6 +18,12 @@
 
 			<?php
 
+
+/*
+				print_r($theCategorizedData);
+				die();
+*/
+
 			// THE CATEGORY LOOP
 			$data_count = 0;
 			foreach ($theCategorizedData as $category) {
@@ -61,6 +67,10 @@
 
 				// Block Data
 				$theData = $category['theData'];
+
+
+				print_r($theData);
+				//die();
 
 
 				// THE BLOCK LOOP

@@ -980,8 +980,8 @@ function relocatePins(pin_selector = null, x = null, y = null) {
     var scrolled_window_y = window_y + offset.top - scrollY + 50;
 
 
-	var spaceWidth = offset.left + iframeWidth + offset.left - 10;
-	var spaceHeight = offset.top + iframeHeight + offset.top - 10;
+	var spaceWidth = offset.left + iframeWidth + offset.left - 15;
+	var spaceHeight = offset.top + iframeHeight + offset.top - 15;
 
 
     var new_scrolled_window_x = scrolled_window_x < spaceWidth - pinWindowWidth ? scrolled_window_x : spaceWidth - pinWindowWidth;
