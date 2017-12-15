@@ -34,8 +34,8 @@ $config['env'] = [
 $config['db'] = [
   'host' => '127.0.0.1',
   'name' => 'revisionary_app',
-  'user' => $config['env']['name']['db_user'],
-  'pass' => $config['env']['name']['db_pass']
+  'user' => $config['env']['db_user'],
+  'pass' => $config['env']['db_pass']
 ];
 
 
