@@ -47,6 +47,7 @@ $config['default_language'] = 'en';
 
 // Definitions
 define('domain' , 'revisionaryapp.com');
+define('subdomain' , $config['env']['subdomain']);
 define('dir', realpath('.'));
 define('backdir', realpath('..'));
 define('logdir', backdir."/logs");
@@ -60,8 +61,8 @@ define('controller', dir . '/app/controller');
 define('cache' , dir . '/assets/cache');
 define('port' , (isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : "") );
 define('ssl' , (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? true : false);
-define('secure_url', "https://".$config['env']['subdomain']."." . domain . (port != "" && port != "80" && port != "443" ? ":".port : "" ) );
-define('insecure_url', "http://".$config['env']['subdomain']."." . domain . (port != "" && port != "80" && port != "443" ? ":".port : "" ) );
+define('secure_url', "https://".subdomain."." . domain . (port != "" && port != "80" && port != "443" ? ":".port : "" ) );
+define('insecure_url', "http://".subdomain."." . domain . (port != "" && port != "80" && port != "443" ? ":".port : "" ) );
 define('url', ssl ? secure_url : insecure_url);
 
 // TEMP - Image Names !!!
