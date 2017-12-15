@@ -57,11 +57,11 @@ function url($index) {
 }
 
 function site_url($url = null, $forceSSL = false, $unForceSSL = false) {
-  return ($forceSSL ? secure_url : ($unForceSSL ? unsecure_url : url)) . '/' . $url;
+  return ($forceSSL ? secure_url : ($unForceSSL ? insecure_url : url)) . '/' . $url;
 }
 
 function asset_url($url = null, $forceSSL = false, $unForceSSL = false) {
-  return ($forceSSL ? secure_url : ($unForceSSL ? unsecure_url : url)) . '/assets/' . $url;
+  return ($forceSSL ? secure_url : ($unForceSSL ? insecure_url : url)) . '/assets/' . $url;
 }
 
 function cache_url($url = null, $forceSSL = false, $unForceSSL = false) {
