@@ -10,7 +10,7 @@ $_url = array_filter(explode('/', $_url));
 // Development mode detection
 $_parsed_current_url = parseUrl( current_url() );
 if (
-	( $_parsed_current_url['subdomain'] != "dev" || $_parsed_current_url['subdomain'] != "new" ) &&
+	($_parsed_current_url['subdomain'] != "dev" && $_parsed_current_url['subdomain'] != "new") ||
 	$_parsed_current_url['domain'] != "revisionaryapp.com"
 ) {
 	ob_start();
@@ -19,7 +19,6 @@ if (
 	ob_end_flush();
 	die();
 }
-
 
 
 // Show the correct controller
