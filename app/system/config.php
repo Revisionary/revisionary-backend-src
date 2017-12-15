@@ -7,18 +7,24 @@ $config = array();
 // Environmental settings
 $config['env'] = [
 	'name' 		=> 'local-dev',
-	'subdomain' => 'dev'
+	'subdomain' => 'dev',
+	'db_user' 	=> "root",
+	'db_pass' 	=> "root"
 ];
 /*
 $config['env'] = [
 	'name' 		=> 'remote-dev',
-	'subdomain' => 'new'
+	'subdomain' => 'new',
+	'db_user' 	=> "***",
+	'db_pass' 	=> "***"
 ];
 */
 /*
 $config['env'] = [
 	'name' 		=> 'production',
-	'subdomain' => 'www'
+	'subdomain' => 'www',
+	'db_user' 	=> "***",
+	'db_pass' 	=> "***"
 ];
 */
 
@@ -28,14 +34,9 @@ $config['env'] = [
 $config['db'] = [
   'host' => '127.0.0.1',
   'name' => 'revisionary_app',
-  'user' => 'root',
-  'pass' => 'root'
+  'user' => $config['env']['name']['db_user'],
+  'pass' => $config['env']['name']['db_pass']
 ];
-
-if ($config['env']['name'] == "remote-dev") {
-	$config['db']['user'] = "***";
-	$config['db']['pass'] = "***";
-}
 
 
 
