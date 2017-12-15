@@ -6,6 +6,23 @@ $_url = get('url');
 $_url = array_filter(explode('/', $_url));
 
 
+
+// Development mode detection
+$_parsed_current_url = parseUrl( current_url() );
+if (
+	( $_parsed_current_url['subdomain'] != "dev" || $_parsed_current_url['subdomain'] != "new" ) &&
+	$_parsed_current_url['domain'] != "revisionaryapp.com"
+) {
+	ob_start();
+	$page_title = "Revisionary App";
+	require view('coming-soon');
+	ob_end_flush();
+	die();
+}
+
+
+
+// Show the correct controller
 if(!isset($_url[0])){
   $_url[0] = 'index';
 }
@@ -20,6 +37,8 @@ if(!file_exists(controller($_url[0]))){
 	if(file_exists(controller('404')))
 		$_url[0] = '404';
 }
+
+
 
 // Force HTTPS
 if (!ssl && $_url[0] != 'revise' && $_url[0] != 'ajax') {

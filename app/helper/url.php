@@ -228,6 +228,7 @@ function parseUrl($url) {
 		'path' => $url->path,
 		'full_path' => $url->scheme."://".$url->host.$url->path,
 		'domain' => $url->registerableDomain,
+		'subdomain' => $url->subdomain,
 		'hash' => $url->fragment
 	);
 
