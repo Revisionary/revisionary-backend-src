@@ -15,8 +15,8 @@ $config['env'] = [
 $config['env'] = [
 	'name' 		=> 'remote-dev',
 	'subdomain' => 'new',
-	'db_user' 	=> "***",
-	'db_pass' 	=> "***"
+	'db_user' 	=> "",
+	'db_pass' 	=> ""
 ];
 */
 /*
@@ -27,6 +27,15 @@ $config['env'] = [
 	'db_pass' 	=> "***"
 ];
 */
+
+
+
+// SSL Check
+if ($config['env']['name'] == 'local-dev') {
+	$_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? true : false;
+} elseif ($config['env']['name'] == 'remote-dev') {
+	$_https = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https" ? true : false;
+}
 
 
 
@@ -60,9 +69,9 @@ define('view' , dir . '/app/view');
 define('controller', dir . '/app/controller');
 define('cache' , dir . '/assets/cache');
 define('port' , (isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : "") );
-define('ssl' , (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? true : false);
-define('secure_url', "https://".subdomain."." . domain . (port != "" && port != "80" && port != "443" ? ":".port : "" ) );
-define('insecure_url', "http://".subdomain."." . domain . (port != "" && port != "80" && port != "443" ? ":".port : "" ) );
+define('ssl' , $_https);
+define('secure_url', "https://".subdomain."." . domain);
+define('insecure_url', "http://".subdomain."." . domain);
 define('url', ssl ? secure_url : insecure_url);
 
 // TEMP - Image Names !!!

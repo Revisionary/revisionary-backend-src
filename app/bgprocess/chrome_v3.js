@@ -56,10 +56,12 @@ if (userAgent) console.log("User Agent: " + userAgent);
 
 
 
+/*
 // Delay Function !!! Do we need that?
 function wait(ms) {
 	return new Promise(r => setTimeout(r, ms)).then(() => "Yay");
 }
+*/
 
 
 
