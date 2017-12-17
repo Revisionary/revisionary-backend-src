@@ -1,8 +1,18 @@
 {
     "require": {
+	    "mouf/nodejs-installer": "^1.0",
         "jwage/purl": "^0.0.7",
         "joshcam/mysqli-database-class": "dev-master",
         "cocur/background-process": "^0.7.0",
         "katzgrau/klogger": "dev-master"
+    },
+    "extra": {
+        "mouf": {
+            "nodejs": {
+                "version": "8.9.1",
+                "targetDir": "vendor/nodejs/nodejs",
+                "forceLocal": true
+            }
+        }
     }
 }
