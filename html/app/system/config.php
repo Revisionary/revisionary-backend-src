@@ -11,6 +11,11 @@ $config['env'] = [
 	'db_user' 	=> "root",
 	'db_pass' 	=> "root"
 ];
+
+// Check for the remote configuration
+if (file_exists('config-remote.php'))
+	require 'config-remote.php';
+
 /*
 $config['env'] = [
 	'name' 		=> 'remote-dev',

@@ -1,6 +1,8 @@
 vendor
 node_modules
 
+config-remote.php
+
 html/assets/cache/user-*/project-*/*.png
 html/assets/cache/user-*/project-*/*.jpg
 html/assets/cache/user-*/project-*/page-*/device-*
