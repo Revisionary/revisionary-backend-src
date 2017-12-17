@@ -13,7 +13,7 @@ $config['env'] = [
 ];
 
 // Check for the remote configuration
-if (file_exists('config-remote.php'))
+if (file_exists(realpath('.') . '/app/system/config-remote.php'))
 	require 'config-remote.php';
 
 /*
