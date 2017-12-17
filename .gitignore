@@ -1,5 +1,6 @@
-node_modules
-assets/cache/user-*/project-*/*.png
-assets/cache/user-*/project-*/*.jpg
-assets/cache/user-*/project-*/page-*/device-*
 vendor
+node_modules
+
+html/assets/cache/user-*/project-*/*.png
+html/assets/cache/user-*/project-*/*.jpg
+html/assets/cache/user-*/project-*/page-*/device-*
