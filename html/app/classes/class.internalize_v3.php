@@ -190,10 +190,7 @@ class Internalize_v3 {
 
 
 		// Process directories - NodeJS - Chrome
-		$nodejs = bindir."/node-v8.9.3-darwin-x64/bin/node";
-		if ($config['env']['name'] == 'remote-dev')
-			$nodejs = "/root/.nvm/versions/node/v8.9.1/bin/node";
-
+		$nodejs = dir."/vendor/bin/node";
 		$scriptFile = dir."/app/bgprocess/chrome_v3.js";
 
 		$process_string = "$nodejs $scriptFile ";
