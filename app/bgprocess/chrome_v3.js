@@ -94,6 +94,7 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 	// Launch the Chrome Browser
 	const browser = await puppeteer.launch({
+		args: ['--no-sandbox', '--disable-setuid-sandbox'], // Couses security issue !!!
 		//executablePath: '/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary',
 		headless: headless
 	});
