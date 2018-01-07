@@ -1,5 +1,9 @@
 @import '_settings';
 
+html, body {
+	overflow: hidden;
+}
+
 #page main {
 	border-width: 10px;
     margin-bottom: 0;
