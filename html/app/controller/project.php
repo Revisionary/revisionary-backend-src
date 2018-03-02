@@ -148,7 +148,7 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 
 	// Check the result
 	if(!$parent_page_ID) {
-		header('Location: '.site_url('projects?addpageerror')); // If unsuccessful
+		header('Location: '.site_url('project/'.$project_ID.'?addpageerror')); // If unsuccessful
 		die();
 	}
 
