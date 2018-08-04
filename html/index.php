@@ -10,7 +10,7 @@ $_url = array_filter(explode('/', $_url));
 // Development mode detection
 $_parsed_current_url = parseUrl( current_url() );
 if (
-	$_parsed_current_url['subdomain'] != subdomain ||
+	( $_parsed_current_url['subdomain'] != subdomain && $_parsed_current_url['subdomain'] != insecure_subdomain ) ||
 	$_parsed_current_url['domain'] != domain
 ) {
 	ob_start();
