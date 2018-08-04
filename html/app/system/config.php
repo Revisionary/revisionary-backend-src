@@ -6,8 +6,10 @@ $config = array();
 
 // Environmental settings
 $config['env'] = [
-	'name' 		=> 'local-dev',
-	'subdomain' => 'dev',
+	'name' 		=> "local-dev",
+	'subdomain' => "dev",
+	'db_host' 	=> "localhost",
+	'db_name' 	=> "revisionaryapp",
 	'db_user' 	=> "root",
 	'db_pass' 	=> "root"
 ];
@@ -18,18 +20,22 @@ if (file_exists(realpath('.') . '/app/system/config-remote.php'))
 
 /*
 $config['env'] = [
-	'name' 		=> 'remote-dev',
-	'subdomain' => 'new',
+	'name' 		=> "remote-dev",
+	'subdomain' => "new",
+	'db_host' 	=> "127.0.0.1",
+	'db_name' 	=> "",
 	'db_user' 	=> "",
 	'db_pass' 	=> ""
 ];
 */
 /*
 $config['env'] = [
-	'name' 		=> 'production',
-	'subdomain' => 'www',
-	'db_user' 	=> "***",
-	'db_pass' 	=> "***"
+	'name' 		=> "production",
+	'subdomain' => "www",
+	'db_host' 	=> "127.0.0.1",
+	'db_name' 	=> "",
+	'db_user' 	=> "",
+	'db_pass' 	=> ""
 ];
 */
 
@@ -46,8 +52,8 @@ if ($config['env']['name'] == 'local-dev') {
 
 // Database
 $config['db'] = [
-  'host' => 'localhost',
-  'name' => 'revisionaryapp',
+  'host' => $config['env']['db_host'],
+  'name' => $config['env']['db_name'],
   'user' => $config['env']['db_user'],
   'pass' => $config['env']['db_pass']
 ];
