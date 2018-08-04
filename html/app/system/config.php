@@ -8,6 +8,7 @@ $config = array();
 $config['env'] = [
 	'name' 		=> "local-dev",
 	'subdomain' => "dev",
+	'insecure_subdomain' => "dev",
 	'db_host' 	=> "localhost",
 	'db_name' 	=> "revisionaryapp",
 	'db_user' 	=> "root",
@@ -18,10 +19,13 @@ $config['env'] = [
 if (file_exists(realpath('.') . '/app/system/config-remote.php'))
 	require 'config-remote.php';
 
+
+
 /*
 $config['env'] = [
 	'name' 		=> "remote-dev",
 	'subdomain' => "new",
+	'insecure_subdomain' => "new",
 	'db_host' 	=> "127.0.0.1",
 	'db_name' 	=> "",
 	'db_user' 	=> "",
@@ -32,6 +36,7 @@ $config['env'] = [
 $config['env'] = [
 	'name' 		=> "production",
 	'subdomain' => "www",
+	'insecure_subdomain' => "www",
 	'db_host' 	=> "127.0.0.1",
 	'db_name' 	=> "",
 	'db_user' 	=> "",
@@ -68,6 +73,7 @@ $config['default_language'] = 'en';
 // Definitions
 define('domain' , 'revisionaryapp.com');
 define('subdomain' , $config['env']['subdomain']);
+define('insecure_subdomain' , $config['env']['insecure_subdomain']);
 define('dir', realpath('.'));
 define('backdir', realpath('..'));
 define('logdir', backdir."/logs");
@@ -82,7 +88,7 @@ define('cache' , dir . '/assets/cache');
 define('port' , (isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : "") );
 define('ssl' , $_https);
 define('secure_url', "https://".subdomain."." . domain);
-define('insecure_url', "http://".subdomain."." . domain);
+define('insecure_url', "http://".insecure_subdomain."." . domain);
 define('url', ssl ? secure_url : insecure_url);
 
 // TEMP - Image Names !!!
