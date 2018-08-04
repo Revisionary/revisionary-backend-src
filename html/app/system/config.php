@@ -46,8 +46,8 @@ if ($config['env']['name'] == 'local-dev') {
 
 // Database
 $config['db'] = [
-  'host' => '127.0.0.1',
-  'name' => 'revisionary_app',
+  'host' => 'localhost',
+  'name' => 'revisionaryapp',
   'user' => $config['env']['db_user'],
   'pass' => $config['env']['db_pass']
 ];

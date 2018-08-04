@@ -351,6 +351,7 @@ $_SESSION["element_index_nonce"] = uniqid(mt_rand(), true);
 
 // Generate new nonce for pin actions
 $_SESSION["pin_nonce"] = uniqid(mt_rand(), true);
+//error_log("SESSION CREATED: ".$_SESSION["pin_nonce"]);
 
 
 $page_title = "Revision Mode";
