@@ -40,10 +40,10 @@ if(!file_exists(controller($_url[0]))){
 
 
 
-// Force HTTPS
+// Force secure URL
 if (!ssl && $_url[0] != 'revise' && $_url[0] != 'ajax') {
 
-	header( 'Location: '.current_url(null, null, true) );
+	header( 'Location: '.secure_url.$_SERVER["REQUEST_URI"] );
 	die();
 
 }
