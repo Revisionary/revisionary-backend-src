@@ -52,7 +52,7 @@ class User {
         $this->userPic = $this->getUserInfo('user_picture');
 
 		// Set the user picture URL
-        $this->userPicUrl = $this->getUserInfo('user_picture') != "" ? cache_url('user-'.self::$user_ID.'/'.$this->getUserInfo('user_picture')) : "none.png";
+        $this->userPicUrl = $this->getUserInfo('user_picture') != "" ? cache_url('user-'.self::$user_ID.'/'.$this->getUserInfo('user_picture')) : asset_url('icons/follower-f.svg');
 
     }
 
