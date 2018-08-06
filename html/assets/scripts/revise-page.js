@@ -129,8 +129,7 @@ $(function() {
 		var pin_ID = pinWindow.attr('data-pin-id');
 
 		// Delete it from DB
-		removePin(pin_ID);
-
+		if ( confirm('Are you sure you want to delete this pin and its modifications and comments?') ) removePin(pin_ID);
 
 		e.preventDefault();
 

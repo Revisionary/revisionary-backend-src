@@ -10,24 +10,22 @@ if ( request("nonce") !== $_SESSION["pin_nonce"] )
 
 // Get the pin info
 $pin_ID = request('pin_ID');
-$pin_x = request('pin_x');
-$pin_y = request('pin_y');
 
 
 // Are they numbers?
-if ( !is_numeric($pin_ID) || !is_numeric($pin_x) || !is_numeric($pin_y) )
+if ( !is_numeric($pin_ID) )
 	return;
 
 
-// DO THE SECURITY CHECKS!
+// DO THE SECURITY CHECKS !!!
 // a. Current user can edit this pin?
 
 
 
-// Update the pin
-$pin_updated = Pin::ID($pin_ID)->reLocate($pin_x, $pin_y);
+// Delete the pin
+$pin_deleted = Pin::ID($pin_ID)->remove();
 
-if ($pin_updated) $status = "Pin relocated: $pin_ID";
+if ($pin_deleted) $status = "Pin deleted: $pin_ID";
 
 
 // CREATE THE RESPONSE
@@ -37,8 +35,6 @@ $data['data'] = array(
 	'status' => $status,
 	'nonce' => request('nonce'),
 	'S_nonce' => $_SESSION['pin_nonce'],
-	'pin_x' => $pin_x,
-	'pin_y' => $pin_y,
 	'pin_ID' => $pin_ID
 
 );

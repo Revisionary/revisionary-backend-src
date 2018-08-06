@@ -706,6 +706,26 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 }
 
 
+// FUNCTION: Re-Index Pins
+function reindexPins() {
+
+
+    $('#pins > pin').each(function(i) {
+
+	    var pin = $(this);
+
+		pin.text(i+1);
+
+    });
+
+
+    // Update the current pin number on cursor
+    changePinNumber(currentPinNumber - 1);
+
+
+}
+
+
 // FUNCTION: Put a pin to cordinates
 function putPin(pinX, pinY) {
 
@@ -916,11 +936,6 @@ function closePinWindow() {
 function removePin(pin_ID) {
 
 
-
-
-
-
-
     // Add pin to the DB
     console.log('Remove the pin #' + pin_ID + ' from DB!!');
 
@@ -937,8 +952,16 @@ function removePin(pin_ID) {
 		console.log(result.data);
 
 
-		// Remove the loading text on pin window
-		$('#pin-window').removeClass('loading');
+		// Close the pin window
+		closePinWindow();
+
+
+		// Remove the pin from DOM
+		$('#pins > pin[data-pin-id="'+pin_ID+'"]').remove();
+
+
+		// Re-Index the pin counts
+		reindexPins();
 
 
 		// Finish the process
@@ -946,11 +969,6 @@ function removePin(pin_ID) {
 
 	}, 'json');
 
-
-
-
-	// Re-Locate the pins
-	relocatePins();
 
 }
 

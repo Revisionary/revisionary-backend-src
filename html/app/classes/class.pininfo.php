@@ -97,4 +97,51 @@ class Pin {
 
 	}
 
+
+    // Relocate a pin
+    public function reLocate(
+    	int $pin_x = 50,
+    	int $pin_y = 50
+    ) {
+	    global $db;
+
+
+
+		// More DB Checks of arguments !!!
+
+
+
+		// Update the pin
+		$db->where('pin_ID', self::$pin_ID);
+		$pin_locations = array(
+			'pin_x' => $pin_x,
+			'pin_y' => $pin_y
+		);
+		$pin_updated = $db->update('pins', $pin_locations);
+
+
+		return $pin_updated;
+
+	}
+
+
+    // Delete a pin
+    public function remove() {
+	    global $db;
+
+
+
+		// More DB Checks of arguments !!! (This user can delete?)
+
+
+
+		// Delete the pin
+		$db->where('pin_ID', self::$pin_ID);
+		$pin_deleted = $db->delete('pins');
+
+
+		return $pin_deleted;
+
+	}
+
 }
