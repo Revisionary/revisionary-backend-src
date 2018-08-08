@@ -1,7 +1,7 @@
 	<footer class="wrap xl-2 container xl-flexbox xl-middle">
 		<div class="col">
 			<div class="site-title"><a href="<?=site_url()?>" rel="home">REVISIONARY APP</a></div>
-			<div class="copyright">Copyright &copy; 2017</div>
+			<div class="copyright">Copyright &copy; 2018</div>
 		</div>
 		<div class="col xl-right footer-links">
 			<nav><a href="/support">Support</a> | <a href="/documentation">Documentation</a> | <a href="/contact">Contact</a></nav>
