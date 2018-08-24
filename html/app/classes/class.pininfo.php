@@ -14,7 +14,7 @@ class Pin {
 
 
 
-	// SETTERS:
+	// SETTERS: TEST!!!
 
 	public function __construct() {
 
