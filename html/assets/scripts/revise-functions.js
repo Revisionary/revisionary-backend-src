@@ -19,6 +19,42 @@ function runTheInspector() {
 
 
 
+/*
+		// MODIFICATION FINDER
+		var modification = modifications.find(function(modification, index, dizi) {
+			return modification.element_index == 22 ? true : false;
+		});
+
+		console.log( "MODIFICATION IS ", modification );
+*/
+
+		// APPY THE MODIFICATIONS
+		$(modifications).each(function(i, modification) {
+
+			console.log(i, modification);
+
+
+			// Find the element
+			var element = iframe.find('[data-revisionary-index='+modification.element_index+']');
+
+
+			// If the type is HTML content change
+			if ( modification.modification_type == "html" ) {
+
+				// Record the old HTML
+				var oldHtml = element.html();
+				modifications[i].original = oldHtml;
+
+				// Apply the modification
+				element.html(modification.modification).attr('data-modified', "1");
+
+			}
+
+
+		});
+
+
+
 		// PAGE INTERACTIONS
 		// Hide the loading overlay
 		$('#loading').fadeOut();
