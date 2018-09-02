@@ -327,7 +327,7 @@
 				<div class="col action">
 					<a href="#" class="remove-pin"><i class="fa fa-trash-o" aria-hidden="true"></i> REMOVE</a>
 				</div>
-				<div class="col action">
+				<div class="col action pin-complete">
 					<a href="#" class="complete-pin">
 						<pin
 							data-pin-type="standard"
@@ -335,6 +335,14 @@
 							data-pin-complete="1"
 						></pin>
 						COMPLETE
+					</a>
+					<a href="#" class="incomplete-pin">
+						<pin
+							data-pin-type="standard"
+							data-pin-private="0"
+							data-pin-complete="0"
+						></pin>
+						INCOMPLETE
 					</a>
 				</div>
 			</div>

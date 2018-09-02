@@ -129,12 +129,27 @@ $(function() {
 		var pin_ID = pinWindow.attr('data-pin-id');
 
 		// Delete it from DB
-		if ( confirm('Are you sure you want to delete this pin and its modifications and comments?') ) removePin(pin_ID);
+		if ( confirm('Are you sure you want to delete this pin and its modifications and comments?') )
+			removePin(pin_ID);
 
 		e.preventDefault();
 
 	});
 
+
+	// Complete Pin
+	$('#pin-window .pin-complete > a').click(function(e) {
+
+		var pin_ID = pinWindow.attr('data-pin-id');
+		var isComplete = pinWindow.attr('data-pin-complete') == "1" ? true : false;
+
+		// Toggle Complete it on DB
+		console.log(pin_ID, !isComplete);
+		completePin(pin_ID, !isComplete);
+
+		e.preventDefault();
+
+	});
 
 
 	// Pin window content changes !!!

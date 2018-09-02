@@ -761,6 +761,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 	}
 
+	&[data-pin-complete="1"] {
+
+		& .complete-pin {
+			display: none !important;
+		}
+
+	}
+
+	&[data-pin-complete="0"] {
+
+		& .incomplete-pin {
+			display: none !important;
+		}
+
+	}
+
 	&.loading::after {
 	    content: "Please wait...";
 	    position: absolute;

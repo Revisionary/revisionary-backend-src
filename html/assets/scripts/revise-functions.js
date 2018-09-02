@@ -631,9 +631,13 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 		pin_selector.attr('data-pin-y', realPinY );
 
 
-		// Update the registered pin window location as well
-		pinWindow.attr('data-pin-x', realPinX);
-		pinWindow.attr('data-pin-y', realPinY);
+		// Update the registered pin window location as well, only if current pin is moving
+		if ( pin_selector.attr('data-pin-id') == pinWindow.attr('data-pin-id') ) {
+
+			pinWindow.attr('data-pin-x', realPinX);
+			pinWindow.attr('data-pin-y', realPinY);
+
+		}
 
 
 	} else {
@@ -811,6 +815,7 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	var thePin = $('#pins > pin[data-pin-id="'+ pin_ID +'"]');
 	var thePinType = thePin.attr('data-pin-type');
 	var thePinPrivate = thePin.attr('data-pin-private');
+	var thePinComplete = thePin.attr('data-pin-complete');
 	var theIndex = thePin.attr('data-revisionary-index');
 	var thePinText = thePinPrivate == '1' ? 'PRIVATE COMMENT' : 'ONLY COMMENT';
 
@@ -834,6 +839,7 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	// Add the pin window data !!!
 	pinWindow.attr('data-pin-type', thePinType);
 	pinWindow.attr('data-pin-private', thePinPrivate);
+	pinWindow.attr('data-pin-complete', thePinComplete);
 	pinWindow.attr('data-pin-x', thePin.attr('data-pin-x'));
 	pinWindow.attr('data-pin-y', thePin.attr('data-pin-y'));
 	pinWindow.attr('data-pin-id', pin_ID);
@@ -966,6 +972,43 @@ function removePin(pin_ID) {
 
 		// Re-Index the pin counts
 		reindexPins();
+
+
+		// Finish the process
+		endProcess(newPinProcessID);
+
+	}, 'json');
+
+
+}
+
+
+// FUNCTION: Complete/Incomplete a pin
+function completePin(pin_ID, complete) {
+
+
+    // Add pin to the DB
+    console.log( (complete ? 'Complete' : 'Incomplete') +' the pin #' + pin_ID + ' on DB!!');
+
+
+	// Start the process
+	var newPinProcessID = newProcess();
+
+    $.post(ajax_url, {
+		'type'	  	 		: 'pin-complete',
+		'complete' 	 		: (complete ? 'complete' : 'incomplete'),
+		'nonce'	  	 		: pin_nonce,
+		'pin_ID'			: pin_ID
+	}, function(result){
+
+		console.log(result.data);
+
+		// Update the pin status
+		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-pin-complete', (complete ? '1' : '0'));
+
+
+		// Update the pin window status
+		pinWindow.attr('data-pin-complete', (complete ? '1' : '0'));
 
 
 		// Finish the process
