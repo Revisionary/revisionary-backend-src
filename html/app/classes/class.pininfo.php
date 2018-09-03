@@ -66,7 +66,9 @@ class Pin {
     	int $pin_x = 50,
     	int $pin_y = 50,
     	int $pin_element_index = null,
-	    int $pin_user_ID = null
+	    int $pin_user_ID = null,
+	    string $pin_modification_type = null,
+	    string $pin_modification = null
     ) {
 	    global $db;
 
@@ -88,7 +90,9 @@ class Pin {
 			"pin_private" => $pin_private,
 			"pin_x" => $pin_x,
 			"pin_y" => $pin_y,
-			"pin_element_index" => $pin_element_index
+			"pin_element_index" => $pin_element_index,
+			"pin_modification_type" => $pin_modification_type,
+			"pin_modification" => $pin_modification
 		));
 
 

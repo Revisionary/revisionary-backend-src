@@ -152,17 +152,29 @@ $(function() {
 	});
 
 
-	// Pin window content changes !!!
-	$(document).on('DOMSubtreeModified', '#pin-window .edit-content', function(e) {
+	// Pin window content changes
+	var doChange;
+	$(document).on('DOMSubtreeModified', '#pin-window.active .edit-content', function(e) {
 
-		var elementIndex = $('#pin-window').attr('data-revisionary-index');
+		var pin_ID = pinWindow.attr('data-pin-id');
+		var elementIndex = pinWindow.attr('data-revisionary-index');
 		var changes = $(this).html();
 		var changedElement = iframe.find('[data-revisionary-index="'+ elementIndex +'"]');
 
-		changedElement.html(changes);
+		// Apply the change
+		changedElement.html(changes).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 
-		if ( changedElement.attr('data-revisionary-edited') != '1' )
-			changedElement.attr('data-revisionary-edited', '1');
+
+		// Remove unsent job
+		if (doChange) clearTimeout(doChange);
+
+
+		// Send changes to DB after 1 second
+		doChange = setTimeout(function(){
+
+			saveModification(pin_ID, changes);
+
+		}, 1000);
 
 		console.log('Content changed.');
 

@@ -399,7 +399,7 @@ html, body {
     font-size: 12px;
     line-height: 14px;
     letter-spacing: 0; }
-  #pin-window .difference-swithch-wrap {
+  #pin-window .difference-switch-wrap {
     position: absolute;
     right: 0; }
   #pin-window .dropdown-container {
@@ -480,6 +480,13 @@ html, body {
   #pin-window[data-pin-complete="1"] .complete-pin {
     display: none !important; }
   #pin-window[data-pin-complete="0"] .incomplete-pin {
+    display: none !important; }
+  #pin-window[data-revisionary-edited="0"] .edits-switch-wrap,
+  #pin-window[data-revisionary-edited="0"] .difference-switch-wrap {
+    display: none !important; }
+  #pin-window[data-revisionary-showing-changes="0"] .edits-switch.original {
+    display: none !important; }
+  #pin-window[data-revisionary-showing-changes="1"] .edits-switch.changes {
     display: none !important; }
   #pin-window.loading::after {
     content: "Please wait...";

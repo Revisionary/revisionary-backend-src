@@ -82,6 +82,15 @@
 			foreach($pins as $pin) {
 		?>
 
+				<script>
+					modifications[modifications.length] = {
+						element_index: <?=$pin['pin_element_index']?>,
+						pin_ID: <?=$pin['pin_ID']?>,
+						modification_type: "<?=$pin['pin_modification_type']?>",
+						modification: "<?=$pin['pin_modification']?>",
+						original: ""
+					};
+				</script>
 
 				<pin
 					class="pin big"
@@ -95,27 +104,6 @@
 					data-revisionary-index="<?=$pin['pin_element_index']?>"
 					style="top: <?=$pin['pin_y']?>px; left: <?=$pin['pin_x']?>px;"
 				><?=$pin_index?></pin>
-
-
-			<?php
-			// Get the modification data
-			$db->where('pin_ID', $pin['pin_ID']);
-			$modifications = $db->get('pin_modifications');
-			foreach ($modifications as $modification) {
-			?>
-				<script>
-					modifications[modifications.length] = {
-						modification_ID: <?=$modification['modification_ID']?>,
-						modification_type: "<?=$modification['modification_type']?>",
-						element_index: <?=$modification['element_index']?>,
-						pin_ID: <?=$modification['pin_ID']?>,
-						modification: "<?=$modification['modification']?>",
-						original: ""
-					};
-				</script>
-			<?php
-			}
-			?>
 
 		<?php
 				$pin_index++;
@@ -139,6 +127,8 @@
 		data-pin-complete="0"
 		data-pin-x="30"
 		data-pin-y="30"
+		data-revisionary-edited="0"
+		data-revisionary-showing-changes="0"
 		data-revisionary-index="0"
 		style="left: 10px; top: 10px;"
 	>
@@ -193,7 +183,9 @@
 				</div>
 
 			</div>
-			<div class="col"><a href="#" class="close-button"><img src="<?=asset_url('icons/close-button.svg')?>" alt=""/></a></div>
+			<div class="col">
+				<a href="#" class="close-button"><img src="<?=asset_url('icons/close-button.svg')?>" alt=""/></a>
+			</div>
 		</div>
 
 		<div class="image-editor">
@@ -203,12 +195,17 @@
 		<div class="content-editor">
 
 			<div class="wrap xl-flexbox xl-between xl-bottom">
-				<div class="col">NEW CONTENT:</div>
-				<div class="col">
+				<div class="col">EDIT CONTENT:</div>
+				<div class="col edits-switch-wrap">
 
-					<a href="#" class="switch edits-switch">
+					<a href="#" class="switch edits-switch original">
 						<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
 						SHOW ORIGINAL
+					</a>
+
+					<a href="#" class="switch edits-switch changes">
+						<img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/>
+						SHOW CHANGED
 					</a>
 
 				</div>
@@ -223,8 +220,8 @@
 				</div>
 			</div>
 
-			<div class="wrap xl-1 xl-right difference-swithch-wrap">
-				<a href="#" class="col switch difference-switch">
+			<div class="wrap xl-1 xl-right difference-switch-wrap">
+				<a href="#" class="col switch difference-switch" data-tooltip="Coming soon.">
 					<i class="fa fa-random" aria-hidden="true"></i> SHOW DIFFERENCE
 				</a>
 			</div>

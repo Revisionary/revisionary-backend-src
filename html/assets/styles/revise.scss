@@ -613,7 +613,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 		letter-spacing: 0;
 	}
 
-	.difference-swithch-wrap {
+	.difference-switch-wrap {
 		position: absolute;
 		right: 0;
 	}
@@ -772,6 +772,31 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 	&[data-pin-complete="0"] {
 
 		& .incomplete-pin {
+			display: none !important;
+		}
+
+	}
+
+	&[data-revisionary-edited="0"] {
+
+		& .edits-switch-wrap,
+		& .difference-switch-wrap {
+			display: none !important;
+		}
+
+	}
+
+	&[data-revisionary-showing-changes="0"] {
+
+		& .edits-switch.original {
+			display: none !important;
+		}
+
+	}
+
+	&[data-revisionary-showing-changes="1"] {
+
+		& .edits-switch.changes {
 			display: none !important;
 		}
 
