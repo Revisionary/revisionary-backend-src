@@ -29,6 +29,10 @@ function runTheInspector() {
 			var element = iframe.find('[data-revisionary-index='+modification.element_index+']');
 
 
+			// Add edited status
+			element.attr('data-revisionary-edited', "0");
+
+
 			// If the type is HTML content change
 			if ( modification.modification_type == "html" ) {
 
@@ -822,6 +826,25 @@ function putPin(pinX, pinY) {
 		$('#pin-window').attr('data-pin-id', realPinID);
 
 
+		if (currentCursorType == "live") {
+
+			var editedElement = iframe.find('[data-revisionary-index="'+focused_element_index+'"]');
+
+			// Add edited status to the DOM
+			editedElement.attr('data-revisionary-edited', "0");
+
+
+			// Add to the modifications list
+			modifications[modifications.length] = {
+				element_index: focused_element_index,
+				pin_ID: realPinID,
+				modification_type: "html",
+				modification: null,
+				original: htmlentities( editedElement.html(), "ENT_QUOTES")
+			};
+
+		}
+
 		// Remove the loading text on pin window
 		$('#pin-window').removeClass('loading');
 
@@ -1032,6 +1055,8 @@ function removePin(pin_ID) {
 		});
 		var modificationIndex = modifications.indexOf(modification);
 
+		console.log(modification);
+
 		if (modification) {
 
 			var modifiedElement = iframe.find('[data-revisionary-index="'+ modification.element_index +'"]');
@@ -1040,12 +1065,16 @@ function removePin(pin_ID) {
 			if (modification.original != null)
 				modifiedElement.html( html_entity_decode (modification.original) );
 
+			// Remove the edited status from DOM element
 			modifiedElement.removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
 
 			// Delete from the list
 			modifications.splice(modificationIndex, 1);
 
+
 		}
+
+
 
 		// Remove the pin from DOM
 		$('#pins > pin[data-pin-id="'+pin_ID+'"]').remove();

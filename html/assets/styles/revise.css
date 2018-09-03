@@ -483,7 +483,7 @@ html, body {
     display: none !important; }
   #pin-window[data-pin-complete="0"] .incomplete-pin {
     display: none !important; }
-  #pin-window[data-revisionary-edited="0"] .edits-switch-wrap,
+  #pin-window[data-revisionary-edited="0"] .edits-switch-wrap > .col:not(.title),
   #pin-window[data-revisionary-edited="0"] .difference-switch-wrap {
     display: none !important; }
   #pin-window[data-revisionary-showing-changes="0"] .edits-switch-wrap.changes,

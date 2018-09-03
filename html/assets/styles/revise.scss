@@ -783,7 +783,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 	&[data-revisionary-edited="0"] {
 
-		& .edits-switch-wrap,
+		& .edits-switch-wrap > .col:not(.title),
 		& .difference-switch-wrap {
 			display: none !important;
 		}

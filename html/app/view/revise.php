@@ -9,8 +9,6 @@
 	version_number = '<?=$version_number?>';
 	version_ID = '<?=$version_ID?>';
 
-
-
 	var pin_nonce = '<?=$_SESSION["pin_nonce"]?>';
 
 </script>
@@ -51,7 +49,9 @@
 			$pin_index = 1;
 			foreach($pins as $pin) {
 		?>
-
+			<?php
+			if ($pin['pin_type'] == "live") {
+			?>
 				<script>
 					modifications[modifications.length] = {
 						element_index: <?=$pin['pin_element_index']?>,
@@ -61,6 +61,9 @@
 						original: null
 					};
 				</script>
+			<?php
+			}
+			?>
 
 				<pin
 					class="pin big"
@@ -167,7 +170,7 @@
 		<div class="content-editor">
 
 			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
-				<div class="col">EDIT CONTENT:</div>
+				<div class="col title">EDIT CONTENT:</div>
 				<div class="col">
 
 					<a href="#" class="switch edits-switch original">
