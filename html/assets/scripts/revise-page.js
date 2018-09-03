@@ -377,6 +377,8 @@ $(function() {
 
 		hoveringPin = false;
 
+		iframe.find('body *').css('outline', '');
+
 
 		// Show the cursor
 		if (cursorActive && !pinDragging) cursor.stop().fadeIn();

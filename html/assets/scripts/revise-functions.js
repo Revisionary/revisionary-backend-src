@@ -154,7 +154,11 @@ function runTheInspector() {
 				}
 
 
-				// Re-focus to the edited element if this is child of it
+				// EDITABLE CHECKS
+				// Re-focus to the edited element if this is child of it: <p data-edited="1"><b>Lorem
+				hoveringText = false;
+		        focused_element_editable = false;
+		        focused_element_html_editable = false;
 				if (focused_element_edited_parents.length) {
 
 					// Re-focus to the parent edited element
@@ -169,15 +173,16 @@ function runTheInspector() {
 					focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
 					focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
 
-					console.log('ALREADY EDITED ELEMENT!!!');
+					hoveringText = true;
+					focused_element_editable = true; // Obviously Text Editable
+					focused_element_html_editable = true;
+
+					console.log('Already edited element: ', focused_element.prop("tagName"));
 
 				}
 
 
 				// Check element text editable: <p>Lorem ipsum dolor sit amet...
-				hoveringText = false;
-		        focused_element_editable = false;
-		        focused_element_html_editable = false;
 		        if (
 			        easy_html_elements.indexOf( focused_element.prop("tagName") ) != -1 && // In easy HTML elements?
 		        	focused_element_text.trim() != "" && // If not empty
@@ -324,8 +329,8 @@ function runTheInspector() {
 
 
 				// See what am I focusing
-				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
-				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable );
+				//console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
+				//console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable );
 
 
 
