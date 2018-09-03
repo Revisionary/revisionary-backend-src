@@ -245,6 +245,10 @@ $(function() {
 		cursor.stop().fadeOut();
 
 
+		// Clear all outlines
+		iframe.find('body *').css('outline', '');
+
+
 		// Outline the element if this is a live pin
 		if ($(this).attr("data-pin-type") == "live") {
 
