@@ -43,10 +43,12 @@ function runTheInspector() {
 
 				// Record the old HTML
 				var oldHtml = element.html();
-				modifications[i].original = oldHtml;
+				modifications[i].original = htmlentities(oldHtml, "ENT_QUOTES"); console.log('OLD', modifications[i].original);
+
 
 				// Apply the modification
-				element.html(modification.modification).attr('data-modified', "1");
+				var newHTML = html_entity_decode(modification.modification, "ENT_QUOTES"); console.log('NEW', newHTML);
+				element.html( newHTML ).attr('data-modified', "1").attr('data-modification-id', modification.modification_ID);
 
 			}
 

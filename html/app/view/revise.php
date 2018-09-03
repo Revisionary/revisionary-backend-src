@@ -15,6 +15,7 @@
 
 	var modifications = [];
 
+/*
 	modifications[modifications.length] = {
 		modification_ID: 1,
 		modification_type: "html",
@@ -22,8 +23,10 @@
 		pin_ID: 45,
 		modification: "Telling your home? Get more.",
 		original: ""
-	}
+	};
+*/
 
+/*
 	modifications[modifications.length] = {
 		modification_ID: 2,
 		modification_type: "html",
@@ -31,7 +34,8 @@
 		pin_ID: 47,
 		modification: "When do you want to purchase?",
 		original: ""
-	}
+	};
+*/
 
 </script>
 
@@ -64,13 +68,19 @@
 		<div id="pins">
 		<?php
 
+			// Bring the modification info
+			//$db->join("pin_modifications mod", "pin.pin_ID = mod.pin_ID", "LEFT");
+			//$db->joinWhere("archives arc", "arc.archiver_user_ID", currentUserID());
+			//$db->joinWhere("archives arc", "arc.archive_type", "project");
+
+
 			// Get the pin data
 			$db->where('version_ID', $version_ID);
-			$pins = $db->get('pins');
+			$pins = $db->get('pins pin');
 
 			$pin_index = 1;
 			foreach($pins as $pin) {
-				?>
+		?>
 
 
 				<pin
@@ -87,7 +97,27 @@
 				><?=$pin_index?></pin>
 
 
-				<?php
+			<?php
+			// Get the modification data
+			$db->where('pin_ID', $pin['pin_ID']);
+			$modifications = $db->get('pin_modifications');
+			foreach ($modifications as $modification) {
+			?>
+				<script>
+					modifications[modifications.length] = {
+						modification_ID: <?=$modification['modification_ID']?>,
+						modification_type: "<?=$modification['modification_type']?>",
+						element_index: <?=$modification['element_index']?>,
+						pin_ID: <?=$modification['pin_ID']?>,
+						modification: "<?=$modification['modification']?>",
+						original: ""
+					};
+				</script>
+			<?php
+			}
+			?>
+
+		<?php
 				$pin_index++;
 			}
 
