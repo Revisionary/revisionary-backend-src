@@ -422,6 +422,8 @@ html, body {
     font-size: 14px;
     overflow: scroll;
     letter-spacing: normal; }
+    #pin-window .edit-content.original {
+      opacity: 0.5; }
     #pin-window .edit-content p {
       font-size: 14px;
       letter-spacing: inherit; }

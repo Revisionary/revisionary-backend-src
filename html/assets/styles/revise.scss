@@ -647,6 +647,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 		overflow: scroll;
 		letter-spacing: normal;
 
+		&.original {
+			opacity: 0.5;
+		}
+
 		p {
 			font-size: 14px;
 			letter-spacing: inherit;
