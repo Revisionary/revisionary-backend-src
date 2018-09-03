@@ -3,7 +3,7 @@ $(function() {
 
 
 	// TEST: CONTENT EDITOR PLUGIN
-	$(".edit-content").popline();
+	$(".edit-content[contenteditable='true']").popline();
 
 
 	// Detect cursor moves
@@ -172,11 +172,25 @@ $(function() {
 		var elementIndex = pinWindow.attr('data-revisionary-index');
 		var changes = $(this).html();
 		var changedElement = iframe.find('[data-revisionary-index="'+ elementIndex +'"]');
+		var changedElementOriginal = changedElement.html();
 
 
 
-		// MODIFICATION FINDER
-		var modification = modifications.find(function(modification, index, dizi) {
+
+
+
+		console.log('REGISTERED CHANGE', changes);
+
+
+
+
+		// Apply the change
+		changedElement.html(changes).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+
+
+		// MODIFICATION LIST
+		var modification = modifications.find(function(modification) {
 			return modification.pin_ID == pin_ID ? true : false;
 		});
 
@@ -185,10 +199,10 @@ $(function() {
 		if (modification) {
 
 			// Update the modification on the list
-			modification.modification =  htmlentities( changedElement.html(), "ENT_QUOTES");
+			modification.modification =  htmlentities( changes, "ENT_QUOTES");
 
 			if (modification.original == null)
-				modification.original =  htmlentities( changedElement.html(), "ENT_QUOTES");
+				modification.original =  htmlentities( changedElementOriginal, "ENT_QUOTES");
 
 		} else {
 
@@ -198,19 +212,14 @@ $(function() {
 				pin_ID: pin_ID,
 				modification_type: "html",
 				modification: htmlentities( changes, "ENT_QUOTES"),
-				original: htmlentities( changedElement.html(), "ENT_QUOTES")
+				original: htmlentities( changedElementOriginal, "ENT_QUOTES")
 			};
 
 		}
 
 
-		// Apply the change
-		changedElement.html(changes).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-
-
 		// Remove unsent job
 		if (doChange) clearTimeout(doChange);
-
 
 		// Send changes to DB after 1 second
 		doChange = setTimeout(function(){

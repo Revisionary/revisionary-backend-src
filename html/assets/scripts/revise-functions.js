@@ -851,6 +851,7 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	var thePinText = thePinPrivate == '1' ? 'PRIVATE COMMENT' : 'ONLY COMMENT';
 	var thePinModified = thePin.attr('data-revisionary-edited');
 	var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
+	var originalContent = "";
 
 
 	// Previous state of window
@@ -919,7 +920,26 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 
 
 		// Show the HTML content on the editor
-		pinWindow.find('.edit-content').html(theContent);
+		pinWindow.find('.edit-content.changes').html(theContent);
+
+
+
+		// MODIFICATION FINDER
+		var modification = modifications.find(function(modification) {
+			return modification.pin_ID == pin_ID ? true : false;
+		});
+
+		// Add the original content
+		if (modification && modification.original != null)
+			originalContent = html_entity_decode (modification.original);
+
+		if ( iframe.find('[data-revisionary-index="'+theIndex+'"]:not([data-revisionary-showing-changes])').length ) {
+			originalContent = iframe.find('[data-revisionary-index="'+theIndex+'"]:not([data-revisionary-showing-changes])').html();
+		}
+
+
+		// Update the original content
+		pinWindow.find('.edit-content.original').html( originalContent );
 
 	}
 
@@ -997,8 +1017,19 @@ function removePin(pin_ID) {
 		closePinWindow();
 
 
-		// Revert the changes !!!
-		// ...
+		// Revert the changes
+		var modification = modifications.find(function(modification) {
+			return modification.pin_ID == pin_ID ? true : false;
+		});
+
+		if (modification) {
+
+			iframe.find('[data-revisionary-index="'+ modification.element_index +'"]').html( html_entity_decode (modification.original) );
+
+		}
+
+
+
 
 
 		// Remove the pin from DOM
@@ -1077,7 +1108,7 @@ function saveModification(pin_ID, modification, modification_type = "html") {
 		console.log(result.data);
 
 		// Update the pin status
-		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-pin-edited', "1");
+		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', "1");
 
 
 		// Update the pin window status
@@ -1100,15 +1131,10 @@ function toggleContentEdit(pin_ID) {
 
 
 	// MODIFICATION FINDER
-	var modification = modifications.find(function(modification, index, dizi) {
+	var modification = modifications.find(function(modification) {
 		return modification.pin_ID == pin_ID ? true : false;
 	});
 
-	console.log( "MODIFICATION IS ", modification );
-
-	if (isShowingChanges) {
-
-	}
 
 	if (modification) {
 

@@ -788,7 +788,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 	&[data-revisionary-showing-changes="0"] {
 
-		& .edits-switch-wrap.changes {
+		& .edits-switch-wrap.changes,
+		& .edit-content.changes {
 			display: none !important;
 		}
 
@@ -796,7 +797,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 	&[data-revisionary-showing-changes="1"] {
 
-		& .edits-switch-wrap.original {
+		& .edits-switch-wrap.original,
+		& .edit-content.original {
 			display: none !important;
 		}
 

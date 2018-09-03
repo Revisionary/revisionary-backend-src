@@ -222,8 +222,13 @@
 
 			<div class="wrap xl-1">
 				<div class="col">
-					<div class="edit-content" contenteditable="true">
+					<div class="edit-content changes" contenteditable="true">
 						TEST
+						CONTENT
+					</div>
+					<div class="edit-content original">
+						TEST
+						ORIGINAL
 						CONTENT
 					</div>
 				</div>
