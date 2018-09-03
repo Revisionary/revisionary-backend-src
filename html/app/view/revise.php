@@ -13,30 +13,6 @@
 
 	var pin_nonce = '<?=$_SESSION["pin_nonce"]?>';
 
-	var modifications = [];
-
-/*
-	modifications[modifications.length] = {
-		modification_ID: 1,
-		modification_type: "html",
-		element_index: 22,
-		pin_ID: 45,
-		modification: "Telling your home? Get more.",
-		original: ""
-	};
-*/
-
-/*
-	modifications[modifications.length] = {
-		modification_ID: 2,
-		modification_type: "html",
-		element_index: 23,
-		pin_ID: 47,
-		modification: "When do you want to purchase?",
-		original: ""
-	};
-*/
-
 </script>
 
 

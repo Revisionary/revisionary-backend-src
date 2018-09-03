@@ -107,6 +107,9 @@ var pinWindowWasOpen = false;
 var pinWindowWidth = 350;
 var pinWindowHeight = 515;
 
+// Modifications
+var modifications = [];
+
 
 // When document is ready, fill the variables
 $(function() {

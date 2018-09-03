@@ -1025,9 +1025,22 @@ function removePin(pin_ID) {
 		var modification = modifications.find(function(modification) {
 			return modification.pin_ID == pin_ID ? true : false;
 		});
+		var modificationIndex = modifications.indexOf(modification);
 
-		if (modification)
-			iframe.find('[data-revisionary-index="'+ modification.element_index +'"]').html( html_entity_decode (modification.original) );
+		if (modification) {
+
+			var modifiedElement = iframe.find('[data-revisionary-index="'+ modification.element_index +'"]');
+
+			// Add the original HTML content
+			if (modification.original != null)
+				modifiedElement.html( html_entity_decode (modification.original) );
+
+			modifiedElement.removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
+
+			// Delete from the list
+			modifications.splice(modificationIndex, 1);
+
+		}
 
 		// Remove the pin from DOM
 		$('#pins > pin[data-pin-id="'+pin_ID+'"]').remove();
