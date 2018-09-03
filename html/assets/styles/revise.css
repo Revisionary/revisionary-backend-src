@@ -484,9 +484,9 @@ html, body {
   #pin-window[data-revisionary-edited="0"] .edits-switch-wrap,
   #pin-window[data-revisionary-edited="0"] .difference-switch-wrap {
     display: none !important; }
-  #pin-window[data-revisionary-showing-changes="0"] .edits-switch.original {
+  #pin-window[data-revisionary-showing-changes="0"] .edits-switch-wrap.changes {
     display: none !important; }
-  #pin-window[data-revisionary-showing-changes="1"] .edits-switch.changes {
+  #pin-window[data-revisionary-showing-changes="1"] .edits-switch-wrap.original {
     display: none !important; }
   #pin-window.loading::after {
     content: "Please wait...";

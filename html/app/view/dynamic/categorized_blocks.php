@@ -631,8 +631,8 @@
 						</pin>
 					</div>
 					<div class="date-statistics">
-						<b>Created:</b> <?=date( "d M Y, g:i A", strtotime(Project::ID($project_ID)->getProjectInfo('project_created')) )?><br/>
-						<b>Modified:</b> <?=date( "d M Y, g:i A", strtotime($project_modified) )?>
+						<b>Created:</b> <?=timeago(Project::ID($project_ID)->getProjectInfo('project_created') )?><br/>
+						<b>Modified:</b> <?=timeago($project_modified)?>
 					</div>
 				</div>
 			</div>

@@ -95,6 +95,12 @@ class Pin {
 			"pin_modification" => $pin_modification
 		));
 
+		// Update the page modification date
+		if ($pin_ID) {
+			$page_ID = Version::ID($pin_version_ID)->getVersionInfo('page_ID');
+			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+		}
+
 
 
 		return $pin_ID;
@@ -123,6 +129,12 @@ class Pin {
 		);
 		$pin_updated = $db->update('pins', $pin_locations);
 
+		// Update the page modification date
+		if ($pin_updated) {
+			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+		}
+
 
 		return $pin_updated;
 
@@ -143,6 +155,12 @@ class Pin {
 		$db->where('pin_ID', self::$pin_ID);
 		$pin_deleted = $db->delete('pins');
 
+		// Update the page modification date
+		if ($pin_deleted) {
+			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+		}
+
 
 		return $pin_deleted;
 
@@ -162,6 +180,12 @@ class Pin {
 		// Update the pin
 		$db->where('pin_ID', self::$pin_ID);
 		$pin_updated = $db->update('pins', array('pin_complete' => 1));
+
+		// Update the page modification date
+		if ($pin_updated) {
+			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+		}
 
 
 		return $pin_updated;
@@ -190,6 +214,12 @@ class Pin {
 		);
 		$pin_updated = $db->update('pins', $pin_modification);
 
+		// Update the page modification date
+		if ($pin_updated) {
+			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+		}
+
 
 		return $pin_updated;
 
@@ -209,6 +239,12 @@ class Pin {
 		// Update the pin
 		$db->where('pin_ID', self::$pin_ID);
 		$pin_updated = $db->update('pins', array('pin_complete' => 0));
+
+		// Update the page modification date
+		if ($pin_updated) {
+			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+		}
 
 
 		return $pin_updated;

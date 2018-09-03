@@ -88,7 +88,7 @@
 						pin_ID: <?=$pin['pin_ID']?>,
 						modification_type: "<?=$pin['pin_modification_type']?>",
 						modification: "<?=$pin['pin_modification']?>",
-						original: ""
+						original: null
 					};
 				</script>
 
@@ -101,6 +101,8 @@
 					data-pin-id="<?=$pin['pin_ID']?>"
 					data-pin-x="<?=$pin['pin_x']?>"
 					data-pin-y="<?=$pin['pin_y']?>"
+					data-revisionary-edited="<?=empty($pin['pin_modification_type']) ? "0" : "1"?>"
+					data-revisionary-showing-changes="<?=empty($pin['pin_modification_type']) ? "1" : "0"?>"
 					data-revisionary-index="<?=$pin['pin_element_index']?>"
 					style="top: <?=$pin['pin_y']?>px; left: <?=$pin['pin_x']?>px;"
 				><?=$pin_index?></pin>
@@ -194,14 +196,21 @@
 
 		<div class="content-editor">
 
-			<div class="wrap xl-flexbox xl-between xl-bottom">
+			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
 				<div class="col">EDIT CONTENT:</div>
-				<div class="col edits-switch-wrap">
+				<div class="col">
 
 					<a href="#" class="switch edits-switch original">
 						<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
 						SHOW ORIGINAL
 					</a>
+
+				</div>
+			</div>
+
+			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
+				<div class="col">ORIGINAL CONTENT:</div>
+				<div class="col edits-switch-wrap">
 
 					<a href="#" class="switch edits-switch changes">
 						<img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/>
@@ -225,8 +234,6 @@
 					<i class="fa fa-random" aria-hidden="true"></i> SHOW DIFFERENCE
 				</a>
 			</div>
-
-
 
 		</div>
 
@@ -943,8 +950,8 @@
 						</div>
 
 
-						<div class="date created">Date Created: <span><?=date( "d M Y, g:i A", strtotime(Page::ID($page_ID)->getPageInfo('page_created')) )?></span></div>
-						<div class="date updated">Last Updated: <span><?=date( "d M Y, g:i A", strtotime(Page::ID($page_ID)->getPageInfo('page_modified')) )?></span></div>
+						<div class="date created">Date Created: <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_created') )?></span></div>
+						<div class="date updated">Last Updated: <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_modified') )?></span></div>
 
 
 					</div>

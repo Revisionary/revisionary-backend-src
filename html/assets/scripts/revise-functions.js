@@ -19,15 +19,6 @@ function runTheInspector() {
 
 
 
-/*
-		// MODIFICATION FINDER
-		var modification = modifications.find(function(modification, index, dizi) {
-			return modification.element_index == 22 ? true : false;
-		});
-
-		console.log( "MODIFICATION IS ", modification );
-*/
-
 		// APPY THE MODIFICATIONS
 		$(modifications).each(function(i, modification) {
 
@@ -48,7 +39,10 @@ function runTheInspector() {
 
 				// Apply the modification
 				var newHTML = html_entity_decode(modification.modification); console.log('NEW', newHTML);
-				element.html( newHTML ).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1").attr('data-modification-id', modification.modification_ID);
+				element.html( newHTML ).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+				// Update the pin status
+				$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 
 			}
 
@@ -179,12 +173,6 @@ function runTheInspector() {
 					console.log('ALREADY EDITED ELEMENT!!!');
 
 				}
-
-
-
-				// See what am I focusing
-				console.log( focused_element.prop("tagName"), focused_element_index );
-
 
 
 				// Check element text editable: <p>Lorem ipsum dolor sit amet...
@@ -333,6 +321,10 @@ function runTheInspector() {
 					console.log( '* Element editable but there is edited child: ' + focused_element.prop("tagName") );
 
 				}
+
+
+				// See what am I focusing
+				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
 
 
 
@@ -856,8 +848,8 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	var thePinComplete = thePin.attr('data-pin-complete');
 	var theIndex = thePin.attr('data-revisionary-index');
 	var thePinText = thePinPrivate == '1' ? 'PRIVATE COMMENT' : 'ONLY COMMENT';
-	var elementModified = focused_element.attr('data-revisionary-edited') == 1 ? "1" : "0";
-	var elementShowingChanges = focused_element.attr('data-revisionary-showing-changes') == 1 ? "1" : "0";
+	var thePinModified = thePin.attr('data-revisionary-edited');
+	var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
 
 
 	// Previous state of window
@@ -883,8 +875,8 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	pinWindow.attr('data-pin-x', thePin.attr('data-pin-x'));
 	pinWindow.attr('data-pin-y', thePin.attr('data-pin-y'));
 	pinWindow.attr('data-pin-id', pin_ID);
-	pinWindow.attr('data-revisionary-edited', elementModified);
-	pinWindow.attr('data-revisionary-showing-changes', elementShowingChanges);
+	pinWindow.attr('data-revisionary-edited', thePinModified);
+	pinWindow.attr('data-revisionary-showing-changes', thePinShowingChanges);
 	pinWindow.attr('data-revisionary-index', theIndex);
 
 
@@ -1100,6 +1092,39 @@ function saveModification(pin_ID, modification, modification_type = "html") {
 }
 
 
+// FUNCTION: Toggle content edits
+function toggleContentEdit(pin_ID) {
+
+	var isShowingChanges = pinWindow.attr('data-revisionary-showing-changes') == "1" ? true : false;
+
+
+	// MODIFICATION FINDER
+	var modification = modifications.find(function(modification, index, dizi) {
+		return modification.pin_ID == pin_ID ? true : false;
+	});
+
+	console.log( "MODIFICATION IS ", modification );
+
+	if (isShowingChanges) {
+
+	}
+
+	if (modification) {
+
+		// Change the content on DOM
+		iframe.find('[data-revisionary-index="'+modification.element_index+'"]')
+			.html( html_entity_decode( (isShowingChanges ? modification.original : modification.modification) ) )
+			.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1") );
+
+		// Update the Pin Window and Pin info
+		pinWindow.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+
+	}
+
+}
+
+
 // FUNCTION: Toggle pin window
 function togglePinWindow(pin_x, pin_y, pin_ID) {
 
@@ -1122,6 +1147,8 @@ function newPinTemplate(pin_x, pin_y, pin_ID, user_ID) {
 			data-pin-id="'+pin_ID+'" \
 			data-pin-x="'+pin_x+'" \
 			data-pin-y="'+pin_y+'" \
+			data-revisionary-edited="0" \
+			data-revisionary-showing-changes="1" \
 			data-revisionary-index="'+focused_element_index+'" \
 			style="top: '+pin_y+'px; left: '+pin_x+'px;" \
 		>'+currentPinNumber+'</pin> \

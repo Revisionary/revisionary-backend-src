@@ -480,8 +480,24 @@ class Page {
 
 
     // Edit a page !!!
-    public function edit() {
+    public function edit(
+	    string $column,
+	    $new_value
+    ) {
+	    global $db;
 
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		// Update the page
+		$db->where('page_ID', self::$page_ID);
+		$page_updated = $db->update('pages', array($column => $new_value));
+
+
+		return $page_updated;
     }
 
 

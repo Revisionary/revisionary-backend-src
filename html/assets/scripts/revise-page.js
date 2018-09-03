@@ -152,6 +152,18 @@ $(function() {
 	});
 
 
+	// Toggle original content
+	$('.edits-switch').click(function(e) {
+
+		var pin_ID = pinWindow.attr('data-pin-id');
+
+		toggleContentEdit(pin_ID);
+
+		e.preventDefault();
+
+	});
+
+
 	// Pin window content changes
 	var doChange;
 	$(document).on('DOMSubtreeModified', '#pin-window.active .edit-content', function(e) {
@@ -160,6 +172,37 @@ $(function() {
 		var elementIndex = pinWindow.attr('data-revisionary-index');
 		var changes = $(this).html();
 		var changedElement = iframe.find('[data-revisionary-index="'+ elementIndex +'"]');
+
+
+
+		// MODIFICATION FINDER
+		var modification = modifications.find(function(modification, index, dizi) {
+			return modification.pin_ID == pin_ID ? true : false;
+		});
+
+
+		// Add the original content to the list
+		if (modification) {
+
+			// Update the modification on the list
+			modification.modification =  htmlentities( changedElement.html(), "ENT_QUOTES");
+
+			if (modification.original == null)
+				modification.original =  htmlentities( changedElement.html(), "ENT_QUOTES");
+
+		} else {
+
+			// Add to the modifications list
+			modifications[modifications.length] = {
+				element_index: elementIndex,
+				pin_ID: pin_ID,
+				modification_type: "html",
+				modification: htmlentities( changes, "ENT_QUOTES"),
+				original: htmlentities( changedElement.html(), "ENT_QUOTES")
+			};
+
+		}
+
 
 		// Apply the change
 		changedElement.html(changes).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
