@@ -68,12 +68,6 @@
 		<div id="pins">
 		<?php
 
-			// Bring the modification info
-			//$db->join("pin_modifications mod", "pin.pin_ID = mod.pin_ID", "LEFT");
-			//$db->joinWhere("archives arc", "arc.archiver_user_ID", currentUserID());
-			//$db->joinWhere("archives arc", "arc.archive_type", "project");
-
-
 			// Get the pin data
 			$db->where('version_ID', $version_ID);
 			$pins = $db->get('pins pin');

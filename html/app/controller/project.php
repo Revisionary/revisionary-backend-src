@@ -204,7 +204,7 @@ foreach($theCategorizedData as $categories) {
 }
 
 
-// Additional JavaScripts
+// Additional Scripts and Styles
 $additionalCSS = [
 	'jquery.mCustomScrollbar.css'
 ];

@@ -1009,9 +1009,9 @@ function removePin(pin_ID) {
 	var newPinProcessID = newProcess();
 
     $.post(ajax_url, {
-		'type'	  	 		: 'pin-remove',
-		'nonce'	  	 		: pin_nonce,
-		'pin_ID'			: pin_ID
+		'type'	  	: 'pin-remove',
+		'nonce'	  	: pin_nonce,
+		'pin_ID'	: pin_ID
 	}, function(result){
 
 		console.log(result.data);
@@ -1026,15 +1026,8 @@ function removePin(pin_ID) {
 			return modification.pin_ID == pin_ID ? true : false;
 		});
 
-		if (modification) {
-
+		if (modification)
 			iframe.find('[data-revisionary-index="'+ modification.element_index +'"]').html( html_entity_decode (modification.original) );
-
-		}
-
-
-
-
 
 		// Remove the pin from DOM
 		$('#pins > pin[data-pin-id="'+pin_ID+'"]').remove();
