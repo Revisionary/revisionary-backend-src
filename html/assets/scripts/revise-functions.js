@@ -130,7 +130,6 @@ function runTheInspector() {
 			if (cursorActive && !hoveringPin) {
 
 
-
 				// REFOCUS WORKS:
 				// Re-focus if only child element has no child and has content
 				if (
@@ -323,8 +322,10 @@ function runTheInspector() {
 				}
 
 
+
 				// See what am I focusing
 				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
+				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable );
 
 
 

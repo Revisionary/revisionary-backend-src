@@ -16,6 +16,7 @@ var easy_html_elements = [
     "A",
 	"B",
 	"I",
+	"U",
 	"EM",
 	"STRONG",
 	"SMALL",
