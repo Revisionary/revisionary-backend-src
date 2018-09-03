@@ -106,15 +106,6 @@ var pinWindowWasOpen = false;
 var pinWindowWidth = 350;
 var pinWindowHeight = 515;
 
-/*
-MIGHT BE NEEDED
-
-addMode = false;
-pinWindowOpen = false;
-currentText = "";
-currentDevice = "Desktop";
-*/
-
 
 // When document is ready, fill the variables
 $(function() {

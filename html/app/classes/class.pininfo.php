@@ -169,6 +169,33 @@ class Pin {
 	}
 
 
+    // Modify a pin
+    public function modify(
+	    string $modification,
+	    string $modification_type = "html"
+    ) {
+	    global $db;
+
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		// Update the pin
+		$db->where('pin_ID', self::$pin_ID);
+		$pin_modification = array(
+			'pin_modification_type' => $modification_type,
+			'pin_modification' => $modification
+		);
+		$pin_updated = $db->update('pins', $pin_modification);
+
+
+		return $pin_updated;
+
+	}
+
+
     // inComplete a pin
     public function inComplete() {
 	    global $db;

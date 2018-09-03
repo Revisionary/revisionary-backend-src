@@ -10,7 +10,8 @@ if ( request("nonce") !== $_SESSION["pin_nonce"] )
 
 // Get the pin info
 $pin_ID = request('pin_ID');
-$complete = request('complete') == "complete" ? true : false;
+$modification = request('modification');
+$modification_type = request('modification_type') == "html" ? "html" : "none"; // !!!
 
 
 // Are they numbers?
@@ -23,10 +24,10 @@ if ( !is_numeric($pin_ID) )
 
 
 
-// Complete/Incomplete the pin
-$pin_completed = $complete ? Pin::ID($pin_ID)->complete() : Pin::ID($pin_ID)->inComplete();
+// Modify the pin
+$pin_modified = Pin::ID($pin_ID)->modify($modification, $modification_type);
 
-if ($pin_completed) $status = "Pin ".($complete ? "completed" : "incompleted").": $pin_ID";
+if ($pin_modified) $status = "Pin Modified: $pin_ID";
 
 
 // CREATE THE RESPONSE

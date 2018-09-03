@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 09, 2018 at 07:41 PM
+-- Generation Time: Sep 03, 2018 at 02:45 PM
 -- Server version: 5.7.21
--- PHP Version: 7.2.7
+-- PHP Version: 7.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -169,22 +169,10 @@ CREATE TABLE `pins` (
   `pin_x` int(20) NOT NULL DEFAULT '10',
   `pin_y` int(20) NOT NULL DEFAULT '10',
   `pin_element_index` bigint(20) NOT NULL,
+  `pin_modification_type` varchar(10) DEFAULT NULL,
+  `pin_modification` longtext,
   `version_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pin_modifications`
---
-
-CREATE TABLE `pin_modifications` (
-  `modification_ID` bigint(20) NOT NULL,
-  `modification_type` varchar(10) NOT NULL,
-  `modification` longtext NOT NULL,
-  `element_index` bigint(20) NOT NULL,
-  `pin_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -398,13 +386,6 @@ ALTER TABLE `pins`
   ADD KEY `version_ID` (`version_ID`);
 
 --
--- Indexes for table `pin_modifications`
---
-ALTER TABLE `pin_modifications`
-  ADD PRIMARY KEY (`modification_ID`),
-  ADD KEY `pin_ID` (`pin_ID`);
-
---
 -- Indexes for table `projects`
 --
 ALTER TABLE `projects`
@@ -516,12 +497,6 @@ ALTER TABLE `pins`
   MODIFY `pin_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `pin_modifications`
---
-ALTER TABLE `pin_modifications`
-  MODIFY `modification_ID` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
@@ -620,12 +595,6 @@ ALTER TABLE `page_cat_connect`
 ALTER TABLE `pins`
   ADD CONSTRAINT `pins_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `pins_ibfk_2` FOREIGN KEY (`version_ID`) REFERENCES `versions` (`version_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
-
---
--- Constraints for table `pin_modifications`
---
-ALTER TABLE `pin_modifications`
-  ADD CONSTRAINT `pin_modifications_ibfk_1` FOREIGN KEY (`pin_ID`) REFERENCES `pins` (`pin_ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `projects`

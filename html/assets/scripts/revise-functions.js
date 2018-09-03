@@ -47,7 +47,7 @@ function runTheInspector() {
 
 
 				// Apply the modification
-				var newHTML = html_entity_decode(modification.modification, "ENT_QUOTES"); console.log('NEW', newHTML);
+				var newHTML = html_entity_decode(modification.modification); console.log('NEW', newHTML);
 				element.html( newHTML ).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1").attr('data-modification-id', modification.modification_ID);
 
 			}
@@ -1063,20 +1063,20 @@ function completePin(pin_ID, complete) {
 
 
 // FUNCTION: Save a modification
-function saveModification(pin_ID, modification) {
+function saveModification(pin_ID, modification, modification_type = "html") {
 
 
     // Add pin to the DB
     console.log( 'Save modification for the pin #' + pin_ID + ' on DB!!');
 
 
-/*
 	// Start the process
 	var newPinProcessID = newProcess();
 
     $.post(ajax_url, {
-		'type'	  	 		: 'modification-complete',
-		'complete' 	 		: (complete ? 'complete' : 'incomplete'),
+		'type'	  	 		: 'pin-modify',
+		'modification' 	 	: modification,
+		'modification_type'	: modification_type,
 		'nonce'	  	 		: pin_nonce,
 		'pin_ID'			: pin_ID
 	}, function(result){
@@ -1084,7 +1084,7 @@ function saveModification(pin_ID, modification) {
 		console.log(result.data);
 
 		// Update the pin status
-		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-pin-complete', (complete ? '1' : '0'));
+		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-pin-edited', "1");
 
 
 		// Update the pin window status
@@ -1095,9 +1095,6 @@ function saveModification(pin_ID, modification) {
 		endProcess(newPinProcessID);
 
 	}, 'json');
-*/
-
-	pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 
 
 }

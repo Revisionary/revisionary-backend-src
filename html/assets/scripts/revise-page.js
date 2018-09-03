@@ -172,7 +172,7 @@ $(function() {
 		// Send changes to DB after 1 second
 		doChange = setTimeout(function(){
 
-			saveModification(pin_ID, changes);
+			saveModification(pin_ID, changes, 'html');
 
 		}, 1000);
 
