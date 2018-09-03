@@ -915,12 +915,8 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 		pinWindow.find('.content-editor').show();
 
 
-		// GET THIS FROM DB!!
-		var theContent = iframe.find('[data-revisionary-index="'+ theIndex +'"]').html();
 
-
-		// Show the HTML content on the editor
-		pinWindow.find('.edit-content.changes').html(theContent);
+		var origContent = iframe.find('[data-revisionary-index="'+ theIndex +'"]:not([data-revisionary-showing-changes])');
 
 
 
@@ -929,12 +925,20 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 			return modification.pin_ID == pin_ID ? true : false;
 		});
 
-		// Add the original content
+		// Show the changed HTML content on the editor
+		if (modification && modification.modification != null)
+			pinWindow.find('.edit-content.changes').html( html_entity_decode (modification.modification) );
+
+		// Add the original HTML content
 		if (modification && modification.original != null)
 			originalContent = html_entity_decode (modification.original);
 
-		if ( iframe.find('[data-revisionary-index="'+theIndex+'"]:not([data-revisionary-showing-changes])').length ) {
-			originalContent = iframe.find('[data-revisionary-index="'+theIndex+'"]:not([data-revisionary-showing-changes])').html();
+		// If it's untouched DOM
+		if ( origContent.length ) {
+			originalContent = origContent.html();
+
+			// Default change editor
+			pinWindow.find('.edit-content.changes').html( origContent.html() );
 		}
 
 
