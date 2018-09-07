@@ -32,6 +32,7 @@ class Internalize_v3 {
 	    "A",
 		"B",
 		"I",
+		"U",
 		"EM",
 		"STRONG",
 		"SMALL",
@@ -223,7 +224,7 @@ class Internalize_v3 {
 
 
 		// Wait for the downloaded files lists
-		$timeout = 50; // seconds - Temporarily 50 !!!
+		$timeout = 10; // seconds - Temporarily 50 !!!
 		$eta = 0;
 		$out_of_time = false;
 		while (
