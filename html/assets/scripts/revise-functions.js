@@ -1,12 +1,50 @@
 // FUNCTION: Initiate the inspector
 function runTheInspector() {
 
+
+	// WHEN IFRAME DOCUMENT READY
+	$('iframe').contents().ready(function() {
+
+	});
+
+
 	// WHEN IFRAME HAS LOADED
-	$('iframe').on('load', function(){
+	$('iframe').on('load', function() {
+
 
 
 		// Iframe element
 	    iframe = $('iframe').contents();
+
+
+
+		// Check if the page redirected to another page
+		if ( !canAccessIFrame( $(this) ) ) {
+
+			oldScrollOffset_top = scrollOffset_top;
+			oldScrollOffset_left = scrollOffset_left;
+
+			page_redirected = true; console.log('REDIRECTED', page_redirected, scrollOffset_top, scrollOffset_left);
+			window.frames["the-page"].location = page_URL;
+
+		}
+
+		if (page_redirected) {
+
+			page_redirected = false;
+
+			setTimeout(function() { // Does not work sometimes, and needs improvement !!!
+
+				iframe.scrollTop(oldScrollOffset_top);
+				iframe.scrollLeft(oldScrollOffset_left);
+
+				console.log('REDIRECTED', page_redirected, oldScrollOffset_top, oldScrollOffset_left);
+
+				oldScrollOffset_top = oldScrollOffset_left = 0;
+
+			}, 2000);
+
+		}
 
 
 
@@ -74,10 +112,6 @@ function runTheInspector() {
 
 	    // Show current process on loading overlay with progress bar
 	    // ...
-
-
-    	// Remove the loading overlay ???
-		// $('#loading-overlay').fadeOut();
 
 
 	    // Update the title
@@ -398,10 +432,8 @@ function runTheInspector() {
 
 				if (focused_element_has_live_pin) {
 
-
-					// Open the pin window !!!
+					// Open the pin window
 					openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
-
 
 				} else {
 
@@ -409,7 +441,6 @@ function runTheInspector() {
 					putPin(e.pageX, e.pageY);
 
 				}
-
 
 
 			}
@@ -451,6 +482,15 @@ function runTheInspector() {
 		});
 
 
+
+		scrollOffset_top = iframe.scrollTop();
+		scrollOffset_left = iframe.scrollLeft();
+
+		scrollX = scrollOffset_left * iframeScale;
+		scrollY = scrollOffset_top * iframeScale;
+
+		// Relocate Pins
+		relocatePins();
 
 	});
 
@@ -1513,4 +1553,17 @@ function html_entity_decode (string, quote_style) {
     .join("'")
 
   return tmp_str
+}
+
+function canAccessIFrame(iframe) {
+    var html = null;
+    try {
+      // deal with older browsers
+      var doc = iframe[0].contentDocument || iframe[0].contentWindow.document;
+      html = doc.body.innerHTML;
+    } catch(err){
+      // do nothing
+    }
+
+    return(html !== null);
 }

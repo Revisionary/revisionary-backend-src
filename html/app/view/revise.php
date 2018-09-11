@@ -37,7 +37,7 @@
 
 	<div class="iframe-container">
 
-		<iframe id="the-page" src="" data-url="" width="<?=$width?>" height="<?=$height?>" scrolling="auto" style="min-width: <?=$width?>px; min-height: <?=$height?>px;"></iframe>
+		<iframe id="the-page" name="the-page" src="" data-url="" width="<?=$width?>" height="<?=$height?>" scrolling="auto" style="min-width: <?=$width?>px; min-height: <?=$height?>px;"></iframe>
 
 		<div id="pins">
 		<?php
@@ -1169,6 +1169,9 @@ $(function(){
 
 					// Update the iframe url
 					$('iframe').attr('src', data.pageUrl);
+
+					// Update the global URL
+					page_URL = data.pageUrl;
 
 					// Run the inspector
 					runTheInspector();

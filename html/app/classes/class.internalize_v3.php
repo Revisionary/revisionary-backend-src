@@ -224,7 +224,7 @@ class Internalize_v3 {
 
 
 		// Wait for the downloaded files lists
-		$timeout = 10; // seconds - Temporarily 50 !!!
+		$timeout = 50; // seconds - Temporarily 50 !!!
 		$eta = 0;
 		$out_of_time = false;
 		while (
@@ -493,7 +493,9 @@ class Internalize_v3 {
 			        // Specific Log
 					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
 
-			        return $head_tag."<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+					$new_base = "<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+
+			        return $head_tag.$new_base;
 
 		        }
 
@@ -520,7 +522,9 @@ class Internalize_v3 {
 				        // Specific Log
 						file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
 
-				        return $html_tag."<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+						$new_base = "<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+
+						return $html_tag.$new_base;
 
 			        }
 

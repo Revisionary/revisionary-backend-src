@@ -4,6 +4,8 @@ var iframe;
 // IDs
 var user_ID;
 var page_ID;
+var page_URL;
+var page_redirected = false;
 var version_ID;
 var version_number;
 
@@ -92,6 +94,8 @@ var focusedPin = null;
 // Scrolls
 var scrollOffset_top = 0;
 var scrollOffset_left = 0;
+var oldScrollOffset_top = 0;
+var oldScrollOffset_left = 0;
 var scrollX;
 var scrollY;
 
