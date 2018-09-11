@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 03, 2018 at 02:45 PM
+-- Generation Time: Sep 11, 2018 at 05:19 PM
 -- Server version: 5.7.21
 -- PHP Version: 7.2.8
 
@@ -134,6 +134,7 @@ CREATE TABLE `pages` (
   `page_height` int(11) DEFAULT NULL,
   `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `page_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `page_internalized` int(20) NOT NULL DEFAULT '0',
   `project_ID` bigint(20) NOT NULL,
   `device_ID` bigint(20) NOT NULL,
   `parent_page_ID` bigint(20) DEFAULT NULL,
