@@ -24,6 +24,9 @@ class Page {
 	// Current user ID
 	public $user_ID;
 
+	// Internalization Count
+	public $internalizeCount;
+
 
 	// Project Directory
 	public $projectDir;
@@ -103,6 +106,9 @@ class Page {
 
         // Set the user ID
         $this->user_ID = $this->getPageInfo('user_ID');
+
+        // Set the internalization count
+		$this->internalizeCount = $this->getPageInfo('page_internalized');
 
 
 		// Paths

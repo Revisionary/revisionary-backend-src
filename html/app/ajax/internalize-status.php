@@ -71,6 +71,7 @@ $data = array(
 		'processID' => $process->getPid(),
 		'queue_ID' => $queue_ID,
 		'pageUrl' => Page::ID($page_ID)->cachedUrl,
+		'internalized' => Page::ID($page_ID)->internalizeCount,
 
 		'totalCss' => Page::ID($page_ID)->getDownloadedQuantity('total', 'css-filter'),
 		'downloadedCss' => Page::ID($page_ID)->getDownloadedQuantity('filtred', 'css-filter'),

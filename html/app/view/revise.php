@@ -1167,11 +1167,13 @@ $(function(){
 				// If successfully downloaded
 				if (data.processStatus == "ready") {
 
-					// Update the iframe url
-					$('iframe').attr('src', data.pageUrl);
+					// Update the global page URL
+					page_URL = data.pageUrl + '?v=' + data.internalized;
 
-					// Update the global URL
-					page_URL = data.pageUrl;
+
+					// Update the iframe url
+					$('iframe').attr('src', page_URL);
+
 
 					// Run the inspector
 					runTheInspector();

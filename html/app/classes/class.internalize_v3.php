@@ -873,8 +873,13 @@ class Internalize_v3 {
 		$queue->update_status($this->queue_ID, "done", "Internalization is complete.");
 
 
+		// Increase the internalization count
+		$newInternalizeCount = Page::ID($this->page_ID)->internalizeCount + 1;
+		Page::ID($this->page_ID)->edit('page_internalized', $newInternalizeCount);
+
+
 		// Init Log
-		$logger->info("Internalization is complete.");
+		$logger->info("Internalization #$newInternalizeCount is complete.");
 
 
 		return Page::ID($this->page_ID)->cachedUrl;
