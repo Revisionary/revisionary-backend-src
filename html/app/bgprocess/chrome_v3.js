@@ -10,6 +10,7 @@ const argv = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
 const util = require('util');
 const URL = require('url').URL;
+const cdnDetector = require("cdn-detector");
 
 
 
@@ -208,7 +209,10 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 
 		// If on the same host
-		if ( parsedRemoteUrl.hostname == parsedUrl.hostname && !timeIsOver ) {
+		if (
+			(parsedRemoteUrl.hostname == parsedUrl.hostname || cdnDetector.detectFromHostname(parsedUrl.hostname) != null)
+			&& !timeIsOver
+		) {
 
 
 			// LOGS

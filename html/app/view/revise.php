@@ -1132,7 +1132,7 @@ $(function(){
 			'type':'internalize-status',
 			'page_ID': <?=$_url[1]?>,
 			'queue_ID': <?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
-			'processID' : <?=$process_ID?>
+			'processID' : <?=is_numeric($process_ID) ? $process_ID : "''"?>
 		}, function(result){
 
 

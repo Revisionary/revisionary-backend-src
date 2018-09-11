@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "minimist": "^1.2.0",
-    "puppeteer": "^0.13.0"
+    "puppeteer": "^0.13.0",
+    "cdn-detector": "^0.1.6"
   }
 }

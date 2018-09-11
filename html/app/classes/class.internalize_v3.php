@@ -558,7 +558,7 @@ class Internalize_v3 {
 		        	$new_url = url_to_absolute(parseUrl($the_url)['full_host'], $the_url);
 
 
-		        // If not on our server, don't touch it
+		        // If not on our server, don't touch it !!!
 		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] )
 		        	$new_url = $the_url;
 
@@ -570,7 +570,7 @@ class Internalize_v3 {
 
 		        // If file is from the remote url, and already downloaded
 		        if (
-		        	parseUrl($new_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] &&
+		        	//parseUrl($new_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] && // TO ALLOW CDN URLs !!!
 		        	$css_resource_key !== false &&
 		        	(	// Check if this is really stylesheet calling tag
 		        		strpos($full_tag, 'rel="stylesheet"') !== false ||
@@ -947,6 +947,7 @@ class Internalize_v3 {
 				}
 
 
+/* // REMOVED TO ALLOW CDN URLs !!!
 				// If not same domain URL
 				if (
 					$parsed_url['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain']
@@ -956,6 +957,7 @@ class Internalize_v3 {
 
 					return "url('".$url_found."')";
 				}
+*/
 
 
 

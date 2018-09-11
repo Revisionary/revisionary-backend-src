@@ -19,19 +19,7 @@ function runTheInspector() {
 
 
 		// Check if the page redirected to another page
-		if ( !canAccessIFrame( $(this) ) ) {
-
-			oldScrollOffset_top = scrollOffset_top;
-			oldScrollOffset_left = scrollOffset_left;
-
-			page_redirected = true; console.log('REDIRECTED', page_redirected, scrollOffset_top, scrollOffset_left);
-			window.frames["the-page"].location = page_URL;
-
-		}
-
 		if (page_redirected) {
-
-			page_redirected = false;
 
 			setTimeout(function() { // Does not work sometimes, and needs improvement !!!
 
@@ -42,7 +30,20 @@ function runTheInspector() {
 
 				oldScrollOffset_top = oldScrollOffset_left = 0;
 
+				page_redirected = false;
+
 			}, 2000);
+
+		}
+
+		if ( !canAccessIFrame( $(this) ) ) {
+
+			oldScrollOffset_top = scrollOffset_top;
+			oldScrollOffset_left = scrollOffset_left;
+
+			if (!page_redirected) window.frames["the-page"].location = page_URL;
+
+			page_redirected = true; console.log('REDIRECTED', page_redirected, scrollOffset_top, scrollOffset_left);
 
 		}
 
