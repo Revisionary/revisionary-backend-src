@@ -26,7 +26,7 @@
 				<h4 class="section-title xl-left">Project Info</h4>
 
 				<h3>Site Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
-				<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." required/>
+				<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." tabindex="1" autofocus required/>
 
 
 				<a href="#" class="option-toggler more-options">More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
@@ -70,12 +70,12 @@
 					<h4 class="section-title xl-left">Page Info</h4>
 
 					<h3>First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
-					<input type="url" name="page-url" placeholder="https://example.com/..." required disabled/>
+					<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="2" required disabled/>
 					<small class="design-uploader">or <a href="#">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
 
 
 					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
-					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." required disabled/>
+					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="3" required disabled/>
 
 
 					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Custom device option is not working right now." aria-hidden="true"></i></h3>
@@ -189,7 +189,7 @@
 					<div class="col">
 
 
-						<button class="dark small">Add</button>
+						<button class="dark small" tabindex="4">Add</button>
 
 
 					</div>
@@ -220,12 +220,12 @@
 
 
 				<h3>URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
-				<input type="url" name="page-url" placeholder="https://example.com/..." required/>
+				<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
 				<small class="design-uploader">or <a href="#">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
 
 
 				<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
-				<input type="text" name="page-name" placeholder="e.g. Home, About, ..." required/>
+				<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="2" required/>
 
 
 				<a href="#" class="option-toggler more-options">More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
@@ -347,7 +347,7 @@
 					<div class="col">
 
 
-						<button class="dark small">Add</button>
+						<button class="dark small" tabindex="3">Add</button>
 
 
 					</div>

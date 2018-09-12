@@ -269,16 +269,66 @@
 									</div>
 									<div class="col xl-8-12 xl-right xl-top pins">
 
-										<pin data-pin-type="live">13
+										<?php
+
+
+
+										$livePinCount = $standardPinCount = $privatePinCount = 0;
+
+										if ($dataType == "page") {
+
+											// Get the version ID
+											$db->where('page_ID', $block['page_ID']);
+											$version_ID = $db->getValue('versions', 'version_ID'); //print_r( $version_ID );
+
+											// Bring the pins belong to this version
+											$db->where('version_ID', $version_ID);
+											$allPins = $db->get("pins", null, "pin_type, pin_private, user_ID");
+											if ($allPins) {
+
+												$livePinCount = count(array_filter($allPins, function($value) {
+
+													return $value['pin_type'] == "live" && $value['pin_private'] == "0";
+
+												}));
+												$standardPinCount = count(array_filter($allPins, function($value) {
+
+													return $value['pin_type'] == "standard" && $value['pin_private'] == "0";
+
+												}));
+												$privatePinCount = count(array_filter($allPins, function($value) {
+
+													return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
+
+												}));
+
+											}
+
+										}
+										?>
+
+										<?php
+										if ($livePinCount > 0) {
+										?>
+										<pin data-pin-type="live"><?=$livePinCount?>
 											<div class="notif-no">3</div>
 											<div class="pin-title">Live</div>
 										</pin>
-										<pin data-pin-type="standard">7
+										<?php
+										} if ($standardPinCount > 0) {
+										?>
+										<pin data-pin-type="standard"><?=$standardPinCount?>
 											<div class="pin-title">Standard</div>
 										</pin>
-										<pin data-pin-type="live" data-pin-private="1">4
+										<?php
+										} if ($privatePinCount > 0) {
+										?>
+										<pin data-pin-type="live" data-pin-private="1"><?=$privatePinCount?>
 											<div class="pin-title">Private</div>
 										</pin>
+										<?php
+										}
+										?>
 
 									</div>
 									<div class="col xl-1-1 xl-center <?=$dataType == "page" ? "devices" : "pages"?>" style="position: relative;">

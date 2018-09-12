@@ -246,7 +246,7 @@ $(function() {
 		// Focus to the input
 		setTimeout(function() {
 
-			$('#add-new input[name="'+type+'-name"]').focus();
+			$('#add-new input[autofocus]').focus();
 
 		}, 500);
 
@@ -669,7 +669,7 @@ $(function() {
 		// Focus to the input
 		setTimeout(function() {
 
-			$('#add-new input[name="page-name"]').focus();
+			$('#add-new input[autofocus]').focus();
 
 		}, 500);
 
