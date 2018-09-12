@@ -1,9 +1,17 @@
 $(function() {
+
+	// Prevent clicking '#' links
+	$('a[href="#"]').click(function(e) {
+		e.preventDefault();
+	});
+
+
+	// Block Sizes
 	$('.size-selector a').click(function(e) {
 
 		var selected = $(this).data('column');
 
-		$('.blocks').removeClass (function (index, className) {
+		$('.blocks').removeClass(function (index, className) {
 		    return (className.match (/(^|\s)xl-\S+/g) || []).join(' ');
 		}).addClass('xl-' + selected);
 
@@ -940,9 +948,6 @@ $(function() {
 	});
 
 
-
-
-
 	// Delete selected device from the list
 	$(document).on('click', '.selected-devices a.remove-device', function(e) {
 
@@ -976,9 +981,6 @@ $(function() {
 		return false;
 
 	});
-
-
-
 
 
 });

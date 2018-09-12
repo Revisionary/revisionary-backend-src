@@ -1,8 +1,13 @@
 // When document is ready
 $(function() {
 
+	// Prevent clicking '#' links
+	$('a[href="#"]').click(function(e) {
+		e.preventDefault();
+	});
 
-	// TEST: CONTENT EDITOR PLUGIN
+
+	// CONTENT EDITOR PLUGIN
 	$(".edit-content[contenteditable='true']").popline();
 
 

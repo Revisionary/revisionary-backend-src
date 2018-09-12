@@ -532,7 +532,7 @@
 
 										?>
 
-										<a href="#" data-tooltip="Versions: Not working right now.">v<?=empty($pageVersion) ? "0.1" : $pageVersion?></a>
+										<a href="#" data-tooltip="Coming Soon...">v<?=empty($pageVersion) ? "0.1" : $pageVersion?></a>
 
 										<?php
 										}
