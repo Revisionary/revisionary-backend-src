@@ -69,7 +69,7 @@
 				$theData = $category['theData'];
 
 
-				print_r($theData);
+				//print_r($theData);
 				//die();
 
 
@@ -275,34 +275,32 @@
 
 										$livePinCount = $standardPinCount = $privatePinCount = 0;
 
-										if ($dataType == "page") {
+										if ($dataType == "page" && $allMyPins) {
 
-											// Get the version ID
-											$db->where('page_ID', $block['page_ID']);
-											$version_ID = $db->getValue('versions', 'version_ID'); //print_r( $version_ID );
+											$page_IDs = array_column($block['subPageData'], "page_ID");
+											$page_IDs[] = $block['page_ID'];
 
-											// Bring the pins belong to this version
-											$db->where('version_ID', $version_ID);
-											$allPins = $db->get("pins", null, "pin_type, pin_private, user_ID");
-											if ($allPins) {
+											$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
 
-												$livePinCount = count(array_filter($allPins, function($value) {
+												$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
 
-													return $value['pin_type'] == "live" && $value['pin_private'] == "0";
+												return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0";
 
-												}));
-												$standardPinCount = count(array_filter($allPins, function($value) {
+											}));
+											$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
 
-													return $value['pin_type'] == "standard" && $value['pin_private'] == "0";
+												$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
 
-												}));
-												$privatePinCount = count(array_filter($allPins, function($value) {
+												return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0";
 
-													return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
+											}));
+											$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
 
-												}));
+												$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
 
-											}
+												return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
+
+											}));
 
 										}
 										?>
@@ -669,16 +667,28 @@
 				<div class="col" style="margin-bottom: 60px;">
 
 					<div class="pin-statistics">
-						<pin class="mid" data-pin-type="live">13
+						<?php
+						if ($totalLivePinCount > 0) {
+						?>
+						<pin class="mid" data-pin-type="live"><?=$totalLivePinCount?>
 							<div class="notif-no">3</div>
 							<div class="pin-title dark-color">Live</div>
 						</pin>
-						<pin class="mid" data-pin-type="standard">7
+						<?php
+						} if ($totalStandardPinCount > 0) {
+						?>
+						<pin class="mid" data-pin-type="standard"><?=$totalStandardPinCount?>
 							<div class="pin-title dark-color">Standard</div>
 						</pin>
-						<pin class="mid" data-pin-type="live" data-pin-private="1">4
+						<?php
+						} if ($totalPrivatePinCount > 0) {
+						?>
+						<pin class="mid" data-pin-type="live" data-pin-private="1"><?=$totalPrivatePinCount?>
 							<div class="pin-title dark-color">Private</div>
 						</pin>
+						<?php
+						}
+						?>
 					</div>
 					<div class="date-statistics">
 						<b>Created:</b> <?=timeago(Project::ID($project_ID)->getProjectInfo('project_created') )?><br/>

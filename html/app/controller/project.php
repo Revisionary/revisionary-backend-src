@@ -57,7 +57,41 @@ $db->where('project_ID', $_url[1]);
 // My pages in this project
 $allMyPages = $db->get('pages p');
 
-//var_dump($allMyPages); die();
+//var_dump( $allMyPages ); die();
+
+
+
+$totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = 0;
+
+// Bring all the pins
+$db->join("versions ver", "pin.version_ID = ver.version_ID", "LEFT");
+//$db->joinWhere("versions ver", "ver.page_ID", "category");
+
+$page_IDs = array_column($allMyPages, "page_ID"); //print_r($page_IDs);
+$db->where('ver.page_ID', $page_IDs, 'IN');
+
+$allMyPins = $db->get('pins pin', null, "pin.pin_type, pin.pin_private, pin.user_ID, ver.page_ID");
+//var_dump($allMyPins); die();
+
+if ($allMyPins) {
+
+	$totalLivePinCount = count(array_filter($allMyPins, function($value) {
+
+		return $value['pin_type'] == "live" && $value['pin_private'] == "0";
+
+	}));
+	$totalStandardPinCount = count(array_filter($allMyPins, function($value) {
+
+		return $value['pin_type'] == "standard" && $value['pin_private'] == "0";
+
+	}));
+	$totalPrivatePinCount = count(array_filter($allMyPins, function($value) {
+
+		return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
+
+	}));
+
+}
 
 
 
