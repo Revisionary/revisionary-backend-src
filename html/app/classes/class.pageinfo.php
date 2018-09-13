@@ -237,6 +237,7 @@ class Page {
 			if (
 				!file_exists($this->pageFile) ||
 				!file_exists($this->logDir."/css.log") ||
+				!file_exists($this->logDir."/js.log") ||
 				!file_exists($this->logDir."/font.log") ||
 				!file_exists($this->logDir."/html-filter.log") ||
 				!file_exists($this->logDir."/css-filter.log")
@@ -251,14 +252,15 @@ class Page {
 
 
 
-		// 25% - DOWNLOADING THE PAGE AND STYLES
+		// 25% - DOWNLOADING THE PAGE
 		if (
 			file_exists($this->logDir."/_css.log") ||
+			file_exists($this->logDir."/_js.log") ||
 			file_exists($this->logDir."/_font.log")
 		)
 			$process_status = [
 				"status" => "downloading-page",
-				"description" => "Downloading the page and styles",
+				"description" => "Downloading the page",
 				"percentage" => 25
 			];
 
@@ -269,7 +271,7 @@ class Page {
 		)
 			$process_status = [
 				"status" => "downloaded-page",
-				"description" => "Page is downloaded",
+				"description" => "Page is downloaded. Waiting for the styles & scripts",
 				"percentage" => 25
 			];
 
@@ -277,11 +279,12 @@ class Page {
 		// 35% - STYLES ARE DOWNLOADED
 		if (
 			file_exists($this->logDir."/css.log") &&
+			file_exists($this->logDir."/js.log") &&
 			file_exists($this->logDir."/font.log")
 		)
 			$process_status = [
 				"status" => "downloaded-styles",
-				"description" => "Styles are downloaded",
+				"description" => "Styles & Scripts are downloaded",
 				"percentage" => 35
 			];
 
@@ -337,13 +340,14 @@ class Page {
 		// 100% - READY
 		if (
 			file_exists($this->logDir."/css.log") &&
+			file_exists($this->logDir."/js.log") &&
 			file_exists($this->logDir."/font.log") &&
 			file_exists($this->logDir."/html-filter.log") &&
 			file_exists($this->logDir."/css-filter.log")
 		)
 			$process_status = [
 				"status" => "ready",
-				"description" => "Ready! Starting",
+				"description" => "Ready! Loading the site",
 				"percentage" => 100
 			];
 

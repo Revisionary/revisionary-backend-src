@@ -26,6 +26,7 @@ const projectScreenshot = argv.projectScreenshot || 'done';
 
 const htmlFile = argv.htmlFile || 'done';
 const CSSFilesList = argv.CSSFilesList || 'done';
+const JSFilesList = argv.JSFilesList || 'done';
 const fontFilesList = argv.fontFilesList || 'done';
 
 const siteDir = argv.siteDir || 'done';
@@ -78,6 +79,11 @@ if (!fs.existsSync(siteDir + '/css')){
     fs.mkdirSync(siteDir + '/css');
 }
 
+// JS folder
+if (!fs.existsSync(siteDir + '/js')){
+    fs.mkdirSync(siteDir + '/js');
+}
+
 // Fonts folder
 if (!fs.existsSync(siteDir + '/fonts')){
     fs.mkdirSync(siteDir + '/fonts');
@@ -85,6 +91,7 @@ if (!fs.existsSync(siteDir + '/fonts')){
 
 // Create the log files
 fs.writeFileSync(logDir+'/_css.log', '');
+fs.writeFileSync(logDir+'/_js.log', '');
 fs.writeFileSync(logDir+'/_font.log', '');
 
 
@@ -145,8 +152,10 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 	// RESPONSE
 	let responseCount = 0;
-	let cssCount = 0;
 	let htmlCount = 0;
+	let jsCount = 0;
+	let cssCount = 0;
+	let fontCount = 0;
 
 	let responseReject;
 	const responsePromise = new Promise((_, reject) => {
@@ -255,8 +264,28 @@ fs.writeFileSync(logDir+'/_font.log', '');
 			}
 
 
+			// JS Files
+			if (fileType == 'script' && JSFilesList != 'done' ) {
+
+				jsCount++;
+
+
+				// Create the file
+			    fs.writeFileSync(siteDir + '/js/' + jsCount + '.' + fileExtension, buffer);
+
+
+				// Write to the downloaded CSS list file
+				fs.appendFileSync(logDir+'/_js.log', jsCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n');
+				console.log('JS Downloaded: ', jsCount+'.'+fileExtension + ' -> ' + request.url);
+
+			}
+
+
 			// Font Files
 			if (fileType == 'font' && fontFilesList != 'done') {
+
+				fontCount++;
+
 
 				// Create the file
 			    fs.writeFileSync(siteDir + '/fonts/' + fileName, buffer);
@@ -324,6 +353,9 @@ fs.writeFileSync(logDir+'/_font.log', '');
 	// Rename the log files
 	fs.renameSync(logDir+'/_css.log', CSSFilesList);
 	console.log('CSS DOWNLOADS HAVE BEEN COMPLETED!');
+
+	fs.renameSync(logDir+'/_js.log', JSFilesList);
+	console.log('JS DOWNLOADS HAVE BEEN COMPLETED!');
 
 	fs.renameSync(logDir+'/_font.log', fontFilesList);
 	console.log('FONT DOWNLOADS HAVE BEEN COMPLETED!');

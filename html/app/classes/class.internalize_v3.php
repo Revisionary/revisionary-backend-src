@@ -19,11 +19,11 @@ class Internalize_v3 {
 	// CSS files to download
 	public $downloadedCSS = array();
 
+	// JS files to download
+	public $downloadedJS = array();
+
 	// Fonts to download
 	public $downloadedFonts = array();
-
-	// JS files to download !!! Not yet
-	public $downloadedJS = array();
 
 	// Images to download !!! Not yet
 	public $downloadedImages = array();
@@ -133,6 +133,7 @@ class Internalize_v3 {
 
 		$htmlFile = Page::ID($page_ID)->pageFile;
 		$CSSFilesList = $siteDir."/logs/css.log";
+		$JSFilesList = $siteDir."/logs/js.log";
 		$fontFilesList = $siteDir."/logs/font.log";
 
 		$page_image = Page::ID($page_ID)->pageDeviceDir."/".page_image_name;
@@ -143,6 +144,7 @@ class Internalize_v3 {
 		// Are they already exist?
 		$html_captured = file_exists($htmlFile);
 		$CSSFiles_captured = file_exists($CSSFilesList);
+		$JSFiles_captured = file_exists($JSFilesList);
 		$fontFiles_captured = file_exists($fontFilesList);
 
 		$page_captured = file_exists($page_image);
@@ -150,7 +152,7 @@ class Internalize_v3 {
 
 
 		// If both already captured and files are already downloaded, skip this task.
-		if ( $html_captured && $CSSFiles_captured && $fontFiles_captured && $page_captured && $project_captured ) {
+		if ( $html_captured && $CSSFiles_captured && $JSFiles_captured && $fontFiles_captured && $page_captured && $project_captured ) {
 
 
 			// Update the queue status
@@ -175,6 +177,7 @@ class Internalize_v3 {
 
 		$htmlFile = $html_captured ? "done" : $htmlFile;
 		$CSSFilesList = $CSSFiles_captured ? "done" : $CSSFilesList;
+		$JSFilesList = $JSFiles_captured ? "done" : $JSFilesList;
 		$fontFilesList = $fontFiles_captured ? "done" : $fontFilesList;
 
 		$page_image = $page_captured ? "done" : $page_image;
@@ -200,6 +203,7 @@ class Internalize_v3 {
 		$process_string .= "--viewportHeight=$height ";
 		$process_string .= "--htmlFile=$htmlFile ";
 		$process_string .= "--CSSFilesList=$CSSFilesList ";
+		$process_string .= "--JSFilesList=$JSFilesList ";
 		$process_string .= "--fontFilesList=$fontFilesList ";
 		$process_string .= "--pageScreenshot=$page_image ";
 		$process_string .= "--projectScreenshot=$project_image ";
@@ -233,6 +237,7 @@ class Internalize_v3 {
 			(
 				!file_exists($htmlFile) ||
 				!file_exists($siteDir."/logs/css.log") ||
+				!file_exists($siteDir."/logs/js.log") ||
 				!file_exists($siteDir."/logs/font.log")
 			)
 		) {
@@ -321,6 +326,22 @@ class Internalize_v3 {
 		}
 
 
+		// JS list file check
+		if (!file_exists($JSFilesList)) {
+
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "error", "Downloaded JS file list is not exist.");
+
+
+			// Log
+			$logger->error("Downloaded JS file list is not exist.");
+
+
+			return false;
+		}
+
+
 		// Fonts list file check
 		if (!file_exists($fontFilesList)) {
 
@@ -344,6 +365,12 @@ class Internalize_v3 {
 		$this->downloadedCSS = $downloaded_css;
 
 
+		// Parse the downloaded JS list
+		$downloaded_js = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($JSFilesList)));
+		$downloaded_js = array_filter(array_unique($downloaded_js)); // Clean
+		$this->downloadedJS = $downloaded_js;
+
+
 		// Parse the downloaded fonts list
 		$downloaded_font = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($fontFilesList)));
 		$downloaded_font = array_filter(array_unique($downloaded_font)); // Clean
@@ -353,6 +380,7 @@ class Internalize_v3 {
 
 		// Log
 		$logger->debug("Downloaded CSS files:", $this->downloadedCSS);
+		$logger->debug("Downloaded JS files:", $this->downloadedJS);
 		$logger->debug("Downloaded Font files:", $this->downloadedFonts);
 
 
@@ -395,6 +423,7 @@ class Internalize_v3 {
 
 		// Update the real list
 		$this->downloadedCSS = $this->parseResources($this->downloadedCSS);
+		$this->downloadedJS = $this->parseResources($this->downloadedJS);
 		$this->downloadedFonts = $this->parseResources($this->downloadedFonts);
 
 
@@ -591,6 +620,86 @@ class Internalize_v3 {
 
 			        // Specific Log
 					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+
+				}
+
+
+
+		        // Update the HTML element
+	            $new_full_tag = str_replace(
+	            	"$attribute='$the_url", // with single quote
+	            	"$attribute='$new_url",
+	            	$full_tag
+	            );
+
+	            $new_full_tag = str_replace(
+	            	"$attribute=\"$the_url", // with double quotes
+	            	"$attribute=\"$new_url",
+	            	$new_full_tag
+	            );
+
+
+
+		        // Found URL Log
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
+
+
+		        // Specific Log
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
+
+
+	            return $new_full_tag;
+	        },
+	        $html
+	    );
+
+
+		// INTERNALIZE JS FILES
+		$html = preg_replace_callback(
+	        '/<(?<tagname>script)\s+[^<]*?(?<attr>src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/is',
+	        function ($urls) {
+
+
+		        // Found parts
+		        $full_tag = $urls[0];
+		        $attribute = $urls['attr'];
+		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+
+
+		        // Absoluted URL
+		        $new_url = url_to_absolute(Page::ID($this->page_ID)->remoteUrl, $the_url);
+
+
+				// If it has host, but no protocol (without http or https)
+		        if (parseUrl($the_url)['host'] != "" )
+		        	$new_url = url_to_absolute(parseUrl($the_url)['full_host'], $the_url);
+
+
+		        // If not on our server, don't touch it !!!
+		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] )
+		        	$new_url = $the_url;
+
+
+
+				// Find in downloads
+		        $js_resource_key = array_search($new_url, array_column($this->downloadedJS, 'url'));
+
+
+		        // If file is from the remote url, and already downloaded
+		        if ($js_resource_key !== false) {
+
+			        // Downloaded file name
+					$js_file_name = $this->downloadedJS[$js_resource_key]['new_file_name'];
+
+
+			        // Change the URL again with the downloaded file
+			        $new_url = Page::ID($this->page_ID)->pageUri."js/".$js_file_name;
+
+
+
+			        // Specific Log
+					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 				}
 

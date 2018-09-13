@@ -233,11 +233,13 @@ if (
 	file_exists(Page::ID($page_ID)->pageDir) && // Folder is exist
 	file_exists(Page::ID($page_ID)->pageFile) && // HTML is downloaded?
 	file_exists(Page::ID($page_ID)->logDir."/css.log") && // CSS resources ready?
+	file_exists(Page::ID($page_ID)->logDir."/js.log") && // JS resources ready?
 	file_exists(Page::ID($page_ID)->logDir."/font.log") && // Font resources ready?
 	file_exists( $page_image ) && // Page image ready?
 	file_exists( $project_image ) && // // Project image ready?
 	file_exists( Page::ID($page_ID)->logDir."/html-filter.log" ) && // No error on HTML filtering
 	file_exists( Page::ID($page_ID)->logDir."/css.log" ) && // No error on CSS download
+	file_exists( Page::ID($page_ID)->logDir."/js.log" ) && // No error on JS download
 	file_exists( Page::ID($page_ID)->logDir."/css-filter.log" ) && // No error on CSS filtering
 	file_exists( Page::ID($page_ID)->logDir."/font.log" ) // No error on font download
 

@@ -62,10 +62,11 @@ if ($queue_ID) $job_ready = $internalize->waitForQueue();
 // 2. 	If job is ready to get done, open the site with Chrome
 // 2.1. Download the HTML file
 // 2.2. Download the CSS files
-// 2.3. Download the fonts
-// 2.4. Print all the downloaded resources
-// 2.5. Take screenshots
-// 2.6. Close the site
+// 2.3. Download the JS files
+// 2.4. Download the fonts
+// 2.5. Print all the downloaded resources
+// 2.6. Take screenshots
+// 2.7. Close the site
 if ($job_ready) $browser_done = $internalize->browserWorks();
 
 
