@@ -383,9 +383,9 @@
 	<main>
 
 		<div id="revise-sections">
-			<div class="top-left pins">
+			<div class="top-left pins open">
 
-				<div class="tab wrap open">
+				<div class="tab wrap">
 					<div class="col xl-1-1">
 
 						<div class="pins-filter">
@@ -804,9 +804,9 @@
 			</div>
 
 
-			<div class="top-right share xl-right">
+			<div class="top-right share xl-right open">
 
-				<div class="tab wrap open">
+				<div class="tab wrap">
 					<div class="col xl-1-1 xl-center">
 
 						<div class="share-tab-content">
@@ -896,9 +896,9 @@
 			</div>
 
 
-			<div class="bottom-left info">
+			<div class="bottom-left info open">
 
-				<div class="tab wrap open">
+				<div class="tab wrap">
 					<div class="col xl-8-12 xl-left">
 
 
@@ -1072,9 +1072,9 @@
 			</div>
 
 
-			<div class="bottom-right help xl-right">
+			<div class="bottom-right help xl-right open">
 
-				<div class="tab wrap open">
+				<div class="tab wrap">
 					<div class="col xl-1-1">
 						Help Content<br/><br/><br/>
 					</div>

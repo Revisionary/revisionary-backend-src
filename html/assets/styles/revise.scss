@@ -20,6 +20,12 @@ html, body {
 		min-width: 30vw;
 		max-width: 30vw;
 		pointer-events: initial;
+		transition: 500ms;
+		transform: translateX(-100%);
+
+		&.open {
+			transform: translateX(0) !important;
+		}
 
 		.tab {
 			position: relative;
@@ -66,6 +72,7 @@ html, body {
 		&.top-right {
 			top: 0;
 			right: 0;
+			transform: translateX(100%);
 
 			.tab > .col {
 				padding: 0 0 20px 20px;
@@ -87,6 +94,7 @@ html, body {
 		&.bottom-right {
 			bottom: 0;
 			right: 0;
+			transform: translateX(100%);
 
 			.tab > .col {
 				padding: 20px 0 0 20px;

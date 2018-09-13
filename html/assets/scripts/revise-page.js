@@ -183,8 +183,7 @@ $(function() {
 
 
 
-
-		console.log('REGISTERED CHANGE', changes);
+		console.log('REGISTERED CHANGES', changes);
 
 
 

@@ -14,7 +14,11 @@ html, body {
     z-index: 1;
     min-width: 30vw;
     max-width: 30vw;
-    pointer-events: initial; }
+    pointer-events: initial;
+    transition: 500ms;
+    transform: translateX(-100%); }
+    #revise-sections > *.open {
+      transform: translateX(0) !important; }
     #revise-sections > * .tab {
       position: relative;
       background-color: black; }
@@ -41,7 +45,8 @@ html, body {
         bottom: auto; }
     #revise-sections > *.top-right {
       top: 0;
-      right: 0; }
+      right: 0;
+      transform: translateX(100%); }
       #revise-sections > *.top-right .tab > .col {
         padding: 0 0 20px 20px; }
       #revise-sections > *.top-right .opener {
@@ -54,7 +59,8 @@ html, body {
       left: 0; }
     #revise-sections > *.bottom-right {
       bottom: 0;
-      right: 0; }
+      right: 0;
+      transform: translateX(100%); }
       #revise-sections > *.bottom-right .tab > .col {
         padding: 20px 0 0 20px; }
       #revise-sections > *.bottom-right .opener {

@@ -502,54 +502,19 @@ function runTheInspector() {
 // FUNCTION: Tab Toggler
 function toggleTab(tab, forceClose = false) {
 
-	var speed = 500;
-
-	var container = tab.parent();
-	var containerWidth = container.outerWidth();
 	var sideElement = tab.parent().parent();
 
 
-	if ( sideElement.hasClass('top-left') || sideElement.hasClass('bottom-left') ) {
+	if (sideElement.hasClass('open') || forceClose) {
 
-		if (container.hasClass('open') || forceClose) {
-
-			sideElement.animate({
-				left: -containerWidth,
-			}, speed, function() {
-				container.removeClass('open');
-			});
-
-		} else {
-
-			sideElement.animate({
-				left: 0,
-			}, speed, function() {
-				container.addClass('open');
-			});
-
-		}
+		sideElement.removeClass('open');
 
 	} else {
 
-		if (container.hasClass('open') || forceClose) {
-
-			sideElement.animate({
-				right: -containerWidth,
-			}, speed, function() {
-				container.removeClass('open');
-			});
-
-		} else {
-
-			sideElement.animate({
-				right: 0,
-			}, speed, function() {
-				container.addClass('open');
-			});
-
-		}
+		sideElement.addClass('open');
 
 	}
+
 
 }
 
