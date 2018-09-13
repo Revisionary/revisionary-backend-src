@@ -39,6 +39,7 @@ $log = new Katzgrau\KLogger\Logger(
 
 
 // Start the session
+ini_set('session.cookie_domain', '.'.domain);
 ini_set('session.gc_maxlifetime', session_lifetime);
 session_save_path(sessiondir);
 session_name(session_name);

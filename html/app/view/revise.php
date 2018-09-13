@@ -20,10 +20,7 @@
 
 	<div class="progress-info">
 		<ul>
-<!--
-			<li>style.css - Downloading</li>
-			<li>style.css - Downloaded</li>
--->
+			<li><?=Page::ID($page_ID)->cachedUrl?></li>
 		</ul>
 	</div>
 
