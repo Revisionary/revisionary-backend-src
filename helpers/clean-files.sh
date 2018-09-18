@@ -14,8 +14,8 @@ rm -rf node_modules
 echo "NPM files REMOVED"
 
 
-# TO-DO
-# Clean the MySQL files /database/mysql/*
-# Clean the sessions /sessions/*
-# Clean the logs /logs/*
-# Clean the user files /assets/cache/user-1/*
+echo "TO-DO"
+echo "Clean the MySQL files /database/mysql/*"
+echo "Clean the sessions /sessions/*"
+echo "Clean the logs /logs/*"
+echo "Clean the user files /assets/cache/user-1/*"
