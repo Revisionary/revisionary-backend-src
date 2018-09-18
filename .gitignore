@@ -6,6 +6,6 @@ package-lock.json
 
 config-remote.php
 
-html/assets/cache/user-*/project-*/*.png
-html/assets/cache/user-*/project-*/*.jpg
-html/assets/cache/user-*/project-*/page-*/device-*
+www/assets/cache/user-*/project-*/*.png
+www/assets/cache/user-*/project-*/*.jpg
+www/assets/cache/user-*/project-*/page-*/device-*
