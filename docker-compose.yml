@@ -1,0 +1,58 @@
+version: "3.2"
+services:
+    www:
+        build: .
+        container_name: php-apache
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./www:/var/www/html
+        links:
+            - db
+        networks:
+            - default
+    db:
+        image: mysql
+        container_name: mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: revisionaryapp
+            MYSQL_USER: user
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+        volumes:
+            - ./database/dump:/docker-entrypoint-initdb.d
+            - ./database/mysql:/var/lib/mysql
+        networks:
+            - default
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        links:
+            - db
+        ports:
+            - 8000:80
+        environment:
+            MYSQL_USER: user
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+    composer:
+        image: composer/composer
+        container_name: composer
+        command: install
+        restart: 'no'
+        volumes:
+            - ./www:/var/www/html
+    nodejs:
+        image: node:8.9.1
+        container_name: nodejs
+        working_dir: /var/www/html/app/bgprocess
+        environment:
+            - NODE_ENV=production
+        command: npm install
+        volumes:
+            - ./www/app/bgprocess:/var/www/html/app/bgprocess
+volumes:
+    persistent:
