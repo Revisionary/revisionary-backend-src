@@ -7,6 +7,7 @@ $config = array();
 // Environmental settings
 $config['env'] = [
 	'name' 		=> "local-dev",
+	'domain'	=> "revisionaryapp.com",
 	'subdomain' => "dev",
 	'insecure_subdomain' => "insecure",
 	'db_host' 	=> "127.0.0.1",
@@ -24,6 +25,7 @@ if (file_exists(realpath('.') . '/app/system/config-remote.php'))
 /*
 $config['env'] = [
 	'name' 		=> "remote-dev",
+	'domain'	=> "localhost:8080",
 	'subdomain' => "new",
 	'insecure_subdomain' => "new",
 	'db_host' 	=> "127.0.0.1",
@@ -35,6 +37,7 @@ $config['env'] = [
 /*
 $config['env'] = [
 	'name' 		=> "production",
+	'domain'	=> "revisionaryapp.com",
 	'subdomain' => "www",
 	'insecure_subdomain' => "www",
 	'db_host' 	=> "127.0.0.1",
@@ -71,7 +74,7 @@ $config['default_language'] = 'en';
 
 
 // Definitions
-define('domain' , 'revisionaryapp.com');
+define('domain' , $config['env']['domain']);
 define('subdomain' , $config['env']['subdomain']);
 define('insecure_subdomain' , $config['env']['insecure_subdomain']);
 define('dir', realpath('.'));
