@@ -4,6 +4,8 @@ composer.lock
 node_modules
 package-lock.json
 
+database/mysql/*
+
 config-remote.php
 
 www/assets/cache/user-*/project-*/*.png
