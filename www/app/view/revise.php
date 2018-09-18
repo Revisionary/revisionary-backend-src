@@ -156,7 +156,7 @@
 
 			</div>
 			<div class="col">
-				<a href="#" class="close-button"><img src="<?=asset_url('icons/close-button.svg')?>" alt=""/></a>
+				<a href="#" class="close-button"><i class="fa fa-check"></i></a>
 			</div>
 		</div>
 
@@ -363,7 +363,7 @@
 							data-pin-private="0"
 							data-pin-complete="1"
 						></pin>
-						COMPLETE
+						DONE
 					</a>
 					<a href="#" class="incomplete-pin">
 						<pin
