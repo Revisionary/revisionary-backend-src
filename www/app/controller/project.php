@@ -60,39 +60,43 @@ $allMyPages = $db->get('pages p');
 //var_dump( $allMyPages ); die();
 
 
-
+// COUNT ALL THE PINS
 $totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = 0;
 
 // Bring all the pins
-$db->join("versions ver", "pin.version_ID = ver.version_ID", "LEFT");
-//$db->joinWhere("versions ver", "ver.page_ID", "category");
+$allMyPins = array();
+if ($allMyPages) {
 
-$page_IDs = array_column($allMyPages, "page_ID"); //print_r($page_IDs);
-$db->where('ver.page_ID', $page_IDs, 'IN');
+	$db->join("versions ver", "pin.version_ID = ver.version_ID", "LEFT");
 
-$allMyPins = $db->get('pins pin', null, "pin.pin_type, pin.pin_private, pin.user_ID, ver.page_ID");
-//var_dump($allMyPins); die();
+	$page_IDs = array_column($allMyPages, "page_ID"); //print_r($page_IDs);
+	$db->where('ver.page_ID', $page_IDs, 'IN');
+	$allMyPins = $db->get('pins pin', null, "pin.pin_type, pin.pin_private, pin.user_ID, ver.page_ID");
+	//var_dump($allMyPins); die();
 
-if ($allMyPins) {
 
-	$totalLivePinCount = count(array_filter($allMyPins, function($value) {
+	if ($allMyPins) {
 
-		return $value['pin_type'] == "live" && $value['pin_private'] == "0";
+		$totalLivePinCount = count(array_filter($allMyPins, function($value) {
 
-	}));
-	$totalStandardPinCount = count(array_filter($allMyPins, function($value) {
+			return $value['pin_type'] == "live" && $value['pin_private'] == "0";
 
-		return $value['pin_type'] == "standard" && $value['pin_private'] == "0";
+		}));
+		$totalStandardPinCount = count(array_filter($allMyPins, function($value) {
 
-	}));
-	$totalPrivatePinCount = count(array_filter($allMyPins, function($value) {
+			return $value['pin_type'] == "standard" && $value['pin_private'] == "0";
 
-		return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
+		}));
+		$totalPrivatePinCount = count(array_filter($allMyPins, function($value) {
 
-	}));
+			return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
+
+		}));
+
+	}
+
 
 }
-
 
 
 // Get the project ID
