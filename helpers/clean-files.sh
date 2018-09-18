@@ -12,3 +12,10 @@ cd app/bgprocess
 rm -f package-lock.json
 rm -rf node_modules
 echo "NPM files REMOVED"
+
+
+# TO-DO
+# Clean the MySQL files /database/mysql/*
+# Clean the sessions /sessions/*
+# Clean the logs /logs/*
+# Clean the user files /assets/cache/user-1/*
