@@ -8,6 +8,7 @@ services:
             - "443:443"
         volumes:
             - ./www:/var/www/html
+            - ./www/assets/cache:/var/www/html/assets/cache
         links:
             - db
         networks:
