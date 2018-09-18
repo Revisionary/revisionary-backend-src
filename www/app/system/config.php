@@ -10,42 +10,15 @@ $config['env'] = [
 	'domain'	=> "revisionaryapp.com",
 	'subdomain' => "dev",
 	'insecure_subdomain' => "insecure",
-	'db_host' 	=> "127.0.0.1",
+	'db_host' 	=> "db",
 	'db_name' 	=> "revisionaryapp",
-	'db_user' 	=> "root",
-	'db_pass' 	=> "root"
+	'db_user' 	=> "user",
+	'db_pass' 	=> "test"
 ];
 
 // Check for the remote configuration
 if (file_exists(realpath('.') . '/app/system/config-remote.php'))
 	require 'config-remote.php';
-
-
-
-/*
-$config['env'] = [
-	'name' 		=> "remote-dev",
-	'domain'	=> "localhost:8080",
-	'subdomain' => "new",
-	'insecure_subdomain' => "new",
-	'db_host' 	=> "127.0.0.1",
-	'db_name' 	=> "",
-	'db_user' 	=> "",
-	'db_pass' 	=> ""
-];
-*/
-/*
-$config['env'] = [
-	'name' 		=> "production",
-	'domain'	=> "revisionaryapp.com",
-	'subdomain' => "www",
-	'insecure_subdomain' => "www",
-	'db_host' 	=> "127.0.0.1",
-	'db_name' 	=> "",
-	'db_user' 	=> "",
-	'db_pass' 	=> ""
-];
-*/
 
 
 
