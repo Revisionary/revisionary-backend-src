@@ -4,3 +4,4 @@ echo "START STOPPING..."
 docker stop $(docker ps -aq)
 echo "ALL STOPPED"
 docker system prune --volumes
+docker image prune -a
