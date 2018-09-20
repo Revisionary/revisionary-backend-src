@@ -12,6 +12,7 @@ services:
             - "443:443"
         volumes:
             - ./www:/var/www/html
+            - ./logs:/var/www/logs
             - ./www/assets/cache:/var/www/html/assets/cache
         networks:
             - default
