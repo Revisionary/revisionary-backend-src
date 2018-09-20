@@ -3,14 +3,16 @@ services:
     www:
         build: .
         container_name: php-apache
+        depends_on:
+            - db
+            - composer
+            - nodejs
         ports:
             - "80:80"
             - "443:443"
         volumes:
             - ./www:/var/www/html
             - ./www/assets/cache:/var/www/html/assets/cache
-        links:
-            - db
         networks:
             - default
     db:
@@ -31,7 +33,7 @@ services:
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         container_name: phpmyadmin
-        links:
+        depends_on:
             - db
         ports:
             - 8000:80
@@ -50,6 +52,8 @@ services:
     nodejs:
         image: node:8.9.1
         container_name: nodejs
+        depends_on:
+            - composer
         working_dir: /var/www/html/app/bgprocess
         environment:
             - NODE_ENV=development
@@ -58,3 +62,5 @@ services:
             - ./www/app/bgprocess:/var/www/html/app/bgprocess
 volumes:
     persistent:
+networks:
+    default:
