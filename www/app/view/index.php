@@ -16,7 +16,7 @@
 				</ul>
 			</div>
 
-			<form action="/revise/23423142" method="get">
+			<form action="#" method="get" data-tooltip="Coming Soon...">
 				<input type="url" name="new_url" placeholder="ENTER A WEBSITE URL"/>
 				<input type="submit"/>
 			</form>
