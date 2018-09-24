@@ -6,7 +6,7 @@
 
 				<div class="col xl-6-12 xl-center filter invert-hover">
 
-					<span class="search"><img src="<?=asset_url('icons/search.svg')?>" /></span>
+					<span class="search" data-tooltip="Coming Soon..."><img src="<?=asset_url('icons/search.svg')?>" /></span>
 
 				<?php
 

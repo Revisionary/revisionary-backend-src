@@ -20,7 +20,7 @@
 
 	<div class="progress-info">
 		<ul>
-			<li><?=Page::ID($page_ID)->cachedUrl?></li>
+			<li style="color: white;"><?=Page::ID($page_ID)->cachedUrl?></li>
 		</ul>
 	</div>
 
