@@ -251,4 +251,23 @@ class Pin {
 
 	}
 
+
+    // Get the comments
+    public function comments() {
+	    global $db;
+
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		// Get the comments
+		$db->where('pin_ID', self::$pin_ID);
+		$comments = $db->get('pin_comments');
+
+		return $comments;
+
+	}
+
 }

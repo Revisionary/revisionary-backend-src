@@ -798,7 +798,7 @@ function putPin(pinX, pinY) {
 
 
 	// Open the pin window
-	openPinWindow(pinX, pinY, temporaryPinID);
+	openPinWindow(pinX, pinY, temporaryPinID, true);
 
 
 
@@ -874,7 +874,7 @@ function putPin(pinX, pinY) {
 
 
 // FUNCTION: Open the pin window
-function openPinWindow(pin_x, pin_y, pin_ID) {
+function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 
 	var thePin = $('#pins > pin[data-pin-id="'+ pin_ID +'"]');
@@ -914,6 +914,7 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	pinWindow.attr('data-revisionary-edited', thePinModified);
 	pinWindow.attr('data-revisionary-showing-changes', thePinShowingChanges);
 	pinWindow.attr('data-revisionary-index', theIndex);
+	//pinWindow.attr('data-pin-new', firstTime);
 
 
 	// Update the pin type section
@@ -991,9 +992,76 @@ function openPinWindow(pin_x, pin_y, pin_ID) {
 	pinWindowOpen = true;
 
 
-	// Don't remove the loading text if newly added
+	// If the new pin registered, remove the loading message
 	if ( $.isNumeric(pin_ID) )
 		pinWindow.removeClass('loading');
+
+
+
+	// COMMENTS !!! BETA
+	if (!firstTime) { // If this is an already registered pin
+
+
+		// Remove dummy comments and add loading indicator
+		$('.pin-comments').html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div>');
+
+
+		// Disable comment sender
+		$('.comment-input').prop('disabled', true);
+
+
+		// Start the comment getter process
+		var getCommentsProcessID = newProcess();
+
+		// Send the Ajax request
+	    $.post(ajax_url, {
+			'type'	  	: 'get-comments',
+			'nonce'	  	: pin_nonce,
+			'pin_ID'	: pin_ID
+		}, function(result){
+
+			var comments = result.comments;
+
+			console.log(result.data);
+			console.log('COMMENTS: ', result.comments);
+
+
+			// Clean the loading
+			$('.pin-comments').html('<div class="xl-center">No comments yet.</div>');
+
+
+			// Print the comments
+			$(comments).each(function(i, comment) {
+
+				// Clean it first
+				if ( i == 0 ) $('.pin-comments').html('');
+
+				// Append the comments
+				$('.pin-comments').append(
+					commentTemplate(comment)
+				);
+
+			});
+
+
+			// Enable comment sender
+			$('.comment-input').prop('disabled', false);
+
+
+			// Finish the process
+			endProcess(getCommentsProcessID);
+
+		}, 'json');
+
+
+	} else { // If new pin added
+
+
+		// Write a message
+		$('.pin-comments').html('<div class="xl-center">Add your comment:</div>');
+
+	}
+
 
 
 	// Show the pin
@@ -1229,6 +1297,29 @@ function newPinTemplate(pin_x, pin_y, pin_ID, user_ID) {
 			data-revisionary-index="'+focused_element_index+'" \
 			style="top: '+pin_y+'px; left: '+pin_x+'px;" \
 		>'+currentPinNumber+'</pin> \
+	';
+
+}
+
+
+// TEMPLATE: Comment template
+function commentTemplate(comment) {
+
+	return '\
+			<div class="comment wrap xl-flexbox xl-top"> \
+				<a class="col xl-2-12 xl-left xl-first" href="#"> \
+					<picture class="profile-picture big square" style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture> \
+				</a> \
+				<div class="col xl-10-12 comment-inner-wrapper"> \
+					<div class="wrap xl-flexbox xl-left xl-bottom comment-title"> \
+						<a href="#" class="col xl-first comment-user-name"><?=User::ID(2)->fullName?></a> \
+						<span class="col comment-date">32 minutes ago</span> \
+					</div> \
+					<div class="comment-text xl-left"> \
+						'+comment.pin_comment+' \
+					</div> \
+				</div> \
+			</div> \
 	';
 
 }
