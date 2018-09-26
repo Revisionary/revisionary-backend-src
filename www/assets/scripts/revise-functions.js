@@ -1298,15 +1298,22 @@ function newPinTemplate(pin_x, pin_y, pin_ID, user_ID) {
 // TEMPLATE: Comment template
 function commentTemplate(comment) {
 
+	var date = new Date(comment.comment_modified);
+	var picture = comment.user_picture;
+	var hasPic = picture == null ? false : true;
+	var printPic = hasPic ? " style='background-image: url(/assets/cache/user-"+ comment.user_ID +"/"+ comment.user_picture +");'" : "";
+
 	return '\
 			<div class="comment wrap xl-flexbox xl-top"> \
 				<a class="col xl-2-12 xl-left xl-first" href="#"> \
-					<picture class="profile-picture big square" style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture> \
+					<picture class="profile-picture big square" '+ printPic +'> \
+						<span class="'+ (hasPic ? "has-pic" : "") +'">'+ comment.user_first_name.charAt(0) + comment.user_last_name.charAt(0) +'</span> \
+					</picture> \
 				</a> \
 				<div class="col xl-10-12 comment-inner-wrapper"> \
 					<div class="wrap xl-flexbox xl-left xl-bottom comment-title"> \
-						<a href="#" class="col xl-first comment-user-name"><?=User::ID(2)->fullName?></a> \
-						<span class="col comment-date">32 minutes ago</span> \
+						<a href="#" class="col xl-first comment-user-name">'+comment.user_first_name+' '+comment.user_last_name+'</a> \
+						<span class="col comment-date">'+timeSince(date)+'</span> \
 					</div> \
 					<div class="comment-text xl-left"> \
 						'+comment.pin_comment+' \
@@ -1616,4 +1623,32 @@ function canAccessIFrame(iframe) {
     }
 
     return(html !== null);
+}
+
+function timeSince(date) {
+
+  var seconds = Math.floor((new Date() - date) / 1000);
+
+  var interval = Math.floor(seconds / 31536000);
+
+  if (interval > 1) {
+    return interval + " years";
+  }
+  interval = Math.floor(seconds / 2592000);
+  if (interval > 1) {
+    return interval + " months";
+  }
+  interval = Math.floor(seconds / 86400);
+  if (interval > 1) {
+    return interval + " days";
+  }
+  interval = Math.floor(seconds / 3600);
+  if (interval > 1) {
+    return interval + " hours";
+  }
+  interval = Math.floor(seconds / 60);
+  if (interval > 1) {
+    return interval + " minutes";
+  }
+  return Math.floor(seconds) + " seconds";
 }
