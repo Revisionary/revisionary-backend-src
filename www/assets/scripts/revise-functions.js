@@ -1010,9 +1010,6 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		$('.comment-input').prop('disabled', true);
 
 
-		// Start the comment getter process
-		var getCommentsProcessID = newProcess();
-
 		// Send the Ajax request
 	    $.post(ajax_url, {
 			'type'	  	: 'get-comments',
@@ -1023,7 +1020,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 			var comments = result.comments;
 
 			console.log(result.data);
-			console.log('COMMENTS: ', result.comments);
+			console.log('COMMENTS: ', comments);
 
 
 			// Clean the loading
@@ -1046,10 +1043,6 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 			// Enable comment sender
 			$('.comment-input').prop('disabled', false);
-
-
-			// Finish the process
-			endProcess(getCommentsProcessID);
 
 		}, 'json');
 
