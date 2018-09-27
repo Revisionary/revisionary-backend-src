@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<title><?=$page_title?></title>
 
-		<link rel="stylesheet" href="<?=asset_url('fonts/font-awesome/css/font-awesome.css').'?v='.filemtime(dir.'fonts/font-awesome/css/font-awesome.css')?>" media="screen">
+		<link rel="stylesheet" href="<?=asset_url('fonts/font-awesome/css/font-awesome.css').'?v='.filemtime(dir.'/assets/fonts/font-awesome/css/font-awesome.css')?>" media="screen">
 		<link rel="stylesheet" href="<?=asset_url('styles/style.css').'?v='.filemtime(dir.'/assets/styles/style.css')?>" media="screen">
 
 		<?php
