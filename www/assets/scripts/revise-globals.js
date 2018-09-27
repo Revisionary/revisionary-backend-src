@@ -21,6 +21,7 @@ var easy_html_elements = [
 	"U",
 	"EM",
 	"STRONG",
+	"STRIKE",
 	"SMALL",
 	"TEXTAREA",
 	"LABEL",

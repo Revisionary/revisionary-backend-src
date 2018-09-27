@@ -35,6 +35,7 @@ class Internalize_v3 {
 		"U",
 		"EM",
 		"STRONG",
+		"STRIKE",
 		"SMALL",
 		"TEXTAREA",
 		"LABEL",

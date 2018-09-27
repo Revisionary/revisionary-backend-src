@@ -172,7 +172,7 @@ function runTheInspector() {
 
 
 				// REFOCUS WORKS:
-				// Re-focus if only child element has no child and has content
+				// Re-focus if only child element has no child and has content: <p><b focused>Lorem ipsum</b></p>
 				if (
 					focused_element_text == "" && // Focused element has no content
 					focused_element_children.length == 1 && // Has only one child
@@ -183,22 +183,25 @@ function runTheInspector() {
 					// Re-focus to the child element
 					focused_element = focused_element_children.first();
 
+
+					console.log('REFOCUS - Only child element has no child and has content: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
+
 				}
 
 
-				// Re-focus to the edited element if this is child of it: <p data-edited="1"><b>Lorem
+				// Re-focus to the edited element if this is child of it: <p data-edited="1" focused><b>Lorem
 				if (focused_element_edited_parents.length) {
 
 					// Re-focus to the parent edited element
-					focused_element = $(focused_element_edited_parents[0]);
+					focused_element = focused_element_edited_parents.first();
 
 
-					console.log('Already edited element: ', focused_element.prop("tagName"));
+					console.log('REFOCUS - Already edited closest parent: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
 
 				}
 
 
-				// Re-focus to the edited element if this is child of it: <p data-edited="1"><b>Lorem
+				// Re-focus to the edited element if this is parent of it: <p><b data-edited="1" focused>Lorem</b> <span>ipsum dolor</span></p>
 				if (
 					focused_element_has_edited_child == 1
 				) {
@@ -207,7 +210,7 @@ function runTheInspector() {
 					focused_element = focused_element.find('[data-revisionary-index][data-revisionary-edited]');
 
 
-					console.log('Focused the edited child element: ', focused_element.prop("tagName"));
+					console.log('REFOCUS - Already edited only child element: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
 
 				}
 
@@ -225,7 +228,7 @@ function runTheInspector() {
 
 
 
-				// EDITABLE CHECKS
+				// EDITABLE CHECKS:
 				hoveringText = false;
 		        focused_element_editable = false;
 		        focused_element_html_editable = false;
@@ -242,7 +245,7 @@ function runTheInspector() {
 					hoveringText = true;
 					focused_element_editable = true; // Obviously Text Editable
 					focused_element_html_editable = true;
-					console.log( '* Obviously Text Editable: ' + focused_element.prop("tagName") );
+					console.log( '* Obviously Text Editable: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
 					console.log( 'Focused Element Text: ' + focused_element_text );
 
 				}
@@ -254,7 +257,7 @@ function runTheInspector() {
 
 					hoveringImage = true;
 					focused_element_editable = true; // Obviously Image Editable
-					console.log( '* Obviously Image Editable: ' + focused_element.prop("tagName") );
+					console.log( '* Obviously Image Editable: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
 					console.log( 'Focused Element Image: ' + focused_element.attr('src') );
 
 				}
@@ -283,7 +286,7 @@ function runTheInspector() {
 						hoveringText = true;
 						focused_element_editable = true;
 						focused_element_html_editable = true;
-						console.log( '* Text Editable (No Grand Child): ' + focused_element.prop("tagName") );
+						console.log( '* Text Editable (No Grand Child): ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
 						console.log( 'Focused Element Text: ' + focused_element_text );
 
 					}
@@ -323,7 +326,7 @@ function runTheInspector() {
 						hoveringText = true;
 						focused_element_editable = true;
 						focused_element_html_editable = true;
-						console.log( '* Text Editable (One Grand Child): ' + focused_element.prop("tagName") );
+						console.log( '* Text Editable (One Grand Child): ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
 						console.log( 'Focused Element Text: ' + focused_element_text );
 
 					}
@@ -357,7 +360,7 @@ function runTheInspector() {
 
 					focused_element_editable = false;
 					focused_element_html_editable = false;
-					console.log( '* Element editable but NO INDEX: ' + focused_element.prop("tagName") );
+					console.log( '* Element editable but NO INDEX: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
 
 				}
 
@@ -367,7 +370,7 @@ function runTheInspector() {
 
 					focused_element_editable = false;
 					focused_element_html_editable = false;
-					console.log( '* Element editable but there are edited children: ' + focused_element.prop("tagName") );
+					console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
 
 				}
 
