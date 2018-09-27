@@ -248,7 +248,6 @@ function runTheInspector() {
 				}
 
 
-
 				// Check element image editable: <img src="#">...
 				hoveringImage = false;
 		        if ( focused_element.prop("tagName") == "IMG" ) {
@@ -259,7 +258,6 @@ function runTheInspector() {
 					console.log( 'Focused Element Image: ' + focused_element.attr('src') );
 
 				}
-
 
 
 				// Check if element has children but doesn't have grand children: <p>Lorem ipsum <a href="#">dolor</a> sit amet...
@@ -291,7 +289,6 @@ function runTheInspector() {
 					}
 
 				}
-
 
 
 				// Chech if element has only one grand child and it doesn't have any child: <p>Lorem ipsum <a href="#"><strong>dolor</strong></a> sit amet...
@@ -335,7 +332,6 @@ function runTheInspector() {
 				}
 
 
-
 				// Check the submit buttons: <input type="submit | reset">...
 				hoveringButton = false;
 		        if (
@@ -354,6 +350,7 @@ function runTheInspector() {
 				}
 
 
+
 				// PREVENTIONS
 				// Check if it doesn't have any element index: <p data-revisionary-index="16">...
 				if (focused_element_editable && !focused_element_has_index) {
@@ -365,13 +362,12 @@ function runTheInspector() {
 				}
 
 
-
 				// If focused element has edited child, don't focus it
-				if (focused_element_has_edited_child) {
+				if (focused_element_has_edited_child > 1 ) {
 
 					focused_element_editable = false;
 					focused_element_html_editable = false;
-					console.log( '* Element editable but there is edited child: ' + focused_element.prop("tagName") );
+					console.log( '* Element editable but there are edited children: ' + focused_element.prop("tagName") );
 
 				}
 
