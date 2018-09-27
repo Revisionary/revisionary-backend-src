@@ -4,7 +4,9 @@
 			if (isset($additionalBodyJS) && is_array($additionalBodyJS) ) {
 
 				foreach ($additionalBodyJS as $file) {
-					echo '<script src="'.asset_url('scripts/'.$file).'"></script>';
+					$filePath = 'scripts/'.$file;
+
+					echo '<script src="'.asset_url($filePath).'?v='.filemtime(dir."/assets/".$filePath).'"></script>';
 				}
 
 			}

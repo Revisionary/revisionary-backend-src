@@ -4,8 +4,8 @@
 		<meta charset="utf-8">
 		<title><?=$page_title?></title>
 
-		<link rel="stylesheet" href="<?=asset_url('fonts/font-awesome/css/font-awesome.css')?>" media="screen">
-		<link rel="stylesheet" href="<?=asset_url('styles/style.css')?>" media="screen">
+		<link rel="stylesheet" href="<?=asset_url('fonts/font-awesome/css/font-awesome.css').'?v='.filemtime(dir.'fonts/font-awesome/css/font-awesome.css')?>" media="screen">
+		<link rel="stylesheet" href="<?=asset_url('styles/style.css').'?v='.filemtime(dir.'/assets/styles/style.css')?>" media="screen">
 
 		<?php
 
@@ -13,7 +13,9 @@
 			if (isset($additionalCSS) && is_array($additionalCSS) ) {
 
 				foreach ($additionalCSS as $file) {
-					echo '<link rel="stylesheet" href="'.asset_url('styles/'.$file).'" media="screen">';
+					$filePath = 'styles/'.$file;
+
+					echo '<link rel="stylesheet" href="'.asset_url($filePath).'?v='.filemtime(dir."/assets/".$filePath).'" media="screen">';
 				}
 
 			}
@@ -27,7 +29,9 @@
 			if (isset($additionalHeadJS) && is_array($additionalHeadJS) ) {
 
 				foreach ($additionalHeadJS as $file) {
-					echo '<script src="'.asset_url('scripts/'.$file).'"></script>';
+					$filePath = 'scripts/'.$file;
+
+					echo '<script src="'.asset_url($filePath).'?v='.filemtime(dir."/assets/".$filePath).'"></script>';
 				}
 
 			}

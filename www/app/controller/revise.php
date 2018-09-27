@@ -326,7 +326,7 @@ $additionalCSS = [
 $additionalHeadJS = [
 	'process.js',
 	'revise-globals.js',
-	'revise-functions.js?v=5',
+	'revise-functions.js',
 	'vendor/popline/jquery.popline.js',
 	'vendor/popline/plugins/jquery.popline.link.js',
 	//'vendor/popline/plugins/jquery.popline.blockquote.js',
