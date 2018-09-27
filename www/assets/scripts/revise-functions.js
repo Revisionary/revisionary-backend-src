@@ -151,18 +151,20 @@ function runTheInspector() {
 */
 
 
-
-		    // Focused Element
+			// FOCUSING:
+		    // Focused Element is the mouse pointed element as default
 	        focused_element = $(e.target);
+
 	        focused_element_index = focused_element.attr('data-revisionary-index');
 	        focused_element_has_index = focused_element_index != null ? true : false;
 	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
-	        focused_element_html = focused_element.html();
+			focused_element_html = focused_element.html();
 	        focused_element_children = focused_element.children();
 	        focused_element_grand_children = focused_element_children.children();
-	        focused_element_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
+			focused_element_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
 			focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
 			focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
+
 
 
 			// Work only if cursor is active
@@ -180,45 +182,38 @@ function runTheInspector() {
 
 					// Re-focus to the child element
 					focused_element = focused_element_children.first();
-			        focused_element_index = focused_element.attr('data-revisionary-index');
-			        focused_element_has_index = focused_element_index != null ? true : false;
-			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
-					focused_element_html = focused_element.html();
-			        focused_element_children = focused_element.children();
-			        focused_element_grand_children = focused_element_children.children();
-					focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
-					focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
-					focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
 
 				}
 
 
 				// EDITABLE CHECKS
 				// Re-focus to the edited element if this is child of it: <p data-edited="1"><b>Lorem
-				hoveringText = false;
-		        focused_element_editable = false;
-		        focused_element_html_editable = false;
 				if (focused_element_edited_parents.length) {
 
 					// Re-focus to the parent edited element
 					focused_element = $(focused_element_edited_parents[0]);
-			        focused_element_index = focused_element.attr('data-revisionary-index');
-			        focused_element_has_index = focused_element_index != null ? true : false;
-			        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
-					focused_element_html = focused_element.html();
-			        focused_element_children = focused_element.children();
-			        focused_element_grand_children = focused_element_children.children();
-					focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
-					focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
-					focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
 
-					hoveringText = true;
-					focused_element_editable = true; // Obviously Text Editable
-					focused_element_html_editable = true;
 
 					console.log('Already edited element: ', focused_element.prop("tagName"));
 
 				}
+
+
+				// Update refocused sub elements
+		        focused_element_index = focused_element.attr('data-revisionary-index');
+		        focused_element_has_index = focused_element_index != null ? true : false;
+		        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+				focused_element_html = focused_element.html();
+		        focused_element_children = focused_element.children();
+		        focused_element_grand_children = focused_element_children.children();
+				focused_element_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
+				focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
+				focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
+
+
+				hoveringText = false;
+		        focused_element_editable = false;
+		        focused_element_html_editable = false;
 
 
 				// Check element text editable: <p>Lorem ipsum dolor sit amet...
@@ -344,7 +339,7 @@ function runTheInspector() {
 				}
 
 
-
+				// PREVENTIONS
 				// Check if it doesn't have any element index: <p data-revisionary-index="16">...
 				if (focused_element_editable && !focused_element_has_index) {
 
@@ -1329,7 +1324,7 @@ function newPinTemplate(pin_x, pin_y, pin_ID, user_ID) {
 
 
 // TEMPLATE: Comment template
-function commentTemplate(comment, left = true, hide = false, sameTime = false) { if (sameTime) console.log('SAME TIME FOUND', comment);
+function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 	var date = new Date(comment.comment_modified);
 	var picture = comment.user_picture;
