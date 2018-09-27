@@ -269,6 +269,7 @@ html, body {
 		}
 
 
+/*
 		&:nth-child(even) {
 
 			.xl-left {
@@ -283,6 +284,29 @@ html, body {
 				-webkit-order: 1;
 				order: 1;
 			}
+		}
+*/
+
+		&.recurring {
+			margin-top: -15px;
+
+			.profile-image {
+				visibility: hidden;
+			}
+
+			.comment-user-name {
+				display: none;
+			}
+
+		}
+
+
+		&.sametime {
+
+			.comment-date {
+				display: none;
+			}
+
 		}
 
 	}

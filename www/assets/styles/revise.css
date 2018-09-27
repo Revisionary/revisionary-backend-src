@@ -132,7 +132,24 @@ html, body {
   margin-left: 10px; }
   .pin-comments .comment {
     margin-top: 10px;
-    margin-bottom: 25px; }
+    margin-bottom: 25px;
+    /*
+		&:nth-child(even) {
+
+			.xl-left {
+				-webkit-justify-content: flex-end;
+			    -ms-justify-content: flex-end;
+			    justify-content: flex-end;
+			    text-align: right;
+			}
+
+			.xl-first {
+				-ms-flex-order: 1;
+				-webkit-order: 1;
+				order: 1;
+			}
+		}
+*/ }
     .pin-comments .comment .profile-picture {
       margin-left: 0;
       margin-right: 0; }
@@ -155,15 +172,14 @@ html, body {
     .pin-comments .comment .comment-inner-wrapper .comment-text {
       font-size: 14px;
       letter-spacing: 1px; }
-    .pin-comments .comment:nth-child(even) .xl-left {
-      -webkit-justify-content: flex-end;
-      -ms-justify-content: flex-end;
-      justify-content: flex-end;
-      text-align: right; }
-    .pin-comments .comment:nth-child(even) .xl-first {
-      -ms-flex-order: 1;
-      -webkit-order: 1;
-      order: 1; }
+    .pin-comments .comment.recurring {
+      margin-top: -15px; }
+      .pin-comments .comment.recurring .profile-image {
+        visibility: hidden; }
+      .pin-comments .comment.recurring .comment-user-name {
+        display: none; }
+    .pin-comments .comment.sametime .comment-date {
+      display: none; }
 
 .breadcrumbs {
   font-size: 12px;

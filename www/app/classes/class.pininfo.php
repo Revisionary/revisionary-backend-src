@@ -264,8 +264,9 @@ class Pin {
 
 		// Get the comments
 		$db->join("users u", "c.user_ID = u.user_ID", "LEFT");
+		$db->orderBy('c.comment_added', 'ASC');
 		$db->where('pin_ID', self::$pin_ID);
-		$comments = $db->get('pin_comments c', null, "c.comment_modified, c.pin_comment, c.comment_modified, u.user_first_name, u.user_ID, u.user_last_name, u.user_picture");
+		$comments = $db->get('pin_comments c', null, "c.comment_modified, c.pin_comment, c.comment_added, c.comment_modified, u.user_first_name, u.user_ID, u.user_last_name, u.user_picture");
 
 		return $comments;
 
