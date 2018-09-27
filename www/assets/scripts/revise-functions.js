@@ -993,7 +993,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 
 
-	// COMMENTS !!! BETA
+	// COMMENTS
 	if (!firstTime) { // If this is an already registered pin
 
 
