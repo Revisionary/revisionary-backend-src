@@ -4,7 +4,8 @@
         "jwage/purl": "^0.0.7",
         "joshcam/mysqli-database-class": "dev-master",
         "cocur/background-process": "^0.7.0",
-        "katzgrau/klogger": "dev-master"
+        "katzgrau/klogger": "dev-master",
+        "drewm/mailchimp-api": "dev-master"
     },
     "extra": {
         "mouf": {
