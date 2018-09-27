@@ -186,7 +186,6 @@ function runTheInspector() {
 				}
 
 
-				// EDITABLE CHECKS
 				// Re-focus to the edited element if this is child of it: <p data-edited="1"><b>Lorem
 				if (focused_element_edited_parents.length) {
 
@@ -195,6 +194,20 @@ function runTheInspector() {
 
 
 					console.log('Already edited element: ', focused_element.prop("tagName"));
+
+				}
+
+
+				// Re-focus to the edited element if this is child of it: <p data-edited="1"><b>Lorem
+				if (
+					focused_element_has_edited_child == 1
+				) {
+
+					// Re-focus to the parent edited element
+					focused_element = focused_element.find('[data-revisionary-index][data-revisionary-edited]');
+
+
+					console.log('Focused the edited child element: ', focused_element.prop("tagName"));
 
 				}
 
@@ -211,6 +224,8 @@ function runTheInspector() {
 				focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
 
 
+
+				// EDITABLE CHECKS
 				hoveringText = false;
 		        focused_element_editable = false;
 		        focused_element_html_editable = false;
