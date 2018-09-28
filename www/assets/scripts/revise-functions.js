@@ -1405,6 +1405,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 	var hasPic = picture == null ? false : true;
 	var printPic = hasPic ? " style='background-image: url(/assets/cache/user-"+ comment.user_ID +"/"+ comment.user_picture +");'" : "";
 	var direction = left ? "left" : "right";
+	var itsMe = comment.user_ID == user_ID ? true : false;
 
 	return '\
 			<div class="comment wrap xl-flexbox xl-top '+ (hide ? "recurring" : "") +' '+ (sameTime ? "sametime" : "") +'"> \
@@ -1420,6 +1421,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 					</div> \
 					<div class="comment-text xl-'+ direction +'"> \
 						'+comment.pin_comment+' \
+						'+ (itsMe ? ' <a href="#" class="delete-comment" data-tooltip="Delete this comment">&times;</a>' : '') +' \
 					</div> \
 				</div> \
 			</div> \

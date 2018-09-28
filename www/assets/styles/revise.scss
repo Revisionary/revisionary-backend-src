@@ -264,6 +264,16 @@ html, body {
 		    .comment-text {
 				font-size: 14px;
 				letter-spacing: 1px;
+
+
+				.delete-comment {
+					opacity: 0;
+				}
+
+				&:hover .delete-comment {
+					opacity: 1;
+				}
+
 		    }
 
 		}
@@ -312,6 +322,7 @@ html, body {
 			}
 
 		}
+
 
 	}
 

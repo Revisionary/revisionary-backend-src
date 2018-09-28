@@ -172,6 +172,10 @@ html, body {
     .pin-comments .comment .comment-inner-wrapper .comment-text {
       font-size: 14px;
       letter-spacing: 1px; }
+      .pin-comments .comment .comment-inner-wrapper .comment-text .delete-comment {
+        opacity: 0; }
+      .pin-comments .comment .comment-inner-wrapper .comment-text:hover .delete-comment {
+        opacity: 1; }
     .pin-comments .comment.recurring {
       margin-top: -15px; }
       .pin-comments .comment.recurring .profile-image > picture {
