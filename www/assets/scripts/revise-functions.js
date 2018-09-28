@@ -2,7 +2,7 @@
 function runTheInspector() {
 
 
-	// WHEN IFRAME DOCUMENT READY
+	// WHEN IFRAME DOCUMENT READY !!! ?
 	$('iframe').contents().ready(function() {
 
 	});
@@ -17,7 +17,7 @@ function runTheInspector() {
 	    iframe = $('iframe').contents();
 
 
-
+		// REDIRECT DETECTION:
 		// Check if the page redirected to another page
 		if (page_redirected) {
 
@@ -49,7 +49,7 @@ function runTheInspector() {
 
 
 
-		// CURSOR WORKS
+		// CURSOR WORKS:
 		// Close Pin Mode pinTypeSelector - If on revise mode !!!
 		toggleCursorActive(false, true);
 
@@ -58,7 +58,7 @@ function runTheInspector() {
 
 
 
-		// APPY THE MODIFICATIONS
+		// MODIFICATIONS:
 		$(modifications).each(function(i, modification) {
 
 			console.log(i, modification);
@@ -94,7 +94,7 @@ function runTheInspector() {
 
 
 
-		// PAGE INTERACTIONS
+		// PAGE INTERACTIONS:
 		// Hide the loading overlay
 		$('#loading').fadeOut();
 
@@ -106,13 +106,8 @@ function runTheInspector() {
 		});
 
 
-
 		// Body class !!! ???
 		$('body').addClass('ready');
-
-
-	    // Show current process on loading overlay with progress bar
-	    // ...
 
 
 	    // Update the title
@@ -121,7 +116,8 @@ function runTheInspector() {
 		}
 
 
-		// MOUSE ACTIONS
+
+		// MOUSE ACTIONS:
 	    iframe.on('mousemove', function(e) { // Detect the mouse moves in frame
 
 
@@ -138,6 +134,7 @@ function runTheInspector() {
 		    containerX = e.clientX * iframeScale;
 		    containerY = e.clientY * iframeScale;
 
+
 		    // Follow the mouse cursor
 			$('.mouse-cursor').css({
 				left:  containerX,
@@ -145,10 +142,12 @@ function runTheInspector() {
 			});
 
 
+
 /*
 			console.log('Screen: ', screenX, screenY);
 			console.log('Container: ', containerX, containerY);
 */
+
 
 
 			// FOCUSING:
@@ -376,9 +375,11 @@ function runTheInspector() {
 
 
 
+/*
 				// See what am I focusing
-				//console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
-				//console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable );
+				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
+				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable );
+*/
 
 
 
@@ -390,7 +391,7 @@ function runTheInspector() {
 
 
 
-				// LIVE REACTIONS
+				// LIVE REACTIONS:
 				focused_element_has_live_pin = false;
 				if (currentPinType == "live") {
 
@@ -436,10 +437,10 @@ function runTheInspector() {
 		}).on('click', function(e) { // Detect the mouse clicks in frame
 
 
-			// If cursor
+			// If cursor is active
 			if (cursorActive) {
 
-
+				// If focused element has a live pin
 				if (focused_element_has_live_pin) {
 
 					// Open the pin window
@@ -456,7 +457,7 @@ function runTheInspector() {
 			}
 
 
-			// Prevent clicking something?
+			// Prevent clicking something
 			e.preventDefault();
 			return false;
 
