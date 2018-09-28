@@ -1,4 +1,5 @@
-// FUNCTION: Initiate the inspector
+// FUNCTIONS:
+// Initiate the inspector
 function runTheInspector() {
 
 
@@ -509,7 +510,7 @@ function runTheInspector() {
 }
 
 
-// FUNCTION: Tab Toggler
+// Tab Toggler
 function toggleTab(tab, forceClose = false) {
 
 	var sideElement = tab.parent().parent();
@@ -529,7 +530,7 @@ function toggleTab(tab, forceClose = false) {
 }
 
 
-// FUNCTION: Color the element
+// Color the element
 function outline(element, private_pin) {
 
 	element.css('outline', '2px dashed ' + (private_pin == 1 ? '#FC0FB3' : '#7ED321'), 'important');
@@ -537,7 +538,7 @@ function outline(element, private_pin) {
 }
 
 
-// FUNCTION: Switch to a different pin mode
+// Switch to a different pin mode
 function switchPinType(pinType, pinPrivate) {
 
 	log('Switched Pin Type: ', pinType);
@@ -566,7 +567,7 @@ function switchPinType(pinType, pinPrivate) {
 }
 
 
-// FUNCTION: Switch to a different cursor mode
+// Switch to a different cursor mode
 function switchCursorType(cursorType) {
 
 	log(cursorType);
@@ -577,7 +578,7 @@ function switchCursorType(cursorType) {
 }
 
 
-// FUNCTION: Toggle Inspect Mode
+// Toggle Inspect Mode
 function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 	cursor.stop();
@@ -629,7 +630,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 }
 
 
-// FUNCTION: Toggle Pin Mode Selector
+// Toggle Pin Mode Selector
 function togglePinTypeSelector(forceClose = false) {
 
 	if (pinTypeSelectorOpen || forceClose) {
@@ -653,7 +654,7 @@ function togglePinTypeSelector(forceClose = false) {
 }
 
 
-// FUNCTION: Change the pin number on cursor
+// Change the pin number on cursor
 function changePinNumber(pinNumber) {
 
 	cursor.text(pinNumber);
@@ -662,7 +663,7 @@ function changePinNumber(pinNumber) {
 }
 
 
-// FUNCTION: Re-Locate Pins
+// Re-Locate Pins
 function relocatePins(pin_selector = null, x = null, y = null) {
 
 
@@ -766,7 +767,7 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 }
 
 
-// FUNCTION: Re-Index Pins
+// Re-Index Pins
 function reindexPins() {
 
 
@@ -786,7 +787,7 @@ function reindexPins() {
 }
 
 
-// FUNCTION: Put a pin to cordinates
+// Put a pin to cordinates
 function putPin(pinX, pinY) {
 
 	// Put it just on the pointer point
@@ -883,7 +884,7 @@ function putPin(pinX, pinY) {
 }
 
 
-// FUNCTION: Open the pin window
+// Open the pin window
 function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 
@@ -1012,82 +1013,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	if (!firstTime) { // If this is an already registered pin
 
 
-		// Remove dummy comments and add loading indicator
-		$('.pin-comments').html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div>');
-
-
-		// Disable comment sender
-		$('.comment-input').prop('disabled', true);
-
-
-		// Send the Ajax request
-	    $.post(ajax_url, {
-			'type'	  	: 'get-comments',
-			'nonce'	  	: pin_nonce,
-			'pin_ID'	: pin_ID
-		}, function(result){
-
-			var comments = result.comments;
-
-			console.log(result.data);
-			console.log('COMMENTS: ', comments);
-
-
-			// Clean the loading
-			$('.pin-comments').html('<div class="xl-center">No comments yet.</div>');
-
-
-			// Print the comments
-			var previousCommenter = "";
-			var previousDirectionLeft = true;
-			var previousTime = "";
-			var directionLeft = true;
-
-			$(comments).each(function(i, comment) {
-
-				var date = new Date(comment.comment_added);
-				var hide = false;
-				var sameTime = false;
-
-				// Detect if the same person comment
-				if (previousCommenter == comment.user_ID) {
-					directionLeft = !directionLeft;
-					hide = true;
-
-					// Detect same time comments
-					if (previousTime == timeSince(date)) { console.log('TIME SINCE', timeSince(date));
-						sameTime = true;
-					}
-
-				}
-
-				// Clean it first
-				if ( i == 0 ) $('.pin-comments').html('');
-
-
-				// Append the comments
-				$('.pin-comments').append(
-					commentTemplate(comment, directionLeft, hide, sameTime)
-				);
-
-
-				// Record the previous commenter
-				previousDirectionLeft = directionLeft;
-				directionLeft = !directionLeft;
-				previousCommenter = comment.user_ID;
-				previousTime = timeSince(date);
-
-			});
-
-
-			// Scroll down to the latest comment
-			$('#pin-window .pin-comments').scrollTop(9999);
-
-
-			// Enable comment sender
-			$('.comment-input').prop('disabled', false);
-
-		}, 'json');
+		getComments(pin_ID);
 
 
 	} else { // If new pin added
@@ -1111,7 +1037,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 }
 
 
-// FUNCTION: Close pin window
+// Close pin window
 function closePinWindow() {
 
 	// Previous state of window
@@ -1135,7 +1061,7 @@ function closePinWindow() {
 }
 
 
-// FUNCTION: Remove a pin
+// Remove a pin
 function removePin(pin_ID) {
 
 
@@ -1203,7 +1129,7 @@ function removePin(pin_ID) {
 }
 
 
-// FUNCTION: Complete/Incomplete a pin
+// Complete/Incomplete a pin
 function completePin(pin_ID, complete) {
 
 
@@ -1240,7 +1166,7 @@ function completePin(pin_ID, complete) {
 }
 
 
-// FUNCTION: Save a modification
+// Save a modification
 function saveModification(pin_ID, modification, modification_type = "html") {
 
 
@@ -1278,7 +1204,7 @@ function saveModification(pin_ID, modification, modification_type = "html") {
 }
 
 
-// FUNCTION: Toggle content edits
+// Toggle content edits
 function toggleContentEdit(pin_ID) {
 
 	var isShowingChanges = pinWindow.attr('data-revisionary-showing-changes') == "1" ? true : false;
@@ -1306,7 +1232,7 @@ function toggleContentEdit(pin_ID) {
 }
 
 
-// FUNCTION: Toggle pin window
+// Toggle pin window
 function togglePinWindow(pin_x, pin_y, pin_ID) {
 
 	if (pinWindowOpen && pinWindow.attr('data-pin-id') == pin_ID) closePinWindow();
@@ -1315,7 +1241,140 @@ function togglePinWindow(pin_x, pin_y, pin_ID) {
 }
 
 
-// TEMPLATE: Pin template
+// Get Comments
+function getComments(pin_ID) {
+
+
+	// Remove dummy comments and add loading indicator
+	$('#pin-window .pin-comments').html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div>');
+
+
+	// Disable comment sender
+	$('#pin-window #comment-sender input').prop('disabled', true);
+
+
+	// Send the Ajax request
+    $.post(ajax_url, {
+		'type'	  	: 'comments-get',
+		'nonce'	  	: pin_nonce,
+		'pin_ID'	: pin_ID
+	}, function(result){
+
+		var comments = result.comments;
+
+		console.log(result.data);
+		console.log('COMMENTS: ', comments);
+
+
+		// Clean the loading
+		$('#pin-window .pin-comments').html('<div class="xl-center">No comments yet.</div>');
+
+
+		// Print the comments
+		var previousCommenter = "";
+		var previousDirectionLeft = true;
+		var previousTime = "";
+		var directionLeft = true;
+
+		$(comments).each(function(i, comment) {
+
+			var date = new Date(comment.comment_added);
+			var hide = false;
+			var sameTime = false;
+
+			// Detect if the same person comment
+			if (previousCommenter == comment.user_ID) {
+				directionLeft = !directionLeft;
+				hide = true;
+
+				// Detect same time comments
+				if (previousTime == timeSince(date)) { console.log('TIME SINCE', timeSince(date));
+					sameTime = true;
+				}
+
+			}
+
+			// Clean it first
+			if ( i == 0 ) $('#pin-window .pin-comments').html('');
+
+
+			// Append the comments
+			$('#pin-window .pin-comments').append(
+				commentTemplate(comment, directionLeft, hide, sameTime)
+			);
+
+
+			// Record the previous commenter
+			previousDirectionLeft = directionLeft;
+			directionLeft = !directionLeft;
+			previousCommenter = comment.user_ID;
+			previousTime = timeSince(date);
+
+		});
+
+
+		// Scroll down to the latest comment
+		$('#pin-window .pin-comments').scrollTop(9999);
+
+
+		// Enable comment sender
+		$('#pin-window #comment-sender input').prop('disabled', false);
+
+	}, 'json');
+
+
+}
+
+
+// Send a comment
+function sendComment(pin_ID, message) {
+
+	console.log('Sending this message: ', message);
+
+
+	// Disable the inputs
+	$('#pin-window #comment-sender input').prop('disabled', true);
+
+
+	// Start the process
+	var newCommentProcessID = newProcess();
+
+    $.post(ajax_url, {
+		'type'	  	: 'comment-add',
+		'nonce'	  	: pin_nonce,
+		'pin_ID'	: pin_ID,
+		'message'	: message
+	}, function(result){
+
+		console.log(result.data);
+
+
+		// List the comments
+		getComments(pin_ID);
+
+
+		// Finish the process
+		endProcess(newCommentProcessID);
+
+
+		// Enable the inputs
+		$('#pin-window #comment-sender input').prop('disabled', false);
+
+
+		// Clean the text in the message box and refocus
+		$('#pin-window #comment-sender input.comment-input').val('').focus();
+
+
+		console.log('Message SENT: ', message);
+
+	}, 'json');
+
+}
+
+
+
+// TEMPLATES:
+// Pin template
 function newPinTemplate(pin_x, pin_y, pin_ID, user_ID) {
 
 	return '\
@@ -1338,7 +1397,7 @@ function newPinTemplate(pin_x, pin_y, pin_ID, user_ID) {
 }
 
 
-// TEMPLATE: Comment template
+// Comment template
 function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 	var date = new Date(comment.comment_modified);
@@ -1370,33 +1429,8 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 
 
-// FUNCTION: ID Creator
-function makeID() {
-	var text = "";
-	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-	for (var i = 0; i < 5; i++)
-		text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-	return text;
-}
-
-
-// Console log shortcut
-function log(log, arg1) {
-	//console.log(log);
-}
-
-
-
-
-
-
-
-
-
-
-// HELPERS
+// HELPERS:
 function get_html_translation_table (table, quote_style) {
   //  discuss at: http://phpjs.org/functions/get_html_translation_table/
   // original by: Philip Peterson
@@ -1694,5 +1728,20 @@ function timeSince(date) {
   if (interval > 1) {
     return interval + " minutes";
   }
-  return Math.floor(seconds) + " seconds";
+  //return Math.floor(seconds) + " seconds";
+  return "about a minute";
+}
+
+function makeID() {
+	var text = "";
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+	for (var i = 0; i < 5; i++)
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+	return text;
+}
+
+function log(log, arg1) {
+	//console.log(log, arg1);
 }

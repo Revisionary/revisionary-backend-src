@@ -174,10 +174,12 @@ html, body {
       letter-spacing: 1px; }
     .pin-comments .comment.recurring {
       margin-top: -15px; }
-      .pin-comments .comment.recurring .profile-image {
-        visibility: hidden; }
+      .pin-comments .comment.recurring .profile-image > picture {
+        display: none; }
       .pin-comments .comment.recurring .comment-user-name {
         display: none; }
+      .pin-comments .comment.recurring .comment-date {
+        padding: 0; }
     .pin-comments .comment.sametime .comment-date {
       display: none; }
 

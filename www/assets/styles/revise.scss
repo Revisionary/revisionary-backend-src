@@ -290,12 +290,16 @@ html, body {
 		&.recurring {
 			margin-top: -15px;
 
-			.profile-image {
-				visibility: hidden;
+			.profile-image > picture {
+				display: none;
 			}
 
 			.comment-user-name {
 				display: none;
+			}
+
+			.comment-date {
+				padding: 0;
 			}
 
 		}

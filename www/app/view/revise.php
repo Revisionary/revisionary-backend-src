@@ -212,120 +212,20 @@
 
 		</div>
 
-		<div class="pin-comments" style="margin-bottom: 15px;">
-
-			<div class="comment wrap xl-flexbox xl-top">
-				<a class="col xl-2-12 xl-left xl-first" href="#">
-
-
-					<picture class="profile-picture big square"
-						style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
-
-
-				</a>
-				<div class="col xl-10-12 comment-inner-wrapper">
-
-
-					<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
-						<a href="#" class="col xl-first comment-user-name"><?=User::ID(2)->fullName?></a>
-						<span class="col comment-date">32 minutes ago</span>
-					</div>
-
-					<div class="comment-text xl-left">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					</div>
-
-
-				</div>
-			</div>
-
-			<div class="comment wrap xl-flexbox xl-top">
-				<a class="col xl-2-12 xl-left xl-first" href="#">
-
-
-					<picture class="profile-picture big square"
-						style="background-image: url(<?=User::ID(1)->userPicUrl?>);"></picture>
-
-
-				</a>
-				<div class="col xl-10-12 comment-inner-wrapper">
-
-
-					<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
-						<a href="#" class="col xl-first comment-user-name"><?=User::ID(1)->fullName?></a>
-						<span class="col comment-date">32 minutes ago</span>
-					</div>
-
-					<div class="comment-text xl-left">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					</div>
-
-
-				</div>
-			</div>
-
-			<div class="comment wrap xl-flexbox xl-top">
-				<a class="col xl-2-12 xl-left xl-first" href="#">
-
-
-					<picture class="profile-picture big square"
-						style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
-
-
-				</a>
-				<div class="col xl-10-12 comment-inner-wrapper">
-
-
-					<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
-						<a href="#" class="col xl-first comment-user-name"><?=User::ID(4)->fullName?></a>
-						<span class="col comment-date">32 minutes ago</span>
-					</div>
-
-					<div class="comment-text xl-left">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					</div>
-
-
-				</div>
-			</div>
-
-			<div class="comment wrap xl-flexbox xl-top">
-				<a class="col xl-2-12 xl-left xl-first" href="#">
-
-
-					<picture class="profile-picture big square"
-						style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
-
-
-				</a>
-				<div class="col xl-10-12 comment-inner-wrapper">
-
-
-					<div class="wrap xl-flexbox xl-left xl-bottom comment-title">
-						<a href="#" class="col xl-first comment-user-name"><?=User::ID(2)->fullName?></a>
-						<span class="col comment-date">32 minutes ago</span>
-					</div>
-
-					<div class="comment-text xl-left">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					</div>
-
-
-				</div>
-			</div>
-
-		</div>
+		<div class="pin-comments" style="margin-bottom: 15px;"></div>
 
 		<div class="comment-actions">
 
-			<div class="wrap xl-flexbox xl-between">
-				<div class="col comment-input-col">
-					<input type="text" class="comment-input" placeholder="Your comments..."/>
+			<form action="" method="post" id="comment-sender">
+				<div class="wrap xl-flexbox xl-between">
+					<div class="col comment-input-col">
+						<input type="text" class="comment-input" placeholder="Your comments..." required/>
+					</div>
+					<div class="col">
+						<input type="image" src="<?=asset_url('icons/comment-send.svg')?>"/>
+					</div>
 				</div>
-				<div class="col">
-					<a href="#"><img src="<?=asset_url('icons/comment-send.svg')?>" alt=""/></a>
-				</div>
-			</div>
+			</form>
 
 		</div>
 

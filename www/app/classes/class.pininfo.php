@@ -272,4 +272,28 @@ class Pin {
 
 	}
 
+
+    // Add a new comment
+    public function addComment(
+    	string $message
+	) {
+	    global $db;
+
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		// Add the comment
+		$comment_ID = $db->insert('pin_comments', array(
+			"pin_comment" => $message,
+			"pin_ID" => self::$pin_ID,
+			"user_ID" => currentUserID()
+		));
+
+		return $comment_ID;
+
+	}
+
 }

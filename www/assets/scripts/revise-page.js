@@ -7,10 +7,6 @@ $(function() {
 	});
 
 
-	// CONTENT EDITOR PLUGIN
-	$(".edit-content[contenteditable='true']").popline();
-
-
 	// Detect cursor moves
 	$(window).mousemove(function(e) {
 
@@ -116,7 +112,6 @@ $(function() {
 	});
 
 
-
 	// Close pin window
 	$('#pin-window .close-button').click(function(e) {
 
@@ -125,7 +120,6 @@ $(function() {
 		e.preventDefault();
 
 	});
-
 
 
 	// Remove Pin
@@ -154,6 +148,18 @@ $(function() {
 
 		e.preventDefault();
 
+	});
+
+
+	// Comment Sender
+	$('#comment-sender').submit(function(e) {
+
+		var pin_ID = pinWindow.attr('data-pin-id');
+		var message = $(this).find('input.comment-input').val();
+
+		sendComment(pin_ID, message);
+
+		e.preventDefault();
 	});
 
 
@@ -405,6 +411,10 @@ $(window).on("load", function (e) {
 	$(".scrollable-content").mCustomScrollbar({
 		alwaysShowScrollbar: true
 	});
+
+
+	// CONTENT EDITOR PLUGIN
+	$(".edit-content[contenteditable='true']").popline();
 
 
 });
