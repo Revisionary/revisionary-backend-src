@@ -39,8 +39,13 @@
 		<div id="pins">
 		<?php
 
-			// Get the pin data
+			// Get pins from this version
 			$db->where('version_ID', $version_ID);
+
+			// Hide private pins to other people
+			$db->where ("(user_ID = ".currentUserID()." or (user_ID != ".currentUserID()." and pin_private = 0))");
+
+			// Get the pin data
 			$pins = $db->get('pins pin');
 
 			$pin_index = 1;
