@@ -266,7 +266,7 @@ class Pin {
 		$db->join("users u", "c.user_ID = u.user_ID", "LEFT");
 		$db->orderBy('c.comment_added', 'ASC');
 		$db->where('pin_ID', self::$pin_ID);
-		$comments = $db->get('pin_comments c', null, "c.comment_modified, c.pin_comment, c.comment_added, c.comment_modified, u.user_first_name, u.user_ID, u.user_last_name, u.user_picture");
+		$comments = $db->get('pin_comments c', null, "c.comment_ID, c.comment_modified, c.pin_comment, c.comment_added, c.comment_modified, u.user_first_name, u.user_ID, u.user_last_name, u.user_picture");
 
 		return $comments;
 
@@ -293,6 +293,29 @@ class Pin {
 		));
 
 		return $comment_ID;
+
+	}
+
+
+    // Delete a comment
+    public function deleteComment(
+    	int $comment_ID
+	) {
+	    global $db;
+
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		// Delete the comment
+		$db->where('pin_ID', self::$pin_ID);
+		$db->where('comment_ID', $comment_ID);
+		$db->where('user_ID', currentUserID());
+		$comment_deleted = $db->delete('pin_comments');
+
+		return $comment_deleted;
 
 	}
 

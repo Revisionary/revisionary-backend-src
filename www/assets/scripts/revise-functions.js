@@ -1372,6 +1372,52 @@ function sendComment(pin_ID, message) {
 }
 
 
+// Delete a comment
+function deleteComment(pin_ID, comment_ID) {
+
+	console.log('Deleting comment #', comment_ID);
+
+
+	// Disable the inputs
+	$('#pin-window #comment-sender input').prop('disabled', true);
+
+
+	// Start the process
+	var deleteCommentProcessID = newProcess();
+
+    $.post(ajax_url, {
+		'type'	  	 : 'comment-delete',
+		'nonce'	  	 : pin_nonce,
+		'pin_ID'	 : pin_ID,
+		'comment_ID' : comment_ID
+	}, function(result){
+
+		console.log(result.data);
+
+
+		// List the comments
+		getComments(pin_ID);
+
+
+		// Finish the process
+		endProcess(deleteCommentProcessID);
+
+
+		// Enable the inputs
+		$('#pin-window #comment-sender input').prop('disabled', false);
+
+
+		// Clean the text in the message box and refocus
+		$('#pin-window #comment-sender input.comment-input').val('').focus();
+
+
+		console.log('Comment #', comment_ID, ' DELETED');
+
+	}, 'json');
+
+}
+
+
 
 // TEMPLATES:
 // Pin template
@@ -1421,7 +1467,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 					</div> \
 					<div class="comment-text xl-'+ direction +'"> \
 						'+comment.pin_comment+' \
-						'+ (itsMe ? ' <a href="#" class="delete-comment" data-tooltip="Delete this comment">&times;</a>' : '') +' \
+						'+ (itsMe ? ' <a href="#" class="delete-comment" data-comment-id="'+comment.comment_ID+'" data-tooltip="Delete this comment">&times;</a>' : '') +' \
 					</div> \
 				</div> \
 			</div> \

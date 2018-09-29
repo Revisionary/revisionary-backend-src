@@ -157,7 +157,22 @@ $(function() {
 		var pin_ID = pinWindow.attr('data-pin-id');
 		var message = $(this).find('input.comment-input').val();
 
+		// Add it from DB
 		sendComment(pin_ID, message);
+
+		e.preventDefault();
+	});
+
+
+	// Delete Comment
+	$(document).on('click', '.delete-comment', function(e) {
+
+		var pin_ID = pinWindow.attr('data-pin-id');
+		var comment_ID = $(this).attr('data-comment-id');
+
+		// Delete it from DB if confirmed
+		if ( confirm('Are you sure you want to delete this comment?') )
+			deleteComment(pin_ID, comment_ID);
 
 		e.preventDefault();
 	});
