@@ -122,15 +122,6 @@ function runTheInspector() {
 	    iframe.on('mousemove', function(e) { // Detect the mouse moves in frame
 
 
-			// Iframe offset
-			offset = $('#the-page').offset();
-			//console.log('OFFSET:', offset);
-
-
-		    // Mouse coordinates according to the screen - NO NEED FOR NOW !!!
-		    screenX = e.clientX * iframeScale + offset.left;
-		    screenY = e.clientY * iframeScale + offset.top;
-
 		    // Mouse coordinates according to the iframe container
 		    containerX = e.clientX * iframeScale;
 		    containerY = e.clientY * iframeScale;
@@ -464,12 +455,7 @@ function runTheInspector() {
 
 		}).on('scroll', function(e) { // Detect the scroll to re-position pins
 
-			scrollOffset_top = $(this).scrollTop();
-			scrollOffset_left = $(this).scrollLeft();
-
-
-			scrollX = scrollOffset_left * iframeScale;
-			scrollY = scrollOffset_top * iframeScale;
+			console.log('SCROLLIIIIIIIING');
 
 
 		    // Re-Locate the pins
@@ -480,12 +466,7 @@ function runTheInspector() {
 
 		$(window).on('resize', function(e) { // Detect the scroll to re-position pins
 
-			scrollOffset_top = iframe.scrollTop();
-			scrollOffset_left = iframe.scrollLeft();
-
-
-			scrollX = scrollOffset_left * iframeScale;
-			scrollY = scrollOffset_top * iframeScale;
+			console.log('RESIZIIIIIIIING');
 
 
 		    // Re-Locate the pins
@@ -493,13 +474,6 @@ function runTheInspector() {
 
 		});
 
-
-
-		scrollOffset_top = iframe.scrollTop();
-		scrollOffset_left = iframe.scrollLeft();
-
-		scrollX = scrollOffset_left * iframeScale;
-		scrollY = scrollOffset_top * iframeScale;
 
 		// Relocate Pins
 		relocatePins();
@@ -666,6 +640,16 @@ function changePinNumber(pinNumber) {
 // Re-Locate Pins
 function relocatePins(pin_selector = null, x = null, y = null) {
 
+	// Update the values
+	offset = $('#the-page').offset();
+
+	scrollOffset_top = iframe.scrollTop();
+	scrollOffset_left = iframe.scrollLeft();
+
+	scrollX = scrollOffset_left * iframeScale;
+	scrollY = scrollOffset_top * iframeScale;
+
+
 
 	if ( pin_selector ) {
 
@@ -785,6 +769,14 @@ function reindexPins() {
 
 
 }
+
+
+
+// Get Up-To-Date Pins !!!
+function getPins() {
+
+}
+
 
 
 // Put a pin to cordinates
@@ -925,7 +917,6 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	pinWindow.attr('data-revisionary-edited', thePinModified);
 	pinWindow.attr('data-revisionary-showing-changes', thePinShowingChanges);
 	pinWindow.attr('data-revisionary-index', theIndex);
-	//pinWindow.attr('data-pin-new', firstTime);
 
 
 	// Update the pin type section
@@ -1008,21 +999,15 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		pinWindow.removeClass('loading');
 
 
-
 	// COMMENTS
-	if (!firstTime) { // If this is an already registered pin
+	// If this is an already registered pin
+	if (!firstTime) getComments(pin_ID); // Bring the comments
+	// If new pin added
+	else $('.pin-comments').html('<div class="xl-center">Add your comment:</div>'); // Write a message
 
 
-		getComments(pin_ID);
-
-
-	} else { // If new pin added
-
-
-		// Write a message
-		$('.pin-comments').html('<div class="xl-center">Add your comment:</div>');
-
-	}
+	// Clean the existing comment
+	$('#pin-window input.comment-input').val('');
 
 
 

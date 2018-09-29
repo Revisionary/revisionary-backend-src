@@ -96,9 +96,6 @@ $(function() {
 	    $('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
 
 
-	    // Re-Locate the pins
-	    relocatePins();
-
 	}).resize();
 
 
