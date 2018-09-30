@@ -34,5 +34,6 @@ echo "DONE: Log files REMOVED"
 
 echo "Removing the User files..."
 cd ../www/assets/cache/
-find ./user-* \! -iname '*.png' -delete
+rm -rf user-
+find ./user-*/ \! -iname '*.png' -delete
 echo "DONE: User files REMOVED"
