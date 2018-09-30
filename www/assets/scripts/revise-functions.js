@@ -60,38 +60,8 @@ function runTheInspector() {
 
 
 		// MODIFICATIONS:
-		$(modifications).each(function(i, modification) {
-
-			console.log(i, modification);
-
-
-			// Find the element
-			var element = iframe.find('[data-revisionary-index='+modification.element_index+']');
-
-
-			// Add edited status
-			element.attr('data-revisionary-edited', "0");
-
-
-			// If the type is HTML content change
-			if ( modification.modification_type == "html" ) {
-
-				// Record the old HTML
-				var oldHtml = element.html();
-				modifications[i].original = htmlentities(oldHtml, "ENT_QUOTES"); console.log('OLD', modifications[i].original);
-
-
-				// Apply the modification
-				var newHTML = html_entity_decode(modification.modification); console.log('NEW', newHTML);
-				element.html( newHTML ).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-
-				// Update the pin status
-				$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-
-			}
-
-
-		});
+		// Apply all the existing modifications
+		applyModifications(modifications);
 
 
 
@@ -464,7 +434,7 @@ function runTheInspector() {
 		});
 
 
-		$(window).on('resize', function(e) { // Detect the scroll to re-position pins
+		$(window).on('resize', function(e) { // Detect the window resizing to re-position pins
 
 			console.log('RESIZIIIIIIIING');
 
@@ -637,6 +607,80 @@ function changePinNumber(pinNumber) {
 }
 
 
+// Get latest pins
+function getPins() {
+
+
+	console.log('GETTING PINS...');
+
+
+	// Send the Ajax request
+    $.post(ajax_url, {
+		'type'	  		: 'pins-get',
+		'nonce'	  		: pin_nonce,
+		'version_ID'	: version_ID
+	}, function(result){
+
+		var new_pins = result.pins;
+
+		console.log(result.data);
+		console.log('NEW PINS: ', new_pins);
+
+
+		// Update the global pins list
+		pins = new_pins;
+
+
+	}, 'json');
+
+}
+
+
+// Apply the pins
+function applyPins() {
+
+
+	console.log('APPLYING PINS...');
+
+
+	// Revert the changes first
+	revertModifications(modifications);
+
+
+	// Empty the modifications
+	modifications = [];
+
+
+	// Empty the pins
+	$('#pins').html('');
+
+
+	// Add the pins
+	$(pins).each(function(i, pin) {
+
+		var pin_number = i + 1;
+
+		modifications[modifications.length] = {
+			element_index: pin.pin_element_index,
+			pin_ID: pin.pin_ID,
+			modification_type: pin.pin_modification_type,
+			modification: pin.pin_modification,
+			original: null
+		};
+
+		$('#pins').append(
+			newPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y, pin.user_ID)
+		);
+
+		console.log(pin);
+
+	});
+
+
+
+}
+
+
 // Re-Locate Pins
 function relocatePins(pin_selector = null, x = null, y = null) {
 
@@ -771,7 +815,6 @@ function reindexPins() {
 }
 
 
-
 // Get up-to-date pins and modifications !!!
 function refreshPins() {
 
@@ -789,17 +832,108 @@ function refreshPins() {
 		console.log('PINS: ', pins);
 
 
-
-
+		// Add the pins
 		$(pins).each(function(i, pin) {
+
+			modifications[modifications.length] = {
+				element_index: pin.pin_element_index,
+				pin_ID: pin.pin_ID,
+				modification_type: pin.pin_modification_type,
+				modification: pin.pin_modification,
+				original: null
+			};
+
+			$('#pins').append(
+
+			);
 
 			console.log(pin);
 
 		});
 
 
+		// Do the modifications
+		applyModifications(modifications);
+
 
 	}, 'json');
+
+
+}
+
+
+// Apply modifications
+function applyModifications(modifications) {
+
+
+	$(modifications).each(function(i, modification) {
+
+		console.log(i, modification);
+
+
+		// Find the element
+		var element = iframe.find('[data-revisionary-index='+modification.element_index+']');
+
+
+		// Add edited status
+		element.attr('data-revisionary-edited', "0");
+
+
+		// If the type is HTML content change
+		if ( modification.modification_type == "html" ) {
+
+			// Record the old HTML
+			var oldHtml = element.html();
+			modifications[i].original = htmlentities(oldHtml, "ENT_QUOTES"); console.log('OLD', modifications[i].original);
+
+
+			// Apply the modification
+			var newHTML = html_entity_decode(modification.modification); console.log('NEW', newHTML);
+			element.html( newHTML ).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+			// Update the pin status
+			$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+		}
+
+
+	});
+
+
+}
+
+
+// Revert modifications
+function revertModifications(modifications) {
+
+
+	$(modifications).each(function(i, modification) {
+
+		console.log(i, modification);
+
+
+		// Find the element
+		var element = iframe.find('[data-revisionary-index='+modification.element_index+']');
+
+
+		// Add edited status
+		element.attr('data-revisionary-edited', "0");
+
+
+		// If the type is HTML content change
+		if ( modification.modification_type == "html" ) {
+
+			// Apply the modification
+			var newHTML = html_entity_decode(modification.original); console.log('NEW', newHTML);
+			element.html( newHTML ).removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
+
+			// Update the pin status
+			$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
+
+		}
+
+
+	});
 
 
 }
@@ -822,7 +956,7 @@ function putPin(pinX, pinY) {
 
 	// Add the pin to the DOM
 	$('#pins').append(
-		newPinTemplate(pinX, pinY, temporaryPinID, user_ID)
+		newPinTemplate(currentPinNumber, temporaryPinID, '0', focused_element_index, '1', null, currentPinPrivate, currentCursorType, pinX, pinY, user_ID)
 	);
 
 
@@ -1433,23 +1567,24 @@ function deleteComment(pin_ID, comment_ID) {
 
 // TEMPLATES:
 // Pin template
-function newPinTemplate(pin_x, pin_y, pin_ID, user_ID) {
+//function newPinTemplate(pin_x, pin_y, pin_ID, user_ID, pin_type, pin_private, pin_complete, pin_edited) {
+function newPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, user_ID) {
 
 	return '\
 		<pin \
 			class="pin big" \
-			data-pin-type="'+currentCursorType+'" \
-			data-pin-private="'+currentPinPrivate+'" \
-			data-pin-complete="0" \
+			data-pin-type="'+pin_type+'" \
+			data-pin-private="'+pin_private+'" \
+			data-pin-complete="'+pin_complete+'" \
 			data-pin-user-id="'+user_ID+'" \
 			data-pin-id="'+pin_ID+'" \
 			data-pin-x="'+pin_x+'" \
 			data-pin-y="'+pin_y+'" \
-			data-revisionary-edited="0" \
-			data-revisionary-showing-changes="1" \
-			data-revisionary-index="'+focused_element_index+'" \
+			data-revisionary-edited="'+( pin_modification_type != null ? '1' : '0' )+'" \
+			data-revisionary-showing-changes="'+( pin_modification != null ? '1' : '0' )+'" \
+			data-revisionary-index="'+pin_element_index+'" \
 			style="top: '+pin_y+'px; left: '+pin_x+'px;" \
-		>'+currentPinNumber+'</pin> \
+		>'+pin_number+'</pin> \
 	';
 
 }
