@@ -772,8 +772,35 @@ function reindexPins() {
 
 
 
-// Get Up-To-Date Pins !!!
-function getPins() {
+// Get up-to-date pins and modifications !!!
+function refreshPins() {
+
+
+	// Send the Ajax request
+    $.post(ajax_url, {
+		'type'	  		: 'pins-get',
+		'nonce'	  		: pin_nonce,
+		'version_ID'	: version_ID
+	}, function(result){
+
+		var pins = result.pins;
+
+		console.log(result.data);
+		console.log('PINS: ', pins);
+
+
+
+
+		$(pins).each(function(i, pin) {
+
+			console.log(pin);
+
+		});
+
+
+
+	}, 'json');
+
 
 }
 
