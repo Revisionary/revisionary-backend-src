@@ -1,6 +1,4 @@
 // PROCESS VARS
-// Existing Process ??
-var processExists = false;
 var processExistsText = "Changes you made may not be saved.";
 var processCount = 0;
 

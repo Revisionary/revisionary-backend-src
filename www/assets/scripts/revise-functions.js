@@ -6,8 +6,6 @@ function runTheInspector() {
 	// WHEN IFRAME DOCUMENT READY !!! ?
 	$('iframe').contents().ready(function() {
 
-		// Bring the global pins list
-		getPins();
 
 	});
 
@@ -60,12 +58,8 @@ function runTheInspector() {
 
 
 		// PINS:
-		// Apply all the existing pins and modifications
-		applyPins();
-
-
-		// Start auto refresh
-		startAutoRefresh();
+		// Get latest pins and apply them to the page
+		getPins();
 
 
 
@@ -444,9 +438,6 @@ function runTheInspector() {
 		});
 
 
-		// Relocate Pins
-		relocatePins();
-
 	});
 
 
@@ -606,32 +597,63 @@ function changePinNumber(pinNumber) {
 }
 
 
-// Get latest pins
+// Get up-to-date pins and modifications
 function getPins() {
 
 
 	console.log('GETTING PINS...');
 
 
+	// Record the old pins
+	var oldPins = pins;
+
+
 	// Send the Ajax request
-	return $.ajax({
+	$.ajax({
 		url: ajax_url,
 		data: {
 			'type'	  		: 'pins-get',
 			'nonce'	  		: pin_nonce,
 			'version_ID'	: version_ID
 		},
+		//async: false,
 		dataType: 'json'
 	}).done(function( result ) {
 
-		var new_pins = result.pins;
-
-		console.log('RESPONSE: ', result.data);
-		console.log('NEW PINS: ', new_pins);
-
 
 		// Update the global pins list
-		pins = new_pins;
+		pins = result.pins;
+
+
+
+		console.log('Pins list updated');
+		console.log('LATEST PINS LIST: ', pins);
+
+
+
+		// If different than current pins, do the changes
+		if ( !isEqual(pins, oldPins) ) {
+
+
+			console.log('There are some updates...');
+
+
+			// Apply Pins
+			applyPins();
+
+
+			console.log('UPDATES APPLIED');
+
+		} else {
+
+			console.log('No changes found');
+
+		}
+
+
+		// Start auto refresh if not already started
+		if (!autoRefreshTimer && processCount == 0) startAutoRefresh();
+
 
 	});
 
@@ -680,14 +702,15 @@ function applyPins() {
 			newPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y, pin.user_ID)
 		);
 
-		console.log(pin);
-
 	});
 
 
 	// Update the cursor number with the existing pins
 	currentPinNumber = $('#pins > pin').length + 1;
 	changePinNumber(currentPinNumber);
+
+
+	console.log('PINS APPLIED');
 
 
 	// Relocate the pins
@@ -703,6 +726,7 @@ function applyPins() {
 // Re-Locate Pins
 function relocatePins(pin_selector = null, x = null, y = null) {
 
+
 	// Update the values
 	offset = $('#the-page').offset();
 
@@ -715,6 +739,10 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 
 
 	if ( pin_selector ) {
+
+
+		pin_ID = pin_selector.attr('data-pin-id');
+
 
 	    var scrolled_pin_x = x > 0 ? x : 0;
 	    var scrolled_pin_y = y > 0 ? y : 0;
@@ -736,7 +764,7 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 
 
 		// Update the registered pin window location as well, only if current pin is moving
-		if ( pin_selector.attr('data-pin-id') == pinWindow.attr('data-pin-id') ) {
+		if ( pin_ID == pinWindow.attr('data-pin-id') ) {
 
 			pinWindow.attr('data-pin-x', realPinX);
 			pinWindow.attr('data-pin-y', realPinY);
@@ -811,10 +839,6 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 	pinWindow.css('left', new_scrolled_window_x + "px");
 	pinWindow.css('top', new_scrolled_window_y + "px");
 
-
-	// Update the global pins list
-	getPins();
-
 }
 
 
@@ -838,46 +862,6 @@ function reindexPins() {
 }
 
 
-// Get up-to-date pins and modifications
-function refreshPins() {
-
-
-	console.log('REFRESHING PINS...');
-
-
-	// Record the old pins
-	var oldPins = pins;
-
-
-	// Get latest pins
-	getPins().done(function() {
-
-
-		// If different than current pins, do the changes
-		if ( !isEqual(pins, oldPins) ) {
-
-
-			console.log('There are some updates');
-
-
-			// Apply Pins
-			applyPins();
-
-
-			console.log('REFRESHED');
-			return true;
-
-		}
-
-
-		// If no changes
-		console.log('No changes found');
-		return false;
-
-	});
-}
-
-
 // Start auto-refresh
 function startAutoRefresh(interval = autoRefreshInterval) {
 
@@ -885,7 +869,9 @@ function startAutoRefresh(interval = autoRefreshInterval) {
 
 	autoRefreshTimer = setInterval(function() {
 
-		refreshPins();
+		console.log('Auto checking the pins...');
+
+		getPins();
 
 	}, interval);
 
@@ -1304,10 +1290,6 @@ function removePin(pin_ID) {
 		reindexPins();
 
 
-		// Update the global pins list
-		getPins();
-
-
 		// Finish the process
 		endProcess(newPinProcessID);
 
@@ -1344,10 +1326,6 @@ function completePin(pin_ID, complete) {
 
 		// Update the pin window status
 		pinWindow.attr('data-pin-complete', (complete ? '1' : '0'));
-
-
-		// Update the global pins list
-		getPins();
 
 
 		// Finish the process
@@ -1607,6 +1585,24 @@ function deleteComment(pin_ID, comment_ID) {
 		console.log('Comment #', comment_ID, ' DELETED');
 
 	}, 'json');
+
+}
+
+
+// PIN GLOBAL MODIFIER !!!
+function pinFinder(pin_ID) {
+
+
+	// PIN FINDER
+	var pin = pins.find(function(pin) {
+		return pin.pin_ID == pin_ID ? true : false;
+	});
+
+	var pinIndex = pins.findIndex(function(element, index, array) {
+		return element == pin
+	});
+
+	console.log( pins[pinIndex] );
 
 }
 
