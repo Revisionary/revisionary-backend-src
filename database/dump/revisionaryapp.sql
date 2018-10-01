@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Sep 25, 2018 at 08:53 PM
+-- Generation Time: Oct 01, 2018 at 06:01 PM
 -- Server version: 8.0.12
 -- PHP Version: 7.2.8
 
@@ -169,8 +169,8 @@ CREATE TABLE `pins` (
   `pin_complete` tinyint(1) NOT NULL DEFAULT '0',
   `pin_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `pin_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `pin_x` int(20) NOT NULL DEFAULT '10',
-  `pin_y` int(20) NOT NULL DEFAULT '10',
+  `pin_x` decimal(20,5) NOT NULL,
+  `pin_y` decimal(20,5) NOT NULL,
   `pin_element_index` bigint(20) NOT NULL,
   `pin_modification_type` varchar(10) DEFAULT NULL,
   `pin_modification` longtext,
@@ -562,7 +562,7 @@ ALTER TABLE `sorting`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_levels`
