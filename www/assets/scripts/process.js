@@ -77,10 +77,6 @@ function endProcess(processID) {
 	var process = $('.process[data-process-id="'+ processID +'"]:not(.done)');
 
 
-	// Restart auto-refresh
-	if (typeof startAutoRefresh === "function") startAutoRefresh();
-
-
 	// Fill the progress bar
 	process.css('width', '100%').addClass('done');
 
@@ -95,8 +91,17 @@ function endProcess(processID) {
 	processCount = $('.progress-bar > .process:not(.done)').length;
 
 
-	// Allow closing window
-	if (processCount == 0) window.onbeforeunload = null;
+	// If no process left
+	if (processCount == 0) {
+
+		// Allow closing window
+		window.onbeforeunload = null;
+
+
+		// Restart auto-refresh
+		if (typeof startAutoRefresh === "function") startAutoRefresh();
+
+	}
 
 
 	console.log('Process Count: ', processCount);
