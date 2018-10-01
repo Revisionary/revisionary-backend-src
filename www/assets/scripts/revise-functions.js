@@ -64,6 +64,10 @@ function runTheInspector() {
 		applyPins();
 
 
+		// Start auto refresh
+		startAutoRefresh();
+
+
 
 		// PAGE INTERACTIONS:
 		// Hide the loading overlay
@@ -77,7 +81,8 @@ function runTheInspector() {
 		});
 
 
-		// Body class !!! ???
+		// Page is ready now
+		page_ready = true;
 		$('body').addClass('ready');
 
 

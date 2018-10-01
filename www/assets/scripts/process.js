@@ -99,7 +99,7 @@ function endProcess(processID) {
 
 
 		// Restart auto-refresh
-		if (typeof startAutoRefresh === "function") startAutoRefresh();
+		if (typeof startAutoRefresh === "function" && page_ready) startAutoRefresh();
 
 	}
 

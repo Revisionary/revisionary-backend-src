@@ -5,6 +5,7 @@ var iframe;
 var user_ID;
 var page_ID;
 var page_URL;
+var page_ready = false;
 var page_redirected = false;
 var version_ID;
 var version_number;
