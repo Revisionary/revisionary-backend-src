@@ -155,6 +155,7 @@ function runTheInspector() {
 				}
 
 
+/*
 				// Re-focus to the edited element if this is parent of it: <p><b data-edited="1" focused>Lorem</b> <span>ipsum dolor</span></p>
 				if (
 					focused_element_has_edited_child == 1
@@ -167,6 +168,7 @@ function runTheInspector() {
 					console.log('REFOCUS - Already edited only child element: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
 
 				}
+*/
 
 
 				// Update refocused sub elements
