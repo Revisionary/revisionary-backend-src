@@ -85,7 +85,12 @@ if ( isset($_POST['user-submit']) ) {
 			// Create the session
 			$_SESSION['user_ID'] = $id;
 
-			// Redirect to the projects page
+
+			if (post('redirect_to') != "") {
+				header("Location: ".post('redirect_to'));
+				die();
+			}
+
 			header("Location: ".site_url('projects'));
 			die();
 

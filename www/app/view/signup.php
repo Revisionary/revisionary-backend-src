@@ -31,7 +31,7 @@
 							</div>
 						</div>
 
-						<input type="hidden" name="redirect_to" value="<?=site_url('projects')?>" />
+						<input type="hidden" name="redirect_to" value="<?=!empty(get('redirect')) ? urldecode(get('redirect')) : site_url('projects')?>" />
 						<input type="hidden" name="user-cookie" value="1" />
 					</div>
 				</div>
