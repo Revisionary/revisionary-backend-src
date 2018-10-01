@@ -21,7 +21,7 @@
 			}
 		?>
 
-		<script src="<?=asset_url('scripts/vendor/jquery-3.2.1.min.js')?>"></script>
+		<script src="<?=asset_url('scripts/vendor/jquery-3.3.1.min.js')?>"></script>
 
 		<?php
 
