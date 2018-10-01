@@ -377,6 +377,11 @@ $(function() {
 					'pin_y' 	 : focusedPin.attr('data-pin-y')
 				}, function(result){
 
+
+					// UPDATE THE GLOBAL PINS !!!
+					// ...
+
+
 					// Finish the process
 					endProcess(relocateProcessID);
 

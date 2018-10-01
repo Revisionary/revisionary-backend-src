@@ -1170,6 +1170,11 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	}
 
 
+	// If it's first time, remove the "Done" button
+	$('#pin-window .pin-complete').hide();
+	if (!firstTime) $('#pin-window .pin-complete').show();
+
+
 	// Relocate the window
 	relocatePins();
 
