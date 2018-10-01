@@ -6,6 +6,33 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 $forceReInternalize = false;
 
 
+
+// SECURITY CHECKS
+
+// If not logged in, go login page !!! Change when public revising available
+if (!userloggedIn()) {
+	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
+	die();
+}
+
+
+// If no page specified or not numeric, go projects page
+if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
+	header('Location: '.site_url('projects'));
+	die();
+}
+
+
+// If page doesn't exist
+$db->where("page_ID", $_url[1]);
+$page = $db->getOne("pages", "page_ID, user_ID");
+if ( !$page ) {
+	header('Location: '.site_url('projects'));
+	die();
+}
+
+
+
 // Get the page ID
 $page_ID = $_url[1]; // Check if page exists !!!
 
