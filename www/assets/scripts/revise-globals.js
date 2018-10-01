@@ -114,6 +114,8 @@ var pinWindowHeight = 515;
 
 // Pins
 var pins = [];
+var autoRefreshTimer;
+var autoRefreshInterval = 5000;
 
 // Modifications
 var modifications = [];

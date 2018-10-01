@@ -6,6 +6,9 @@ function runTheInspector() {
 	// WHEN IFRAME DOCUMENT READY !!! ?
 	$('iframe').contents().ready(function() {
 
+		// Bring the global pins list
+		getPins();
+
 	});
 
 
@@ -54,14 +57,11 @@ function runTheInspector() {
 		// Close Pin Mode pinTypeSelector - If on revise mode !!!
 		toggleCursorActive(false, true);
 
-		// Update the cursor number with the existing pins
-		changePinNumber(currentPinNumber);
 
 
-
-		// MODIFICATIONS:
-		// Apply all the existing modifications
-		applyModifications(modifications);
+		// PINS:
+		// Apply all the existing pins and modifications
+		applyPins();
 
 
 
@@ -95,6 +95,7 @@ function runTheInspector() {
 		    // Mouse coordinates according to the iframe container
 		    containerX = e.clientX * iframeScale;
 		    containerY = e.clientY * iframeScale;
+		    //console.log('Container: ', containerX, containerY);
 
 
 		    // Follow the mouse cursor
@@ -102,13 +103,6 @@ function runTheInspector() {
 				left:  containerX,
 				top:   containerY
 			});
-
-
-
-/*
-			console.log('Screen: ', screenX, screenY);
-			console.log('Container: ', containerX, containerY);
-*/
 
 
 
@@ -315,7 +309,7 @@ function runTheInspector() {
 
 
 
-				// PREVENTIONS
+				// PREVENTIONS:
 				// Check if it doesn't have any element index: <p data-revisionary-index="16">...
 				if (focused_element_editable && !focused_element_has_index) {
 
@@ -615,23 +609,26 @@ function getPins() {
 
 
 	// Send the Ajax request
-    $.post(ajax_url, {
-		'type'	  		: 'pins-get',
-		'nonce'	  		: pin_nonce,
-		'version_ID'	: version_ID
-	}, function(result){
+	return $.ajax({
+		url: ajax_url,
+		data: {
+			'type'	  		: 'pins-get',
+			'nonce'	  		: pin_nonce,
+			'version_ID'	: version_ID
+		},
+		dataType: 'json'
+	}).done(function( result ) {
 
 		var new_pins = result.pins;
 
-		console.log(result.data);
+		console.log('RESPONSE: ', result.data);
 		console.log('NEW PINS: ', new_pins);
 
 
 		// Update the global pins list
 		pins = new_pins;
 
-
-	}, 'json');
+	});
 
 }
 
@@ -660,14 +657,20 @@ function applyPins() {
 
 		var pin_number = i + 1;
 
-		modifications[modifications.length] = {
-			element_index: pin.pin_element_index,
-			pin_ID: pin.pin_ID,
-			modification_type: pin.pin_modification_type,
-			modification: pin.pin_modification,
-			original: null
-		};
+		// Add the modification if this is a live pin
+		if ( pin.pin_type == "live" && pin.pin_modification != null ) {
 
+			modifications[modifications.length] = {
+				element_index: pin.pin_element_index,
+				pin_ID: pin.pin_ID,
+				modification_type: pin.pin_modification_type,
+				modification: pin.pin_modification,
+				original: null
+			};
+
+		}
+
+		// Add the pin to the list
 		$('#pins').append(
 			newPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y, pin.user_ID)
 		);
@@ -677,6 +680,17 @@ function applyPins() {
 	});
 
 
+	// Update the cursor number with the existing pins
+	currentPinNumber = $('#pins > pin').length + 1;
+	changePinNumber(currentPinNumber);
+
+
+	// Relocate the pins
+	relocatePins();
+
+
+	// Apply modifications
+	applyModifications();
 
 }
 
@@ -792,6 +806,10 @@ function relocatePins(pin_selector = null, x = null, y = null) {
 	pinWindow.css('left', new_scrolled_window_x + "px");
 	pinWindow.css('top', new_scrolled_window_y + "px");
 
+
+	// Update the global pins list
+	getPins();
+
 }
 
 
@@ -815,55 +833,72 @@ function reindexPins() {
 }
 
 
-// Get up-to-date pins and modifications !!!
+// Get up-to-date pins and modifications
 function refreshPins() {
 
 
-	// Send the Ajax request
-    $.post(ajax_url, {
-		'type'	  		: 'pins-get',
-		'nonce'	  		: pin_nonce,
-		'version_ID'	: version_ID
-	}, function(result){
-
-		var pins = result.pins;
-
-		console.log(result.data);
-		console.log('PINS: ', pins);
+	console.log('REFRESHING PINS...');
 
 
-		// Add the pins
-		$(pins).each(function(i, pin) {
-
-			modifications[modifications.length] = {
-				element_index: pin.pin_element_index,
-				pin_ID: pin.pin_ID,
-				modification_type: pin.pin_modification_type,
-				modification: pin.pin_modification,
-				original: null
-			};
-
-			$('#pins').append(
-
-			);
-
-			console.log(pin);
-
-		});
+	// Record the old pins
+	var oldPins = pins;
 
 
-		// Do the modifications
-		applyModifications(modifications);
+	// Get latest pins
+	getPins().done(function() {
 
 
-	}, 'json');
+		// If different than current pins, do the changes
+		if ( !isEqual(pins, oldPins) ) {
 
+
+			console.log('There are some updates');
+
+
+			// Apply Pins
+			applyPins();
+
+
+			console.log('REFRESHED');
+			return true;
+
+		}
+
+
+		// If no changes
+		console.log('No changes found');
+		return false;
+
+	});
+}
+
+
+// Start auto-refresh
+function startAutoRefresh(interval = autoRefreshInterval) {
+
+	console.log('AUTO-REFRESH PINS STARTED');
+
+	autoRefreshTimer = setInterval(function() {
+
+		refreshPins();
+
+	}, interval);
+
+}
+
+
+// Stop auto-refresh
+function stopAutoRefresh() {
+
+	console.log('AUTO-REFRESH PINS STOPPED');
+
+	clearInterval(autoRefreshTimer);
 
 }
 
 
 // Apply modifications
-function applyModifications(modifications) {
+function applyModifications() {
 
 
 	$(modifications).each(function(i, modification) {
@@ -875,8 +910,8 @@ function applyModifications(modifications) {
 		var element = iframe.find('[data-revisionary-index='+modification.element_index+']');
 
 
-		// Add edited status
-		element.attr('data-revisionary-edited', "0");
+		// Register as edited but not changed
+		element.html( newHTML ).attr('data-revisionary-edited', "0");
 
 
 		// If the type is HTML content change
@@ -904,7 +939,7 @@ function applyModifications(modifications) {
 
 
 // Revert modifications
-function revertModifications(modifications) {
+function revertModifications() {
 
 
 	$(modifications).each(function(i, modification) {
@@ -1025,8 +1060,6 @@ function putPin(pinX, pinY) {
 	}, 'json');
 
 
-
-
 	// Re-Locate the pins
 	relocatePins();
 
@@ -1090,7 +1123,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	pinWindow.find('ul.type-convertor > li').show();
 	pinWindow.find('ul.type-convertor > li > a > pin[data-pin-type="'+thePinType+'"][data-pin-private="'+thePinPrivate+'"]').parent().parent().hide();
 
-	// Also remove the live option on comments
+	// Also remove the live convertor on comments
 	if (thePinType == "standard")
 		pinWindow.find('ul.type-convertor > li > a > pin[data-pin-type="live"][data-pin-private="0"]').parent().parent().hide();
 
@@ -1266,8 +1299,13 @@ function removePin(pin_ID) {
 		reindexPins();
 
 
+		// Update the global pins list
+		getPins();
+
+
 		// Finish the process
 		endProcess(newPinProcessID);
+
 
 	}, 'json');
 
@@ -1301,6 +1339,10 @@ function completePin(pin_ID, complete) {
 
 		// Update the pin window status
 		pinWindow.attr('data-pin-complete', (complete ? '1' : '0'));
+
+
+		// Update the global pins list
+		getPins();
 
 
 		// Finish the process
@@ -1580,9 +1622,9 @@ function newPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin
 			data-pin-id="'+pin_ID+'" \
 			data-pin-x="'+pin_x+'" \
 			data-pin-y="'+pin_y+'" \
-			data-revisionary-edited="'+( pin_modification_type != null ? '1' : '0' )+'" \
-			data-revisionary-showing-changes="'+( pin_modification != null ? '1' : '0' )+'" \
 			data-revisionary-index="'+pin_element_index+'" \
+			data-revisionary-edited="'+( pin_modification_type != null ? '1' : '0' )+'" \
+			data-revisionary-showing-changes="1" \
 			style="top: '+pin_y+'px; left: '+pin_x+'px;" \
 		>'+pin_number+'</pin> \
 	';
@@ -1896,6 +1938,68 @@ function canAccessIFrame(iframe) {
     }
 
     return(html !== null);
+}
+
+function isEqual(value, other) {
+
+	// Get the value type
+	var type = Object.prototype.toString.call(value);
+
+	// If the two objects are not the same type, return false
+	if (type !== Object.prototype.toString.call(other)) return false;
+
+	// If items are not an object or array, return false
+	if (['[object Array]', '[object Object]'].indexOf(type) < 0) return false;
+
+	// Compare the length of the length of the two items
+	var valueLen = type === '[object Array]' ? value.length : Object.keys(value).length;
+	var otherLen = type === '[object Array]' ? other.length : Object.keys(other).length;
+	if (valueLen !== otherLen) return false;
+
+	// Compare two items
+	var compare = function (item1, item2) {
+
+		// Get the object type
+		var itemType = Object.prototype.toString.call(item1);
+
+		// If an object or array, compare recursively
+		if (['[object Array]', '[object Object]'].indexOf(itemType) >= 0) {
+			if (!isEqual(item1, item2)) return false;
+		}
+
+		// Otherwise, do a simple comparison
+		else {
+
+			// If the two items are not the same type, return false
+			if (itemType !== Object.prototype.toString.call(item2)) return false;
+
+			// Else if it's a function, convert to a string and compare
+			// Otherwise, just compare
+			if (itemType === '[object Function]') {
+				if (item1.toString() !== item2.toString()) return false;
+			} else {
+				if (item1 !== item2) return false;
+			}
+
+		}
+	};
+
+	// Compare properties
+	if (type === '[object Array]') {
+		for (var i = 0; i < valueLen; i++) {
+			if (compare(value[i], other[i]) === false) return false;
+		}
+	} else {
+		for (var key in value) {
+			if (value.hasOwnProperty(key)) {
+				if (compare(value[key], other[key]) === false) return false;
+			}
+		}
+	}
+
+	// If nothing failed, return true
+	return true;
+
 }
 
 function timeSince(date) {

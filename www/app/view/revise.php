@@ -36,60 +36,10 @@
 
 		<iframe id="the-page" name="the-page" src="" data-url="" width="<?=$width?>" height="<?=$height?>" scrolling="auto" style="min-width: <?=$width?>px; min-height: <?=$height?>px;"></iframe>
 
-		<div id="pins">
-		<?php
+		<!-- THE PINS LIST -->
+		<div id="pins"></div>
 
-			// Get pins from this version
-			$db->where('version_ID', $version_ID);
-
-			// Hide private pins to other people
-			$db->where ("(user_ID = ".currentUserID()." or (user_ID != ".currentUserID()." and pin_private = 0))");
-
-			// Get the pin data
-			$pins = $db->get('pins pin');
-
-			$pin_index = 1;
-			foreach($pins as $pin) {
-		?>
-			<?php
-			if ($pin['pin_type'] == "live") {
-			?>
-				<script>
-					modifications[modifications.length] = {
-						element_index: <?=$pin['pin_element_index']?>,
-						pin_ID: <?=$pin['pin_ID']?>,
-						modification_type: "<?=$pin['pin_modification_type']?>",
-						modification: "<?=$pin['pin_modification']?>",
-						original: null
-					};
-				</script>
-			<?php
-			}
-			?>
-
-				<pin
-					class="pin big"
-					data-pin-type="<?=$pin['pin_type']?>"
-					data-pin-private="<?=$pin['pin_private']?>"
-					data-pin-complete="<?=$pin['pin_complete']?>"
-					data-pin-user-id="<?=$pin['user_ID']?>"
-					data-pin-id="<?=$pin['pin_ID']?>"
-					data-pin-x="<?=$pin['pin_x']?>"
-					data-pin-y="<?=$pin['pin_y']?>"
-					data-revisionary-edited="<?=empty($pin['pin_modification_type']) ? "0" : "1"?>"
-					data-revisionary-showing-changes="<?=empty($pin['pin_modification_type']) ? "1" : "0"?>"
-					data-revisionary-index="<?=$pin['pin_element_index']?>"
-					style="top: <?=$pin['pin_y']?>px; left: <?=$pin['pin_x']?>px;"
-				><?=$pin_index?></pin>
-
-		<?php
-				$pin_index++;
-			}
-
-		?>
-
-		</div>
-
+		<!-- THE PIN CURSOR -->
 		<pin class="mouse-cursor big" data-pin-type="live">1</pin>
 
 	</div>

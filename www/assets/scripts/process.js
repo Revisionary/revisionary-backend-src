@@ -30,6 +30,11 @@ function newProcess() { // Add timeout function here !!!
 
 	var newProcessID = processCount + 1;
 
+
+	// Stop auto-refresh
+	if (typeof stopAutoRefresh === "function") stopAutoRefresh();
+
+
 	// Add the new process
 	progressBar.append('<div class="progress process" data-process-id="'+ newProcessID +'"></div>');
 
@@ -70,6 +75,10 @@ function editProcess(processID, percentage) {
 function endProcess(processID) {
 
 	var process = $('.process[data-process-id="'+ processID +'"]:not(.done)');
+
+
+	// Restart auto-refresh
+	if (typeof startAutoRefresh === "function") startAutoRefresh();
 
 
 	// Fill the progress bar
