@@ -110,8 +110,8 @@ class Pin {
 
     // Relocate a pin
     public function reLocate(
-    	int $pin_x = 50,
-    	int $pin_y = 50
+    	float $pin_x = 50,
+    	float $pin_y = 50
     ) {
 	    global $db;
 

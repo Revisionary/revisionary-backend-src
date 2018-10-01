@@ -30,7 +30,7 @@ $db->where('version_ID', $version_ID);
 $db->where ("(user_ID = ".currentUserID()." or (user_ID != ".currentUserID()." and pin_private = 0))");
 
 // Get the pin data
-$pins = $db->get('pins pin');
+$pins = $db->get('pins pin', null, 'pin.pin_ID, pin.pin_complete, pin.pin_created, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y, pin.user_ID, pin.version_ID');
 
 $status = $pins ? "Pins received" : "No Pins Found";
 

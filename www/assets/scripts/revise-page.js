@@ -314,6 +314,11 @@ $(function() {
 
 		if (pinClicked) {
 
+
+			// Stop auto refresh
+			stopAutoRefresh();
+
+
 			var focused_pin_id = focusedPin.attr('data-pin-id');
 
 			// If not on DB, don't move it
@@ -363,8 +368,13 @@ $(function() {
 		    } else {
 
 
+				var pin_ID = focusedPin.attr('data-pin-id');
+				var pinX = parseFloat(focusedPin.attr('data-pin-x')).toFixed(5);
+				var pinY = parseFloat(focusedPin.attr('data-pin-y')).toFixed(5);
+
+
 			    // Update the pin location on DB
-			    console.log('Update the new pin location on DB');
+			    console.log('Update the new pin location on DB', pinX, pinY);
 
 				// Start the process
 				var relocateProcessID = newProcess();
@@ -372,14 +382,24 @@ $(function() {
 			    $.post(ajax_url, {
 					'type'	  	 : 'pin-relocate',
 					'nonce'	  	 : pin_nonce,
-					'pin_ID'	 : focusedPin.attr('data-pin-id'),
-					'pin_x' 	 : focusedPin.attr('data-pin-x'),
-					'pin_y' 	 : focusedPin.attr('data-pin-y')
+					'pin_ID'	 : pin_ID,
+					'pin_x' 	 : pinX,
+					'pin_y' 	 : pinY
 				}, function(result){
 
 
-					// UPDATE THE GLOBAL PINS !!!
-					// ...
+					// Update the global pins
+					var pin = pins.find(function(pin) {
+						return pin.pin_ID == pin_ID ? true : false;
+					});
+
+					var pinIndex = pins.findIndex(function(element, index, array) {
+						return element == pin
+					});
+
+					pins[pinIndex].pin_x = pinX;
+					pins[pinIndex].pin_y = pinY;
+
 
 
 					// Finish the process
