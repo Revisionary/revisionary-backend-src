@@ -972,8 +972,8 @@ function revertModifications() {
 function putPin(pinX, pinY) {
 
 	// Put it just on the pointer point
-	pinX = pinX - 45/2;
-	pinY = pinY - 45/2;
+	pinX = parseFloat(pinX - 45/2).toFixed(5);
+	pinY = parseFloat(pinY - 45/2).toFixed(5);
 
 
 	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, focused_element_index);
@@ -1045,6 +1045,10 @@ function putPin(pinX, pinY) {
 
 		// Remove the loading text on pin window
 		$('#pin-window').removeClass('loading');
+
+
+		// Update the pin list
+		getPins();
 
 
 		// Finish the process

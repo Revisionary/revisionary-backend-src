@@ -37,7 +37,7 @@ RUN a2enmod ssl
 RUN service apache2 restart
 
 
-# Update the permissions !!! DO AFTER COMPOSER INSTALLATION !
+# Update the permissions !!! DO AFTER COMPOSER AND NODE INSTALLATION !
 RUN chown -R www-data:www-data /var/www/
 RUN chmod -R g+rw /var/www/
 
