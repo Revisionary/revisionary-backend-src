@@ -3,8 +3,7 @@
 use Cocur\BackgroundProcess\BackgroundProcess;
 
 // Force re-internalize on each refresh for debugging !!!
-$forceReInternalize = false;
-
+$forceReInternalize = get('redownload') === "" ? true : false;
 
 
 // SECURITY CHECKS
