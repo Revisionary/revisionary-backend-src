@@ -28,7 +28,7 @@ function runTheInspector() {
 				iframe.scrollTop(oldScrollOffset_top);
 				iframe.scrollLeft(oldScrollOffset_left);
 
-				console.log('REDIRECTED', page_redirected, oldScrollOffset_top, oldScrollOffset_left);
+				//console.log('REDIRECTED', page_redirected, oldScrollOffset_top, oldScrollOffset_left);
 
 				oldScrollOffset_top = oldScrollOffset_left = 0;
 
@@ -45,7 +45,7 @@ function runTheInspector() {
 
 			if (!page_redirected) window.frames["the-page"].location = page_URL;
 
-			page_redirected = true; console.log('REDIRECTED', page_redirected, scrollOffset_top, scrollOffset_left);
+			page_redirected = true; //console.log('REDIRECTED', page_redirected, scrollOffset_top, scrollOffset_left);
 
 		}
 
@@ -138,7 +138,7 @@ function runTheInspector() {
 					focused_element = focused_element_children.first();
 
 
-					console.log('REFOCUS - Only child element has no child and has content: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
+					//console.log('REFOCUS - Only child element has no child and has content: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
 
 				}
 
@@ -150,7 +150,7 @@ function runTheInspector() {
 					focused_element = focused_element_edited_parents.first();
 
 
-					console.log('REFOCUS - Already edited closest parent: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
+					//console.log('REFOCUS - Already edited closest parent: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
 
 				}
 
@@ -165,7 +165,7 @@ function runTheInspector() {
 					focused_element = focused_element.find('[data-revisionary-index][data-revisionary-edited]');
 
 
-					console.log('REFOCUS - Already edited only child element: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
+					//console.log('REFOCUS - Already edited only child element: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
 
 				}
 */
@@ -201,8 +201,8 @@ function runTheInspector() {
 					hoveringText = true;
 					focused_element_editable = true; // Obviously Text Editable
 					focused_element_html_editable = true;
-					console.log( '* Obviously Text Editable: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
-					console.log( 'Focused Element Text: ' + focused_element_text );
+					//console.log( '* Obviously Text Editable: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+					//console.log( 'Focused Element Text: ' + focused_element_text );
 
 				}
 
@@ -213,8 +213,8 @@ function runTheInspector() {
 
 					hoveringImage = true;
 					focused_element_editable = true; // Obviously Image Editable
-					console.log( '* Obviously Image Editable: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
-					console.log( 'Focused Element Image: ' + focused_element.attr('src') );
+					//console.log( '* Obviously Image Editable: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+					//console.log( 'Focused Element Image: ' + focused_element.attr('src') );
 
 				}
 
@@ -242,8 +242,8 @@ function runTheInspector() {
 						hoveringText = true;
 						focused_element_editable = true;
 						focused_element_html_editable = true;
-						console.log( '* Text Editable (No Grand Child): ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
-						console.log( 'Focused Element Text: ' + focused_element_text );
+						//console.log( '* Text Editable (No Grand Child): ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+						//console.log( 'Focused Element Text: ' + focused_element_text );
 
 					}
 
@@ -282,8 +282,8 @@ function runTheInspector() {
 						hoveringText = true;
 						focused_element_editable = true;
 						focused_element_html_editable = true;
-						console.log( '* Text Editable (One Grand Child): ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
-						console.log( 'Focused Element Text: ' + focused_element_text );
+						//console.log( '* Text Editable (One Grand Child): ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+						//console.log( 'Focused Element Text: ' + focused_element_text );
 
 					}
 
@@ -303,8 +303,8 @@ function runTheInspector() {
 
 					hoveringButton = true;
 					focused_element_editable = true; // Obviously Image Editable
-					console.log( '* Button Editable: ' + focused_element.prop("tagName") );
-					console.log( 'Focused Button Text: ' + focused_element.attr('value') );
+					//console.log( '* Button Editable: ' + focused_element.prop("tagName") );
+					//console.log( 'Focused Button Text: ' + focused_element.attr('value') );
 
 				}
 
@@ -316,7 +316,7 @@ function runTheInspector() {
 
 					focused_element_editable = false;
 					focused_element_html_editable = false;
-					console.log( '* Element editable but NO INDEX: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+					//console.log( '* Element editable but NO INDEX: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
 
 				}
 
@@ -326,7 +326,7 @@ function runTheInspector() {
 
 					focused_element_editable = false;
 					focused_element_html_editable = false;
-					console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+					//console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
 
 				}
 
@@ -334,8 +334,8 @@ function runTheInspector() {
 
 /*
 				// See what am I focusing
-				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
-				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable );
+				//console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
+				//console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable );
 */
 
 
@@ -372,7 +372,7 @@ function runTheInspector() {
 							outline(focused_element, focused_element_pin.attr('data-pin-private'));
 
 
-							console.log('This element already has a live pin.');
+							//console.log('This element already has a live pin.');
 
 						}
 
@@ -420,7 +420,7 @@ function runTheInspector() {
 
 		}).on('scroll', function(e) { // Detect the scroll to re-position pins
 
-			console.log('SCROLLIIIIIIIING');
+			//console.log('SCROLLIIIIIIIING');
 
 
 		    // Re-Locate the pins
@@ -431,7 +431,7 @@ function runTheInspector() {
 
 		$(window).on('resize', function(e) { // Detect the window resizing to re-position pins
 
-			console.log('RESIZIIIIIIIING');
+			//console.log('RESIZIIIIIIIING');
 
 
 		    // Re-Locate the pins
@@ -603,7 +603,7 @@ function changePinNumber(pinNumber) {
 function getPins(applyChanges = true) {
 
 
-	console.log('GETTING PINS...');
+	//console.log('GETTING PINS...');
 
 
 	// Record the old pins
@@ -628,8 +628,8 @@ function getPins(applyChanges = true) {
 
 
 
-		console.log('Pins list updated');
-		console.log('LATEST PINS LIST: ', pins);
+		//console.log('Pins list updated');
+		//console.log('LATEST PINS LIST: ', pins);
 
 
 
@@ -637,7 +637,7 @@ function getPins(applyChanges = true) {
 		if ( !isEqual(pins, oldPins) ) {
 
 
-			console.log('There are some updates...');
+			//console.log('There are some updates...');
 
 
 			// Apply Pins
@@ -646,7 +646,7 @@ function getPins(applyChanges = true) {
 
 		} else {
 
-			console.log('No changes found');
+			//console.log('No changes found');
 
 		}
 
@@ -664,7 +664,7 @@ function getPins(applyChanges = true) {
 function applyPins() {
 
 
-	console.log('APPLYING PINS...');
+	//console.log('APPLYING PINS...');
 
 
 	// Revert the changes first
@@ -710,7 +710,7 @@ function applyPins() {
 	changePinNumber(currentPinNumber);
 
 
-	console.log('PINS APPLIED');
+	//console.log('PINS APPLIED');
 
 
 	// Relocate the pins
@@ -865,11 +865,11 @@ function reindexPins() {
 // Start auto-refresh
 function startAutoRefresh(interval = autoRefreshInterval) {
 
-	console.log('AUTO-REFRESH PINS STARTED');
+	//console.log('AUTO-REFRESH PINS STARTED');
 
 	autoRefreshTimer = setInterval(function() {
 
-		console.log('Auto checking the pins...');
+		//console.log('Auto checking the pins...');
 
 		getPins();
 
@@ -881,7 +881,7 @@ function startAutoRefresh(interval = autoRefreshInterval) {
 // Stop auto-refresh
 function stopAutoRefresh() {
 
-	console.log('AUTO-REFRESH PINS STOPPED');
+	//console.log('AUTO-REFRESH PINS STOPPED');
 
 	clearInterval(autoRefreshTimer);
 
@@ -894,7 +894,7 @@ function applyModifications() {
 
 	$(modifications).each(function(i, modification) {
 
-		console.log(i, modification);
+		//console.log(i, modification);
 
 
 		// Find the element
@@ -910,11 +910,11 @@ function applyModifications() {
 
 			// Record the old HTML
 			var oldHtml = element.html();
-			modifications[i].original = htmlentities(oldHtml, "ENT_QUOTES"); console.log('OLD', modifications[i].original);
+			modifications[i].original = htmlentities(oldHtml, "ENT_QUOTES"); //console.log('OLD', modifications[i].original);
 
 
 			// Apply the modification
-			var newHTML = html_entity_decode(modification.modification); console.log('NEW', newHTML);
+			var newHTML = html_entity_decode(modification.modification); //console.log('NEW', newHTML);
 			element.html( newHTML ).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 
 			// Update the pin status
@@ -926,7 +926,7 @@ function applyModifications() {
 	});
 
 
-	console.log('MODIFICATIONS APPLIED');
+	//console.log('MODIFICATIONS APPLIED');
 
 
 }
@@ -938,7 +938,7 @@ function revertModifications() {
 
 	$(modifications).each(function(i, modification) {
 
-		console.log(i, modification);
+		//console.log(i, modification);
 
 
 		// Find the element
@@ -953,7 +953,7 @@ function revertModifications() {
 		if ( modification.modification_type == "html" ) {
 
 			// Apply the modification
-			var newHTML = html_entity_decode(modification.original); console.log('NEW', newHTML);
+			var newHTML = html_entity_decode(modification.original); //console.log('NEW', newHTML);
 			element.html( newHTML ).removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
 
 			// Update the pin status
@@ -977,7 +977,7 @@ function putPin(pinX, pinY) {
 	pinY = parseFloat(pinY - 45/2).toFixed(5);
 
 
-	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, focused_element_index);
+	//console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, focused_element_index);
 
 
 	var temporaryPinID = makeID();
@@ -996,7 +996,7 @@ function putPin(pinX, pinY) {
 
 
     // Add pin to the DB
-    console.log('Add pin to the DB !!!');
+    //console.log('Add pin to the DB !!!');
 
 
 	// Start the process
@@ -1013,11 +1013,11 @@ function putPin(pinX, pinY) {
 		'pin_version_ID'	: version_ID,
 	}, function(result){
 
-		console.log(result.data);
+		//console.log(result.data);
 
 		var realPinID = result.data.real_pin_ID;
 
-		console.log('REAL PIN ID: '+realPinID);
+		//console.log('REAL PIN ID: '+realPinID);
 
 
 		// Update the pin ID !!!
@@ -1248,7 +1248,7 @@ function removePin(pin_ID) {
 
 
     // Add pin to the DB
-    console.log('Remove the pin #' + pin_ID + ' from DB!!');
+    //console.log('Remove the pin #' + pin_ID + ' from DB!!');
 
 
 	// Start the process
@@ -1260,7 +1260,7 @@ function removePin(pin_ID) {
 		'pin_ID'	: pin_ID
 	}, function(result){
 
-		console.log(result.data);
+		//console.log(result.data);
 
 
 		// Close the pin window
@@ -1273,7 +1273,7 @@ function removePin(pin_ID) {
 		});
 		var modificationIndex = modifications.indexOf(modification);
 
-		console.log(modification);
+		//console.log(modification);
 
 		if (modification) {
 
@@ -1317,7 +1317,7 @@ function completePin(pin_ID, complete) {
 
 
     // Add pin to the DB
-    console.log( (complete ? 'Complete' : 'Incomplete') +' the pin #' + pin_ID + ' on DB!!');
+    //console.log( (complete ? 'Complete' : 'Incomplete') +' the pin #' + pin_ID + ' on DB!!');
 
 
 	// Start the process
@@ -1330,7 +1330,7 @@ function completePin(pin_ID, complete) {
 		'pin_ID'			: pin_ID
 	}, function(result){
 
-		console.log(result.data);
+		//console.log(result.data);
 
 		// Update the pin status
 		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-pin-complete', (complete ? '1' : '0'));
@@ -1354,7 +1354,7 @@ function saveModification(pin_ID, modification, modification_type = "html") {
 
 
     // Add pin to the DB
-    console.log( 'Save modification for the pin #' + pin_ID + ' on DB!!');
+    //console.log( 'Save modification for the pin #' + pin_ID + ' on DB!!');
 
 
 	// Start the process
@@ -1368,7 +1368,7 @@ function saveModification(pin_ID, modification, modification_type = "html") {
 		'pin_ID'			: pin_ID
 	}, function(result){
 
-		console.log(result.data);
+		//console.log(result.data);
 
 		// Update the pin status
 		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', "1");
@@ -1449,8 +1449,8 @@ function getComments(pin_ID) {
 
 		var comments = result.comments;
 
-		console.log(result.data);
-		console.log('COMMENTS: ', comments);
+		//console.log(result.data);
+		//console.log('COMMENTS: ', comments);
 
 
 		// Clean the loading
@@ -1475,7 +1475,7 @@ function getComments(pin_ID) {
 				hide = true;
 
 				// Detect same time comments
-				if (previousTime == timeSince(date)) { console.log('TIME SINCE', timeSince(date));
+				if (previousTime == timeSince(date)) { //console.log('TIME SINCE', timeSince(date));
 					sameTime = true;
 				}
 
@@ -1516,7 +1516,7 @@ function getComments(pin_ID) {
 // Send a comment
 function sendComment(pin_ID, message) {
 
-	console.log('Sending this message: ', message);
+	//console.log('Sending this message: ', message);
 
 
 	// Disable the inputs
@@ -1533,7 +1533,7 @@ function sendComment(pin_ID, message) {
 		'message'	: message
 	}, function(result){
 
-		console.log(result.data);
+		//console.log(result.data);
 
 
 		// List the comments
@@ -1552,7 +1552,7 @@ function sendComment(pin_ID, message) {
 		$('#pin-window #comment-sender input.comment-input').val('').focus();
 
 
-		console.log('Message SENT: ', message);
+		//console.log('Message SENT: ', message);
 
 	}, 'json');
 
@@ -1562,7 +1562,7 @@ function sendComment(pin_ID, message) {
 // Delete a comment
 function deleteComment(pin_ID, comment_ID) {
 
-	console.log('Deleting comment #', comment_ID);
+	//console.log('Deleting comment #', comment_ID);
 
 
 	// Disable the inputs
@@ -1579,7 +1579,7 @@ function deleteComment(pin_ID, comment_ID) {
 		'comment_ID' : comment_ID
 	}, function(result){
 
-		console.log(result.data);
+		//console.log(result.data);
 
 
 		// List the comments
@@ -1598,7 +1598,7 @@ function deleteComment(pin_ID, comment_ID) {
 		$('#pin-window #comment-sender input.comment-input').val('').focus();
 
 
-		console.log('Comment #', comment_ID, ' DELETED');
+		//console.log('Comment #', comment_ID, ' DELETED');
 
 	}, 'json');
 
@@ -1618,7 +1618,7 @@ function pinFinder(pin_ID) {
 		return element == pin
 	});
 
-	console.log( pins[pinIndex] );
+	//console.log( pins[pinIndex] );
 
 }
 

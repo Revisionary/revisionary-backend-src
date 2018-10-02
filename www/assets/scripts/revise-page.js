@@ -140,7 +140,7 @@ $(function() {
 		var isComplete = pinWindow.attr('data-pin-complete') == "1" ? true : false;
 
 		// Toggle Complete it on DB
-		console.log(pin_ID, !isComplete);
+		//console.log(pin_ID, !isComplete);
 		completePin(pin_ID, !isComplete);
 
 		e.preventDefault();
@@ -200,7 +200,7 @@ $(function() {
 
 
 
-		console.log('REGISTERED CHANGES', changes);
+		//console.log('REGISTERED CHANGES', changes);
 
 
 
@@ -252,7 +252,7 @@ $(function() {
 
 		}, 1000);
 
-		console.log('Content changed.');
+		//console.log('Content changed.');
 
 	});
 
@@ -264,7 +264,7 @@ $(function() {
 	var pinDragging = false;
 	$(document).on('mouseover', '#pins > pin', function(e) {
 
-		console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-revisionary-index") );
+		//console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-revisionary-index") );
 
 
 		hoveringPin = true;
@@ -297,7 +297,7 @@ $(function() {
 
 	}).on('mousedown', '#pins > pin', function(e) {
 
-		console.log('CLICKED TO A PIN!');
+		//console.log('CLICKED TO A PIN!');
 
 
 		focusedPin = $(this);
@@ -346,7 +346,7 @@ $(function() {
 
 		if (pinClicked) {
 
-			console.log('PIN UN-CLICKED!');
+			//console.log('PIN UN-CLICKED!');
 
 			var pinWasDragging = pinDragging;
 			pinClicked = false;
@@ -362,7 +362,7 @@ $(function() {
 		    if (!pinWasDragging) {
 
 
-		        console.log('TOGGLE THE PIN WINDOW !!!');
+		        //console.log('TOGGLE THE PIN WINDOW !!!');
 
 				togglePinWindow(focusedPin.attr('data-pin-x'), focusedPin.attr('data-pin-y'), focusedPin.attr('data-pin-id'));
 
@@ -376,7 +376,7 @@ $(function() {
 
 
 			    // Update the pin location on DB
-			    console.log('Update the new pin location on DB', pinX, pinY);
+			    //console.log('Update the new pin location on DB', pinX, pinY);
 
 				// Start the process
 				var relocateProcessID = newProcess();
@@ -407,7 +407,7 @@ $(function() {
 					// Finish the process
 					endProcess(relocateProcessID);
 
-					console.log(result.data);
+					//console.log(result.data);
 
 				}, 'json');
 
@@ -422,7 +422,7 @@ $(function() {
 
 	}).on('mouseout', '#pins > pin', function(e) {
 
-		console.log('MOUSE OUT FROM PIN!', pinDragging);
+		//console.log('MOUSE OUT FROM PIN!', pinDragging);
 
 		hoveringPin = false;
 
