@@ -600,7 +600,7 @@ function changePinNumber(pinNumber) {
 
 
 // Get up-to-date pins and modifications
-function getPins() {
+function getPins(applyChanges = true) {
 
 
 	console.log('GETTING PINS...');
@@ -641,10 +641,8 @@ function getPins() {
 
 
 			// Apply Pins
-			applyPins();
+			if (applyChanges) applyPins();
 
-
-			console.log('UPDATES APPLIED');
 
 		} else {
 
@@ -928,6 +926,9 @@ function applyModifications() {
 	});
 
 
+	console.log('MODIFICATIONS APPLIED');
+
+
 }
 
 
@@ -1047,8 +1048,8 @@ function putPin(pinX, pinY) {
 		$('#pin-window').removeClass('loading');
 
 
-		// Update the pin list
-		getPins();
+		// Update the pin list, but don't apply the changes now
+		getPins(false);
 
 
 		// Finish the process
