@@ -200,10 +200,12 @@ $(function() {
 
 
 
-
 		console.log('REGISTERED CHANGES', changes);
 
 
+
+		// Stop the auto-refresh
+		stopAutoRefresh();
 
 
 		// Apply the change
