@@ -3,6 +3,7 @@ services:
     www:
         build: .
         container_name: php-apache
+        restart: on-failure
         depends_on:
             - db
             - composer
@@ -19,6 +20,7 @@ services:
     db:
         image: mysql
         container_name: mysql
+        restart: on-failure
         ports:
             - "3306:3306"
         environment:
@@ -48,7 +50,7 @@ services:
         container_name: composer
         working_dir: /var/www/html
         command: install
-        restart: 'no'
+        restart: "no"
         volumes:
             - ./www:/var/www/html
     nodejs:
@@ -57,10 +59,24 @@ services:
         depends_on:
             - composer
         working_dir: /var/www/html/app/bgprocess
+        restart: "no"
         environment:
             - NODE_ENV=development
-        command: npm install
+        command: >
+            bash -c "npm install &&
+            until [ -f /var/www/html/vendor/autoload.php ]; do
+                echo 'Composer is installing now...'
+                sleep 2
+            done &&
+            echo 'COMPOSER IS READY!' &&
+            echo 'Start updating permissions...' &&
+            chown -R www-data:www-data /var/www/ &&
+            chmod -R g+rw /var/www/ &&
+            echo 'PERMISSIONS UPDATED!' &&
+            echo 'DONE!'
+            "
         volumes:
+            - ./www:/var/www/html
             - ./www/app/bgprocess:/var/www/html/app/bgprocess
 volumes:
     persistent:
