@@ -25,7 +25,7 @@
 
 				<h4 class="section-title xl-left">Project Info</h4>
 
-				<h3>Site Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
+				<h3>Site Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this project." aria-hidden="true"></i></h3>
 				<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." tabindex="1" autofocus required/>
 
 
@@ -69,12 +69,12 @@
 
 					<h4 class="section-title xl-left">Page Info</h4>
 
-					<h3>First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
+					<h3><i class="fa fa-link"></i> First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
 					<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="2" required disabled/>
-					<small class="design-uploader">or <a href="#">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
+					<small class="design-uploader">or <a href="#" data-tooltip="Not working yet.">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
 
 
-					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
+					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this page like Home, About, ..." aria-hidden="true"></i></h3>
 					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="3" required disabled/>
 
 
@@ -219,7 +219,7 @@
 			<div class="col xl-9-10">
 
 
-				<h3>URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
+				<h3><i class="fa fa-link"></i> URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
 				<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
 				<small class="design-uploader">or <a href="#">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
 
