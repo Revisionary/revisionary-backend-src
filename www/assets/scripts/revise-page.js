@@ -16,6 +16,9 @@ $(function() {
 		containerX = e.clientX - offset.left;
 		containerY = e.clientY - offset.top;
 
+
+		//console.log(hoveringPin);
+
 	});
 
 
@@ -262,13 +265,13 @@ $(function() {
 	// PIN HOVERING
 	hoveringPin = false;
 	var pinClicked = false;
-	$(document).on('mouseover', '#pins > pin', function(e) { console.log( $(this) );
+	var pinDragging = false;
+	$(document).on('mouseover', '#pins > pin', function(e) {
 
 		//console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-revisionary-index") );
 
 
 		hoveringPin = true;
-		focusedPin = $(this);
 
 
 		// Reset the pin opacity
@@ -296,42 +299,7 @@ $(function() {
 
 		e.preventDefault();
 
-	}).on('mouseout', '#pins > pin', function(e) { console.log( $(this) );
-
-		//console.log('MOUSE OUT FROM PIN!', pinDragging);
-
-		hoveringPin = false;
-		focusedPin = null;
-
-
-		// Clear all outlines
-		iframe.find('body *').css('outline', '');
-
-
-		// Show the cursor
-		if (cursorActive && !pinDragging) cursor.stop().fadeIn();
-
-
-		e.preventDefault();
-
-	}).on('mouseup', function() { console.log( $(this) );
-
-		console.log('PIN CLICKED!');
-
-		var pinWasDragging = pinDragging;
-		pinClicked = false;
-		pinDragging = false;
-
-
-		// Show the pin window if not dragging
-		if (!pinWasDragging) togglePinWindow(focusedPin.attr('data-pin-x'), focusedPin.attr('data-pin-y'), focusedPin.attr('data-pin-id'));
-
-
-
-	});
-
-/*
-	.on('mousedown', '#pins > pin', function(e) {
+	}).on('mousedown', '#pins > pin', function(e) {
 
 		//console.log('CLICKED TO A PIN!');
 
@@ -360,15 +328,11 @@ $(function() {
 			var focused_pin_id = focusedPin.attr('data-pin-id');
 
 			// If not on DB, don't move it
-			if ( $.isNumeric(focused_pin_id) ) {
+			if ( !focusedPin.is('[temporary]') ) {
 
 				pinDragging = true;
 
-				var pinSize = 45;
-				var pos_x = containerX - pinSize/2;
-				var pos_y = containerY - pinSize/2;
-
-				relocatePins(focusedPin, pos_x, pos_y);
+				//relocatePins(focusedPin, pos_x, pos_y);
 
 				//console.log('PIN IS MOVING!', pos_x, pos_y);
 
@@ -403,51 +367,6 @@ $(function() {
 				togglePinWindow(focusedPin.attr('data-pin-x'), focusedPin.attr('data-pin-y'), focusedPin.attr('data-pin-id'));
 
 
-		    } else {
-
-
-				var pin_ID = focusedPin.attr('data-pin-id');
-				var pinX = parseFloat(focusedPin.attr('data-pin-x')).toFixed(5);
-				var pinY = parseFloat(focusedPin.attr('data-pin-y')).toFixed(5);
-
-
-			    // Update the pin location on DB
-			    //console.log('Update the new pin location on DB', pinX, pinY);
-
-				// Start the process
-				var relocateProcessID = newProcess();
-
-			    $.post(ajax_url, {
-					'type'	  	 : 'pin-relocate',
-					'nonce'	  	 : pin_nonce,
-					'pin_ID'	 : pin_ID,
-					'pin_x' 	 : pinX,
-					'pin_y' 	 : pinY
-				}, function(result){
-
-
-					// Update the global pins
-					var pin = pins.find(function(pin) {
-						return pin.pin_ID == pin_ID ? true : false;
-					});
-
-					var pinIndex = pins.findIndex(function(element, index, array) {
-						return element == pin
-					});
-
-					pins[pinIndex].pin_x = pinX;
-					pins[pinIndex].pin_y = pinY;
-
-
-
-					// Finish the process
-					endProcess(relocateProcessID);
-
-					//console.log(result.data);
-
-				}, 'json');
-
-
 		    }
 
 
@@ -456,8 +375,22 @@ $(function() {
 			e.preventDefault();
 		}
 
-	})
-*/
+	}).on('mouseout', '#pins > pin', function(e) {
+
+		//console.log('MOUSE OUT FROM PIN!', pinDragging);
+
+		hoveringPin = false;
+
+		iframe.find('body *').css('outline', '');
+
+
+		// Show the cursor
+		if (cursorActive && !pinDragging) cursor.stop().fadeIn();
+
+
+		e.preventDefault();
+
+	});
 
 
 

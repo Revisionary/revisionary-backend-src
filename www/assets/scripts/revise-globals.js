@@ -92,7 +92,6 @@ var hoveringImage = false;
 var hoveringButton = false;
 var hoveringPin = false;
 var focusedPin = null;
-var pinDragging = false;
 
 // Scrolls
 var scrollOffset_top = 0;
