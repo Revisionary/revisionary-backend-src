@@ -1370,7 +1370,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 			// Show the changed HTML content on the editor
 			if (modification && modification.modification != null)
-				pinWindow.find('.edit-content.changes').html( html_entity_decode (modification.modification) );
+				pinWindow.find('.content-editor .edit-content.changes').html( html_entity_decode (modification.modification) );
 
 			// Add the original HTML content
 			if (modification && modification.original != null)
@@ -1381,12 +1381,12 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 				originalContent = origContent.html();
 
 				// Default change editor
-				pinWindow.find('.edit-content.changes').html( origContent.html() );
+				pinWindow.find('.content-editor .edit-content.changes').html( origContent.html() );
 			}
 
 
 			// Update the original content
-			pinWindow.find('.edit-content.original').html( originalContent );
+			pinWindow.find('.content-editor .edit-content.original').html( originalContent );
 
 
 		}
