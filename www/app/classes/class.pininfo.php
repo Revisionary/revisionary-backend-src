@@ -66,8 +66,8 @@ class Pin {
     	int $pin_x = 50,
     	int $pin_y = 50,
     	int $pin_element_index = null,
-	    int $pin_user_ID = null,
 	    string $pin_modification_type = null,
+	    int $pin_user_ID = null,
 	    string $pin_modification = null
     ) {
 	    global $db;

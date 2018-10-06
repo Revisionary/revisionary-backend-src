@@ -1177,13 +1177,21 @@ function putPin(pinX, pinY) {
 
 	//console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, focused_element_index);
 
+	// Detect modification type
+	var modificationType = null;
+
+	if (currentCursorType == "live") {
+		modificationType = hoveringText ? "html" : "image";
+	}
+
+
 
 	var temporaryPinID = makeID();
 
 
 	// Add the temporary pin to the DOM
 	$('#pins').append(
-		newPinTemplate(currentPinNumber, temporaryPinID, '0', focused_element_index, '1', null, currentPinPrivate, currentCursorType, pinX, pinY, user_ID, true)
+		newPinTemplate(currentPinNumber, temporaryPinID, '0', focused_element_index, null, modificationType, currentPinPrivate, currentCursorType, pinX, pinY, user_ID, true)
 	);
 
 
@@ -1201,14 +1209,15 @@ function putPin(pinX, pinY) {
 	var newPinProcessID = newProcess();
 
     $.post(ajax_url, {
-		'type'	  	 		: 'pin-add',
-		'nonce'	  	 		: pin_nonce,
-		'pin_x' 	 		: pinX,
-		'pin_y' 	 		: pinY,
-		'pin_type' 	 		: currentCursorType,
-		'pin_private'		: currentPinPrivate,
-		'pin_element_index' : focused_element_index,
-		'pin_version_ID'	: version_ID,
+		'type'	  	 			: 'pin-add',
+		'nonce'	  	 			: pin_nonce,
+		'pin_x' 	 			: pinX,
+		'pin_y' 	 			: pinY,
+		'pin_type' 	 			: currentCursorType,
+		'pin_modification_type' : modificationType,
+		'pin_private'			: currentPinPrivate,
+		'pin_element_index' 	: focused_element_index,
+		'pin_version_ID'		: version_ID,
 	}, function(result){
 
 		//console.log(result.data);
@@ -1281,6 +1290,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	var thePinComplete = thePin.attr('data-pin-complete');
 	var theIndex = thePin.attr('data-revisionary-index');
 	var thePinText = thePinPrivate == '1' ? 'PRIVATE COMMENT' : 'ONLY COMMENT';
+	var thePinModificationType = thePin.attr('data-pin-modification-type');
 	var thePinModified = thePin.attr('data-revisionary-edited');
 	var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
 	var originalContent = "";
@@ -1312,6 +1322,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	pinWindow.attr('data-pin-complete', thePinComplete);
 	pinWindow.attr('data-pin-x', thePin.attr('data-pin-x'));
 	pinWindow.attr('data-pin-y', thePin.attr('data-pin-y'));
+	pinWindow.attr('data-pin-modification-type', thePinModificationType);
 	pinWindow.attr('data-pin-id', pin_ID);
 	pinWindow.attr('data-revisionary-edited', thePinModified);
 	pinWindow.attr('data-revisionary-showing-changes', thePinShowingChanges);
@@ -1333,10 +1344,6 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		pinWindow.find('ul.type-convertor > li > a > pin[data-pin-type="live"][data-pin-private="0"]').parent().parent().hide();
 
 
-	// Hide the editors
-	pinWindow.find('.image-editor').hide();
-	pinWindow.find('.content-editor').hide();
-
 
 	// If on 'Live' mode
 	if (thePinType == 'live') {
@@ -1349,11 +1356,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 
 
-		if ( hoveringText ) {
-
-
-			// Show the content editor
-			pinWindow.find('.content-editor').show();
+		if ( thePinModificationType == "html" ) {
 
 
 			// Expected original content
@@ -1389,11 +1392,8 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		}
 
 
-		if ( hoveringImage ) {
+		if ( thePinModificationType == "image" ) {
 
-
-			// Show the content editor
-			pinWindow.find('.image-editor').show();
 
 
 
@@ -1852,8 +1852,9 @@ function newPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin
 			data-pin-id="'+pin_ID+'" \
 			data-pin-x="'+pin_x+'" \
 			data-pin-y="'+pin_y+'" \
+			data-pin-modification-type="'+pin_modification_type+'" \
 			data-revisionary-index="'+pin_element_index+'" \
-			data-revisionary-edited="'+( pin_modification_type != null ? '1' : '0' )+'" \
+			data-revisionary-edited="'+( pin_modification != null ? '1' : '0' )+'" \
 			data-revisionary-showing-changes="1" \
 			style="top: '+pin_y+'px; left: '+pin_x+'px;" \
 		>'+pin_number+'</pin> \

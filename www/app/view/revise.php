@@ -54,6 +54,7 @@
 		data-pin-complete="0"
 		data-pin-x="30"
 		data-pin-y="30"
+		data-pin-modification-type=""
 		data-revisionary-edited="0"
 		data-revisionary-showing-changes="0"
 		data-revisionary-index="0"

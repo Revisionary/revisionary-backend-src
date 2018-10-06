@@ -808,9 +808,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 
 
-	&[data-pin-edit-type="content"] {
+	&[data-pin-modification-type="html"] {
 
 		& > .image-editor {
+			display: none;
+		}
+
+	}
+
+	&[data-pin-modification-type="image"] {
+
+		& > .content-editor {
 			display: none;
 		}
 

@@ -507,7 +507,9 @@ html, body {
         opacity: 1; }
   #pin-window > .bottom-actions .action nav > ul > li > a {
     width: 100%; }
-  #pin-window[data-pin-edit-type="content"] > .image-editor {
+  #pin-window[data-pin-modification-type="html"] > .image-editor {
+    display: none; }
+  #pin-window[data-pin-modification-type="image"] > .content-editor {
     display: none; }
   #pin-window[data-pin-complete="1"] .complete-pin {
     display: none !important; }

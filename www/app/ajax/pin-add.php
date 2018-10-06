@@ -15,6 +15,7 @@ $pin_private = boolval(request('pin_private'));
 $pin_x = intval(request('pin_x'));
 $pin_y = intval(request('pin_y'));
 $pin_element_index = request('pin_element_index');
+$pin_midification_type = request('pin_modification_type');
 
 
 // Are they numbers?
@@ -34,7 +35,8 @@ $pin_ID = Pin::ID()->addNew(
 	$pin_private,
 	$pin_x,
 	$pin_y,
-	$pin_element_index
+	$pin_element_index,
+	$pin_midification_type
 );
 
 if ($pin_ID) $status = "Added: $pin_ID";
