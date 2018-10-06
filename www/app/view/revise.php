@@ -116,7 +116,43 @@
 		</div>
 
 		<div class="image-editor">
-			IMAGE CHANGER
+
+			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
+				<div class="col title">NEW IMAGE:</div>
+				<div class="col">
+
+					<a href="#" class="switch edits-switch original">
+						<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
+						SHOW ORIGINAL
+					</a>
+
+				</div>
+			</div>
+
+			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
+				<div class="col">ORIGINAL CONTENT:</div>
+				<div class="col edits-switch-wrap">
+
+					<a href="#" class="switch edits-switch changes">
+						<img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/>
+						SHOW CHANGED
+					</a>
+
+				</div>
+			</div>
+
+			<div class="wrap xl-1">
+				<div class="col">
+					<div class="edit-content changes">
+						IMAGE CHANGER
+					</div>
+					<div class="edit-content original">
+						TEST
+						ORIGINAL
+						CONTENT
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="content-editor">

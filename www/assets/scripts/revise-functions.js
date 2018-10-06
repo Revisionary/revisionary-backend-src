@@ -1126,7 +1126,8 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		pinWindow.find('ul.type-convertor > li > a > pin[data-pin-type="live"][data-pin-private="0"]').parent().parent().hide();
 
 
-	// Hide the editor
+	// Hide the editors
+	pinWindow.find('.image-editor').hide();
 	pinWindow.find('.content-editor').hide();
 
 
@@ -1140,39 +1141,57 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		pinWindow.find('pin.chosen-pin + span > span').text(thePinText);
 
 
-		// Show the content editor
-		pinWindow.find('.content-editor').show();
+
+		if ( hoveringText ) {
 
 
+			// Show the content editor
+			pinWindow.find('.content-editor').show();
 
-		var origContent = iframe.find('[data-revisionary-index="'+ theIndex +'"]:not([data-revisionary-showing-changes])');
+
+			// Expected original content
+			var origContent = iframe.find('[data-revisionary-index="'+ theIndex +'"]:not([data-revisionary-showing-changes])');
 
 
+			// MODIFICATION FINDER
+			var modification = modifications.find(function(modification) {
+				return modification.pin_ID == pin_ID ? true : false;
+			});
 
-		// MODIFICATION FINDER
-		var modification = modifications.find(function(modification) {
-			return modification.pin_ID == pin_ID ? true : false;
-		});
+			// Show the changed HTML content on the editor
+			if (modification && modification.modification != null)
+				pinWindow.find('.edit-content.changes').html( html_entity_decode (modification.modification) );
 
-		// Show the changed HTML content on the editor
-		if (modification && modification.modification != null)
-			pinWindow.find('.edit-content.changes').html( html_entity_decode (modification.modification) );
+			// Add the original HTML content
+			if (modification && modification.original != null)
+				originalContent = html_entity_decode (modification.original);
 
-		// Add the original HTML content
-		if (modification && modification.original != null)
-			originalContent = html_entity_decode (modification.original);
+			// If it's untouched DOM
+			if ( origContent.length ) {
+				originalContent = origContent.html();
 
-		// If it's untouched DOM
-		if ( origContent.length ) {
-			originalContent = origContent.html();
+				// Default change editor
+				pinWindow.find('.edit-content.changes').html( origContent.html() );
+			}
 
-			// Default change editor
-			pinWindow.find('.edit-content.changes').html( origContent.html() );
+
+			// Update the original content
+			pinWindow.find('.edit-content.original').html( originalContent );
+
+
 		}
 
 
-		// Update the original content
-		pinWindow.find('.edit-content.original').html( originalContent );
+		if ( hoveringImage ) {
+
+
+			// Show the content editor
+			pinWindow.find('.image-editor').show();
+
+
+
+		}
+
 
 	}
 
@@ -1601,24 +1620,6 @@ function deleteComment(pin_ID, comment_ID) {
 		//console.log('Comment #', comment_ID, ' DELETED');
 
 	}, 'json');
-
-}
-
-
-// PIN GLOBAL MODIFIER !!!
-function pinFinder(pin_ID) {
-
-
-	// PIN FINDER
-	var pin = pins.find(function(pin) {
-		return pin.pin_ID == pin_ID ? true : false;
-	});
-
-	var pinIndex = pins.findIndex(function(element, index, array) {
-		return element == pin
-	});
-
-	//console.log( pins[pinIndex] );
 
 }
 
