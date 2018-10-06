@@ -807,19 +807,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 	}
 
 
+	.image-editor,
+	.content-editor {
+		display: none;
+	}
+
 
 	&[data-pin-modification-type="html"] {
 
-		& > .image-editor {
-			display: none;
+		& > .content-editor {
+			display: block;
 		}
 
 	}
 
 	&[data-pin-modification-type="image"] {
 
-		& > .content-editor {
-			display: none;
+		& > .image-editor {
+			display: block;
 		}
 
 	}

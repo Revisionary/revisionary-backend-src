@@ -507,10 +507,13 @@ html, body {
         opacity: 1; }
   #pin-window > .bottom-actions .action nav > ul > li > a {
     width: 100%; }
-  #pin-window[data-pin-modification-type="html"] > .image-editor {
+  #pin-window .image-editor,
+  #pin-window .content-editor {
     display: none; }
-  #pin-window[data-pin-modification-type="image"] > .content-editor {
-    display: none; }
+  #pin-window[data-pin-modification-type="html"] > .content-editor {
+    display: block; }
+  #pin-window[data-pin-modification-type="image"] > .image-editor {
+    display: block; }
   #pin-window[data-pin-complete="1"] .complete-pin {
     display: none !important; }
   #pin-window[data-pin-complete="0"] .incomplete-pin {
