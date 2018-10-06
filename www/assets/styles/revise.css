@@ -256,6 +256,8 @@ html, body {
   .iframe-container iframe {
     border: none;
     max-height: 100%; }
+    .iframe-container iframe.dragging {
+      pointer-events: none; }
 
 /* Loading Overlay */
 .overlay {

@@ -5114,6 +5114,10 @@ textarea {
   -khtml-user-drag: element;
   -webkit-user-drag: element; }
 
+.ui-draggable-handle {
+  -ms-touch-action: none;
+  touch-action: none; }
+
 /**
  * Forms
  */

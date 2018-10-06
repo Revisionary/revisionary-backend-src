@@ -155,22 +155,6 @@ function runTheInspector() {
 				}
 
 
-/*
-				// Re-focus to the edited element if this is parent of it: <p><b data-edited="1" focused>Lorem</b> <span>ipsum dolor</span></p>
-				if (
-					focused_element_has_edited_child == 1
-				) {
-
-					// Re-focus to the parent edited element
-					focused_element = focused_element.find('[data-revisionary-index][data-revisionary-edited]');
-
-
-					//console.log('REFOCUS - Already edited only child element: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
-
-				}
-*/
-
-
 				// Update refocused sub elements
 		        focused_element_index = focused_element.attr('data-revisionary-index');
 		        focused_element_has_index = focused_element_index != null ? true : false;
@@ -710,7 +694,8 @@ function applyPins() {
 	changePinNumber(currentPinNumber);
 
 
-	//console.log('PINS APPLIED');
+	// Make pins draggable
+	makeDraggable();
 
 
 	// Relocate the pins
@@ -719,6 +704,126 @@ function applyPins() {
 
 	// Apply modifications
 	applyModifications();
+
+}
+
+
+// Activate Pins Drag
+function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
+
+
+
+	// Make pins draggable
+	pin.draggable({
+		containment: ".iframe-container",
+		iframeFix: true,
+		snap: true,
+		snapMode: "outer",
+		stack: "#pins > pin",
+		cursor: "move",
+		opacity: 0.35,
+		start: function( event, ui ) {
+
+
+			console.log('STARTED!');
+
+
+		},
+		drag: function( event, ui ) {
+
+
+			console.log('DRAGGING ', ui.position.top, ui.position.left);
+
+
+			pinDragging = true;
+
+
+			// Stop auto refresh
+			stopAutoRefresh();
+
+
+			// Fixed decimal for DB structure
+			ui.position.left = parseFloat(ui.position.left).toFixed(5);
+			ui.position.top = parseFloat(ui.position.top).toFixed(5);
+
+
+			// If pin window open, attach it to the pin !!!
+			// ...
+
+
+		},
+		stop: function( event, ui ) {
+
+
+			console.log('STOPPED.');
+
+
+			pinDragging = false;
+
+
+			// Get the pin
+			focusedPin = $(this);
+			var pin_ID = focusedPin.attr('data-pin-id');
+
+
+			// Get the final positions
+			var pos_x = ui.position.left;
+			var pos_y = ui.position.top;
+
+
+			console.log('DROPPED ', pos_x, pos_y);
+
+
+			// Update the pin location attributes
+			relocatePins(focusedPin, pos_x, pos_y);
+
+
+			// Get the updated positions
+			var pinX = parseFloat(focusedPin.attr('data-pin-x')).toFixed(5);
+			var pinY = parseFloat(focusedPin.attr('data-pin-y')).toFixed(5);
+
+
+		    // Update the pin location on DB
+		    //console.log('Update the new pin location on DB', pinX, pinY);
+
+
+			// Start the process
+			var relocateProcessID = newProcess();
+
+		    $.post(ajax_url, {
+				'type'	  	 : 'pin-relocate',
+				'nonce'	  	 : pin_nonce,
+				'pin_ID'	 : pin_ID,
+				'pin_x' 	 : pinX,
+				'pin_y' 	 : pinY
+			}, function(result){
+
+
+				// Update the global 'pins'
+				var pin = pins.find(function(pin) {
+					return pin.pin_ID == pin_ID ? true : false;
+				});
+
+				var pinIndex = pins.findIndex(function(element, index, array) {
+					return element == pin
+				});
+
+				pins[pinIndex].pin_x = pinX;
+				pins[pinIndex].pin_y = pinY;
+
+
+
+				// Finish the process
+				endProcess(relocateProcessID);
+
+				//console.log(result.data);
+
+			}, 'json');
+
+
+		}
+	});
+
 
 }
 
@@ -983,9 +1088,9 @@ function putPin(pinX, pinY) {
 	var temporaryPinID = makeID();
 
 
-	// Add the pin to the DOM
+	// Add the temporary pin to the DOM
 	$('#pins').append(
-		newPinTemplate(currentPinNumber, temporaryPinID, '0', focused_element_index, '1', null, currentPinPrivate, currentCursorType, pinX, pinY, user_ID)
+		newPinTemplate(currentPinNumber, temporaryPinID, '0', focused_element_index, '1', null, currentPinPrivate, currentCursorType, pinX, pinY, user_ID, true)
 	);
 
 
@@ -1016,12 +1121,13 @@ function putPin(pinX, pinY) {
 		//console.log(result.data);
 
 		var realPinID = result.data.real_pin_ID;
+		var newPin = $('#pins > pin[data-pin-id="'+temporaryPinID+'"]');
 
 		//console.log('REAL PIN ID: '+realPinID);
 
 
-		// Update the pin ID !!!
-		$('#pins > pin[data-pin-id="'+temporaryPinID+'"]').attr('data-pin-id', realPinID);
+		// Update the pin ID
+		newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
 		$('#pin-window').attr('data-pin-id', realPinID);
 
 
@@ -1046,6 +1152,10 @@ function putPin(pinX, pinY) {
 
 		// Remove the loading text on pin window
 		$('#pin-window').removeClass('loading');
+
+
+		// Make draggable
+		makeDraggable(newPin);
 
 
 		// Update the pin list, but don't apply the changes now
@@ -1628,11 +1738,12 @@ function deleteComment(pin_ID, comment_ID) {
 // TEMPLATES:
 // Pin template
 //function newPinTemplate(pin_x, pin_y, pin_ID, user_ID, pin_type, pin_private, pin_complete, pin_edited) {
-function newPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, user_ID) {
+function newPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, user_ID, temporary = false) {
 
 	return '\
 		<pin \
 			class="pin big" \
+			'+(temporary ? "temporary" : "")+' \
 			data-pin-type="'+pin_type+'" \
 			data-pin-private="'+pin_private+'" \
 			data-pin-complete="'+pin_complete+'" \

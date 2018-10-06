@@ -258,16 +258,17 @@ $(function() {
 
 
 
-	// PIN DRAG & DROP
+
+	// PIN HOVERING
 	hoveringPin = false;
 	var pinClicked = false;
-	var pinDragging = false;
-	$(document).on('mouseover', '#pins > pin', function(e) {
+	$(document).on('mouseover', '#pins > pin', function(e) { console.log( $(this) );
 
 		//console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-revisionary-index") );
 
 
 		hoveringPin = true;
+		focusedPin = $(this);
 
 
 		// Reset the pin opacity
@@ -295,7 +296,42 @@ $(function() {
 
 		e.preventDefault();
 
-	}).on('mousedown', '#pins > pin', function(e) {
+	}).on('mouseout', '#pins > pin', function(e) { console.log( $(this) );
+
+		//console.log('MOUSE OUT FROM PIN!', pinDragging);
+
+		hoveringPin = false;
+		focusedPin = null;
+
+
+		// Clear all outlines
+		iframe.find('body *').css('outline', '');
+
+
+		// Show the cursor
+		if (cursorActive && !pinDragging) cursor.stop().fadeIn();
+
+
+		e.preventDefault();
+
+	}).on('mouseup', function() { console.log( $(this) );
+
+		console.log('PIN CLICKED!');
+
+		var pinWasDragging = pinDragging;
+		pinClicked = false;
+		pinDragging = false;
+
+
+		// Show the pin window if not dragging
+		if (!pinWasDragging) togglePinWindow(focusedPin.attr('data-pin-x'), focusedPin.attr('data-pin-y'), focusedPin.attr('data-pin-id'));
+
+
+
+	});
+
+/*
+	.on('mousedown', '#pins > pin', function(e) {
 
 		//console.log('CLICKED TO A PIN!');
 
@@ -420,22 +456,8 @@ $(function() {
 			e.preventDefault();
 		}
 
-	}).on('mouseout', '#pins > pin', function(e) {
-
-		//console.log('MOUSE OUT FROM PIN!', pinDragging);
-
-		hoveringPin = false;
-
-		iframe.find('body *').css('outline', '');
-
-
-		// Show the cursor
-		if (cursorActive && !pinDragging) cursor.stop().fadeIn();
-
-
-		e.preventDefault();
-
-	});
+	})
+*/
 
 
 

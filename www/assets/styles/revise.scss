@@ -430,6 +430,10 @@ html, body {
 	iframe {
 		border: none;
 		max-height: 100%;
+
+		&.dragging {
+			pointer-events: none;
+		}
 	}
 
 }
