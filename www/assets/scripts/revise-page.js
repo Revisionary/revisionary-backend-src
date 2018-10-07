@@ -36,7 +36,18 @@ $(function() {
 	        iframeElement(element_index).attr('src', imageSrc).attr('srcset', '');
 
 	    }
-	    if (e.target.files.length) reader.readAsDataURL(e.target.files[0]);
+	    if (e.target.files.length) {
+
+		    reader.readAsDataURL(e.target.files[0]);
+
+		} else {
+
+		    console.log('NO FILE');
+
+		    $('.uploader img').attr('src', '');
+		    $('.uploader input').val('');
+
+		}
 
 	}, false);
 
