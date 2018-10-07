@@ -144,8 +144,12 @@
 
 			<div class="wrap xl-1">
 				<div class="col">
-					<div class="edit-content changes">
-						IMAGE CHANGER
+					<div class="edit-content changes uploader" onclick="$('#filePhoto').click()">
+
+					    Click here or drag here your images for preview
+					    <img src=""/>
+					    <input type="file" name="userprofile_picture"  id="filePhoto" />
+
 					</div>
 					<div class="edit-content original">
 						TEST
