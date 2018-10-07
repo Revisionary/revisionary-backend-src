@@ -22,6 +22,25 @@ $(function() {
 	});
 
 
+	// Uploader
+	document.getElementById('filePhoto').addEventListener('change', function(e) {
+
+	    var reader = new FileReader();
+	    reader.onload = function(event) {
+
+		    var imageSrc = event.target.result;
+	        $('.uploader img').attr('src', imageSrc);
+
+
+	        var element_index = pinWindow.attr('data-revisionary-index'); console.log(element_index);
+	        iframeElement(element_index).attr('src', imageSrc).attr('srcset', '');
+
+	    }
+	    if (e.target.files.length) reader.readAsDataURL(e.target.files[0]);
+
+	}, false);
+
+
 	// Tab opener
 	$('.opener').click(function(e) {
 		toggleTab( $(this) );
@@ -192,7 +211,7 @@ $(function() {
 
 	// Pin window content changes
 	var doChange;
-	$(document).on('DOMSubtreeModified', '#pin-window.active .edit-content', function(e) {
+	$(document).on('DOMSubtreeModified', '#pin-window.active .content-editor .edit-content', function(e) {
 
 		var pin_ID = pinWindow.attr('data-pin-id');
 		var elementIndex = pinWindow.attr('data-revisionary-index');

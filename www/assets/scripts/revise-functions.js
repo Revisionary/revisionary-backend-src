@@ -726,14 +726,14 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 		start: function( event, ui ) {
 
 
-			console.log('STARTED!');
+			//console.log('STARTED!');
 
 
 		},
 		drag: function( event, ui ) {
 
 
-			console.log('DRAGGING ', ui.position.top, ui.position.left);
+			//console.log('DRAGGING ', ui.position.top, ui.position.left);
 
 
 			pinDragging = true;
@@ -772,7 +772,7 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 			var pos_y = ui.position.top;
 
 
-			console.log('DROPPED ', pos_x, pos_y);
+			//console.log('DROPPED ', pos_x, pos_y);
 
 
 			// Update the pin location attributes
@@ -1831,6 +1831,22 @@ function deleteComment(pin_ID, comment_ID) {
 		//console.log('Comment #', comment_ID, ' DELETED');
 
 	}, 'json');
+
+}
+
+
+// Find iframe element
+function iframeElement(selector) {
+
+	if ( $.isNumeric(selector) ) {
+
+		return iframe.find('[data-revisionary-index="'+ selector +'"]');
+
+	} else {
+
+		return iframe.find(selector);
+
+	}
 
 }
 
