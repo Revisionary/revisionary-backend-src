@@ -1252,14 +1252,32 @@ function putPin(pinX, pinY) {
 			editedElement.attr('data-revisionary-edited', "0");
 
 
-			// Add to the modifications list
-			modifications[modifications.length] = {
-				element_index: focused_element_index,
-				pin_ID: realPinID,
-				modification_type: "html",
-				modification: null,
-				original: htmlentities( editedElement.html(), "ENT_QUOTES")
-			};
+			if (modificationType == "html") {
+
+				// Add to the modifications list
+				modifications[modifications.length] = {
+					element_index: focused_element_index,
+					pin_ID: realPinID,
+					modification_type: "html",
+					modification: null,
+					original: htmlentities( editedElement.html(), "ENT_QUOTES")
+				};
+
+			}
+
+			if (modificationType == "image") {
+
+				// Add to the modifications list
+				modifications[modifications.length] = {
+					element_index: focused_element_index,
+					pin_ID: realPinID,
+					modification_type: "image",
+					modification: null,
+					original: editedElement.attr('src')
+				};
+
+			}
+
 
 		}
 
