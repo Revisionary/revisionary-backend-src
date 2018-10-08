@@ -227,7 +227,7 @@ $(function() {
 		var pin_ID = pinWindow.attr('data-pin-id');
 		var elementIndex = pinWindow.attr('data-revisionary-index');
 		var changes = $(this).html();
-		var changedElement = iframe.find('[data-revisionary-index="'+ elementIndex +'"]');
+		var changedElement = iframeElement('[data-revisionary-index="'+ elementIndex +'"]');
 		var changedElementOriginal = changedElement.html();
 
 
@@ -313,7 +313,7 @@ $(function() {
 
 
 		// Clear all outlines
-		iframe.find('body *').css('outline', '');
+		iframeElement('body *').css('outline', '');
 
 
 		// Outline the element if this is a live pin
@@ -321,8 +321,8 @@ $(function() {
 
 			var hoveringPinPrivate = $(this).attr("data-pin-private");
 
-			iframe.find('body *').css('outline', 'none');
-			iframe.find('body *[data-revisionary-index="'+ $(this).attr("data-revisionary-index") +'"]').css('outline', '2px dashed ' + (hoveringPinPrivate == 1 ? '#FC0FB3' : '#7ED321'), 'important');
+			iframeElement('body *').css('outline', 'none');
+			iframeElement('body *[data-revisionary-index="'+ $(this).attr("data-revisionary-index") +'"]').css('outline', '2px dashed ' + (hoveringPinPrivate == 1 ? '#FC0FB3' : '#7ED321'), 'important');
 
 		}
 
@@ -411,7 +411,7 @@ $(function() {
 
 		hoveringPin = false;
 
-		iframe.find('body *').css('outline', '');
+		iframeElement('body *').css('outline', '');
 
 
 		// Show the cursor

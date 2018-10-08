@@ -81,8 +81,8 @@ function runTheInspector() {
 
 
 	    // Update the title
-		if ( iframe.find('title').length ) {
-			$('title').text( "Revise Page: " + iframe.find('title').text() );
+		if ( iframeElement('title').length ) {
+			$('title').text( "Revise Page: " + iframeElement('title').text() );
 		}
 
 
@@ -325,7 +325,7 @@ function runTheInspector() {
 
 
 				// Clean Other Outlines
-				iframe.find('body *').css('outline', '');
+				iframeElement('body *').css('outline', '');
 
 				// Reset the pin opacity
 				$('#pins > pin').css('opacity', '');
@@ -513,7 +513,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 		if (cursorVisible) cursor.fadeOut();
 
 		// Show the original cursor
-		iframe.find('body, body *').css('cursor', '', '');
+		iframeElement('body, body *').css('cursor', '', '');
 
 		// Enable all the links
 	    // ...
@@ -532,7 +532,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 		if (!cursorVisible && !pinWindowOpen) cursor.fadeIn();
 
 		// Hide the original cursor
-		iframe.find('body, body *').css('cursor', 'none', 'important');
+		iframeElement('body, body *').css('cursor', 'none', 'important');
 
 		// Disable all the links
 	    // ...
@@ -1096,7 +1096,7 @@ function applyModifications() {
 
 
 		// Find the element
-		var element = iframe.find('[data-revisionary-index='+modification.element_index+']');
+		var element = iframeElement('[data-revisionary-index='+modification.element_index+']');
 
 
 		// Register as edited but not changed
@@ -1140,7 +1140,7 @@ function revertModifications() {
 
 
 		// Find the element
-		var element = iframe.find('[data-revisionary-index='+modification.element_index+']');
+		var element = iframeElement('[data-revisionary-index='+modification.element_index+']');
 
 
 		// Add edited status
@@ -1235,7 +1235,7 @@ function putPin(pinX, pinY) {
 
 		if (currentCursorType == "live") {
 
-			var editedElement = iframe.find('[data-revisionary-index="'+focused_element_index+'"]');
+			var editedElement = iframeElement('[data-revisionary-index="'+focused_element_index+'"]');
 
 			// Add edited status to the DOM
 			editedElement.attr('data-revisionary-edited', "0");
@@ -1360,7 +1360,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 
 			// Expected original content
-			var origContent = iframe.find('[data-revisionary-index="'+ theIndex +'"]:not([data-revisionary-showing-changes])');
+			var origContent = iframeElement('[data-revisionary-index="'+ theIndex +'"]:not([data-revisionary-showing-changes])');
 
 
 			// MODIFICATION FINDER
@@ -1507,7 +1507,7 @@ function removePin(pin_ID) {
 
 		if (modification) {
 
-			var modifiedElement = iframe.find('[data-revisionary-index="'+ modification.element_index +'"]');
+			var modifiedElement = iframeElement('[data-revisionary-index="'+ modification.element_index +'"]');
 
 			// Add the original HTML content
 			if (modification.original != null)
@@ -1636,7 +1636,7 @@ function toggleContentEdit(pin_ID) {
 	if (modification) {
 
 		// Change the content on DOM
-		iframe.find('[data-revisionary-index="'+modification.element_index+'"]')
+		iframeElement('[data-revisionary-index="'+modification.element_index+'"]')
 			.html( html_entity_decode( (isShowingChanges ? modification.original : modification.modification) ) )
 			.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1") );
 
@@ -1840,7 +1840,7 @@ function iframeElement(selector) {
 
 	if ( $.isNumeric(selector) ) {
 
-		return iframe.find('[data-revisionary-index="'+ selector +'"]');
+		return iframeElement('[data-revisionary-index="'+ selector +'"]');
 
 	} else {
 
