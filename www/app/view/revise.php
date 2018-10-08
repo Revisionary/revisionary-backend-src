@@ -119,7 +119,7 @@
 		<div class="image-editor">
 
 			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
-				<div class="col title">NEW IMAGE:</div>
+				<div class="col title">NEW IMAGE: <a href="#" class="test-click">TEST</a></div>
 				<div class="col">
 
 					<a href="#" class="switch edits-switch original">
@@ -148,7 +148,7 @@
 
 					    <span><u>Click here</u> or drag here your image for preview</span>
 					    <img src=""/>
-					    <input type="file" name="image" id="filePhoto" />
+					    <input type="file" name="image" id="filePhoto" data-max-size="3145728" />
 
 					</div>
 					<div class="edit-content original">

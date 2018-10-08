@@ -22,8 +22,21 @@ $(function() {
 	});
 
 
+	$('.test-click').click(function(e) {
+
+
+		$('#filePhoto').click();
+
+		e.preventDefault();
+
+	});
+
+
 	// Uploader
-	document.getElementById('filePhoto').addEventListener('change', function(e) {
+	$('#filePhoto').change(function() {
+
+		var maxSize = $(this).data('max-size');
+
 
 	    var reader = new FileReader();
 	    reader.onload = function(event) {
@@ -36,20 +49,42 @@ $(function() {
 	        iframeElement(element_index).attr('src', imageSrc).attr('srcset', '');
 
 	    }
-	    if (e.target.files.length) {
 
-		    reader.readAsDataURL(e.target.files[0]);
 
-		} else {
+		// If a file selected
+        if ( $(this).get(0).files.length ) {
+
+
+
+            var fileSize = $(this).get(0).files[0].size; // in bytes
+            if (fileSize>maxSize) {
+
+                alert('File size is more than ' + formatBytes(maxSize));
+                return false;
+
+            } else {
+
+                console.log('File size is correct - '+formatBytes(fileSize)+', no more than '+formatBytes(maxSize));
+	        	reader.readAsDataURL($(this).get(0).files[0]);
+
+            }
+
+
+		// If no file selected
+        } else {
 
 		    console.log('NO FILE');
 
 		    $('.uploader img').attr('src', '');
 		    $('.uploader input').val('');
 
-		}
+            return false;
+        }
 
-	}, false);
+
+		console.log('CHANGED');
+
+	});
 
 
 	// Tab opener
