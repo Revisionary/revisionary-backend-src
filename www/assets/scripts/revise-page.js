@@ -22,71 +22,6 @@ $(function() {
 	});
 
 
-	$('.test-click').click(function(e) {
-
-
-		$('#filePhoto').click();
-
-		e.preventDefault();
-
-	});
-
-
-	// Uploader
-	$('#filePhoto').change(function() {
-
-		var maxSize = $(this).data('max-size');
-
-
-	    var reader = new FileReader();
-	    reader.onload = function(event) {
-
-		    var imageSrc = event.target.result;
-	        $('.uploader img').attr('src', imageSrc);
-
-
-	        var element_index = pinWindow.attr('data-revisionary-index'); console.log(element_index);
-	        iframeElement(element_index).attr('src', imageSrc).attr('srcset', '');
-
-	    }
-
-
-		// If a file selected
-        if ( $(this).get(0).files.length ) {
-
-
-
-            var fileSize = $(this).get(0).files[0].size; // in bytes
-            if (fileSize>maxSize) {
-
-                alert('File size is more than ' + formatBytes(maxSize));
-                return false;
-
-            } else {
-
-                console.log('File size is correct - '+formatBytes(fileSize)+', no more than '+formatBytes(maxSize));
-	        	reader.readAsDataURL($(this).get(0).files[0]);
-
-            }
-
-
-		// If no file selected
-        } else {
-
-		    console.log('NO FILE');
-
-		    $('.uploader img').attr('src', '');
-		    $('.uploader input').val('');
-
-            return false;
-        }
-
-
-		console.log('CHANGED');
-
-	});
-
-
 	// Tab opener
 	$('.opener').click(function(e) {
 		toggleTab( $(this) );
@@ -262,7 +197,7 @@ $(function() {
 		var pin_ID = pinWindow.attr('data-pin-id');
 		var elementIndex = pinWindow.attr('data-revisionary-index');
 		var changes = $(this).html();
-		var changedElement = iframeElement('[data-revisionary-index="'+ elementIndex +'"]');
+		var changedElement = iframeElement(elementIndex);
 		var changedElementOriginal = changedElement.html();
 
 
@@ -321,6 +256,146 @@ $(function() {
 		}, 1000);
 
 		//console.log('Content changed.');
+
+	});
+
+
+	// Uploader
+	var doChange;
+	$('#filePhoto').change(function() {
+
+		var maxSize = $(this).data('max-size');
+
+
+	    var reader = new FileReader();
+	    reader.onload = function(event) {
+
+
+
+			var pin_ID = pinWindow.attr('data-pin-id');
+			var elementIndex = pinWindow.attr('data-revisionary-index');
+			var imageSrc = event.target.result;
+			var changedElement = iframeElement(elementIndex);
+			var changedElementOriginal = changedElement.attr('src');
+
+
+
+			//console.log('REGISTERED CHANGES', changes);
+
+
+
+			// Stop the auto-refresh
+			stopAutoRefresh();
+
+
+			// Apply the change
+			$('.uploader img').attr('src', imageSrc);
+			changedElement.attr('src', imageSrc).attr('srcset', '').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+
+
+			// MODIFICATION LIST
+			var modification = modifications.find(function(modification) {
+				return modification.pin_ID == pin_ID ? true : false;
+			});
+
+
+			// Add the original content to the list
+			if (modification) {
+
+				// Update the modification on the list
+				modification.modification =  imageSrc;
+
+				if (modification.original == null)
+					modification.original =  changedElementOriginal;
+
+			} else {
+
+				// Add to the modifications list
+				modifications[modifications.length] = {
+					element_index: elementIndex,
+					pin_ID: pin_ID,
+					modification_type: "image",
+					modification: imageSrc,
+					original: changedElementOriginal
+				};
+
+			}
+
+
+			// Remove unsent job
+			if (doChange) clearTimeout(doChange);
+
+			// Send changes to DB after 1 second
+			doChange = setTimeout(function(){
+
+				saveModification(pin_ID, imageSrc, 'image');
+
+			}, 1000);
+
+			//console.log('Content changed.');
+
+	    }
+
+
+		// If a file selected
+        if ( $(this).get(0).files.length ) {
+
+
+
+            var fileSize = $(this).get(0).files[0].size; // in bytes
+            if (fileSize > maxSize) {
+
+                alert('File size is more than ' + formatBytes(maxSize));
+                return false;
+
+            } else {
+
+                console.log('File size is correct - '+formatBytes(fileSize)+', no more than '+formatBytes(maxSize));
+	        	reader.readAsDataURL($(this).get(0).files[0]);
+
+            }
+
+
+		// If no file selected
+        } else {
+
+		    console.log('NO FILE');
+
+/*
+		    $('.uploader img').attr('src', '');
+		    $('.uploader input').val('');
+*/
+
+            return false;
+        }
+
+
+		console.log('CHANGED');
+
+	});
+
+
+	// Select File
+	$('.select-file').click(function(e) {
+
+
+		$('#filePhoto').click();
+
+
+		e.preventDefault();
+
+	});
+
+
+	// Remove Image
+	$('.reset-image').click(function(e) {
+
+
+		console.log('DELETE THE IMAGE');
+
+
+		e.preventDefault();
 
 	});
 

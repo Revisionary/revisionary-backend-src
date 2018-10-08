@@ -4,7 +4,7 @@
 
 	user_ID = '<?=currentUserID()?>';
 	page_ID = '<?=$page_ID?>';
-	element_index_nonce = '<?=$_SESSION["element_index_nonce"]?>';
+	remote_URL = '<?=Page::ID($page_ID)->remoteUrl?>';
 
 	version_number = '<?=$version_number?>';
 	version_ID = '<?=$version_ID?>';
@@ -119,7 +119,7 @@
 		<div class="image-editor">
 
 			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
-				<div class="col title">NEW IMAGE: <a href="#" class="test-click">TEST</a></div>
+				<div class="col title">Drag & Drop or <span class="select-file">Select File</span></div>
 				<div class="col">
 
 					<a href="#" class="switch edits-switch original">
@@ -131,7 +131,7 @@
 			</div>
 
 			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
-				<div class="col">ORIGINAL CONTENT:</div>
+				<div class="col">ORIGINAL IMAGE:</div>
 				<div class="col edits-switch-wrap">
 
 					<a href="#" class="switch edits-switch changes">
@@ -146,17 +146,20 @@
 				<div class="col">
 					<div class="edit-content changes uploader">
 
-					    <span><u>Click here</u> or drag here your image for preview</span>
-					    <img src=""/>
+					    <img class="new-image" src=""/>
+					    <div class="info"><span><span style="text-decoration: underline;">Click here</span> or drag here your image for preview</span></div>
 					    <input type="file" name="image" id="filePhoto" data-max-size="3145728" />
 
 					</div>
 					<div class="edit-content original">
-						TEST
-						ORIGINAL
-						CONTENT
+					    <img class="original-image" src=""/>
 					</div>
 				</div>
+			</div>
+			<div class="wrap xl-1 xl-right difference-switch-wrap">
+				<a href="#" class="col switch reset-image">
+					<i class="fa fa-unlink" aria-hidden="true"></i> REMOVE IMAGE
+				</a>
 			</div>
 		</div>
 

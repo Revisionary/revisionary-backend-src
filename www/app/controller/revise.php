@@ -375,10 +375,6 @@ $additionalBodyJS = [
 $_SESSION["new_device_nonce"] = uniqid(mt_rand(), true);
 
 
-// Generate new nonce for element indexes
-$_SESSION["element_index_nonce"] = uniqid(mt_rand(), true);
-
-
 // Generate new nonce for pin actions
 $_SESSION["pin_nonce"] = uniqid(mt_rand(), true);
 //error_log("SESSION CREATED: ".$_SESSION["pin_nonce"]);

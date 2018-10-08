@@ -173,7 +173,8 @@ html, body {
       font-size: 14px;
       letter-spacing: 1px; }
       .pin-comments .comment .comment-inner-wrapper .comment-text .delete-comment {
-        opacity: 0; }
+        opacity: 0;
+        line-height: 5px; }
       .pin-comments .comment .comment-inner-wrapper .comment-text:hover .delete-comment {
         opacity: 1; }
     .pin-comments .comment.recurring {
@@ -447,7 +448,6 @@ html, body {
     height: 90px;
     border: 3px solid black;
     box-sizing: border-box;
-    resize: none;
     padding: 4px 5px;
     font-size: 14px;
     overflow: scroll;
@@ -473,6 +473,26 @@ html, body {
       font-size: 20px; }
     #pin-window .edit-content h1 {
       font-size: 21px; }
+  #pin-window .image-editor .select-file {
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold; }
+  #pin-window .image-editor .edit-content {
+    overflow: hidden;
+    height: 150px;
+    max-height: 150px;
+    min-height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-style: dashed;
+    background-color: #eee;
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1)), linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1));
+    background-size: 20px 20px;
+    background-position: 0 0, 30px 30px; }
+    #pin-window .image-editor .edit-content img {
+      max-width: 100%;
+      max-height: 100%; }
   #pin-window .pin-comments {
     max-height: 180px;
     overflow: scroll; }
@@ -520,6 +540,8 @@ html, body {
     display: none !important; }
   #pin-window[data-revisionary-edited="0"] .edits-switch-wrap > .col:not(.title),
   #pin-window[data-revisionary-edited="0"] .difference-switch-wrap {
+    display: none !important; }
+  #pin-window[data-revisionary-edited="1"] .uploader .info {
     display: none !important; }
   #pin-window[data-revisionary-showing-changes="0"] .edits-switch-wrap.changes,
   #pin-window[data-revisionary-showing-changes="0"] .edit-content.changes {

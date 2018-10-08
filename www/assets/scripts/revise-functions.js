@@ -1096,7 +1096,7 @@ function applyModifications() {
 
 
 		// Find the element
-		var element = iframeElement('[data-revisionary-index='+modification.element_index+']');
+		var element = iframeElement(modification.element_index);
 
 
 		// Register as edited but not changed
@@ -1117,6 +1117,17 @@ function applyModifications() {
 
 			// Update the pin status
 			$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+		} else if ( modification.modification_type == "image" ) {
+
+			// Record the old image source
+			var oldSrc = element.attr('src');
+			modifications[i].original = oldSrc; //console.log('OLD', modifications[i].original);
+
+
+			// Apply the modification
+			var newSrc = modification.modification; //console.log('NEW', newHTML);
+			element.attr('src', newSrc).attr('srcset', '').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 
 		}
 
@@ -1140,7 +1151,7 @@ function revertModifications() {
 
 
 		// Find the element
-		var element = iframeElement('[data-revisionary-index='+modification.element_index+']');
+		var element = iframeElement(modification.element_index);
 
 
 		// Add edited status
@@ -1235,7 +1246,7 @@ function putPin(pinX, pinY) {
 
 		if (currentCursorType == "live") {
 
-			var editedElement = iframeElement('[data-revisionary-index="'+focused_element_index+'"]');
+			var editedElement = iframeElement(focused_element_index);
 
 			// Add edited status to the DOM
 			editedElement.attr('data-revisionary-edited', "0");
@@ -1356,32 +1367,34 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 
 
+		// MODIFICATION FINDER
+		var modification = modifications.find(function(modification) {
+			return modification.pin_ID == pin_ID ? true : false;
+		});
+
+
+		// TEXT
 		if ( thePinModificationType == "html" ) {
 
-
-			// Expected original content
-			var origContent = iframeElement('[data-revisionary-index="'+ theIndex +'"]:not([data-revisionary-showing-changes])');
-
-
-			// MODIFICATION FINDER
-			var modification = modifications.find(function(modification) {
-				return modification.pin_ID == pin_ID ? true : false;
-			});
 
 			// Show the changed HTML content on the editor
 			if (modification && modification.modification != null)
 				pinWindow.find('.content-editor .edit-content.changes').html( html_entity_decode (modification.modification) );
 
+
 			// Add the original HTML content
 			if (modification && modification.original != null)
 				originalContent = html_entity_decode (modification.original);
 
+
 			// If it's untouched DOM
-			if ( origContent.length ) {
-				originalContent = origContent.html();
+			var origContentElement = iframeElement('[data-revisionary-index="'+ theIndex +'"]:not([data-revisionary-showing-changes])');
+			if ( origContentElement.length ) {
+
+				originalContent = origContentElement.html();
 
 				// Default change editor
-				pinWindow.find('.content-editor .edit-content.changes').html( origContent.html() );
+				pinWindow.find('.content-editor .edit-content.changes').html( origContentElement.html() );
 			}
 
 
@@ -1392,12 +1405,45 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		}
 
 
+		// IMAGE
 		if ( thePinModificationType == "image" ) {
 
 
+			// Show the changed HTML content on the editor
+			if (modification && modification.modification != null)
+				pinWindow.find('.image-editor .edit-content.changes img.new-image').attr('src', modification.modification);
 
+
+
+			// Add the original HTML content
+			if (modification && modification.original != null)
+				originalImageSrc = modification.original;
+
+
+			// If it's untouched DOM
+			var origContentElement = iframeElement('[data-revisionary-index="'+ theIndex +'"]:not([data-revisionary-showing-changes])');
+			if ( origContentElement.length ) {
+
+				originalImageSrc = origContentElement.attr('src');
+
+				// Default Image
+				pinWindow.find('.image-editor .edit-content.changes img.new-image').attr('src', '');
+			}
+
+
+			// Update it the image is a relative path
+			if (originalImageSrc.indexOf('http://') !== 0 && originalImageSrc.indexOf('https://') !== 0) {
+				originalImageSrc = remote_URL + originalImageSrc;
+			}
+
+
+			// Update the original content
+			pinWindow.find('.image-editor .edit-content.original img.original-image').attr('src', originalImageSrc);
 
 		}
+
+
+		// BACKGROUND IMAGE !!!
 
 
 	}
@@ -1406,10 +1452,6 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	// If it's first time, remove the "Done" button
 	$('#pin-window .pin-complete').hide();
 	if (!firstTime) $('#pin-window .pin-complete').show();
-
-
-	// Relocate the window
-	relocatePins();
 
 
 	// Reveal it
@@ -1441,6 +1483,10 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	// Update the pin window sizes
 	pinWindowWidth = pinWindow.outerWidth();
 	pinWindowHeight = pinWindow.outerHeight();
+
+
+	// Relocate the window
+	relocatePins();
 
 }
 
@@ -1507,7 +1553,7 @@ function removePin(pin_ID) {
 
 		if (modification) {
 
-			var modifiedElement = iframeElement('[data-revisionary-index="'+ modification.element_index +'"]');
+			var modifiedElement = iframeElement(modification.element_index);
 
 			// Add the original HTML content
 			if (modification.original != null)
@@ -1635,14 +1681,38 @@ function toggleContentEdit(pin_ID) {
 
 	if (modification) {
 
-		// Change the content on DOM
-		iframeElement('[data-revisionary-index="'+modification.element_index+'"]')
-			.html( html_entity_decode( (isShowingChanges ? modification.original : modification.modification) ) )
-			.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1") );
 
-		// Update the Pin Window and Pin info
-		pinWindow.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
-		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+		if (modification.modification_type == "html") {
+
+
+			// Change the content on DOM
+			iframeElement(modification.element_index)
+				.html( html_entity_decode( (isShowingChanges ? modification.original : modification.modification) ) )
+				.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1") );
+
+			// Update the Pin Window and Pin info
+			pinWindow.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+			$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+
+
+		}
+
+
+		if (modification.modification_type == "image") {
+
+
+			// Change the content on DOM
+			iframeElement(modification.element_index)
+				.attr('src', (isShowingChanges ? modification.original : modification.modification) )
+				.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1") );
+
+			// Update the Pin Window and Pin info
+			pinWindow.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+			$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+
+
+		}
+
 
 	}
 
@@ -1736,6 +1806,16 @@ function getComments(pin_ID) {
 
 		// Enable comment sender
 		$('#pin-window #comment-sender input').prop('disabled', false);
+
+
+		// Update the pin window sizes
+		pinWindowWidth = pinWindow.outerWidth();
+		pinWindowHeight = pinWindow.outerHeight();
+
+
+		// Relocate the window
+		relocatePins();
+
 
 	}, 'json');
 

@@ -11,7 +11,7 @@ if ( request("nonce") !== $_SESSION["pin_nonce"] )
 // Get the pin info
 $pin_ID = request('pin_ID');
 $modification = request('modification');
-$modification_type = request('modification_type') == "html" ? "html" : "none"; // !!!
+$modification_type = request('modification_type') == "html" ? "html" : "image"; // !!!
 
 
 // Are they numbers?

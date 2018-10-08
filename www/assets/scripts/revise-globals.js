@@ -5,6 +5,7 @@ var iframe;
 var user_ID;
 var page_ID;
 var page_URL;
+var remote_URL;
 var page_ready = false;
 var page_redirected = false;
 var version_ID;
@@ -14,7 +15,6 @@ var version_number;
 var fileIndexed = false;
 var indexCount = 0;
 var elementCount = 0;
-var element_index_nonce;
 var easy_html_elements = [
     "A",
 	"B",
