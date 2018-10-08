@@ -1177,7 +1177,6 @@ function revertModifications() {
 }
 
 
-
 // Put a pin to cordinates
 function putPin(pinX, pinY) {
 
@@ -1953,6 +1952,14 @@ function deleteComment(pin_ID, comment_ID) {
 		//console.log('Comment #', comment_ID, ' DELETED');
 
 	}, 'json');
+
+}
+
+
+// Remove Image
+function removeImage() {
+
+	console.log('DELETE THE IMAGE');
 
 }
 

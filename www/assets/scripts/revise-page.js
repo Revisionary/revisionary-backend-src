@@ -389,10 +389,10 @@ $(function() {
 
 
 	// Remove Image
-	$('.reset-image').click(function(e) {
+	$('.remove-image').click(function(e) {
 
 
-		console.log('DELETE THE IMAGE');
+		removeImage();
 
 
 		e.preventDefault();

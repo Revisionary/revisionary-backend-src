@@ -157,7 +157,7 @@
 				</div>
 			</div>
 			<div class="wrap xl-1 xl-right difference-switch-wrap">
-				<a href="#" class="col switch reset-image">
+				<a href="#" class="col switch remove-image">
 					<i class="fa fa-unlink" aria-hidden="true"></i> REMOVE IMAGE
 				</a>
 			</div>
