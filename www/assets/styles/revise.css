@@ -560,6 +560,17 @@ html, body {
     background-color: white;
     top: 0;
     left: 0; }
+  #pin-window.removing::after {
+    content: "Removing...";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    top: 0;
+    left: 0; }
 
 .popline {
   border-radius: 0;

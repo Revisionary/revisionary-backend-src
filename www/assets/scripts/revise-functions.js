@@ -1527,6 +1527,10 @@ function removePin(pin_ID) {
     //console.log('Remove the pin #' + pin_ID + ' from DB!!');
 
 
+    // Add removing message
+    pinWindow.addClass('removing');
+
+
 	// Start the process
 	var newPinProcessID = newProcess();
 
@@ -1537,6 +1541,10 @@ function removePin(pin_ID) {
 	}, function(result){
 
 		//console.log(result.data);
+
+
+	    // Remove removing message
+	    pinWindow.removeClass('removing');
 
 
 		// Close the pin window
@@ -1555,9 +1563,25 @@ function removePin(pin_ID) {
 
 			var modifiedElement = iframeElement(modification.element_index);
 
-			// Add the original HTML content
-			if (modification.original != null)
-				modifiedElement.html( html_entity_decode (modification.original) );
+
+
+
+			// If original content registered
+			if (modification.original != null) {
+
+
+				// Add the original HTML content
+				if (modification.modification_type == "html")
+					modifiedElement.html( html_entity_decode (modification.original) );
+
+
+				// Add the original image
+				if (modification.modification_type == "image")
+					modifiedElement.attr('src', modification.original);
+
+
+			}
+
 
 			// Remove the edited status from DOM element
 			modifiedElement.removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
