@@ -648,11 +648,11 @@ function getPins(applyChanges = true) {
 function applyPins() {
 
 
-	//console.log('APPLYING PINS...');
+	console.log('APPLYING PINS...');
 
 
 	// Revert the changes first
-	revertModifications(modifications);
+	var showingOriginal = revertModifications(modifications);
 
 
 	// Empty the modifications
@@ -703,7 +703,138 @@ function applyPins() {
 
 
 	// Apply modifications
-	applyModifications();
+	applyModifications(showingOriginal);
+
+}
+
+
+// Apply modifications
+function applyModifications(showingOriginal = []) {
+
+
+	$(modifications).each(function(i, modification) {
+
+		//console.log(i, modification);
+
+
+		// Find the element
+		var element = iframeElement(modification.element_index);
+
+
+		// Is showing changes
+		var isShowingChanges = showingOriginal.indexOf(modification.element_index) !== 0 ? true : false;
+
+
+		// If the type is HTML content change
+		if ( modification.modification_type == "html" ) {
+
+			// Record the old HTML
+			var oldHtml = element.html();
+			modifications[i].original = htmlentities(oldHtml, "ENT_QUOTES"); //console.log('OLD', modifications[i].original);
+
+
+			// Apply the modification if not currently showing the original content
+			if (isShowingChanges) {
+
+				var newHTML = html_entity_decode(modification.modification); //console.log('NEW', newHTML);
+				element.html( newHTML ).attr('data-revisionary-showing-changes', "1");
+
+			}
+
+		} else if ( modification.modification_type == "image" ) {
+
+			// Record the old image source
+			var oldSrc = element.attr('src');
+			modifications[i].original = oldSrc; //console.log('OLD', modifications[i].original);
+
+
+			// Apply the modification if not currently showing the original content
+			if (isShowingChanges) {
+
+				var newSrc = modification.modification; //console.log('NEW', newHTML);
+				element.attr('src', newSrc).removeAttr('srcset').attr('data-revisionary-showing-changes', "1");
+
+			}
+
+		}
+
+
+		// Register as edited on pin and element
+		if (modification.modification_type != null) {
+
+			// Update the element status
+			element.html( newHTML ).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', (isShowingChanges ? "1" : "0"));
+
+			// Update the pin status
+			$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', (isShowingChanges ? "1" : "0"));
+
+		}
+
+
+	});
+
+
+	console.log('MODIFICATIONS APPLIED');
+
+
+}
+
+
+// Revert modifications
+function revertModifications() {
+
+	var showingOriginal = [];
+
+
+	$(modifications).each(function(i, modification) {
+
+		//console.log(i, modification);
+
+
+		// Find the element
+		var element = iframeElement(modification.element_index);
+
+
+		// Is currently showing the edits?
+		var isShowingEdits = element.attr('data-revisionary-showing-changes') == "1" ? true : false;
+
+		// Add this element as showingOriginal element, if not currently showing changes
+		if (!isShowingEdits) showingOriginal.push(modification.element_index);
+
+
+		// Add edited status
+		element.attr('data-revisionary-edited', "0");
+
+
+		// If the type is HTML content change
+		if ( modification.modification_type == "html" ) {
+
+			// Apply the modification
+			var newHTML = html_entity_decode(modification.original); //console.log('NEW', newHTML);
+			element.html( newHTML ).removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
+
+		}
+
+
+		// If the type is image change
+		if ( modification.modification_type == "image" ) {
+
+			// Apply the modification
+			var newSrc = modification.original; //console.log('NEW', newHTML);
+			element.attr('src', newSrc).removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
+
+		}
+
+
+		// Update the pin status
+		$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
+
+
+	});
+
+
+	return showingOriginal;
+
 
 }
 
@@ -1086,108 +1217,6 @@ function stopAutoRefresh() {
 }
 
 
-// Apply modifications
-function applyModifications() {
-
-
-	$(modifications).each(function(i, modification) {
-
-		//console.log(i, modification);
-
-
-		// Find the element
-		var element = iframeElement(modification.element_index);
-
-
-		// Register as edited but not changed
-		element.html( newHTML ).attr('data-revisionary-edited', "0");
-
-
-		// If the type is HTML content change
-		if ( modification.modification_type == "html" ) {
-
-			// Record the old HTML
-			var oldHtml = element.html();
-			modifications[i].original = htmlentities(oldHtml, "ENT_QUOTES"); //console.log('OLD', modifications[i].original);
-
-
-			// Apply the modification
-			var newHTML = html_entity_decode(modification.modification); //console.log('NEW', newHTML);
-			element.html( newHTML ).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-
-			// Update the pin status
-			$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-
-		} else if ( modification.modification_type == "image" ) {
-
-			// Record the old image source
-			var oldSrc = element.attr('src');
-			modifications[i].original = oldSrc; //console.log('OLD', modifications[i].original);
-
-
-			// Apply the modification
-			var newSrc = modification.modification; //console.log('NEW', newHTML);
-			element.attr('src', newSrc).attr('srcset', '').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-
-		}
-
-
-	});
-
-
-	//console.log('MODIFICATIONS APPLIED');
-
-
-}
-
-
-// Revert modifications
-function revertModifications() {
-
-
-	$(modifications).each(function(i, modification) {
-
-		//console.log(i, modification);
-
-
-		// Find the element
-		var element = iframeElement(modification.element_index);
-
-
-		// Add edited status
-		element.attr('data-revisionary-edited', "0");
-
-
-		// If the type is HTML content change
-		if ( modification.modification_type == "html" ) {
-
-			// Apply the modification
-			var newHTML = html_entity_decode(modification.original); //console.log('NEW', newHTML);
-			element.html( newHTML ).removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
-
-		}
-
-
-		// If the type is image change
-		if ( modification.modification_type == "image" ) {
-
-			// Apply the modification
-			var newSrc = modification.original; //console.log('NEW', newHTML);
-			element.attr('src', newHTML).removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
-
-		}
-
-
-		// Update the pin status
-		$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
-
-
-	});
-
-
-}
-
-
 // Put a pin to cordinates
 function putPin(pinX, pinY) {
 
@@ -1455,7 +1484,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 				originalImageSrc = origContentElement.attr('src');
 
 				// Default Image
-				pinWindow.find('.image-editor .edit-content.changes img.new-image').attr('src', '');
+				pinWindow.find('.image-editor .edit-content.changes img.new-image').removeAttr('src');
 			}
 
 
