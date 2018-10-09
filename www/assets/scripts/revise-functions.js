@@ -717,12 +717,14 @@ function applyModifications(showingOriginal = []) {
 		//console.log(i, modification);
 
 
+
 		// Find the element
-		var element = iframeElement(modification.element_index);
+		var element_index = modification.element_index;
+		var element = iframeElement(element_index);
 
 
 		// Is showing changes
-		var isShowingChanges = showingOriginal.indexOf(modification.element_index) !== 0 ? true : false;
+		var isShowingOriginal = showingOriginal.includes(element_index) ? true : false;
 
 
 		// If the type is HTML content change
@@ -734,7 +736,7 @@ function applyModifications(showingOriginal = []) {
 
 
 			// Apply the modification if not currently showing the original content
-			if (isShowingChanges) {
+			if (!isShowingOriginal) {
 
 				var newHTML = html_entity_decode(modification.modification); //console.log('NEW', newHTML);
 				element.html( newHTML ).attr('data-revisionary-showing-changes', "1");
@@ -749,7 +751,7 @@ function applyModifications(showingOriginal = []) {
 
 
 			// Apply the modification if not currently showing the original content
-			if (isShowingChanges) {
+			if (!isShowingOriginal) {
 
 				var newSrc = modification.modification; //console.log('NEW', newHTML);
 				element.attr('src', newSrc).removeAttr('srcset').attr('data-revisionary-showing-changes', "1");
@@ -763,10 +765,10 @@ function applyModifications(showingOriginal = []) {
 		if (modification.modification_type != null) {
 
 			// Update the element status
-			element.html( newHTML ).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', (isShowingChanges ? "1" : "0"));
+			element.html( newHTML ).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
 
 			// Update the pin status
-			$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', (isShowingChanges ? "1" : "0"));
+			$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
 
 		}
 
