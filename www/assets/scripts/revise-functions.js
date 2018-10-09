@@ -1165,10 +1165,21 @@ function revertModifications() {
 			var newHTML = html_entity_decode(modification.original); //console.log('NEW', newHTML);
 			element.html( newHTML ).removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
 
-			// Update the pin status
-			$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
+		}
+
+
+		// If the type is image change
+		if ( modification.modification_type == "image" ) {
+
+			// Apply the modification
+			var newSrc = modification.original; //console.log('NEW', newHTML);
+			element.attr('src', newHTML).removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
 
 		}
+
+
+		// Update the pin status
+		$('#pins > pin[data-pin-id="'+modification.pin_ID+'"]').attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
 
 
 	});
