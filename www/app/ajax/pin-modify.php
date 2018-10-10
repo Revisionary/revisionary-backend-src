@@ -14,6 +14,11 @@ $modification = request('modification');
 $modification_type = request('modification_type') == "html" ? "html" : "image"; // !!!
 
 
+// Null detection
+if ($modification_type == "image" && $modification == "null")
+	$modification = null;
+
+
 // Are they numbers?
 if ( !is_numeric($pin_ID) )
 	return;

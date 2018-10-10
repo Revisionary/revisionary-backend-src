@@ -195,7 +195,7 @@ class Pin {
 
     // Modify a pin
     public function modify(
-	    string $modification,
+	    $modification,
 	    string $modification_type = "html"
     ) {
 	    global $db;

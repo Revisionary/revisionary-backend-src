@@ -783,12 +783,26 @@ function applyModifications(showingOriginal = []) {
 
 
 // Revert modifications
-function revertModifications() {
+function revertModifications(element_indexes = []) {
+
+	if ( element_indexes.length ) console.log('REVERTING SPECIFIC MOD', element_indexes);
 
 	var showingOriginal = [];
 
 
 	$(modifications).each(function(i, modification) {
+
+
+		// If specific modifications requested, skip reverting
+		if ( element_indexes.length && !element_indexes.includes(modification.element_index) ) {
+
+			console.log('SKIPPED INDEX', modification.element_index);
+
+			return true;
+		}
+
+		console.log('REVERTING INDEX', modification.element_index);
+
 
 		//console.log(i, modification);
 
@@ -1644,11 +1658,11 @@ function saveModification(pin_ID, modification, modification_type = "html") {
 		//console.log(result.data);
 
 		// Update the pin status
-		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', "1");
+		if (modification != "null") $('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', "1");
 
 
 		// Update the pin window status
-		pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+		if (modification != "null") pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 
 
 		// Update the pin list, but don't apply the changes now
@@ -1908,9 +1922,33 @@ function deleteComment(pin_ID, comment_ID) {
 
 
 // Remove Image
-function removeImage() {
+function removeImage(pin_ID, element_index) {
 
 	console.log('DELETE THE IMAGE');
+
+
+	// Reset the uploader
+	$('#pin-window .uploader img.new-image').attr('src', '');
+	$('#pin-window .uploader #filePhoto').val('');
+
+
+	// Revert the modification for the image
+	revertModifications([element_index]);
+
+
+	// Remove from DB
+	saveModification(pin_ID, "null", "image");
+
+
+	// Re-add the edited data
+	//iframeElement(element_index).attr('data-revisionary-showing-changes', '1');
+
+
+	// Update the pin window info
+	$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
+	pinWindow.attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
+
+
 
 }
 

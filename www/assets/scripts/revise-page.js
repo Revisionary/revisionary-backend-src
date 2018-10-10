@@ -362,12 +362,6 @@ $(function() {
         } else {
 
 		    console.log('NO FILE');
-
-/*
-		    $('.uploader img').attr('src', '');
-		    $('.uploader input').val('');
-*/
-
             return false;
         }
 
@@ -392,8 +386,12 @@ $(function() {
 	// Remove Image
 	$('.remove-image').click(function(e) {
 
+		var pin_ID = pinWindow.attr('data-pin-id');
+		var element_index = parseInt(pinWindow.attr('data-revisionary-index'));
 
-		removeImage();
+
+		// Remove the image on this element
+		removeImage(pin_ID, element_index);
 
 
 		e.preventDefault();
