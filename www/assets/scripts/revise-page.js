@@ -291,6 +291,7 @@ $(function() {
 			// Apply the change
 			$('.uploader img').attr('src', imageSrc);
 			changedElement.attr('src', imageSrc).attr('srcset', '').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+			pinWindow.attr('data-revisionary-edited', "1");
 
 
 
