@@ -346,7 +346,6 @@ $(function() {
 	// PIN HOVERING
 	hoveringPin = false;
 	var pinClicked = false;
-	var pinDragging = false;
 	$(document).on('mouseover', '#pins > pin', function(e) {
 
 		//console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-revisionary-index") );
@@ -402,16 +401,10 @@ $(function() {
 		if (pinClicked) {
 
 
-			// Stop auto refresh
-			stopAutoRefresh();
-
-
-			var focused_pin_id = focusedPin.attr('data-pin-id');
-
 			// If not on DB, don't move it
 			if ( !focusedPin.is('[temporary]') ) {
 
-				pinDragging = true;
+				//pinDragging = true;
 
 				//relocatePins(focusedPin, pos_x, pos_y);
 
@@ -429,9 +422,8 @@ $(function() {
 
 			//console.log('PIN UN-CLICKED!');
 
-			var pinWasDragging = pinDragging;
+
 			pinClicked = false;
-			pinDragging = false;
 			hoveringPin = true;
 
 
@@ -439,16 +431,9 @@ $(function() {
 			$('#the-page').css('pointer-events', 'auto');
 
 
-			// Show the pin window if not dragging
-		    if (!pinWasDragging) {
-
-
-		        //console.log('TOGGLE THE PIN WINDOW !!!');
-
+			// Toggle the pin window even if just a little dragging
+		    if (!pinDragging)
 				togglePinWindow(focusedPin.attr('data-pin-x'), focusedPin.attr('data-pin-y'), focusedPin.attr('data-pin-id'));
-
-
-		    }
 
 
 			focusedPin = null;

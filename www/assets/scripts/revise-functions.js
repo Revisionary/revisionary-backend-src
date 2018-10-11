@@ -900,16 +900,23 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 			//console.log('DRAGGING ', ui.position.top, ui.position.left);
 
 
-			pinDragging = true;
-
-
 			// Stop auto refresh
 			stopAutoRefresh();
 
 
 			// Fixed decimal for DB structure
-			ui.position.left = parseFloat(ui.position.left).toFixed(5);
-			ui.position.top = parseFloat(ui.position.top).toFixed(5);
+			var leftDest = Math.abs(ui.originalPosition.left - ui.position.left);
+			var topDest = Math.abs(ui.originalPosition.top - ui.position.top);
+
+			console.log('DIFF: ', leftDest, topDest);
+
+
+			if (leftDest + topDest > 8) {
+				pinDragging = true;
+
+				console.log('DRAGGING!!!');
+			}
+
 
 
 			// If pin window open, attach it to the pin
@@ -923,6 +930,7 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 			//console.log('STOPPED.');
 
 
+			var pinWasDragging = pinDragging;
 			pinDragging = false;
 
 

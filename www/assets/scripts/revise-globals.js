@@ -115,6 +115,7 @@ var pinWindowHeight = 515;
 
 // Pins
 var Pins = [];
+var pinDragging = false;
 var autoRefreshTimer;
 var autoRefreshInterval = 5000;
 
