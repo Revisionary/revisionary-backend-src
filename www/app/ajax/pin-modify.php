@@ -11,11 +11,10 @@ if ( request("nonce") !== $_SESSION["pin_nonce"] )
 // Get the pin info
 $pin_ID = request('pin_ID');
 $modification = request('modification');
-$modification_type = request('modification_type') == "html" ? "html" : "image"; // !!!
 
 
 // Null detection
-if ($modification_type == "image" && $modification == "null")
+if ($modification == "{%null%}")
 	$modification = null;
 
 
@@ -30,7 +29,7 @@ if ( !is_numeric($pin_ID) )
 
 
 // Modify the pin
-$pin_modified = Pin::ID($pin_ID)->modify($modification, $modification_type);
+$pin_modified = Pin::ID($pin_ID)->modify($modification);
 
 if ($pin_modified) $status = "Pin Modified: $pin_ID";
 

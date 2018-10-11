@@ -194,10 +194,7 @@ class Pin {
 
 
     // Modify a pin
-    public function modify(
-	    $modification,
-	    string $modification_type = "html"
-    ) {
+    public function modify($modification) {
 	    global $db;
 
 
@@ -208,11 +205,7 @@ class Pin {
 
 		// Update the pin
 		$db->where('pin_ID', self::$pin_ID);
-		$pin_modification = array(
-			'pin_modification_type' => $modification_type,
-			'pin_modification' => $modification
-		);
-		$pin_updated = $db->update('pins', $pin_modification);
+		$pin_updated = $db->update('pins', array('pin_modification' => $modification));
 
 		// Update the page modification date
 		if ($pin_updated) {

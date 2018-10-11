@@ -183,7 +183,7 @@ $(function() {
 
 		var pin_ID = pinWindow.attr('data-pin-id');
 
-		toggleContentEdit(pin_ID);
+		toggleChange(pin_ID);
 
 		e.preventDefault();
 
@@ -216,33 +216,11 @@ $(function() {
 
 
 
-		// MODIFICATION LIST
-		var modification = modifications.find(function(modification) {
-			return modification.pin_ID == pin_ID ? true : false;
-		});
+	    // Update from the Pins global
+		var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+		var pinIndex = Pins.indexOf(pin);
 
-
-		// Add the original content to the list
-		if (modification) {
-
-			// Update the modification on the list
-			modification.modification =  htmlentities( changes, "ENT_QUOTES");
-
-			if (modification.original == null)
-				modification.original =  htmlentities( changedElementOriginal, "ENT_QUOTES");
-
-		} else {
-
-			// Add to the modifications list
-			modifications[modifications.length] = {
-				element_index: elementIndex,
-				pin_ID: pin_ID,
-				modification_type: "html",
-				modification: htmlentities( changes, "ENT_QUOTES"),
-				original: htmlentities( changedElementOriginal, "ENT_QUOTES")
-			};
-
-		}
+		Pins[pinIndex].pin_modification = changes;
 
 
 		// Remove unsent job
@@ -251,7 +229,7 @@ $(function() {
 		// Send changes to DB after 1 second
 		doChange = setTimeout(function(){
 
-			saveModification(pin_ID, changes, 'html');
+			saveChange(pin_ID, changes);
 
 		}, 1000);
 
@@ -261,7 +239,6 @@ $(function() {
 
 
 	// Uploader
-	var doChange;
 	$('#filePhoto').change(function() {
 
 		var maxSize = $(this).data('max-size');
@@ -295,44 +272,9 @@ $(function() {
 
 
 
-			// MODIFICATION LIST
-			var modification = modifications.find(function(modification) {
-				return modification.pin_ID == pin_ID ? true : false;
-			});
+			// Send changes to DB
+			saveChange(pin_ID, imageSrc);
 
-
-			// Add the original content to the list
-			if (modification) {
-
-				// Update the modification on the list
-				modification.modification =  imageSrc;
-
-				if (modification.original == null)
-					modification.original =  changedElementOriginal;
-
-			} else {
-
-				// Add to the modifications list
-				modifications[modifications.length] = {
-					element_index: elementIndex,
-					pin_ID: pin_ID,
-					modification_type: "image",
-					modification: imageSrc,
-					original: changedElementOriginal
-				};
-
-			}
-
-
-			// Remove unsent job
-			if (doChange) clearTimeout(doChange);
-
-			// Send changes to DB after 1 second
-			doChange = setTimeout(function(){
-
-				saveModification(pin_ID, imageSrc, 'image');
-
-			}, 1000);
 
 			//console.log('Content changed.');
 

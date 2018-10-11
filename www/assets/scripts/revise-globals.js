@@ -114,12 +114,9 @@ var pinWindowWidth = 350;
 var pinWindowHeight = 515;
 
 // Pins
-var pins = [];
+var Pins = [];
 var autoRefreshTimer;
 var autoRefreshInterval = 5000;
-
-// Modifications
-var modifications = [];
 
 
 // When document is ready, fill the variables
