@@ -862,6 +862,39 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 	}
 
+	&[data-pin-private="1"] {
+
+		& .type-convertor > .convert-to-private {
+			display: none !important;
+		}
+
+	}
+
+	&[data-pin-type="live"][data-pin-private="0"] {
+
+		& .type-convertor > .convert-to-live {
+			display: none !important;
+		}
+
+	}
+
+	&[data-pin-type="standard"] {
+
+		& .type-convertor > .convert-to-live {
+			display: none !important;
+		}
+
+	}
+
+	&[data-pin-type="standard"][data-pin-private="0"] {
+
+		& .type-convertor > .convert-to-standard,
+		& .type-convertor > .convert-to-live {
+			display: none !important;
+		}
+
+	}
+
 	&[data-pin-complete="1"] {
 
 		& .complete-pin {

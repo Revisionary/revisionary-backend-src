@@ -1337,16 +1337,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	pinWindow.find('pin.chosen-pin').attr('data-pin-type', thePinType);
 	pinWindow.find('pin.chosen-pin').attr('data-pin-private', thePinPrivate);
 	pinWindow.find('pin.chosen-pin + span > span').text(thePinText);
-
-
-	// Arrange the convertor options
-	pinWindow.find('ul.type-convertor > li').show();
-	pinWindow.find('ul.type-convertor > li > a > pin[data-pin-type="'+thePinType+'"][data-pin-private="'+thePinPrivate+'"]').parent().parent().hide();
-
-	// Also remove the live convertor on comments
-	if (thePinType == "standard")
-		pinWindow.find('ul.type-convertor > li > a > pin[data-pin-type="live"][data-pin-private="0"]').parent().parent().hide();
-
+	pinWindow.find('.type-convertor > .convert-to-private span').text('PRIVATE');
 
 
 	// If on 'Live' mode
@@ -1356,6 +1347,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		// Update the pin type section
 		thePinText = thePinPrivate == '1' ? 'PRIVATE LIVE' : 'LIVE EDIT';
 		pinWindow.find('pin.chosen-pin + span > span').text(thePinText);
+		pinWindow.find('.type-convertor > .convert-to-private span').text( thePinPrivate == '0' ? 'PRIVATE LIVE' : 'LIVE EDIT' );
 
 
 

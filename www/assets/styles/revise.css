@@ -534,6 +534,15 @@ html, body {
     display: block; }
   #pin-window[data-pin-modification-type="image"] > .image-editor {
     display: block; }
+  #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private {
+    display: none !important; }
+  #pin-window[data-pin-type="live"][data-pin-private="0"] .type-convertor > .convert-to-live {
+    display: none !important; }
+  #pin-window[data-pin-type="standard"] .type-convertor > .convert-to-live {
+    display: none !important; }
+  #pin-window[data-pin-type="standard"][data-pin-private="0"] .type-convertor > .convert-to-standard,
+  #pin-window[data-pin-type="standard"][data-pin-private="0"] .type-convertor > .convert-to-live {
+    display: none !important; }
   #pin-window[data-pin-complete="1"] .complete-pin {
     display: none !important; }
   #pin-window[data-pin-complete="0"] .incomplete-pin {
