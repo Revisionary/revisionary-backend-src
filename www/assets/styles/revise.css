@@ -406,7 +406,8 @@ html, body {
   border: 5px solid black;
   padding: 20px;
   position: absolute;
-  width: 300px; }
+  width: 300px;
+  box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5); }
   #pin-window.active {
     pointer-events: auto;
     opacity: 1; }
@@ -530,6 +531,12 @@ html, body {
   #pin-window .image-editor,
   #pin-window .content-editor {
     display: none; }
+  #pin-window[data-pin-private="1"] {
+    box-shadow: 0px 0px 18px 1px #FC0F42; }
+  #pin-window[data-pin-type="live"] {
+    box-shadow: 0px 0px 18px 1px #149440; }
+  #pin-window[data-pin-type="live"][data-pin-private="1"] {
+    box-shadow: 0px 0px 18px 1px #FC0FB3; }
   #pin-window[data-pin-modification-type="html"] > .content-editor {
     display: block; }
   #pin-window[data-pin-modification-type="image"] > .image-editor {

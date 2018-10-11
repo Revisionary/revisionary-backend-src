@@ -704,15 +704,15 @@ pin {
     box-shadow: 0px 0px 10px 1px rgba(255,255,255,0.5);
 
     &[data-pin-private="1"] {
-	    box-shadow: 0px 0px 8px 1px #FC0F42;
+	    box-shadow: 0px 0px 8px 1px $color-private;
     }
 
     &[data-pin-type="live"] {
-	    box-shadow: 0px 0px 8px 1px #149440;
+	    box-shadow: 0px 0px 8px 1px $color-live;
     }
 
     &[data-pin-type="live"][data-pin-private="1"] {
-	    box-shadow: 0px 0px 8px 1px #FC0FB3;
+	    box-shadow: 0px 0px 8px 1px $color-private-live;
     }
 
     .pin-title {
@@ -728,15 +728,15 @@ pin {
 		margin: 0 10px;
 
 		&[data-pin-private="1"] {
-		    box-shadow: 0px 0px 18px 1px #FC0F42;
+		    box-shadow: 0px 0px 18px 1px $color-private;
 		}
 
 		&[data-pin-type="live"] {
-		    box-shadow: 0px 0px 18px 1px #149440;
+		    box-shadow: 0px 0px 18px 1px $color-live;
 	    }
 
 		&[data-pin-type="live"][data-pin-private="1"] {
-		    box-shadow: 0px 0px 15px 0.5px #FC0FB3;
+		    box-shadow: 0px 0px 15px 0.5px $color-private-live;
 		}
 
 	    .pin-title {
@@ -751,15 +751,15 @@ pin {
 		font-size: 14px;
 
 		&[data-pin-private="1"] {
-		    box-shadow: 0px 0px 18px 1px #FC0F42;
+		    box-shadow: 0px 0px 18px 1px $color-private;
 		}
 
 		&[data-pin-type="live"] {
-		    box-shadow: 0px 0px 18px 1px #149440;
+		    box-shadow: 0px 0px 18px 1px $color-live;
 	    }
 
 		&[data-pin-type="live"][data-pin-private="1"] {
-		    box-shadow: 0px 0px 18px 1px #FC0FB3;
+		    box-shadow: 0px 0px 18px 1px $color-private-live;
 		}
 
 	    .pin-title {
