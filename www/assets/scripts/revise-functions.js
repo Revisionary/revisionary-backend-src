@@ -1664,7 +1664,7 @@ function saveChange(pin_ID, modification) {
 	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
 	var pinIndex = Pins.indexOf(pin);
 
-	Pins[pinIndex].pin_modification = modification == "{%null%}" ? null : modification;
+	Pins[pinIndex].pin_modification = modification == "{%null%}" ? null : htmlentities(modification, "ENT_QUOTES");
 
 
 	// Start the process

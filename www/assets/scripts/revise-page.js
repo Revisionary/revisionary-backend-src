@@ -220,7 +220,7 @@ $(function() {
 		var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
 		var pinIndex = Pins.indexOf(pin);
 
-		Pins[pinIndex].pin_modification = changes;
+		Pins[pinIndex].pin_modification = htmlentities(changes, "ENT_QUOTES");
 
 
 		// Remove unsent job
