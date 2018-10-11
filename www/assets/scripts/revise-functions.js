@@ -612,8 +612,8 @@ function getPins(applyChanges = true) {
 
 
 
-		console.log('NEW PINS: ', Pins);
 		console.log('OLD PINS: ', oldPins);
+		console.log('NEW PINS: ', Pins);
 
 
 
@@ -750,7 +750,7 @@ function applyChanges(showingOriginal = []) {
 		if ( pin.pin_type != "live" || pin.pin_modification == null ) return true;
 
 
-		//console.log(i, pin);
+		console.log('APPLYING PIN: ', i, pin);
 
 
 
@@ -834,10 +834,10 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 
 
 		// Is currently showing the edits?
-		var isShowingEdits = element.attr('data-revisionary-showing-changes') == "1" ? true : false;
+		var isShowingOriginal = element.is('[data-revisionary-edited="1"][data-revisionary-showing-changes="0"]') ? true : false;
 
 		// Add this element as showingOriginal element, if not currently showing changes
-		if (!isShowingEdits) showingOriginal.push(element_index);
+		if (isShowingOriginal) showingOriginal.push(element_index);
 
 
 		// If the type is HTML content change
