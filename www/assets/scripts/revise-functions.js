@@ -1367,6 +1367,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		if ( thePinModificationType == "html" ) {
 
 			var originalContent = "";
+			var changedContent = "";
 
 
 			// If it's untouched DOM
@@ -1375,7 +1376,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 				originalContent = iframeElement(theIndex).html();
 
 				// Default change editor
-				pinWindow.find('.content-editor .edit-content.changes').html( originalContent );
+				changedContent = originalContent;
 			}
 
 
@@ -1384,13 +1385,18 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 				originalContent = html_entity_decode(pin.pin_modification_original);
 
 
-			// Add the original content
+			// Get the changed content
+			if (pin && pin.pin_modification != null)
+				changedContent = html_entity_decode(pin.pin_modification);
+
+
+
+			// Add the original HTML content
 			pinWindow.find('.content-editor .edit-content.original').html( originalContent );
 
 
 			// Add the changed HTML content
-			if (pin && pin.pin_modification != null)
-				pinWindow.find('.content-editor .edit-content.changes').html( html_entity_decode(pin.pin_modification) );
+			pinWindow.find('.content-editor .edit-content.changes').html( changedContent );
 
 
 		}
@@ -1400,11 +1406,17 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		if ( thePinModificationType == "image" ) {
 
 			var originalImageSrc = "";
+			var changedImageSrc = "";
 
 
 			// If it's untouched DOM
-			if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') )
+			if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') ) {
+
 				originalImageSrc = iframeElement(theIndex).attr('src');
+
+				// Default image preview
+				changedImageSrc = "";
+			}
 
 
 			// Add the original image URL
@@ -1417,13 +1429,18 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 				originalImageSrc = remote_URL + originalImageSrc;
 
 
+			// Get the new image
+			if (pin && pin.pin_modification != null)
+				changedImageSrc = pin.pin_modification;
+
+
+
 			// Add the original image
 			pinWindow.find('.image-editor .edit-content.original img.original-image').attr('src', originalImageSrc);
 
 
 			// Add the new image
-			if (pin && pin.pin_modification != null)
-				pinWindow.find('.image-editor .edit-content.changes img.new-image').attr('src', pin.pin_modification);
+			pinWindow.find('.image-editor .edit-content.changes img.new-image').attr('src', changedImageSrc);
 
 		}
 
