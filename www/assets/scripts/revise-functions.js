@@ -948,6 +948,9 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 			var pinY = parseFloat(focusedPin.attr('data-pin-y')).toFixed(5);
 
 
+			console.log('RELOCATING: ', pinX, pinY);
+
+
 		    // Update the pin location on DB
 		    //console.log('Update the new pin location on DB', pinX, pinY);
 
@@ -1172,7 +1175,7 @@ function putPin(pinX, pinY) {
 	pinY = parseFloat(pinY - 45/2).toFixed(5);
 
 
-	//console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, focused_element_index);
+	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, focused_element_index);
 
 
 	// Detect modification info
@@ -1208,7 +1211,7 @@ function putPin(pinX, pinY) {
 	Pins[pinsIndex] = {
 		pin_ID: temporaryPinID,
 		pin_complete: 0,
-		pin_element_index: focused_element_index,
+		pin_element_index: parseInt(focused_element_index),
 		pin_modification: null,
 		pin_modification_original: modificationOriginal,
 		pin_modification_type: modificationType,
@@ -1225,20 +1228,20 @@ function putPin(pinX, pinY) {
 
 
 
-    // Add pin to the DB
-    //console.log('Add pin to the DB !!!');
 
+    //console.log('Add pin to the DB !!!');
 
 	// Start the process
 	var newPinProcessID = newProcess();
 
+	// Add pin to the DB
     $.post(ajax_url, {
 		'type'	  	 			: 'pin-add',
 		'nonce'	  	 			: pin_nonce,
 		'pin_x' 	 			: pinX,
 		'pin_y' 	 			: pinY,
 		'pin_type' 	 			: currentCursorType,
-		'pin_modification_type' : modificationType,
+		'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
 		'pin_private'			: currentPinPrivate,
 		'pin_element_index' 	: focused_element_index,
 		'pin_version_ID'		: version_ID,
@@ -1295,7 +1298,6 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	var thePinModificationType = thePin.attr('data-pin-modification-type');
 	var thePinModified = thePin.attr('data-revisionary-edited');
 	var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
-	var originalContent = "";
 
 
 	// Previous state of window
@@ -1364,6 +1366,8 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		// TEXT
 		if ( thePinModificationType == "html" ) {
 
+			var originalContent = "";
+
 
 			// If it's untouched DOM
 			if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') ) {
@@ -1394,6 +1398,8 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 		// IMAGE
 		if ( thePinModificationType == "image" ) {
+
+			var originalImageSrc = "";
 
 
 			// If it's untouched DOM

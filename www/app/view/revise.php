@@ -49,7 +49,6 @@
 	<div id="pin-window" class="loading"
 		data-pin-id="0"
 		data-pin-type="live"
-		data-pin-edit-type="content"
 		data-pin-private="0"
 		data-pin-complete="0"
 		data-pin-x="30"
@@ -77,21 +76,21 @@
 						<nav class="dropdown xl-left">
 							<ul class="type-convertor">
 
-								<li>
+								<li class="convert-to-live">
 									<a href="#" class="xl-flexbox xl-middle">
 										<pin data-pin-type="live" data-pin-private="0"></pin>
 										<span>Live</span>
 									</a>
 								</li>
 
-								<li>
+								<li class="convert-to-standard">
 									<a href="#" class="xl-flexbox xl-middle">
 										<pin data-pin-type="standard" data-pin-private="0"></pin>
 										<span>Only Comment</span>
 									</a>
 								</li>
 
-								<li>
+								<li class="convert-to-private">
 									<a href="#" class="xl-flexbox xl-middle">
 										<pin data-pin-type="live" data-pin-private="1"></pin>
 										<span>Private</span>

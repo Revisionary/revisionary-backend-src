@@ -12,10 +12,10 @@ if ( request("nonce") !== $_SESSION["pin_nonce"] )
 $pin_version_ID = intval(request('pin_version_ID'));
 $pin_type = request('pin_type');
 $pin_private = boolval(request('pin_private'));
-$pin_x = intval(request('pin_x'));
-$pin_y = intval(request('pin_y'));
+$pin_x = floatval(request('pin_x'));
+$pin_y = floatval(request('pin_y'));
 $pin_element_index = request('pin_element_index');
-$pin_midification_type = request('pin_modification_type');
+$pin_modification_type = request('pin_modification_type') == "{%null%}" ? null : request('pin_modification_type');
 
 
 // Are they numbers?
@@ -36,7 +36,7 @@ $pin_ID = Pin::ID()->addNew(
 	$pin_x,
 	$pin_y,
 	$pin_element_index,
-	$pin_midification_type
+	$pin_modification_type
 );
 
 if ($pin_ID) $status = "Added: $pin_ID";
