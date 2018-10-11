@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 01, 2018 at 06:01 PM
+-- Generation Time: Oct 11, 2018 at 11:18 AM
 -- Server version: 8.0.12
 -- PHP Version: 7.2.8
 
@@ -174,6 +174,7 @@ CREATE TABLE `pins` (
   `pin_element_index` bigint(20) NOT NULL,
   `pin_modification_type` varchar(10) DEFAULT NULL,
   `pin_modification` longtext,
+  `pin_modification_original` tinytext CHARACTER SET utf8 COLLATE utf8_general_ci,
   `version_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -562,7 +563,7 @@ ALTER TABLE `sorting`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user_levels`
