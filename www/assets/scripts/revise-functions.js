@@ -929,7 +929,7 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 			console.log('DIFF: ', leftDest, topDest);
 
 
-			if (leftDest + topDest > 8) {
+			if (leftDest + topDest > 4) {
 				pinDragging = true;
 
 				console.log('DRAGGING!!!');
