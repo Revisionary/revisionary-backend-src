@@ -336,29 +336,12 @@ function runTheInspector() {
 				focused_element_has_live_pin = false;
 				if (currentPinType == "live") {
 
+
+					// Editable check
 					if (focused_element_editable) {
 
 						switchCursorType('live');
 						outline(focused_element, currentPinPrivate);
-
-
-						// Check if it already has a pin
-						if ( focused_element_pin.length ) {
-
-							focused_element_has_live_pin = true;
-
-
-							// Point to the pin
-							$('#pins > pin:not([data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
-
-
-							// Color the element that has a pin according to the pin type
-							outline(focused_element, focused_element_pin.attr('data-pin-private'));
-
-
-							//console.log('This element already has a live pin.');
-
-						}
 
 
 					} else {
@@ -367,6 +350,41 @@ function runTheInspector() {
 						switchCursorType('standard');
 
 					}
+
+
+					// Check if the element already has a pin
+					if ( focused_element_editable && focused_element_pin.length ) {
+
+						focused_element_has_live_pin = true;
+
+
+						// Point to the pin
+						$('#pins > pin:not([data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
+
+
+						// Color the element that has a pin according to the pin type
+						outline(focused_element, focused_element_pin.attr('data-pin-private'));
+
+
+						// Update the cursor
+						var elementPin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
+						changePinNumber( elementPin.text() );
+						switchCursorType(elementPin.data('pin-type'), elementPin.data('pin-private'));
+
+
+
+						//console.log('This element already has a live pin.');
+
+					} else {
+
+
+						// Re-update the cursor number
+						currentPinNumber = $('#pins > pin').length + 1;
+						changePinNumber(currentPinNumber);
+
+
+					}
+
 
 				} // If current pin type is 'live'
 
@@ -488,11 +506,11 @@ function switchPinType(pinType, pinPrivate) {
 
 
 // Switch to a different cursor mode
-function switchCursorType(cursorType) {
+function switchCursorType(cursorType, pinPrivate = currentPinPrivate) {
 
 	log(cursorType);
 
-	cursor.attr('data-pin-type', cursorType).attr('data-pin-private', currentPinPrivate);
+	cursor.attr('data-pin-type', cursorType).attr('data-pin-private', pinPrivate);
 	currentCursorType = cursorType;
 
 }
