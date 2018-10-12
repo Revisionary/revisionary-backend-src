@@ -1034,7 +1034,7 @@ $(function(){
 			$.each(result.data, function(key, data){
 
 				// Append the log !!!
-				if (key != "final")	console.log(key, data);
+				if (key != "final")	console.log(key + ': ', data);
 
 
 				// Update the proggress bar
@@ -1052,15 +1052,18 @@ $(function(){
 				$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
 
 
-				// Don't repeat checking when done
-				if (data.status == "not-running") {
+				// Don't repeat checking when stops or done
+				if (
+					data.status == "not-running" ||
+					data.processStatus == "ready"
+				) {
 					clearInterval(processInterval);
 					if (width != 100) $('#loading-info').text( 'Error');
 				}
 
 
 				// If successfully downloaded
-				if (data.processStatus == "ready") {
+				if (width == 100 && data.processStatus == "ready") {
 
 					// Update the global page URL
 					page_URL = data.pageUrl + '?v=' + data.internalized;
