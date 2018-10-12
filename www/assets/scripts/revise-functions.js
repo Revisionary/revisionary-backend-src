@@ -1,4 +1,80 @@
 // FUNCTIONS:
+// Run the internalizator
+function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
+
+
+	// Send the new data with process ID
+	$.ajax({
+		url: ajax_url,
+		data: {
+			'type'	  		: 'internalize-status',
+			'page_ID'	  	: page_ID,
+			'queue_ID'		: queue_ID,
+			'processID'		: processID
+		},
+		//async: false,
+		dataType: 'json'
+	}).done(function( result ) {
+
+		var data = result.data.final;
+
+
+		// LOG
+		$.each(result.data, function(key, value){
+
+			// Append the log !!!
+			if (key != "final")	console.log(key + ': ', value);
+
+		});
+
+
+		// Update the proggress bar
+		var width = data.processPercentage;
+
+		editProcess(loadingProcessID, width);
+
+		if (width == 100)
+			endProcess(loadingProcessID);
+
+
+		// Print the current status
+		$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
+
+
+		// If successfully downloaded
+		if (width == 100 && data.processStatus == "ready") {
+
+			// Update the global page URL
+			page_URL = data.pageUrl + '?v=' + data.internalized;
+
+
+			// Update the iframe url
+			$('iframe').attr('src', page_URL);
+
+
+			// Run the inspector
+			runTheInspector();
+
+		}
+
+
+		// Restart if not done
+		if (data.status != "not-running" &&	data.processStatus != "ready") {
+
+			setTimeout(function() {
+
+				checkPageStatus(page_ID, queue_ID, processID, loadingProcessID);
+
+			}, 500);
+
+		}
+
+
+	});
+
+}
+
+
 // Initiate the inspector
 function runTheInspector() {
 

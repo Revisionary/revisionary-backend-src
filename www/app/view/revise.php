@@ -1016,76 +1016,15 @@
 // When page is ready
 $(function(){
 
+
 	var loadingProcessID = newProcess();
+	checkPageStatus(
+		<?=$_url[1]?>,
+		<?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
+		<?=is_numeric($process_ID) ? $process_ID : "''"?>,
+		loadingProcessID
+	);
 
-
-	// Post the request to AJAX
-	var processInterval = setInterval(function(){
-
-		// Send the new data with process ID
-		$.post(ajax_url, {
-			'type':'internalize-status',
-			'page_ID': <?=$_url[1]?>,
-			'queue_ID': <?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
-			'processID' : <?=is_numeric($process_ID) ? $process_ID : "''"?>
-		}, function(result){
-
-
-			$.each(result.data, function(key, data){
-
-				// Append the log !!!
-				if (key != "final")	console.log(key + ': ', data);
-
-
-				// Update the proggress bar
-				var width = data.processPercentage;
-
-
-				editProcess(loadingProcessID, width);
-
-
-				if (width == 100)
-					endProcess(loadingProcessID);
-
-
-				// Print the current status
-				$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
-
-
-				// Don't repeat checking when stops or done
-				if (
-					data.status == "not-running" ||
-					data.processStatus == "ready"
-				) {
-					clearInterval(processInterval);
-					if (width != 100) $('#loading-info').text( 'Error');
-				}
-
-
-				// If successfully downloaded
-				if (width == 100 && data.processStatus == "ready") {
-
-					// Update the global page URL
-					page_URL = data.pageUrl + '?v=' + data.internalized;
-
-
-					// Update the iframe url
-					$('iframe').attr('src', page_URL);
-
-
-					// Run the inspector
-					runTheInspector();
-
-				}
-
-
-
-			});
-
-		}, 'json');
-
-
-	}, 500); // Interval
 
 });
 </script>

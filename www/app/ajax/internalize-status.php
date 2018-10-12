@@ -3,9 +3,9 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 
 
 // Set the process ID to check
-$process = BackgroundProcess::createFromPID( post('processID') );
-$page_ID = post('page_ID');
-$queue_ID = post('queue_ID');
+$process = BackgroundProcess::createFromPID( request('processID') );
+$page_ID = request('page_ID');
+$queue_ID = request('queue_ID');
 
 
 // STATUS CHECK
@@ -43,7 +43,6 @@ elseif ( is_numeric($queue_ID) ) {
 
 // CREATE THE RESPONSE
 $data = array(
-	'' => '',
 
 	// JUST TO SEE
 	'page_ID' => $page_ID,
@@ -57,8 +56,6 @@ $data = array(
 	'processPercentage' => Page::ID($page_ID)->pageStatus['percentage'],
 
 	'CSS Files' => Page::ID($page_ID)->getDownloadedQuantity('filtred', 'css-filter')."/".Page::ID($page_ID)->getDownloadedQuantity('total', 'css-filter'),
-
-
 
 
 
