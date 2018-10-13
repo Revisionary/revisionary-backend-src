@@ -725,7 +725,7 @@ pin {
 		width: 35px;
 		height: 35px;
 		line-height: 35px;
-		margin: 0 10px;
+		margin: 0 10px !important;
 
 		&[data-pin-private="1"] {
 		    box-shadow: 0px 0px 18px 1px $color-private;

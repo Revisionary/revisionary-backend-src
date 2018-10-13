@@ -535,6 +535,9 @@ function toggleTab(tab, forceClose = false) {
 	}
 
 
+	if (sideElement.hasClass('pins')) updatePinsList();
+
+
 }
 
 
@@ -797,7 +800,7 @@ function applyPins(oldPins = []) {
 
 		// Add the pin to the list
 		$('#pins').append(
-			newPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y)
+			pinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y)
 		);
 
 
@@ -1295,7 +1298,7 @@ function putPin(pinX, pinY) {
 
 	// Add the temporary pin to the DOM
 	$('#pins').append(
-		newPinTemplate(currentPinNumber, temporaryPinID, '0', focused_element_index, null, modificationType, currentPinPrivate, currentCursorType, pinX, pinY, true)
+		pinTemplate(currentPinNumber, temporaryPinID, '0', focused_element_index, null, modificationType, currentPinPrivate, currentCursorType, pinX, pinY, true)
 	);
 
 
@@ -2134,6 +2137,30 @@ function removeImage(pin_ID, element_index) {
 }
 
 
+// Update pins list in the Pins tab
+function updatePinsList() {
+
+
+	// Clear the list
+	$('.pins-list').html('');
+
+
+	$(Pins).each(function(i, pin) {
+
+		var pin_number = i + 1;
+
+		// Add the pin to the list
+		$('.pins-list').append(
+			listedPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y)
+		);
+
+
+	});
+
+}
+
+
+
 
 // SELECTORS:
 // Find iframe element
@@ -2171,11 +2198,11 @@ function pinElement(selector) {
 
 // TEMPLATES:
 // Pin template
-function newPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary = false) {
+function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary = false, size = "big") {
 
 	return '\
 		<pin \
-			class="pin big" \
+			class="pin '+size+'" \
 			'+(temporary ? "temporary" : "")+' \
 			data-pin-type="'+pin_type+'" \
 			data-pin-private="'+pin_private+'" \
@@ -2187,8 +2214,28 @@ function newPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin
 			data-revisionary-index="'+pin_element_index+'" \
 			data-revisionary-edited="'+( pin_modification != null ? '1' : '0' )+'" \
 			data-revisionary-showing-changes="1" \
-			style="top: '+pin_y+'px; left: '+pin_x+'px;" \
 		>'+pin_number+'</pin> \
+	';
+
+}
+
+
+// Listed pin template
+function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary = false) {
+
+	// Pin description
+	var pinText = "Comment Pin";
+	if (pin_type == "live") pinText = "Live Edit and " + pinText;
+	if (pin_private == "1") pinText = "Private " + pinText;
+
+	return ' \
+		<div class="pin '+pin_type+' '+(pin_complete == "1" ? "complete" : "incomplete")+'"> \
+			<a href="#" class="pin-locator"> \
+				'+ pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary, 'mid') +' \
+			</a> \
+			<a href="#" class="pin-title close">'+pinText+' <i class="fa fa-caret-up" aria-hidden="true"></i></a> \
+			<div class="pin-comments"></div> \
+		</div> \
 	';
 
 }

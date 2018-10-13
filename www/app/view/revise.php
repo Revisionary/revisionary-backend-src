@@ -57,7 +57,6 @@
 		data-revisionary-edited="0"
 		data-revisionary-showing-changes="0"
 		data-revisionary-index="0"
-		style="left: 10px; top: 10px;"
 	>
 
 		<div class="wrap xl-flexbox xl-between top-actions">
