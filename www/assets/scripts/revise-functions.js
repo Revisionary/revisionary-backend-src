@@ -1927,11 +1927,11 @@ function togglePinWindow(pin_x, pin_y, pin_ID) {
 
 
 // DB: Get Comments
-function getComments(pin_ID) {
+function getComments(pin_ID, commentsWrapper = $('#pin-window .pin-comments')) {
 
 
 	// Remove dummy comments and add loading indicator
-	$('#pin-window .pin-comments').html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div>');
+	commentsWrapper.html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div>');
 
 
 	// Disable comment sender
@@ -1953,7 +1953,7 @@ function getComments(pin_ID) {
 
 
 		// Clean the loading
-		$('#pin-window .pin-comments').html('<div class="xl-center">No comments yet.</div>');
+		commentsWrapper.html('<div class="xl-center">No comments yet.</div>');
 
 
 		// Print the comments
@@ -1981,11 +1981,11 @@ function getComments(pin_ID) {
 			}
 
 			// Clean it first
-			if ( i == 0 ) $('#pin-window .pin-comments').html('');
+			if ( i == 0 ) commentsWrapper.html('');
 
 
 			// Append the comments
-			$('#pin-window .pin-comments').append(
+			commentsWrapper.append(
 				commentTemplate(comment, directionLeft, hide, sameTime)
 			);
 
@@ -2000,7 +2000,7 @@ function getComments(pin_ID) {
 
 
 		// Scroll down to the latest comment
-		$('#pin-window .pin-comments').scrollTop(9999);
+		commentsWrapper.scrollTop(9999);
 
 
 		// Enable comment sender
@@ -2241,7 +2241,7 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 				'+ pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary, 'mid') +' \
 			</a> \
 			<a href="#" class="pin-title close">'+pinText+' <i class="fa fa-caret-up" aria-hidden="true"></i></a> \
-			<div class="pin-comments"></div> \
+			<div class="pin-comments"><div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div></div> \
 		</div> \
 	';
 

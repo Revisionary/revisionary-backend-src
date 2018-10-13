@@ -31,9 +31,25 @@ $(function() {
 	});
 
 
-	// Comment Opener !!!
-	$('.pins-list .pin-title').click(function(e) {
+	// Comment Opener
+	$(document).on('click', '.pins-list .pin-title', function(e) {
+
 		$(this).toggleClass('close');
+
+		var pinComments = $(this).next();
+		var thePin = $(this).prev().children('pin');
+		var pin_ID = thePin.attr('data-pin-id');
+
+
+		if (!$(this).hasClass('close')) {
+
+			console.log('Getting comments for: ', pin_ID);
+
+			getComments(pin_ID, pinComments);
+
+		}
+
+
 
 		e.preventDefault();
 		return false;

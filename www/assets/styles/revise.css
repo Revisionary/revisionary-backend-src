@@ -152,7 +152,8 @@ html, body {
 */ }
     .pin-comments .comment .profile-picture {
       margin-left: 0;
-      margin-right: 0; }
+      margin-right: 0;
+      border-color: white; }
       .pin-comments .comment .profile-picture .new-comment-icon {
         position: absolute;
         left: -15px; }
