@@ -1,5 +1,5 @@
 // FUNCTIONS:
-// Run the internalizator
+// DB: Run the internalizator
 function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 
 	ajax('internalize-status',
@@ -671,7 +671,7 @@ function changePinNumber(pinNumber) {
 }
 
 
-// Get up-to-date pins and changes
+// DB: Get up-to-date pins and changes
 function getPins(applyChanges = true) {
 
 
@@ -683,15 +683,11 @@ function getPins(applyChanges = true) {
 
 
 	// Send the Ajax request
-	$.ajax({
-		url: ajax_url,
-		data: {
-			'type'	  		: 'pins-get',
-			'nonce'	  		: pin_nonce,
-			'version_ID'	: version_ID
-		},
-		//async: false,
-		dataType: 'json'
+	ajax('pins-get',
+	{
+		'nonce'	  		: pin_nonce,
+		'version_ID'	: version_ID
+
 	}).done(function( result ) {
 
 
@@ -1265,7 +1261,7 @@ function stopAutoRefresh() {
 }
 
 
-// Put a pin to cordinates
+// DB: Put a pin to cordinates
 function putPin(pinX, pinY) {
 
 	// Put it just on the pointer point
@@ -1333,8 +1329,8 @@ function putPin(pinX, pinY) {
 	var newPinProcessID = newProcess();
 
 	// Add pin to the DB
-    $.post(ajax_url, {
-		'type'	  	 			: 'pin-add',
+    ajax('pin-add',
+    {
 		'nonce'	  	 			: pin_nonce,
 		'pin_x' 	 			: pinX,
 		'pin_y' 	 			: pinY,
@@ -1342,8 +1338,9 @@ function putPin(pinX, pinY) {
 		'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
 		'pin_private'			: currentPinPrivate,
 		'pin_element_index' 	: focused_element_index,
-		'pin_version_ID'		: version_ID,
-	}, function(result){
+		'pin_version_ID'		: version_ID
+
+	}).done(function(result){
 
 		//console.log(result.data);
 
@@ -1370,7 +1367,7 @@ function putPin(pinX, pinY) {
 		// Finish the process
 		endProcess(newPinProcessID);
 
-	}, 'json');
+	});
 
 
 	// Re-Locate the pins
@@ -1608,7 +1605,7 @@ function closePinWindow() {
 }
 
 
-// Remove a pin
+// DB: Remove a pin
 function removePin(pin_ID) {
 
 
@@ -1623,11 +1620,13 @@ function removePin(pin_ID) {
 	// Start the process
 	var newPinProcessID = newProcess();
 
-    $.post(ajax_url, {
+    ajax('pin-remove',
+    {
 		'type'	  	: 'pin-remove',
 		'nonce'	  	: pin_nonce,
 		'pin_ID'	: pin_ID
-	}, function(result){
+
+	}).done(function(result){
 
 		//console.log(result.data);
 
@@ -1640,7 +1639,7 @@ function removePin(pin_ID) {
 		closePinWindow();
 
 
-		// Revert the changes
+		// Bring the pin info
 		var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
 		var pinIndex = Pins.indexOf(pin);
 
@@ -1648,28 +1647,9 @@ function removePin(pin_ID) {
 
 		if (pin) {
 
-			var modifiedElement = iframeElement(pin.pin_element_index);
+			// Revert the changes
+			revertChanges([pin.pin_element_index]);
 
-
-			// If original content registered
-			if (pin.pin_modification_original != null) {
-
-
-				// Add the original HTML content
-				if (pin.pin_modification_type == "html")
-					modifiedElement.html( html_entity_decode (pin.pin_modification_original) );
-
-
-				// Add the original image
-				if (pin.pin_modification_type == "image")
-					modifiedElement.attr('src', pin.pin_modification_original);
-
-
-			}
-
-
-			// Remove the edited status from DOM element
-			modifiedElement.removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
 
 			// Delete from the list
 			Pins.splice(pinIndex, 1);
@@ -1690,13 +1670,13 @@ function removePin(pin_ID) {
 		endProcess(newPinProcessID);
 
 
-	}, 'json');
+	});
 
 
 }
 
 
-// Complete/Incomplete a pin
+// DB: Complete/Incomplete a pin
 function completePin(pin_ID, complete) {
 
 
@@ -1744,7 +1724,7 @@ function completePin(pin_ID, complete) {
 }
 
 
-// Convert pin
+// DB: Convert pin
 function convertPin(pin_ID, targetPin) {
 
 
@@ -1823,7 +1803,6 @@ function convertPin(pin_ID, targetPin) {
 		console.log(result.data);
 
 
-
 		// Finish the process
 		endProcess(convertPinProcessID);
 
@@ -1832,7 +1811,7 @@ function convertPin(pin_ID, targetPin) {
 }
 
 
-// Save a modification
+// DB: Save a modification
 function saveChange(pin_ID, modification) {
 
 
@@ -1851,12 +1830,13 @@ function saveChange(pin_ID, modification) {
 	var newPinProcessID = newProcess();
 
 	// Update from DB
-    $.post(ajax_url, {
-		'type'	  	 		: 'pin-modify',
+    ajax('pin-modify',
+    {
 		'modification' 	 	: modification,
 		'nonce'	  	 		: pin_nonce,
 		'pin_ID'			: pin_ID
-	}, function(result){
+
+	}).done(function(result){
 
 		//console.log(result.data);
 
@@ -1871,7 +1851,7 @@ function saveChange(pin_ID, modification) {
 		// Finish the process
 		endProcess(newPinProcessID);
 
-	}, 'json');
+	});
 
 
 }
@@ -1936,7 +1916,7 @@ function togglePinWindow(pin_x, pin_y, pin_ID) {
 }
 
 
-// Get Comments
+// DB: Get Comments
 function getComments(pin_ID) {
 
 
@@ -1949,11 +1929,12 @@ function getComments(pin_ID) {
 
 
 	// Send the Ajax request
-    $.post(ajax_url, {
-		'type'	  	: 'comments-get',
+    ajax('comments-get',
+    {
 		'nonce'	  	: pin_nonce,
 		'pin_ID'	: pin_ID
-	}, function(result){
+
+	}).done(function(result){
 
 		var comments = result.comments;
 
@@ -2020,13 +2001,13 @@ function getComments(pin_ID) {
 		relocatePins();
 
 
-	}, 'json');
+	});
 
 
 }
 
 
-// Send a comment
+// DB: Send a comment
 function sendComment(pin_ID, message) {
 
 	//console.log('Sending this message: ', message);
@@ -2039,12 +2020,13 @@ function sendComment(pin_ID, message) {
 	// Start the process
 	var newCommentProcessID = newProcess();
 
-    $.post(ajax_url, {
-		'type'	  	: 'comment-add',
+    ajax('comment-add',
+    {
 		'nonce'	  	: pin_nonce,
 		'pin_ID'	: pin_ID,
 		'message'	: message
-	}, function(result){
+
+	}).done(function(result){
 
 		//console.log(result.data);
 
@@ -2067,12 +2049,12 @@ function sendComment(pin_ID, message) {
 
 		//console.log('Message SENT: ', message);
 
-	}, 'json');
+	});
 
 }
 
 
-// Delete a comment
+// DB: Delete a comment
 function deleteComment(pin_ID, comment_ID) {
 
 	//console.log('Deleting comment #', comment_ID);
@@ -2085,12 +2067,13 @@ function deleteComment(pin_ID, comment_ID) {
 	// Start the process
 	var deleteCommentProcessID = newProcess();
 
-    $.post(ajax_url, {
-		'type'	  	 : 'comment-delete',
+    ajax('comment-delete',
+    {
 		'nonce'	  	 : pin_nonce,
 		'pin_ID'	 : pin_ID,
 		'comment_ID' : comment_ID
-	}, function(result){
+
+	}).done(function(result){
 
 		//console.log(result.data);
 
@@ -2113,7 +2096,7 @@ function deleteComment(pin_ID, comment_ID) {
 
 		//console.log('Comment #', comment_ID, ' DELETED');
 
-	}, 'json');
+	});
 
 }
 
@@ -2151,6 +2134,8 @@ function removeImage(pin_ID, element_index) {
 }
 
 
+
+// SELECTORS:
 // Find iframe element
 function iframeElement(selector) {
 
@@ -2179,21 +2164,6 @@ function pinElement(selector) {
 		return $('#pins').children(selector);
 
 	}
-
-}
-
-
-// Ajax request
-function ajax(type, givenData = {}) {
-
-	givenData['type'] = type;
-
-	return $.ajax({
-		url: ajax_url,
-		data: givenData,
-		//async: false,
-		dataType: 'json'
-	});
 
 }
 
@@ -2639,6 +2609,20 @@ function makeID() {
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 
 	return text;
+}
+
+function ajax(type, givenData = {}) {
+
+	givenData['type'] = type;
+
+	return $.ajax({
+		method: "POST",
+		url: ajax_url,
+		data: givenData,
+		//async: false,
+		dataType: 'json'
+	});
+
 }
 
 function log(log, arg1) {
