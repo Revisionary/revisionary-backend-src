@@ -33,6 +33,7 @@ html, body {
 
 			* {
 				color: white;
+				border-color: white;
 			}
 
 			& > .col {
@@ -233,7 +234,6 @@ html, body {
 		.profile-picture {
 			margin-left: 0;
 			margin-right: 0;
-			border-color: white;
 
 			.new-comment-icon {
 			    position: absolute;

@@ -23,7 +23,8 @@ html, body {
       position: relative;
       background-color: black; }
       #revise-sections > * .tab * {
-        color: white; }
+        color: white;
+        border-color: white; }
       #revise-sections > * .tab > .col {
         padding: 10px 10px 0 0; }
       #revise-sections > * .tab .opener {
@@ -152,8 +153,7 @@ html, body {
 */ }
     .pin-comments .comment .profile-picture {
       margin-left: 0;
-      margin-right: 0;
-      border-color: white; }
+      margin-right: 0; }
       .pin-comments .comment .profile-picture .new-comment-icon {
         position: absolute;
         left: -15px; }
