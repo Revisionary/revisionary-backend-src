@@ -879,7 +879,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 	&[data-pin-private="1"] {
 
-		& .type-convertor > .convert-to-private {
+		& .type-convertor > .convert-to-private,
+		& .type-convertor > .convert-to-private-live {
 			display: none !important;
 		}
 
@@ -887,7 +888,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 	&[data-pin-type="live"][data-pin-private="0"] {
 
-		& .type-convertor > .convert-to-live {
+		& .type-convertor > .convert-to-live,
+		& .type-convertor > .convert-to-private {
 			display: none !important;
 		}
 
@@ -895,7 +897,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 	&[data-pin-type="standard"] {
 
-		& .type-convertor > .convert-to-live {
+		& .type-convertor > .convert-to-live,
+		& .type-convertor > .convert-to-private-live,
+		& > .content-editor,
+		& > .image-editor {
 			display: none !important;
 		}
 

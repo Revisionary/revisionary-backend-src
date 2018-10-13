@@ -341,6 +341,23 @@ $(function() {
 	});
 
 
+	// Convert Pin
+	$('.type-convertor > li > a').click(function(e) {
+
+		var pin_ID = pinWindow.attr('data-pin-id');
+		var element_index = parseInt(pinWindow.attr('data-revisionary-index'));
+		var targetPin = $(this).children('pin');
+
+
+		// Remove the image on this element
+		convertPin(pin_ID, targetPin);
+
+
+		e.preventDefault();
+
+	});
+
+
 
 
 	// PIN HOVERING

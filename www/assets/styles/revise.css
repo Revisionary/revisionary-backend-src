@@ -541,11 +541,16 @@ html, body {
     display: block; }
   #pin-window[data-pin-modification-type="image"] > .image-editor {
     display: block; }
-  #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private {
+  #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private,
+  #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private-live {
     display: none !important; }
-  #pin-window[data-pin-type="live"][data-pin-private="0"] .type-convertor > .convert-to-live {
+  #pin-window[data-pin-type="live"][data-pin-private="0"] .type-convertor > .convert-to-live,
+  #pin-window[data-pin-type="live"][data-pin-private="0"] .type-convertor > .convert-to-private {
     display: none !important; }
-  #pin-window[data-pin-type="standard"] .type-convertor > .convert-to-live {
+  #pin-window[data-pin-type="standard"] .type-convertor > .convert-to-live,
+  #pin-window[data-pin-type="standard"] .type-convertor > .convert-to-private-live,
+  #pin-window[data-pin-type="standard"] > .content-editor,
+  #pin-window[data-pin-type="standard"] > .image-editor {
     display: none !important; }
   #pin-window[data-pin-type="standard"][data-pin-private="0"] .type-convertor > .convert-to-standard,
   #pin-window[data-pin-type="standard"][data-pin-private="0"] .type-convertor > .convert-to-live {

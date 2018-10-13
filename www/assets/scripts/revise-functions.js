@@ -2,19 +2,13 @@
 // Run the internalizator
 function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 
+	ajax('internalize-status',
+	{
+		'page_ID'		: page_ID,
+		'queue_ID'		: queue_ID,
+		'processID'		: processID
 
-	// Send the new data with process ID
-	$.ajax({
-		url: ajax_url,
-		data: {
-			'type'	  		: 'internalize-status',
-			'page_ID'	  	: page_ID,
-			'queue_ID'		: queue_ID,
-			'processID'		: processID
-		},
-		//async: false,
-		dataType: 'json'
-	}).done(function( result ) {
+	}).done(function(result) {
 
 		var data = result.data.final;
 
@@ -807,7 +801,7 @@ function applyPins(oldPins = []) {
 
 		// Add the pin to the list
 		$('#pins').append(
-			newPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y, pin.user_ID)
+			newPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y)
 		);
 
 
@@ -903,6 +897,8 @@ function applyChanges(showingOriginal = []) {
 
 // Revert changes
 function revertChanges(element_indexes = [], pinsList = Pins) {
+
+	if ( element_indexes.length ) console.log('REVERTING CHANGES FOR: ', element_indexes);
 
 
 	var showingOriginal = [];
@@ -1303,7 +1299,7 @@ function putPin(pinX, pinY) {
 
 	// Add the temporary pin to the DOM
 	$('#pins').append(
-		newPinTemplate(currentPinNumber, temporaryPinID, '0', focused_element_index, null, modificationType, currentPinPrivate, currentCursorType, pinX, pinY, user_ID, true)
+		newPinTemplate(currentPinNumber, temporaryPinID, '0', focused_element_index, null, modificationType, currentPinPrivate, currentCursorType, pinX, pinY, true)
 	);
 
 
@@ -1423,23 +1419,24 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 
 	// Add the pin window data !!!
-	pinWindow.attr('data-pin-type', thePinType);
-	pinWindow.attr('data-pin-private', thePinPrivate);
-	pinWindow.attr('data-pin-complete', thePinComplete);
-	pinWindow.attr('data-pin-x', thePin.attr('data-pin-x'));
-	pinWindow.attr('data-pin-y', thePin.attr('data-pin-y'));
-	pinWindow.attr('data-pin-modification-type', thePinModificationType);
-	pinWindow.attr('data-pin-id', pin_ID);
-	pinWindow.attr('data-revisionary-edited', thePinModified);
-	pinWindow.attr('data-revisionary-showing-changes', thePinShowingChanges);
-	pinWindow.attr('data-revisionary-index', theIndex);
+	pinWindow
+		.attr('data-pin-type', thePinType)
+		.attr('data-pin-private', thePinPrivate)
+		.attr('data-pin-complete', thePinComplete)
+		.attr('data-pin-x', thePin.attr('data-pin-x'))
+		.attr('data-pin-y', thePin.attr('data-pin-y'))
+		.attr('data-pin-modification-type', thePinModificationType)
+		.attr('data-pin-id', pin_ID)
+		.attr('data-revisionary-edited', thePinModified)
+		.attr('data-revisionary-showing-changes', thePinShowingChanges)
+		.attr('data-revisionary-index', theIndex);
 
 
 	// Update the pin type section
-	pinWindow.find('pin.chosen-pin').attr('data-pin-type', thePinType);
-	pinWindow.find('pin.chosen-pin').attr('data-pin-private', thePinPrivate);
-	pinWindow.find('pin.chosen-pin + span > span').text(thePinText);
-	pinWindow.find('.type-convertor > .convert-to-private span').text('PRIVATE');
+	pinWindow.find('pin.chosen-pin')
+		.attr('data-pin-type', thePinType)
+		.attr('data-pin-private', thePinPrivate);
+	pinWindow.find('.pin-label').text(thePinText);
 
 
 	// If on 'Live' mode
@@ -1448,8 +1445,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 		// Update the pin type section
 		thePinText = thePinPrivate == '1' ? 'PRIVATE LIVE' : 'LIVE EDIT';
-		pinWindow.find('pin.chosen-pin + span > span').text(thePinText);
-		pinWindow.find('.type-convertor > .convert-to-private span').text( thePinPrivate == '0' ? 'PRIVATE LIVE' : 'LIVE EDIT' );
+		pinWindow.find('.pin-label').text(thePinText);
 
 
 
@@ -1724,24 +1720,114 @@ function completePin(pin_ID, complete) {
 
 
 	// Start the process
-	var newPinProcessID = newProcess();
+	var completePinProcessID = newProcess();
 
-    // Add pin to the DB
-    $.post(ajax_url, {
-		'type'	  	 		: 'pin-complete',
-		'complete' 	 		: (complete ? 'complete' : 'incomplete'),
-		'nonce'	  	 		: pin_nonce,
-		'pin_ID'			: pin_ID
-	}, function(result){
+    // Update pin from the DB
+	ajax('pin-complete',
+	{
+		'pin_ID' 	   : pin_ID,
+		'complete'	   : (complete ? 'complete' : 'incomplete'),
+		'nonce'		   : pin_nonce
 
-		//console.log(result.data);
+	}).done(function(result) {
+
+		console.log(result.data);
+
 
 
 		// Finish the process
-		endProcess(newPinProcessID);
+		endProcess(completePinProcessID);
 
-	}, 'json');
+	});
 
+
+}
+
+
+// Convert pin
+function convertPin(pin_ID, targetPin) {
+
+
+	// New values
+	var pinType = targetPin.data('pin-type');
+	var pinPrivate = targetPin.data('pin-private');
+	var pinLabel = targetPin.next().text();
+	var elementIndex = parseInt( pinElement(pin_ID).attr('data-revisionary-index') ); console.log('element-index', elementIndex);
+
+
+	console.log('Convert PIN #'+ pin_ID +' to: ', pinType, 'Private: ' + pinPrivate);
+
+
+	// Update from the Pins global
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pinIndex = Pins.indexOf(pin);
+
+
+	// If the new type is standard, reset the modifications
+	if (pinType == "standard") {
+
+		revertChanges([elementIndex]);
+
+		Pins[pinIndex].pin_modification_type = null;
+		Pins[pinIndex].pin_modification = null;
+		Pins[pinIndex].pin_modification_original = null;
+
+		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-pin-modification-type', 'null');
+		pinWindow.attr('data-pin-modification-type', 'null');
+
+		// Remove outlines from iframe
+		iframeElement('body *').css('outline', '');
+
+	}
+
+	Pins[pinIndex].pin_type = pinType;
+	Pins[pinIndex].pin_private = pinPrivate;
+
+
+	// Update the pin status
+	$('#pins > pin[data-pin-id="'+pin_ID+'"]')
+		.attr('data-pin-type', pinType)
+		.attr('data-pin-private', pinPrivate);
+
+
+	// Update the pin window status
+	pinWindow.attr('data-pin-type', pinType)
+		.attr('data-pin-type', pinType)
+		.attr('data-pin-private', pinPrivate);
+
+
+	// Update the pin type section label
+	pinWindow.find('pin.chosen-pin').attr('data-pin-type', pinType).attr('data-pin-private', pinPrivate);
+	pinWindow.find('.pin-label').text(pinLabel);
+
+
+	// If it's a live pin, change the element outline color
+	if (pinType == "live") outline( iframeElement(elementIndex), pinPrivate );
+
+
+
+	// Start the process
+	var convertPinProcessID = newProcess();
+
+
+	// Save it on DB
+	ajax('pin-convert',
+	{
+		'pin_ID' 	    : pin_ID,
+		'pin_type'		: pinType,
+		'pin_private'   : pinPrivate,
+		'nonce'		    : pin_nonce
+
+	}).done(function(result) {
+
+		console.log(result.data);
+
+
+
+		// Finish the process
+		endProcess(convertPinProcessID);
+
+	});
 
 }
 
@@ -2081,11 +2167,41 @@ function iframeElement(selector) {
 }
 
 
+// Find pin element
+function pinElement(selector) {
+
+	if ( $.isNumeric(selector) ) {
+
+		return pinElement('[data-pin-id="'+ selector +'"]');
+
+	} else {
+
+		return $('#pins').children(selector);
+
+	}
+
+}
+
+
+// Ajax request
+function ajax(type, givenData = {}) {
+
+	givenData['type'] = type;
+
+	return $.ajax({
+		url: ajax_url,
+		data: givenData,
+		//async: false,
+		dataType: 'json'
+	});
+
+}
+
+
 
 // TEMPLATES:
 // Pin template
-//function newPinTemplate(pin_x, pin_y, pin_ID, user_ID, pin_type, pin_private, pin_complete, pin_edited) {
-function newPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, user_ID, temporary = false) {
+function newPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary = false) {
 
 	return '\
 		<pin \
@@ -2094,7 +2210,6 @@ function newPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin
 			data-pin-type="'+pin_type+'" \
 			data-pin-private="'+pin_private+'" \
 			data-pin-complete="'+pin_complete+'" \
-			data-pin-user-id="'+user_ID+'" \
 			data-pin-id="'+pin_ID+'" \
 			data-pin-x="'+pin_x+'" \
 			data-pin-y="'+pin_y+'" \
@@ -2140,7 +2255,6 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 	';
 
 }
-
 
 
 

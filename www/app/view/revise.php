@@ -71,28 +71,35 @@
 							data-pin-type="live"
 							data-pin-private="0"
 						></pin>
-						<span class="dropdown-opener"><span>Live Edit</span> <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+						<span class="dropdown-opener"><span class="pin-label">Live Edit</span> <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 
 						<nav class="dropdown xl-left">
 							<ul class="type-convertor">
 
 								<li class="convert-to-live">
 									<a href="#" class="xl-flexbox xl-middle">
-										<pin data-pin-type="live" data-pin-private="0"></pin>
-										<span>Live</span>
+										<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
+										<span>Live Edit</span>
 									</a>
 								</li>
 
 								<li class="convert-to-standard">
 									<a href="#" class="xl-flexbox xl-middle">
-										<pin data-pin-type="standard" data-pin-private="0"></pin>
+										<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
 										<span>Only Comment</span>
+									</a>
+								</li>
+
+								<li class="convert-to-private-live">
+									<a href="#" class="xl-flexbox xl-middle">
+										<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
+										<span>Private Live</span>
 									</a>
 								</li>
 
 								<li class="convert-to-private">
 									<a href="#" class="xl-flexbox xl-middle">
-										<pin data-pin-type="live" data-pin-private="1"></pin>
+										<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
 										<span>Private</span>
 									</a>
 								</li>

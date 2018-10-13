@@ -193,6 +193,48 @@ class Pin {
 	}
 
 
+    // Convert a pin
+    public function convert(
+	    string $pin_type,
+	    string $pin_private
+    ) {
+	    global $db;
+
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		$current_pin_type = $this->getPinInfo('pin_type');
+
+		// Update the pin
+		$db->where('pin_ID', self::$pin_ID);
+		$pin_data = array(
+			'pin_type' => $pin_type,
+			'pin_private' => $pin_private,
+		);
+
+		// If the new type is standard, reset the modifications
+		if ($pin_type == 'standard') {
+			$pin_data['pin_modification'] = null;
+			$pin_data['pin_modification_type'] = null;
+		}
+
+		$pin_updated = $db->update('pins', $pin_data);
+
+		// Update the page modification date
+		if ($pin_updated) {
+			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+		}
+
+
+		return $pin_updated;
+
+	}
+
+
     // Modify a pin
     public function modify($modification) {
 	    global $db;
