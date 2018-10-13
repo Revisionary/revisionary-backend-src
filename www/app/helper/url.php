@@ -4,51 +4,6 @@ function filterUrl($str) {
   return htmlspecialchars(trim($str));
 }
 
-function get($name){
-  if(isset($_GET[$name])) {
-
-    if (is_array($_GET[$name])){
-      return array_map(function($item){
-        return filterUrl($item);
-      }, $_GET[$name]);
-    }
-
-    return filterUrl($_GET[$name]);
-
-  }
-  return false;
-}
-
-function post($name) {
-  if(isset($_POST[$name])){
-
-    if (is_array($_POST[$name])){
-      return array_map(function($item){
-        return filterUrl($item);
-      }, $_POST[$name]);
-    }
-
-    return filterUrl($_POST[$name]);
-
-  }
-  return false;
-}
-
-function request($name) {
-  if(isset($_REQUEST[$name])){
-
-    if (is_array($_REQUEST[$name])){
-      return array_map(function($item){
-        return filterUrl($item);
-      }, $_REQUEST[$name]);
-    }
-
-    return filterUrl($_REQUEST[$name]);
-
-  }
-  return false;
-}
-
 function url($index) {
   global $_url;
   if (isset($_url[$index]))
@@ -97,7 +52,7 @@ function current_url($query = "", $removeQuery = "", $forceSSL = false) {
 
 }
 
-function permalink($str, $options = array()){
+function permalink($str, $options = array()) {
     $str = mb_convert_encoding((string)$str, 'UTF-8', mb_list_encodings());
     $defaults = array(
         'delimiter' => '-',
@@ -170,7 +125,7 @@ function permalink($str, $options = array()){
         $str = str_replace(array_keys($char_map), $char_map, $str);
     }
     $str = preg_replace('/[^\p{L}\p{Nd}]+/u', $options['delimiter'], $str);
-    $str = preg_replace('/(' . preg_quote($options['delimiter'], '/') . '){2,}/', '$1', $str);
+    $str = preg_replace('/(' . preg_quote($options['delimiter'], '/') . ') {2,}/', '$1', $str);
     $str = mb_substr($str, 0, ($options['limit'] ? $options['limit'] : mb_strlen($str, 'UTF-8')), 'UTF-8');
     $str = trim($str, $options['delimiter']);
     return $options['lowercase'] ? mb_strtolower($str, 'UTF-8') : $str;
