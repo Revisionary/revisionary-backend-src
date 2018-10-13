@@ -524,19 +524,16 @@ function toggleTab(tab, forceClose = false) {
 	var sideElement = tab.parent().parent();
 
 
-	if (sideElement.hasClass('open') || forceClose) {
-
+	if (sideElement.hasClass('open') || forceClose)
 		sideElement.removeClass('open');
 
-	} else {
-
+	else
 		sideElement.addClass('open');
 
-	}
 
-
-	if (sideElement.hasClass('pins')) updatePinsList();
-
+	// Update the list when opening the pins list tab
+	pinsListOpen = $('#revise-sections > .pins').hasClass('open');
+	if (pinsListOpen) updatePinsList();
 
 }
 
@@ -818,6 +815,10 @@ function applyPins(oldPins = []) {
 
 	// Relocate the pins
 	relocatePins();
+
+
+	// Update the pins list tab
+	updatePinsList();
 
 
 	// Apply changes
@@ -1266,6 +1267,11 @@ function stopAutoRefresh() {
 
 // DB: Put a pin to cordinates
 function putPin(pinX, pinY) {
+
+
+	// Stop auto-refresh pins
+	stopAutoRefresh();
+
 
 	// Put it just on the pointer point
 	pinX = parseFloat(pinX - 45/2).toFixed(5);

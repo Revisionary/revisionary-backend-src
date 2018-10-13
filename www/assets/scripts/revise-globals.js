@@ -118,6 +118,7 @@ var Pins = [];
 var pinDragging = false;
 var autoRefreshTimer;
 var autoRefreshInterval = 5000;
+var pinsListOpen = false;
 
 
 // When document is ready, fill the variables
@@ -137,5 +138,7 @@ $(function() {
 	cursor = $('.mouse-cursor');
 	currentPinType = activator.data('pin-type');
 	currentPinNumber = $('#pins > pin').length + 1;
+
+	pinsListOpen = $('#revise-sections > .pins').hasClass('open');
 
 });

@@ -102,6 +102,10 @@ function endProcess(processID) {
 	}
 
 
+	// Update the pins list tab
+	if (typeof updatePinsList === "function" && pinsListOpen) updatePinsList();
+
+
 	console.log('Process Count: ', processCount);
 
 }
