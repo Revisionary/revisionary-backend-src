@@ -10,7 +10,7 @@ if ( request("nonce") !== $_SESSION["pin_nonce"] )
 
 // Get the pin info
 $pin_ID = request('pin_ID');
-$modification = request('modification');
+$modification = htmlentities(request('modification', true), ENT_QUOTES);
 
 
 // Null detection
