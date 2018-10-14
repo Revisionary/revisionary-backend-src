@@ -35,6 +35,13 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 		$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
 
 
+		// Print the error message when stops before completion
+		if (data.status == "not-running" &&	data.processStatus != "ready") {
+			$('#loading-info').text( 'Error');
+			editProcess(loadingProcessID, 0);
+		}
+
+
 		// If successfully downloaded
 		if (width == 100 && data.processStatus == "ready") {
 
