@@ -374,6 +374,22 @@ $(function() {
 	});
 
 
+	// Hovering a pin
+	$(document).on('mouseover', '#revise-sections .pins-list > .pin', function(e) {
+
+		var pin_ID = $(this).find('pin').attr('data-pin-id');
+
+		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
+
+		e.preventDefault();
+	}).on('mouseout', '#revise-sections .pins-list > .pin', function(e) {
+
+		$('#pins > pin').css('opacity', '');
+
+		e.preventDefault();
+	});
+
+
 
 
 	// PIN HOVERING
