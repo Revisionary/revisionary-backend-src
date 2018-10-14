@@ -23,8 +23,9 @@ html, body {
       position: relative;
       background-color: black; }
       #revise-sections > * .tab * {
-        color: white;
-        border-color: white; }
+        color: white; }
+        #revise-sections > * .tab *.profile-picture {
+          border-color: white; }
       #revise-sections > * .tab > .col {
         padding: 10px 10px 0 0; }
       #revise-sections > * .tab .opener {

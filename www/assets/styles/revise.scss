@@ -33,7 +33,10 @@ html, body {
 
 			* {
 				color: white;
-				border-color: white;
+
+				&.profile-picture {
+					border-color: white;
+				}
 			}
 
 			& > .col {
