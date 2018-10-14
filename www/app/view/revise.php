@@ -293,9 +293,9 @@
 					<div class="col xl-1-1">
 
 						<div class="pins-filter">
-							<a href="#" class="selected">Show All</a> |
-							<a href="#">Only Incompleted</a> |
-							<a href="#">Only Completed</a>
+							<a href="#" class="selected" data-filter="all">Show All</a> |
+							<a href="#" data-filter="incomplete">Only Incompleted</a> |
+							<a href="#" data-filter="complete">Only Completed</a>
 						</div>
 
 						<div class="scrollable-content">

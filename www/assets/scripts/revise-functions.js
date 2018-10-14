@@ -2236,7 +2236,18 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 	if (pin_private == "1") pinText = "Private " + pinText;
 
 	return ' \
-		<div class="pin '+pin_type+' '+(pin_complete == "1" ? "complete" : "incomplete")+'"> \
+		<div class="pin '+pin_type+' '+(pin_complete == "1" ? "complete" : "incomplete")+'" \
+			'+(temporary ? "temporary" : "")+' \
+			data-pin-type="'+pin_type+'" \
+			data-pin-private="'+pin_private+'" \
+			data-pin-complete="'+pin_complete+'" \
+			data-pin-id="'+pin_ID+'" \
+			data-pin-x="'+pin_x+'" \
+			data-pin-y="'+pin_y+'" \
+			data-pin-modification-type="'+pin_modification_type+'" \
+			data-revisionary-index="'+pin_element_index+'" \
+			data-revisionary-edited="'+( pin_modification != null ? '1' : '0' )+'" \
+			data-revisionary-showing-changes="1"> \
 			<a href="#" class="pin-locator"> \
 				'+ pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary, 'mid') +' \
 			</a> \

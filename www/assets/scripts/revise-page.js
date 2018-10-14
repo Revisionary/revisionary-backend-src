@@ -374,7 +374,7 @@ $(function() {
 	});
 
 
-	// Hovering a pin
+	// Hovering a pin from the pins list tab
 	$(document).on('mouseover', '#revise-sections .pins-list > .pin', function(e) {
 
 		var pin_ID = $(this).find('pin').attr('data-pin-id');
@@ -390,6 +390,37 @@ $(function() {
 	});
 
 
+	// Filtering the pins
+	$('.pins-filter > a').click(function(e) {
+
+		var filter = $(this).data('filter');
+
+
+		$('.pins-filter > a').removeClass('selected');
+		$(this).addClass('selected');
+
+
+		if (filter == "all") {
+
+			$('#pins > pin, .pins-list > .pin').show();
+
+		} else if (filter == "incomplete") {
+
+			$('#pins > pin, .pins-list > .pin').show();
+			$('#pins > pin:not([data-pin-complete="0"]), .pins-list > .pin:not([data-pin-complete="0"])').hide();
+
+		} else if (filter == "complete") {
+
+			$('#pins > pin, .pins-list > .pin').show();
+			$('#pins > pin:not([data-pin-complete="1"]), .pins-list > .pin:not([data-pin-complete="1"])').hide();
+
+		}
+
+
+		console.log('SHOW THE PINS: ', filter);
+
+		e.preventDefault();
+	});
 
 
 	// PIN HOVERING
