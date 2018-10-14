@@ -330,6 +330,17 @@ if (
 }
 
 
+// Filters
+$pin_filter = "all";
+if (
+	get('filter') == "complete" ||
+	get('filter') == "incomplete" ||
+	get('filter') == "hide" ||
+	get('filter') == "public" ||
+	get('filter') == "private"
+) $pin_filter = get('filter');
+
+
 
 /*
 echo "<pre>";

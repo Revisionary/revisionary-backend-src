@@ -389,15 +389,26 @@ html, body {
   width: 100%;
   height: 100%;
   pointer-events: none; }
-  #pins pin {
+  #pins > pin {
     position: absolute;
     pointer-events: auto;
     cursor: pointer;
     left: 0;
     top: 0;
     transition: opacity 1000ms; }
-    #pins pin:hover {
+    #pins > pin:hover {
       opacity: 0.5; }
+
+#pins[data-filter="incomplete"] > .pin[data-pin-complete="1"],
+#pins[data-filter="complete"] > .pin[data-pin-complete="0"],
+#pins[data-filter="private"] > .pin[data-pin-private="0"],
+#pins[data-filter="public"] > .pin[data-pin-private="1"],
+#pins[data-filter="hide"] > .pin, .pins-list[data-filter="incomplete"] > .pin[data-pin-complete="1"],
+.pins-list[data-filter="complete"] > .pin[data-pin-complete="0"],
+.pins-list[data-filter="private"] > .pin[data-pin-private="0"],
+.pins-list[data-filter="public"] > .pin[data-pin-private="1"],
+.pins-list[data-filter="hide"] > .pin {
+  display: none; }
 
 /* Pin Window */
 #pin-window {

@@ -393,6 +393,10 @@ $(function() {
 	// Filtering the pins
 	$('.pins-filter > a').click(function(e) {
 
+
+		console.log('SHOW THE PINS: ', filter);
+
+
 		var filter = $(this).data('filter');
 
 
@@ -400,24 +404,15 @@ $(function() {
 		$(this).addClass('selected');
 
 
-		if (filter == "all") {
+		$('#pins, .pins-list').attr('data-filter', filter);
 
-			$('#pins > pin, .pins-list > .pin').show();
 
-		} else if (filter == "incomplete") {
-
-			$('#pins > pin, .pins-list > .pin').show();
-			$('#pins > pin:not([data-pin-complete="0"]), .pins-list > .pin:not([data-pin-complete="0"])').hide();
-
-		} else if (filter == "complete") {
-
-			$('#pins > pin, .pins-list > .pin').show();
-			$('#pins > pin:not([data-pin-complete="1"]), .pins-list > .pin:not([data-pin-complete="1"])').hide();
-
+		var queryString = filter == "all" ? '' : '?filter='+ filter;
+		if (history.pushState) {
+		    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + queryString;
+		    window.history.pushState({path:newurl},'',newurl);
 		}
 
-
-		console.log('SHOW THE PINS: ', filter);
 
 		e.preventDefault();
 	});

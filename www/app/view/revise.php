@@ -37,7 +37,7 @@
 		<iframe id="the-page" name="the-page" src="" data-url="" width="<?=$width?>" height="<?=$height?>" scrolling="auto" style="min-width: <?=$width?>px; min-height: <?=$height?>px;"></iframe>
 
 		<!-- THE PINS LIST -->
-		<div id="pins"></div>
+		<div id="pins" data-filter="<?=$pin_filter?>"></div>
 
 		<!-- THE PIN CURSOR -->
 		<pin class="mouse-cursor big" data-pin-type="live">1</pin>
@@ -293,13 +293,13 @@
 					<div class="col xl-1-1">
 
 						<div class="pins-filter">
-							<a href="#" class="selected" data-filter="all">Show All</a> |
-							<a href="#" data-filter="incomplete">Only Incompleted</a> |
-							<a href="#" data-filter="complete">Only Completed</a>
+							<a href="#" class="<?=$pin_filter == 'all' ? 'selected' : ''?>" data-filter="all">Show All</a> |
+							<a href="#" class="<?=$pin_filter == 'incomplete' ? 'selected' : ''?>" data-filter="incomplete">Only Incompleted</a> |
+							<a href="#" class="<?=$pin_filter == 'complete' ? 'selected' : ''?>" data-filter="complete">Only Completed</a>
 						</div>
 
 						<div class="scrollable-content">
-							<div class="pins-list">
+							<div class="pins-list" data-filter="<?=$pin_filter?>">
 
 								<div class="pin standard incomplete">
 
