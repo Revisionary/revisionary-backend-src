@@ -135,13 +135,13 @@ fs.writeFileSync(logDir+'/_font.log', '');
         // Abort requests that exceeds 15 seconds
         // Also abort if more than 100 requests
         if (seconds > 15 || reqCount > 100 || timeIsOver){
-          console.log(`❌⏳ ${method} ${shortURL}`);
+          console.log(`🌎❌⏳ ${method} ${shortURL}`);
           request.abort();
         } else if (blockedRegExp.test(url) || otherResources){
-          console.log(`❌ ${method} ${shortURL}`);
+          console.log(`🌎❌ ${method} ${shortURL}`);
           request.abort();
         } else {
-          console.log(`✅ ${method} ${shortURL}`);
+          console.log(`🌎✅ ${method} ${shortURL}`);
           request.continue();
           reqCount++;
         }
@@ -172,6 +172,7 @@ fs.writeFileSync(logDir+'/_font.log', '');
 		// Get the URL
 		const url = request.url;
 		const parsedUrl = new URL(url);
+		const shortURL = truncate(url, 500);
 
 		// Get the file type
 		const fileType = request.resourceType;
@@ -224,15 +225,6 @@ fs.writeFileSync(logDir+'/_font.log', '');
 		) {
 
 
-			// LOGS
-			console.log('****************');
-			console.log('File Type: ', fileType);
-			console.log('URL: ', url);
-			console.log('File Name: ', fileName);
-			console.log('File Extension: ', fileExtension);
-			console.log('****************');
-
-
 			// HTML File
 			if (fileType == 'document' && htmlFile != 'done' && htmlCount == 0) {
 
@@ -240,7 +232,7 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 				// Create the file
 			    fs.writeFileSync(htmlFile, buffer);
-			    console.log('HTML Downloaded: ', fileName + " -> " + htmlFile);
+			    console.log('📄✅ HTML Downloaded: ', fileName + " -> " + htmlFile);
 
 			    // INDEX THE HTML ELEMENTS HERE !!!
 
@@ -248,7 +240,7 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 
 			// CSS Files
-			if (fileType == 'stylesheet' && CSSFilesList != 'done' ) {
+			else if (fileType == 'stylesheet' && CSSFilesList != 'done' ) {
 
 				cssCount++;
 
@@ -259,13 +251,13 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 				// Write to the downloaded CSS list file
 				fs.appendFileSync(logDir+'/_css.log', cssCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n');
-				console.log('CSS Downloaded: ', cssCount+'.'+fileExtension + ' -> ' + request.url);
+				console.log('📄✅ CSS Downloaded: ', cssCount+'.'+fileExtension + ' -> ' + request.url);
 
 			}
 
 
 			// JS Files
-			if (fileType == 'script' && JSFilesList != 'done' ) {
+			else if (fileType == 'script' && JSFilesList != 'done' ) {
 
 				jsCount++;
 
@@ -276,13 +268,13 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 				// Write to the downloaded CSS list file
 				fs.appendFileSync(logDir+'/_js.log', jsCount+'.'+fileExtension + ' -> ' + request.url + ' \r\n');
-				console.log('JS Downloaded: ', jsCount+'.'+fileExtension + ' -> ' + request.url);
+				console.log('📄✅ JS Downloaded: ', jsCount+'.'+fileExtension + ' -> ' + request.url);
 
 			}
 
 
 			// Font Files
-			if (fileType == 'font' && fontFilesList != 'done') {
+			else if (fileType == 'font' && fontFilesList != 'done') {
 
 				fontCount++;
 
@@ -293,10 +285,22 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 			    // Write to the downloaded fonts list file
 				fs.appendFileSync(logDir+'/_font.log', fileName + ' -> ' + request.url + ' \r\n');
-				console.log('Font Downloaded: ', fileName + ' -> ' + request.url);
+				console.log('📄✅ Font Downloaded: ', fileName + ' -> ' + request.url);
 
 			}
 
+
+			// If none of them
+			else {
+
+				console.log(`📄❌ NOT ALLOWED TYPE: ${fileType} ${fileName} ${shortURL}`);
+
+			}
+
+
+		} else {
+
+			console.log(`📄❌ OTHER HOST ${fileType} ${shortURL}`);
 
 		}
 
