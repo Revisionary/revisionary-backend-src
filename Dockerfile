@@ -31,9 +31,9 @@ RUN echo "ServerName dev.revisionaryapp.com" >> /etc/apache2/apache2.conf
 RUN docker-php-ext-install mysqli
 
 
+# Activate the rewrite engine and SSL
 RUN a2enmod rewrite
 RUN a2enmod ssl
-# RUN a2ensite default-ssl
 RUN service apache2 restart
 
 
