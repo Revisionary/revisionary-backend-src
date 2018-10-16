@@ -1029,6 +1029,7 @@ section > div.dark-side:after {
     top: 50%;
     transform: translateY(-50%);
     width: 560px;
+    max-width: calc(100% - 40px);
     right: 0;
 	padding-right: 25px;
 
