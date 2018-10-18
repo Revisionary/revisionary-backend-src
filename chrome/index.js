@@ -1,14 +1,14 @@
 const fs = require('fs');
 const http = require('http');
-const {
-	URL
-} = require('url');
-const {
+const { URL } = require('url');
+let {
 	DEBUG,
 	HEADFUL,
 	CHROME_BIN,
 	PORT
 } = process.env;
+
+//HEADFUL = true;
 
 const puppeteer = require('puppeteer');
 const cdnDetector = require("cdn-detector");
@@ -74,9 +74,7 @@ const delay = argv.delay || 0;
 let browser;
 
 require('http').createServer(async (req, res) => {
-	const {
-		host
-	} = req.headers;
+	const { host } = req.headers;
 
 	if (req.url == '/') {
 		res.writeHead(200, {
@@ -133,12 +131,7 @@ require('http').createServer(async (req, res) => {
 			throw new Error('Invalid URL');
 		}
 
-		const {
-			origin,
-			hostname,
-			pathname,
-			searchParams
-		} = new URL(url);
+		const { origin,	hostname, pathname, searchParams } = new URL(url);
 		const path = decodeURIComponent(pathname);
 		const output = searchParams.get('output');
 
@@ -167,10 +160,16 @@ require('http').createServer(async (req, res) => {
 		const height = parseInt(searchParams.get('height'), 10) || 768;
 
 		let downloadableRequests = [];
-		let downloadedFiles = [];
 
+
+		// If the page is already open
 		page = cache.get(pageURL);
+
+		// If page is not already open
 		if (!page) {
+
+
+			// Launch the browser if browser is not already open
 			if (!browser) {
 				console.log('🚀 Launch browser!');
 				const config = {
@@ -192,12 +191,11 @@ require('http').createServer(async (req, res) => {
 				if (CHROME_BIN) config.executablePath = CHROME_BIN;
 				browser = await puppeteer.launch(config);
 			}
+
+
+
+			// Open a new tab
 			page = await browser.newPage();
-
-
-
-
-
 
 
 
@@ -206,7 +204,6 @@ require('http').createServer(async (req, res) => {
 			let jsCount = 0;
 			let cssCount = 0;
 			let fontCount = 0;
-
 
 			const nowTime = +new Date();
 			let reqCount = 0;
@@ -357,13 +354,13 @@ require('http').createServer(async (req, res) => {
 				} // If request allowed
 
 
-			}); // on('request')
-
+			}); // THE REQUESTS LOOP
 
 
 
 			// RESPONSE
 			let responseCount = 0;
+			let bufferCount = 0;
 
 			let responseReject;
 			const responsePromise = new Promise((_, reject) => {
@@ -380,7 +377,7 @@ require('http').createServer(async (req, res) => {
 				responseCount++;
 
 
-				// REQUEST INFO
+				// Request info
 				const request = response.request();
 				const url = request.url();
 				const parsedUrl = new URL(url);
@@ -390,43 +387,26 @@ require('http').createServer(async (req, res) => {
 
 
 				var downloadable = downloadableRequests.find(function(req) { return req.remoteUrl == url ? true : false; });
-				var downloadedIndex = downloadableRequests.indexOf(downloadable);
 
 				if ( action == "internalize" && downloadable && !url.startsWith('data:') && response.ok ) {
 
-					response.buffer().then(buffer => {
+					var downloadedIndex = downloadableRequests.indexOf(downloadable);
 
-/*
-						// Download it
-						if (!fs.existsSync(downloadable.newDir)) fs.mkdirSync(downloadable.newDir);
-						fs.writeFileSync(downloadable.newUrl, buffer);
-*/
+
+					// Get the buffer
+					response.buffer().then(buffer => { bufferCount++;
+
 
 						// Add the buffer
 						downloadableRequests[downloadedIndex].buffer = buffer;
 
-						// Add to the list
-						downloadedFiles[downloadedIndex] = {
-							remoteUrl: downloadable.remoteUrl,
-							fileType: downloadable.fileType,
-							fileName: downloadable.fileName,
-							newDir: downloadable.newDir,
-							newFileName: downloadable.newFileName,
-							newUrl: downloadable.newUrl
-						};
-
-
-						const downloadedCount = downloadedFiles.length;
-						let downloadableTotal = downloadableRequests.length;
-
 
 						//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
-						console.log(`⏬✅ #${downloadedIndex} (${downloadedCount}/${downloadableTotal}) ${method} ${resourceType} ${url}`);
+						console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} ${url}`);
 
 					}, e => {
-						console.error(`⏬❌${response.status()} ${response.url()} failed: ${e}`);
+						console.error(`📋❌${response.status()} ${response.url()} failed: ${e}`);
 					});
-
 
 
 				}
@@ -437,22 +417,24 @@ require('http').createServer(async (req, res) => {
 
 
 
-
-
-
-
+			// Set the viewport
 			await page.setViewport({
 				width,
 				height,
 			});
 
+
+
+			// Go to the page
 			console.log('⬇️ Fetching ' + pageURL);
 			await Promise.race([
 				responsePromise,
 				page.goto(pageURL, {
-					waitUntil: 'networkidle2',
+					waitUntil: 'networkidle0',
 				})
 			]);
+
+
 
 			// Pause all media and stop buffering
 			page.frames().forEach((frame) => {
@@ -464,11 +446,26 @@ require('http').createServer(async (req, res) => {
 					});
 				});
 			});
+
+
+
 		} else {
+
+
+			if (action == "internalize") {
+
+				downloadableRequests = cache.get('downloadableRequests');
+
+			}
+
+
+			// Set the viewport
 			await page.setViewport({
 				width,
 				height,
 			});
+
+
 		}
 
 
@@ -484,46 +481,49 @@ require('http').createServer(async (req, res) => {
 		switch (action) {
 			case 'internalize': {
 
+				let downloadableTotal = downloadableRequests.length;
+				let downloadedFiles = [];
 
+				// Check all the files
+				downloadableRequests.forEach(function(downloadable, downloadedIndex) { downloadedIndex++;
 
-				downloadableRequests.forEach(function(downloadable) {
-
-					// Download it
+					// Create the folder if not exist
 					if (!fs.existsSync(downloadable.newDir)) fs.mkdirSync(downloadable.newDir);
+
+					// Write to the file
 					fs.writeFileSync(downloadable.newUrl, downloadable.buffer);
+
+
+
+					// Add to the list
+					downloadedFiles[downloadedIndex] = {
+						remoteUrl: downloadable.remoteUrl,
+						fileType: downloadable.fileType,
+						fileName: downloadable.fileName,
+						newDir: downloadable.newDir,
+						newFileName: downloadable.newFileName,
+						newUrl: downloadable.newUrl
+					};
+
+
+
+					const downloadedCount = downloadedFiles.length;
+					let downloadableTotal = downloadableRequests.length;
+
+					console.log(`⏬✅ (${downloadedIndex}/${downloadableTotal}) ${downloadable.fileType} ${downloadable.remoteUrl}`);
 
 				});
 
 
 
-				const internalized = downloadedFiles.length ? true : false;
-
-
 				// JSON OUTPUT
-				if (output == "JSON") {
-
-
-					res.writeHead(200, {
-						'content-type': 'application/json',
-					});
-					res.end(JSON.stringify({
-						status: (internalized ? 'success' : 'error'),
-						downloadedFiles: downloadedFiles
-					}, null, '\t'));
-
-
-
-				// PRINT TO THE PAGE
-				}
-
-
-
-
-
-
-
-
-
+				res.writeHead(200, {
+					'content-type': 'application/json',
+				});
+				res.end(JSON.stringify({
+					status: (downloadedFiles.length ? 'success' : 'error'),
+					downloadedFiles: downloadedFiles
+				}, null, '\t'));
 
 
 				break;
@@ -636,10 +636,7 @@ require('http').createServer(async (req, res) => {
 					const imports = doc.querySelectorAll('link[rel=import]');
 					imports.forEach(i => i.parentNode.removeChild(i));
 
-					const {
-						origin,
-						pathname
-					} = location;
+					const { origin,	pathname } = location;
 					// Inject <base> for loading relative resources
 					if (!doc.querySelector('base')) {
 						const base = document.createElement('base');
@@ -752,6 +749,13 @@ require('http').createServer(async (req, res) => {
 				});
 			});
 		}
+
+		if (!cache.has('downloadableRequests')) {
+			cache.set('downloadableRequests', downloadableRequests);
+		}
+
+
+
 	} catch (e) {
 		if (!DEBUG && page) {
 			console.error(e);
@@ -760,9 +764,8 @@ require('http').createServer(async (req, res) => {
 			page.close();
 		}
 		cache.del(pageURL);
-		const {
-			message = ''
-		} = e;
+		cache.del('downloadableRequests');
+		const { message = '' } = e;
 		res.writeHead(400, {
 			'content-type': 'text/plain',
 		});
