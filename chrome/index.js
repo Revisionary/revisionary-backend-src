@@ -166,6 +166,7 @@ require('http').createServer(async (req, res) => {
 		const width = parseInt(searchParams.get('width'), 10) || 1024;
 		const height = parseInt(searchParams.get('height'), 10) || 768;
 
+		let downloadableRequests = [];
 		let downloadedFiles = [];
 
 		page = cache.get(pageURL);
@@ -201,9 +202,6 @@ require('http').createServer(async (req, res) => {
 
 
 			// REQUEST
-			let downloadableRequests = [];
-
-
 			let htmlCount = 0;
 			let jsCount = 0;
 			let cssCount = 0;
@@ -273,93 +271,93 @@ require('http').createServer(async (req, res) => {
 					reqCount++;
 
 
+					// Internalization
+					if (action == "internalize") {
 
-					// If on the same host, or provided by a CDN
-					if (
-						parsedRemoteUrl.hostname == parsedUrl.hostname ||
-						cdnDetector.detectFromHostname(parsedUrl.hostname) != null
-					) {
+						// If on the same host, or provided by a CDN
+						if (
+							parsedRemoteUrl.hostname == parsedUrl.hostname ||
+							cdnDetector.detectFromHostname(parsedUrl.hostname) != null
+						) {
 
-						let shouldDownload = true;
-						let newFileName = "noname.txt";
-						let newDir = "site/temp/";
-
-
-						// HTML File
-						if (resourceType == 'document' && htmlCount == 0) {
-
-							htmlCount++;
-							newDir = "site/";
-							newFileName = 'index.html';
-
-						}
-
-						// CSS Files
-						else if (fileType == 'stylesheet') {
-
-							cssCount++;
-							newDir = "site/css/";
-							newFileName = cssCount + '.' + fileExtension;
-
-						}
-
-						// JS Files
-						else if (fileType == 'script') {
-
-							jsCount++;
-							newDir = "site/js/";
-							newFileName = jsCount + '.' + fileExtension;
-
-						}
-
-						// Font Files
-						else if (fileType == 'font') {
-
-							fontCount++;
-							newDir = "site/font/";
-							newFileName = fileName;
-
-						}
-
-						// If none of them
-						else {
-
-							shouldDownload = false;
-							console.log(`📄❌ NOT ALLOWED TYPE: ${fileType} ${fileName} ${shortURL}`);
-
-						}
+							let shouldDownload = true;
+							let newFileName = "noname.txt";
+							let newDir = "site/temp/";
 
 
+							// HTML File
+							if (resourceType == 'document' && htmlCount == 0) {
 
-						// Add to the list
-						if (shouldDownload) {
+								htmlCount++;
+								newDir = "site/";
+								newFileName = 'index.html';
 
-							downloadableRequests[downloadableRequests.length] = {
-								remoteUrl: url,
-								fileType: fileType,
-								fileName: fileName,
-								newDir: newDir,
-								newFileName: newFileName,
-								newUrl: newDir + newFileName
-							};
+							}
 
-							console.log('📄📋 #'+downloadableRequests.length+' '+fileType.toUpperCase()+' to Download: ', fileName + ' -> ' + newFileName);
+							// CSS Files
+							else if (fileType == 'stylesheet') {
 
-						}
+								cssCount++;
+								newDir = "site/css/";
+								newFileName = cssCount + '.' + fileExtension;
+
+							}
+
+							// JS Files
+							else if (fileType == 'script') {
+
+								jsCount++;
+								newDir = "site/js/";
+								newFileName = jsCount + '.' + fileExtension;
+
+							}
+
+							// Font Files
+							else if (fileType == 'font') {
+
+								fontCount++;
+								newDir = "site/font/";
+								newFileName = fileName;
+
+							}
+
+							// If none of them
+							else {
+
+								shouldDownload = false;
+								console.log(`📄❌ NOT ALLOWED TYPE: ${fileType} ${fileName} ${shortURL}`);
+
+							}
 
 
-					// If not on our host !!!
-					} else console.log(`📄❌ OTHER HOST FILE ${fileType} ${shortURL}`);
+
+							// Add to the list
+							if (shouldDownload) {
+
+								downloadableRequests[downloadableRequests.length] = {
+									remoteUrl: url,
+									fileType: fileType,
+									fileName: fileName,
+									newDir: newDir,
+									newFileName: newFileName,
+									newUrl: newDir + newFileName,
+									buffer: null
+								};
+								console.log('📄📋 #'+downloadableRequests.length+' '+fileType.toUpperCase()+' to Download: ', fileName + ' -> ' + newFileName);
+
+							}
+
+
+						// If not on our host !!!
+						} else console.log(`📄❌ OTHER HOST FILE ${fileType} ${shortURL}`);
+
+					} // Internalization
 
 
 				} // If request allowed
 
 
 			}); // on('request')
-
-
-			//console.log(downloadableRequests);
-
 
 
 
@@ -390,35 +388,44 @@ require('http').createServer(async (req, res) => {
 				const method = request.method();
 				const resourceType = request.resourceType();
 
-				//console.log('THE LIST: ', downloadableRequests);
+
 				var downloadable = downloadableRequests.find(function(req) { return req.remoteUrl == url ? true : false; });
 				var downloadedIndex = downloadableRequests.indexOf(downloadable);
-				if ( downloadable ) {
+
+				if ( action == "internalize" && downloadable && !url.startsWith('data:') && response.ok ) {
+
+					response.buffer().then(buffer => {
+
+/*
+						// Download it
+						if (!fs.existsSync(downloadable.newDir)) fs.mkdirSync(downloadable.newDir);
+						fs.writeFileSync(downloadable.newUrl, buffer);
+*/
+
+						// Add the buffer
+						downloadableRequests[downloadedIndex].buffer = buffer;
+
+						// Add to the list
+						downloadedFiles[downloadedIndex] = {
+							remoteUrl: downloadable.remoteUrl,
+							fileType: downloadable.fileType,
+							fileName: downloadable.fileName,
+							newDir: downloadable.newDir,
+							newFileName: downloadable.newFileName,
+							newUrl: downloadable.newUrl
+						};
 
 
-					response.buffer().then(
-						buffer => {
-
-							// Download it
-							if (!fs.existsSync(downloadable.newDir)) fs.mkdirSync(downloadable.newDir);
-							fs.writeFileSync(downloadable.newUrl, buffer);
-
-							// Add to the list
-							downloadedFiles[downloadedFiles.length] = downloadable;
+						const downloadedCount = downloadedFiles.length;
+						let downloadableTotal = downloadableRequests.length;
 
 
-							const downloadedCount = downloadedFiles.length;
-							let downloadableTotal = downloadableRequests.length;
+						//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
+						console.log(`⏬✅ #${downloadedIndex} (${downloadedCount}/${downloadableTotal}) ${method} ${resourceType} ${url}`);
 
-
-							//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
-							console.log(`⏬✅ #${downloadedIndex} (${downloadedCount}/${downloadableTotal}) ${method} ${resourceType} ${url}`);
-
-						},
-						e => {
-							console.error(`⏬❌${response.status()} ${response.url()} failed: ${e}`);
-						}
-					);
+					}, e => {
+						console.error(`⏬❌${response.status()} ${response.url()} failed: ${e}`);
+					});
 
 
 
@@ -475,6 +482,52 @@ require('http').createServer(async (req, res) => {
 		console.log('💥 Perform action: ' + action);
 
 		switch (action) {
+			case 'internalize': {
+
+
+
+				downloadableRequests.forEach(function(downloadable) {
+
+					// Download it
+					if (!fs.existsSync(downloadable.newDir)) fs.mkdirSync(downloadable.newDir);
+					fs.writeFileSync(downloadable.newUrl, downloadable.buffer);
+
+				});
+
+
+
+				const internalized = downloadedFiles.length ? true : false;
+
+
+				// JSON OUTPUT
+				if (output == "JSON") {
+
+
+					res.writeHead(200, {
+						'content-type': 'application/json',
+					});
+					res.end(JSON.stringify({
+						status: (internalized ? 'success' : 'error'),
+						downloadedFiles: downloadedFiles
+					}, null, '\t'));
+
+
+
+				// PRINT TO THE PAGE
+				}
+
+
+
+
+
+
+
+
+
+
+
+				break;
+			}
 			case 'screenshot': {
 
 				const thumbWidth = parseInt(searchParams.get('thumbWidth'), 10) || null;
@@ -558,60 +611,6 @@ require('http').createServer(async (req, res) => {
 
 
 				}
-
-
-
-
-				break;
-			}
-			case 'internalize': {
-
-
-
-/*
-				downloadedFiles.forEach(function(downloadable) {
-
-
-
-					if (!fs.existsSync(downloadable.newDir)) fs.mkdirSync(downloadable.newDir);
-
-					const resp = page.waitForResponse(downloadable.remoteUrl);
-					const buffer = resp.buffer();
-					fs.writeFileSync(downloadable.newUrl, buffer);
-
-
-
-				});
-*/
-
-
-
-				const internalized = downloadedFiles.length ? true : false;
-
-
-				// JSON OUTPUT
-				if (output == "JSON") {
-
-
-					res.writeHead(200, {
-						'content-type': 'application/json',
-					});
-					res.end(JSON.stringify({
-						status: (internalized ? 'success' : 'error'),
-						downloadedFiles: downloadedFiles
-					}, null, '\t'));
-
-
-
-				// PRINT TO THE PAGE
-				}
-
-
-
-
-
-
-
 
 
 
