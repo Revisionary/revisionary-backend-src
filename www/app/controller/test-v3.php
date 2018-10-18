@@ -32,17 +32,13 @@ if ( $process_ID != '' ) {
 		$queue_ID = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.");
 
 
-		$process = new new Cocur\BackgroundProcess\BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$queue_ID);
+		$process = new Cocur\BackgroundProcess\BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v3.php '.$page_ID.' '.session_id().' '.$queue_ID);
 		$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
 		$process_ID = $process->getPid();
 
 		header('Location: /test-v3?pid='.$process_ID);
 
 	} else $process = BackgroundProcess::createFromPID( $process_ID );
-
-
-
-
 
 
 /*

@@ -23,6 +23,7 @@ const viewportHeight = argv.viewportHeight || 900;
 
 const pageScreenshot = argv.pageScreenshot || 'done';
 const projectScreenshot = argv.projectScreenshot || 'done';
+const format = argv.format === 'png' ? 'png' : 'jpeg';
 
 const htmlFile = argv.htmlFile || 'done';
 const CSSFilesList = argv.CSSFilesList || 'done';
@@ -32,7 +33,6 @@ const fontFilesList = argv.fontFilesList || 'done';
 const siteDir = argv.siteDir || 'done';
 const logDir = argv.logDir;
 
-const format = argv.format === 'png' ? 'png' : 'jpeg';
 const userAgent = argv.userAgent || false;
 const fullPage = argv.full || false;
 const delay = argv.delay || 0;
