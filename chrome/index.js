@@ -477,32 +477,40 @@ require('http').createServer(async (req, res) => {
 				let downloadedFiles = [];
 
 				// Check all the files
-				downloadableRequests.forEach(function(downloadable, downloadedIndex) { downloadedIndex++;
-
-					// Create the folder if not exist
-					if (!fs.existsSync(downloadable.newDir)) fs.mkdirSync(downloadable.newDir);
-
-					// Write to the file
-					fs.writeFileSync(downloadable.newUrl, downloadable.buffer);
+				downloadableRequests.forEach(function(downloadable, i) {
 
 
-
-					// Add to the list
-					downloadedFiles[downloadedIndex] = {
-						remoteUrl: downloadable.remoteUrl,
-						fileType: downloadable.fileType,
-						fileName: downloadable.fileName,
-						newDir: downloadable.newDir,
-						newFileName: downloadable.newFileName,
-						newUrl: downloadable.newUrl
-					};
+					try {
 
 
+						// Create the folder if not exist
+						if (!fs.existsSync(downloadable.newDir)) fs.mkdirSync(downloadable.newDir);
 
-					const downloadedCount = downloadedFiles.length;
-					let downloadableTotal = downloadableRequests.length;
+						// Write to the file
+						fs.writeFileSync(downloadable.newUrl, downloadable.buffer);
 
-					console.log(`⏬✅ (${downloadedIndex}/${downloadableTotal}) ${downloadable.fileType} ${downloadable.remoteUrl}`);
+
+						// Add to the list
+						downloadedFiles[i] = {
+							remoteUrl: downloadable.remoteUrl,
+							fileType: downloadable.fileType,
+							fileName: downloadable.fileName,
+							newDir: downloadable.newDir,
+							newFileName: downloadable.newFileName,
+							newUrl: downloadable.newUrl
+						};
+
+
+						const downloadedCount = downloadedFiles.length;
+						const downloadableTotal = downloadableRequests.length;
+						const downloadedIndex = i + 1;
+
+						console.log(`⏬✅ (${downloadedIndex}/${downloadableTotal}) ${downloadable.fileType} ${downloadable.remoteUrl}`);
+
+					} catch (err) {
+						console.log(`⏬❌ ${downloadable.fileType} ${downloadable.remoteUrl}` + err);
+					}
+
 
 				});
 
