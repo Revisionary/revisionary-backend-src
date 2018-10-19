@@ -268,87 +268,83 @@ require('http').createServer(async (req, res) => {
 					reqCount++;
 
 
-					// Internalization
-					if (action == "internalize") {
 
-						// If on the same host, or provided by a CDN
-						if (
-							parsedRemoteUrl.hostname == parsedUrl.hostname ||
-							cdnDetector.detectFromHostname(parsedUrl.hostname) != null
-						) {
+					// If on the same host, or provided by a CDN
+					if (
+						parsedRemoteUrl.hostname == parsedUrl.hostname ||
+						cdnDetector.detectFromHostname(parsedUrl.hostname) != null
+					) {
 
-							let shouldDownload = true;
-							let newFileName = "noname.txt";
-							let newDir = "site/temp/";
+						let shouldDownload = true;
+						let newFileName = "noname.txt";
+						let newDir = "site/temp/";
 
 
-							// HTML File
-							if (resourceType == 'document' && htmlCount == 0) {
+						// HTML File
+						if (resourceType == 'document' && htmlCount == 0) {
 
-								htmlCount++;
-								newDir = "site/";
-								newFileName = 'index.html';
+							htmlCount++;
+							newDir = "site/";
+							newFileName = 'index.html';
 
-							}
+						}
 
-							// CSS Files
-							else if (fileType == 'stylesheet') {
+						// CSS Files
+						else if (fileType == 'stylesheet') {
 
-								cssCount++;
-								newDir = "site/css/";
-								newFileName = cssCount + '.' + fileExtension;
+							cssCount++;
+							newDir = "site/css/";
+							newFileName = cssCount + '.' + fileExtension;
 
-							}
+						}
 
-							// JS Files
-							else if (fileType == 'script') {
+						// JS Files
+						else if (fileType == 'script') {
 
-								jsCount++;
-								newDir = "site/js/";
-								newFileName = jsCount + '.' + fileExtension;
+							jsCount++;
+							newDir = "site/js/";
+							newFileName = jsCount + '.' + fileExtension;
 
-							}
+						}
 
-							// Font Files
-							else if (fileType == 'font') {
+						// Font Files
+						else if (fileType == 'font') {
 
-								fontCount++;
-								newDir = "site/font/";
-								newFileName = fileName;
+							fontCount++;
+							newDir = "site/font/";
+							newFileName = fileName;
 
-							}
+						}
 
-							// If none of them
-							else {
+						// If none of them
+						else {
 
-								shouldDownload = false;
-								console.log(`📄❌ NOT ALLOWED TYPE: ${fileType} ${fileName} ${shortURL}`);
+							shouldDownload = false;
+							console.log(`📄❌ NOT ALLOWED TYPE: ${fileType} ${fileName} ${shortURL}`);
 
-							}
+						}
 
 
 
-							// Add to the list
-							if (shouldDownload) {
+						// Add to the list
+						if (shouldDownload) {
 
-								downloadableRequests[downloadableRequests.length] = {
-									remoteUrl: url,
-									fileType: fileType,
-									fileName: fileName,
-									newDir: newDir,
-									newFileName: newFileName,
-									newUrl: newDir + newFileName,
-									buffer: null
-								};
-								console.log('📄📋 #'+downloadableRequests.length+' '+fileType.toUpperCase()+' to Download: ', fileName + ' -> ' + newFileName);
+							downloadableRequests[downloadableRequests.length] = {
+								remoteUrl: url,
+								fileType: fileType,
+								fileName: fileName,
+								newDir: newDir,
+								newFileName: newFileName,
+								newUrl: newDir + newFileName,
+								buffer: null
+							};
+							console.log('📄📋 #'+downloadableRequests.length+' '+fileType.toUpperCase()+' to Download: ', fileName + ' -> ' + newFileName);
 
-							}
+						}
 
 
-						// If not on our host !!!
-						} else console.log(`📄❌ OTHER HOST FILE ${fileType} ${shortURL}`);
-
-					} // Internalization
+					// If not on our host !!!
+					} else console.log(`📄❌ OTHER HOST FILE ${fileType} ${shortURL}`);
 
 
 				} // If request allowed
@@ -388,7 +384,7 @@ require('http').createServer(async (req, res) => {
 
 				var downloadable = downloadableRequests.find(function(req) { return req.remoteUrl == url ? true : false; });
 
-				if ( action == "internalize" && downloadable && !url.startsWith('data:') && response.ok ) {
+				if ( downloadable && !url.startsWith('data:') && response.ok ) {
 
 					var downloadedIndex = downloadableRequests.indexOf(downloadable);
 
@@ -452,11 +448,7 @@ require('http').createServer(async (req, res) => {
 		} else {
 
 
-			if (action == "internalize") {
-
-				downloadableRequests = cache.get('downloadableRequests');
-
-			}
+			downloadableRequests = cache.get('downloadableRequests');
 
 
 			// Set the viewport
@@ -524,95 +516,6 @@ require('http').createServer(async (req, res) => {
 					status: (downloadedFiles.length ? 'success' : 'error'),
 					downloadedFiles: downloadedFiles
 				}, null, '\t'));
-
-
-				break;
-			}
-			case 'screenshot': {
-
-				const thumbWidth = parseInt(searchParams.get('thumbWidth'), 10) || null;
-				const fullPage = searchParams.get('fullPage') == 'true' || false;
-				const clipSelector = searchParams.get('clipSelector');
-
-
-				let screenshot;
-				if (clipSelector) {
-					const handle = await page.$(clipSelector);
-					if (handle) {
-						screenshot = await pTimeout(handle.screenshot({
-							type: 'jpeg',
-						}), 20 * 1000, 'Screenshot timed out');
-					}
-				} else {
-					screenshot = await pTimeout(page.screenshot({
-						type: 'jpeg',
-						fullPage,
-					}), 20 * 1000, 'Screenshot timed out');
-				}
-
-
-
-
-				// Page Screenshot Saving
-				const pageCaptured = false;
-				const pageScreenshotDir = searchParams.get('pageScreenshotDir');
-				if (pageScreenshotDir) {
-					if (!fs.existsSync(pageScreenshotDir)) fs.mkdirSync(pageScreenshotDir);
-					pageCaptured = fs.writeFileSync(pageScreenshotDir + 'page.jpg', screenshot);
-				}
-
-				// Project Screenshot
-				const projectCaptured = false;
-				const projectScreenshotDir = searchParams.get('projectScreenshotDir');
-				if (projectScreenshotDir) {
-					if (!fs.existsSync(projectScreenshotDir)) fs.mkdirSync(projectScreenshotDir);
-					projectCaptured = fs.writeFileSync(projectScreenshotDir + 'project.jpg', screenshot);
-				}
-
-
-				// JSON OUTPUT
-				if (output == "JSON") {
-
-
-					res.writeHead(200, {
-						'content-type': 'application/json',
-					});
-					res.end(JSON.stringify({
-						status: (pageCaptured || projectCaptured ? 'success' : 'error'),
-						screenshots: {
-							page: (pageCaptured ? pageScreenshotDir + 'page.jpg' : 'not captured'),
-							project: (projectCaptured ? projectScreenshotDir + 'project.jpg' : 'not captured')
-						}
-					}, null, '\t'));
-
-
-
-				// PRINT TO THE PAGE
-				} else {
-
-
-					res.writeHead(200, {
-						'content-type': 'image/jpeg',
-						'cache-control': 'public,max-age=31536000',
-					});
-
-					if (thumbWidth && thumbWidth < width) {
-
-						const image = await jimp.read(screenshot);
-						image.resize(thumbWidth, jimp.AUTO).quality(90).getBuffer(jimp.MIME_JPEG, (err, buffer) => {
-							res.end(buffer, 'binary');
-						});
-
-					} else {
-
-						res.end(screenshot, 'binary');
-
-					}
-
-
-				}
-
-
 
 
 				break;
@@ -688,9 +591,13 @@ require('http').createServer(async (req, res) => {
 				break;
 			}
 			default: {
+
+
+
 				const thumbWidth = parseInt(searchParams.get('thumbWidth'), 10) || null;
 				const fullPage = searchParams.get('fullPage') == 'true' || false;
 				const clipSelector = searchParams.get('clipSelector');
+
 
 				let screenshot;
 				if (clipSelector) {
@@ -707,19 +614,71 @@ require('http').createServer(async (req, res) => {
 					}), 20 * 1000, 'Screenshot timed out');
 				}
 
-				res.writeHead(200, {
-					'content-type': 'image/jpeg',
-					'cache-control': 'public,max-age=31536000',
-				});
 
-				if (thumbWidth && thumbWidth < width) {
-					const image = await jimp.read(screenshot);
-					image.resize(thumbWidth, jimp.AUTO).quality(90).getBuffer(jimp.MIME_JPEG, (err, buffer) => {
-						res.end(buffer, 'binary');
-					});
-				} else {
-					res.end(screenshot, 'binary');
+
+
+				// Page Screenshot Saving
+				let pageCaptured = false;
+				const pageScreenshotDir = searchParams.get('pageScreenshotDir');
+				if (pageScreenshotDir) {
+					if (!fs.existsSync(pageScreenshotDir)) fs.mkdirSync(pageScreenshotDir);
+					pageCaptured = fs.writeFileSync(pageScreenshotDir + 'page.jpg', screenshot);
 				}
+
+				// Project Screenshot
+				let projectCaptured = false;
+				const projectScreenshotDir = searchParams.get('projectScreenshotDir');
+				if (projectScreenshotDir) {
+					if (!fs.existsSync(projectScreenshotDir)) fs.mkdirSync(projectScreenshotDir);
+					projectCaptured = fs.writeFileSync(projectScreenshotDir + 'project.jpg', screenshot);
+				}
+
+
+				// JSON OUTPUT
+				if (output == "JSON") {
+
+
+					res.writeHead(200, {
+						'content-type': 'application/json',
+					});
+					res.end(JSON.stringify({
+						status: (pageCaptured || projectCaptured ? 'success' : 'error'),
+						screenshots: {
+							page: (pageCaptured ? pageScreenshotDir + 'page.jpg' : 'not captured'),
+							project: (projectCaptured ? projectScreenshotDir + 'project.jpg' : 'not captured')
+						}
+					}, null, '\t'));
+
+
+
+				// PRINT TO THE PAGE
+				} else {
+
+
+					res.writeHead(200, {
+						'content-type': 'image/jpeg',
+						'cache-control': 'public,max-age=31536000',
+					});
+
+					if (thumbWidth && thumbWidth < width) {
+
+						const image = await jimp.read(screenshot);
+						image.resize(thumbWidth, jimp.AUTO).quality(90).getBuffer(jimp.MIME_JPEG, (err, buffer) => {
+							res.end(buffer, 'binary');
+						});
+
+					} else {
+
+						res.end(screenshot, 'binary');
+
+					}
+
+
+				}
+
+
+
+
 			}
 		}
 
