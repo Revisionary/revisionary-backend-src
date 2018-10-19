@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const { URL } = require('url');
+const urlParser = require('url');
 let {
 	DEBUG,
 	HEADFUL,
@@ -39,38 +40,6 @@ const truncate = (str, len) => str.length > len ? str.slice(0, len) + '…' : st
 
 
 
-
-
-
-
-
-
-// REVISIONARY - OLD CLI Args
-/*
-const pageScreenshot = argv.pageScreenshot || 'done';
-const projectScreenshot = argv.projectScreenshot || 'done';
-
-const htmlFile = argv.htmlFile || 'done';
-const CSSFilesList = argv.CSSFilesList || 'done';
-const JSFilesList = argv.JSFilesList || 'done';
-const fontFilesList = argv.fontFilesList || 'done';
-
-const siteDir = argv.siteDir || 'done';
-const logDir = argv.logDir;
-
-const format = argv.format === 'png' ? 'png' : 'jpeg';
-const fullPage = argv.full || false;
-const delay = argv.delay || 0;
-*/
-
-
-
-
-
-
-
-
-
 let browser;
 
 require('http').createServer(async (req, res) => {
@@ -105,8 +74,26 @@ require('http').createServer(async (req, res) => {
 		return;
 	}
 
-	const [_, action, url] = req.url.match(/^\/(screenshot|render|pdf|internalize)?\/?(.*)/i) || ['', '', ''];
+	if (req.url == '/start') {
+		res.writeHead(200, {
+			'content-type': 'application/json',
+		});
+		res.end(JSON.stringify({
+			pages: cache.keys(),
+			process: {
+				versions: process.versions,
+				memoryUsage: process.memoryUsage(),
+			},
+		}, null, '\t'));
+		return;
+	}
 
+	const queryData = urlParser.parse(req.url, true).query;
+	const action = queryData.action || '';
+	const url = queryData.url || '';
+
+
+	// URL CHECKS
 	if (!url) {
 		res.writeHead(400, {
 			'content-type': 'text/plain',
@@ -114,9 +101,17 @@ require('http').createServer(async (req, res) => {
 		res.end('Something is wrong. Missing URL.');
 		return;
 	}
-	const remoteUrl = url;
-	const parsedRemoteUrl = new URL(remoteUrl);
 
+	if (!/^https?:\/\//i.test(url)) {
+		res.writeHead(400, {
+			'content-type': 'text/plain',
+		});
+		res.end('Invalid URL.');
+		return;
+	}
+
+
+	// TOO MUCH CACHE
 	if (cache.itemCount > 20) {
 		res.writeHead(420, {
 			'content-type': 'text/plain',
@@ -125,15 +120,18 @@ require('http').createServer(async (req, res) => {
 		return;
 	}
 
+
 	let page, pageURL;
 	try {
-		if (!/^https?:\/\//i.test(url)) {
-			throw new Error('Invalid URL');
-		}
 
+
+		console.log('🌎 URL: ', url, ' 💥 Action: ', action);
+
+
+		const parsedRemoteUrl = new URL(url);
 		const { origin,	hostname, pathname, searchParams } = new URL(url);
 		const path = decodeURIComponent(pathname);
-		const output = searchParams.get('output');
+		const output = queryData.output;
 
 		await new Promise((resolve, reject) => {
 			const req = http.request({
@@ -156,9 +154,9 @@ require('http').createServer(async (req, res) => {
 
 		pageURL = origin + path;
 		let actionDone = false;
-		const width = parseInt(searchParams.get('width'), 10) || 1024;
-		const height = parseInt(searchParams.get('height'), 10) || 768;
-		const siteDir = searchParams.get('sitedir') || 'site/';
+		const width = parseInt(queryData.width, 10) || 1024;
+		const height = parseInt(queryData.height, 10) || 768;
+		const siteDir = queryData.sitedir || 'site/';
 
 		let downloadableRequests = [];
 
@@ -272,7 +270,7 @@ require('http').createServer(async (req, res) => {
 
 					// If on the same host, or provided by a CDN
 					if (
-						parsedRemoteUrl.hostname == parsedUrl.hostname ||
+						hostname == parsedUrl.hostname ||
 						cdnDetector.detectFromHostname(parsedUrl.hostname) != null
 					) {
 
@@ -532,7 +530,7 @@ require('http').createServer(async (req, res) => {
 				break;
 			}
 			case 'render': {
-				const raw = searchParams.get('raw') || false;
+				const raw = queryData.raw || false;
 
 				const content = await pTimeout(raw ? page.content() : page.evaluate(() => {
 					let content = '';
@@ -586,8 +584,8 @@ require('http').createServer(async (req, res) => {
 				break;
 			}
 			case 'pdf': {
-				const format = searchParams.get('format') || null;
-				const pageRanges = searchParams.get('pageRanges') || null;
+				const format = queryData.format || null;
+				const pageRanges = queryData.pageRanges || null;
 
 				const pdf = await pTimeout(page.pdf({
 					format,
@@ -605,9 +603,9 @@ require('http').createServer(async (req, res) => {
 
 
 
-				const thumbWidth = parseInt(searchParams.get('thumbWidth'), 10) || null;
-				const fullPage = searchParams.get('fullPage') == 'true' || false;
-				const clipSelector = searchParams.get('clipSelector');
+				const thumbWidth = parseInt(queryData.thumbWidth, 10) || null;
+				const fullPage = queryData.fullPage == 'true' || false;
+				const clipSelector = queryData.clipSelector;
 
 
 				let screenshot;
@@ -630,7 +628,7 @@ require('http').createServer(async (req, res) => {
 
 				// Page Screenshot Saving
 				let pageCaptured = false;
-				const pageScreenshotDir = searchParams.get('pageScreenshotDir');
+				const pageScreenshotDir = queryData.pageScreenshotDir;
 				if (pageScreenshotDir) {
 					if (!fs.existsSync(pageScreenshotDir)) fs.mkdirSync(pageScreenshotDir);
 					pageCaptured = fs.writeFileSync(pageScreenshotDir + 'page.jpg', screenshot);
@@ -638,7 +636,7 @@ require('http').createServer(async (req, res) => {
 
 				// Project Screenshot
 				let projectCaptured = false;
-				const projectScreenshotDir = searchParams.get('projectScreenshotDir');
+				const projectScreenshotDir = queryData.projectScreenshotDir;
 				if (projectScreenshotDir) {
 					if (!fs.existsSync(projectScreenshotDir)) fs.mkdirSync(projectScreenshotDir);
 					projectCaptured = fs.writeFileSync(projectScreenshotDir + 'project.jpg', screenshot);

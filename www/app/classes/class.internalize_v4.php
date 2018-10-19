@@ -13,6 +13,9 @@ class Internalize_v4 {
 
 
 
+	// All downloaded files
+	public $downloadedFiles;
+
 	// HTML file to download
 	public $downloadedHTML = array();
 
@@ -122,15 +125,80 @@ class Internalize_v4 {
 
 
 		// VARIABLES
-
-		// Get page and project IDs
 		$page_ID = $this->page_ID;
-		$parent_page_ID = Page::ID($page_ID)->getPageInfo('parent_page_ID');
-		$project_ID = Page::ID($page_ID)->getPageInfo('project_ID');
+		$url = Page::ID($page_ID)->remoteUrl;
+		$pageDir = Page::ID($page_ID)->pageDir;
+		//$logDir = Page::ID($page_ID)->logDir;
+
+		$deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
+		$width = Device::ID($deviceID)->getDeviceInfo('device_width');
+		$height = Device::ID($deviceID)->getDeviceInfo('device_height');
 
 
-		// Screenshots and download lists
-		$siteDir = Page::ID($page_ID)->pageDir;
+		$processLink = "http://chrome:3000/";
+		$processLink .= "?url=".urlencode($url);
+		$processLink .= "&action=internalize";
+		$processLink .= "&width=$width&height=$height";
+		$processLink .= "&sitedir=".urlencode($pageDir."/");
+
+
+		$ctx = stream_context_create(array('http'=>
+		    array(
+		        'timeout' => 120,  //120 Seconds is 2 Minutes
+		    )
+		));
+
+
+		// Send the request
+		$data = json_decode(file_get_contents($processLink, false, $ctx));
+
+
+		// If not successful
+		if (!$data || $data->status != "success") {
+
+
+			// Update the queue status
+			$queue->update_status($this->queue_ID, "error", "Downloaded JS file list is not exist.");
+
+
+			// Log
+			$logger->error("Downloaded JS file list is not exist.");
+
+
+			return false;
+		}
+
+
+		// Register the data
+		$this->downloadedFiles = $data;
+
+
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "Downloaded files list is ready.");
+
+		// Log
+		$logger->info("Downloaded files list is ready.");
+
+
+		return true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		$htmlFile = Page::ID($page_ID)->pageFile;
 		$CSSFilesList = $siteDir."/logs/css.log";

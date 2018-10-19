@@ -70,43 +70,39 @@
 </style>
 <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAqFBMVEUAZnr///8ETk5gkJ0BYXFcfn4DWGD2+PgBY3X5+vq5xcVEgJABYnQCXWk8aGgCW2YDUlf8/f3w9PXq7/Dh6eva4+bf5OS6zNK6ys2iu8Odr6+LoaF9lpZKg5NkhIRQdXUCXmwKT0/n7e/X3+HR3eHX3t7K2Ny/0NXAy8uwxcu/ysqywMCbt7+Ztb2hsrKTp6h5k5MxdocabH8OZnlDbW0CX20qXV0SUlLsNjc3AAAAwElEQVQ4y83Rxw6CQBSF4fGI9GYX6fbey/u/mTAhYXMvKxP9VyfhS5jMiD/KWi2Gg1lP6w3XgUWBdquuu73SoE6LaVA3v9Ngegn3mlxnmwQdAKlRrpHPAO/pTORB3w4NFCGOcqY+Cw5yJmBBIOcLNgNu/XL1AYUG8ViuDchfjJaD6ipd+I03GQJqAzBOOaCzwNi5ABz6LaIocXMUeYJ7C5mqCw54WaZUX7mbLPoRsMYT0zQfBWBTUNQEbLVMF1/vA1j8CpImG+ecAAAAAElFTkSuQmCC">
 <h1>Puppetron</h1>
-<form id="formtron">
-  <input type="url" name="url" required placeholder="Enter a URL">
+<form id="formtron" method="get" action="start">
+  <input type="url" name="url" required placeholder="Enter a URL"><br/>
+
+  <select name="action" id="action">
+	  <option value="internalize">Internalize</option>
+	  <option value="screenshot">Screenshot</option>
+	  <option value="render">Render</option>
+	  <option value="pdf">PDF</option>
+  </select>
+
+  <input id="width" type="hidden" name="width" value="1440" />
+  <input id="height" type="hidden" name="height" value="900" />
   <br/>
-  <button name="internalize">Internalize</button>
-  <button name="screenshot">Screenshot</button>
-  <button name="render">Render</button>
-  <button name="pdf">PDF</button>
+  <button>Start</button>
 </form>
 <footer><p>Very inspired by <a href="https://github.com/GoogleChrome/rendertron" target="_blank">Rendertron</a>. Documentation and project on <a href="https://github.com/cheeaun/puppetron" target="_blank">GitHub</a>.</p></footer>
+
+
 <script>
-function encode(url){
-  return url.replace(/\?.*/i, function(m){
-    return encodeURIComponent(m);
-  });
-}
-var action;
 formtron.onsubmit = function(e){
-  e.preventDefault();
-  var url = '/' + action + '/' + encode(formtron.url.value);
-  if (action == 'screenshot' || action == 'internalize'){
-    location.href = url + '?width=' + window.innerWidth + '&height=' + window.innerHeight;
-  } else {
-    location.href = url;
-  }
+
+	width.value = window.innerWidth;
+	height.value = window.innerHeight;
+
+	if (action.value == "internalize" || action.value == "screenshot") {
+		width.disabled = height.disabled = false;
+	} else {
+		width.disabled = height.disabled = true;
+	}
+
+	//e.preventDefault();
 }
-formtron.internalize.onclick = function(){
-  action = 'internalize';
-}
-formtron.screenshot.onclick = function(){
-  action = 'screenshot';
-}
-formtron.render.onclick = function(){
-  action = 'render';
-}
-formtron.pdf.onclick = function(){
-  action = 'pdf';
-}
+
 var protocol = 'http://';
 formtron.url.onpaste = function(e){
   const text = e.clipboardData.getData('text');
@@ -122,7 +118,7 @@ formtron.url.onfocus = function(){
 }
 formtron.url.onblur = function(){
   if (formtron.url.value.trim() == protocol) {
-    formtron.url.value = '';
+    formtron.url.value = 'https://www.twelve12.com';
   }
 }
 </script>
