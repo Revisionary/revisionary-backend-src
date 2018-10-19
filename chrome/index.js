@@ -448,7 +448,7 @@ require('http').createServer(async (req, res) => {
 		} else {
 
 
-			downloadableRequests = cache.get('downloadableRequests');
+			downloadableRequests = cache.get(pageURL + 'downloadableRequests');
 
 
 			// Set the viewport
@@ -709,8 +709,8 @@ require('http').createServer(async (req, res) => {
 			});
 		}
 
-		if (!cache.has('downloadableRequests')) {
-			cache.set('downloadableRequests', downloadableRequests);
+		if (!cache.has(pageURL + 'downloadableRequests')) {
+			cache.set(pageURL + 'downloadableRequests', downloadableRequests);
 		}
 
 
@@ -723,7 +723,7 @@ require('http').createServer(async (req, res) => {
 			page.close();
 		}
 		cache.del(pageURL);
-		cache.del('downloadableRequests');
+		cache.del(pageURL + 'downloadableRequests');
 		const { message = '' } = e;
 		res.writeHead(400, {
 			'content-type': 'text/plain',
