@@ -73,6 +73,7 @@
 <form id="formtron">
   <input type="url" name="url" required placeholder="Enter a URL">
   <br/>
+  <button name="internalize">Internalize</button>
   <button name="screenshot">Screenshot</button>
   <button name="render">Render</button>
   <button name="pdf">PDF</button>
@@ -88,11 +89,14 @@ var action;
 formtron.onsubmit = function(e){
   e.preventDefault();
   var url = '/' + action + '/' + encode(formtron.url.value);
-  if (action == 'screenshot'){
+  if (action == 'screenshot' || action == 'internalize'){
     location.href = url + '?width=' + window.innerWidth + '&height=' + window.innerHeight;
   } else {
     location.href = url;
   }
+}
+formtron.internalize.onclick = function(){
+  action = 'internalize';
 }
 formtron.screenshot.onclick = function(){
   action = 'screenshot';
