@@ -45,7 +45,7 @@ const truncate = (str, len) => str.length > len ? str.slice(0, len) + '…' : st
 
 
 
-// REVISIONARY - CLI Args
+// REVISIONARY - OLD CLI Args
 /*
 const pageScreenshot = argv.pageScreenshot || 'done';
 const projectScreenshot = argv.projectScreenshot || 'done';
@@ -158,6 +158,7 @@ require('http').createServer(async (req, res) => {
 		let actionDone = false;
 		const width = parseInt(searchParams.get('width'), 10) || 1024;
 		const height = parseInt(searchParams.get('height'), 10) || 768;
+		const siteDir = searchParams.get('sitedir') || 'site/';
 
 		let downloadableRequests = [];
 
@@ -277,14 +278,14 @@ require('http').createServer(async (req, res) => {
 
 						let shouldDownload = true;
 						let newFileName = "noname.txt";
-						let newDir = "site/temp/";
+						let newDir = "temp/";
 
 
 						// HTML File
 						if (resourceType == 'document' && htmlCount == 0) {
 
 							htmlCount++;
-							newDir = "site/";
+							newDir = "";
 							newFileName = 'index.html';
 
 						}
@@ -293,7 +294,7 @@ require('http').createServer(async (req, res) => {
 						else if (fileType == 'stylesheet') {
 
 							cssCount++;
-							newDir = "site/css/";
+							newDir = "css/";
 							newFileName = cssCount + '.' + fileExtension;
 
 						}
@@ -302,7 +303,7 @@ require('http').createServer(async (req, res) => {
 						else if (fileType == 'script') {
 
 							jsCount++;
-							newDir = "site/js/";
+							newDir = "js/";
 							newFileName = jsCount + '.' + fileExtension;
 
 						}
@@ -311,7 +312,7 @@ require('http').createServer(async (req, res) => {
 						else if (fileType == 'font') {
 
 							fontCount++;
-							newDir = "site/font/";
+							newDir = "font/";
 							newFileName = fileName;
 
 						}
@@ -329,16 +330,18 @@ require('http').createServer(async (req, res) => {
 						// Add to the list
 						if (shouldDownload) {
 
+							// Prepend the site directory
+							newDir = siteDir + newDir;
+
 							downloadableRequests[downloadableRequests.length] = {
 								remoteUrl: url,
 								fileType: fileType,
 								fileName: fileName,
 								newDir: newDir,
 								newFileName: newFileName,
-								newUrl: newDir + newFileName,
 								buffer: null
 							};
-							console.log('📄📋 #'+downloadableRequests.length+' '+fileType.toUpperCase()+' to Download: ', fileName + ' -> ' + newFileName);
+							console.log('📄📋 #'+downloadableRequests.length+' '+fileType.toUpperCase()+' to Download: ', fileName + ' -> ' + siteDir + newDir + newFileName);
 
 						}
 
@@ -398,7 +401,7 @@ require('http').createServer(async (req, res) => {
 
 
 						//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
-						console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} ${url}`);
+						console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} ${url} -> ` + downloadableRequests[downloadedIndex].newUrl);
 
 					}, e => {
 						console.error(`📋❌${response.status()} ${response.url()} failed: ${e}`);
@@ -482,12 +485,11 @@ require('http').createServer(async (req, res) => {
 
 					try {
 
-
 						// Create the folder if not exist
 						if (!fs.existsSync(downloadable.newDir)) fs.mkdirSync(downloadable.newDir);
 
 						// Write to the file
-						fs.writeFileSync(downloadable.newUrl, downloadable.buffer);
+						fs.writeFileSync(downloadable.newDir + downloadable.newFileName, downloadable.buffer);
 
 
 						// Add to the list
@@ -497,7 +499,6 @@ require('http').createServer(async (req, res) => {
 							fileName: downloadable.fileName,
 							newDir: downloadable.newDir,
 							newFileName: downloadable.newFileName,
-							newUrl: downloadable.newUrl
 						};
 
 
@@ -505,10 +506,12 @@ require('http').createServer(async (req, res) => {
 						const downloadableTotal = downloadableRequests.length;
 						const downloadedIndex = i + 1;
 
-						console.log(`⏬✅ (${downloadedIndex}/${downloadableTotal}) ${downloadable.fileType} ${downloadable.remoteUrl}`);
+						console.log(`⏬✅ (${downloadedIndex}/${downloadableTotal}) ${downloadable.fileType} ${downloadable.remoteUrl} -> ` + downloadable.newDir + downloadable.newFileName);
 
 					} catch (err) {
-						console.log(`⏬❌ ${downloadable.fileType} ${downloadable.remoteUrl}` + err);
+
+						console.error(`⏬❌ ${downloadable.fileType} ${downloadable.remoteUrl} -> ` + downloadable.newDir + downloadable.newFileName + ' ERROR: ' + err);
+
 					}
 
 
