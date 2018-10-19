@@ -8,6 +8,7 @@ services:
             - db
             - composer
             - nodejs
+            - chrome
         ports:
             - "80:80"
             - "443:443"
@@ -78,13 +79,15 @@ services:
         volumes:
             - ./www:/var/www/html
             - ./www/app/bgprocess:/var/www/html/app/bgprocess
-#    chrome:
-#        build: ./chrome
-#        container_name: chrome
-#        working_dir: /usr/src
-#        restart: on-failure
-#        ports:
-#            - "8080:3000"
+    chrome:
+        build: ./chrome
+        container_name: chrome
+        working_dir: /usr/src
+        restart: on-failure
+        ports:
+            - "8080:3000"
+        volumes:
+            - ./www/assets/cache:/var/www/html/assets/cache
 volumes:
     persistent:
 networks:

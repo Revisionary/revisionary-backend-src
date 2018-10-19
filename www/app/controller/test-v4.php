@@ -4,6 +4,9 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 //header("content-type: image/png");
 //echo file_get_contents('http://chrome:3000/screenshot/http://tr.bilaltas.net/');
 
+header("content-type: application/json");
+echo file_get_contents('http://chrome:3000/internalize/https://www.twelve12.com/?fullPage=false&width=1440&height=900&sitedir=/var/www/html/assets/cache/');
+
 
 
 

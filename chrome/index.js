@@ -429,7 +429,7 @@ require('http').createServer(async (req, res) => {
 			await Promise.race([
 				responsePromise,
 				page.goto(pageURL, {
-					waitUntil: 'networkidle0',
+					waitUntil: 'networkidle2',
 				})
 			]);
 
