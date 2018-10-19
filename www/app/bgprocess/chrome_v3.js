@@ -331,7 +331,7 @@ fs.writeFileSync(logDir+'/_font.log', '');
 
 	// Navigate to the URL
 	const response = await page.goto(url, {
-        waitUntil: 'networkidle0',
+        waitUntil: 'networkidle2',
         timeout: 3000000
     });
 
