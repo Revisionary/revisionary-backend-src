@@ -1023,7 +1023,7 @@
 $(function(){
 
 
-	var loadingProcessID = newProcess();
+	var loadingProcessID = newProcess(false);
 	checkPageStatus(
 		<?=$_url[1]?>,
 		<?=is_numeric($queue_ID) ? $queue_ID : "''"?>,

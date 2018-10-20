@@ -236,9 +236,6 @@ class Page {
 			// DAMAGED PAGES
 			if (
 				!file_exists($this->pageFile) ||
-				!file_exists($this->logDir."/css.log") ||
-				!file_exists($this->logDir."/js.log") ||
-				!file_exists($this->logDir."/font.log") ||
 				!file_exists($this->logDir."/html-filter.log") ||
 				!file_exists($this->logDir."/css-filter.log")
 			)
@@ -251,12 +248,9 @@ class Page {
 		}
 
 
-
-		// 25% - DOWNLOADING THE PAGE
+		// 10% - PAGE IS DOWNLOADING
 		if (
-			file_exists($this->logDir."/_css.log") ||
-			file_exists($this->logDir."/_js.log") ||
-			file_exists($this->logDir."/_font.log")
+			file_exists($this->pageDir)
 		)
 			$process_status = [
 				"status" => "downloading-page",
@@ -271,21 +265,8 @@ class Page {
 		)
 			$process_status = [
 				"status" => "downloaded-page",
-				"description" => "Page is downloaded. Waiting for the styles & scripts",
+				"description" => "Page is downloaded",
 				"percentage" => 25
-			];
-
-
-		// 35% - STYLES ARE DOWNLOADED
-		if (
-			file_exists($this->logDir."/css.log") &&
-			file_exists($this->logDir."/js.log") &&
-			file_exists($this->logDir."/font.log")
-		)
-			$process_status = [
-				"status" => "downloaded-styles",
-				"description" => "Styles & Scripts are downloaded",
-				"percentage" => 35
 			];
 
 
@@ -297,13 +278,8 @@ class Page {
 				"percentage" => 50
 			];
 
-		if (file_exists($this->logDir."/__html-filter.log"))
-			$process_status = [
-				"status" => "updating-html-error",
-				"description" => "The page couldn't be updated",
-				"percentage" => 0
-			];
 
+		// 70% - PAGE UPDATED
 		if (file_exists($this->logDir."/html-filter.log"))
 			$process_status = [
 				"status" => "updated-html",
@@ -311,6 +287,13 @@ class Page {
 				"percentage" => 70
 			];
 
+		// 0% - HTML Filter Error
+		if (file_exists($this->logDir."/__html-filter.log"))
+			$process_status = [
+				"status" => "updating-html-error",
+				"description" => "The page couldn't be updated",
+				"percentage" => 0
+			];
 
 
 		// 75% - FIXING THE STYLES
@@ -321,6 +304,8 @@ class Page {
 				"percentage" => 75
 			];
 
+
+		// 95% - STYLES ARE PERFECTED
 		if (file_exists($this->logDir."/css-filter.log"))
 			$process_status = [
 				"status" => "updated-css",
@@ -328,6 +313,7 @@ class Page {
 				"percentage" => 95
 			];
 
+		// 0% - CSS Filter Error
 		if (file_exists($this->logDir."/__css-filter.log"))
 			$process_status = [
 				"status" => "updating-css-error",
@@ -339,9 +325,7 @@ class Page {
 
 		// 100% - READY
 		if (
-			file_exists($this->logDir."/css.log") &&
-			file_exists($this->logDir."/js.log") &&
-			file_exists($this->logDir."/font.log") &&
+			file_exists($this->pageFile) &&
 			file_exists($this->logDir."/html-filter.log") &&
 			file_exists($this->logDir."/css-filter.log")
 		)

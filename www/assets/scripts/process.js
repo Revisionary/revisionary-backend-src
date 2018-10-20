@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 
 // FUNCTION: Start Process
-function newProcess() { // Add timeout function here !!!
+function newProcess(preventWindowClose = true) { // Add timeout function here !!!
 
 	var newProcessID = processCount + 1;
 
@@ -48,9 +48,13 @@ function newProcess() { // Add timeout function here !!!
 
 
 	// Prevent closing window
-	window.onbeforeunload = function() {
-		return processExistsText;
-	};
+	if (preventWindowClose) {
+
+		window.onbeforeunload = function() {
+			return processExistsText;
+		};
+
+	}
 
 
 	console.log('Process Count: ', processCount);

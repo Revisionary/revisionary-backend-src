@@ -12,7 +12,6 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 
 $page_ID = 9;
 
-/*
 $deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
 $width = Device::ID($deviceID)->getDeviceInfo('device_width');
 $height = Device::ID($deviceID)->getDeviceInfo('device_height');
@@ -25,19 +24,20 @@ $link .= "&width=$width&height=$height";
 $link .= "&sitedir=".urlencode(Page::ID($page_ID)->pageDir."/");
 
 
+/*
 //header("content-type: application/json");
 $data = json_decode(file_get_contents($link));
 
 echo "<pre>";
-print_r($data);
+print_r($data->downloadedFiles);
 echo "</pre>";
+*/
 
 
 echo "THE LINK: $link";
 echo "<br /><br /><br />";
 
 die();
-*/
 
 
 
@@ -63,13 +63,14 @@ if ( !empty($process_ID) ) {
 		));
 
 
-		// Add a new job to the queue
+		// Add a new job to the queue !
 		$queue = new Queue();
 		$queueReturn = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.", session_id());
 		$process_ID = $queueReturn['process_ID'];
 
 
 /*
+		// Run Directly?
 		$process = new Cocur\BackgroundProcess\BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v4.php '.$page_ID.' '.session_id().' '.$queue_ID);
 		$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
 		$process_ID = $process->getPid();

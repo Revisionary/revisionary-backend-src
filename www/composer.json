@@ -1,19 +1,9 @@
 {
     "require": {
-	    "mouf/nodejs-installer": "^1.0",
-        "jwage/purl": "^0.0.7",
+        "jwage/purl": "dev-master",
         "joshcam/mysqli-database-class": "dev-master",
-        "cocur/background-process": "^0.7.0",
+        "cocur/background-process": "dev-master",
         "katzgrau/klogger": "dev-master",
         "drewm/mailchimp-api": "dev-master"
-    },
-    "extra": {
-        "mouf": {
-            "nodejs": {
-                "version": "8.9.1",
-                "targetDir": "vendor/nodejs/nodejs",
-                "forceLocal": true
-            }
-        }
     }
 }

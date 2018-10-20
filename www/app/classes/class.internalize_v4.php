@@ -13,9 +13,6 @@ class Internalize_v4 {
 
 
 
-	// All downloaded files
-	public $downloadedFiles;
-
 	// HTML file to download
 	public $downloadedHTML = array();
 
@@ -98,18 +95,14 @@ class Internalize_v4 {
 		}
 
 		return true;
-
 	}
 
 
 
 	// 2. 	If job is ready to get done, open the site with Chrome
-	// 2.1. Download the HTML file
-	// 2.2. Download the CSS files
-	// 2.3. Download the fonts
-	// 2.4. Print all the downloaded resources
-	// 2.5. Take screenshots
-	// 2.6. Close the site
+	// 2.1. Download the HTML, CSS, JS and Font files
+	// 2.2. Take a screenshot for the page, and project if not exist
+	// 2.3. JSON Output all the downloaded files
 	public function browserWorks() {
 		global $db, $queue, $logger, $config;
 
@@ -118,23 +111,20 @@ class Internalize_v4 {
 
 		// Update the queue status
 		$queue->update_status($this->queue_ID, "working", "Browser job is starting.");
-
-		// Log
 		$logger->info("Browser job is starting.");
 
 
-
-		// VARIABLES
+		// Variables
 		$page_ID = $this->page_ID;
 		$url = Page::ID($page_ID)->remoteUrl;
 		$pageDir = Page::ID($page_ID)->pageDir;
-		//$logDir = Page::ID($page_ID)->logDir;
 
 		$deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
 		$width = Device::ID($deviceID)->getDeviceInfo('device_width');
 		$height = Device::ID($deviceID)->getDeviceInfo('device_height');
 
 
+		// Chrome container request link
 		$processLink = "http://chrome:3000/";
 		$processLink .= "?url=".urlencode($url);
 		$processLink .= "&action=internalize";
@@ -142,309 +132,62 @@ class Internalize_v4 {
 		$processLink .= "&sitedir=".urlencode($pageDir."/");
 
 
-		$ctx = stream_context_create(array('http'=>
+		// Send the request
+		$data = json_decode(file_get_contents($processLink, false, stream_context_create(array('http'=>
 		    array(
 		        'timeout' => 120,  //120 Seconds is 2 Minutes
 		    )
-		));
+		))));
 
 
-		// Send the request
-		$data = json_decode(file_get_contents($processLink, false, $ctx));
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "Browser job is done.");
+		$logger->info("Browser job is done.");
 
 
 		// If not successful
-		if (!$data || $data->status != "success") {
+		if (!$data || $data->status != "success" || count($data->downloadedFiles) == 0) {
 
 
 			// Update the queue status
 			$queue->update_status($this->queue_ID, "error", "Downloaded JS file list is not exist.");
-
-
-			// Log
 			$logger->error("Downloaded JS file list is not exist.");
 
 
 			return false;
 		}
-
-
-		// Register the data
-		$this->downloadedFiles = $data;
 
 
 		// Update the queue status
 		$queue->update_status($this->queue_ID, "working", "Downloaded files list is ready.");
-
-		// Log
-		$logger->info("Downloaded files list is ready.");
-
-
-		return true;
+		$logger->info("Downloaded files list is ready: ", $data->downloadedFiles);
 
 
 
+		// Parse and detect downloaded files
+		foreach($data->downloadedFiles as $file) {
+
+			$fileData = array(
+				'new_file_name' => $file->newFileName,
+				'url'			=> $file->remoteUrl
+			);
 
 
+			if ($file->fileType == "stylesheet") {
 
+				$this->downloadedCSS[] = $fileData;
 
+			} elseif ($file->fileType == "script") {
 
+				$this->downloadedJS[] = $fileData;
 
+			} elseif ($file->fileType == "font") {
 
-
-
-
-
-
-
-
-
-
-		$htmlFile = Page::ID($page_ID)->pageFile;
-		$CSSFilesList = $siteDir."/logs/css.log";
-		$JSFilesList = $siteDir."/logs/js.log";
-		$fontFilesList = $siteDir."/logs/font.log";
-
-		$page_image = Page::ID($page_ID)->pageDeviceDir."/".page_image_name;
-		$project_image = Page::ID($page_ID)->projectDir."/".project_image_name;
-
-
-
-		// Are they already exist?
-		$html_captured = file_exists($htmlFile);
-		$CSSFiles_captured = file_exists($CSSFilesList);
-		$JSFiles_captured = file_exists($JSFilesList);
-		$fontFiles_captured = file_exists($fontFilesList);
-
-		$page_captured = file_exists($page_image);
-		$project_captured = file_exists($project_image);
-
-
-		// If both already captured and files are already downloaded, skip this task.
-		if ( $html_captured && $CSSFiles_captured && $JSFiles_captured && $fontFiles_captured && $page_captured && $project_captured ) {
-
-
-			// Update the queue status
-			$queue->update_status($this->queue_ID, "working", "Browser job is skipped.");
-
-
-			// Log
-			$logger->info('HTML, downloaded CSS and fonts lists are already exist. Browser job is skipped.');
-
-
-			return true;
-		}
-
-
-		// Get info
-		$url = Page::ID($page_ID)->remoteUrl;
-		$logDir = Page::ID($page_ID)->logDir;
-
-		$deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
-		$width = Device::ID($deviceID)->getDeviceInfo('device_width');
-		$height = Device::ID($deviceID)->getDeviceInfo('device_height');
-
-		$htmlFile = $html_captured ? "done" : $htmlFile;
-		$CSSFilesList = $CSSFiles_captured ? "done" : $CSSFilesList;
-		$JSFilesList = $JSFiles_captured ? "done" : $JSFilesList;
-		$fontFilesList = $fontFiles_captured ? "done" : $fontFilesList;
-
-		$page_image = $page_captured ? "done" : $page_image;
-		$project_image = $project_captured ? "done" : $project_image;
-
-
-/*
-		// Process directories - SlimerJS - Firefox !!!
-		$slimerjs = bindir."/slimerjs-0.10.3/slimerjs";
-		$capturejs = dir."/app/bgprocess/firefox.js";
-
-		$process_string = "$slimerjs $capturejs $url $width $height $page_image $project_image $logDir";
-*/
-
-
-		// Process directories - NodeJS - Chrome
-		$nodejs = dir."/vendor/bin/node";
-		$scriptFile = dir."/app/bgprocess/chrome_v3.js";
-
-		$process_string = "$nodejs $scriptFile ";
-		$process_string .= "--url=$url ";
-		$process_string .= "--viewportWidth=$width ";
-		$process_string .= "--viewportHeight=$height ";
-		$process_string .= "--htmlFile=$htmlFile ";
-		$process_string .= "--CSSFilesList=$CSSFilesList ";
-		$process_string .= "--JSFilesList=$JSFilesList ";
-		$process_string .= "--fontFilesList=$fontFilesList ";
-		$process_string .= "--pageScreenshot=$page_image ";
-		$process_string .= "--projectScreenshot=$project_image ";
-		$process_string .= "--siteDir=$siteDir ";
-		$process_string .= "--logDir=$logDir ";
-		$process_string .= "--delay=1000"; // Screenshot Delay
-
-
-		// Do the process
-		$process = new BackgroundProcess($process_string);
-		$process->run($logDir."/browser-process-js.log", true);
-
-
-		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "Browser job has started.");
-
-
-		// LOGS
-		$logger->info("Browser jobs process string: ". $process_string);
-		$logger->info("Browser jobs process ID: ". $process->getPid());
-
-
-
-		// Wait for the downloaded files lists
-		$timeout = 50; // seconds - Temporarily 50 !!!
-		$eta = 0;
-		$out_of_time = false;
-		while (
-			//$process->isRunning() && // Even though process looks done, wait for the important files !!!
-			$queue->info($this->queue_ID)['queue_status'] == "working" &&
-			(
-				!file_exists($htmlFile) ||
-				!file_exists($siteDir."/logs/css.log") ||
-				!file_exists($siteDir."/logs/js.log") ||
-				!file_exists($siteDir."/logs/font.log")
-			)
-		) {
-
-			$waitfor = 2; // seconds
-
-			$logger->info("Waiting $waitfor seconds for the process to be complete");
-			sleep($waitfor);
-
-			$eta = $eta + $waitfor;
-
-			if ($eta >= $timeout) {
-
-				$out_of_time = true;
-				break;
+				$this->downloadedFonts[] = $fileData;
 
 			}
-		}
-
-
-		// Timeout error
-		if ($out_of_time) {
-
-
-			// Update the queue status
-			$queue->update_status($this->queue_ID, "error", "Downloaded files lists timeout.");
-
-
-			// Log
-			$logger->error("Downloaded files lists timeout.");
-
-
-			// Stop the process
-			if ( $process->isRunning() ) $process->stop();
-
-			return false;
 
 		}
-
-
-
-		// Process Check
-		if ( !$process->isRunning() ) {
-
-			// Update the queue status
-			$queue->update_status($this->queue_ID, "working", "Browser job is done.");
-
-
-			// Log
-			$logger->info("Browser job is done.");
-
-		}
-
-
-		// RE-CHECK FILES
-
-		// HTML file check
-		if (!file_exists($htmlFile)) {
-
-
-			// Update the queue status
-			$queue->update_status($this->queue_ID, "error", "HTML file is not exist.");
-
-
-			// Log
-			$logger->error("HTML file is not exist.");
-
-
-			return false;
-		}
-
-
-		// CSS list file check
-		if (!file_exists($CSSFilesList)) {
-
-
-			// Update the queue status
-			$queue->update_status($this->queue_ID, "error", "Downloaded CSS file list is not exist.");
-
-
-			// Log
-			$logger->error("Downloaded CSS file list is not exist.");
-
-
-			return false;
-		}
-
-
-		// JS list file check
-		if (!file_exists($JSFilesList)) {
-
-
-			// Update the queue status
-			$queue->update_status($this->queue_ID, "error", "Downloaded JS file list is not exist.");
-
-
-			// Log
-			$logger->error("Downloaded JS file list is not exist.");
-
-
-			return false;
-		}
-
-
-		// Fonts list file check
-		if (!file_exists($fontFilesList)) {
-
-
-			// Update the queue status
-			$queue->update_status($this->queue_ID, "error", "Downloaded font file list is not exist.");
-
-
-			// Log
-			$logger->error("Downloaded font file list is not exist.");
-
-
-			return false;
-		}
-
-
-
-		// Parse the downloaded CSS list
-		$downloaded_css = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($CSSFilesList)));
-		$downloaded_css = array_filter(array_unique($downloaded_css)); // Clean
-		$this->downloadedCSS = $downloaded_css;
-
-
-		// Parse the downloaded JS list
-		$downloaded_js = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($JSFilesList)));
-		$downloaded_js = array_filter(array_unique($downloaded_js)); // Clean
-		$this->downloadedJS = $downloaded_js;
-
-
-		// Parse the downloaded fonts list
-		$downloaded_font = preg_split('/\r\n|[\r\n]/', trim(file_get_contents($fontFilesList)));
-		$downloaded_font = array_filter(array_unique($downloaded_font)); // Clean
-		$this->downloadedFonts = $downloaded_font;
-
 
 
 		// Log
@@ -455,10 +198,8 @@ class Internalize_v4 {
 
 
 		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "Downloaded files lists are ready.");
-
-		// Log
-		$logger->info("Downloaded files lists are ready.");
+		$queue->update_status($this->queue_ID, "working", "Browser job is complete.");
+		$logger->info("Browser job is complete.");
 
 
 		return true;
@@ -466,49 +207,7 @@ class Internalize_v4 {
 	}
 
 
-	// 3. Parse and detect downloaded files !!!
-	public function detectDownloadedFiles() {
-		global $db, $logger, $queue;
-
-
-		// Current Queue Status Check
-		if ( $queue->info($this->queue_ID)['queue_status'] != "working" ) {
-
-			$logger->error("Queue isn't working.");
-			return false;
-
-		}
-
-
-		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "Started parsing the downloaded files list.");
-
-		// Log
-		$logger->info("Started parsing the downloaded files lists.");
-
-
-
-		// PARSE THE DOWNLOADED FILES
-
-		// Update the real list
-		$this->downloadedCSS = $this->parseResources($this->downloadedCSS);
-		$this->downloadedJS = $this->parseResources($this->downloadedJS);
-		$this->downloadedFonts = $this->parseResources($this->downloadedFonts);
-
-
-
-		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "Parsing resources finished.");
-
-		// Log
-		$logger->info("Parsing resources finished.");
-
-
-		return true;
-	}
-
-
-	// 4. HTML absolute URL filter to correct downloaded URLs
+	// 3. HTML absolute URL filter to correct downloaded URLs
 	public function filterAndUpdateHTML() {
 		global $logger, $queue;
 
@@ -517,30 +216,24 @@ class Internalize_v4 {
 		if ( $queue->info($this->queue_ID)['queue_status'] != "working" ) {
 
 			$logger->error("Queue isn't working.");
-			return false;
 
+			return false;
 		}
 
 
 		// Update the queue status
 		$queue->update_status($this->queue_ID, "working", "HTML Filtering started.");
-
-
-		// Log
 		$logger->info("HTML Filter started.");
 
 
 		// Do nothing if there is no HTML file
 		if ( !file_exists( Page::ID($this->page_ID)->pageFile ) ) {
 
-			// Log
-			$logger->error("HTML file is not exist.");
-
 			// Update the queue status
 			$queue->update_status($this->queue_ID, "error", "HTML couldn't be filtered. (No file)");
+			$logger->error("HTML file is not exist.");
 
 			return false;
-
 		}
 
 
@@ -903,7 +596,7 @@ class Internalize_v4 {
 
 		// SAVING:
 
-		// Save the file if not exists
+		// Save the file if exists
 		if ( file_exists( Page::ID($this->page_ID)->pageFile ) )
 			$updated = file_put_contents( Page::ID($this->page_ID)->pageFile, $html, FILE_TEXT);
 
@@ -913,28 +606,28 @@ class Internalize_v4 {
 		rename(Page::ID($this->page_ID)->logDir."/_html-filter.log", Page::ID($this->page_ID)->logDir.(!$updated ? '/__' : '/')."html-filter.log");
 
 
-		if ($updated) {
+		if (!$updated) {
 
 			// Update the queue status
-			$queue->update_status($this->queue_ID, "working", "HTML Filtred.");
+			$queue->update_status($this->queue_ID, "error", "HTML couldn't be filtred.");
+			$logger->error("HTML couldn't be filtred.");
 
-
-			$logger->info("HTML Filtred.");
-			return true;
-
+			return false;
 		}
 
-		// Update the queue status
-		$queue->update_status($this->queue_ID, "error", "HTML couldn't be filtred.");
-		$logger->error("HTML couldn't be filtred.");
-		return false;
 
+		// Update the queue status
+		$queue->update_status($this->queue_ID, "working", "HTML Filtred.");
+		$logger->info("HTML Filtred.");
+
+
+		return true;
 	}
 
 
-	// 5. Filter CSS files
-	// 5.1. Absolute URL filter to correct downloaded URLs
-	// 5.2. Detect fonts and correct with downloaded ones
+	// 4. Filter CSS files
+	// 4.1. Absolute URL filter to correct downloaded URLs
+	// 4.2. Detect fonts and correct with downloaded ones
 	public function filterAndUpdateCSSfiles() {
 		global $logger, $queue;
 
@@ -1033,7 +726,7 @@ class Internalize_v4 {
 	}
 
 
-	// 6. Complete the job!
+	// 5. Complete the job!
 	public function completeTheJob() {
 		global $logger, $queue;
 
@@ -1206,44 +899,6 @@ class Internalize_v4 {
 
 	// FILTER JS - NOT YET !!!
 	function filter_js() {
-
-	}
-
-
-	// RESOURCE LOG PARSER
-	function parseResources($listOfSource = array()) {
-		global $logger;
-
-		$logger->debug("Initial list: ", $listOfSource);
-
-
-		$parsedDownloadList = array();
-		foreach ($listOfSource as $resource) {
-
-			$resource = trim($resource);
-			$resource_split = explode(' -> ', $resource);
-
-			$new_file_name = trim($resource_split[0]);
-			$resource_url = trim($resource_split[1]);
-
-
-			// Prepared data
-			$parsed_resource = array(
-				'new_file_name' => $new_file_name,
-				'url' 			=> $resource_url
-			);
-
-
-			// Add to the list
-			$parsedDownloadList[] = $parsed_resource;
-			$logger->info("Downloaded file parsed: ", $parsed_resource);
-
-		}
-
-
-		// Return the updated list
-		$logger->info("New parsed list: ", $parsedDownloadList);
-		return $parsedDownloadList;
 
 	}
 

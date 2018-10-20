@@ -60,29 +60,21 @@ if ($queue_ID) $job_ready = $internalize->waitForQueue();
 
 
 // 2. 	If job is ready to get done, open the site with Chrome
-// 2.1. Download the HTML file
-// 2.2. Download the CSS files
-// 2.3. Download the JS files
-// 2.4. Download the fonts
-// 2.5. Print all the downloaded resources
-// 2.6. Take screenshots
-// 2.7. Close the site
+// 2.1. Download the HTML, CSS, JS and Font files
+// 2.2. Take a screenshot for the page, and project if not exist
+// 2.3. JSON Output all the downloaded files
 if ($job_ready) $browser_done = $internalize->browserWorks();
 
 
-// 3. Parse and detect downloaded files
-//if ($browser_done) $files_detected = $internalize->detectDownloadedFiles();
+// 3. HTML absolute URL filter to correct downloaded URLs
+if ($browser_done) $html_filtred = $internalize->filterAndUpdateHTML();
 
 
-// 4. HTML absolute URL filter to correct downloaded URLs
-//if ($files_detected) $html_filtred = $internalize->filterAndUpdateHTML();
+// 4. Filter CSS files
+// 4.1. Absolute URL filter to correct downloaded URLs
+// 4.2. Detect fonts and correct with downloaded ones
+if ($html_filtred) $css_filtred = $internalize->filterAndUpdateCSSfiles();
 
 
-// 5. Filter CSS files
-// 5.1. Absolute URL filter to correct downloaded URLs
-// 5.2. Detect fonts and correct with downloaded ones
-//if ($html_filtred) $css_filtred = $internalize->filterAndUpdateCSSfiles();
-
-
-// 6. Complete the job!
-//if ($css_filtred) $iframeLink = $internalize->completeTheJob();
+// 5. Complete the job!
+if ($css_filtred) $iframeLink = $internalize->completeTheJob();

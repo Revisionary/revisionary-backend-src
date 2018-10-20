@@ -45,7 +45,7 @@ let browser;
 require('http').createServer(async (req, res) => {
 	const { host } = req.headers;
 
-	if (req.url == '/') {
+	if (req.url == '/') { // !!!
 		res.writeHead(200, {
 			'content-type': 'text/html; charset=utf-8',
 			'cache-control': 'public,max-age=31536000',
@@ -156,6 +156,7 @@ require('http').createServer(async (req, res) => {
 		let actionDone = false;
 		const width = parseInt(queryData.width, 10) || 1024;
 		const height = parseInt(queryData.height, 10) || 768;
+		const fullPage = queryData.fullPage == 'true' || false;
 		const siteDir = queryData.sitedir || 'site/';
 
 		let downloadableRequests = [];
@@ -310,7 +311,7 @@ require('http').createServer(async (req, res) => {
 						else if (fileType == 'font') {
 
 							fontCount++;
-							newDir = "font/";
+							newDir = "fonts/";
 							newFileName = fileName;
 
 						}
@@ -474,10 +475,15 @@ require('http').createServer(async (req, res) => {
 		switch (action) {
 			case 'internalize': {
 
+				// Create the site folder if not exist
+				if (!fs.existsSync(siteDir)) fs.mkdirSync(siteDir);
+
+
 				let downloadableTotal = downloadableRequests.length;
 				let downloadedFiles = [];
 
-				// Check all the files
+
+				// DOWNLOAD
 				downloadableRequests.forEach(function(downloadable, i) {
 
 
@@ -514,6 +520,40 @@ require('http').createServer(async (req, res) => {
 
 
 				});
+
+
+				// SCREENSHOTS
+				try {
+
+					const screenshot = await pTimeout(page.screenshot({
+						type: 'jpeg'
+					}), 20 * 1000, 'Screenshot timed out');
+
+					// Page Screenshot Saving
+					const pageScreenshotDir = siteDir + "../";
+					const pageScreenshot = pageScreenshotDir + 'page.jpg';
+					if (!fs.existsSync(pageScreenshotDir)) fs.mkdirSync(pageScreenshotDir);
+					fs.writeFileSync(pageScreenshot, screenshot);
+					console.log('📸 Page Screenshot Saved: ', pageScreenshot);
+
+					// Project Screenshot Saving if not exists
+					const projectScreenshotDir = pageScreenshotDir + "../../";
+					const projectScreenshot = projectScreenshotDir + 'project.jpg';
+					if (!fs.existsSync(projectScreenshotDir)) fs.mkdirSync(projectScreenshotDir);
+					if (!fs.existsSync(projectScreenshot)) {
+
+						fs.writeFileSync(projectScreenshot, screenshot);
+						console.log('📸 Project Screenshot Saved: ', projectScreenshot);
+
+					}
+
+
+				} catch (err) {
+
+					console.log('📷❌ Screenshots could not be saved: ', err);
+
+				}
+
 
 
 
@@ -600,13 +640,8 @@ require('http').createServer(async (req, res) => {
 				break;
 			}
 			default: {
-
-
-
 				const thumbWidth = parseInt(queryData.thumbWidth, 10) || null;
-				const fullPage = queryData.fullPage == 'true' || false;
 				const clipSelector = queryData.clipSelector;
-
 
 				let screenshot;
 				if (clipSelector) {
@@ -624,69 +659,23 @@ require('http').createServer(async (req, res) => {
 				}
 
 
+				res.writeHead(200, {
+					'content-type': 'image/jpeg',
+					'cache-control': 'public,max-age=31536000',
+				});
 
+				if (thumbWidth && thumbWidth < width) {
 
-				// Page Screenshot Saving
-				let pageCaptured = false;
-				const pageScreenshotDir = queryData.pageScreenshotDir;
-				if (pageScreenshotDir) {
-					if (!fs.existsSync(pageScreenshotDir)) fs.mkdirSync(pageScreenshotDir);
-					pageCaptured = fs.writeFileSync(pageScreenshotDir + 'page.jpg', screenshot);
-				}
-
-				// Project Screenshot
-				let projectCaptured = false;
-				const projectScreenshotDir = queryData.projectScreenshotDir;
-				if (projectScreenshotDir) {
-					if (!fs.existsSync(projectScreenshotDir)) fs.mkdirSync(projectScreenshotDir);
-					projectCaptured = fs.writeFileSync(projectScreenshotDir + 'project.jpg', screenshot);
-				}
-
-
-				// JSON OUTPUT
-				if (output == "JSON") {
-
-
-					res.writeHead(200, {
-						'content-type': 'application/json',
+					const image = await jimp.read(screenshot);
+					image.resize(thumbWidth, jimp.AUTO).quality(90).getBuffer(jimp.MIME_JPEG, (err, buffer) => {
+						res.end(buffer, 'binary');
 					});
-					res.end(JSON.stringify({
-						status: (pageCaptured || projectCaptured ? 'success' : 'error'),
-						screenshots: {
-							page: (pageCaptured ? pageScreenshotDir + 'page.jpg' : 'not captured'),
-							project: (projectCaptured ? projectScreenshotDir + 'project.jpg' : 'not captured')
-						}
-					}, null, '\t'));
 
-
-
-				// PRINT TO THE PAGE
 				} else {
 
-
-					res.writeHead(200, {
-						'content-type': 'image/jpeg',
-						'cache-control': 'public,max-age=31536000',
-					});
-
-					if (thumbWidth && thumbWidth < width) {
-
-						const image = await jimp.read(screenshot);
-						image.resize(thumbWidth, jimp.AUTO).quality(90).getBuffer(jimp.MIME_JPEG, (err, buffer) => {
-							res.end(buffer, 'binary');
-						});
-
-					} else {
-
-						res.end(screenshot, 'binary');
-
-					}
-
+					res.end(screenshot, 'binary');
 
 				}
-
-
-
 
 			}
 		}

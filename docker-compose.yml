@@ -7,7 +7,6 @@ services:
         depends_on:
             - db
             - composer
-            - nodejs
             - chrome
         ports:
             - "80:80"
@@ -50,35 +49,10 @@ services:
         image: composer/composer
         container_name: composer
         working_dir: /var/www/html
-        command: install
+        command: install --ignore-platform-reqs
         restart: "no"
         volumes:
             - ./www:/var/www/html
-    nodejs:
-        image: node:8.9.1
-        container_name: nodejs
-        depends_on:
-            - composer
-        working_dir: /var/www/html/app/bgprocess
-        restart: "no"
-        environment:
-            - NODE_ENV=development
-        command: >
-            bash -c "npm install &&
-            until [ -f /var/www/html/vendor/autoload.php ]; do
-                echo 'Composer is installing now...'
-                sleep 2
-            done &&
-            echo 'COMPOSER IS READY!' &&
-            echo 'Start updating permissions...' &&
-            chown -R www-data:www-data /var/www/ &&
-            chmod -R g+rw /var/www/ &&
-            echo 'PERMISSIONS UPDATED!' &&
-            echo 'DONE!'
-            "
-        volumes:
-            - ./www:/var/www/html
-            - ./www/app/bgprocess:/var/www/html/app/bgprocess
     chrome:
         build: ./chrome
         container_name: chrome
