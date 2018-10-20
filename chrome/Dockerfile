@@ -1,13 +1,11 @@
 FROM alpine:edge as base
 
 
-RUN apk add --no-cache --update chromium tar zstd && \
-    cd /usr/lib/chromium/locales/ && \
-    find ./ -maxdepth 1 '!' -path './' '!' -path './en-US.pak' '!' -path './en-US.pak.info' -exec 'rm' '{}' ';' && \
-    cd /usr/lib  && \
-    tar cvf /chromium_lib.tar ./chromium && \
-    zstd --train -r /usr/lib/chromium -o /chromium_lib.dict && \
-    zstd -f -22 --ultra -D /chromium_lib.dict /chromium_lib.tar
+RUN apk add --no-cache --update chromium tar zstd
+RUN cd /usr/lib/chromium/locales/ && find ./ -maxdepth 1 '!' -path './' '!' -path './en-US.pak' '!' -path './en-US.pak.info' -exec 'rm' '{}' ';'
+RUN cd /usr/lib && tar cvf /chromium_lib.tar ./chromium
+RUN zstd --train -r /usr/lib/chromium -o /chromium_lib.dict
+RUN zstd -f -22 -D /chromium_lib.dict /chromium_lib.tar
 
 
 
