@@ -476,7 +476,10 @@ require('http').createServer(async (req, res) => {
 			case 'internalize': {
 
 				// Create the site folder if not exist
-				if (!fs.existsSync(siteDir)) fs.mkdirSync(siteDir);
+				if (!fs.existsSync(siteDir)) {
+					fs.mkdirSync(siteDir);
+					fs.chownSync(siteDir, 33, 33);
+				}
 
 
 				let downloadableTotal = downloadableRequests.length;
@@ -490,7 +493,10 @@ require('http').createServer(async (req, res) => {
 					try {
 
 						// Create the folder if not exist
-						if (!fs.existsSync(downloadable.newDir)) fs.mkdirSync(downloadable.newDir);
+						if (!fs.existsSync(downloadable.newDir)) {
+							fs.mkdirSync(downloadable.newDir);
+							fs.chownSync(downloadable.newDir, 33, 33);
+						}
 
 						// Write to the file
 						fs.writeFileSync(downloadable.newDir + downloadable.newFileName, downloadable.buffer);
