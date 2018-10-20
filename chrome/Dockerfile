@@ -28,4 +28,11 @@ RUN zstd -D /chrome/chromium_lib.dict -d /chrome/chromium_lib.tar.zst -f && \
     tar xvf /chrome/chromium_lib.tar && \
     mv chromium /usr/lib/chromium && \
     ln -s /usr/lib/chromium/chromium-launcher.sh /usr/bin/chromium-browser
+
+RUN adduser -D www-data www-data
+
+RUN chown -R www-data:www-data .
+RUN chmod -R g+rw .
+
+USER www-data:www-data
 CMD ["./start.sh"]

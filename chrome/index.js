@@ -495,6 +495,9 @@ require('http').createServer(async (req, res) => {
 						// Write to the file
 						fs.writeFileSync(downloadable.newDir + downloadable.newFileName, downloadable.buffer);
 
+						// Update the permissions
+						fs.chownSync(downloadable.newDir + downloadable.newFileName, 33, 33);
+
 
 						// Add to the list
 						downloadedFiles[i] = {
