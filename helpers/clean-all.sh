@@ -13,13 +13,6 @@ rm -rf vendor
 echo "DONE: Composer files REMOVED"
 
 
-echo "Removing NPM files..."
-cd app/bgprocess
-rm -f package-lock.json
-rm -rf node_modules
-echo "DONE: NPM files REMOVED"
-
-
 echo "Removing the MySQL files..."
 cd ../../../database/mysql/
 find . \! -name '.gitkeep' -delete

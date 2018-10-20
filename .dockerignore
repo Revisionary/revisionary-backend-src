@@ -1,9 +1,7 @@
 /www/vendor
-composer.lock
 
 node_modules
 npm-debug.log
-package-lock.json
 
 www/assets/cache/user-*/project-*/*.png
 www/assets/cache/user-*/project-*/*.jpg
