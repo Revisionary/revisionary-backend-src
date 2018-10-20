@@ -1,5 +1,8 @@
 FROM alpine:edge as base
 
+RUN ulimit -a
+RUN ulimit -s 4096
+
 RUN apk add --no-cache --update chromium tar zstd && \
     cd /usr/lib/chromium/locales/ && \
     find ./ -maxdepth 1 '!' -path './' '!' -path './en-US.pak' '!' -path './en-US.pak.info' -exec 'rm' '{}' ';' && \
@@ -8,6 +11,9 @@ RUN apk add --no-cache --update chromium tar zstd && \
     zstd --train -r /usr/lib/chromium -o /chromium_lib.dict && \
     zstd -f -22 --ultra -D /chromium_lib.dict /chromium_lib.tar
 
+
+
+RUN ulimit -s 81192
 
 
 
