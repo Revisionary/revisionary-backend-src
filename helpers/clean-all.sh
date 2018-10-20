@@ -6,4 +6,4 @@ echo "ALL STOPPED"
 docker system prune --volumes --force
 
 
-sh clean-files.sh
+sh helpers/clean-files.sh
