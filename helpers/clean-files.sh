@@ -2,13 +2,12 @@
 
 echo "Removing Composer files..."
 cd www
-rm -f composer.lock
 rm -rf vendor
 echo "DONE: Composer files REMOVED"
 
 
 echo "Removing the MySQL files..."
-cd ../../../database/mysql/
+cd ../database/mysql/
 find . \! -name '.gitkeep' -delete
 echo "DONE: MySQL files REMOVED"
 
