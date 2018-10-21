@@ -34,5 +34,5 @@ RUN adduser -D www-data www-data
 RUN chown -R www-data:www-data .
 RUN chmod -R g+rw .
 
-USER www-data:www-data
+#USER www-data:www-data
 CMD ["./start.sh"]
