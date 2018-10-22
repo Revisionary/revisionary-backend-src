@@ -18,6 +18,12 @@ find . \! -name '.gitignore' -delete
 echo "DONE: Session files REMOVED"
 
 
+echo "Removing Node files..."
+cd ../chrome/
+rm -rf node_modules
+echo "DONE: Node files REMOVED"
+
+
 echo "Removing the Log files..."
 cd ../logs/
 find . \! -name '.gitignore' -delete
