@@ -21,7 +21,15 @@ ADD https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_a
 RUN chmod +x /usr/local/bin/dumb-init
 
 # Install puppeteer so it's available in the container.
-ADD . .
+RUN mkdir /app
+COPY package.json /app
+COPY package-lock.json /app
+COPY index.js /app
+COPY index.html /app
+COPY blocked.json /app
+COPY start.sh /app
+COPY ./assets /app
+WORKDIR /app
 RUN npm install
 
 ENTRYPOINT ["dumb-init", "--", "/app/start.sh"]

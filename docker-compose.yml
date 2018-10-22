@@ -63,7 +63,6 @@ services:
         ports:
             - "8080:3000"
         volumes:
-            - ./chrome:/app
             - ./www/assets/cache:/var/www/html/assets/cache
 volumes:
     persistent:
