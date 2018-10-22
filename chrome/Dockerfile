@@ -31,8 +31,5 @@ RUN zstd -D /chrome/chromium_lib.dict -d /chrome/chromium_lib.tar.zst -f && \
 
 RUN adduser -D www-data www-data
 
-RUN chown -R www-data:www-data .
-RUN chmod -R g+rw .
-
 #USER www-data:www-data
 CMD ["./start.sh"]
