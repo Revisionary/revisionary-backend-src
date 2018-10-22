@@ -30,8 +30,10 @@ elseif ( is_numeric($queue_ID) ) {
 	// If project is not complete when the process stopped
 	if ( $queue->info($queue_ID)['queue_status'] != "done" ) {
 
+		$last_message = $queue->info($queue_ID)['queue_message'];
+
 		// Update the queue status as an error
-		$queue->update_status($queue_ID, "error", "Process is not working.", $process->getPid());
+		$queue->update_status($queue_ID, "error", "Last Message: ".$last_message, $process->getPid());
 
 	}
 
