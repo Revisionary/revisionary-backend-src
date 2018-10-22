@@ -1,8 +1,13 @@
 version: "3.2"
 services:
-    www:
+    chrome:
         build: .
-        container_name: puppeteer
+        cap_add:
+            - SYS_ADMIN
+        container_name: chrome
+        working_dir: /app
         restart: on-failure
         ports:
             - "8080:3000"
+        volumes:
+            - .:/app

@@ -13,6 +13,7 @@ const puppeteer = require('puppeteer');
 const cdnDetector = require("cdn-detector");
 const jimp = require('jimp');
 const pTimeout = require('p-timeout');
+/*
 const LRU = require('lru-cache');
 const cache = LRU({
 	max: process.env.CACHE_SIZE || Infinity,
@@ -30,6 +31,7 @@ const cache = LRU({
 	}
 });
 setInterval(() => cache.prune(), 1000 * 60); // Prune every minute
+*/
 
 const blocked = require('./blocked.json');
 const blockedRegExp = new RegExp('(' + blocked.join('|') + ')', 'i');
@@ -63,7 +65,7 @@ require('http').createServer(async (req, res) => {
 			'content-type': 'application/json',
 		});
 		res.end(JSON.stringify({
-			pages: cache.keys(),
+			//pages: cache.keys(),
 			process: {
 				versions: process.versions,
 				memoryUsage: process.memoryUsage(),
@@ -95,6 +97,7 @@ require('http').createServer(async (req, res) => {
 	}
 
 
+/*
 	// TOO MUCH CACHE
 	if (cache.itemCount > 20) {
 		res.writeHead(420, {
@@ -103,6 +106,7 @@ require('http').createServer(async (req, res) => {
 		res.end(`There are ${cache.itemCount} pages in the current instance now. Please try again in few minutes.`);
 		return;
 	}
+*/
 
 
 	let page, pageURL;
@@ -147,12 +151,12 @@ require('http').createServer(async (req, res) => {
 
 
 		// If the page is already open
-		page = cache.get(pageURL); if (page) console.log('Page found from cache.');
+		//page = cache.get(pageURL); if (page) console.log('Page found from cache.');
 
 		// If page is not already open
 		if (!page) {
 
-			console.log('No cached page found.');
+			//console.log('No cached page found.');
 
 
 			if (browser) console.log('Browser is already working!');
@@ -400,11 +404,12 @@ require('http').createServer(async (req, res) => {
 
 
 
-			});
+			}); // THE RESPONSES LOOP
 
 
 
 			// Set the viewport
+			console.log('🖥 Setting viewport sizes as ' + width + 'x' + height);
 			await page.setViewport({
 				width,
 				height,
@@ -439,10 +444,11 @@ require('http').createServer(async (req, res) => {
 		} else {
 
 
-			downloadableRequests = cache.get(pageURL + 'downloadableRequests');
+			//downloadableRequests = cache.get(pageURL + 'downloadableRequests');
 
 
 			// Set the viewport
+			console.log('🖥 !!! Setting viewport sizes: ' + width + 'x' + height);
 			await page.setViewport({
 				width,
 				height,
@@ -689,6 +695,7 @@ require('http').createServer(async (req, res) => {
 
 
 
+/*
 		if (!cache.has(pageURL)) {
 			cache.set(pageURL, page);
 
@@ -708,6 +715,7 @@ require('http').createServer(async (req, res) => {
 		if (!cache.has(pageURL + 'downloadableRequests')) {
 			cache.set(pageURL + 'downloadableRequests', downloadableRequests);
 		}
+*/
 
 
 
@@ -718,8 +726,8 @@ require('http').createServer(async (req, res) => {
 			page.removeAllListeners();
 			page.close();
 		}
-		cache.del(pageURL);
-		cache.del(pageURL + 'downloadableRequests');
+		//cache.del(pageURL);
+		//cache.del(pageURL + 'downloadableRequests');
 		const { message = '' } = e;
 		res.writeHead(400, {
 			'content-type': 'text/plain',

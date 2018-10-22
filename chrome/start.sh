@@ -2,5 +2,5 @@
 set -eu
 
 
-#Run the script
+# Run the script
 node index.js
