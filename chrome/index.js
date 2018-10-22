@@ -146,6 +146,21 @@ require('http').createServer(async (req, res) => {
 		const height = parseInt(queryData.height, 10) || 768;
 		const fullPage = queryData.fullPage == 'true' || false;
 		const siteDir = queryData.sitedir || 'site/';
+		const logDir = siteDir+'logs/';
+
+
+		// Create the log folder if not exist
+		if (!fs.existsSync(logDir)) {
+			fs.mkdirSync(logDir);
+			fs.chownSync(logDir, 33, 33);
+		}
+
+		// Create the log file
+		fs.writeFileSync(logDir+'browser.log', 'Started');
+		fs.chownSync(logDir+'browser.log', 33, 33);
+
+
+
 
 		let downloadableRequests = [];
 
@@ -686,7 +701,7 @@ require('http').createServer(async (req, res) => {
 
 		actionDone = true;
 		console.log('💥 Done action: ' + action);
-
+		fs.appendFileSync(logDir+'browser.log', 'Finished');
 
 
 

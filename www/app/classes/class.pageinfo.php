@@ -250,7 +250,7 @@ class Page {
 
 		// 10% - PAGE IS DOWNLOADING
 		if (
-			file_exists($this->pageDir)
+			file_exists($this->logDir."/browser.log")
 		)
 			$process_status = [
 				"status" => "downloading-page",
