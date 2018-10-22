@@ -133,11 +133,7 @@ class Internalize_v4 {
 
 
 		// Send the request
-		$data = json_decode(file_get_contents($processLink, false, stream_context_create(array('http'=>
-		    array(
-		        'timeout' => 120,  //120 Seconds is 2 Minutes
-		    )
-		))));
+		$data = $this->getData($processLink);
 
 
 		// Update the queue status
@@ -150,11 +146,25 @@ class Internalize_v4 {
 
 
 			// Update the queue status
-			$queue->update_status($this->queue_ID, "error", "Downloaded JS file list is not exist.");
-			$logger->error("Downloaded JS file list is not exist.");
+			$queue->update_status($this->queue_ID, "error", "Downloaded JS file list is not exist. Trying one more time...");
+			$logger->error("Downloaded JS file list is not exist. Trying one more time...");
 
 
-			return false;
+
+			// Send the request again
+			$data = $this->getData($processLink);
+
+			if (!$data || $data->status != "success" || count($data->downloadedFiles) == 0) {
+
+
+				// Update the queue status
+				$queue->update_status($this->queue_ID, "error", "Downloaded JS file list is not exist.");
+				$logger->error("Downloaded JS file list is not exist.");
+
+				return false;
+
+			}
+
 		}
 
 
@@ -754,6 +764,19 @@ class Internalize_v4 {
 
 
 		return Page::ID($this->page_ID)->cachedUrl;
+	}
+
+
+	// Get content from remote URL
+	public function getData($url, $timeout = 20) {
+
+
+		return json_decode(file_get_contents($url, false, stream_context_create(array('http'=>
+		    array(
+		        'timeout' => $timeout,  // Seconds
+		    )
+		))));
+
 	}
 
 
