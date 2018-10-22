@@ -2,14 +2,12 @@ const fs = require('fs');
 const http = require('http');
 const { URL } = require('url');
 const urlParser = require('url');
-let {
+const {
 	DEBUG,
 	HEADFUL,
 	CHROME_BIN,
 	PORT
 } = process.env;
-
-//HEADFUL = true;
 
 const puppeteer = require('puppeteer');
 const cdnDetector = require("cdn-detector");
@@ -61,20 +59,6 @@ require('http').createServer(async (req, res) => {
 	}
 
 	if (req.url == '/status') {
-		res.writeHead(200, {
-			'content-type': 'application/json',
-		});
-		res.end(JSON.stringify({
-			pages: cache.keys(),
-			process: {
-				versions: process.versions,
-				memoryUsage: process.memoryUsage(),
-			},
-		}, null, '\t'));
-		return;
-	}
-
-	if (req.url == '/start') {
 		res.writeHead(200, {
 			'content-type': 'application/json',
 		});
@@ -152,7 +136,7 @@ require('http').createServer(async (req, res) => {
 			req.end();
 		});
 
-		pageURL = origin + path;
+		pageURL = origin + path; console.log('🌎 pageURL: ', pageURL);
 		let actionDone = false;
 		const width = parseInt(queryData.width, 10) || 1024;
 		const height = parseInt(queryData.height, 10) || 768;
@@ -163,10 +147,15 @@ require('http').createServer(async (req, res) => {
 
 
 		// If the page is already open
-		page = cache.get(pageURL);
+		page = cache.get(pageURL); if (page) console.log('Page found from cache.');
 
 		// If page is not already open
 		if (!page) {
+
+			console.log('No cached page found.');
+
+
+			if (browser) console.log('Browser is already working!');
 
 
 			// Launch the browser if browser is not already open
