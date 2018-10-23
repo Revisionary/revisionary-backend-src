@@ -574,16 +574,21 @@ require('http').createServer(async (req, res) => {
 				}
 
 
+				const dataString = JSON.stringify({
+					status: (downloadedFiles.length ? 'success' : 'error'),
+					downloadedFiles: downloadedFiles
+				}, null, '\t');
+
+
+				// Write to the log file
+				fs.writeFileSync(logDir+'browser.log', dataString);
 
 
 				// JSON OUTPUT
 				res.writeHead(200, {
 					'content-type': 'application/json',
 				});
-				res.end(JSON.stringify({
-					status: (downloadedFiles.length ? 'success' : 'error'),
-					downloadedFiles: downloadedFiles
-				}, null, '\t'));
+				res.end(dataString);
 
 
 				break;
@@ -701,7 +706,19 @@ require('http').createServer(async (req, res) => {
 
 		actionDone = true;
 		console.log('💥 Done action: ' + action);
-		fs.appendFileSync(logDir+'browser.log', 'Finished');
+
+
+
+
+		// Close the page
+		try {
+			if (page && page.close) {
+				console.log('🗑 Disposing ' + url);
+				page.removeAllListeners();
+				await page.deleteCookie(await page.cookies());
+				await page.close();
+			}
+		} catch (e) {}
 
 
 
