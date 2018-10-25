@@ -65,7 +65,7 @@
 			</nav>
 		</div>
 
-		<div class="under-main-title <?=$title == "projects" ? "public-link" : ""?>">
+		<div class="under-main-title <?=$title == "projects" ? "public-link" : ""?>" <?=$title == "projects" ? "data-tooltip='Coming Soon...'" : ""?>>
 
 			<?php
 

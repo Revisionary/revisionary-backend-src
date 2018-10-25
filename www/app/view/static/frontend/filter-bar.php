@@ -54,7 +54,7 @@
 						$action_url .= '&project_ID='.$project_ID;
 
 					?>
-					<a href="<?=site_url($action_url.'&action=add-new-category')?>" class="action" data-action="add-new-category"><span style="font-family: Arial; font-weight: bold;">+</span></a>
+					<a href="<?=site_url($action_url.'&action=add-new-category')?>" class="action" data-action="add-new-category" data-tooltip="Add New Category"><span style="font-family: Arial; font-weight: bold;">+</span></a>
 
 				</div>
 
