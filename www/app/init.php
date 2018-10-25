@@ -23,8 +23,27 @@ require 'system/config.php';
 require 'language/' . $config['default_language'] . '/lang.php';
 
 
+// Update the timezone
+date_default_timezone_set(timezone);
+
+
+// MySQL timezone update
+$now = new DateTime();
+$mins = $now->getOffset() / 60;
+$sgn = ($mins < 0 ? -1 : 1);
+$mins = abs($mins);
+$hrs = floor($mins / 60);
+$mins -= $hrs * 60;
+$offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
+
+
 // Connect to DB
 $db = new MysqliDb ($config['db']['host'], $config['db']['user'], $config['db']['pass'], $config['db']['name']);
+$db->rawQuery("SET time_zone='$offset';");
+
+
+// Unset the variables
+unset($now, $mins, $sgn, $mins, $hrs, $offset);
 
 
 // Initiate Logger

@@ -13,7 +13,8 @@ $config['env'] = [
 	'db_host' 	=> "db",
 	'db_name' 	=> "revisionaryapp",
 	'db_user' 	=> "user",
-	'db_pass' 	=> "test"
+	'db_pass' 	=> "test",
+	'timezone'  => "Europe/Istanbul"
 ];
 
 // Check for the remote configuration
@@ -47,9 +48,10 @@ $config['default_language'] = 'en';
 
 
 // Definitions
-define('domain' , $config['env']['domain']);
-define('subdomain' , $config['env']['subdomain']);
-define('insecure_subdomain' , $config['env']['insecure_subdomain']);
+define('timezone', $config['env']['timezone']);
+define('domain', $config['env']['domain']);
+define('subdomain', $config['env']['subdomain']);
+define('insecure_subdomain', $config['env']['insecure_subdomain']);
 define('dir', realpath('.'));
 define('backdir', realpath('..'));
 define('logdir', backdir."/logs");
@@ -57,16 +59,17 @@ define('bindir', backdir."/bin");
 define('session_name', 'revisionary_session');
 define('sessiondir', backdir."/sessions");
 define('session_lifetime', 99999);
-define('model' , dir . '/app/model');
-define('view' , dir . '/app/view');
+define('model', dir . '/app/model');
+define('view', dir . '/app/view');
 define('controller', dir . '/app/controller');
-define('cache' , dir . '/assets/cache');
-define('port' , (isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : "") );
-define('ssl' , $_https);
+define('cache', dir . '/assets/cache');
+define('port', (isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : "") );
+define('ssl', $_https);
 define('secure_url', "https://".subdomain."." . domain);
 define('insecure_url', "http://".insecure_subdomain."." . domain);
 define('url', ssl ? secure_url : insecure_url);
 
-// TEMP - Image Names !!!
-define('project_image_name', 'project.jpg');
-define('page_image_name', 'page.jpg');
+
+
+// Unset the variables
+unset($_https);

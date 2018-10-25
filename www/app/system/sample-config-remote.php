@@ -7,7 +7,8 @@ $config['env'] = [
 	'subdomain' => "new",
 	'insecure_subdomain' => "insecure",
 	'db_host' 	=> "db",
-	'db_name' 	=> "",
-	'db_user' 	=> "",
-	'db_pass' 	=> ""
+	'db_name' 	=> "revisionaryapp",
+	'db_user' 	=> "user",
+	'db_pass' 	=> "test",
+	'timezone'  => "Europe/Istanbul"
 ];
