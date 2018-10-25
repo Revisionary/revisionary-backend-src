@@ -25,9 +25,13 @@ if (file_exists(realpath('.') . '/app/system/config-remote.php'))
 
 // SSL Check
 if ($config['env']['name'] == 'local-dev') {
+
 	$_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? true : false;
-} elseif ($config['env']['name'] == 'remote-dev') {
+
+} elseif ($config['env']['name'] == 'remote-dev') { // Because of CloudFlare
+
 	$_https = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https" ? true : false;
+
 }
 
 
