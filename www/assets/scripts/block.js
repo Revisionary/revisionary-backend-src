@@ -1,3 +1,6 @@
+var screenWidth = $(window).width();
+var screenHeight = $(window).height();
+
 $(function() {
 
 	// Prevent clicking '#' links
@@ -981,6 +984,29 @@ $(function() {
 		return false;
 
 	});
+
+
+	// Update the current screen size
+	$(window).resize(function() {
+
+		var width = $(this).width();
+		var height = $(this).height();
+
+		screenWidth = width;
+		screenHeight = height;
+
+		console.log(width, height);
+
+		// Show new values
+		$('.screen-width').text(screenWidth);
+		$('.screen-height').text(screenHeight);
+
+		// Edit the input values
+		$('input[name="page-width"]').attr('value', screenWidth);
+		$('input[name="page-height"]').attr('value', screenHeight);
+
+
+	}).resize();
 
 
 });

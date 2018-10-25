@@ -59,6 +59,8 @@ class Device {
     	string $page_url = null,
     	string $page_name = null,
     	int $project_ID = null, // The project_ID that new page is belong to
+    	int $page_width = null,
+    	int $page_height = null,
     	bool $start_downloading = true
     ) {
 	    global $db, $logger;
@@ -86,6 +88,9 @@ class Device {
 			"page_url" => $page_url,
 			"page_name" => $page_name,
 			"project_ID" => $project_ID,
+
+			"page_width" => $page_width,
+			"page_height" => $page_height,
 
 			"user_ID" => currentUserID()
 		));

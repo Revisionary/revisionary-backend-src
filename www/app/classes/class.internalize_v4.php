@@ -119,9 +119,11 @@ class Internalize_v4 {
 		$url = Page::ID($page_ID)->remoteUrl;
 		$pageDir = Page::ID($page_ID)->pageDir;
 
+
+		// Device info
 		$deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
-		$width = Device::ID($deviceID)->getDeviceInfo('device_width');
-		$height = Device::ID($deviceID)->getDeviceInfo('device_height');
+		$width = Page::ID($page_ID)->getPageInfo('page_width') ? Page::ID($page_ID)->getPageInfo('page_width') : Device::ID($deviceID)->getDeviceInfo('device_width');
+		$height = Page::ID($page_ID)->getPageInfo('page_height') ? Page::ID($page_ID)->getPageInfo('page_height') : Device::ID($deviceID)->getDeviceInfo('device_height');
 
 
 		// Chrome container request link

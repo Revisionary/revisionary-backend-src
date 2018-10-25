@@ -96,8 +96,8 @@ $(function() {
 	$(window).resize(function(e) {
 
 	    var $window = $(window);
-	    var width = $window.width() - 26; // -(10+10) for the borders
-	    var height = $window.height() - 26; // -(10+10) for the borders
+	    var width = $window.width() - 2; // -(10+10) for the borders
+	    var height = $window.height() - 2; // -(10+10) for the borders
 
 	    // early exit
 	    if(width >= maxWidth && height >= maxHeight) {
@@ -106,7 +106,7 @@ $(function() {
 	        return;
 	    }
 
-	    iframeScale = Math.min(width/maxWidth, height/maxHeight);
+	    iframeScale = Math.min(width/maxWidth, height/maxHeight); console.log('IFRAME SCALE', iframeScale);
 	    iframeWidth = maxWidth * iframeScale;
 		iframeHeight = maxHeight * iframeScale;
 

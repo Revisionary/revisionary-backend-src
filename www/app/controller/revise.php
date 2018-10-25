@@ -67,8 +67,10 @@ $project_ID = Page::ID($page_ID)->getPageInfo('project_ID');
 $deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
 
 // Get the device sizes
-$width = Device::ID($deviceID)->getDeviceInfo('device_width');
-$height = Device::ID($deviceID)->getDeviceInfo('device_height');
+$width = Page::ID($page_ID)->getPageInfo('page_width') ? Page::ID($page_ID)->getPageInfo('page_width') : Device::ID($deviceID)->getDeviceInfo('device_width');
+$height = Page::ID($page_ID)->getPageInfo('page_height') ? Page::ID($page_ID)->getPageInfo('page_height') : Device::ID($deviceID)->getDeviceInfo('device_height');
+
+// Check if custom size entered
 
 // Get device name
 $device_name = Device::ID($deviceID)->getDeviceInfo('device_name');

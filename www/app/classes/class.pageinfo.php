@@ -377,6 +377,8 @@ class Page {
     	int $order_number = 0, // The order number
     	array $devices = array(4), // Array of device_IDs
     	array $page_shares = array(), // Array of users that needs to be shared to
+    	int $page_width = null,
+    	int $page_height = null,
     	bool $start_downloading = true
     ) {
 	    global $db, $logger;
@@ -405,6 +407,8 @@ class Page {
 				$page_url,
 				$page_name,
 				$project_ID,
+				$page_width,
+				$page_height,
 				$start_downloading && $parent_page_ID == null
 			);
 

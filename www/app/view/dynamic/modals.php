@@ -1,3 +1,86 @@
+<?php
+function print_device_selector() {
+	global $db;
+?>
+
+					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Custom device option is not working right now." aria-hidden="true"></i></h3>
+					<ul class="selected-devices">
+						<li><?php $custom_device_ID = 11; ?>
+							<input type="hidden" name="devices[]" value="11"/>
+							<input type="hidden" name="page-width" value="<?=Device::ID($custom_device_ID)->getDeviceInfo('device_width')?>"/>
+							<input type="hidden" name="page-height" value="<?=Device::ID($custom_device_ID)->getDeviceInfo('device_height')?>"/>
+							<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_width')?></span> x <span class="screen-height"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_height')?></span>)</span>
+							<a href="#" class="remove-device" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+						</li>
+					</ul>
+					<span class="dropdown-container">
+
+						<span class="dropdown-opener add-device">ADD DEVICE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+
+						<nav class="dropdown xl-left">
+							<ul class="device-adder">
+								<?php
+								$db->orderBy('device_cat_order', 'asc');
+								$device_cats = $db->get('device_categories');
+								foreach ($device_cats as $device_cat) {
+								?>
+
+								<li>
+
+									<div class="dropdown-container">
+										<div class="dropdown-opener">
+											<i class="fa <?=$device_cat['device_cat_icon']?>" aria-hidden="true"></i> <?=$device_cat['device_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+										</div>
+										<nav class="dropdown selectable addable xl-left">
+											<ul class="device-add">
+												<?php
+												$db->where('device_cat_ID', $device_cat['device_cat_ID']);
+												$db->orderBy('device_order', 'asc');
+												$devices = $db->get('devices');
+												foreach ($devices as $device) {
+												?>
+												<li>
+													<a href="#"
+														data-device-id="<?=$device['device_ID']?>"
+														data-device-width="<?=$device['device_width']?>"
+														data-device-height="<?=$device['device_height']?>"
+														data-device-cat-name="<?=$device_cat['device_cat_name']?>"
+														data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
+													>
+														<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
+													</a>
+												</li>
+												<?php
+												}
+
+												// Custom Device
+												if ($device_cat['device_cat_name'] == "Custom...") {
+												?>
+												<li><a href="#" data-device-id="<?=$device['device_ID']?>">Add New</a></li>
+												<?php
+												}
+												?>
+											</ul>
+										</nav>
+
+									</div>
+
+								</li>
+
+								<?php
+								}
+								?>
+							</ul>
+						</nav>
+
+					</span>
+
+<?php
+}
+?>
+
+
+
 <div id="add-new" class="popup-window xl-center scrollable-content">
 	<h2>Add New <?=ucfirst($dataType)?></h2>
 	<h5 class="to">To <b>Main Pages</b> Section</h5>
@@ -78,75 +161,7 @@
 					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="3" required disabled/>
 
 
-					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Custom device option is not working right now." aria-hidden="true"></i></h3>
-					<ul class="selected-devices">
-						<li><?php $custom_device_ID = 11; ?>
-							<input type="hidden" name="devices[]" value="11"/>
-							<i class="fa fa-window-maximize" aria-hidden="true"></i> <span><?=Device::ID($custom_device_ID)->getDeviceInfo('device_name')?> (<span class="screen-width"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_width')?></span> x <span class="screen-height"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_height')?></span>)</span>
-							<a href="#" class="remove-device" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-						</li>
-					</ul>
-					<span class="dropdown-container">
-
-						<span class="dropdown-opener add-device">ADD DEVICE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-
-						<nav class="dropdown xl-left">
-							<ul class="device-adder">
-								<?php
-								$db->orderBy('device_cat_order', 'asc');
-								$device_cats = $db->get('device_categories');
-								foreach ($device_cats as $device_cat) {
-								?>
-
-								<li>
-
-									<div class="dropdown-container">
-										<div class="dropdown-opener">
-											<i class="fa <?=$device_cat['device_cat_icon']?>" aria-hidden="true"></i> <?=$device_cat['device_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
-										</div>
-										<nav class="dropdown selectable addable xl-left">
-											<ul class="device-add">
-												<?php
-												$db->where('device_cat_ID', $device_cat['device_cat_ID']);
-												$db->orderBy('device_order', 'asc');
-												$devices = $db->get('devices');
-												foreach ($devices as $device) {
-												?>
-												<li>
-													<a href="#"
-														data-device-id="<?=$device['device_ID']?>"
-														data-device-width="<?=$device['device_width']?>"
-														data-device-height="<?=$device['device_height']?>"
-														data-device-cat-name="<?=$device_cat['device_cat_name']?>"
-														data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
-													>
-														<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
-													</a>
-												</li>
-												<?php
-												}
-
-												// Custom Device
-												if ($device_cat['device_cat_name'] == "Custom...") {
-												?>
-												<li><a href="#" data-device-id="<?=$device['device_ID']?>">Add New</a></li>
-												<?php
-												}
-												?>
-											</ul>
-										</nav>
-
-									</div>
-
-								</li>
-
-								<?php
-								}
-								?>
-							</ul>
-						</nav>
-
-					</span>
+					<?=print_device_selector()?>
 
 
 					<h3>Page Members <i class="fa fa-question-circle tooltip" data-tooltip="Sharing to emails that are not users is not working right now." aria-hidden="true"></i></h3>
@@ -236,75 +251,8 @@
 				<!-- More Options -->
 				<div class="more-options-wrapper">
 
-					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Custom device option is not working right now." aria-hidden="true"></i></h3>
-					<ul class="selected-devices">
-						<li><?php $custom_device_ID = 11; ?>
-							<input type="hidden" name="devices[]" value="11"/>
-							<i class="fa fa-window-maximize" aria-hidden="true"></i> <span><?=Device::ID($custom_device_ID)->getDeviceInfo('device_name')?> (<span class="screen-width"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_width')?></span> x <span class="screen-height"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_height')?></span>)</span>
-							<a href="#" class="remove-device" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-						</li>
-					</ul>
-					<span class="dropdown-container">
 
-						<span class="dropdown-opener add-device">ADD DEVICE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-
-						<nav class="dropdown xl-left">
-							<ul class="device-adder">
-								<?php
-								$db->orderBy('device_cat_order', 'asc');
-								$device_cats = $db->get('device_categories');
-								foreach ($device_cats as $device_cat) {
-								?>
-
-								<li>
-
-									<div class="dropdown-container">
-										<div class="dropdown-opener">
-											<i class="fa <?=$device_cat['device_cat_icon']?>" aria-hidden="true"></i> <?=$device_cat['device_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
-										</div>
-										<nav class="dropdown selectable addable xl-left">
-											<ul class="device-add">
-												<?php
-												$db->where('device_cat_ID', $device_cat['device_cat_ID']);
-												$db->orderBy('device_order', 'asc');
-												$devices = $db->get('devices');
-												foreach ($devices as $device) {
-												?>
-												<li>
-													<a href="#"
-														data-device-id="<?=$device['device_ID']?>"
-														data-device-width="<?=$device['device_width']?>"
-														data-device-height="<?=$device['device_height']?>"
-														data-device-cat-name="<?=$device_cat['device_cat_name']?>"
-														data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
-													>
-														<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
-													</a>
-												</li>
-												<?php
-												}
-
-												// Custom Device
-												if ($device_cat['device_cat_name'] == "Custom...") {
-												?>
-												<li><a href="#" data-device-id="<?=$device['device_ID']?>">Add New</a></li>
-												<?php
-												}
-												?>
-											</ul>
-										</nav>
-
-									</div>
-
-								</li>
-
-								<?php
-								}
-								?>
-							</ul>
-						</nav>
-
-					</span>
+					<?=print_device_selector()?>
 
 
 					<h3>Members <i class="fa fa-question-circle tooltip" data-tooltip="Sharing to emails that are not users is not working right now." aria-hidden="true"></i></h3>
