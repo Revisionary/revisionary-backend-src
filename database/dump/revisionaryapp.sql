@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 25, 2018 at 11:26 AM
+-- Generation Time: Oct 25, 2018 at 03:02 PM
 -- Server version: 8.0.12
 -- PHP Version: 7.2.8
 
@@ -95,7 +95,7 @@ INSERT INTO `devices` (`device_ID`, `device_name`, `device_width`, `device_heigh
 (8, 'iPhone 6, 6S, 7', 375, 667, 1, NULL, NULL, 3, 1, 1),
 (9, 'iPhone 5, 5C, 5S, SE', 320, 568, 1, NULL, NULL, 3, 2, 1),
 (10, 'iPhone 4 & 4S', 320, 480, 1, NULL, NULL, 3, 3, 1),
-(11, 'Current Screen', 1440, 900, 0, NULL, NULL, 4, 0, 1);
+(11, 'Custom Screen', 1440, 900, 0, NULL, NULL, 4, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -118,7 +118,7 @@ INSERT INTO `device_categories` (`device_cat_ID`, `device_cat_name`, `device_cat
 (1, 'Desktop', 'fa-desktop', 0),
 (2, 'Tablet', 'fa-tablet', 2),
 (3, 'Mobile', 'fa-mobile', 3),
-(4, 'Custom...', 'fa-window-maximize', 4),
+(4, 'Custom', 'fa-window-maximize', 4),
 (5, 'Laptop', 'fa-laptop', 1);
 
 -- --------------------------------------------------------
