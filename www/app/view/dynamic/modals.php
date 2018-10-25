@@ -80,9 +80,9 @@
 
 					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Custom device option is not working right now." aria-hidden="true"></i></h3>
 					<ul class="selected-devices">
-						<li>
-							<input type="hidden" name="devices[]" value="4"/>
-							<i class="fa fa-laptop" aria-hidden="true"></i> <span>Current Screen (1400 x 900)</span>
+						<li><?php $custom_device_ID = 11; ?>
+							<input type="hidden" name="devices[]" value="11"/>
+							<i class="fa fa-window-maximize" aria-hidden="true"></i> <span><?=Device::ID($custom_device_ID)->getDeviceInfo('device_name')?> (<span class="screen-width"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_width')?></span> x <span class="screen-height"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_height')?></span>)</span>
 							<a href="#" class="remove-device" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 						</li>
 					</ul>
@@ -238,9 +238,9 @@
 
 					<h3 style="margin-bottom: 0">Devices <i class="fa fa-question-circle tooltip" data-tooltip="Custom device option is not working right now." aria-hidden="true"></i></h3>
 					<ul class="selected-devices">
-						<li>
-							<input type="hidden" name="devices[]" value="4"/>
-							<i class="fa fa-laptop" aria-hidden="true"></i> <span>Current Screen (1400 x 900)</span>
+						<li><?php $custom_device_ID = 11; ?>
+							<input type="hidden" name="devices[]" value="11"/>
+							<i class="fa fa-window-maximize" aria-hidden="true"></i> <span><?=Device::ID($custom_device_ID)->getDeviceInfo('device_name')?> (<span class="screen-width"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_width')?></span> x <span class="screen-height"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_height')?></span>)</span>
 							<a href="#" class="remove-device" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 						</li>
 					</ul>

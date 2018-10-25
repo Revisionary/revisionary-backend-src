@@ -5301,7 +5301,8 @@ a {
       position: relative; }
       .dropdown-container > nav.dropdown.selectable > ul > li.selected > *:before {
         content: "\f00c";
-        font-family: FontAwesome;
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
         position: absolute;
         left: 4px;
         top: 50%;
@@ -5314,7 +5315,8 @@ a {
         padding: 5px 5px 5px 30px; }
         .dropdown-container > nav.dropdown.selectable.addable > ul > li > *:before {
           content: "\f067";
-          font-family: FontAwesome;
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
           position: absolute;
           left: 6px;
           top: 50%;
@@ -5362,7 +5364,7 @@ a {
     text-transform: initial;
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 12px;
-    line-height: 25px;
+    line-height: 15px;
     width: 120px;
     text-align: center; }
   [data-tooltip].bottom-tooltip:hover:after {
@@ -5506,7 +5508,8 @@ pin {
     border: 1px solid black; }
     pin[data-pin-complete="1"]:before {
       content: "\f00c";
-      font-family: FontAwesome;
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
       font-size: 17px;
       display: block;
       position: absolute;
@@ -6149,12 +6152,12 @@ footer .footer-links a {
         position: relative; }
         .block .box .overlay .pages .page-count {
           position: absolute;
-          top: 37px;
+          top: 30px;
           font-size: 15px;
           line-height: 16px;
           display: block;
           width: 100%;
-          padding-right: 15px;
+          padding-right: 20px;
           box-sizing: border-box; }
       .block .box .overlay .modes a {
         font-size: 30px;

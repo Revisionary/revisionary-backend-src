@@ -76,7 +76,7 @@
 				<i class="fa fa-link" aria-hidden="true"></i> https://revisionaryapp.com/<?=User::ID()->userName?>
 			</a>
 			<a href="#" class="privacy">
-				<i class="fa fa-globe" aria-hidden="true"></i> <i class="fa fa-caret-down" aria-hidden="true"></i>
+				<i class="fa fa-globe-americas"></i> <i class="fa fa-caret-down" aria-hidden="true"></i>
 			</a>
 			<?php
 

@@ -5,6 +5,7 @@
 		<title><?=$page_title?></title>
 
 		<link rel="stylesheet" href="<?=asset_url_nocache('fonts/font-awesome/css/all.css')?>" media="screen">
+		<link rel="stylesheet" href="<?=asset_url_nocache('fonts/font-awesome/css/v4-shims.css')?>" media="screen">
 		<link rel="stylesheet" href="<?=asset_url_nocache('styles/style.css')?>" media="screen">
 
 		<?php

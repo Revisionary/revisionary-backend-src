@@ -472,7 +472,8 @@ a {
 
 							&:before {
 							    content: "\f00c";
-							    font-family: FontAwesome;
+							    font-family: 'Font Awesome 5 Free';
+							    font-weight: 900;
 							    position: absolute;
 								left: 4px;
 							    top: 50%;
@@ -503,7 +504,8 @@ a {
 
 							&:before {
 							    content: "\f067";
-							    font-family: FontAwesome;
+							    font-family: 'Font Awesome 5 Free';
+							    font-weight: 900;
 							    position: absolute;
 								left: 6px;
 							    top: 50%;
@@ -587,7 +589,7 @@ a {
 	    text-transform: initial;
 	    font-family: 'Roboto Condensed', sans-serif;
 	    font-size: 12px;
-	    line-height: 25px;
+	    line-height: 15px;
 	    width: 120px;
 	    text-align: center;
 	    //white-space: nowrap;
@@ -795,7 +797,8 @@ pin {
 
     	&:before {
 	    	content: "\f00c";
-	    	font-family: FontAwesome;
+	    	font-family: 'Font Awesome 5 Free';
+	    	font-weight: 900;
 	    	font-size: 17px;
 	    	display: block;
 	    	position: absolute;
@@ -1722,12 +1725,12 @@ footer {
 
 			    .page-count {
 					position: absolute;
-				    top: 37px;
+				    top: 30px;
 				    font-size: 15px;
 				    line-height: 16px;
 				    display: block;
 				    width: 100%;
-				    padding-right: 15px;
+				    padding-right: 20px;
 				    box-sizing: border-box;
 				}
 

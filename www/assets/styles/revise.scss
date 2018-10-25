@@ -161,7 +161,7 @@ html, body {
 
 	.pins-list {
 
-		& * {
+		& *:not(i) {
 			font-weight: lighter;
 		}
 

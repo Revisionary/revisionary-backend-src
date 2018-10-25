@@ -98,7 +98,7 @@ html, body {
       letter-spacing: 1.2px; }
       #revise-sections .pins-filter a.selected {
         text-decoration: underline; }
-  #revise-sections .pins-list * {
+  #revise-sections .pins-list *:not(i) {
     font-weight: lighter; }
   #revise-sections .pins-list .pin {
     margin-bottom: 15px; }
