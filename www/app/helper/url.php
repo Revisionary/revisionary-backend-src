@@ -19,6 +19,16 @@ function asset_url($url = null, $forceSSL = false, $unForceSSL = false) {
   return ($forceSSL ? secure_url : ($unForceSSL ? insecure_url : url)) . '/assets/' . $url;
 }
 
+function asset_url_nocache($url = null) {
+
+	$filemtime = filemtime(dir.'/assets/'.$url);
+
+	$full_url = asset_url($url);
+	$new_url = queryArg("v=$filemtime", $full_url);
+
+	return $new_url;
+}
+
 function cache_url($url = null, $forceSSL = false, $unForceSSL = false) {
   return asset_url('cache/' . $url, $forceSSL, $unForceSSL);
 }
