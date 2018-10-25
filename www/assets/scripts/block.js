@@ -269,53 +269,6 @@ $(function() {
 
 
 
-	function memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, user_ID, unremoveable, objectID) {
-
-		var hasPic = 'class="has-pic"';
-		var printPic = 'style="background-image: url('+userImageUrl+');"';
-		var ownerBadge = '';
-
-		if (mStatus != 'email' ) email = '('+email+')';
-		if (mStatus == 'email' ) nameabbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
-		if (mStatus == 'email' ) user_ID = email;
-		if (mStatus == 'owner' ) ownerBadge = '<span class="owner-badge">Owner</span>';
-		if (userImageUrl == "") hasPic = printPic = "";
-
-		return '\
-			<li class="inline-guys member '+mStatus+' '+unremoveable+'">\
-				<picture class="profile-picture big" '+printPic+'>\
-					<span '+hasPic+'>'+nameabbr+'</span>\
-				</picture>\
-				<div>\
-					<span class="full-name">'+fullName+'</span>\
-					<span class="email">'+email+'</span>\
-					'+ownerBadge+'\
-				</div>\
-				<a href="#" class="remove remove-member" data-userid="'+user_ID+'" data-id="'+objectID+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
-			</li>\
-		';
-
-	}
-
-	function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, user_ID, unremoveable) {
-
-		var hasPic = 'class="has-pic"';
-		var printPic = 'style="background-image: url('+userImageUrl+');"';
-
-		if (userImageUrl == "") hasPic = printPic = "";
-
-		return '\
-			<a href="#" data-tooltip="'+(mStatus == 'email' ? email : fullName)+'" data-mstatus="'+mStatus+'" data-fullname="'+fullName+'" data-nameabbr="'+nameabbr+'" data-email="'+email+'" data-avatar="'+userImageUrl+'" data-userid="'+user_ID+'" data-unremoveable="'+unremoveable+'">\
-				<picture class="profile-picture" '+printPic+'>\
-					<span '+hasPic+'>'+(mStatus == 'email' ? '<i class="fa fa-envelope" aria-hidden="true"></i>' : nameabbr)+'</span>\
-				</picture>\
-			</a>\
-		';
-
-	}
-
-
-
 	// Share Modal
 	$(document).on('click', '.share-button', function(e) {
 
@@ -995,7 +948,7 @@ $(function() {
 		screenWidth = width;
 		screenHeight = height;
 
-		console.log(width, height);
+		//console.log(width, height);
 
 		// Show new values
 		$('.screen-width').text(screenWidth);
@@ -1004,6 +957,21 @@ $(function() {
 		// Edit the input values
 		$('input[name="page-width"]').attr('value', screenWidth);
 		$('input[name="page-height"]').attr('value', screenHeight);
+
+
+		$('.new-device[data-device-id="11"]').each(function() {
+
+			var newDeviceURL = $(this).attr('href');
+			var widthOnURL = getParameterByName('page_width', newDeviceURL);
+			var heightOnURL = getParameterByName('page_height', newDeviceURL);
+
+			var newURL = newDeviceURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
+			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+screenHeight);
+
+			$(this).attr('href', newURL);
+			//console.log(newURL);
+
+		});
 
 
 	}).resize();
@@ -1024,3 +992,63 @@ $(window).on("load", function (e) {
 
 
 });
+
+
+// TEMPLATES
+function memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, user_ID, unremoveable, objectID) {
+
+	var hasPic = 'class="has-pic"';
+	var printPic = 'style="background-image: url('+userImageUrl+');"';
+	var ownerBadge = '';
+
+	if (mStatus != 'email' ) email = '('+email+')';
+	if (mStatus == 'email' ) nameabbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
+	if (mStatus == 'email' ) user_ID = email;
+	if (mStatus == 'owner' ) ownerBadge = '<span class="owner-badge">Owner</span>';
+	if (userImageUrl == "") hasPic = printPic = "";
+
+	return '\
+		<li class="inline-guys member '+mStatus+' '+unremoveable+'">\
+			<picture class="profile-picture big" '+printPic+'>\
+				<span '+hasPic+'>'+nameabbr+'</span>\
+			</picture>\
+			<div>\
+				<span class="full-name">'+fullName+'</span>\
+				<span class="email">'+email+'</span>\
+				'+ownerBadge+'\
+			</div>\
+			<a href="#" class="remove remove-member" data-userid="'+user_ID+'" data-id="'+objectID+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+		</li>\
+	';
+
+}
+
+function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, user_ID, unremoveable) {
+
+	var hasPic = 'class="has-pic"';
+	var printPic = 'style="background-image: url('+userImageUrl+');"';
+
+	if (userImageUrl == "") hasPic = printPic = "";
+
+	return '\
+		<a href="#" data-tooltip="'+(mStatus == 'email' ? email : fullName)+'" data-mstatus="'+mStatus+'" data-fullname="'+fullName+'" data-nameabbr="'+nameabbr+'" data-email="'+email+'" data-avatar="'+userImageUrl+'" data-userid="'+user_ID+'" data-unremoveable="'+unremoveable+'">\
+			<picture class="profile-picture" '+printPic+'>\
+				<span '+hasPic+'>'+(mStatus == 'email' ? '<i class="fa fa-envelope" aria-hidden="true"></i>' : nameabbr)+'</span>\
+			</picture>\
+		</a>\
+	';
+
+}
+
+
+
+// HELPERS
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}

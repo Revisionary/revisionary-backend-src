@@ -889,10 +889,25 @@
 									<?php
 									foreach ($existing_devices as $device) {
 										if ($device['page_ID'] == $page_ID) continue;
+
+
+
+										$existing_device_width = $device['device_width'];
+										$existing_device_height = $device['device_height'];
+
+										$page_width = Page::ID($device['page_ID'])->getPageInfo('page_width');
+										$page_height = Page::ID($device['page_ID'])->getPageInfo('page_height');
+
+										if ($page_width != null && $page_width != null) {
+											$existing_device_width = $page_width;
+											$existing_device_height = $page_height;
+										}
+
+
 									?>
 
 										<li>
-											<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i> <?=$device['device_cat_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)</a>
+											<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i> <?=$device['device_cat_name']?> (<?=$existing_device_width?>x<?=$existing_device_height?>)</a>
 										</li>
 
 									<?php
@@ -922,16 +937,32 @@
 																	$db->orderBy('device_order', 'asc');
 																	$devices = $db->get('devices');
 																	foreach ($devices as $device) {
+
+
+																		$device_link = site_url("project/$project_ID?new_device=".$device['device_ID']."&page_ID=".$parentpage_ID);
+																		$device_label = $device['device_name']." (".$device['device_width']."x".$device['device_height'].")";
+																		if ($device['device_ID'] == 11) {
+																			$device_link = queryArg('page_width='.$device['device_width'], $device_link);
+																			$device_link = queryArg('page_height='.$device['device_height'], $device_link);
+																			$device_label = $device['device_name']." (<span class='screen-width'>".$device['device_width']."</span>x<span class='screen-height'>".$device['device_height']."</span>)";
+																		}
+
+																		$device_link = queryArg('nonce='.$_SESSION["new_device_nonce"], $device_link);
+
+
+
+
 																	?>
 																	<li>
-																		<a href="<?=site_url("project/$project_ID?new_device=".$device['device_ID']."&page_ID=$parentpage_ID&nonce=".$_SESSION["new_device_nonce"])?>"
+																		<a href="<?=$device_link?>"
+																			class="new-device"
 																			data-device-id="<?=$device['device_ID']?>"
 																			data-device-width="<?=$device['device_width']?>"
 																			data-device-height="<?=$device['device_height']?>"
 																			data-device-cat-name="<?=$device_cat['device_cat_name']?>"
 																			data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
 																		>
-																			<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
+																			<?=$device_label?>
 																		</a>
 																	</li>
 																	<?php

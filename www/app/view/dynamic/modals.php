@@ -23,6 +23,7 @@ function print_device_selector() {
 								$db->orderBy('device_cat_order', 'asc');
 								$device_cats = $db->get('device_categories');
 								foreach ($device_cats as $device_cat) {
+									if ($device_cat['device_cat_name'] == "Custom") continue;
 								?>
 
 								<li>

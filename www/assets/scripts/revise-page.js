@@ -106,13 +106,54 @@ $(function() {
 	        return;
 	    }
 
-	    iframeScale = Math.min(width/maxWidth, height/maxHeight); console.log('IFRAME SCALE', iframeScale);
+	    iframeScale = Math.min(width/maxWidth, height/maxHeight);
 	    iframeWidth = maxWidth * iframeScale;
 		iframeHeight = maxHeight * iframeScale;
 
 
 	    $('iframe').css({'-webkit-transform': 'scale(' + iframeScale + ')'});
 	    $('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
+
+
+
+
+
+
+
+	    // UPDATE THE CURRENT WINDOW SIZE FOR CUSTOM SCREEN ADDING
+		var width = $(this).width();
+		var height = $(this).height();
+
+		screenWidth = width;
+		screenHeight = height;
+
+		//console.log(width, height);
+
+		// Show new values
+		$('.screen-width').text(screenWidth);
+		$('.screen-height').text(screenHeight);
+
+		// Edit the input values
+		$('input[name="page-width"]').attr('value', screenWidth);
+		$('input[name="page-height"]').attr('value', screenHeight);
+
+
+		$('.new-device[data-device-id="11"]').each(function() {
+
+			var newDeviceURL = $(this).attr('href');
+			var widthOnURL = getParameterByName('page_width', newDeviceURL);
+			var heightOnURL = getParameterByName('page_height', newDeviceURL);
+
+			var newURL = newDeviceURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
+			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+screenHeight);
+
+			$(this).attr('href', newURL);
+			//console.log(newURL);
+
+		});
+
+
+
 
 
 	}).resize();

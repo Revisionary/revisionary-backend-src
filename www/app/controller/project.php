@@ -146,11 +146,31 @@ if (
 if ( is_numeric(get('new_device')) && is_numeric(get('page_ID')) && get('nonce') == $_SESSION["new_device_nonce"] ) {
 
 
-	// Add the device
-	$page_ID = Device::ID()->addNew(
-		get('new_device'),
-		get('page_ID')
-	);
+
+	// Check if custom device sizes exist
+	if ( is_numeric(get('page_width')) && is_numeric(get('page_height')) ) {
+
+		// Add the device with dimensions
+		$page_ID = Device::ID()->addNew(
+			get('new_device'),
+			get('page_ID'),
+			null,
+			null,
+			null,
+			get('page_width'),
+			get('page_height')
+		);
+
+	} else {
+
+		// Add the device
+		$page_ID = Device::ID()->addNew(
+			get('new_device'),
+			get('page_ID')
+		);
+
+	}
+
 
 
 	// Check the result

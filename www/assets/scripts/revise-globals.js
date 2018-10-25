@@ -81,10 +81,12 @@ var currentPinNumber = 1;
 // Mouse
 var offset = 0;
 var mouseInTheFrame = false;
-var screenX = 0
-var screenY = 0
-var containerX = 0
-var containerY = 0
+var screenX = 0;
+var screenY = 0;
+var containerX = 0;
+var containerY = 0;
+var screenWidth = 10;
+var screenHeight = 10;
 
 // Hovers
 var hoveringText = false;
