@@ -10,5 +10,5 @@ $config['env'] = [
 	'db_name' 	=> "revisionaryapp",
 	'db_user' 	=> "user",
 	'db_pass' 	=> "test",
-	'timezone'  => "Europe/Istanbul"
+	'timezone'  => "UTC"
 ];
