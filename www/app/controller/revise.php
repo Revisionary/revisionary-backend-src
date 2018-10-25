@@ -89,8 +89,8 @@ $pageCat = $db->getOne('categories');
 
 
 // Screenshots
-$page_image = Page::ID($page_ID)->pageDeviceDir."/".page_image_name;
-$project_image = Page::ID($page_ID)->projectDir."/".project_image_name;
+$page_image = Page::ID($page_ID)->pageDeviceDir."/page.jpg";
+$project_image = Page::ID($page_ID)->projectDir."/project.jpg";
 
 
 //print_r($pageCat); exit();
@@ -260,6 +260,7 @@ if (
 	file_exists(Page::ID($page_ID)->pageFile) && // HTML is downloaded
 	file_exists( $page_image ) && // Page image ready
 	file_exists( $project_image ) && // // Project image ready
+	file_exists( Page::ID($page_ID)->logDir."/browser.log" ) && // No error on Browser
 	file_exists( Page::ID($page_ID)->logDir."/html-filter.log" ) && // No error on HTML filtering
 	file_exists( Page::ID($page_ID)->logDir."/css-filter.log" ) // No error on CSS filtering
 
