@@ -5356,11 +5356,13 @@ a {
     color: white;
     content: attr(data-tooltip);
     position: absolute;
+    z-index: 999;
     bottom: 100%;
     right: 0;
     text-transform: initial;
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 12px;
+    line-height: 25px;
     width: 120px;
     text-align: center; }
   [data-tooltip].bottom-tooltip:hover:after {
