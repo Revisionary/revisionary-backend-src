@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 11, 2018 at 11:18 AM
+-- Generation Time: Oct 25, 2018 at 11:26 AM
 -- Server version: 8.0.12
 -- PHP Version: 7.2.8
 
@@ -94,7 +94,8 @@ INSERT INTO `devices` (`device_ID`, `device_name`, `device_width`, `device_heigh
 (7, 'iPhone 6 Plus, 6S Plus, 7 Plus', 414, 736, 1, NULL, NULL, 3, 0, 1),
 (8, 'iPhone 6, 6S, 7', 375, 667, 1, NULL, NULL, 3, 1, 1),
 (9, 'iPhone 5, 5C, 5S, SE', 320, 568, 1, NULL, NULL, 3, 2, 1),
-(10, 'iPhone 4 & 4S', 320, 480, 1, NULL, NULL, 3, 3, 1);
+(10, 'iPhone 4 & 4S', 320, 480, 1, NULL, NULL, 3, 3, 1),
+(11, 'Current Screen', 1440, 900, 0, NULL, NULL, 4, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -117,7 +118,7 @@ INSERT INTO `device_categories` (`device_cat_ID`, `device_cat_name`, `device_cat
 (1, 'Desktop', 'fa-desktop', 0),
 (2, 'Tablet', 'fa-tablet', 2),
 (3, 'Mobile', 'fa-mobile', 3),
-(4, 'Custom...', 'fa-window-restore', 4),
+(4, 'Custom...', 'fa-window-maximize', 4),
 (5, 'Laptop', 'fa-laptop', 1);
 
 -- --------------------------------------------------------
@@ -133,7 +134,8 @@ CREATE TABLE `pages` (
   `page_url` text NOT NULL,
   `page_user` varchar(60) DEFAULT NULL,
   `page_pass` varchar(60) DEFAULT NULL,
-  `page_height` int(11) DEFAULT NULL,
+  `page_width` mediumint(10) DEFAULT NULL,
+  `page_height` mediumint(10) DEFAULT NULL,
   `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `page_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `page_internalized` int(20) NOT NULL DEFAULT '0',
@@ -497,7 +499,7 @@ ALTER TABLE `deletes`
 -- AUTO_INCREMENT for table `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `device_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `device_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `device_categories`
