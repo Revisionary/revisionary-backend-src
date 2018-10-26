@@ -399,6 +399,10 @@ class Page {
 		foreach ($devices as $device_ID) {
 
 
+			// If the page has no custom screen size
+			if ($device_ID != 11)
+				$page_width = $page_height = null;
+
 
 			// Add the device
 			$page_ID = Device::ID()->addNew(
@@ -413,9 +417,12 @@ class Page {
 			);
 
 
+			// After adding first page, record the parent_page_ID as the first page added
+			if ( $device_count == 0 )
+				$parent_page_ID = $page_ID;
 
-			// Record the parent_page_ID as the first page added
-			if ( $device_count == 0 ) $parent_page_ID = $page_ID;
+
+			// Increase the device count
 			$device_count++;
 
 
