@@ -481,8 +481,8 @@ require('http').createServer(async (req, res) => {
 
 
 
-
-
+		// Serialized HTML of page DOM
+		const renderedHTML = await page.content();
 
 
 
@@ -517,8 +517,23 @@ require('http').createServer(async (req, res) => {
 							try{ fs.chownSync(downloadable.newDir, 33, 33); } catch(e) {}
 						}
 
+						let buffer = downloadable.buffer;
+
+
+						if (downloadable.newFileName == "index.html") {
+
+							buffer = renderedHTML;
+
+							// Write to the file
+							//fs.writeFileSync(siteDir + 'rendered.html', buffer);
+							//try{ fs.chownSync(siteDir + 'rendered.html', 33, 33); } catch(e) {}
+
+						}
+
+
+
 						// Write to the file
-						fs.writeFileSync(downloadable.newDir + downloadable.newFileName, downloadable.buffer);
+						fs.writeFileSync(downloadable.newDir + downloadable.newFileName, buffer);
 						try{ fs.chownSync(downloadable.newDir + downloadable.newFileName, 33, 33); } catch(e) {}
 
 
@@ -714,6 +729,8 @@ require('http').createServer(async (req, res) => {
 
 		actionDone = true;
 		console.log('💥 Done action: ' + action);
+
+
 
 
 
