@@ -146,6 +146,7 @@ require('http').createServer(async (req, res) => {
 		const width = parseInt(queryData.width, 10) || 1024;
 		const height = parseInt(queryData.height, 10) || 768;
 		const fullPage = queryData.fullPage == 'true' || false;
+		const SSR = queryData.ssr == 'true' || false;
 		const siteDir = queryData.sitedir || 'site/x/y/z/';
 		const logDir = siteDir+'logs/';
 
@@ -520,13 +521,13 @@ require('http').createServer(async (req, res) => {
 						let buffer = downloadable.buffer;
 
 
-						if (downloadable.newFileName == "index.html") {
+						if (downloadable.newFileName == "index.html" && SSR) {
+
+							// Save the unrendered version first? !!!
+							fs.writeFileSync(siteDir + 'original.html', buffer);
+							try{ fs.chownSync(siteDir + 'original.html', 33, 33); } catch(e) {}
 
 							buffer = renderedHTML;
-
-							// Write to the file
-							//fs.writeFileSync(siteDir + 'rendered.html', buffer);
-							//try{ fs.chownSync(siteDir + 'rendered.html', 33, 33); } catch(e) {}
 
 						}
 
