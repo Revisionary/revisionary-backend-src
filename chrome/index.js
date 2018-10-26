@@ -152,12 +152,12 @@ require('http').createServer(async (req, res) => {
 		// Create the log folder if not exist
 		if (!fs.existsSync(logDir)) {
 			fs.mkdirSync(logDir);
-			fs.chownSync(logDir, 33, 33);
+			try{ fs.chownSync(logDir, 33, 33); } catch(e) {}
 		}
 
 		// Create the log file
 		fs.writeFileSync(logDir+'browser.log', 'Started');
-		fs.chownSync(logDir+'browser.log', 33, 33);
+		try{ fs.chownSync(logDir+'browser.log', 33, 33); } catch(e) {}
 
 
 
@@ -170,11 +170,6 @@ require('http').createServer(async (req, res) => {
 
 		// If page is not already open
 		if (!page) {
-
-			//console.log('No cached page found.');
-
-
-			if (browser) console.log('Browser is already working!');
 
 
 			// Launch the browser if browser is not already open
@@ -488,7 +483,7 @@ require('http').createServer(async (req, res) => {
 				// Create the site folder if not exist
 				if (!fs.existsSync(siteDir)) {
 					fs.mkdirSync(siteDir);
-					fs.chownSync(siteDir, 33, 33);
+					try{ fs.chownSync(siteDir, 33, 33); } catch(e) {}
 				}
 
 
@@ -505,14 +500,12 @@ require('http').createServer(async (req, res) => {
 						// Create the folder if not exist
 						if (!fs.existsSync(downloadable.newDir)) {
 							fs.mkdirSync(downloadable.newDir);
-							fs.chownSync(downloadable.newDir, 33, 33);
+							try{ fs.chownSync(downloadable.newDir, 33, 33); } catch(e) {}
 						}
 
 						// Write to the file
 						fs.writeFileSync(downloadable.newDir + downloadable.newFileName, downloadable.buffer);
-
-						// Update the permissions
-						fs.chownSync(downloadable.newDir + downloadable.newFileName, 33, 33);
+						try{ fs.chownSync(downloadable.newDir + downloadable.newFileName, 33, 33); } catch(e) {}
 
 
 						// Add to the list
@@ -712,13 +705,24 @@ require('http').createServer(async (req, res) => {
 
 		// Close the page
 		try {
+
 			if (page && page.close) {
 				console.log('🗑 Disposing ' + url);
 				page.removeAllListeners();
-				await page.deleteCookie(await page.cookies());
 				await page.close();
 			}
-		} catch (e) {}
+
+			if (browser) {
+				console.log('🔌 Closing Browser for ' + url);
+				browser.close();
+				browser = null;
+			}
+
+		} catch (e) {
+
+			console.log('🐞 Closing error: ' + e);
+
+		}
 
 
 
