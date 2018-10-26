@@ -141,11 +141,12 @@ require('http').createServer(async (req, res) => {
 		});
 
 		pageURL = origin + path; console.log('🌎 pageURL: ', pageURL);
+		let realPageURL = pageURL;
 		let actionDone = false;
 		const width = parseInt(queryData.width, 10) || 1024;
 		const height = parseInt(queryData.height, 10) || 768;
 		const fullPage = queryData.fullPage == 'true' || false;
-		const siteDir = queryData.sitedir || 'site/';
+		const siteDir = queryData.sitedir || 'site/x/y/z/';
 		const logDir = siteDir+'logs/';
 
 
@@ -213,8 +214,19 @@ require('http').createServer(async (req, res) => {
 			await page.setRequestInterception(true);
 			page.on('request', (request) => {
 
+
+				// Update the real page URL
+				if (page.url() != 'about:blank' && realPageURL != page.url()) {
+					realPageURL = page.url();
+					console.log('🌎 Real Page URL: ', page.url());
+				}
+				const parsedRealURL = new URL(realPageURL);
+				const ourHost = parsedRealURL.hostname;
+
+
 				const url = request.url();
 				const parsedUrl = new URL(url);
+				const requestHost = parsedUrl.hostname;
 				const shortURL = truncate(url, 70);
 				const method = request.method();
 				const resourceType = request.resourceType();
@@ -271,11 +283,10 @@ require('http').createServer(async (req, res) => {
 					reqCount++;
 
 
-
 					// If on the same host, or provided by a CDN
 					if (
-						hostname == parsedUrl.hostname ||
-						cdnDetector.detectFromHostname(parsedUrl.hostname) != null
+						ourHost == requestHost ||
+						cdnDetector.detectFromHostname(requestHost) != null
 					) {
 
 						let shouldDownload = true;
@@ -480,6 +491,9 @@ require('http').createServer(async (req, res) => {
 		switch (action) {
 			case 'internalize': {
 
+				//console.log('🌎 Real Page URL: ', realPageURL);
+
+
 				// Create the site folder if not exist
 				if (!fs.existsSync(siteDir)) {
 					fs.mkdirSync(siteDir);
@@ -569,6 +583,7 @@ require('http').createServer(async (req, res) => {
 
 				const dataString = JSON.stringify({
 					status: (downloadedFiles.length ? 'success' : 'error'),
+					realPageURL : realPageURL,
 					downloadedFiles: downloadedFiles
 				}, null, '\t');
 
@@ -713,7 +728,7 @@ require('http').createServer(async (req, res) => {
 			}
 
 			if (browser) {
-				console.log('🔌 Closing Browser for ' + url);
+				console.log('🔌 Close the browser for ' + url);
 				browser.close();
 				browser = null;
 			}
