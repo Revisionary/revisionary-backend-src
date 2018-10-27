@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 25, 2018 at 03:02 PM
+-- Generation Time: Oct 27, 2018 at 05:15 AM
 -- Server version: 8.0.12
 -- PHP Version: 7.2.8
 
@@ -87,15 +87,15 @@ CREATE TABLE `devices` (
 INSERT INTO `devices` (`device_ID`, `device_name`, `device_width`, `device_height`, `device_rotateable`, `device_color`, `device_frame`, `device_cat_ID`, `device_order`, `device_user_ID`) VALUES
 (1, 'iMac 27', 2560, 1440, 0, NULL, NULL, 1, 0, 1),
 (2, 'iMac 21', 1920, 1080, 0, NULL, NULL, 1, 1, 1),
-(3, 'Macbook Pro 17', 1920, 1200, 0, NULL, NULL, 5, 2, 1),
-(4, 'Macbook Pro 15', 1440, 900, 0, NULL, NULL, 5, 3, 1),
-(5, 'Macbook Pro 13', 1280, 800, 0, NULL, NULL, 5, 4, 1),
-(6, 'iPad', 768, 1024, 1, NULL, NULL, 2, 0, 1),
-(7, 'iPhone 6 Plus, 6S Plus, 7 Plus', 414, 736, 1, NULL, NULL, 3, 0, 1),
-(8, 'iPhone 6, 6S, 7', 375, 667, 1, NULL, NULL, 3, 1, 1),
-(9, 'iPhone 5, 5C, 5S, SE', 320, 568, 1, NULL, NULL, 3, 2, 1),
-(10, 'iPhone 4 & 4S', 320, 480, 1, NULL, NULL, 3, 3, 1),
-(11, 'Custom Screen', 1440, 900, 0, NULL, NULL, 4, 0, 1);
+(3, 'Macbook Pro 17', 1920, 1200, 0, NULL, NULL, 2, 2, 1),
+(4, 'Macbook Pro 15', 1440, 900, 0, NULL, NULL, 2, 3, 1),
+(5, 'Macbook Pro 13', 1280, 800, 0, NULL, NULL, 2, 4, 1),
+(6, 'iPad', 768, 1024, 1, NULL, NULL, 3, 0, 1),
+(7, 'iPhone 6 Plus, 6S Plus, 7 Plus', 414, 736, 1, NULL, NULL, 4, 0, 1),
+(8, 'iPhone 6, 6S, 7', 375, 667, 1, NULL, NULL, 4, 1, 1),
+(9, 'iPhone 5, 5C, 5S, SE', 320, 568, 1, NULL, NULL, 4, 2, 1),
+(10, 'iPhone 4 & 4S', 320, 480, 1, NULL, NULL, 4, 3, 1),
+(11, 'Custom Screen', 1440, 900, 0, NULL, NULL, 5, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -116,10 +116,10 @@ CREATE TABLE `device_categories` (
 
 INSERT INTO `device_categories` (`device_cat_ID`, `device_cat_name`, `device_cat_icon`, `device_cat_order`) VALUES
 (1, 'Desktop', 'fa-desktop', 0),
-(2, 'Tablet', 'fa-tablet', 2),
-(3, 'Mobile', 'fa-mobile', 3),
-(4, 'Custom', 'fa-window-maximize', 4),
-(5, 'Laptop', 'fa-laptop', 1);
+(2, 'Laptop', 'fa-laptop', 1),
+(3, 'Tablet', 'fa-tablet', 2),
+(4, 'Mobile', 'fa-mobile', 3),
+(5, 'Custom', 'fa-window-maximize', 4);
 
 -- --------------------------------------------------------
 
@@ -176,7 +176,7 @@ CREATE TABLE `pins` (
   `pin_element_index` bigint(20) NOT NULL,
   `pin_modification_type` varchar(10) DEFAULT NULL,
   `pin_modification` longtext,
-  `pin_modification_original` tinytext CHARACTER SET utf8 COLLATE utf8_general_ci,
+  `pin_modification_original` tinytext,
   `version_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -189,12 +189,12 @@ CREATE TABLE `pins` (
 
 CREATE TABLE `pin_comments` (
   `comment_ID` bigint(20) NOT NULL,
-  `pin_comment` longtext NOT NULL,
+  `pin_comment` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `comment_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `comment_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pin_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
