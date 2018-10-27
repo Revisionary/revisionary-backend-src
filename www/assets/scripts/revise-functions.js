@@ -1260,7 +1260,17 @@ function startAutoRefresh(interval = autoRefreshInterval) {
 
 		console.log('Auto checking the pins...');
 
+
+		// Abort the latest request if not finalized
+		if(autoRefreshRequest && autoRefreshRequest.readyState != 4) {
+			console.log('Latest request aborted');
+			autoRefreshRequest.abort();
+		}
+
+
+		// Get the up-to-date pins
 		getPins();
+
 
 	}, interval);
 
