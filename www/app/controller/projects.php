@@ -42,7 +42,9 @@ if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_no
 			0, // Category ID
 			post('order'),
 			is_array(post('devices')) ? post('devices') : array(), // Device IDs array
-			is_array(post('page_shares')) ? post('page_shares') : array()
+			is_array(post('page_shares')) ? post('page_shares') : array(),
+			post('page-width') != "" ? post('page-width') : null,
+			post('page-height') != "" ? post('page-height') : null
 		);
 
 		if ($parent_page_ID) $firstPageAdded = true;
