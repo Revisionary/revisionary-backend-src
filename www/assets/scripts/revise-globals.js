@@ -120,6 +120,7 @@ var Pins = [];
 var pinDragging = false;
 var autoRefreshTimer;
 var autoRefreshInterval = 5000;
+var autoRefreshRequest = null;
 var pinsListOpen = false;
 
 

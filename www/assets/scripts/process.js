@@ -29,8 +29,13 @@ function newProcess(preventWindowClose = true) { // Add timeout function here !!
 	var newProcessID = processCount + 1;
 
 
-	// Stop auto-refresh
-	if (typeof stopAutoRefresh === "function") stopAutoRefresh();
+	// Stop auto-refresh, and abort the current request
+	if (typeof stopAutoRefresh === "function") {
+
+		if (autoRefreshRequest) autoRefreshRequest.abort();
+		stopAutoRefresh();
+
+	}
 
 
 	// Add the new process

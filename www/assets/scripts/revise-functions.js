@@ -141,9 +141,6 @@ function runTheInspector() {
 
 
 		// PAGE INTERACTIONS:
-		// Hide the loading overlay
-		$('#loading').fadeOut();
-
 		// Close all the tabs
 		$('.opener').each(function() {
 
@@ -690,7 +687,7 @@ function getPins(applyChanges = true) {
 
 
 	// Send the Ajax request
-	ajax('pins-get',
+	autoRefreshRequest = ajax('pins-get',
 	{
 		'nonce'	  		: pin_nonce,
 		'version_ID'	: version_ID
@@ -722,6 +719,7 @@ function getPins(applyChanges = true) {
 		} else {
 
 			console.log('No changes found');
+			autoRefreshRequest = null;
 
 		}
 
@@ -896,7 +894,14 @@ function applyChanges(showingOriginal = []) {
 	});
 
 
+	autoRefreshRequest = null;
+
+
 	console.log('CHANGES APPLIED');
+
+
+	// Hide the loading overlay
+	$('#loading').fadeOut();
 
 
 }
@@ -1266,6 +1271,8 @@ function startAutoRefresh(interval = autoRefreshInterval) {
 function stopAutoRefresh() {
 
 	console.log('AUTO-REFRESH PINS STOPPED');
+
+	if (autoRefreshRequest) autoRefreshRequest.abort();
 
 	clearInterval(autoRefreshTimer);
 
