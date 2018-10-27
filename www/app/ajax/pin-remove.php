@@ -3,9 +3,8 @@
 $status = "initiated";
 
 
-// NONCE CHECK
-if ( request("nonce") !== $_SESSION["pin_nonce"] )
-	return;
+// NONCE CHECK !!! Disabled for now!
+// if ( request("nonce") !== $_SESSION["pin_nonce"] ) return;
 
 
 // Get the pin info

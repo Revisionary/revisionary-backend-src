@@ -4,9 +4,8 @@ $data = array();
 $status = "initiated";
 
 
-// NONCE CHECK
-if ( request("nonce") !== $_SESSION["js_nonce"] )
-	return;
+// NONCE CHECK !!! Disabled for now!
+// if ( request("nonce") !== $_SESSION["js_nonce"] ) return;
 
 
 // Valid e-mail?

@@ -5,7 +5,8 @@ $status = "initiated";
 $shareType = false;
 
 
-// NONCE CHECK
+/*
+// NONCE CHECK !!! Disabled for now!
 if ( post("nonce") !== $_SESSION["js_nonce"] ) {
 
 	$data['data']['status'] = "security-error";
@@ -20,6 +21,7 @@ if ( post("nonce") !== $_SESSION["js_nonce"] ) {
 
 	return;
 }
+*/
 
 
 // Valid e-mail?
