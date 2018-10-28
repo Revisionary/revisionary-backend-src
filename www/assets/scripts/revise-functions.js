@@ -136,7 +136,7 @@ function runTheInspector() {
 
 		// PINS:
 		// Get latest pins and apply them to the page
-		getPins();
+		getPins(true, true);
 
 
 
@@ -676,7 +676,7 @@ function changePinNumber(pinNumber) {
 
 
 // DB: Get up-to-date pins and changes
-function getPins(applyChanges = true) {
+function getPins(applyChanges = true, firstRetrieve = false) {
 
 
 	console.log('GETTING PINS...');
@@ -718,8 +718,14 @@ function getPins(applyChanges = true) {
 
 		} else {
 
+
 			console.log('No changes found');
 			autoRefreshRequest = null;
+
+
+			// Hide the loading overlay
+			if (firstRetrieve) $('#loading').fadeOut();
+
 
 		}
 
