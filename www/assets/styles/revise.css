@@ -1,9 +1,6 @@
 html, body {
   overflow: hidden; }
 
-.overlay {
-  display: none !important; }
-
 #top-bar {
   position: relative;
   z-index: 1;
