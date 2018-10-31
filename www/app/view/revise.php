@@ -57,7 +57,7 @@
 				<div class="col home">
 
 					<a href="<?=site_url('projects/')?>">
-						Projects
+						<i class="fa fa-th"></i> All Projects
 					</a>
 					<sep><i class="fa fa-chevron-right"></i></sep>
 
@@ -83,7 +83,7 @@
 
 					<div class="desc">Category</div>
 
-					<a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>" class="pages">
+					<a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>">
 						<?=$pageCat['cat_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 					</a>
 					<sep><i class="fa fa-chevron-right"></i></sep>
@@ -97,7 +97,7 @@
 
 					<div class="desc">Page</div>
 
-					<a href="<?=site_url('project/'.$project_ID)?>" class="sections">
+					<a href="<?=site_url('project/'.$project_ID)?>">
 						<?=Page::ID($page_ID)->getPageInfo('page_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 					</a>
 
@@ -263,7 +263,7 @@
 				<div class="col version">
 
 					<div class="desc nomargin">Page Version</div>
-					<a href="#" class="button"><i class="fa fa-code-branch"></i> v3.1</a>
+					<a href="#" class="button"><i class="fa fa-code-branch"></i> <?=Page::ID($page_ID)->pageVersion?>.0</a>
 
 				</div>
 			</div>

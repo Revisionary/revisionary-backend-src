@@ -15,9 +15,9 @@ html, body {
     #top-bar a:hover {
       color: #007acc; }
   #top-bar .desc {
-    font-size: 6px;
-    line-height: 6px;
-    letter-spacing: 0.5px;
+    font-size: 7px;
+    line-height: 7px;
+    letter-spacing: 0.7px;
     opacity: 0.6;
     margin-bottom: -3px; }
     #top-bar .desc.nomargin {
