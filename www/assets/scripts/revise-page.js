@@ -56,25 +56,6 @@ $(function() {
 	});
 
 
-	// Cursor activator
-	$('.deactivator').click(function(e) {
-		toggleCursorActive();
-
-		e.preventDefault();
-		return false;
-	});
-
-
-/*
-	// Pin mode selector
-	pinTypeSelector.click(function(e) {
-		togglePinTypeSelector();
-
-		e.preventDefault();
-		return false;
-	});
-*/
-
 
 	// Pin mode change
 	$('.pin-types li:not(.deactivator) a').click(function(e) {
@@ -92,6 +73,15 @@ $(function() {
 
 	$('.pin-mode').hover(function() {
 		$('.pin-mode .dropdown').css('display', '');
+	});
+
+
+	// Cursor activator
+	$('.deactivator').click(function(e) {
+		toggleCursorActive();
+
+		e.preventDefault();
+		return false;
 	});
 
 
@@ -129,8 +119,8 @@ $(function() {
 
 
 	    // UPDATE THE CURRENT WINDOW SIZE FOR CUSTOM SCREEN ADDING
-		var width = $(this).width();
-		var height = $(this).height();
+		//var width = $(this).width();
+		//var height = $(this).height();
 
 		screenWidth = width;
 		screenHeight = height;
@@ -149,6 +139,8 @@ $(function() {
 		$('.new-device[data-device-id="11"]').each(function() {
 
 			var newDeviceURL = $(this).attr('href');
+			var topBarHeight = $('#top-bar').outerHeight(); console.log(topBarHeight);
+
 			var widthOnURL = getParameterByName('page_width', newDeviceURL);
 			var heightOnURL = getParameterByName('page_height', newDeviceURL);
 

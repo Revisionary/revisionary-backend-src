@@ -153,7 +153,7 @@
 					<div class="desc nomargin">Screen Size</div>
 					<span class="dropdown-container">
 
-						<a href="#" class="button dropdown-opener select-device"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i> <?=$device_name?>  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+						<a href="#" class="button dropdown-opener select-device"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i> <?=$device_name?> (<?=$width?>x<?=$height?>)  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 						<?php
 
 						if ( $parentpage_ID == null ) $parentpage_ID = $page_ID;
