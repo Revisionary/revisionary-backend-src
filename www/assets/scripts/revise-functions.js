@@ -1447,7 +1447,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 
 	// Disable the iframe
-	$('#the-page').css('pointer-events', 'none');
+	//$('#the-page').css('pointer-events', 'none');
 
 
 	// Disable the inspector
@@ -1639,7 +1639,7 @@ function closePinWindow() {
 
 
 	// Enable the iframe
-	$('#the-page').css('pointer-events', '');
+	//$('#the-page').css('pointer-events', '');
 
 }
 

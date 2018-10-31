@@ -95,7 +95,7 @@ $(function() {
 
 	$(window).resize(function(e) {
 
-	    var $window = $(window);
+	    var $window = $('#page');
 	    var width = $window.width() - 2; // -(10+10) for the borders
 	    var height = $window.height() - 2; // -(10+10) for the borders
 
