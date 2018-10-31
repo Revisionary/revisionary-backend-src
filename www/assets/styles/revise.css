@@ -35,11 +35,12 @@ html, body {
   #top-bar .breadcrumbs {
     font-weight: lighter; }
     #top-bar .breadcrumbs a {
-      font-weight: lighter;
-      display: inline-block; }
-      #top-bar .breadcrumbs a + sep {
-        font-size: 12px;
-        margin: 0 8px; }
+      font-weight: lighter; }
+    #top-bar .breadcrumbs sep {
+      font-size: 12px;
+      margin: 0 8px; }
+    #top-bar .breadcrumbs .selected {
+      font-weight: bold; }
   #top-bar > .wrap {
     height: 45px;
     padding: 5px;
@@ -72,8 +73,14 @@ html, body {
       #page .iframe-container iframe.dragging {
         pointer-events: none; }
 
+.color-primary {
+  color: black; }
+
 .color-live {
   color: #149440; }
+
+.color-private-live {
+  color: #FC0FB3; }
 
 #page main {
   border-width: 5px;

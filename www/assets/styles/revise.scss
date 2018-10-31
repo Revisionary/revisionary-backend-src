@@ -61,13 +61,17 @@ html, body {
 
 		a {
 			font-weight: lighter;
-			display: inline-block;
-
-			& + sep {
-				font-size: 12px;
-				margin: 0 8px;
-			}
 		}
+
+		sep {
+			font-size: 12px;
+			margin: 0 8px;
+		}
+
+		.selected {
+			font-weight: bold;
+		}
+
 	}
 
 	& > .wrap {
@@ -121,8 +125,16 @@ html, body {
 
 .color {
 
+	&-primary {
+		color: $color;
+	}
+
 	&-live {
 		color: $color-live;
+	}
+
+	&-private-live {
+		color: $color-private-live;
 	}
 
 }

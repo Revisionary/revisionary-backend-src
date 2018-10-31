@@ -47,7 +47,15 @@
 		<div class="col xl-left pin-mode">
 
 			<div class="desc nomargin">Pin Mode</div>
-			<a href="#" class="button"><i class="fa fa-dot-circle color-live"></i> LIVE</a>
+			<div class="dropdown-container">
+				<a href="#" class="button dropdown-opener"><i class="fa fa-dot-circle color-live"></i> LIVE</a>
+				<nav class="dropdown">
+					<ul>
+						<li><a href="#"><i class="fa fa-dot-circle color-primary"></i> ONLY COMMENT</a></li>
+						<li><a href="#"><i class="fa fa-dot-circle color-private-live"></i> LIVEABLE PRIVATE COMMENT</a></li>
+					</ul>
+				</nav>
+			</div>
 
 		</div>
 		<div class="col navigation">
@@ -68,9 +76,18 @@
 
 					<div class="desc">Project</div>
 
-					<a href="<?=site_url('project/'.$project_ID)?>">
-						<?=Project::ID($project_ID)->getProjectInfo('project_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
-					</a>
+					<span class="dropdown-container">
+						<a href="<?=site_url('project/'.$project_ID)?>" class="dropdown-opener">
+							<?=Project::ID($project_ID)->getProjectInfo('project_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+						</a>
+						<nav class="dropdown">
+							<ul>
+								<li class="selected"><a href="<?=site_url('project/'.$project_ID)?>"><?=Project::ID($project_ID)->getProjectInfo('project_name')?></a></li>
+								<li><a href="#">Other Project 2</a></li>
+								<li><a href="#">Other Project 3</a></li>
+							</ul>
+						</nav>
+					</span>
 					<sep><i class="fa fa-chevron-right"></i></sep>
 
 				</div>
@@ -83,9 +100,18 @@
 
 					<div class="desc">Category</div>
 
-					<a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>">
-						<?=$pageCat['cat_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
-					</a>
+					<span class="dropdown-container">
+						<a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>" class="dropdown-opener">
+							<?=$pageCat['cat_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+						</a>
+						<nav class="dropdown">
+							<ul>
+								<li class="selected"><a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>"><?=$pageCat['cat_name']?></a></li>
+								<li><a href="#">Other Category 2</a></li>
+								<li><a href="#">Other Category 3</a></li>
+							</ul>
+						</nav>
+					</span>
 					<sep><i class="fa fa-chevron-right"></i></sep>
 
 				</div>
@@ -97,9 +123,21 @@
 
 					<div class="desc">Page</div>
 
-					<a href="<?=site_url('project/'.$project_ID)?>">
-						<?=Page::ID($page_ID)->getPageInfo('page_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
-					</a>
+					<span class="dropdown-container">
+						<a href="<?=site_url('project/'.$project_ID)?>" class="dropdown-opener">
+							<?=Page::ID($page_ID)->getPageInfo('page_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+						</a>
+						<nav class="dropdown">
+							<ul>
+								<li class="selected"><a href="<?=site_url('project/'.$project_ID)?>"><?=Page::ID($page_ID)->getPageInfo('page_name')?></a></li>
+								<li><a href="#">Other Page 2</a></li>
+								<li><a href="#">Other Page 3</a></li>
+								<li><a href="#">Other Page 4</a></li>
+								<li><a href="#">Other Page 5</a></li>
+								<li><a href="#">Other Page 6</a></li>
+							</ul>
+						</nav>
+					</span>
 
 				</div>
 			</div>
@@ -180,7 +218,7 @@
 							}
 							?>
 								<li class="dropdown-container">
-									<a href="#" class="dropdown-opener add-device">Add New <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+									<a href="#" class="dropdown-opener add-device"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a>
 									<nav class="dropdown xl-left">
 										<ul class="device-adder">
 											<?php
