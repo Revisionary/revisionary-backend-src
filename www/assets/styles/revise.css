@@ -30,7 +30,7 @@ html, body {
     border-radius: 3px;
     display: inline-block; }
     #top-bar .button:hover {
-      color: #007acc;
+      color: white;
       border-color: white; }
   #top-bar .breadcrumbs {
     font-weight: lighter; }
@@ -71,6 +71,9 @@ html, body {
       max-height: 100%; }
       #page .iframe-container iframe.dragging {
         pointer-events: none; }
+
+.color-live {
+  color: #149440; }
 
 #page main {
   border-width: 5px;

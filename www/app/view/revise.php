@@ -47,7 +47,7 @@
 		<div class="col xl-left pin-mode">
 
 			<div class="desc nomargin">Pin Mode</div>
-			<a href="#" class="button"><i class="fa fa-dot-circle"></i> LIVE</a>
+			<a href="#" class="button"><i class="fa fa-dot-circle color-live"></i> LIVE</a>
 
 		</div>
 		<div class="col navigation">

@@ -51,7 +51,7 @@ html, body {
 		display: inline-block;
 
 		&:hover {
-			color: $color-secondary;
+			color: white;
 			border-color: white;
 		}
 	}
@@ -119,6 +119,13 @@ html, body {
 }
 
 
+.color {
+
+	&-live {
+		color: $color-live;
+	}
+
+}
 
 
 
