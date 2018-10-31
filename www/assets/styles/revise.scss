@@ -56,6 +56,81 @@ html, body {
 		}
 	}
 
+	.pin-mode {
+
+		.current-mode {
+
+			& > a > i.fa-mouse-pointer {
+				display: none;
+			}
+
+			.mode-label {
+				text-transform: uppercase;
+			}
+
+		}
+
+		[data-pin-type="live"][data-pin-private="0"] {
+
+			[data-pin-type="live"][data-pin-private="0"] {
+				display: none;
+			}
+
+			& > a > i {
+				color: $color-live;
+			}
+		}
+
+		[data-pin-type="standard"][data-pin-private="0"] {
+
+			[data-pin-type="standard"][data-pin-private="0"] {
+				display: none;
+			}
+
+			& > a > i {
+				//color: $color-live;
+			}
+		}
+
+		[data-pin-type="live"][data-pin-private="1"] {
+
+			[data-pin-type="live"][data-pin-private="1"] {
+				display: none;
+			}
+
+			& > a > i {
+				color: $color-private-live;
+			}
+		}
+
+		[data-pin-type="standard"][data-pin-private="1"] {
+
+			[data-pin-type="standard"][data-pin-private="1"] {
+				display: none;
+			}
+
+			& > a > i {
+				color: $color-private;
+			}
+		}
+
+		[data-pin-type="deactive"] {
+
+			& > a > i.fa-dot-circle {
+				display: none;
+			}
+
+			& > a > i.fa-mouse-pointer {
+				display: inline-block;
+			}
+
+			.deactivator {
+				display: none;
+			}
+		}
+
+	}
+
 	.breadcrumbs {
 	    font-weight: lighter;
 
@@ -135,6 +210,10 @@ html, body {
 
 	&-private-live {
 		color: $color-private-live;
+	}
+
+	&-private {
+		color: $color-private;
 	}
 
 }

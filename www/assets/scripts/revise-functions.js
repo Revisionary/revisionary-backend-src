@@ -561,12 +561,19 @@ function switchPinType(pinType, pinPrivate) {
 	currentPinPrivate = pinPrivate;
 
 
-	// Change the activator color
-	activator.attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate);
+	// Change the activator color and label
+	var pinLabel = pinType;
+	if (pinType == "standard") pinLabel = "Only Comment";
+	if (currentPinPrivate == "1") pinLabel = "Private Live";
+	$('.current-mode').attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate).find('.mode-label').text(pinLabel);
 
 
 	// Change the cursor color
-	switchCursorType(pinType == "live" ? 'standard' : pinType, currentPinPrivate);
+	switchCursorType(pinType == 'live' ? 'standard' : pinType, currentPinPrivate);
+
+
+	// Activate the cursor
+	if (!cursorActive) toggleCursorActive(false, true);
 
 
 	// Close the type selector
@@ -599,7 +606,13 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 	if ( (cursorActive || forceClose) && !forceOpen ) {
 
 		// Deactivate
-		activator.removeClass('active');
+		$('.current-mode').attr('data-pin-type', 'deactive');
+
+		// Update the label
+		$('.current-mode .mode-label').text('Off');
+
+		// Close the dropdown
+		$('.pin-mode .dropdown').hide();
 
 		// Hide the cursor
 		if (cursorVisible) cursor.fadeOut();
@@ -644,6 +657,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 // Toggle Pin Mode Selector
 function togglePinTypeSelector(forceClose = false) {
+
 
 	if (pinTypeSelectorOpen || forceClose) {
 

@@ -57,7 +57,7 @@ $(function() {
 
 
 	// Cursor activator
-	activator.click(function(e) {
+	$('.deactivator').click(function(e) {
 		toggleCursorActive();
 
 		e.preventDefault();
@@ -65,6 +65,7 @@ $(function() {
 	});
 
 
+/*
 	// Pin mode selector
 	pinTypeSelector.click(function(e) {
 		togglePinTypeSelector();
@@ -72,18 +73,25 @@ $(function() {
 		e.preventDefault();
 		return false;
 	});
+*/
 
 
 	// Pin mode change
-	$('.pin-types a').click(function(e) {
+	$('.pin-types li:not(.deactivator) a').click(function(e) {
 
-		var selectedPinType = $(this).children('pin').data('pin-type');
-		var selectedPinPrivate = $(this).children('pin').data('pin-private');
+		var selectedPinType = $(this).parent().data('pin-type');
+		var selectedPinPrivate = $(this).parent().data('pin-private');
 
 		switchPinType(selectedPinType, selectedPinPrivate);
 
+		$('.pin-mode .dropdown').hide();
+
 		e.preventDefault();
 		return false;
+	});
+
+	$('.pin-mode').hover(function() {
+		$('.pin-mode .dropdown').css('display', '');
 	});
 
 

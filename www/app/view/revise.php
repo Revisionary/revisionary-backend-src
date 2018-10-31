@@ -47,12 +47,14 @@
 		<div class="col xl-left pin-mode">
 
 			<div class="desc nomargin">Pin Mode</div>
-			<div class="dropdown-container">
-				<a href="#" class="button dropdown-opener"><i class="fa fa-dot-circle color-live"></i> LIVE</a>
+			<div class="dropdown-container current-mode" data-pin-type="live" data-pin-private="0">
+				<a href="#" class="button dropdown-opener"><i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label">LIVE</span></a>
 				<nav class="dropdown">
-					<ul>
-						<li><a href="#"><i class="fa fa-dot-circle color-primary"></i> ONLY COMMENT</a></li>
-						<li><a href="#"><i class="fa fa-dot-circle color-private-live"></i> LIVEABLE PRIVATE COMMENT</a></li>
+					<ul class="pin-types">
+						<li data-pin-type="live" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> LIVE PREFERRED COMMENT</a></li>
+						<li data-pin-type="standard" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> ONLY COMMENT</a></li>
+						<li data-pin-type="live" data-pin-private="1"><a href="#"><i class="fa fa-dot-circle"></i> LIVEABLE PRIVATE COMMENT</a></li>
+						<li class="deactivator"><a href="#"><i class="fa fa-mouse-pointer"></i> OFF</a></li>
 					</ul>
 				</nav>
 			</div>

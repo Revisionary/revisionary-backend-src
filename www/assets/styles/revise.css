@@ -32,6 +32,30 @@ html, body {
     #top-bar .button:hover {
       color: white;
       border-color: white; }
+  #top-bar .pin-mode .current-mode > a > i.fa-mouse-pointer {
+    display: none; }
+  #top-bar .pin-mode .current-mode .mode-label {
+    text-transform: uppercase; }
+  #top-bar .pin-mode [data-pin-type="live"][data-pin-private="0"] [data-pin-type="live"][data-pin-private="0"] {
+    display: none; }
+  #top-bar .pin-mode [data-pin-type="live"][data-pin-private="0"] > a > i {
+    color: #149440; }
+  #top-bar .pin-mode [data-pin-type="standard"][data-pin-private="0"] [data-pin-type="standard"][data-pin-private="0"] {
+    display: none; }
+  #top-bar .pin-mode [data-pin-type="live"][data-pin-private="1"] [data-pin-type="live"][data-pin-private="1"] {
+    display: none; }
+  #top-bar .pin-mode [data-pin-type="live"][data-pin-private="1"] > a > i {
+    color: #FC0FB3; }
+  #top-bar .pin-mode [data-pin-type="standard"][data-pin-private="1"] [data-pin-type="standard"][data-pin-private="1"] {
+    display: none; }
+  #top-bar .pin-mode [data-pin-type="standard"][data-pin-private="1"] > a > i {
+    color: #FC0F42; }
+  #top-bar .pin-mode [data-pin-type="deactive"] > a > i.fa-dot-circle {
+    display: none; }
+  #top-bar .pin-mode [data-pin-type="deactive"] > a > i.fa-mouse-pointer {
+    display: inline-block; }
+  #top-bar .pin-mode [data-pin-type="deactive"] .deactivator {
+    display: none; }
   #top-bar .breadcrumbs {
     font-weight: lighter; }
     #top-bar .breadcrumbs a {
@@ -81,6 +105,9 @@ html, body {
 
 .color-private-live {
   color: #FC0FB3; }
+
+.color-private {
+  color: #FC0F42; }
 
 #page main {
   border-width: 5px;
