@@ -2203,10 +2203,12 @@ function updatePinsList() {
 
 
 	// Clear the list
-	$('.pins-list').html('');
+	$('.pins-list').html('<div class="xl-center">No pins added yet.</div>');
 
 
 	$(Pins).each(function(i, pin) {
+
+		if (i == 0) $('.pins-list').html('');
 
 		var pin_number = i + 1;
 
