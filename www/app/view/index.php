@@ -1,5 +1,5 @@
 <?php require view('static/header_html'); ?>
-<?php require view('static/frontend/parts/header_frontend'); ?>
+<?php require view('static/header_frontend'); ?>
 
 	<div class="vertical-middle">
 		<div class="enter-url">
@@ -133,5 +133,5 @@ jQuery(document).ready(function($) {
 });
 </script>
 
-<?php require view('static/frontend/parts/footer_frontend'); ?>
+<?php require view('static/footer_frontend'); ?>
 <?php require view('static/footer_html'); ?>

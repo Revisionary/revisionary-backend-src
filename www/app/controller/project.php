@@ -289,4 +289,4 @@ $_SESSION["new_device_nonce"] = uniqid(mt_rand(), true);
 
 
 $page_title = Project::ID($_url[1])->projectName." Project - Revisionary App";
-require view('dynamic/categorized_blocks');
+require view('modules/categorized_blocks');

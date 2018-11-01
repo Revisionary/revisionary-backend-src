@@ -1,16 +1,16 @@
 <?php require view('static/header_html'); ?>
-<?php require view('static/frontend/parts/header_frontend'); ?>
+<?php require view('static/header_frontend'); ?>
 
 	<div id="content" class="wrap xl-1 container">
 		<div class="col">
 
 
 			<!-- Title -->
-			<?php require view('static/frontend/title'); ?>
+			<?php require view('modules/title'); ?>
 
 
 			<!-- Filter Bar -->
-			<?php require view('static/frontend/filter-bar'); ?>
+			<?php require view('modules/filter-bar'); ?>
 
 
 			<!-- Blocks -->
@@ -660,5 +660,5 @@
 </main><!-- .site-main -->
 
 
-<?php require view('static/frontend/parts/footer_frontend'); ?>
+<?php require view('static/footer_frontend'); ?>
 <?php require view('static/footer_html'); ?>

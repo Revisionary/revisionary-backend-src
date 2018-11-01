@@ -63,5 +63,5 @@
 	</div>
 </section>
 
-<?php require view('static/frontend/parts/footer_frontend'); ?>
+<?php require view('static/footer_frontend'); ?>
 <?php require view('static/footer_html'); ?>

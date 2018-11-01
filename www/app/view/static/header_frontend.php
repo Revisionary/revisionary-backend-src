@@ -5,7 +5,7 @@
 		<?php
 
 			// Projects and Pages Modals
-			if ($_url[0] == "projects" || $_url[0] == "project") require view('dynamic/modals');
+			if ($_url[0] == "projects" || $_url[0] == "project") require view('modules/modals');
 
 		?>
 

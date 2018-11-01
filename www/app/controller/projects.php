@@ -114,4 +114,4 @@ $page_title = "Projects - Revisionary App";
 if ($catFilter == "archived" || $catFilter == "deleted")
 $page_title = ucfirst($catFilter)." ".$page_title;
 
-require view('dynamic/categorized_blocks');
+require view('modules/categorized_blocks');
