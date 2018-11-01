@@ -95,8 +95,8 @@ $(function() {
 
 
 	    var page = $('#page');
-	    var width = page.width() - 2; // -(10+10) for the borders
-	    var height = page.height() - 2; // -(10+10) for the borders
+	    var width = page.width();
+	    var height = page.height();
 
 
 
@@ -130,6 +130,9 @@ $(function() {
 
 
 		// IFRAME FIT TO THE SCREEN
+
+	    width = width - 2; // -2 for the borders
+	    height = height - 2; // -2 for the borders
 
 	    // Early exit if smaller than the screen
 	    if(width >= maxWidth && height >= maxHeight) {
