@@ -93,11 +93,45 @@ $(function() {
 
 	$(window).resize(function(e) {
 
-	    var $window = $('#page');
-	    var width = $window.width() - 2; // -(10+10) for the borders
-	    var height = $window.height() - 2; // -(10+10) for the borders
 
-	    // early exit
+	    var page = $('#page');
+	    var width = page.width() - 2; // -(10+10) for the borders
+	    var height = page.height() - 2; // -(10+10) for the borders
+
+
+
+	    // UPDATE THE CURRENT WINDOW SIZE FOR CUSTOM SCREEN ADDING
+
+		// Show new values
+		$('.screen-width').text(width);
+		$('.screen-height').text(height);
+
+		// Edit the input values
+		$('input[name="page-width"]').attr('value', width);
+		$('input[name="page-height"]').attr('value', height);
+
+		// Update the URLs
+		$('.new-device[data-device-id="11"]').each(function() {
+
+			var newDeviceURL = $(this).attr('href');
+			//var topBarHeight = $('#top-bar').outerHeight();
+
+			var widthOnURL = getParameterByName('page_width', newDeviceURL);
+			var heightOnURL = getParameterByName('page_height', newDeviceURL);
+
+			var newURL = newDeviceURL.replace('page_width='+widthOnURL, 'page_width='+width);
+			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+height);
+
+			$(this).attr('href', newURL);
+			//console.log(newURL);
+
+		});
+
+
+
+		// IFRAME FIT TO THE SCREEN
+
+	    // Early exit if smaller than the screen
 	    if(width >= maxWidth && height >= maxHeight) {
 	        $('iframe').css({'-webkit-transform': ''});
 	        //$('.iframe-container').css({ width: '', height: '' });
@@ -108,52 +142,8 @@ $(function() {
 	    iframeWidth = maxWidth * iframeScale;
 		iframeHeight = maxHeight * iframeScale;
 
-
 	    $('iframe').css({'-webkit-transform': 'scale(' + iframeScale + ')'});
 	    $('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
-
-
-
-
-
-
-
-	    // UPDATE THE CURRENT WINDOW SIZE FOR CUSTOM SCREEN ADDING
-		//var width = $(this).width();
-		//var height = $(this).height();
-
-		screenWidth = width;
-		screenHeight = height;
-
-		//console.log(width, height);
-
-		// Show new values
-		$('.screen-width').text(screenWidth);
-		$('.screen-height').text(screenHeight);
-
-		// Edit the input values
-		$('input[name="page-width"]').attr('value', screenWidth);
-		$('input[name="page-height"]').attr('value', screenHeight);
-
-
-		$('.new-device[data-device-id="11"]').each(function() {
-
-			var newDeviceURL = $(this).attr('href');
-			var topBarHeight = $('#top-bar').outerHeight();
-
-			var widthOnURL = getParameterByName('page_width', newDeviceURL);
-			var heightOnURL = getParameterByName('page_height', newDeviceURL);
-
-			var newURL = newDeviceURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
-			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+screenHeight);
-
-			$(this).attr('href', newURL);
-			//console.log(newURL);
-
-		});
-
-
-
 
 
 	}).resize();
