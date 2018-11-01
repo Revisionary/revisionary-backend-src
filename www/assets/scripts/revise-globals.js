@@ -75,6 +75,7 @@ var currentCursorType = "standard";
 var currentPinType = "live";
 var currentPinPrivate = 0;
 var currentPinComplete = 0;
+var currentPinLabel = "Live";
 
 var currentPinNumber = 1;
 
@@ -127,7 +128,7 @@ var pinsListOpen = false;
 // When document is ready, fill the variables
 $(function() {
 
-	activator = $('.inspect-activator').children('pin');
+	activator = $('.current-mode');
 	cursorActive = activator.hasClass('active');
 	cursorWasActive = cursorActive;
 
@@ -142,6 +143,6 @@ $(function() {
 	currentPinType = activator.data('pin-type');
 	currentPinNumber = $('#pins > pin').length + 1;
 
-	pinsListOpen = $('#revise-sections > .pins').hasClass('open');
+	pinsListOpen = $('#top-bar .pins').hasClass('open');
 
 });

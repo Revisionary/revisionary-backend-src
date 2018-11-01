@@ -523,9 +523,9 @@ function runTheInspector() {
 
 
 // Tab Toggler
-function toggleTab(tab, forceClose = false) {
+function toggleTab(opener, forceClose = false) {
 
-	var sideElement = tab.parent().parent();
+	var sideElement = opener.parent();
 
 
 	if (sideElement.hasClass('open') || forceClose)
@@ -536,7 +536,7 @@ function toggleTab(tab, forceClose = false) {
 
 
 	// Update the list when opening the pins list tab
-	pinsListOpen = $('#revise-sections > .pins').hasClass('open');
+	pinsListOpen = $('#top-bar .pins').hasClass('open');
 	if (pinsListOpen) updatePinsList();
 
 }
@@ -562,10 +562,10 @@ function switchPinType(pinType, pinPrivate) {
 
 
 	// Change the activator color and label
-	var pinLabel = pinType;
-	if (pinType == "standard") pinLabel = "Only Comment";
-	if (currentPinPrivate == "1") pinLabel = "Private Live";
-	$('.current-mode').attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate).find('.mode-label').text(pinLabel);
+	currentPinLabel = pinType;
+	if (pinType == "standard") currentPinLabel = "Only Comment";
+	if (currentPinPrivate == "1") currentPinLabel = "Private Live";
+	activator.attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate).find('.mode-label').text(currentPinLabel);
 
 
 	// Change the cursor color
@@ -577,7 +577,7 @@ function switchPinType(pinType, pinPrivate) {
 
 
 	// Close the type selector
-	if (pinTypeSelectorOpen) togglePinTypeSelector(true);
+	//if (pinTypeSelectorOpen) togglePinTypeSelector(true);
 
 
 	// Close the open pin window
@@ -605,11 +605,14 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 	if ( (cursorActive || forceClose) && !forceOpen ) {
 
+
 		// Deactivate
-		$('.current-mode').attr('data-pin-type', 'deactive');
+		activator.attr('data-pin-type', 'deactive');
 
 		// Update the label
 		$('.current-mode .mode-label').text('Off');
+
+
 
 		// Close the dropdown
 		$('.pin-mode .dropdown').hide();
@@ -631,7 +634,12 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 		// Activate
-		activator.addClass('active');
+		activator.attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate);
+
+		// Update the label
+		$('.current-mode .mode-label').text(currentPinLabel);
+
+
 
 		// Show the cursor
 		if (!cursorVisible && !pinWindowOpen) cursor.fadeIn();
@@ -644,7 +652,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 		cursorActive = true;
-		if (pinTypeSelectorOpen) togglePinTypeSelector(true); // Force Close
+		//if (pinTypeSelectorOpen) togglePinTypeSelector(true); // Force Close
 
 	}
 
@@ -655,6 +663,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 }
 
 
+/*
 // Toggle Pin Mode Selector
 function togglePinTypeSelector(forceClose = false) {
 
@@ -678,6 +687,7 @@ function togglePinTypeSelector(forceClose = false) {
 	}
 
 }
+*/
 
 
 // Change the pin number on cursor

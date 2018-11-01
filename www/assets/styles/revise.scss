@@ -56,6 +56,114 @@ html, body {
 		}
 	}
 
+	.pins {
+
+		&.open .tab {
+			transform: translateX(0) !important;
+		}
+
+		.tab {
+			position: fixed;
+			top: $topbar-height;
+			left: 0;
+			z-index: 1;
+			background-color: $color;
+			min-width: 30vw;
+			max-width: 30vw;
+			pointer-events: initial;
+			transition: 500ms;
+			transform: translateX(-100%);
+			padding: 20px;
+
+
+			.scrollable-content {
+				background-color: #1A1A1A;
+				//max-height: 50vh;
+				height: 60vh;
+
+				.mCSB_container {
+					padding: 10px 8px;
+					overflow: visible;
+				}
+
+				.mCSB_scrollTools {
+					right: -6px;
+
+					.mCSB_draggerRail {
+					    background-color: #fff;
+					    background-color: rgb(255, 254, 254);
+				        width: 1px;
+					}
+
+					.mCSB_dragger .mCSB_dragger_bar {
+					    background-color: #fff;
+					    background-color: rgb(255, 255, 255);
+					}
+				}
+			}
+
+			.pins-filter {
+			    text-align: center;
+				font-size: 10px;
+			    font-weight: lighter;
+			    letter-spacing: 2px;
+			    margin-top: -5px;
+				margin-bottom: 5px;
+
+			    a {
+				    font-size: 10px;
+					font-weight: lighter;
+					letter-spacing: 1.2px;
+
+					&.selected {
+						text-decoration: underline;
+					}
+			    }
+			}
+
+			.pins-list {
+
+				& *:not(i) {
+					font-weight: lighter;
+				}
+
+				.pin {
+					margin-bottom: 15px;
+
+					&:hover pin:before {
+						opacity: 0;
+					}
+				}
+
+				.pin-title {
+					text-transform: uppercase;
+					font-size: 14px;
+					letter-spacing: 1.7px;
+
+					&.close {
+
+						i {
+							-moz-transform: rotate(180deg);
+						    -webkit-transform: rotate(180deg);
+						    -ms-transform: rotate(180deg);
+						    -o-transform: rotate(180deg);
+						    transform: rotate(180deg);
+						}
+
+						& + .pin-comments {
+							display: none;
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+	}
+
 	.pin-mode {
 
 		.current-mode {

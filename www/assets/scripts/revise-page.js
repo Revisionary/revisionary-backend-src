@@ -139,7 +139,7 @@ $(function() {
 		$('.new-device[data-device-id="11"]').each(function() {
 
 			var newDeviceURL = $(this).attr('href');
-			var topBarHeight = $('#top-bar').outerHeight(); console.log(topBarHeight);
+			var topBarHeight = $('#top-bar').outerHeight();
 
 			var widthOnURL = getParameterByName('page_width', newDeviceURL);
 			var heightOnURL = getParameterByName('page_height', newDeviceURL);
@@ -416,7 +416,7 @@ $(function() {
 
 
 	// Hovering a pin from the pins list tab
-	$(document).on('mouseover', '#revise-sections .pins-list > .pin', function(e) {
+	$(document).on('mouseover', '.pins-list > .pin', function(e) {
 
 		var pin_ID = $(this).find('pin').attr('data-pin-id');
 		var pin_type = $(this).find('pin').attr('data-pin-type');
@@ -427,7 +427,7 @@ $(function() {
 		if (pin_type == "live") outline(iframeElement(element_index), pin_private);
 
 		e.preventDefault();
-	}).on('mouseout', '#revise-sections .pins-list > .pin', function(e) {
+	}).on('mouseout', '.pins-list > .pin', function(e) {
 
 		$('#pins > pin').css('opacity', '');
 		iframeElement('body *').css('outline', '');
