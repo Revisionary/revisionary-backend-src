@@ -146,16 +146,15 @@ function page_members() {
 			<div class="col xl-5-7">
 
 
-				<a href="#" class="option-toggler less-options">Less Options <i class="fa fa-caret-up" aria-hidden="true"></i></a>
-
-
 				<h4 class="section-title xl-left">Project Info</h4>
 
-				<h3>Site Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this project." aria-hidden="true"></i></h3>
+				<h3>Project Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this project." aria-hidden="true"></i></h3>
 				<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." tabindex="1" autofocus required/>
 
 
 				<a href="#" class="option-toggler more-options">More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+
+				<a href="#" class="option-toggler less-options">Less Options <i class="fa fa-caret-up" aria-hidden="true"></i></a>
 
 
 				<!-- More Options -->
