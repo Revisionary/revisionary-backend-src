@@ -98,9 +98,18 @@
 						</a>
 						<nav class="dropdown">
 							<ul>
-								<li class="selected"><a href="<?=site_url('project/'.$project_ID)?>"><?=Project::ID($project_ID)->getProjectInfo('project_name')?></a></li>
-								<li><a href="#">Other Project 2</a></li>
-								<li><a href="#">Other Project 3</a></li>
+								<?php
+								$db->where('user_ID', currentUserID());
+								$other_projects = $db->get('projects');
+								foreach ($other_projects as $project) {
+
+									$selected = $project['project_ID'] == $project_ID ? "class='selected'" : "";
+								?>
+								<li <?=$selected?>><a href="<?=site_url('project/'.$project['project_ID'])?>"><?=$project['project_name']?></a></li>
+								<?php
+								}
+								?>
+								<li><a href="#"><i class="fa fa-plus" aria-hidden="true"></i> Add New Project</a></li>
 							</ul>
 						</nav>
 					</span>
@@ -145,12 +154,21 @@
 						</a>
 						<nav class="dropdown">
 							<ul>
-								<li class="selected"><a href="<?=site_url('project/'.$project_ID)?>"><?=Page::ID($page_ID)->getPageInfo('page_name')?></a></li>
-								<li><a href="#">Other Page 2</a></li>
-								<li><a href="#">Other Page 3</a></li>
-								<li><a href="#">Other Page 4</a></li>
-								<li><a href="#">Other Page 5</a></li>
-								<li><a href="#">Other Page 6</a></li>
+								<?php
+								$db->where('project_ID', $project_ID);
+								//$db->where('page_ID', $page_ID, "!=");
+								$db->where('parent_page_ID IS NULL');
+								$db->where('user_ID', currentUserID());
+								$other_pages = $db->get('pages');
+								foreach ($other_pages as $page) {
+
+									$selected = $page['page_ID'] == $page_ID ? "class='selected'" : "";
+								?>
+								<li <?=$selected?>><a href="<?=site_url('revise/'.$page['page_ID'])?>"><?=$page['page_name']?></a></li>
+								<?php
+								}
+								?>
+								<li><a href="#"><i class="fa fa-plus" aria-hidden="true"></i> Add New Page</a></a></li>
 							</ul>
 						</nav>
 					</span>
@@ -234,7 +252,7 @@
 							}
 							?>
 								<li class="dropdown-container">
-									<a href="#" class="dropdown-opener add-device"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a>
+									<a href="#" class="dropdown-opener add-device"><i class="fa fa-plus" aria-hidden="true"></i> Add New Screen</a>
 									<nav class="dropdown xl-left">
 										<ul class="device-adder">
 											<?php
@@ -285,13 +303,6 @@
 																	<?=$device_label?>
 																</a>
 															</li>
-															<?php
-															}
-
-															// Custom Device
-															if ($device_cat['device_cat_name'] == "Custom...") {
-															?>
-															<li><a href="#" data-device-id="<?=$device['device_ID']?>">Add New</a></li>
 															<?php
 															}
 															?>
