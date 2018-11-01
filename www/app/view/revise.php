@@ -518,7 +518,7 @@
 			<form action="" method="post" id="comment-sender">
 				<div class="wrap xl-flexbox xl-between">
 					<div class="col comment-input-col">
-						<input type="text" class="comment-input" placeholder="Your comments..." required/>
+						<input type="text" class="comment-input" placeholder="Type your comments, and hit 'Enter'..." required/>
 					</div>
 					<div class="col">
 						<input type="image" src="<?=asset_url('icons/comment-send.svg')?>"/>

@@ -165,6 +165,10 @@ $(function() {
 	// Close pin window
 	$('#pin-window .close-button').click(function(e) {
 
+		// Send the comment if unsend
+		if($('#pin-window .comment-input').val()) $('#comment-sender').submit();
+
+		// Close the window
 		if (pinWindowOpen) closePinWindow();
 
 		e.preventDefault();
