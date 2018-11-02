@@ -5244,11 +5244,9 @@ a {
     cursor: pointer;
     margin-bottom: 0; }
     .dropdown-container > .dropdown-opener:hover + nav.dropdown {
-      pointer-events: auto;
       opacity: 1;
-      -webkit-transition-delay: 0s;
-      /* Safari */
-      transition-delay: 0s; }
+      transition-delay: 0s !important;
+      visibility: visible; }
   .dropdown-container > nav.dropdown {
     cursor: pointer;
     margin-top: -15px;
@@ -5256,12 +5254,13 @@ a {
     position: absolute;
     z-index: 2;
     left: 0;
-    pointer-events: none;
+    visibility: hidden;
     opacity: 0;
-    transition: 500ms; }
+    transition: 200ms;
+    transition-delay: 500ms; }
     .dropdown-container > nav.dropdown:hover {
-      pointer-events: auto;
-      opacity: 1; }
+      opacity: 1;
+      visibility: visible; }
     .dropdown-container > nav.dropdown > ul {
       list-style-type: none;
       padding: 0;
@@ -5288,13 +5287,18 @@ a {
           .dropdown-container > nav.dropdown > ul > li > div.dropdown-container > .dropdown-opener > i {
             width: 22px;
             text-align: center; }
+          .dropdown-container > nav.dropdown > ul > li > a.dropdown-container > a,
+          .dropdown-container > nav.dropdown > ul > li > span.dropdown-container > a,
+          .dropdown-container > nav.dropdown > ul > li > div.dropdown-container > a {
+            display: block; }
           .dropdown-container > nav.dropdown > ul > li > a.dropdown-container > nav.dropdown,
           .dropdown-container > nav.dropdown > ul > li > span.dropdown-container > nav.dropdown,
           .dropdown-container > nav.dropdown > ul > li > div.dropdown-container > nav.dropdown {
             left: 100%;
             top: 0;
             margin-left: -10px;
-            padding-left: 10px; }
+            padding-left: 10px;
+            transition-delay: 0s !important; }
     .dropdown-container > nav.dropdown.selectable > ul > li > * {
       padding: 5px 5px 5px 30px; }
     .dropdown-container > nav.dropdown.selectable > ul > li.selected > * {

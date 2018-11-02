@@ -103,9 +103,38 @@
 								$other_projects = $db->get('projects');
 								foreach ($other_projects as $project) {
 
-									$selected = $project['project_ID'] == $project_ID ? "class='selected'" : "";
+
+									$pages_of_project = array_filter($allMyPages, function($page) use ($project) {
+									    return ($page['project_ID'] == $project['project_ID']);
+									});
+
+
+									$selected = $project['project_ID'] == $project_ID ? "selected" : "";
+
 								?>
-								<li <?=$selected?>><a href="<?=site_url('project/'.$project['project_ID'])?>"><?=$project['project_name']?></a></li>
+								<li class="<?=$selected?>">
+									<div class="dropdown-container">
+										<a href="<?=site_url('project/'.$project['project_ID'])?>" class="<?=count($pages_of_project) ? 'dropdown-opener' : ""?>"><?=$project['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right" aria-hidden="true"></i>' : ""?></a>
+
+										<?php
+										if ( count($pages_of_project) ) {
+										?>
+										<nav class="dropdown">
+											<ul>
+												<?php
+												foreach ($pages_of_project as $page) {
+												?>
+												<li><a href="<?=site_url('revise/'.$page['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$page['page_name']?></a></li>
+												<?php
+												}
+												?>
+											</ul>
+										</nav>
+										<?php
+										}
+										?>
+									</div>
+								</li>
 								<?php
 								}
 								?>
@@ -131,9 +160,9 @@
 						</a>
 						<nav class="dropdown">
 							<ul>
-								<li class="selected"><a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>"><?=$pageCat['cat_name']?></a></li>
-								<li><a href="#">Other Category 2</a></li>
-								<li><a href="#">Other Category 3</a></li>
+								<li class="selected"><a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>"><i class="fa fa-sign-in-alt"></i> <?=$pageCat['cat_name']?></a></li>
+								<li><a href="#"><i class="fa fa-sign-in-alt"></i> Other Category 2</a></li>
+								<li><a href="#"><i class="fa fa-sign-in-alt"></i> Other Category 3</a></li>
 							</ul>
 						</nav>
 					</span>
@@ -155,16 +184,16 @@
 						<nav class="dropdown">
 							<ul>
 								<?php
-								$db->where('project_ID', $project_ID);
-								//$db->where('page_ID', $page_ID, "!=");
-								$db->where('parent_page_ID IS NULL');
-								$db->where('user_ID', currentUserID());
-								$other_pages = $db->get('pages');
+
+								$other_pages = array_filter($allMyPages, function($page) use ($project_ID) {
+								    if ($page['project_ID'] == $project_ID) return true;
+								});
+
 								foreach ($other_pages as $page) {
 
 									$selected = $page['page_ID'] == $page_ID ? "class='selected'" : "";
 								?>
-								<li <?=$selected?>><a href="<?=site_url('revise/'.$page['page_ID'])?>"><?=$page['page_name']?></a></li>
+								<li <?=$selected?>><a href="<?=site_url('revise/'.$page['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$page['page_name']?></a></li>
 								<?php
 								}
 								?>

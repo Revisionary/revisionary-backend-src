@@ -380,10 +380,10 @@ a {
 		&:hover {
 
 			& + nav.dropdown {
-				pointer-events: auto;
+				//pointer-events: auto;
 				opacity: 1;
-				-webkit-transition-delay: 0s; /* Safari */
-				transition-delay: 0s;
+				transition-delay: 0s !important;
+				visibility: visible;
 			}
 
 		}
@@ -397,14 +397,17 @@ a {
 		position: absolute;
 		z-index: 2;
 		left: 0;
-		pointer-events: none;
+		visibility: hidden;
+		//pointer-events: none;
 		opacity: 0;
-		transition: 500ms;
+		transition: 200ms;
+		transition-delay: 500ms;
 
 
 		&:hover {
-			pointer-events: auto;
+			//pointer-events: auto;
 			opacity: 1;
+			visibility: visible;
 		}
 
 
@@ -438,11 +441,16 @@ a {
 
 					&.dropdown-container {
 
+						& > a {
+							display: block;
+						}
+
 						& > nav.dropdown {
 							left: 100%;
 							top: 0;
 						    margin-left: -10px;
 						    padding-left: 10px;
+						    transition-delay: 0s !important;
 						}
 					}
 				}

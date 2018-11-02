@@ -327,6 +327,29 @@ if (
 }
 
 
+// Bring the pages that user can access !!! Not deleted / archived ones, put this on a Access::ID() class!
+
+// Bring the shared ones
+$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
+$db->joinWhere("shares s", "s.share_type", "page");
+$db->joinWhere("shares s", "s.share_to", currentUserID());
+
+// Ony my pages or shared to me
+$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+
+// Exclude the other projects
+//$db->where('project_ID', $_url[1]);
+$db->where('parent_page_ID IS NULL');
+
+// My pages in this project
+$allMyPages = $db->get('pages p');
+
+
+
+
+//echo "<pre>"; print_r($allMyPages); echo "</pre>"; die();
+
+
 // Filters
 $pin_filter = "all";
 if (
