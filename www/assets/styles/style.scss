@@ -392,11 +392,10 @@ a {
 
 	& > nav.dropdown { // TOP MENU
 		cursor: pointer;
-		margin-top: -15px;
-		padding-top: 15px;
 		position: absolute;
 		z-index: 2;
 		left: 0;
+		top: 100%;
 		visibility: hidden;
 		//pointer-events: none;
 		opacity: 0;

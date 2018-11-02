@@ -5249,11 +5249,10 @@ a {
       visibility: visible; }
   .dropdown-container > nav.dropdown {
     cursor: pointer;
-    margin-top: -15px;
-    padding-top: 15px;
     position: absolute;
     z-index: 2;
     left: 0;
+    top: 100%;
     visibility: hidden;
     opacity: 0;
     transition: 200ms;
