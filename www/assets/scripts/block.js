@@ -946,7 +946,7 @@ $(function() {
 		var height = $(this).height();
 
 		screenWidth = width;
-		screenHeight = height - 45 - 4; // -45 for the topbar, -4 for borders !!! ?
+		screenHeight = height - 45 - 2; // -45 for the topbar, -2 for borders !!! ?
 
 		//console.log(width, height);
 

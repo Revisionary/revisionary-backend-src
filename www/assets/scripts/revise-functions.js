@@ -159,11 +159,6 @@ function runTheInspector() {
 		});
 
 
-		// Page is ready now
-		page_ready = true;
-		$('body').addClass('ready');
-
-
 	    // Update the title
 		if ( iframeElement('title').length ) {
 			$('title').text( "Revise Page: " + iframeElement('title').text() );
@@ -730,8 +725,16 @@ function getPins(applyChanges = true, firstRetrieve = false) {
 			autoRefreshRequest = null;
 
 
-			// Hide the loading overlay
-			if (firstRetrieve) $('#loading').fadeOut();
+			if (firstRetrieve) {
+
+				// Hide the loading overlay
+				$('#loading').fadeOut();
+
+				// Page is ready now
+				page_ready = true;
+				$('body').addClass('ready');
+
+			}
 
 
 		}
@@ -915,6 +918,10 @@ function applyChanges(showingOriginal = []) {
 
 	// Hide the loading overlay
 	$('#loading').fadeOut();
+
+	// Page is ready now
+	page_ready = true;
+	$('body').addClass('ready');
 
 
 }

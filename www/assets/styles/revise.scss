@@ -12,6 +12,12 @@ html, body {
 }
 
 
+.ready .progress-bar {
+	top: auto;
+	bottom: 0;
+}
+
+
 #top-bar {
 	position: relative;
 	z-index: 1;
