@@ -33,6 +33,7 @@ html, body {
     box-sizing: border-box;
     border-radius: 3px;
     display: inline-block; }
+    #top-bar .button.open,
     #top-bar .button:hover {
       color: white;
       border-color: white; }

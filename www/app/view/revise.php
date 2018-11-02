@@ -41,7 +41,7 @@
 	<div class="wrap xl-flexbox xl-between xl-bottom xl-center">
 		<div class="col pins open">
 
-			<a href="#" class="button opener"><i class="fa fa-list-ul"></i> PINS</a>
+			<a href="#" class="button opener open"><i class="fa fa-list-ul"></i> PINS</a>
 			<div class="tab wrap">
 				<div class="col xl-1-1">
 

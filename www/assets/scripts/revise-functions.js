@@ -533,12 +533,13 @@ function toggleTab(opener, forceClose = false) {
 	var sideElement = opener.parent();
 
 
-	if (sideElement.hasClass('open') || forceClose)
+	if (sideElement.hasClass('open') || forceClose) {
 		sideElement.removeClass('open');
-
-	else
+		opener.removeClass('open');
+	} else {
 		sideElement.addClass('open');
-
+		opener.addClass('open');
+	}
 
 	// Update the list when opening the pins list tab
 	pinsListOpen = $('#top-bar .pins').hasClass('open');
