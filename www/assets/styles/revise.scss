@@ -253,6 +253,15 @@ html, body {
 
 		.selected {
 			font-weight: bold;
+			background-color: $color;
+			color: white;
+
+			& > a,
+			& > .dropdown-container,
+			& > .dropdown-container > a {
+				background-color: $color;
+				color: white;
+			}
 		}
 
 	}

@@ -124,7 +124,14 @@ html, body {
       font-size: 12px;
       margin: 0 8px; }
     #top-bar .breadcrumbs .selected {
-      font-weight: bold; }
+      font-weight: bold;
+      background-color: black;
+      color: white; }
+      #top-bar .breadcrumbs .selected > a,
+      #top-bar .breadcrumbs .selected > .dropdown-container,
+      #top-bar .breadcrumbs .selected > .dropdown-container > a {
+        background-color: black;
+        color: white; }
   #top-bar > .wrap {
     height: 45px;
     padding: 5px;
