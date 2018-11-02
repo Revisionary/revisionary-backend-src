@@ -39,7 +39,7 @@
 <div id="top-bar">
 
 	<div class="wrap xl-flexbox xl-between xl-bottom xl-center">
-		<div class="col pins open">
+		<div class="col pins tab-container open">
 
 			<a href="#" class="button opener open"><i class="fa fa-list-ul"></i> PINS</a>
 			<div class="tab wrap">
@@ -365,9 +365,70 @@
 			</div>
 
 		</div>
-		<div class="col share">
+		<div class="col share tab-container open">
 
-			<a href="#" class="button">SHARE <i class="fa fa-share-alt"></i></a>
+			<a href="#" class="button opener open">SHARE <i class="fa fa-share-alt"></i></a>
+			<div class="tab right autowidth open">
+
+				<div class="page-share">
+					<a href="#">Share only this Page <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+					<div class="shared-members">
+						<span class="people light-border">
+
+							<a href="#">
+								<picture class="profile-picture" style="background-image: url(<?=User::ID(5)->userPicUrl?>);"></picture>
+							</a>
+
+							<a href="#">
+								<picture class="profile-picture" style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
+							</a>
+
+						</span>
+
+						<a class="member-selector" href="#">
+							<i class="fa fa-plus" aria-hidden="true"></i>
+						</a>
+					</div>
+				</div>
+
+				<div class="project-share">
+					<a href="#">Share this Project  <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+					<div class="shared-members">
+						<span class="people light-border">
+
+							<a href="#">
+								<picture class="profile-picture" style="background-image: url(<?=User::ID(1)->userPicUrl?>);"></picture>
+							</a>
+
+							<a href="#">
+								<picture class="profile-picture" style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
+							</a>
+
+							<a href="#">
+								<picture class="profile-picture" style="background-image: url(<?=User::ID(3)->userPicUrl?>);"></picture>
+							</a>
+
+							<a href="#">
+								<picture class="profile-picture" style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
+							</a>
+
+						</span>
+
+						<a class="member-selector" href="#">
+							<i class="fa fa-plus" aria-hidden="true"></i>
+						</a>
+					</div>
+				</div>
+
+				<div class="link-share">
+					<a href="#"><i class="fa fa-link" aria-hidden="true"></i> Get Shareable Link... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+				</div>
+
+				<div class="link-share">
+					<a href="#"><i class="fa fa-link" aria-hidden="true"></i> Share on my public profile... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
+				</div>
+
+			</div>
 
 		</div>
 	</div>
@@ -627,135 +688,10 @@
 
 
 
-<main class="xl-hidden">
+<main class="dates xl-hidden">
 
-	<div id="revise-sections">
-
-		<div class="top-right share xl-right open">
-
-			<div class="tab wrap">
-				<div class="col xl-1-1 xl-center">
-
-					<div class="share-tab-content">
-
-						<div class="pin-share">
-							<a href="#">Share only specific Pins <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-							<div class="shared-members">
-								<span class="people light-border">
-
-									<a href="#">
-										<picture class="profile-picture" style="background-image: url(<?=User::ID(1)->userPicUrl?>);"></picture>
-									</a>
-
-								</span>
-
-								<a class="member-selector" href="#">
-									<i class="fa fa-plus" aria-hidden="true"></i>
-								</a>
-							</div>
-						</div>
-
-						<div class="page-share">
-							<a href="#">Share only this Page <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-							<div class="shared-members">
-								<span class="people light-border">
-
-									<a href="#">
-										<picture class="profile-picture" style="background-image: url(<?=User::ID(5)->userPicUrl?>);"></picture>
-									</a>
-
-									<a href="#">
-										<picture class="profile-picture" style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
-									</a>
-
-								</span>
-
-								<a class="member-selector" href="#">
-									<i class="fa fa-plus" aria-hidden="true"></i>
-								</a>
-							</div>
-						</div>
-
-						<div class="project-share">
-							<a href="#">Share this Project  <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-							<div class="shared-members">
-								<span class="people light-border">
-
-									<a href="#">
-										<picture class="profile-picture" style="background-image: url(<?=User::ID(1)->userPicUrl?>);"></picture>
-									</a>
-
-									<a href="#">
-										<picture class="profile-picture" style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
-									</a>
-
-									<a href="#">
-										<picture class="profile-picture" style="background-image: url(<?=User::ID(3)->userPicUrl?>);"></picture>
-									</a>
-
-									<a href="#">
-										<picture class="profile-picture" style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
-									</a>
-
-								</span>
-
-								<a class="member-selector" href="#">
-									<i class="fa fa-plus" aria-hidden="true"></i>
-								</a>
-							</div>
-						</div>
-
-						<div class="link-share">
-							<a href="#"><i class="fa fa-link" aria-hidden="true"></i> Get Shareable Link... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-						</div>
-
-						<div class="link-share">
-							<a href="#"><i class="fa fa-link" aria-hidden="true"></i> Share on my public profile... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-						</div>
-
-					</div>
-				</div>
-				<div class="opener">
-					<a href="#">SHARE</a>
-				</div>
-			</div>
-
-		</div>
-
-
-		<div class="bottom-left info open">
-
-			<div class="tab wrap">
-				<div class="col xl-8-12 xl-left">
-
-
-					<div class="date created">Date Created: <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_created') )?></span></div>
-					<div class="date updated">Last Updated: <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_modified') )?></span></div>
-
-
-				</div>
-				<div class="opener">
-					<a href="#">INFO</a>
-				</div>
-			</div>
-
-
-		</div>
-
-
-		<div class="bottom-right help xl-right open">
-
-			<div class="tab wrap">
-				<div class="col xl-1-1">
-					Help Content<br/><br/><br/>
-				</div>
-				<div class="opener" style="transform: skewX(-45deg);background-color: black;padding-right: 10px;right: 95%;">
-					<a href="#" style="transform: skewX(45deg);font-size: 10px;padding-bottom: 0;padding-left: 3px;padding-right: 16px;">?</a>
-				</div>
-			</div>
-
-		</div>
-	</div>
+	<div class="date created">Date Created: <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_created') )?></span></div>
+	<div class="date updated">Last Updated: <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_modified') )?></span></div>
 
 </main> <!-- main -->
 

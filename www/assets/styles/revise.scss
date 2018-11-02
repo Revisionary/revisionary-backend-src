@@ -63,24 +63,33 @@ html, body {
 		}
 	}
 
-	.pins {
+	.tab-container {
 
-		&.open .tab {
+		&.open > .tab {
 			transform: translateX(0) !important;
 		}
 
-		.tab {
+		& > .tab {
 			position: fixed;
 			top: $topbar-height;
 			left: 0;
 			z-index: 1;
 			background-color: $color;
-			min-width: 30vw;
-			max-width: 30vw;
+			width: 30vw;
 			pointer-events: initial;
 			transition: 500ms;
 			transform: translateX(-100%);
 			padding: 20px;
+
+			&.right {
+				left: auto;
+				right: 0;
+				transform: translateX(100%);
+			}
+
+			&.autowidth {
+				width: auto;
+			}
 
 
 			.scrollable-content {
@@ -109,63 +118,68 @@ html, body {
 				}
 			}
 
-			.pins-filter {
-			    text-align: center;
-				font-size: 10px;
-			    font-weight: lighter;
-			    letter-spacing: 2px;
-			    margin-top: -5px;
-				margin-bottom: 5px;
+		}
 
-			    a {
-				    font-size: 10px;
-					font-weight: lighter;
-					letter-spacing: 1.2px;
+	}
 
-					&.selected {
-						text-decoration: underline;
-					}
-			    }
+	.pins {
+
+		.pins-filter {
+		    text-align: center;
+			font-size: 10px;
+		    font-weight: lighter;
+		    letter-spacing: 2px;
+		    margin-top: -5px;
+			margin-bottom: 5px;
+
+		    a {
+			    font-size: 10px;
+				font-weight: lighter;
+				letter-spacing: 1.2px;
+
+				&.selected {
+					text-decoration: underline;
+				}
+		    }
+		}
+
+		.pins-list {
+
+			& *:not(i) {
+				font-weight: lighter;
 			}
 
-			.pins-list {
+			.pin {
+				margin-bottom: 15px;
 
-				& *:not(i) {
-					font-weight: lighter;
+				&:hover pin:before {
+					opacity: 0;
 				}
+			}
 
-				.pin {
-					margin-bottom: 15px;
+			.pin-title {
+				text-transform: uppercase;
+				font-size: 14px;
+				letter-spacing: 1.7px;
 
-					&:hover pin:before {
-						opacity: 0;
+				&.close {
+
+					i {
+						-moz-transform: rotate(180deg);
+					    -webkit-transform: rotate(180deg);
+					    -ms-transform: rotate(180deg);
+					    -o-transform: rotate(180deg);
+					    transform: rotate(180deg);
 					}
-				}
 
-				.pin-title {
-					text-transform: uppercase;
-					font-size: 14px;
-					letter-spacing: 1.7px;
-
-					&.close {
-
-						i {
-							-moz-transform: rotate(180deg);
-						    -webkit-transform: rotate(180deg);
-						    -ms-transform: rotate(180deg);
-						    -o-transform: rotate(180deg);
-						    transform: rotate(180deg);
-						}
-
-						& + .pin-comments {
-							display: none;
-						}
-
+					& + .pin-comments {
+						display: none;
 					}
 
 				}
 
 			}
+
 
 		}
 
