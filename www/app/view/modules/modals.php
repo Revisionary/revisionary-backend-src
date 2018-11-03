@@ -434,20 +434,20 @@ function page_members() {
 
 				?>
 
-					<!-- Owner -->
-					<li class="inline-guys member">
+						<!-- Owner -->
+						<li class="inline-guys member">
 
-						<picture class="profile-picture big" <?=User::ID($page_user_ID)->printPicture()?>>
-							<span <?=User::ID($page_user_ID)->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($page_user_ID)->firstName, 0, 1).substr(User::ID($page_user_ID)->lastName, 0, 1)?></span>
-						</picture>
+							<picture class="profile-picture big" <?=User::ID($page_user_ID)->printPicture()?>>
+								<span <?=User::ID($page_user_ID)->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($page_user_ID)->firstName, 0, 1).substr(User::ID($page_user_ID)->lastName, 0, 1)?></span>
+							</picture>
 
-						<div>
-							<span class="full-name"><?=User::ID($page_user_ID)->fullName?></span>
-							<span class="email">(<?=User::ID($page_user_ID)->email?>)</span>
-							<span class="owner-badge">Owner</span>
-						</div>
+							<div>
+								<span class="full-name"><?=User::ID($page_user_ID)->fullName?></span>
+								<span class="email">(<?=User::ID($page_user_ID)->email?>)</span>
+								<span class="owner-badge">Owner</span>
+							</div>
 
-					</li>
+						</li>
 
 
 
@@ -459,7 +459,7 @@ function page_members() {
 						<?php if ( is_numeric($share['share_to']) ) { ?>
 
 						<!-- Shared Person -->
-						<li class="inline-guys member">
+						<li class="inline-guys member user">
 
 							<picture class="profile-picture big" <?=User::ID($share['share_to'])->printPicture()?>>
 								<span <?=User::ID($share['share_to'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?></span>
@@ -470,14 +470,14 @@ function page_members() {
 								<span class="email">(<?=User::ID($share['share_to'])->email?>)</span>
 							</div>
 
-							<!-- <a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a> -->
+							<a href="#" class="remove remove-member" data-userid="<?=$share['share_to']?>" data-id="<?=$page_ID?>"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 
 						</li>
 
 						<?php } else { ?>
 
 
-						<li class="inline-guys member">
+						<li class="inline-guys member email">
 
 							<picture class="profile-picture big" >
 								<span><i class="fa fa-envelope" aria-hidden="true"></i></span>
@@ -487,7 +487,7 @@ function page_members() {
 								<span class="email"><?=$share['share_to']?></span>
 							</div>
 
-							<!-- <a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a> -->
+							<a href="#" class="remove remove-member" data-userid="<?=$share['share_to']?>" data-id="<?=$page_ID?>"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 
 						</li>
 

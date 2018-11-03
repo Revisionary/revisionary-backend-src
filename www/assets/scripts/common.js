@@ -98,7 +98,7 @@ $(function() {
 		if (!objectID) objectID = $(this).attr('data-object-id');
 
 
-		console.log('Data Type: ', dataType); console.log('projectShare: ', projectShare); console.log('OBJECT ID', objectID);
+		console.log('Data Type: ', dataType); console.log('projectShare: ', projectShare); console.log('OBJECT ID: ', objectID);
 
 
 		// Change the name
@@ -138,7 +138,7 @@ $(function() {
 				var fullName = $(member).attr('data-fullname');
 				var nameabbr = $(member).attr('data-nameabbr');
 				var userImageUrl = $(member).attr('data-avatar');
-				var user_ID = $(member).attr('data-user_ID');
+				var user_ID = $(member).attr('data-userid');
 				var unremoveable = $(member).attr('data-unremoveable');
 
 
