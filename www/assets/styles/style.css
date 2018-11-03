@@ -5255,7 +5255,7 @@ a {
     top: 100%;
     visibility: hidden;
     opacity: 0;
-    transition: 200ms;
+    transition: 0s;
     transition-delay: 500ms; }
     .dropdown-container > nav.dropdown:hover {
       opacity: 1;

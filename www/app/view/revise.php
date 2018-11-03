@@ -14,8 +14,6 @@
 </script>
 
 
-
-<div class="progress-bar"></div>
 <div id="loading" class="overlay">
 
 	<div class="progress-info">
@@ -28,8 +26,15 @@
 	<span class="loading-text">
 		<div class="gps_ring"></div> <span id="loading-info">LOADING...</span>
 	</span>
+
+
+	<span class="dates">
+
+		<div class="date created"><b>Date Created:</b> <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_created') )?></span></div>
+		<div class="date updated"><b>Last Updated:</b> <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_modified') )?></span></div>
+
+	</span>
 </div>
-<div id="pin-type-selector" class="overlay" style="display: none;"></div>
 
 
 
@@ -683,18 +688,7 @@
 	</div>
 </div> <!-- #page.site -->
 
-
-
-
-
-
-<main class="dates xl-hidden">
-
-	<div class="date created">Date Created: <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_created') )?></span></div>
-	<div class="date updated">Last Updated: <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_modified') )?></span></div>
-
-</main> <!-- main -->
-
+<div class="progress-bar"></div>
 
 
 

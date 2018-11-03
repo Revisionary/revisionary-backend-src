@@ -2,21 +2,12 @@
 
 $topbar-height: 45px;
 
+
 html, body {
 	overflow: hidden;
 }
 
-
-.overlay {
-	//display: none !important;
-}
-
-
-.ready .progress-bar {
-	top: auto;
-	bottom: 0;
-}
-
+//.overlay { display: none !important;}
 
 #top-bar {
 	position: relative;
@@ -302,6 +293,33 @@ html, body {
 		color: $color;
 	}
 
+	.share > .tab {
+		letter-spacing: 1.5px;
+
+		& > * {
+			margin-bottom: 15px;
+
+			& > a {
+				font-size: 14px;
+			}
+		}
+
+		.shared-members {
+			margin-top: 2px;
+
+			a {
+				display: inline-block;
+			}
+
+			.member-selector {
+				position: relative;
+				top: -4px;
+			}
+		}
+
+
+	}
+
 }
 
 #page {
@@ -336,252 +354,9 @@ html, body {
 }
 
 
-.color {
-
-	&-primary {
-		color: $color;
-	}
-
-	&-live {
-		color: $color-live;
-	}
-
-	&-private-live {
-		color: $color-private-live;
-	}
-
-	&-private {
-		color: $color-private;
-	}
-
-}
 
 
-
-#page main {
-	border-width: 5px;
-    margin-bottom: 0;
-    pointer-events: none;
-    //border: none;
-}
-
-#revise-sections {
-	width: 100%;
-	height: calc(100vh - 20px);
-
-	& > * {
-		position: absolute;
-		z-index: 1;
-		min-width: 30vw;
-		max-width: 30vw;
-		pointer-events: initial;
-		transition: 500ms;
-		transform: translateX(-100%);
-
-		&.open {
-			transform: translateX(0) !important;
-		}
-
-		.tab {
-			position: relative;
-			background-color: $color;
-
-			* {
-				color: white;
-
-				&.profile-picture {
-					border-color: white;
-				}
-			}
-
-			& > .col {
-				padding: 10px 10px 0 0;
-				//overflow: hidden;
-			}
-
-			.opener {
-				position: absolute;
-			    background: red;
-			    left: 100%;
-			    bottom: 0;
-				box-shadow: black 0 0 5px;
-
-			    a {
-				    display: block;
-				    padding: 10px;
-			    }
-			}
-		}
-
-
-		&.top-left {
-			top: 0;
-			left: 0;
-
-			.tab > .col {
-				padding: 0 20px 20px 0;
-			}
-
-			.opener {
-			    top: 0;
-			    bottom: auto;
-		    }
-		}
-
-		&.top-right {
-			top: 0;
-			right: 0;
-			transform: translateX(100%);
-
-			.tab > .col {
-				padding: 0 0 20px 20px;
-			}
-
-			.opener {
-			    top: 0;
-			    bottom: auto;
-			    left: auto;
-			    right: 100%;
-		    }
-		}
-
-		&.bottom-left {
-			bottom: 0;
-			left: 0;
-		}
-
-		&.bottom-right {
-			bottom: 0;
-			right: 0;
-			transform: translateX(100%);
-
-			.tab > .col {
-				padding: 20px 0 0 20px;
-			}
-
-			.opener {
-			    top: auto;
-			    bottom: 0;
-			    left: auto;
-			    right: 100%;
-		    }
-		}
-	}
-
-
-	.scrollable-content {
-		background-color: #1A1A1A;
-		//max-height: 50vh;
-		height: 60vh;
-
-		.mCSB_container {
-			padding: 10px 8px;
-			overflow: visible;
-		}
-
-		.mCSB_scrollTools {
-			right: -6px;
-
-			.mCSB_draggerRail {
-			    background-color: #fff;
-			    background-color: rgb(255, 254, 254);
-		        width: 1px;
-			}
-
-			.mCSB_dragger .mCSB_dragger_bar {
-			    background-color: #fff;
-			    background-color: rgb(255, 255, 255);
-			}
-		}
-	}
-
-	.pins-filter {
-	    text-align: center;
-		font-size: 10px;
-	    font-weight: lighter;
-	    letter-spacing: 2px;
-	    margin-top: -5px;
-		margin-bottom: 5px;
-
-	    a {
-		    font-size: 10px;
-			font-weight: lighter;
-			letter-spacing: 1.2px;
-
-			&.selected {
-				text-decoration: underline;
-			}
-	    }
-	}
-
-	.pins-list {
-
-		& *:not(i) {
-			font-weight: lighter;
-		}
-
-		.pin {
-			margin-bottom: 15px;
-
-			&:hover pin:before {
-				opacity: 0;
-			}
-		}
-
-		.pin-title {
-			text-transform: uppercase;
-			font-size: 14px;
-			letter-spacing: 1.7px;
-
-			&.close {
-
-				i {
-					-moz-transform: rotate(180deg);
-				    -webkit-transform: rotate(180deg);
-				    -ms-transform: rotate(180deg);
-				    -o-transform: rotate(180deg);
-				    transform: rotate(180deg);
-				}
-
-				& + .pin-comments {
-					display: none;
-				}
-
-			}
-
-		}
-
-	}
-
-	.share-tab-content {
-		letter-spacing: 1.5px;
-
-		& > * {
-			margin-bottom: 15px;
-
-			& > a {
-				font-size: 14px;
-			}
-		}
-
-		.shared-members {
-			margin-top: 2px;
-
-			a {
-				display: inline-block;
-			}
-
-			.member-selector {
-				position: relative;
-				top: -4px;
-			}
-		}
-
-
-	}
-
-}
-
+/* Pin Comments */
 .pin-comments {
 	margin-left: 10px;
 
@@ -639,24 +414,6 @@ html, body {
 		}
 
 
-/*
-		&:nth-child(even) {
-
-			.xl-left {
-				-webkit-justify-content: flex-end;
-			    -ms-justify-content: flex-end;
-			    justify-content: flex-end;
-			    text-align: right;
-			}
-
-			.xl-first {
-				-ms-flex-order: 1;
-				-webkit-order: 1;
-				order: 1;
-			}
-		}
-*/
-
 		&.recurring {
 			margin-top: -15px;
 
@@ -689,62 +446,10 @@ html, body {
 }
 
 
-.date {
-	opacity: 0.4;
-	font-size: 12px;
-	letter-spacing: 1.5px;
-    font-weight: lighter;
-    line-height: 15px;
-}
-
-.device-selector {
-    font-size: 10px;
-    font-weight: lighter;
-    letter-spacing: 1px;
-
-    .select-device {
-	    font-size: 10px !important;
-	    line-height: 10px !important;
-    }
-
-    .device-icon i {
-	    font-size: 40px;
-	    margin-bottom: -10px;
-	    display: block;
-    }
-
-    .dropdown-container {
-
-	    .dropdown {
-		    left: calc(100% - 2px);
-		    bottom: 0;
-		    top: auto !important;
-
-		    & > ul {
-
-
-			    & > li {
-
-					& > a,
-					& > a > i {
-						color: black !important;
-
-						&:hover {
-							color: $color-secondary !important;
-						}
-					}
-
-			    }
-
-		    }
-	    }
-
-    }
-
-}
-
-.version-selector {
-    font-size: 10px !important;
+/* Progress Bar */
+.ready .progress-bar {
+	top: auto;
+	bottom: 0;
 }
 
 
@@ -763,6 +468,19 @@ html, body {
 	z-index: 2;
 }
 
+#loading > .progress-info {
+    font-size: 10px;
+    line-height: 13px;
+}
+
+#loading > span.dates {
+	position: absolute;
+    width: 100%;
+    bottom: 20px;
+    left: 20px;
+    opacity: 0.3;
+}
+
 #loading > span.loading-text {
 	position: absolute;
     display: block;
@@ -771,28 +489,8 @@ html, body {
     top: 50%;
     margin-top: -9px;
     color: #686868;
-	font-family: Montserrat, "Helvetica Neue", sans-serif;
     font-size: 20px;
     letter-spacing: 10px;
-}
-
-#pin-type-selector {
-	z-index: 1;
-    opacity: 0.85;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    width: auto;
-    height: auto;
-background: rgba(0,0,0,1);
-background: -moz-linear-gradient(-45deg, rgba(0,0,0,1) 0%, rgba(70,70,70,1) 26%, rgba(255,255,255,1) 95%);
-background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(0,0,0,1)), color-stop(26%, rgba(70,70,70,1)), color-stop(95%, rgba(255,255,255,1)));
-background: -webkit-linear-gradient(-45deg, rgba(0,0,0,1) 0%, rgba(70,70,70,1) 26%, rgba(255,255,255,1) 95%);
-background: -o-linear-gradient(-45deg, rgba(0,0,0,1) 0%, rgba(70,70,70,1) 26%, rgba(255,255,255,1) 95%);
-background: -ms-linear-gradient(-45deg, rgba(0,0,0,1) 0%, rgba(70,70,70,1) 26%, rgba(255,255,255,1) 95%);
-background: linear-gradient(135deg, rgba(0,0,0,1) 0%, rgba(70,70,70,1) 26%, rgba(255,255,255,1) 95%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#ffffff', GradientType=1 );
 }
 
 .gps_ring {
@@ -806,89 +504,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
     -webkit-animation-iteration-count: infinite;
     opacity: 0.0
 }
-@-webkit-keyframes pulsate {
+@keyframes pulsate {
     0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
     50% {opacity: 1.0;}
     100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
 }
 
 
-// Add new pin options
-.add-pin-options {
-	position: absolute;
-	z-index: 1;
-    right: -100px;
-    bottom: -100px;
-    transition: 1000ms;
-    padding-bottom: 30px;
-    padding-right: 10px;
-    padding-left: 40px;
-    padding-top: 40px;
-
-    .ready & {
-	    right: 0;
-	    bottom: 0;
-	    pointer-events: auto;
-    }
-
-    .pin-types {
-	    pointer-events: none;
-	    position: absolute;
-	    top: 18px;
-	    right: 100%;
-	    width: 500px;
-		z-index: -1;
-	    transition: 1s;
-	    opacity: 0;
-
-	    & > * {
-		    display: block;
-		    text-align: right;
-		    font-size: 15px !important;
-	    }
-    }
-
-    .pin-type-selector {
-	    color: white !important;
-	    z-index: 1;
-	    position: relative;
-
-	    i {
-		    text-shadow: 0 0 1px #000;
-	    }
-
-	    .open-icon {
-			position: relative;
-		    left: -18px;
-		    top: -9px;
-		    visibility: hidden;
-	    }
-
-	    &.open .open-icon {
-		    visibility: visible;
-	    }
-
-	    &.open + .pin-types {
-		    right: 55%;
-		    z-index: 1;
-			opacity: 1;
-	    }
-    }
-
-	&.selector-open {
-
-		.inspect-activator {
-			z-index: 0;
-			opacity: 0.1;
-		}
-
-		.pin-types {
-			pointer-events: auto;
-		}
-
-	}
-}
-
+/* Mouse Cursor */
 .mouse-cursor {
 	user-select: none !important;
 	pointer-events: none !important;
@@ -920,8 +543,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 
 }
 
-#pins, .pins-list {
 
+/* Pin Filters */
+#pins, .pins-list {
 
     &[data-filter="incomplete"] > .pin[data-pin-complete="1"],
     &[data-filter="complete"] > .pin[data-pin-complete="0"],
@@ -1340,9 +964,23 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 }
 
 
-/* Progress Bar */
-.progress-info {
-    font-family: Montserrat, "Helvetica Neue", sans-serif;
-    font-size: 10px;
-    line-height: 13px;
+/* Color */
+.color {
+
+	&-primary {
+		color: $color;
+	}
+
+	&-live {
+		color: $color-live;
+	}
+
+	&-private-live {
+		color: $color-private-live;
+	}
+
+	&-private {
+		color: $color-private;
+	}
+
 }
