@@ -11,8 +11,7 @@
 
 	</div>
 
-	<div class="progress-bar">
-	</div>
+	<div class="progress-bar"></div>
 
 	<main id="first-section">
 

@@ -2215,7 +2215,6 @@ function updatePinsList() {
 
 
 
-
 // SELECTORS:
 // Find iframe element
 function iframeElement(selector) {
@@ -2341,7 +2340,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 
 // HELPERS:
-function get_html_translation_table (table, quote_style) {
+function get_html_translation_table(table, quote_style) {
   //  discuss at: http://phpjs.org/functions/get_html_translation_table/
   // original by: Philip Peterson
   //  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
@@ -2505,7 +2504,7 @@ function get_html_translation_table (table, quote_style) {
   return hash_map
 }
 
-function htmlentities (string, quote_style, charset, double_encode) {
+function htmlentities(string, quote_style, charset, double_encode) {
   //  discuss at: http://phpjs.org/functions/htmlentities/
   // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
   //  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
@@ -2555,7 +2554,7 @@ function htmlentities (string, quote_style, charset, double_encode) {
   })
 }
 
-function html_entity_decode (string, quote_style) {
+function html_entity_decode(string, quote_style) {
   //  discuss at: http://phpjs.org/functions/html_entity_decode/
   // original by: john (http://www.jd-tech.net)
   //    input by: ger
@@ -2675,45 +2674,6 @@ function isEqual(value, other) {
 
 }
 
-function timeSince(date) {
-
-  var seconds = Math.floor((new Date() - date) / 1000);
-
-  var interval = Math.floor(seconds / 31536000);
-
-  if (interval > 1) {
-    return interval + " years";
-  }
-  interval = Math.floor(seconds / 2592000);
-  if (interval > 1) {
-    return interval + " months";
-  }
-  interval = Math.floor(seconds / 86400);
-  if (interval > 1) {
-    return interval + " days";
-  }
-  interval = Math.floor(seconds / 3600);
-  if (interval > 1) {
-    return interval + " hours";
-  }
-  interval = Math.floor(seconds / 60);
-  if (interval > 1) {
-    return interval + " minutes";
-  }
-  //return Math.floor(seconds) + " seconds";
-  return "about a minute";
-}
-
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-
 function formatBytes(bytes, decimals) {
    if(bytes == 0) return '0 Bytes';
    var k = 1024,
@@ -2731,22 +2691,4 @@ function makeID() {
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 
 	return text;
-}
-
-function ajax(type, givenData = {}) {
-
-	givenData['type'] = type;
-
-	return $.ajax({
-		method: "POST",
-		url: ajax_url,
-		data: givenData,
-		//async: false,
-		dataType: 'json'
-	});
-
-}
-
-function log(log, arg1) {
-	//console.log(log, arg1);
 }

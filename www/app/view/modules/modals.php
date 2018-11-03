@@ -7,9 +7,9 @@ function print_device_selector() {
 <ul class="selected-devices">
 	<li><?php $custom_device_ID = 11; ?>
 		<input type="hidden" name="devices[]" value="11"/>
-		<input type="hidden" name="page-width" value="<?=Device::ID($custom_device_ID)->getDeviceInfo('device_width')?>"/>
-		<input type="hidden" name="page-height" value="<?=Device::ID($custom_device_ID)->getDeviceInfo('device_height')?>"/>
-		<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_width')?></span> x <span class="screen-height"><?=Device::ID($custom_device_ID)->getDeviceInfo('device_height')?></span>)</span>
+		<input type="hidden" name="page-width" value="<?=Device::ID($custom_device_ID)->getInfo('device_width')?>"/>
+		<input type="hidden" name="page-height" value="<?=Device::ID($custom_device_ID)->getInfo('device_height')?>"/>
+		<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width"><?=Device::ID($custom_device_ID)->getInfo('device_width')?></span> x <span class="screen-height"><?=Device::ID($custom_device_ID)->getInfo('device_height')?></span>)</span>
 		<a href="#" class="remove-device" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 	</li>
 </ul>
@@ -88,7 +88,7 @@ function page_members() {
 
 
 
-<h3>Page Members <i class="fa fa-question-circle tooltip" data-tooltip="Sharing to emails that are not users is not working right now." aria-hidden="true"></i></h3>
+<h3><i class="fa fa-share-alt"></i> Page Members <i class="fa fa-question-circle tooltip" data-tooltip="Sharing to emails that are not users is not working right now." aria-hidden="true"></i></h3>
 <div class="people">
 
 
@@ -124,23 +124,17 @@ function page_members() {
 
 
 
-<div id="add-new" class="popup-window xl-center scrollable-content">
-	<h2>Add New <?=ucfirst($dataType)?></h2>
-	<h5 class="to">To <b>Main Pages</b> Section</h5>
+<div id="add-new-project" class="popup-window xl-center scrollable-content">
+	<h2>Add New Project</h2>
+	<h5 class="to">To <b>Main Projects</b> Section</h5>
 
-	<form action="" method="post">
+	<form action="<?=site_url('projects', true)?>" method="post">
 
 		<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
 		<input type="hidden" name="add_new" value="true"/>
 		<input type="hidden" name="category" value="0"/>
 		<input type="hidden" name="order" value="0"/>
 
-
-		<?php
-
-		if ($dataType == "project") {
-
-		?>
 
 		<div class="wrap xl-center">
 			<div class="col xl-5-7">
@@ -214,21 +208,16 @@ function page_members() {
 				</div>
 
 
-
 				<!-- Actions -->
 				<div class="wrap xl-2 xl-center xl-flexbox">
 					<div class="col">
 
-
-						<button class="dark small" tabindex="4">Add</button>
-
+						<button class="dark small">Add</button>
 
 					</div>
 					<div class="col xl-first">
 
-
 						<button class="cancel-button light small">Cancel</button>
-
 
 					</div>
 				</div>
@@ -238,12 +227,34 @@ function page_members() {
 			</div>
 		</div>
 
-		<?php
+	</form>
 
-		} elseif ($dataType == "page") {
 
-		?>
+</div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="add-new-page" class="popup-window xl-center scrollable-content">
+	<h2>Add New Page</h2>
+	<h5 class="to">To <b>Main Pages</b> Section</h5>
+
+	<form action="<?=site_url('project/'.$project_ID, true)?>" method="post">
+
+		<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
+		<input type="hidden" name="add_new" value="true"/>
+		<input type="hidden" name="category" value="0"/>
+		<input type="hidden" name="order" value="0"/>
 		<input type="hidden" name="project_ID" value="<?=$project_ID?>"/>
 
 		<div class="wrap xl-center xl-gutter-8">
@@ -263,18 +274,18 @@ function page_members() {
 				<?=print_device_selector()?>
 
 
-				<a href="#" class="option-toggler more-options xl-right">More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+				<br/>
+				<br/>
+				<a href="#" class="option-toggler more-options"><i class="fa fa-share-alt"></i> Sharing Options (Optional) <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 
-				<a href="#" class="option-toggler less-options xl-right">Less Options <i class="fa fa-caret-up" aria-hidden="true"></i></a>
+				<a href="#" class="option-toggler less-options"><i class="fa fa-share-alt"></i> Hide Sharing Options <i class="fa fa-caret-up" aria-hidden="true"></i></a>
 
 
 				<!-- More Options -->
 				<div class="more-options-wrapper">
 
-
 					<?=page_members()?>
 					<br/>
-
 
 				</div>
 
@@ -284,16 +295,12 @@ function page_members() {
 				<div class="wrap xl-2 xl-center xl-flexbox">
 					<div class="col">
 
-
-						<button class="dark small" tabindex="3">Add</button>
-
+						<button class="dark small">Add</button>
 
 					</div>
 					<div class="col xl-first">
 
-
 						<button class="cancel-button light small">Cancel</button>
-
 
 					</div>
 				</div>
@@ -302,12 +309,6 @@ function page_members() {
 
 			</div>
 		</div>
-
-		<?php
-
-		}
-
-		?>
 
 	</form>
 
@@ -330,7 +331,7 @@ function page_members() {
 
 <div id="share" class="popup-window xl-center xl-5-12 scrollable-content">
 	<h2>Share</h2>
-	<h5 class="to">The <b>Name</b> <span class="data-type"><?=ucfirst($dataType)?></span></h5>
+	<h5 class="to">The <b><?=isset($page_ID) ? Page::ID($page_ID)->getInfo('page_name') : "NAME"?></b> <span class="data-type"><?=ucfirst($dataType)?></span></h5>
 
 	<form action="" method="post">
 
@@ -353,13 +354,15 @@ function page_members() {
 							<!-- Owner -->
 							<li class="inline-guys member">
 
-								<picture class="profile-picture big" <?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->printPicture()?>>
-									<span <?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->firstName, 0, 1).substr(User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->lastName, 0, 1)?></span>
+								<?php $project_user_ID = Project::ID( $_url[1])->getInfo('user_ID'); ?>
+
+								<picture class="profile-picture big" <?=User::ID($project_user_ID)->printPicture()?>>
+									<span <?=User::ID($project_user_ID)->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($project_user_ID)->firstName, 0, 1).substr(User::ID($project_user_ID)->lastName, 0, 1)?></span>
 								</picture>
 
 								<div>
-									<span class="full-name"><?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->fullName?></span>
-									<span class="email">(<?=User::ID(Project::ID( $_url[1])->getProjectInfo('user_ID'))->email?>)</span>
+									<span class="full-name"><?=User::ID($project_user_ID)->fullName?></span>
+									<span class="email">(<?=User::ID($project_user_ID)->email?>)</span>
 									<span class="owner-badge">Owner</span>
 								</div>
 
@@ -422,14 +425,91 @@ function page_members() {
 
 
 
-				<ul class="xl-left members">
+				<ul class="xl-left members <?=isset($page_ID) ? "page-php" : ""?>">
+				<?php
+
+					if ( isset($page_ID) ) {
+
+					$page_user_ID = Page::ID($page_ID)->getInfo('user_ID');
+
+				?>
+
+					<!-- Owner -->
+					<li class="inline-guys member">
+
+						<picture class="profile-picture big" <?=User::ID($page_user_ID)->printPicture()?>>
+							<span <?=User::ID($page_user_ID)->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($page_user_ID)->firstName, 0, 1).substr(User::ID($page_user_ID)->lastName, 0, 1)?></span>
+						</picture>
+
+						<div>
+							<span class="full-name"><?=User::ID($page_user_ID)->fullName?></span>
+							<span class="email">(<?=User::ID($page_user_ID)->email?>)</span>
+							<span class="owner-badge">Owner</span>
+						</div>
+
+					</li>
+
+
+
+
+					<?php
+					foreach ($pageShares as $share) {
+					?>
+
+						<?php if ( is_numeric($share['share_to']) ) { ?>
+
+						<!-- Shared Person -->
+						<li class="inline-guys member">
+
+							<picture class="profile-picture big" <?=User::ID($share['share_to'])->printPicture()?>>
+								<span <?=User::ID($share['share_to'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?></span>
+							</picture>
+
+							<div>
+								<span class="full-name"><?=User::ID($share['share_to'])->fullName?></span>
+								<span class="email">(<?=User::ID($share['share_to'])->email?>)</span>
+							</div>
+
+							<!-- <a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a> -->
+
+						</li>
+
+						<?php } else { ?>
+
+
+						<li class="inline-guys member">
+
+							<picture class="profile-picture big" >
+								<span><i class="fa fa-envelope" aria-hidden="true"></i></span>
+							</picture>
+
+							<div>
+								<span class="email"><?=$share['share_to']?></span>
+							</div>
+
+							<!-- <a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a> -->
+
+						</li>
+
+
+						<?php } ?>
+
+					<?php
+					}
+					?>
+
+
+
+
+
+				<?php } ?>
 
 				</ul><br/>
 
 
 
 				<!-- Add New -->
-				<input id="share-email" class="share-email" type="email" data-type="<?=$dataType?>" data-id="" placeholder='Type an e-mail address and hit "Enter"...' style="max-width: 75%;"/><br/><br/>
+				<input id="share-email" class="share-email" type="email" data-type="<?=$dataType?>" data-id="<?=isset($page_ID) ? $page_ID : ""?>" placeholder='Type an e-mail address and hit "Enter"...' style="max-width: 75%;"/><br/><br/>
 
 
 

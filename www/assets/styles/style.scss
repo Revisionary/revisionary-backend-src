@@ -1181,12 +1181,14 @@ input.share-email {
     background-color: white;
     border: 10px solid black;
     padding: 20px 40px 40px;
-    max-height: 90vh;
+    max-height: 95vh;
     box-sizing: border-box;
     transition: 500ms;
+	box-shadow: 0px 0px 65px -10px white;
 
     &.active {
-	    top: 5vh;
+	    top: 50%;
+	    transform: translateY(-50%);
     }
 
     h2 {

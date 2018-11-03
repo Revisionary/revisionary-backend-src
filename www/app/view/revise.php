@@ -30,10 +30,28 @@
 
 	<span class="dates">
 
-		<div class="date created"><b>Date Created:</b> <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_created') )?></span></div>
-		<div class="date updated"><b>Last Updated:</b> <span><?=timeago(Page::ID($page_ID)->getPageInfo('page_modified') )?></span></div>
+		<?php
+		$date_created = timeago(Page::ID($page_ID)->getInfo('page_created') );
+		$last_updated = timeago(Page::ID($page_ID)->getInfo('page_modified') );
+
+		echo "<div class='date created'><b>Date Created:</b> $date_created</div>";
+		if ($date_created != $last_updated)
+			echo "<div class='date updated'><b>Last Updated:</b> $last_updated</div>";
+		?>
 
 	</span>
+</div>
+
+<div class="bg-overlay">
+
+	<?php
+
+		$dataType = "page";
+
+		require view('modules/modals');
+
+	?>
+
 </div>
 
 
@@ -99,7 +117,7 @@
 
 					<span class="dropdown-container">
 						<a href="<?=site_url('project/'.$project_ID)?>" class="dropdown-opener">
-							<?=Project::ID($project_ID)->getProjectInfo('project_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+							<?=Project::ID($project_ID)->getInfo('project_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 						</a>
 						<nav class="dropdown">
 							<ul>
@@ -145,7 +163,7 @@
 								<?php
 								}
 								?>
-								<li><a href="#"><i class="fa fa-plus" aria-hidden="true"></i> Add New Project</a></li>
+								<li><a href="#" class="add-new-box" data-type="project"><i class="fa fa-plus" aria-hidden="true"></i> Add New Project</a></li>
 							</ul>
 						</nav>
 					</span>
@@ -186,7 +204,7 @@
 
 					<span class="dropdown-container">
 						<a href="<?=site_url('project/'.$project_ID)?>" class="dropdown-opener">
-							<?=Page::ID($page_ID)->getPageInfo('page_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+							<?=Page::ID($page_ID)->getInfo('page_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 						</a>
 						<nav class="dropdown">
 							<ul>
@@ -204,7 +222,7 @@
 								<?php
 								}
 								?>
-								<li><a href="#"><i class="fa fa-plus" aria-hidden="true"></i> Add New Page</a></a></li>
+								<li><a href="#" class="add-new-box" data-type="page"><i class="fa fa-plus" aria-hidden="true"></i> Add New Page</a></a></li>
 							</ul>
 						</nav>
 					</span>
@@ -269,8 +287,8 @@
 								$existing_device_width = $device['device_width'];
 								$existing_device_height = $device['device_height'];
 
-								$page_width = Page::ID($device['page_ID'])->getPageInfo('page_width');
-								$page_height = Page::ID($device['page_ID'])->getPageInfo('page_height');
+								$page_width = Page::ID($device['page_ID'])->getInfo('page_width');
+								$page_height = Page::ID($device['page_ID'])->getInfo('page_height');
 
 								if ($page_width != null && $page_width != null) {
 									$existing_device_width = $page_width;
@@ -370,10 +388,10 @@
 			</div>
 
 		</div>
-		<div class="col share tab-container open">
+		<div class="col share tab-container">
 
-			<a href="#" class="button opener open">SHARE <i class="fa fa-share-alt"></i></a>
-			<div class="tab right autowidth open">
+			<a href="#" class="button page share-button openerr" data-type="page" data-object-id="<?=$page_ID?>">SHARE <i class="fa fa-share-alt"></i></a>
+			<div class="tab right autowidth">
 
 				<div class="page-share">
 					<a href="#">Share only this Page <i class="fa fa-question-circle" aria-hidden="true"></i></a>
