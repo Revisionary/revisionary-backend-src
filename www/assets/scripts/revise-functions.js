@@ -609,6 +609,11 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 	cursor.stop();
 	var cursorVisible = cursor.is(":visible");
 
+
+	// Remove outlines from iframe
+	iframeElement('body *').css('outline', '');
+
+
 	if ( (cursorActive || forceClose) && !forceOpen ) {
 
 

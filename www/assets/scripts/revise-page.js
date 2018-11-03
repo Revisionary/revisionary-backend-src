@@ -76,9 +76,9 @@ $(function() {
 	});
 
 
-	// Cursor activator
+	// Cursor deactivator
 	$('.deactivator').click(function(e) {
-		toggleCursorActive();
+		toggleCursorActive(true);
 
 		e.preventDefault();
 		return false;
