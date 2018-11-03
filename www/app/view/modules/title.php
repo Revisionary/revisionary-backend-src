@@ -91,7 +91,7 @@
 			<span class="people">
 
 				<?php
-				$project_user_ID = Project::ID( $_url[1] )->getProjectInfo('user_ID');
+				$project_user_ID = Project::ID( $_url[1] )->getInfo('user_ID');
 				$project_user = User::ID($project_user_ID);
 				?>
 

@@ -2,7 +2,7 @@
 
 
 $page_ID = 199;
-$project_ID = Page::ID($page_ID)->getPageInfo('project_ID');
+$project_ID = Page::ID($page_ID)->getInfo('project_ID');
 
 
 $process_ID = get('pid');

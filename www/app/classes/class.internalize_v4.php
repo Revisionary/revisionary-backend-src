@@ -121,9 +121,9 @@ class Internalize_v4 {
 
 
 		// Device info
-		$deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
-		$width = Page::ID($page_ID)->getPageInfo('page_width') ? Page::ID($page_ID)->getPageInfo('page_width') : Device::ID($deviceID)->getDeviceInfo('device_width');
-		$height = Page::ID($page_ID)->getPageInfo('page_height') ? Page::ID($page_ID)->getPageInfo('page_height') : Device::ID($deviceID)->getDeviceInfo('device_height');
+		$deviceID = Page::ID($page_ID)->getInfo('device_ID');
+		$width = Page::ID($page_ID)->getInfo('page_width') ? Page::ID($page_ID)->getInfo('page_width') : Device::ID($deviceID)->getInfo('device_width');
+		$height = Page::ID($page_ID)->getInfo('page_height') ? Page::ID($page_ID)->getInfo('page_height') : Device::ID($deviceID)->getInfo('device_height');
 
 
 		// Chrome container request link

@@ -16,7 +16,7 @@ class Version {
 	public function __construct() {
 
 		// Set the project name
-        $this->versionName = $this->getVersionInfo('version_name');
+        $this->versionName = $this->getInfo('version_name');
 
     }
 
@@ -36,7 +36,7 @@ class Version {
 	// GETTERS:
 
     // Get version info
-    public function getVersionInfo($column) {
+    public function getInfo($column) {
 	    global $db;
 
 	    $db->where('version_ID', self::$versionId);

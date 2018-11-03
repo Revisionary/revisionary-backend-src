@@ -92,29 +92,29 @@ class Page {
 	public function __construct() {
 
 		// Set the project ID
-        $this->project_ID = $this->getPageInfo('project_ID');
+        $this->project_ID = $this->getInfo('project_ID');
 
         // Set the version number
         if (self::$setPageVersion == null) $this->pageVersion = $this->getPageVersion();
         else $this->pageVersion = self::$setPageVersion;
 
         // Set the device
-        $this->pageDevice = $this->getPageInfo('device_ID');
+        $this->pageDevice = $this->getInfo('device_ID');
 
 		// Set the remote url
-        $this->remoteUrl = $this->getPageInfo('page_url');
+        $this->remoteUrl = $this->getInfo('page_url');
 
         // Set the user ID
-        $this->user_ID = $this->getPageInfo('user_ID');
+        $this->user_ID = $this->getInfo('user_ID');
 
         // Set the internalization count
-		$this->internalizeCount = $this->getPageInfo('page_internalized');
+		$this->internalizeCount = $this->getInfo('page_internalized');
 
 
 		// Paths
         $userPath = $this->userPath = "user-".$this->user_ID;
         $projectPath = $this->projectPath = "project-".$this->project_ID;
-        $pagePath = $this->pagePath = "page-".($this->getPageInfo('parent_page_ID') != null ? $this->getPageInfo('parent_page_ID') : self::$page_ID);
+        $pagePath = $this->pagePath = "page-".($this->getInfo('parent_page_ID') != null ? $this->getInfo('parent_page_ID') : self::$page_ID);
         $devicePath = $this->devicePath = "device-".$this->pageDevice;
         $versionPath = $this->versionPath = $this->pageVersion;
 
@@ -137,7 +137,7 @@ class Page {
         $this->pageFile = $this->pageDir."/".$this->pageFileName;
 
         // Set the page image file path
-        $this->pageImagePath = $this->pageDeviceDir."/".$this->getPageInfo('page_pic');
+        $this->pageImagePath = $this->pageDeviceDir."/".$this->getInfo('page_pic');
 
         // Set the log file
         $this->logDir = $this->pageDir."/logs";
@@ -179,7 +179,7 @@ class Page {
 	// GETTERS:
 
 	// Get page info
-    public function getPageInfo($column) {
+    public function getInfo($column) {
 	    global $db;
 
 	    $db->where('page_ID', self::$page_ID);
@@ -195,7 +195,7 @@ class Page {
     public function getPageVersion() {
 	    global $db;
 
-		$db->where('user_ID', $this->getPageInfo('user_ID'));
+		$db->where('user_ID', $this->getInfo('user_ID'));
 		$db->where('page_ID', self::$page_ID);
 
 		// Show the final one

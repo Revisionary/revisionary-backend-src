@@ -639,7 +639,7 @@
 						?>
 					</div>
 					<div class="date-statistics">
-						<b>Created:</b> <?=timeago(Project::ID($project_ID)->getProjectInfo('project_created') )?><br/>
+						<b>Created:</b> <?=timeago(Project::ID($project_ID)->getInfo('project_created') )?><br/>
 						<b>Modified:</b> <?=timeago($project_modified)?>
 					</div>
 				</div>

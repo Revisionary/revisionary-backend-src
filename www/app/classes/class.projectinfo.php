@@ -27,10 +27,10 @@ class Project {
 	public function __construct() {
 
 		// Set the project name
-        $this->projectName = $this->getProjectInfo('project_name');
+        $this->projectName = $this->getInfo('project_name');
 
         // Set the user ID
-        $this->user_ID = $this->getProjectInfo('user_ID');
+        $this->user_ID = $this->getInfo('user_ID');
 
 
 		// Paths
@@ -59,7 +59,7 @@ class Project {
 	// GETTERS:
 
     // Get project info
-    public function getProjectInfo($column) {
+    public function getInfo($column) {
 	    global $db;
 
 	    $db->where('project_ID', self::$project_ID);

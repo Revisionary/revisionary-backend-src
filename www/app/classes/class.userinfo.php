@@ -34,25 +34,25 @@ class User {
 	public function __construct() {
 
 		// Set the user name
-        $this->userName = $this->getUserInfo('user_name');
+        $this->userName = $this->getInfo('user_name');
 
 		// Set the first name
-        $this->firstName = $this->getUserInfo('user_first_name');
+        $this->firstName = $this->getInfo('user_first_name');
 
 		// Set the last name
-        $this->lastName = $this->getUserInfo('user_last_name');
+        $this->lastName = $this->getInfo('user_last_name');
 
 		// Set the full name
-        $this->fullName = $this->getUserInfo('user_first_name')." ".$this->getUserInfo('user_last_name');
+        $this->fullName = $this->getInfo('user_first_name')." ".$this->getInfo('user_last_name');
 
 		// Set the email
-        $this->email = $this->getUserInfo('user_email');
+        $this->email = $this->getInfo('user_email');
 
 		// Set the user picture URL
-        $this->userPic = $this->getUserInfo('user_picture');
+        $this->userPic = $this->getInfo('user_picture');
 
 		// Set the user picture URL
-        $this->userPicUrl = $this->getUserInfo('user_picture') != "" ? cache_url('user-'.self::$user_ID.'/'.$this->getUserInfo('user_picture')) : asset_url('icons/follower-f.svg');
+        $this->userPicUrl = $this->getInfo('user_picture') != "" ? cache_url('user-'.self::$user_ID.'/'.$this->getInfo('user_picture')) : asset_url('icons/follower-f.svg');
 
     }
 
@@ -76,7 +76,7 @@ class User {
 	// GETTERS:
 
     // Get the user name
-    public function getUserInfo($column = null) {
+    public function getInfo($column = null) {
 	    global $db;
 
 	    // GET IT FROM DB...

@@ -16,7 +16,7 @@ class Device {
 	public function __construct() {
 
 		// Set the project name
-        $this->device_name = $this->getDeviceInfo('device_name');
+        $this->device_name = $this->getInfo('device_name');
 
     }
 
@@ -36,7 +36,7 @@ class Device {
 	// GETTERS:
 
     // Get device info
-    public function getDeviceInfo($column) {
+    public function getInfo($column) {
 	    global $db;
 
 	    $db->where('device_ID', self::$device_ID);
@@ -71,9 +71,9 @@ class Device {
 
 		if ($parent_page_ID != null) {
 
-			if ($page_name == null) $page_name = Page::ID($parent_page_ID)->getPageInfo('page_name');
-			if ($page_url == null) $page_url = Page::ID($parent_page_ID)->getPageInfo('page_url');
-			if ($project_ID == null) $project_ID = Page::ID($parent_page_ID)->getPageInfo('project_ID');
+			if ($page_name == null) $page_name = Page::ID($parent_page_ID)->getInfo('page_name');
+			if ($page_url == null) $page_url = Page::ID($parent_page_ID)->getInfo('page_url');
+			if ($project_ID == null) $project_ID = Page::ID($parent_page_ID)->getInfo('project_ID');
 
 		}
 

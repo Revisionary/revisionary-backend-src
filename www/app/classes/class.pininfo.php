@@ -19,10 +19,10 @@ class Pin {
 	public function __construct() {
 
 		// Set the pin name
-        $this->pin_type = $this->getPinInfo('pin_type');
+        $this->pin_type = $this->getInfo('pin_type');
 
         // Set the user ID
-        $this->user_ID = $this->getPinInfo('user_ID');
+        $this->user_ID = $this->getInfo('user_ID');
 
     }
 
@@ -42,7 +42,7 @@ class Pin {
 	// GETTERS:
 
     // Get pin info
-    public function getPinInfo($column) {
+    public function getInfo($column) {
 	    global $db;
 
 	    $db->where('pin_ID', self::$pin_ID);
@@ -97,7 +97,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_ID) {
-			$page_ID = Version::ID($pin_version_ID)->getVersionInfo('page_ID');
+			$page_ID = Version::ID($pin_version_ID)->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -131,7 +131,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_updated) {
-			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -157,7 +157,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_deleted) {
-			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -183,7 +183,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_updated) {
-			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -206,7 +206,7 @@ class Pin {
 
 
 
-		$current_pin_type = $this->getPinInfo('pin_type');
+		$current_pin_type = $this->getInfo('pin_type');
 
 		// Update the pin
 		$db->where('pin_ID', self::$pin_ID);
@@ -225,7 +225,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_updated) {
-			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -251,7 +251,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_updated) {
-			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -277,7 +277,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_updated) {
-			$page_ID = Version::ID( $this->getPinInfo('version_ID') )->getVersionInfo('page_ID');
+			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 

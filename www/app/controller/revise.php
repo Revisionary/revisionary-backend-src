@@ -58,25 +58,25 @@ if ($version) {
 
 
 // Get parent page ID
-$parentpage_ID = Page::ID($page_ID)->getPageInfo('parent_page_ID');
+$parentpage_ID = Page::ID($page_ID)->getInfo('parent_page_ID');
 
 // Get project ID
-$project_ID = Page::ID($page_ID)->getPageInfo('project_ID');
+$project_ID = Page::ID($page_ID)->getInfo('project_ID');
 
 // Get device ID
-$deviceID = Page::ID($page_ID)->getPageInfo('device_ID');
+$deviceID = Page::ID($page_ID)->getInfo('device_ID');
 
 // Get the device sizes
-$width = Page::ID($page_ID)->getPageInfo('page_width') ? Page::ID($page_ID)->getPageInfo('page_width') : Device::ID($deviceID)->getDeviceInfo('device_width');
-$height = Page::ID($page_ID)->getPageInfo('page_height') ? Page::ID($page_ID)->getPageInfo('page_height') : Device::ID($deviceID)->getDeviceInfo('device_height');
+$width = Page::ID($page_ID)->getInfo('page_width') ? Page::ID($page_ID)->getInfo('page_width') : Device::ID($deviceID)->getInfo('device_width');
+$height = Page::ID($page_ID)->getInfo('page_height') ? Page::ID($page_ID)->getInfo('page_height') : Device::ID($deviceID)->getInfo('device_height');
 
 // Check if custom size entered
 
 // Get device name
-$device_name = Device::ID($deviceID)->getDeviceInfo('device_name');
+$device_name = Device::ID($deviceID)->getInfo('device_name');
 
 // Get the device icon
-$deviceCatID = Device::ID($deviceID)->getDeviceInfo('device_cat_ID');
+$deviceCatID = Device::ID($deviceID)->getInfo('device_cat_ID');
 $db->where('device_cat_ID', $deviceCatID);
 $deviceCat = $db->getOne('device_categories');
 $deviceIcon = $deviceCat['device_cat_icon'];
@@ -99,7 +99,7 @@ $project_image = Page::ID($page_ID)->projectDir."/project.jpg";
 
 
 // If first time downloading - !!! NO NEED FOR NOW
-//if (Page::ID($page_ID)->getPageInfo('page_downloaded') == 0) {
+//if (Page::ID($page_ID)->getInfo('page_downloaded') == 0) {
 
 
 	// INTERNAL REDIRECTIONS:
@@ -327,6 +327,44 @@ if (
 }
 
 
+
+
+
+
+// PROJECT SHARES QUERY
+
+// Exlude other types
+$db->where('share_type', 'project');
+
+// Is this project?
+$db->where('shared_object_ID', $project_ID);
+
+// Project shares data
+$projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
+
+//echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
+
+
+
+
+
+// PAGE SHARES QUERY
+
+// Exlude other types
+$db->where('share_type', 'page');
+
+// Is this project?
+$db->where('shared_object_ID', $page_ID);
+
+// Project shares data
+$pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
+
+//echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
+
+
+
+
+
 // Bring the pages that user can access !!! Not deleted / archived ones, put this on a Access::ID() class!
 
 // Bring the shared ones
@@ -398,6 +436,7 @@ $additionalHeadJS = [
 
 $additionalBodyJS = [
 	'vendor/jquery.mCustomScrollbar.concat.min.js',
+	'common.js',
 	'revise-page.js'
 ];
 
