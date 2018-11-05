@@ -143,7 +143,11 @@ if (
 
 
 // ADD NEW DEVICE
-if ( is_numeric(get('new_device')) && is_numeric(get('page_ID')) && get('nonce') == $_SESSION["new_device_nonce"] ) {
+if (
+	is_numeric(get('new_device'))
+	&& is_numeric(get('page_ID'))
+	// && get('nonce') == $_SESSION["new_device_nonce"] !!! Disable the nonce check for now!
+) {
 
 
 
@@ -189,7 +193,10 @@ if ( is_numeric(get('new_device')) && is_numeric(get('page_ID')) && get('nonce')
 
 
 // ADD NEW PAGE
-if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_nonce"] ) {
+if (
+	post('add_new') == "true"
+	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
+) {
 
 
 	// Add the pages

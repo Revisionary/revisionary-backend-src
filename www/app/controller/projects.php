@@ -12,7 +12,10 @@ if ( !userloggedIn() ) {
 
 
 // ADD NEW
-if ( post('add_new') == "true" && post('add_new_nonce') == $_SESSION["add_new_nonce"] ) {
+if (
+	post('add_new') == "true"
+	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
+) {
 
 
 	$project_ID = Project::ID()->addNew(
