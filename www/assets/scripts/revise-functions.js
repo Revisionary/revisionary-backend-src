@@ -81,7 +81,7 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 		});
 
 
-	}, 500);
+	}, 1000);
 
 }
 
