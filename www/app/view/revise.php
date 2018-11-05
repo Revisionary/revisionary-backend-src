@@ -179,18 +179,9 @@
 
 					<div class="desc">Category</div>
 
-					<span class="dropdown-container">
-						<a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>" class="dropdown-opener">
-							<?=$pageCat['cat_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
-						</a>
-						<nav class="dropdown">
-							<ul>
-								<li class="selected"><a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>"><i class="fa fa-sign-in-alt"></i> <?=$pageCat['cat_name']?></a></li>
-								<li><a href="#"><i class="fa fa-sign-in-alt"></i> Other Category 2</a></li>
-								<li><a href="#"><i class="fa fa-sign-in-alt"></i> Other Category 3</a></li>
-							</ul>
-						</nav>
-					</span>
+					<a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>">
+						<?=$pageCat['cat_name']?>
+					</a>
 					<sep><i class="fa fa-chevron-right"></i></sep>
 
 				</div>
