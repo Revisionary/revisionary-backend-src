@@ -41,21 +41,32 @@ class Queue {
     public function isReady($queue_ID) {
 	    global $logger;
 
+		// Allow only one or two job at a time !!!
+	    $allowed_simultanious_job = 2;
+
 		// Current Queue
 	    $current_works = $this->works();
 	    $count = count($current_works) - 1;
 
 
-		// Allow only one or two job at a time !!!
-		if (
-			$current_works[0]['queue_ID'] == $queue_ID
-			//|| $current_works[1]['queue_ID'] == $queue_ID
-		) {
+		// Check the latest two works
+		foreach($current_works as $i => $work) {
 
-			$logger->info("Job $queue_ID is ready!");
-			return true;
+
+			if ($work['queue_ID'] == $queue_ID) {
+
+				$logger->info("Job $queue_ID is ready!");
+				return true;
+
+				break;
+			}
+
+
+			// No more check after last two
+			if ($i == $allowed_simultanious_job - 1) break;
 
 		}
+
 
 		$logger->info("Job $queue_ID is not ready yet. Waiting $count job(s).");
 	    return false;
