@@ -147,7 +147,7 @@
 												<?php
 												foreach ($pages_of_project as $page) {
 
-													$selected = $page['page_ID'] == $page_ID ? "class='selected'" : "";
+													$selected = $page['page_ID'] == $page_ID || $page['page_ID'] == $parentpage_ID ? "class='selected'" : "";
 												?>
 												<li <?=$selected?>><a href="<?=site_url('revise/'.$page['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$page['page_name']?></a></li>
 												<?php
@@ -207,7 +207,7 @@
 
 								foreach ($other_pages as $page) {
 
-									$selected = $page['page_ID'] == $page_ID ? "class='selected'" : "";
+									$selected = $page['page_ID'] == $page_ID || $page['page_ID'] == $parentpage_ID ? "class='selected'" : "";
 								?>
 								<li <?=$selected?>><a href="<?=site_url('revise/'.$page['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$page['page_name']?></a></li>
 								<?php
