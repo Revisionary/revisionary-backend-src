@@ -62,41 +62,6 @@
 <div id="top-bar">
 
 	<div class="wrap xl-flexbox xl-between xl-bottom xl-center">
-		<div class="col pins tab-container open">
-
-			<a href="#" class="button opener open"><i class="fa fa-list-ul"></i> PINS</a>
-			<div class="tab wrap">
-				<div class="col xl-1-1">
-
-					<div class="pins-filter">
-						<a href="#" class="<?=$pin_filter == 'all' ? 'selected' : ''?>" data-filter="all">Show All</a> |
-						<a href="#" class="<?=$pin_filter == 'incomplete' ? 'selected' : ''?>" data-filter="incomplete">Only Incompleted</a> |
-						<a href="#" class="<?=$pin_filter == 'complete' ? 'selected' : ''?>" data-filter="complete">Only Completed</a>
-					</div>
-
-					<div class="scrollable-content">
-						<div class="pins-list" data-filter="<?=$pin_filter?>"></div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-		<div class="col xl-left pin-mode">
-
-			<div class="desc nomargin">Pin Mode</div>
-			<div class="dropdown-container current-mode active" data-pin-type="live" data-pin-private="0">
-				<a href="#" class="button dropdown-opener"><i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label">LIVE</span></a>
-				<nav class="dropdown">
-					<ul class="pin-types">
-						<li data-pin-type="live" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> LIVE PREFERRED COMMENT</a></li>
-						<li data-pin-type="standard" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> ONLY COMMENT</a></li>
-						<li data-pin-type="live" data-pin-private="1"><a href="#"><i class="fa fa-dot-circle"></i> LIVEABLE PRIVATE COMMENT</a></li>
-						<li class="deactivator"><a href="#"><i class="fa fa-mouse-pointer"></i> OFF</a></li>
-					</ul>
-				</nav>
-			</div>
-
-		</div>
 		<div class="col navigation">
 
 			<div class="wrap xl-flexbox xl-bottom breadcrumbs">
@@ -379,9 +344,25 @@
 			</div>
 
 		</div>
+		<div class="col xl-left pin-mode">
+
+			<div class="desc nomargin">Pin Mode</div>
+			<div class="dropdown-container current-mode active" data-pin-type="live" data-pin-private="0">
+				<a href="#" class="button dropdown-opener"><i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label">LIVE</span></a>
+				<nav class="dropdown">
+					<ul class="pin-types">
+						<li data-pin-type="live" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> LIVE PREFERRED COMMENT</a></li>
+						<li data-pin-type="standard" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> ONLY COMMENT</a></li>
+						<li data-pin-type="live" data-pin-private="1"><a href="#"><i class="fa fa-dot-circle"></i> LIVEABLE PRIVATE COMMENT</a></li>
+						<li class="deactivator"><a href="#"><i class="fa fa-mouse-pointer"></i> OFF</a></li>
+					</ul>
+				</nav>
+			</div>
+
+		</div>
 		<div class="col share tab-container">
 
-			<a href="#" class="button page share-button openerr" data-type="page" data-object-id="<?=$page_ID?>">SHARE <i class="fa fa-share-alt"></i></a>
+			<a href="#" class="button page share-button openerr" data-type="page" data-object-id="<?=$page_ID?>"><i class="fa fa-share-alt"></i> SHARE</a>
 			<div class="tab right autowidth">
 
 				<div class="page-share">
@@ -442,6 +423,25 @@
 					<a href="#"><i class="fa fa-link" aria-hidden="true"></i> Share on my public profile... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
 				</div>
 
+			</div>
+
+		</div>
+		<div class="col pins tab-container open">
+
+			<a href="#" class="button opener open">PINS <i class="fa fa-list-ul"></i></a>
+			<div class="tab right wrap">
+				<div class="col xl-1-1">
+
+					<div class="pins-filter">
+						<a href="#" class="<?=$pin_filter == 'all' ? 'selected' : ''?>" data-filter="all">Show All</a> |
+						<a href="#" class="<?=$pin_filter == 'incomplete' ? 'selected' : ''?>" data-filter="incomplete">Only Incompleted</a> |
+						<a href="#" class="<?=$pin_filter == 'complete' ? 'selected' : ''?>" data-filter="complete">Only Completed</a>
+					</div>
+
+					<div class="scrollable-content">
+						<div class="pins-list" data-filter="<?=$pin_filter?>"></div>
+					</div>
+				</div>
 			</div>
 
 		</div>
