@@ -246,7 +246,7 @@ $(function() {
 
 	// Pin window content changes
 	var doChange;
-	$(document).on('DOMSubtreeModified', '#pin-window.active .content-editor .edit-content', function(e) {
+	$(document).on('input', '#pin-window.active .content-editor .edit-content', function(e) {
 
 		var pin_ID = pinWindow.attr('data-pin-id');
 		var elementIndex = pinWindow.attr('data-revisionary-index');
@@ -255,10 +255,7 @@ $(function() {
 		var changedElementOriginal = changedElement.html();
 
 
-
-
 		//console.log('REGISTERED CHANGES', changes);
-
 
 
 		// Stop the auto-refresh
@@ -266,8 +263,10 @@ $(function() {
 
 
 		// Apply the change
-		changedElement.html(changes).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-
+		changedElement.html(changes)
+			.attr('data-revisionary-edited', "1")
+			.attr('data-revisionary-showing-changes', "1")
+			.attr('contenteditable', "true");
 
 
 	    // Update from the Pins global

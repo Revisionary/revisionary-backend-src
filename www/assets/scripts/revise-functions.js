@@ -510,6 +510,57 @@ function runTheInspector() {
 		});
 
 
+		var doChangeOnPage;
+		iframe.on('input', '[contenteditable="true"][data-revisionary-index]', function(e) {
+
+
+			var elementIndex = $(this).attr('data-revisionary-index');
+			var pin_ID = pinElement('[data-revisionary-index="'+elementIndex+'"]').attr('data-pin-id');
+			var changedElement = $(this);
+
+			//var changedElementOriginal = changedElement.html();
+			var changes = changedElement.html();
+
+
+			//console.log('REGISTERED CHANGES', changes);
+
+
+			// Stop the auto-refresh
+			stopAutoRefresh();
+
+
+			// Apply the change on pin window
+			$('#pin-window.active .content-editor .edit-content').html(changes);
+
+
+			// Register as edited
+			changedElement
+				.attr('data-revisionary-edited', "1")
+				.attr('data-revisionary-showing-changes', "1");
+
+
+		    // Update from the Pins global
+			var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+			var pinIndex = Pins.indexOf(pin);
+
+			Pins[pinIndex].pin_modification = htmlentities(changes, "ENT_QUOTES");
+
+
+			// Remove unsent job
+			if (doChangeOnPage) clearTimeout(doChangeOnPage);
+
+			// Send changes to DB after 1 second
+			doChangeOnPage = setTimeout(function(){
+
+				saveChange(pin_ID, changes);
+
+			}, 1000);
+
+			//console.log('Content changed.');
+
+		});
+
+
 		$(window).on('resize', function(e) { // Detect the window resizing to re-position pins
 
 			//console.log('RESIZIIIIIIIING');
@@ -862,7 +913,7 @@ function applyChanges(showingOriginal = []) {
 
 
 		// Skip standard and unmodified pins
-		if ( pin.pin_type != "live" || pin.pin_modification == null ) return true;
+		if ( pin.pin_type != "live") return true;
 
 
 		console.log('APPLYING PIN: ', i, pin);
@@ -879,6 +930,14 @@ function applyChanges(showingOriginal = []) {
 		var isShowingOriginal = showingOriginal.includes(element_index) ? true : false;
 
 
+		// Add the contenteditable attribute to the live elements
+		if (pin.pin_modification_type == "html")
+			element.attr('contenteditable', (isShowingOriginal ? "false" : "true"));
+
+
+		if (pin.pin_modification == null ) return true;
+
+
 		// If it was showing changes
 		if (!isShowingOriginal) {
 
@@ -889,7 +948,7 @@ function applyChanges(showingOriginal = []) {
 
 				// Apply the change
 				var newHTML = html_entity_decode(pin.pin_modification); //console.log('NEW', newHTML);
-				element.html( newHTML );
+				element.html( newHTML ).attr('contenteditable', (isShowingOriginal ? "false" : "true"));
 
 
 			// If the type is image change
@@ -908,8 +967,10 @@ function applyChanges(showingOriginal = []) {
 
 
 		// Update the element and pin status
-		element.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
-		pinElement.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
+		element.attr('data-revisionary-edited', "1")
+			.attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
+		pinElement.attr('data-revisionary-edited', "1")
+			.attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
 
 
 
@@ -987,7 +1048,10 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 
 
 		// Update the element and pin status
-		element.removeAttr('data-revisionary-edited').removeAttr('data-revisionary-showing-changes');
+		element
+			.removeAttr('data-revisionary-edited')
+			.removeAttr('data-revisionary-showing-changes')
+			.removeAttr('contenteditable');
 		pinElement.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
 
 
@@ -1340,7 +1404,9 @@ function putPin(pinX, pinY) {
 		var editedElement = iframeElement(focused_element_index);
 
 		// Add edited status to the DOM
-		editedElement.attr('data-revisionary-edited', "0");
+		editedElement
+			.attr('data-revisionary-edited', "0")
+			.attr('contenteditable', "true");
 
 		modificationType = hoveringText ? "html" : "image";
 		modificationOriginal = modificationType == "html" ? htmlentities( editedElement.html(), "ENT_QUOTES") : editedElement.attr('src');
@@ -1939,7 +2005,8 @@ function toggleChange(pin_ID) {
 			// Change the content on DOM
 			iframeElement(pin.pin_element_index)
 				.html( html_entity_decode( (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) ) )
-				.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1") );
+				.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1") )
+				.attr('contenteditable', (isShowingChanges ? "false" : "true"));
 
 			// Update the Pin Window and Pin info
 			pinWindow.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
@@ -2392,102 +2459,257 @@ function get_html_translation_table(table, quote_style) {
 
   entities['38'] = '&amp;'
   if (useTable === 'HTML_ENTITIES') {
-    entities['160'] = '&nbsp;'
-    entities['161'] = '&iexcl;'
-    entities['162'] = '&cent;'
-    entities['163'] = '&pound;'
-    entities['164'] = '&curren;'
-    entities['165'] = '&yen;'
-    entities['166'] = '&brvbar;'
-    entities['167'] = '&sect;'
-    entities['168'] = '&uml;'
-    entities['169'] = '&copy;'
-    entities['170'] = '&ordf;'
-    entities['171'] = '&laquo;'
-    entities['172'] = '&not;'
-    entities['173'] = '&shy;'
-    entities['174'] = '&reg;'
-    entities['175'] = '&macr;'
-    entities['176'] = '&deg;'
-    entities['177'] = '&plusmn;'
-    entities['178'] = '&sup2;'
-    entities['179'] = '&sup3;'
-    entities['180'] = '&acute;'
-    entities['181'] = '&micro;'
-    entities['182'] = '&para;'
-    entities['183'] = '&middot;'
-    entities['184'] = '&cedil;'
-    entities['185'] = '&sup1;'
-    entities['186'] = '&ordm;'
-    entities['187'] = '&raquo;'
-    entities['188'] = '&frac14;'
-    entities['189'] = '&frac12;'
-    entities['190'] = '&frac34;'
-    entities['191'] = '&iquest;'
-    entities['192'] = '&Agrave;'
-    entities['193'] = '&Aacute;'
-    entities['194'] = '&Acirc;'
-    entities['195'] = '&Atilde;'
-    entities['196'] = '&Auml;'
-    entities['197'] = '&Aring;'
-    entities['198'] = '&AElig;'
-    entities['199'] = '&Ccedil;'
-    entities['200'] = '&Egrave;'
-    entities['201'] = '&Eacute;'
-    entities['202'] = '&Ecirc;'
-    entities['203'] = '&Euml;'
-    entities['204'] = '&Igrave;'
-    entities['205'] = '&Iacute;'
-    entities['206'] = '&Icirc;'
-    entities['207'] = '&Iuml;'
-    entities['208'] = '&ETH;'
-    entities['209'] = '&Ntilde;'
-    entities['210'] = '&Ograve;'
-    entities['211'] = '&Oacute;'
-    entities['212'] = '&Ocirc;'
-    entities['213'] = '&Otilde;'
-    entities['214'] = '&Ouml;'
-    entities['215'] = '&times;'
-    entities['216'] = '&Oslash;'
-    entities['217'] = '&Ugrave;'
-    entities['218'] = '&Uacute;'
-    entities['219'] = '&Ucirc;'
-    entities['220'] = '&Uuml;'
-    entities['221'] = '&Yacute;'
-    entities['222'] = '&THORN;'
-    entities['223'] = '&szlig;'
-    entities['224'] = '&agrave;'
-    entities['225'] = '&aacute;'
-    entities['226'] = '&acirc;'
-    entities['227'] = '&atilde;'
-    entities['228'] = '&auml;'
-    entities['229'] = '&aring;'
-    entities['230'] = '&aelig;'
-    entities['231'] = '&ccedil;'
-    entities['232'] = '&egrave;'
-    entities['233'] = '&eacute;'
-    entities['234'] = '&ecirc;'
-    entities['235'] = '&euml;'
-    entities['236'] = '&igrave;'
-    entities['237'] = '&iacute;'
-    entities['238'] = '&icirc;'
-    entities['239'] = '&iuml;'
-    entities['240'] = '&eth;'
-    entities['241'] = '&ntilde;'
-    entities['242'] = '&ograve;'
-    entities['243'] = '&oacute;'
-    entities['244'] = '&ocirc;'
-    entities['245'] = '&otilde;'
-    entities['246'] = '&ouml;'
-    entities['247'] = '&divide;'
-    entities['248'] = '&oslash;'
-    entities['249'] = '&ugrave;'
-    entities['250'] = '&uacute;'
-    entities['251'] = '&ucirc;'
-    entities['252'] = '&uuml;'
-    entities['253'] = '&yacute;'
-    entities['254'] = '&thorn;'
-    entities['255'] = '&yuml;'
+	entities['38'] = '&amp;'
+	entities['60'] = '&lt;'
+	entities['62'] = '&gt;'
+	entities['160'] = '&nbsp;'
+	entities['161'] = '&iexcl;'
+	entities['162'] = '&cent;'
+	entities['163'] = '&pound;'
+	entities['164'] = '&curren;'
+	entities['165'] = '&yen;'
+	entities['166'] = '&brvbar;'
+	entities['167'] = '&sect;'
+	entities['168'] = '&uml;'
+	entities['169'] = '&copy;'
+	entities['170'] = '&ordf;'
+	entities['171'] = '&laquo;'
+	entities['172'] = '&not;'
+	entities['173'] = '&shy;'
+	entities['174'] = '&reg;'
+	entities['175'] = '&macr;'
+	entities['176'] = '&deg;'
+	entities['177'] = '&plusmn;'
+	entities['178'] = '&sup2;'
+	entities['179'] = '&sup3;'
+	entities['180'] = '&acute;'
+	entities['181'] = '&micro;'
+	entities['182'] = '&para;'
+	entities['183'] = '&middot;'
+	entities['184'] = '&cedil;'
+	entities['185'] = '&sup1;'
+	entities['186'] = '&ordm;'
+	entities['187'] = '&raquo;'
+	entities['188'] = '&frac14;'
+	entities['189'] = '&frac12;'
+	entities['190'] = '&frac34;'
+	entities['191'] = '&iquest;'
+	entities['192'] = '&Agrave;'
+	entities['193'] = '&Aacute;'
+	entities['194'] = '&Acirc;'
+	entities['195'] = '&Atilde;'
+	entities['196'] = '&Auml;'
+	entities['197'] = '&Aring;'
+	entities['198'] = '&AElig;'
+	entities['199'] = '&Ccedil;'
+	entities['200'] = '&Egrave;'
+	entities['201'] = '&Eacute;'
+	entities['202'] = '&Ecirc;'
+	entities['203'] = '&Euml;'
+	entities['204'] = '&Igrave;'
+	entities['205'] = '&Iacute;'
+	entities['206'] = '&Icirc;'
+	entities['207'] = '&Iuml;'
+	entities['208'] = '&ETH;'
+	entities['209'] = '&Ntilde;'
+	entities['210'] = '&Ograve;'
+	entities['211'] = '&Oacute;'
+	entities['212'] = '&Ocirc;'
+	entities['213'] = '&Otilde;'
+	entities['214'] = '&Ouml;'
+	entities['215'] = '&times;'
+	entities['216'] = '&Oslash;'
+	entities['217'] = '&Ugrave;'
+	entities['218'] = '&Uacute;'
+	entities['219'] = '&Ucirc;'
+	entities['220'] = '&Uuml;'
+	entities['221'] = '&Yacute;'
+	entities['222'] = '&THORN;'
+	entities['223'] = '&szlig;'
+	entities['224'] = '&agrave;'
+	entities['225'] = '&aacute;'
+	entities['226'] = '&acirc;'
+	entities['227'] = '&atilde;'
+	entities['228'] = '&auml;'
+	entities['229'] = '&aring;'
+	entities['230'] = '&aelig;'
+	entities['231'] = '&ccedil;'
+	entities['232'] = '&egrave;'
+	entities['233'] = '&eacute;'
+	entities['234'] = '&ecirc;'
+	entities['235'] = '&euml;'
+	entities['236'] = '&igrave;'
+	entities['237'] = '&iacute;'
+	entities['238'] = '&icirc;'
+	entities['239'] = '&iuml;'
+	entities['240'] = '&eth;'
+	entities['241'] = '&ntilde;'
+	entities['242'] = '&ograve;'
+	entities['243'] = '&oacute;'
+	entities['244'] = '&ocirc;'
+	entities['245'] = '&otilde;'
+	entities['246'] = '&ouml;'
+	entities['247'] = '&divide;'
+	entities['248'] = '&oslash;'
+	entities['249'] = '&ugrave;'
+	entities['250'] = '&uacute;'
+	entities['251'] = '&ucirc;'
+	entities['252'] = '&uuml;'
+	entities['253'] = '&yacute;'
+	entities['254'] = '&thorn;'
+	entities['255'] = '&yuml;'
+	entities['402'] = '&fnof;'
+	entities['913'] = '&Alpha;'
+	entities['914'] = '&Beta;'
+	entities['915'] = '&Gamma;'
+	entities['916'] = '&Delta;'
+	entities['917'] = '&Epsilon;'
+	entities['918'] = '&Zeta;'
+	entities['919'] = '&Eta;'
+	entities['920'] = '&Theta;'
+	entities['921'] = '&Iota;'
+	entities['922'] = '&Kappa;'
+	entities['923'] = '&Lambda;'
+	entities['924'] = '&Mu;'
+	entities['925'] = '&Nu;'
+	entities['926'] = '&Xi;'
+	entities['927'] = '&Omicron;'
+	entities['928'] = '&Pi;'
+	entities['929'] = '&Rho;'
+	entities['931'] = '&Sigma;'
+	entities['932'] = '&Tau;'
+	entities['933'] = '&Upsilon;'
+	entities['934'] = '&Phi;'
+	entities['935'] = '&Chi;'
+	entities['936'] = '&Psi;'
+	entities['937'] = '&Omega;'
+	entities['945'] = '&alpha;'
+	entities['946'] = '&beta;'
+	entities['947'] = '&gamma;'
+	entities['948'] = '&delta;'
+	entities['949'] = '&epsilon;'
+	entities['950'] = '&zeta;'
+	entities['951'] = '&eta;'
+	entities['952'] = '&theta;'
+	entities['953'] = '&iota;'
+	entities['954'] = '&kappa;'
+	entities['955'] = '&lambda;'
+	entities['956'] = '&mu;'
+	entities['957'] = '&nu;'
+	entities['958'] = '&xi;'
+	entities['959'] = '&omicron;'
+	entities['960'] = '&pi;'
+	entities['961'] = '&rho;'
+	entities['962'] = '&sigmaf;'
+	entities['963'] = '&sigma;'
+	entities['964'] = '&tau;'
+	entities['965'] = '&upsilon;'
+	entities['966'] = '&phi;'
+	entities['967'] = '&chi;'
+	entities['968'] = '&psi;'
+	entities['969'] = '&omega;'
+	entities['977'] = '&thetasym;'
+	entities['978'] = '&upsih;'
+	entities['982'] = '&piv;'
+	entities['8226'] = '&bull;'
+	entities['8230'] = '&hellip;'
+	entities['8242'] = '&prime;'
+	entities['8243'] = '&Prime;'
+	entities['8254'] = '&oline;'
+	entities['8260'] = '&frasl;'
+	entities['8472'] = '&weierp;'
+	entities['8465'] = '&image;'
+	entities['8476'] = '&real;'
+	entities['8482'] = '&trade;'
+	entities['8501'] = '&alefsym;'
+	entities['8592'] = '&larr;'
+	entities['8593'] = '&uarr;'
+	entities['8594'] = '&rarr;'
+	entities['8595'] = '&darr;'
+	entities['8596'] = '&harr;'
+	entities['8629'] = '&crarr;'
+	entities['8656'] = '&lArr;'
+	entities['8657'] = '&uArr;'
+	entities['8658'] = '&rArr;'
+	entities['8659'] = '&dArr;'
+	entities['8660'] = '&hArr;'
+	entities['8704'] = '&forall;'
+	entities['8706'] = '&part;'
+	entities['8707'] = '&exist;'
+	entities['8709'] = '&empty;'
+	entities['8711'] = '&nabla;'
+	entities['8712'] = '&isin;'
+	entities['8713'] = '&notin;'
+	entities['8715'] = '&ni;'
+	entities['8719'] = '&prod;'
+	entities['8721'] = '&sum;'
+	entities['8722'] = '&minus;'
+	entities['8727'] = '&lowast;'
+	entities['8730'] = '&radic;'
+	entities['8733'] = '&prop;'
+	entities['8734'] = '&infin;'
+	entities['8736'] = '&ang;'
+	entities['8743'] = '&and;'
+	entities['8744'] = '&or;'
+	entities['8745'] = '&cap;'
+	entities['8746'] = '&cup;'
+	entities['8747'] = '&int;'
+	entities['8756'] = '&there4;'
+	entities['8764'] = '&sim;'
+	entities['8773'] = '&cong;'
+	entities['8776'] = '&asymp;'
+	entities['8800'] = '&ne;'
+	entities['8801'] = '&equiv;'
+	entities['8804'] = '&le;'
+	entities['8805'] = '&ge;'
+	entities['8834'] = '&sub;'
+	entities['8835'] = '&sup;'
+	entities['8836'] = '&nsub;'
+	entities['8838'] = '&sube;'
+	entities['8839'] = '&supe;'
+	entities['8853'] = '&oplus;'
+	entities['8855'] = '&otimes;'
+	entities['8869'] = '&perp;'
+	entities['8901'] = '&sdot;'
+	entities['8968'] = '&lceil;'
+	entities['8969'] = '&rceil;'
+	entities['8970'] = '&lfloor;'
+	entities['8971'] = '&rfloor;'
+	entities['9001'] = '&lang;'
+	entities['9002'] = '&rang;'
+	entities['9674'] = '&loz;'
+	entities['9824'] = '&spades;'
+	entities['9827'] = '&clubs;'
+	entities['9829'] = '&hearts;'
+	entities['9830'] = '&diams;'
+	entities['338'] = '&OElig;'
+	entities['339'] = '&oelig;'
+	entities['352'] = '&Scaron;'
+	entities['353'] = '&scaron;'
+	entities['376'] = '&Yuml;'
+	entities['710'] = '&circ;'
+	entities['732'] = '&tilde;'
+	entities['8194'] = '&ensp;'
+	entities['8195'] = '&emsp;'
+	entities['8201'] = '&thinsp;'
+	entities['8204'] = '&zwnj;'
+	entities['8205'] = '&zwj;'
+	entities['8206'] = '&lrm;'
+	entities['8207'] = '&rlm;'
+	entities['8211'] = '&ndash;'
+	entities['8212'] = '&mdash;'
+	entities['8216'] = '&lsquo;'
+	entities['8217'] = '&rsquo;'
+	entities['8218'] = '&sbquo;'
+	entities['8220'] = '&ldquo;'
+	entities['8221'] = '&rdquo;'
+	entities['8222'] = '&bdquo;'
+	entities['8224'] = '&dagger;'
+	entities['8225'] = '&Dagger;'
+	entities['8240'] = '&permil;'
+	entities['8249'] = '&lsaquo;'
+	entities['8250'] = '&rsaquo;'
+	entities['8364'] = '&euro;'
   }
 
   if (useQuoteStyle !== 'ENT_NOQUOTES') {
@@ -2496,8 +2718,6 @@ function get_html_translation_table(table, quote_style) {
   if (useQuoteStyle === 'ENT_QUOTES') {
     entities['39'] = '&#39;'
   }
-  entities['60'] = '&lt;'
-  entities['62'] = '&gt;'
 
   // ascii decimals to real symbols
   for (decimal in entities) {
