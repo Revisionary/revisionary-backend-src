@@ -530,7 +530,7 @@ function runTheInspector() {
 
 
 			// Apply the change on pin window
-			$('#pin-window.active .content-editor .edit-content').html(changes);
+			$('#pin-window.active .content-editor .edit-content.changes').html(changes);
 
 
 			// Register as edited
