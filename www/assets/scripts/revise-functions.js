@@ -568,8 +568,6 @@ function runTheInspector() {
 		}).on('focus', '[contenteditable="true"][data-revisionary-index]', function(e) { // When clicked an editable text
 
 
-			console.log('HAS LIVE PIN', focused_element_has_live_pin);
-
 			// Open the new pin window
 			if (pinWindowOpen && pinWindow.attr('data-revisionary-index') != focused_element_index)
 				openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
