@@ -4,6 +4,7 @@ $topbar-height: 45px;
 
 
 html, body {
+	height: 100vh;
 	overflow: hidden;
 }
 
@@ -327,6 +328,7 @@ html, body {
 	justify-content: center;
 	align-items: center;
 	height: calc(100vh - #{$topbar-height} - 2px);
+	overflow: hidden;
 
 	.iframe-container {
 	    position: fixed;
@@ -339,7 +341,7 @@ html, body {
 	    text-align: center;
 	    margin: 0 auto;
 		outline: 2px solid red;
-	    //overflow: hidden;
+	    overflow: hidden;
 
 		iframe {
 			border: none;
