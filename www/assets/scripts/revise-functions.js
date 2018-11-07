@@ -569,7 +569,11 @@ function runTheInspector() {
 
 
 			// Open the new pin window
-			if (pinWindowOpen && pinWindow.attr('data-revisionary-index') != focused_element_index)
+			if (
+				pinWindowOpen
+				&& focused_element_pin != null && focused_element_pin.length
+				&& pinWindow.attr('data-revisionary-index') != focused_element_index
+			)
 				openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
 
 
