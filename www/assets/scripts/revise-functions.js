@@ -481,8 +481,13 @@ function runTheInspector() {
 				// If focused element has a live pin
 				if (focused_element_has_live_pin) {
 
-					// Open the new pin window if already open one
-					if (pinWindowOpen) openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
+					// Open the new pin window if already open one or clicking an image editable
+					if (
+						pinWindowOpen
+						|| focused_element_pin.attr('data-pin-modification-type') == "image"
+						|| focused_element.attr('data-revisionary-showing-changes') == "0"
+					)
+						openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
 
 				} else {
 
@@ -564,14 +569,11 @@ function runTheInspector() {
 
 
 			// Open the new pin window
-			if (pinWindowOpen && focused_element_has_live_pin) openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
-
-
-		}).on('click', '[contenteditable="false"][data-revisionary-index]', function(e) { // When clicked  editable text
-
-
-			// Open the new pin window
-			if (!pinWindowOpen && focused_element_has_live_pin) openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
+			if (
+				(pinWindowOpen && pinWindow.attr('data-revisionary-index') != focused_element_index)
+				&& focused_element_has_live_pin
+			)
+				openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
 
 
 		});
