@@ -481,14 +481,8 @@ function runTheInspector() {
 				// If focused element has a live pin
 				if (focused_element_has_live_pin) {
 
-					if (pinWindowOpen) {
-
-						// Close the existing pin window
-						closePinWindow();
-
-						// Open the new pin window
-						openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
-					}
+					// Open the new pin window if already open one
+					if (pinWindowOpen) openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
 
 				} else {
 
@@ -566,17 +560,18 @@ function runTheInspector() {
 			//console.log('Content changed.');
 
 
-		}).on('focus', '[contenteditable="true"][data-revisionary-index]', function(e) {
+		}).on('focus', '[contenteditable="true"][data-revisionary-index]', function(e) { // When clicked an editable text
 
 
-			if (pinWindowOpen) {
+			// Open the new pin window
+			if (pinWindowOpen && focused_element_has_live_pin) openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
 
-				// Close the existing pin window
-				closePinWindow();
 
-				// Open the new pin window
-				openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
-			}
+		}).on('click', '[contenteditable="false"][data-revisionary-index]', function(e) { // When clicked  editable text
+
+
+			// Open the new pin window
+			if (!pinWindowOpen && focused_element_has_live_pin) openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
 
 
 		});
