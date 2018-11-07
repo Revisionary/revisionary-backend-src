@@ -481,8 +481,8 @@ function runTheInspector() {
 				// If focused element has a live pin
 				if (focused_element_has_live_pin) {
 
-					// Open the pin window
-					openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
+					// Open the pin window !!! Disabled for now because of in page editing
+					//openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
 
 				} else {
 
@@ -510,6 +510,7 @@ function runTheInspector() {
 		});
 
 
+		// Detect changes on page text
 		var doChangeOnPage;
 		iframe.on('input', '[contenteditable="true"][data-revisionary-index]', function(e) {
 
