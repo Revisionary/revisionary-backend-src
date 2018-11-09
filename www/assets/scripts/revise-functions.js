@@ -110,7 +110,11 @@ function runTheInspector() {
 		// Check if the page redirected to another page
 		if (page_redirected) {
 
+			console.log('PAGE REDIRECTED');
+
 			setTimeout(function() { // Does not work sometimes, and needs improvement !!!
+
+				$('#page').css('opacity', '');
 
 				iframe.scrollTop(oldScrollOffset_top);
 				iframe.scrollLeft(oldScrollOffset_left);
@@ -126,6 +130,10 @@ function runTheInspector() {
 		}
 
 		if ( !canAccessIFrame( $(this) ) ) {
+
+			console.log('IFRAME UNACCESSIBLE');
+
+			$('#page').css('opacity', '0.1');
 
 			oldScrollOffset_top = scrollOffset_top;
 			oldScrollOffset_left = scrollOffset_left;
@@ -146,6 +154,7 @@ function runTheInspector() {
 
 		// PINS:
 		// Get latest pins and apply them to the page
+		Pins = [];
 		getPins(true, true);
 
 
@@ -480,7 +489,7 @@ function runTheInspector() {
 			mouseDownOnContentEdit = cursorActive && focused_element_has_live_pin ? true : false;
 
 
-		}).on('mouseup', function(e) { // Detect the mouse clicks in frame
+		}).on('click', function(e) { // Detect the mouse clicks in frame
 
 
 			// If cursor is active
