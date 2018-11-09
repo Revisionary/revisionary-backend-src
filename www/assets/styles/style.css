@@ -6133,7 +6133,8 @@ footer .footer-links a {
 .block {
   margin-bottom: 50px; }
   .block .box {
-    border: 5px solid;
+    border: 3px solid;
+    border-radius: 10px;
     min-height: 250px;
     background-size: cover; }
     .block .box .add-new-box:hover .plus-icon {
