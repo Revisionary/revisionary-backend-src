@@ -80,10 +80,6 @@ $(function() {
 
 
 
-
-
-
-
 	// Share Modal
 	$(document).on('click', '.share-button', function(e) {
 
@@ -179,8 +175,6 @@ $(function() {
 	});
 
 
-
-
 	// Add Member Button
 	$('.add-member').on('click', function(e) {
 
@@ -204,8 +198,6 @@ $(function() {
 	    }
 
 	});
-
-
 
 
 	function addShare(element) {
@@ -313,7 +305,6 @@ $(function() {
     }
 
 
-
 	// Unshare Member
 	$(document).on('click', '.remove-member', function(e) {
 
@@ -382,11 +373,6 @@ $(function() {
 		return false;
 
 	});
-
-
-
-
-
 
 
 });

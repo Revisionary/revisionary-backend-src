@@ -245,7 +245,7 @@ $(function() {
 
 
 	// Pin window content changes
-	var doChange;
+	var doChange = {};
 	$(document).on('input', '#pin-window.active .content-editor .edit-content', function(e) {
 
 		var pin_ID = pinWindow.attr('data-pin-id');
@@ -277,10 +277,10 @@ $(function() {
 
 
 		// Remove unsent job
-		if (doChange) clearTimeout(doChange);
+		if (doChange[elementIndex]) clearTimeout(doChange[elementIndex]);
 
 		// Send changes to DB after 1 second
-		doChange = setTimeout(function(){
+		doChange[elementIndex] = setTimeout(function(){
 
 			saveChange(pin_ID, changes);
 

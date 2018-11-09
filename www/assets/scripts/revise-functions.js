@@ -516,7 +516,7 @@ function runTheInspector() {
 
 
 		// Detect changes on page text
-		var doChangeOnPage;
+		var doChangeOnPage = {};
 		iframe.on('input', '[contenteditable="true"][data-revisionary-index]', function(e) {
 
 
@@ -553,10 +553,10 @@ function runTheInspector() {
 
 
 			// Remove unsent job
-			if (doChangeOnPage) clearTimeout(doChangeOnPage);
+			if (doChangeOnPage[elementIndex]) clearTimeout(doChangeOnPage[elementIndex]);
 
 			// Send changes to DB after 1 second
-			doChangeOnPage = setTimeout(function(){
+			doChangeOnPage[elementIndex] = setTimeout(function(){
 
 				saveChange(pin_ID, changes);
 
