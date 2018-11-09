@@ -5787,6 +5787,7 @@ input.share-email.error {
   top: -100vh;
   background-color: white;
   border: 10px solid black;
+  border-radius: 40px;
   padding: 20px 40px 40px;
   max-height: 95vh;
   box-sizing: border-box;
@@ -5824,11 +5825,22 @@ input.share-email.error {
   .popup-window input[type="email"],
   .popup-window input[type="url"] {
     border-width: 4px !important;
+    border-radius: 6px;
     height: 36px !important;
     font-size: 14px;
     width: 100%;
     margin: 0 auto;
-    padding: 0 10px; }
+    padding: 0 10px;
+    outline: none; }
+    .popup-window input[type="text"]:focus,
+    .popup-window input[type="email"]:focus,
+    .popup-window input[type="url"]:focus {
+      border-color: #007acc; }
+  .popup-window button {
+    border-radius: 5px;
+    outline: none; }
+    .popup-window button:focus {
+      border-color: #007acc; }
   .popup-window .design-uploader {
     font-size: 12px; }
     .popup-window .design-uploader a {
