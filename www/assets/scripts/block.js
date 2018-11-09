@@ -333,41 +333,6 @@ $(function() {
 
 
 
-	// Add new device to modal
-	$('.device-add > li > a').click(function(e) {
-
-		var listed_device = $(this).parent();
-
-		var device_id = $(this).attr('data-device-id');
-		var device_width = $(this).attr('data-device-width');
-		var device_height = $(this).attr('data-device-height');
-		var device_cat_name = $(this).attr('data-device-cat-name');
-		var device_cat_icon = $(this).attr('data-device-cat-icon');
-
-
-		var new_device_html = '\
-			<li>\
-				<input type="hidden" name="devices[]" value="'+device_id+'"/>\
-				<i class="fa '+ device_cat_icon +'" aria-hidden="true"></i> <span>'+device_cat_name+' ('+device_width+' x '+device_height+')</span>\
-				<a href="#" class="remove-device"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
-			</li>\
-		';
-
-		$('.selected-devices').append(new_device_html);
-
-		listed_device.hide();
-
-		// Show all the remove buttons
-		$('.selected-devices a.remove-device').show();
-
-
-		e.preventDefault();
-		return false;
-
-	});
-
-
-
 	// Add user toggle
 	$('.new-member').click(function(e) {
 
@@ -501,7 +466,6 @@ $(function() {
 	});
 
 
-
 	// Delete selected shared person from the list
 	$(document).on('click', '.shares a.remove-share', function(e) {
 
@@ -529,18 +493,86 @@ $(function() {
 	});
 
 
+
+	// Add new device to modal
+	$('.device-add > li > a').click(function(e) {
+
+		var listed_device = $(this).parent();
+		var listed_device_cat = $(this).parents('.device-cat');
+
+		var device_id = $(this).attr('data-device-id');
+		var device_width = $(this).attr('data-device-width');
+		var device_height = $(this).attr('data-device-height');
+		var device_cat_name = $(this).attr('data-device-cat-name');
+		var device_cat_icon = $(this).attr('data-device-cat-icon');
+
+
+		var new_device_html = '\
+			<li>\
+				<input type="hidden" name="devices[]" value="'+device_id+'"/>\
+				<i class="fa '+ device_cat_icon +'" aria-hidden="true"></i> <span>'+device_cat_name+' ('+device_width+' x '+device_height+')</span>\
+				<a href="#" class="remove-device"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+			</li>\
+		';
+
+
+
+		if (device_id == 11) {
+
+			new_device_html = '\
+				<li>\
+					<input type="hidden" name="devices[]" value="'+device_id+'">\
+					<input type="hidden" name="page-width" value="'+device_width+'">\
+					<input type="hidden" name="page-height" value="'+device_height+'">\
+					<i class="fa '+ device_cat_icon +'" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width">'+device_width+'</span> x <span class="screen-height">'+device_height+'</span>)</span>\
+					<a href="#" class="remove-device"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+				</li>\
+			';
+
+		}
+
+
+
+
+		$('.selected-devices').append(new_device_html);
+
+
+		listed_device.hide();
+
+
+		// Check if any other device left in that category
+		if ( !listed_device.parent().children(':visible').length )
+			listed_device_cat.hide();
+
+
+		// Show all the remove buttons
+		$('.selected-devices a.remove-device').show();
+
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
 	// Delete selected device from the list
 	$(document).on('click', '.selected-devices a.remove-device', function(e) {
 
 
 		var listed_device = $(this).parent();
+		var listed_device_cat = $(this).parents('.device-cat');
 
 		var device = listed_device.find('input');
 		var device_id = device.attr('value');
+		var device_from_list = $('.device-add > li > a[data-device-id="'+device_id+'"]').parent();
 
 
 		// Show in the list
-		$('.device-add > li > a[data-device-id="'+device_id+'"]').parent().show();
+		device_from_list.show();
+
+
+		// Show the category
+		device_from_list.parents('.device-cat').show();
 
 
 		// Remove the device
@@ -582,6 +614,10 @@ $(function() {
 		// Edit the input values
 		$('input[name="page-width"]').attr('value', screenWidth);
 		$('input[name="page-height"]').attr('value', screenHeight);
+
+
+		$('[data-device-id="11"]').attr('data-device-width', screenWidth);
+		$('[data-device-id="11"]').attr('data-device-height', screenHeight);
 
 
 		$('.new-device[data-device-id="11"]').each(function() {

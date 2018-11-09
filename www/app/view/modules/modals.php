@@ -23,10 +23,9 @@ function print_device_selector() {
 			$db->orderBy('device_cat_order', 'asc');
 			$device_cats = $db->get('device_categories');
 			foreach ($device_cats as $device_cat) {
-				if ($device_cat['device_cat_name'] == "Custom") continue;
 			?>
 
-			<li>
+			<li class="device-cat" <?=$device_cat['device_cat_name'] == "Custom" ? "style='display:none;'" : ""?>>
 
 				<div class="dropdown-container">
 					<div class="dropdown-opener">
@@ -40,7 +39,7 @@ function print_device_selector() {
 							$devices = $db->get('devices');
 							foreach ($devices as $device) {
 							?>
-							<li>
+							<li class="device" <?=$device['device_ID'] == 11 ? "style='display:none;'" : ""?>>
 								<a href="#"
 									data-device-id="<?=$device['device_ID']?>"
 									data-device-width="<?=$device['device_width']?>"
@@ -48,7 +47,7 @@ function print_device_selector() {
 									data-device-cat-name="<?=$device_cat['device_cat_name']?>"
 									data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
 								>
-									<?=$device['device_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)
+									<?=$device['device_name']?> (<span class="<?=$device['device_ID'] == 11 ? "screen-" : "device-"?>width"><?=$device['device_width']?></span> x <span class="<?=$device['device_ID'] == 11 ? "screen-" : "device-"?>height"><?=$device['device_height']?></span>)
 								</a>
 							</li>
 							<?php
