@@ -5266,6 +5266,12 @@ a {
       margin: 0; }
       .dropdown-container > nav.dropdown > ul > li {
         margin-bottom: -2px; }
+        .dropdown-container > nav.dropdown > ul > li:first-child > * {
+          border-top-left-radius: 6px;
+          border-top-right-radius: 6px; }
+        .dropdown-container > nav.dropdown > ul > li:last-child > * {
+          border-bottom-left-radius: 6px;
+          border-bottom-right-radius: 6px; }
         .dropdown-container > nav.dropdown > ul > li > a,
         .dropdown-container > nav.dropdown > ul > li > span,
         .dropdown-container > nav.dropdown > ul > li > div {

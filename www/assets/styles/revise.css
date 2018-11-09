@@ -46,11 +46,15 @@ html, body {
     pointer-events: initial;
     transition: 500ms;
     transform: translateX(-100%);
-    padding: 20px; }
+    padding: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 0; }
     #top-bar .tab-container > .tab.right {
       left: auto;
       right: 0;
-      transform: translateX(100%); }
+      transform: translateX(100%);
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 20px; }
     #top-bar .tab-container > .tab.autowidth {
       width: auto; }
     #top-bar .tab-container > .tab .scrollable-content {
