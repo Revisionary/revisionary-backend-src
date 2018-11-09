@@ -25,7 +25,7 @@
 		?>
 
 		<!-- Return to projects -->
-		<a href="<?=$goBackLink?>" class="invert-hover" style="letter-spacing: 2.5px;">< PROJECT<?=$catFilter == "archived" || $catFilter == "deleted" ? "" : "S"?><?=$title == "projects" ? "S" : ""?></a>
+		<a href="<?=$goBackLink?>" class="invert-hover" style="letter-spacing: 2.5px;"><i class="fa fa-arrow-left"></i> PROJECT<?=$catFilter == "archived" || $catFilter == "deleted" ? "" : "S"?><?=$title == "projects" ? "S" : ""?></a>
 
 		<?php
 		}

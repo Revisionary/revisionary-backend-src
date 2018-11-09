@@ -6,7 +6,7 @@
 
 				<div class="col xl-6-12 xl-center filter invert-hover">
 
-					<span class="search" data-tooltip="Coming Soon..."><img src="<?=asset_url('icons/search.svg')?>" /></span>
+					<i class="fa fa-search" data-tooltip="Coming Soon..."></i>
 
 				<?php
 
@@ -54,7 +54,7 @@
 						$action_url .= '&project_ID='.$project_ID;
 
 					?>
-					<a href="<?=site_url($action_url.'&action=add-new-category')?>" class="action" data-action="add-new-category" data-tooltip="Add New Category"><span style="font-family: Arial; font-weight: bold;">+</span></a>
+					<a href="<?=site_url($action_url.'&action=add-new-category')?>" class="action" data-action="add-new-category" data-tooltip="Add New Category"><span style="font-family: Arial; font-weight: bold;"><i class="fa fa-plus"></i></span></a>
 
 				</div>
 
