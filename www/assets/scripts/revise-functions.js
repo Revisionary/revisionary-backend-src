@@ -167,6 +167,7 @@ function runTheInspector() {
 
 
 		// MOUSE ACTIONS:
+		var mouseDownOnContentEdit = false;
 	    iframe.on('mousemove', function(e) { // Detect the mouse moves in frame
 
 
@@ -472,7 +473,14 @@ function runTheInspector() {
 			} // If cursor active
 
 
-		}).on('click', function(e) { // Detect the mouse clicks in frame
+		}).on('mousedown', function(e) { // Detect the mouse clicks in frame
+
+
+			// While editing a content on page
+			mouseDownOnContentEdit = cursorActive && focused_element_has_live_pin ? true : false;
+
+
+		}).on('mouseup', function(e) { // Detect the mouse clicks in frame
 
 
 			// If cursor is active
@@ -492,7 +500,7 @@ function runTheInspector() {
 				} else {
 
 					// Add a pin and open a pin window
-					putPin(e.pageX, e.pageY);
+					if ( !mouseDownOnContentEdit ) putPin(e.pageX, e.pageY);
 
 				}
 
