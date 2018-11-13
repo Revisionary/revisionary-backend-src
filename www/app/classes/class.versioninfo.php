@@ -16,7 +16,7 @@ class Version {
 	public function __construct() {
 
 		// Set the project name
-        $this->versionName = $this->getInfo('version_name');
+        //$this->versionName = $this->getInfo('version_name');
 
     }
 

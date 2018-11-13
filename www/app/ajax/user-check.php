@@ -54,9 +54,9 @@ if ( $user !== null ) {
 	$data['data'] = array(
 		'status' => 'found',
 		'user_ID' => $user['user_ID'],
-		'user_link' => site_url('profile/'.User::ID($user['user_ID'])->userName),
-		'user_photo' => User::ID($user['user_ID'])->printPicture(),
-		'user_name' => '<span '.(User::ID($user['user_ID'])->userPic != "" ? "class='has-pic'" : "").'>'.(substr(User::ID($user['user_ID'])->firstName, 0, 1).substr(User::ID($user['user_ID'])->lastName, 0, 1)).'</span>',
+		'user_link' => site_url('profile/'.getUserData($user['user_ID'])['userName']),
+		'user_photo' => getUserData($user['user_ID'])['printPicture'],
+		'user_name' => '<span '.(getUserData($user['user_ID'])['userPic'] != "" ? "class='has-pic'" : "").'>'.(getUserData($user['user_ID'])['nameAbbr']).'</span>',
 	);
 
 } else { // Not found

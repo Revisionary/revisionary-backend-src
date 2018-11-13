@@ -49,6 +49,31 @@ if (!ssl && $_url[0] != 'revise' && $_url[0] != 'ajax') {
 }
 
 
+$debug_mode = false;
+
+if ($_url[0] != "ajax" && $debug_mode) $db->setTrace (true);
+
 ob_start();
 require controller($_url[0]);
 ob_end_flush();
+
+
+
+if ($_url[0] != "ajax" && $debug_mode) {
+
+	/*
+	echo "<pre>";
+	print_r( getUserInfo() );
+	echo "</pre>";
+	//exit;
+	*/
+
+	echo "<pre>";
+	print_r( $Users );
+	echo "</pre>";
+	//exit;
+
+	echo "<pre> TRACE COUNT: ".count($db->trace)."</pre>";
+	echo "<pre>"; print_r($db->trace); echo "</pre>";
+
+}

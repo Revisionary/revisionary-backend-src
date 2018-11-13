@@ -18,15 +18,13 @@
 
 			<?php
 
-
-/*
-				print_r($theCategorizedData);
-				die();
-*/
+			//print_r($theCategorizedData); exit;
 
 			// THE CATEGORY LOOP
 			$data_count = 0;
-			foreach ($theCategorizedData as $category) {
+			$categories = UserAccess::ID()->getCategories($dataType, $order, ($dataType == "page" ? $project_ID : null));
+			//print_r($categories); exit;
+			foreach ($categories as $category) {
 
 
 				// Category action URL
@@ -66,511 +64,466 @@
 
 
 				// Block Data
-				$theData = $category['theData'];
-
-
-				//print_r($theData);
-				//die();
+				$category_ID = $category['cat_ID'];
 
 
 				// THE BLOCK LOOP
-				foreach ($theData as $block) {
+				if ( isset($theCategorizedData[$category_ID]) ) {
+					foreach ($theCategorizedData[$category_ID]['theData'] as $block) {
 
 
-					// Block URL
-					$block_url = site_url('project/'.$block[$dataType.'_ID']);
+						// Block URL
+						$block_url = site_url('project/'.$block[$dataType.'_ID']);
 
 
-					// THUMBNAIL CHECK
-					if ( $block[$dataType.'_pic'] == null ) {
+						// THUMBNAIL CHECK
+						if ( $block[$dataType.'_pic'] == null ) {
 
 
-						// Update the screenshots on DB
-						$block_image_name = $dataType.'.jpg';
+							// Update the screenshots on DB
+							$block_image_name = $dataType.'.jpg';
 
-						if ($dataType == "project") $block_image_uri = Project::ID($block[$dataType.'_ID'])->projectDir."/$block_image_name";
-						else $block_image_uri = Page::ID($block[$dataType.'_ID'])->pageDeviceDir."/$block_image_name";
+							if ($dataType == "project") $block_image_uri = Project::ID($block[$dataType.'_ID'])->projectDir."/$block_image_name";
+							else $block_image_uri = Page::ID($block[$dataType.'_ID'])->pageDeviceDir."/$block_image_name";
 
 
-						// Add image names to database
-						if ( file_exists($block_image_uri) ) {
+							// Add image names to database
+							if ( file_exists($block_image_uri) ) {
 
-							$db->where($dataType.'_ID', $block[$dataType.'_ID']);
-							$db->update($dataType.'s', array(
-								$dataType.'_pic' => $block_image_name
-							), 1);
+								$db->where($dataType.'_ID', $block[$dataType.'_ID']);
+								$db->update($dataType.'s', array(
+									$dataType.'_pic' => $block_image_name
+								), 1);
 
-							$block[$dataType.'_pic'] = $block_image_name;
+								$block[$dataType.'_pic'] = $block_image_name;
+
+							}
 
 						}
 
-					}
-
-					// Project Image URL
-					$block_image_url = cache_url('user-'.$block['user_ID'].'/project-'.$block[$dataType.'_ID'].'/'.$block[$dataType.'_pic']);
+						// Project Image URL
+						$block_image_url = cache_url('user-'.$block['user_ID'].'/project-'.$block[$dataType.'_ID'].'/'.$block[$dataType.'_pic']);
 
 
 
-					// Page Filter Device Functions
-					if ($dataType == "page") {
+						// Page Filter Device Functions
+						if ($dataType == "page") {
 
 
-						// Device filter
-						if (
-							$deviceFilter != "" && is_numeric($deviceFilter) &&
-							$block['device_cat_ID'] != $deviceFilter
-						) continue;
+							// Device filter
+							if (
+								$deviceFilter != "" && is_numeric($deviceFilter) &&
+								$block['device_cat_ID'] != $deviceFilter
+							) continue;
 
 
-						// Combined Devices
-						if (
-							//$catFilter != "archived" &&
-							//$catFilter != "deleted" &&
-							$deviceFilter == "" &&
-							array_search($block['parent_page_ID'], array_column($onlyPageData, 'page_ID')) !== false
-						) continue;
+							// Combined Devices
+							if (
+								//$catFilter != "archived" &&
+								//$catFilter != "deleted" &&
+								$deviceFilter == "" &&
+								array_search($block['parent_page_ID'], array_column($allMyPages, 'page_ID')) !== false
+							) continue;
 
 
-						// Page Image Url
-						$image_page_ID = $block['page_ID'];
-						if ( is_numeric($block['parent_page_ID']) )
-							$image_page_ID = $block['parent_page_ID'];
+							// Page Image Url
+							$image_page_ID = $block['page_ID'];
+							if ( is_numeric($block['parent_page_ID']) )
+								$image_page_ID = $block['parent_page_ID'];
 
-						$block_image_url = cache_url('user-'.$block['user_ID'].'/project-'.$block['project_ID'].'/page-'.$image_page_ID.'/device-'.$block['device_ID'].'/'.$block['page_pic']);
+							$block_image_url = cache_url('user-'.$block['user_ID'].'/project-'.$block['project_ID'].'/page-'.$image_page_ID.'/device-'.$block['device_ID'].'/'.$block['page_pic']);
 
-					}
-
-
-				$image_style = "background-image: url(".$block_image_url.");";
-				if ( $block[$dataType.'_pic'] == null )
-					$image_style = "";
-
-				?>
-
-						<div class="col block" data-order="<?=$block['sort_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block[$dataType.'_cat_ID']?>" data-type="<?=$dataType?>" draggable="true">
+						}
 
 
-							<div class="box xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
+					$image_style = "background-image: url(".$block_image_url.");";
+					if ( $block[$dataType.'_pic'] == null )
+						$image_style = "";
 
-								<div class="wrap overlay xl-flexbox xl-top xl-between xl-5 members">
-									<div class="col xl-4-12 xl-left xl-top people">
+					?>
 
-										<?php
-										$block_user_ID = $block['user_ID'];
-										$block_user = User::ID($block_user_ID);
-										?>
-
-										<!-- Owner -->
-										<a href="<?=site_url($block_user->userName)?>"
-											data-tooltip="<?=$block_user->fullName?>"
-											data-mstatus="owner"
-											data-fullname="<?=$block_user->fullName?>"
-											data-nameabbr="<?=substr($block_user->firstName, 0, 1).substr($block_user->lastName, 0, 1)?>"
-											data-email="<?=$block_user->email?>"
-											data-avatar="<?=$block_user->userPicUrl?>"
-											data-userid="<?=$block_user_ID?>"
-											data-unremoveable="unremoveable"
-										>
-											<picture class="profile-picture" <?=$block_user->printPicture()?>>
-												<span <?=$block_user->userPic != "" ? "class='has-pic'" : ""?>><?=substr($block_user->firstName, 0, 1).substr($block_user->lastName, 0, 1)?></span>
-											</picture>
-										</a>
+							<div class="col block" data-order="<?=$block['sort_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block[$dataType.'_cat_ID']?>" data-type="<?=$dataType?>" draggable="true">
 
 
-										<?php
+								<div class="box xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
 
-										// SHARES QUERY
-
-										// Exlude other types
-										$db->where('share_type', $dataType);
-
-										// Is this block?
-										$db->where('shared_object_ID', $block[$dataType.'_ID']);
-
-										// Get the data
-										$blockShares = $db->get('shares', null, "share_to, sharer_user_ID");
-
-										// Is shared to someone
-										$isShared = false;
-
-
-										foreach ($blockShares as $share) {
-
-											// Don't show the shared people who I didn't share to and whom shared by a person I didn't share with. :O
-											if (
-												$block_user_ID == currentUserID() &&
-												$share['sharer_user_ID'] != currentUserID()
-											) {
-
-												$projectSharedToSharer = array_search($share['sharer_user_ID'], array_column($blockShares, 'share_to'));
-												if ( $projectSharedToSharer === false ) continue;
-
-											}
-
-										?>
+									<div class="wrap overlay xl-flexbox xl-top xl-between xl-5 members">
+										<div class="col xl-4-12 xl-left xl-top people">
 
 											<?php
-												$shared_user_ID = $share['share_to'];
-
-												if ( is_numeric($share['share_to']) ) {
-													$shared_user = User::ID($shared_user_ID);
+											$block_user_ID = $block['user_ID'];
+											$block_user = getUserData($block_user_ID);
 											?>
 
-										<a href="<?=site_url($shared_user->userName)?>"
-											data-tooltip="<?=$shared_user->fullName?>"
-											data-mstatus="user"
-											data-fullname="<?=$shared_user->fullName?>"
-											data-nameabbr="<?=substr($shared_user->firstName, 0, 1).substr($shared_user->lastName, 0, 1)?>"
-											data-email="<?=$shared_user->email?>"
-											data-avatar="<?=$shared_user->userPicUrl?>"
-											data-userid="<?=$shared_user_ID?>"
-											data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
-										>
-											<picture class="profile-picture" <?=$shared_user->printPicture()?>>
-												<span <?=$shared_user->userPic != "" ? "class='has-pic'" : ""?>><?=substr($shared_user->firstName, 0, 1).substr($shared_user->lastName, 0, 1)?></span>
-											</picture>
-										</a>
-											<?php
+											<!-- Owner -->
+											<a href="<?=site_url($block_user['userName'])?>"
+												data-tooltip="<?=$block_user['fullName']?>"
+												data-mstatus="owner"
+												data-fullname="<?=$block_user['fullName']?>"
+												data-nameabbr="<?=$block_user['nameAbbr']?>"
+												data-email="<?=$block_user['email']?>"
+												data-avatar="<?=$block_user['userPicUrl']?>"
+												data-userid="<?=$block_user_ID?>"
+												data-unremoveable="unremoveable"
+											>
+												<picture class="profile-picture" <?=$block_user['printPicture']?>>
+													<span <?=$block_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$block_user['nameAbbr']?></span>
+												</picture>
+											</a>
 
-												} else {
-
-											?>
-										<a href="#"
-											data-tooltip="<?=$shared_user_ID?>"
-											data-mstatus="email"
-											data-fullname=""
-											data-nameabbr=""
-											data-email="<?=$shared_user_ID?>"
-											data-avatar=""
-											data-userid="<?=$shared_user_ID?>"
-											data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
-										>
-											<picture class="profile-picture email">
-												<i class="fa fa-envelope" aria-hidden="true"></i>
-											</picture>
-										</a>
 
 											<?php
 
-												}
+											// SHARES QUERY
 
-											?>
+											// Exlude other types
+											$db->where('share_type', $dataType);
 
+											// Is this block?
+											$db->where('shared_object_ID', $block[$dataType.'_ID']);
 
-										<?php
+											// Get the data
+											$blockShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
 											// Is shared to someone
-											if ($share['sharer_user_ID'] == currentUserID())
-												$isShared = true;
-
-										}
-										?>
-
-									</div>
-									<div class="col xl-8-12 xl-right xl-top pins">
-
-										<?php
+											$isShared = false;
 
 
+											foreach ($blockShares as $share) {
 
-										$livePinCount = $standardPinCount = $privatePinCount = 0;
+												// Don't show the shared people who I didn't share to and whom shared by a person I didn't share with. :O
+												if (
+													$block_user_ID == currentUserID() &&
+													$share['sharer_user_ID'] != currentUserID()
+												) {
 
-										if ($dataType == "page" && $allMyPins) {
+													$projectSharedToSharer = array_search($share['sharer_user_ID'], array_column($blockShares, 'share_to'));
+													if ( $projectSharedToSharer === false ) continue;
 
-											$page_IDs = array_column($block['subPageData'], "page_ID");
-											$page_IDs[] = $block['page_ID'];
-
-											$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
-
-												$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
-
-												return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0";
-
-											}));
-											$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
-
-												$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
-
-												return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0";
-
-											}));
-											$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
-
-												$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
-
-												return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
-
-											}));
-
-										}
-										?>
-
-										<?php
-										if ($livePinCount > 0) {
-										?>
-										<pin data-pin-type="live"><?=$livePinCount?>
-											<div class="notif-no">3</div>
-											<div class="pin-title">Live</div>
-										</pin>
-										<?php
-										} if ($standardPinCount > 0) {
-										?>
-										<pin data-pin-type="standard"><?=$standardPinCount?>
-											<div class="pin-title">Standard</div>
-										</pin>
-										<?php
-										} if ($privatePinCount > 0) {
-										?>
-										<pin data-pin-type="live" data-pin-private="1"><?=$privatePinCount?>
-											<div class="pin-title">Private</div>
-										</pin>
-										<?php
-										}
-										?>
-
-									</div>
-									<div class="col xl-1-1 xl-center <?=$dataType == "page" ? "devices" : "pages"?>" style="position: relative;">
-
-
-
-
-										<?php
-										if ($dataType == "project") {
-										?>
-
-											<!-- Project Link -->
-											<a href="<?=$block_url?>">
-
-											<?php
-
-											// Bring the shared ones
-											$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
-											$db->joinWhere("shares s", "s.share_type", "page");
-											$db->joinWhere("shares s", "s.share_to", currentUserID());
-
-
-											// Bring the archive info
-											$db->join("archives arc", "arc.archived_object_ID = p.page_ID", "LEFT");
-											$db->joinWhere("archives arc", "arc.archiver_user_ID", currentUserID());
-											$db->joinWhere("archives arc", "arc.archive_type", "page");
-
-
-											// Bring the delete info
-											$db->join("deletes del", "del.deleted_object_ID = p.page_ID", "LEFT");
-											$db->joinWhere("deletes del", "del.deleter_user_ID", currentUserID());
-											$db->joinWhere("deletes del", "del.delete_type", "page");
-
-
-											// Exclude archived and deleted ones
-											$db->where('arc.archived_object_ID IS NULL');
-											$db->where('del.deleted_object_ID IS NULL');
-
-
-											// Exclude other projects
-											$db->where('project_ID', $block['project_ID']);
-
-
-											// True if project is shared to current user
-											$blockSharedID = array_search(currentUserID(), array_column($blockShares, 'share_to'));
-
-
-											// If project is not belong to current user and is shared to him
-											if ( $block['user_ID'] != currentUserID() && $blockSharedID !== false ) {
-
-												// Show everything belong to sharer
-												$db->where('(user_ID = '.$blockShares[$blockSharedID]['sharer_user_ID'].' OR user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-
-											} else { // If the project is current user's or shared to him, or he has his own pages in it
-
-												// Show only current user's
-												$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-
-											}
-
-
-											$block_count = $db->getValue("pages p", "count(*)");
-											?>
-
-												<div class="page-count"><?=$block_count?> <br>Page<?=$block_count > 1 ? 's' : ''?></div>
-
-												<i class="fa fa-search" aria-hidden="true" style="font-size: 120px;"></i>
-											</a>
-
-										<?php
-										}
-										?>
-
-
-										<?php
-										if ($dataType == "page") {
-
-											$pageStatus = Page::ID($block['page_ID'])->getPageStatus(true)['status'];
-										?>
-
-
-											<!-- Current Device -->
-											<a href="<?=site_url('revise/'.$block['page_ID'])?>" data-status="<?=$pageStatus?>">
-												<i class="fa <?=$block['device_cat_icon']?>" data-tooltip="<?=$block['device_name']?>: <?=ucfirst($pageStatus)?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
-											</a>
-
-											<?php
-
-											if (
-												//$catFilter != "archived" &&
-												//$catFilter != "deleted" &&
-												$deviceFilter == ""
-											) {
-
-
-												$all_devices = array_merge($block['parentPageData'], $block['subPageData']);
-												//print_r(array_merge($block['parentPageData'], $block['subPageData'])); exit();
-												foreach ($all_devices as $device) {
-
-													$pageStatus = Page::ID($device['page_ID'])->getPageStatus(true)['status'];
+												}
 
 											?>
-
-													<a href="<?=site_url('revise/'.$device['page_ID'])?>" data-status="<?=$pageStatus?>">
-														<i class="fa <?=$device['device_cat_icon']?>" data-tooltip="<?=$device['device_name']?>: <?=ucfirst($pageStatus)?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
-													</a>
 
 												<?php
-												}
+													$shared_user_ID = $share['share_to'];
+
+													if ( is_numeric($share['share_to']) ) {
+														$shared_user = getUserData($shared_user_ID);
 												?>
 
-												<span class="dropdown-container">
-													<a href="#" class="dropdown-opener add-device"><span style="font-family: Arial;">+</span></a>
-													<?php require view('modules/add-device'); ?>
-												</span>
+											<a href="<?=site_url($shared_user['userName'])?>"
+												data-tooltip="<?=$shared_user['fullName']?>"
+												data-mstatus="user"
+												data-fullname="<?=$shared_user['fullName']?>"
+												data-nameabbr="<?=$shared_user['nameAbbr']?>"
+												data-email="<?=$shared_user['email']?>"
+												data-avatar="<?=$shared_user['userPicUrl']?>"
+												data-userid="<?=$shared_user_ID?>"
+												data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
+											>
+												<picture class="profile-picture" <?=$shared_user['printPicture']?>>
+													<span <?=$shared_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$shared_user['nameAbbr']?></span>
+												</picture>
+											</a>
+												<?php
+
+													} else {
+
+												?>
+											<a href="#"
+												data-tooltip="<?=$shared_user_ID?>"
+												data-mstatus="email"
+												data-fullname=""
+												data-nameabbr=""
+												data-email="<?=$shared_user_ID?>"
+												data-avatar=""
+												data-userid="<?=$shared_user_ID?>"
+												data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
+											>
+												<picture class="profile-picture email">
+													<i class="fa fa-envelope" aria-hidden="true"></i>
+												</picture>
+											</a>
+
+												<?php
+
+													}
+
+												?>
 
 
 											<?php
-											} // If not Archived or Deleted or filtred
+
+												// Is shared to someone
+												if ($share['sharer_user_ID'] == currentUserID())
+													$isShared = true;
+
+											}
 											?>
 
-										<?php
-										} // if ($dataType == "page")
-										?>
+										</div>
+										<div class="col xl-8-12 xl-right xl-top pins">
+
+											<?php
 
 
-									</div>
-									<div class="col xl-4-12 xl-left share">
+
+											$livePinCount = $standardPinCount = $privatePinCount = 0;
+
+											if ($dataType == "page" && $allMyPins) {
+
+												$page_IDs = array_column($block['subPageData'], "page_ID");
+												$page_IDs[] = $block['page_ID'];
+
+												$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
+
+													$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
+
+													return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0";
+
+												}));
+												$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
+
+													$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
+
+													return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0";
+
+												}));
+												$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
+
+													$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
+
+													return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
+
+												}));
+
+											}
+											?>
+
+											<?php
+											if ($livePinCount > 0) {
+											?>
+											<pin data-pin-type="live"><?=$livePinCount?>
+												<div class="notif-no">3</div>
+												<div class="pin-title">Live</div>
+											</pin>
+											<?php
+											} if ($standardPinCount > 0) {
+											?>
+											<pin data-pin-type="standard"><?=$standardPinCount?>
+												<div class="pin-title">Standard</div>
+											</pin>
+											<?php
+											} if ($privatePinCount > 0) {
+											?>
+											<pin data-pin-type="live" data-pin-private="1"><?=$privatePinCount?>
+												<div class="pin-title">Private</div>
+											</pin>
+											<?php
+											}
+											?>
+
+										</div>
+										<div class="col xl-1-1 xl-center <?=$dataType == "page" ? "devices" : "pages"?>" style="position: relative;">
 
 
-										<a href="#" class="share-button <?=$dataType?>" data-tooltip="Share"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
 
 
-									</div>
-									<div class="col xl-4-12 xl-center version">
+											<?php
+											if ($dataType == "project") {
+											?>
 
-										<?php
+												<!-- Project Link -->
+												<a href="<?=$block_url?>">
 
-										// VERSION
-										if ($dataType == "page") {
+												<?php
+												$block_count = $pageCounts[$block['project_ID']];
+												?>
 
-											$db->where('page_ID', $block['page_ID']);
-											$db->where('user_ID', currentUserID());
+													<div class="page-count"><?=$block_count?> <br>Page<?=$block_count > 1 ? 's' : ''?></div>
 
-											// Show the final one
-											$db->orderBy('version_number');
+													<i class="fa fa-search" aria-hidden="true" style="font-size: 120px;"></i>
+												</a>
 
-										    $pageVersion = $db->getValue('versions', 'version_number');
-
-										?>
-
-										<a href="#" data-tooltip="Coming Soon...">v<?=empty($pageVersion) ? "0.1" : $pageVersion?></a>
-
-										<?php
-										}
-										?>
-
-									</div>
-									<div class="col xl-4-12 xl-right actions">
+											<?php
+											}
+											?>
 
 
-										<?php
+											<?php
+											if ($dataType == "page") {
 
-											$action_url = 'ajax?type=data-action&data-type='.$dataType.'&nonce='.$_SESSION['js_nonce'].'&id='.$block[$dataType.'_ID'];
+												$pageStatus = Page::ID($block['page_ID'])->getPageStatus(true)['status'];
+											?>
 
 
-											// Add the subpages
-											if (
-												$dataType == "page" &&
-												isset($all_devices) &&
-												count($all_devices) > 0
-											) {
+												<!-- Current Device -->
+												<a href="<?=site_url('revise/'.$block['page_ID'])?>" data-status="<?=$pageStatus?>">
+													<i class="fa <?=$block['device_cat_icon']?>" data-tooltip="<?=$block['device_name']?>: <?=ucfirst($pageStatus)?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
+												</a>
 
-												$subPages = "";
+												<?php
 
-												foreach ($all_devices as $device) {
+												if (
+													//$catFilter != "archived" &&
+													//$catFilter != "deleted" &&
+													$deviceFilter == ""
+												) {
 
-													$subPages .= $device['page_ID'].",";
+
+													$all_devices = $block['subPageData'];
+													foreach ($all_devices as $device) {
+
+														$pageStatus = Page::ID($device['page_ID'])->getPageStatus(true)['status'];
+
+												?>
+
+														<a href="<?=site_url('revise/'.$device['page_ID'])?>" data-status="<?=$pageStatus?>">
+															<i class="fa <?=$device['device_cat_icon']?>" data-tooltip="<?=$device['device_name']?>: <?=ucfirst($pageStatus)?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
+														</a>
+
+													<?php
+													}
+													?>
+
+													<span class="dropdown-container">
+														<a href="#" class="dropdown-opener add-device"><span style="font-family: Arial;">+</span></a>
+														<?php require view('modules/add-device'); ?>
+													</span>
+
+
+												<?php
+												} // If not Archived or Deleted or filtred
+												?>
+
+											<?php
+											} // if ($dataType == "page")
+											?>
+
+
+										</div>
+										<div class="col xl-4-12 xl-left share">
+
+
+											<a href="#" class="share-button <?=$dataType?>" data-tooltip="Share"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+
+
+										</div>
+										<div class="col xl-4-12 xl-center version">
+
+											<?php
+
+											// VERSION
+											if ($dataType == "page") {
+
+/*
+												$db->where('page_ID', $block['page_ID']);
+												$db->where('user_ID', currentUserID());
+
+												// Show the final one
+												$db->orderBy('version_number');
+
+											    $pageVersion = $db->getValue('versions', 'version_number');
+*/
+
+												$pageVersion = '1.0';
+
+											?>
+
+											<a href="#" data-tooltip="Coming Soon...">v<?=empty($pageVersion) ? "0.1" : $pageVersion?></a>
+
+											<?php
+											}
+											?>
+
+										</div>
+										<div class="col xl-4-12 xl-right actions">
+
+
+											<?php
+
+												$action_url = 'ajax?type=data-action&data-type='.$dataType.'&nonce='.$_SESSION['js_nonce'].'&id='.$block[$dataType.'_ID'];
+
+
+												// Add the subpages
+												if (
+													$dataType == "page" &&
+													isset($all_devices) &&
+													count($all_devices) > 0
+												) {
+
+													$subPages = "";
+
+													foreach ($all_devices as $device) {
+
+														$subPages .= $device['page_ID'].",";
+
+													}
+
+													$subPages = trim($subPages, ",");
+
+													$action_url .= "&subpages=$subPages";
 
 												}
 
-												$subPages = trim($subPages, ",");
 
-												$action_url .= "&subpages=$subPages";
+												if ($catFilter == "archived" || $catFilter == "deleted") {
+											?>
+											<a href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>" data-action="recover" data-tooltip="Recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
+											<?php
+												} else {
+											?>
+											<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-tooltip="Archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
+											<?php
+												}
+											?>
+											<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
+
+										</div>
+									</div>
+
+								</div>
+
+								<div class="wrap xl-flexbox xl-top">
+									<div class="col xl-8-12 xl-left box-name">
+
+
+										<span class="name-field">
+											<span class="share-icons"><?=$isShared ? '<i class="fa fa-share-square-o" data-tooltip="You have shared this '.$dataType.' to someone." aria-hidden="true"></i>' : ""?><?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" data-tooltip="Someone has shared this '.$dataType.' to you." aria-hidden="true"></i> ' : ''?><a href="<?=$block_url?>" class="invert-hover name"><?=$block[$dataType.'_name']?></a></span>
+
+											<?php
+											if ($block['user_ID'] == currentUserID()) {
+											?>
+											<span class="actions">
+
+												<input class="edit-name" type="text" value="<?=$block[$dataType.'_name']?>"/>
+												<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+
+											</span>
+											<?php
 											}
+											?>
+
+										</span>
 
 
-											if ($catFilter == "archived" || $catFilter == "deleted") {
-										?>
-										<a href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>" data-action="recover" data-tooltip="Recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
-										<?php
-											} else {
-										?>
-										<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-tooltip="Archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
-										<?php
-											}
-										?>
-										<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+									</div>
+									<div class="col xl-4-12 xl-right date">
 
+										<?=date("d M Y", strtotime($block[$dataType.'_created']))?>
 
 									</div>
 								</div>
 
 							</div>
 
-							<div class="wrap xl-flexbox xl-top">
-								<div class="col xl-8-12 xl-left box-name">
+					<?php
 
+						$data_count++;
 
-									<span class="name-field">
-										<span class="share-icons"><?=$isShared ? '<i class="fa fa-share-square-o" data-tooltip="You have shared this '.$dataType.' to someone." aria-hidden="true"></i>' : ""?><?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" data-tooltip="Someone has shared this '.$dataType.' to you." aria-hidden="true"></i> ' : ''?><a href="<?=$block_url?>" class="invert-hover name"><?=$block[$dataType.'_name']?></a></span>
-
-										<?php
-										if ($block['user_ID'] == currentUserID()) {
-										?>
-										<span class="actions">
-
-											<input class="edit-name" type="text" value="<?=$block[$dataType.'_name']?>"/>
-											<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-
-										</span>
-										<?php
-										}
-										?>
-
-									</span>
-
-
-								</div>
-								<div class="col xl-4-12 xl-right date">
-
-									<?=date("d M Y", strtotime($block[$dataType.'_created']))?>
-
-								</div>
-							</div>
-
-						</div>
-
-				<?php
-
-					$data_count++;
-
-				} // END OF THE BLOCK LOOP
+					} // END OF THE BLOCK LOOP
+				} // If defined
 
 
 			} // END OF THE CATEGORY LOOP

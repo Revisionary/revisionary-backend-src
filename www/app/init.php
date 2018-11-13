@@ -59,3 +59,10 @@ $log = new Katzgrau\KLogger\Logger(
 
 // Start the session
 load_session();
+
+
+// The Users global
+$Users = array();
+
+// Get the current user info
+if ( userloggedIn() ) $Users[currentUserID()] = UserAccess::ID()->userData;

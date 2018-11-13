@@ -54,10 +54,10 @@
 
 				<div class="dropdown-container">
 					<a href="#" class="dropdown-opener invert-hover user-link bullet">
-						<picture class="profile-picture big" <?=User::ID()->printPicture()?>>
-							<span <?=User::ID()->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID()->firstName, 0, 1).substr(User::ID()->lastName, 0, 1)?></span>
+						<picture class="profile-picture big" <?=getUserData()['printPicture']?>>
+							<span <?=getUserData()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData()['nameAbbr']?></span>
 							<div class="notif-no">3</div>
-						</picture> <?=User::ID()->fullName?>
+						</picture> <?=getUserData()['fullName']?>
 					</a>
 
 					<nav class="dropdown user-menu">
@@ -67,7 +67,7 @@
 								Your notifications will be here.
 							</li>
 							<li><a href="<?=site_url('projects')?>">Projects</a></li>
-							<li><a href="<?=site_url('profile/'.User::ID()->userName)?>">Profile</a></li>
+							<li><a href="<?=site_url('profile/'.getUserData()['userName'])?>">Profile</a></li>
 							<li><a href="<?=site_url('account')?>">Account</a></li>
 							<li><a href="<?=site_url('logout')?>">Logout</a></li>
 						</ul>

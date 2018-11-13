@@ -1,9 +1,7 @@
 <nav class="dropdown xl-left">
 	<ul class="device-adder">
 		<?php
-		$db->orderBy('device_cat_order', 'asc');
-		$device_cats = $db->get('device_categories');
-		foreach ($device_cats as $device_cat) {
+		foreach ($device_data as $device_cat) {
 		?>
 
 		<li>
@@ -15,11 +13,7 @@
 				<nav class="dropdown selectable addable xl-left">
 					<ul class="device-addd">
 						<?php
-						$db->where('device_cat_ID', $device_cat['device_cat_ID']);
-						$db->where('device_user_ID', 1);
-						$db->orderBy('device_order', 'asc');
-						$devices = $db->get('devices');
-						foreach ($devices as $device) {
+						foreach ($device_cat['devices'] as $device) {
 
 							$device_link = current_url("new_device=".$device['device_ID']."&page_ID=".$block['page_ID']);
 							$device_label = $device['device_name']." (".$device['device_width']."x".$device['device_height'].")";

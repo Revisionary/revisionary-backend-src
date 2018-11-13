@@ -72,8 +72,8 @@
 			if ($title == "projects") {
 
 			?>
-			<a href="<?=site_url(User::ID()->userName)?>">
-				<i class="fa fa-link" aria-hidden="true"></i> https://revisionaryapp.com/<?=User::ID()->userName?>
+			<a href="<?=site_url(getUserData()['userName'])?>">
+				<i class="fa fa-link" aria-hidden="true"></i> https://revisionaryapp.com/<?=getUserData()['userName']?>
 			</a>
 			<a href="#" class="privacy">
 				<i class="fa fa-globe-americas"></i> <i class="fa fa-caret-down" aria-hidden="true"></i>
@@ -92,22 +92,22 @@
 
 				<?php
 				$project_user_ID = Project::ID( $_url[1] )->getInfo('user_ID');
-				$project_user = User::ID($project_user_ID);
+				$project_user = getUserData($project_user_ID);
 				?>
 
 				<!-- Owner -->
-				<a href="<?=site_url($project_user->userName)?>"
-					data-tooltip="<?=$project_user->fullName?>"
+				<a href="<?=site_url($project_user['userName'])?>"
+					data-tooltip="<?=$project_user['fullName']?>"
 					data-mstatus="owner"
-					data-fullname="<?=$project_user->fullName?>"
-					data-nameabbr="<?=substr($project_user->firstName, 0, 1).substr($project_user->lastName, 0, 1)?>"
-					data-email="<?=User::ID($project_user_ID)->email?>"
-					data-avatar="<?=User::ID($project_user_ID)->userPicUrl?>"
+					data-fullname="<?=$project_user['fullName']?>"
+					data-nameabbr="<?=$project_user['nameAbbr']?>"
+					data-email="<?=$project_user['email']?>"
+					data-avatar="<?=$project_user['userPicUrl']?>"
 					data-userid="<?=$project_user_ID?>"
 					data-unremoveable="unremoveable"
 				>
-					<picture class="profile-picture" <?=$project_user->printPicture()?>>
-						<span <?=$project_user->userPic != "" ? "class='has-pic'" : ""?>><?=substr($project_user->firstName, 0, 1).substr($project_user->lastName, 0, 1)?></span>
+					<picture class="profile-picture" <?=$project_user['printPicture']?>>
+						<span <?=$project_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$project_user['nameAbbr']?></span>
 					</picture>
 				</a>
 
@@ -132,21 +132,21 @@
 						$shared_user_ID = $share['share_to'];
 
 						if ( is_numeric($share['share_to']) ) {
-							$shared_user = User::ID($shared_user_ID);
+							$shared_user = getUserData($shared_user_ID);
 					?>
 
-				<a href="<?=site_url($shared_user->userName)?>"
-					data-tooltip="<?=$shared_user->fullName?>"
+				<a href="<?=site_url($shared_user['userName'])?>"
+					data-tooltip="<?=$shared_user['fullName']?>"
 					data-mstatus="user"
-					data-fullname="<?=$shared_user->fullName?>"
-					data-nameabbr="<?=substr($shared_user->firstName, 0, 1).substr($shared_user->lastName, 0, 1)?>"
-					data-email="<?=$shared_user->email?>"
-					data-avatar="<?=$shared_user->userPicUrl?>"
+					data-fullname="<?=$shared_user['fullName']?>"
+					data-nameabbr="<?=$shared_user['nameAbbr']?>"
+					data-email="<?=$shared_user['email']?>"
+					data-avatar="<?=$shared_user['userPicUrl']?>"
 					data-userid="<?=$shared_user_ID?>"
 					data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 				>
-					<picture class="profile-picture" <?=$shared_user->printPicture()?>>
-						<span <?=$shared_user->userPic != "" ? "class='has-pic'" : ""?>><?=substr($shared_user->firstName, 0, 1).substr($shared_user->lastName, 0, 1)?></span>
+					<picture class="profile-picture" <?=$shared_user['printPicture']?>>
+                        <span <?=$shared_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$shared_user['nameAbbr']?></span>
 					</picture>
 				</a>
 					<?php

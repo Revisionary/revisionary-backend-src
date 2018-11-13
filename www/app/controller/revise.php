@@ -365,6 +365,43 @@ $pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
 
 
+// DEVICE INFO
+
+// Bring the device category info
+$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
+
+$db->where('d.device_user_ID', 1); // !!! ?
+
+$db->orderBy('d_cat.device_cat_order', 'asc');
+$db->orderBy(' d.device_order', 'asc');
+$devices = $db->get('devices d');
+
+
+// Prepare the devices data
+$device_data = [];
+foreach ($devices as $device) {
+
+	if ( !isset($device_data[$device['device_cat_ID']]['devices']) ) {
+
+		$device_data[$device['device_cat_ID']] = array(
+			'device_cat_icon' => $device['device_cat_icon'],
+			'device_cat_name' => $device['device_cat_name'],
+			'devices' => array(),
+		);
+
+	}
+
+	$device_data[$device['device_cat_ID']]['devices'][$device["device_ID"]] = $device;
+
+}
+
+//echo "<pre>"; print_r($device_data);
+//echo "<pre>"; print_r($devices); exit();
+
+
+
+
+
 // Bring the pages that user can access !!! Not deleted / archived ones, put this on a Access::ID() class!
 
 // Bring the shared ones

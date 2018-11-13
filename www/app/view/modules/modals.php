@@ -1,15 +1,15 @@
 <?php
 function print_device_selector() {
-	global $db;
+	global $db, $device_data;
 ?>
 
 <h3 style="margin-bottom: 0">Screen Size <i class="fa fa-question-circle tooltip" data-tooltip="Add your device size that you wish to edit your site." aria-hidden="true"></i></h3>
 <ul class="selected-devices">
-	<li><?php $custom_device_ID = 11; ?>
+	<li>
 		<input type="hidden" name="devices[]" value="11"/>
-		<input type="hidden" name="page-width" value="<?=Device::ID($custom_device_ID)->getInfo('device_width')?>"/>
-		<input type="hidden" name="page-height" value="<?=Device::ID($custom_device_ID)->getInfo('device_height')?>"/>
-		<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width"><?=Device::ID($custom_device_ID)->getInfo('device_width')?></span> x <span class="screen-height"><?=Device::ID($custom_device_ID)->getInfo('device_height')?></span>)</span>
+		<input type="hidden" name="page-width" value="1440"/>
+		<input type="hidden" name="page-height" value="900"/>
+		<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width">1440</span> x <span class="screen-height">900</span>)</span>
 		<a href="#" class="remove-device" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 	</li>
 </ul>
@@ -20,9 +20,7 @@ function print_device_selector() {
 	<nav class="dropdown xl-left">
 		<ul class="device-adder">
 			<?php
-			$db->orderBy('device_cat_order', 'asc');
-			$device_cats = $db->get('device_categories');
-			foreach ($device_cats as $device_cat) {
+			foreach ($device_data as $device_cat) {
 			?>
 
 			<li class="device-cat" <?=$device_cat['device_cat_name'] == "Custom" ? "style='display:none;'" : ""?>>
@@ -34,10 +32,7 @@ function print_device_selector() {
 					<nav class="dropdown selectable addable xl-left">
 						<ul class="device-add">
 							<?php
-							$db->where('device_cat_ID', $device_cat['device_cat_ID']);
-							$db->orderBy('device_order', 'asc');
-							$devices = $db->get('devices');
-							foreach ($devices as $device) {
+							foreach ($device_cat['devices'] as $device) {
 							?>
 							<li class="device" <?=$device['device_ID'] == 11 ? "style='display:none;'" : ""?>>
 								<a href="#"
@@ -92,9 +87,9 @@ function page_members() {
 
 
 	<!-- Owner -->
-	<a href="<?=site_url('profile/'.User::ID()->userName)?>">
-		<picture class="profile-picture" <?=User::ID()->printPicture()?>>
-			<span <?=User::ID()->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID()->firstName, 0, 1).substr(User::ID()->lastName, 0, 1)?></span>
+	<a href="<?=site_url('profile/'.getUserData()['userName'])?>">
+		<picture class="profile-picture" <?=getUserData()['printPicture']?>>
+			<span <?=getUserData()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData()['nameAbbr']?></span>
 		</picture>
 	</a>
 
@@ -159,9 +154,9 @@ function page_members() {
 
 
 						<!-- Owner -->
-						<a href="<?=site_url('profile/'.User::ID()->userName)?>">
-							<picture class="profile-picture" <?=User::ID()->printPicture()?>>
-								<span <?=User::ID()->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID()->firstName, 0, 1).substr(User::ID()->lastName, 0, 1)?></span>
+						<a href="<?=site_url('profile/'.getUserData()['userName'])?>">
+							<picture class="profile-picture" <?=getUserData()['printPicture']?>>
+								<span <?=getUserData()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData()['nameAbbr']?></span>
 							</picture>
 						</a>
 
@@ -241,7 +236,9 @@ function page_members() {
 
 
 
-
+<?php
+if ( isset($project_ID) ) {
+?>
 
 
 <div id="add-new-page" class="popup-window xl-center scrollable-content">
@@ -314,7 +311,9 @@ function page_members() {
 
 </div>
 
-
+<?php
+}
+?>
 
 
 
@@ -353,15 +352,15 @@ function page_members() {
 							<!-- Owner -->
 							<li class="inline-guys member">
 
-								<?php $project_user_ID = Project::ID( $_url[1])->getInfo('user_ID'); ?>
+								<?php $project_user_ID = Project::ID($project_ID)->getInfo('user_ID'); ?>
 
-								<picture class="profile-picture big" <?=User::ID($project_user_ID)->printPicture()?>>
-									<span <?=User::ID($project_user_ID)->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($project_user_ID)->firstName, 0, 1).substr(User::ID($project_user_ID)->lastName, 0, 1)?></span>
+								<picture class="profile-picture big" <?=getUserData($project_user_ID)['printPicture']?>>
+									<span <?=getUserData($project_user_ID)['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData($project_user_ID)['nameAbbr']?></span>
 								</picture>
 
 								<div>
-									<span class="full-name"><?=User::ID($project_user_ID)->fullName?></span>
-									<span class="email">(<?=User::ID($project_user_ID)->email?>)</span>
+									<span class="full-name"><?=getUserData($project_user_ID)['fullName']?></span>
+									<span class="email">(<?=getUserData($project_user_ID)['email']?>)</span>
 									<span class="owner-badge">Owner</span>
 								</div>
 
@@ -378,13 +377,13 @@ function page_members() {
 								<!-- Shared Person -->
 								<li class="inline-guys member">
 
-									<picture class="profile-picture big" <?=User::ID($share['share_to'])->printPicture()?>>
-										<span <?=User::ID($share['share_to'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?></span>
+									<picture class="profile-picture big" <?=getUserData($share['share_to'])['printPicture']?>>
+										<span <?=getUserData($share['share_to'])['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData($share['share_to'])['nameAbbr']?></span>
 									</picture>
 
 									<div>
-										<span class="full-name"><?=User::ID($share['share_to'])->fullName?></span>
-										<span class="email">(<?=User::ID($share['share_to'])->email?>)</span>
+										<span class="full-name"><?=getUserData($share['share_to'])['fullName']?></span>
+										<span class="email">(<?=getUserData($share['share_to'])['email']?>)</span>
 									</div>
 
 									<!-- <a href="#" class="remove remove-member"><i class="fa fa-times-circle" aria-hidden="true"></i></a> -->
@@ -429,20 +428,20 @@ function page_members() {
 
 					if ( isset($page_ID) ) {
 
-					$page_user_ID = Page::ID($page_ID)->getInfo('user_ID');
+						$page_user_ID = Page::ID($page_ID)->getInfo('user_ID');
 
 				?>
 
 						<!-- Owner -->
 						<li class="inline-guys member">
 
-							<picture class="profile-picture big" <?=User::ID($page_user_ID)->printPicture()?>>
-								<span <?=User::ID($page_user_ID)->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($page_user_ID)->firstName, 0, 1).substr(User::ID($page_user_ID)->lastName, 0, 1)?></span>
+							<picture class="profile-picture big" <?=getUserData($page_user_ID)['printPicture']?>>
+								<span <?=getUserData($page_user_ID)['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData($page_user_ID)['nameAbbr']?></span>
 							</picture>
 
 							<div>
-								<span class="full-name"><?=User::ID($page_user_ID)->fullName?></span>
-								<span class="email">(<?=User::ID($page_user_ID)->email?>)</span>
+								<span class="full-name"><?=getUserData($page_user_ID)['fullName']?></span>
+								<span class="email">(<?=getUserData($page_user_ID)['email']?>)</span>
 								<span class="owner-badge">Owner</span>
 							</div>
 
@@ -460,13 +459,13 @@ function page_members() {
 						<!-- Shared Person -->
 						<li class="inline-guys member user">
 
-							<picture class="profile-picture big" <?=User::ID($share['share_to'])->printPicture()?>>
-								<span <?=User::ID($share['share_to'])->userPic != "" ? "class='has-pic'" : ""?>><?=substr(User::ID($share['share_to'])->firstName, 0, 1).substr(User::ID($share['share_to'])->lastName, 0, 1)?></span>
+							<picture class="profile-picture big" <?=getUserData($share['share_to'])['printPicture']?>>
+								<span <?=getUserData($share['share_to'])['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData($share['share_to'])['nameAbbr']?></span>
 							</picture>
 
 							<div>
-								<span class="full-name"><?=User::ID($share['share_to'])->fullName?></span>
-								<span class="email">(<?=User::ID($share['share_to'])->email?>)</span>
+								<span class="full-name"><?=getUserData($share['share_to'])['fullName']?></span>
+								<span class="email">(<?=getUserData($share['share_to'])['email']?>)</span>
 							</div>
 
 							<a href="#" class="remove remove-member" data-userid="<?=$share['share_to']?>" data-id="<?=$page_ID?>"><i class="fa fa-times-circle" aria-hidden="true"></i></a>

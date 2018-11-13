@@ -5792,7 +5792,7 @@ input.share-email.error {
   position: absolute;
   top: -100vh;
   background-color: white;
-  border: 10px solid black;
+  border: 5px solid black;
   border-radius: 40px;
   padding: 20px 40px 40px;
   max-height: 95vh;

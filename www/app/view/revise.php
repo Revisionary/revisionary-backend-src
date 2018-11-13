@@ -266,9 +266,7 @@
 									<nav class="dropdown xl-left">
 										<ul class="device-adder">
 											<?php
-											$db->orderBy('device_cat_order', 'asc');
-											$device_cats = $db->get('device_categories');
-											foreach ($device_cats as $device_cat) {
+											foreach ($device_data as $device_cat) {
 											?>
 
 											<li>
@@ -280,11 +278,7 @@
 													<nav class="dropdown selectable addable xl-left">
 														<ul class="device-addd">
 															<?php
-															$db->where('device_cat_ID', $device_cat['device_cat_ID']);
-															$db->where('device_user_ID', 1);
-															$db->orderBy('device_order', 'asc');
-															$devices = $db->get('devices');
-															foreach ($devices as $device) {
+															foreach ($device_cat['devices'] as $device) {
 
 
 																$device_link = site_url("project/$project_ID?new_device=".$device['device_ID']."&page_ID=".$parentpage_ID);
@@ -360,70 +354,9 @@
 			</div>
 
 		</div>
-		<div class="col share tab-container">
+		<div class="col share">
 
-			<a href="#" class="button page share-button openerr" data-type="page" data-object-id="<?=$page_ID?>"><i class="fa fa-share-alt"></i> SHARE</a>
-			<div class="tab right autowidth">
-
-				<div class="page-share">
-					<a href="#">Share only this Page <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-					<div class="shared-members">
-						<span class="people light-border">
-
-							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=User::ID(5)->userPicUrl?>);"></picture>
-							</a>
-
-							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
-							</a>
-
-						</span>
-
-						<a class="member-selector" href="#">
-							<i class="fa fa-plus" aria-hidden="true"></i>
-						</a>
-					</div>
-				</div>
-
-				<div class="project-share">
-					<a href="#">Share this Project  <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-					<div class="shared-members">
-						<span class="people light-border">
-
-							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=User::ID(1)->userPicUrl?>);"></picture>
-							</a>
-
-							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=User::ID(2)->userPicUrl?>);"></picture>
-							</a>
-
-							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=User::ID(3)->userPicUrl?>);"></picture>
-							</a>
-
-							<a href="#">
-								<picture class="profile-picture" style="background-image: url(<?=User::ID(4)->userPicUrl?>);"></picture>
-							</a>
-
-						</span>
-
-						<a class="member-selector" href="#">
-							<i class="fa fa-plus" aria-hidden="true"></i>
-						</a>
-					</div>
-				</div>
-
-				<div class="link-share">
-					<a href="#"><i class="fa fa-link" aria-hidden="true"></i> Get Shareable Link... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-				</div>
-
-				<div class="link-share">
-					<a href="#"><i class="fa fa-link" aria-hidden="true"></i> Share on my public profile... <i class="fa fa-question-circle" aria-hidden="true"></i></a>
-				</div>
-
-			</div>
+			<a href="#" class="button page share-button" data-type="page" data-object-id="<?=$page_ID?>"><i class="fa fa-share-alt"></i> SHARE</a>
 
 		</div>
 		<div class="col pins tab-container open">

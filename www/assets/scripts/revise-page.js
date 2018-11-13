@@ -584,12 +584,6 @@ $(function() {
 $(window).on("load", function (e) {
 
 
-	// Pins Section Content
-	$(".scrollable-content").mCustomScrollbar({
-		alwaysShowScrollbar: true
-	});
-
-
 	// CONTENT EDITOR PLUGIN
 	$(".edit-content[contenteditable='true']").popline();
 

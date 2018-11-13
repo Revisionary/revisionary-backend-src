@@ -112,12 +112,12 @@ if ( $user !== null ) {
 	$data['data'] = array(
 		'status' => 'found',
 		'user_ID' => $user['user_ID'],
-		'user_fullname' => User::ID($user['user_ID'])->fullName,
-		'user_nameabbr' => substr(User::ID($user['user_ID'])->firstName, 0, 1).substr(User::ID($user['user_ID'])->lastName, 0, 1),
-		'user_link' => site_url('profile/'.User::ID($user['user_ID'])->userName),
-		'user_photo' => User::ID($user['user_ID'])->printPicture(),
-		'user_avatar' => User::ID($user['user_ID'])->userPicUrl,
-		'user_name' => '<span '.(User::ID($user['user_ID'])->userPic != "" ? "class='has-pic'" : "").'>'.(substr(User::ID($user['user_ID'])->firstName, 0, 1).substr(User::ID($user['user_ID'])->lastName, 0, 1)).'</span>',
+		'user_fullname' => getUserData($user['user_ID'])['fullName'],
+		'user_nameabbr' => getUserData($user['user_ID'])['nameAbbr'],
+		'user_link' => site_url('profile/'.getUserData($user['user_ID'])['userName']),
+		'user_photo' => getUserData($user['user_ID'])['printPicture'],
+		'user_avatar' => getUserData($user['user_ID'])['userPicUrl'],
+		'user_name' => '<span '.(getUserData($user['user_ID'])['userPic'] != "" ? "class='has-pic'" : "").'>'.(getUserData($user['user_ID'])['nameAbbr']).'</span>',
 	);
 
 } else { // Not found

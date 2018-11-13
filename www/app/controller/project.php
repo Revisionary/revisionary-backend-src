@@ -1,5 +1,24 @@
 <?php
 
+
+// Get the project ID
+$project_ID = $_url[1];
+
+// Get the order
+$order = isset($_GET['order']) ? $_GET['order'] : '';
+
+// Category Filter
+$catFilter = isset($_url[2]) ? $_url[2] : '';
+
+// Device Filter
+$deviceFilter = get('device');
+
+
+
+
+
+
+
 // SECURITY CHECKS
 
 // If not logged in, go login page
@@ -10,14 +29,14 @@ if (!userloggedIn()) {
 
 
 // If no project specified or not numeric, go projects page
-if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
+if ( !isset($project_ID) || !is_numeric($project_ID) ) {
 	header('Location: '.site_url('projects'));
 	die();
 }
 
 
 // If project doesn't exist
-$db->where("project_ID", $_url[1]);
+$db->where("project_ID", $project_ID);
 $project = $db->getOne("projects", "project_ID, user_ID");
 if ( !$project ) {
 	header('Location: '.site_url('projects'));
@@ -26,38 +45,50 @@ if ( !$project ) {
 
 
 
+
+
+
+
+
+
+
+// PAGES DATA MODEL
+$dataType = "page";
+require model('projects');
+$theCategorizedData = the_data();
+//echo "<pre>"; print_r(array_column($theCategorizedData, 'theData')); exit();
+//echo "<pre>"; print_r($thePreparedData); exit();
+
+
+
+// MY PAGES IN THIS PROJECT
+$allMyPages = $thePreparedData;
+//echo "<pre>"; print_r( $allMyPages ); die();
+
+
+
 // PROJECT SHARES QUERY
 
 // Exlude other types
 $db->where('share_type', 'project');
-
-// Is this project?
-$db->where('shared_object_ID', $_url[1]);
-
-// Project shares data
+$db->where('shared_object_ID', $project_ID);
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
-
 //echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
 
 
+// If project doesn't belong to me and if no page belong to me
+if (
+	$project['user_ID'] != currentUserID() && // If the project isn't belong to me
+	array_search(currentUserID(), array_column($projectShares, 'share_to')) === false && // And, if the project isn't shared to me
+	count($allMyPages) == 0 // And, if there is no my page in it
+) {
 
-// Check if any my pages in the project
+	// Redirect to "Projects" page
+	header('Location: '.site_url('projects'));
+	die();
 
-// Bring the shared ones
-$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
-$db->joinWhere("shares s", "s.share_type", "page");
-$db->joinWhere("shares s", "s.share_to", currentUserID());
+}
 
-// Ony my pages or shared to me
-$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-
-// Exclude the other projects
-$db->where('project_ID', $_url[1]);
-
-// My pages in this project
-$allMyPages = $db->get('pages p');
-
-//var_dump( $allMyPages ); die();
 
 
 // COUNT ALL THE PINS
@@ -95,48 +126,6 @@ if ($allMyPages) {
 
 	}
 
-
-}
-
-
-// Get the project ID
-$project_ID = $_url[1];
-
-// Get the order
-$order = isset($_GET['order']) ? $_GET['order'] : '';
-
-// Category Filter
-$catFilter = isset($_url[2]) ? $_url[2] : '';
-
-// Device Filter
-$deviceFilter = get('device');
-
-
-
-// PAGES DATA MODEL
-require model('project');
-$theCategorizedData = the_data();
-$dataType = "page";
-
-
-/*
-echo "<pre>";
-print_r(array_column($theCategorizedData, 'theData')); exit();
-print_r($theCategorizedData); exit();
-*/
-
-
-// SECURITY CHECK
-// If project doesn't belong to me and if no page belong to me
-if (
-	$project['user_ID'] != currentUserID() && // If the project isn't belong to me
-	array_search(currentUserID(), array_column($projectShares, 'share_to')) === false && // And, if the project isn't shared to me
-	count($allMyPages) == 0 // And, if there is no my page in it
-) {
-
-	// Redirect to "Projects" page
-	header('Location: '.site_url('projects'));
-	die();
 
 }
 
@@ -234,16 +223,6 @@ $db->orderBy('page_modified', 'desc');
 $project_modified = $db->getValue("pages", "page_modified");
 
 
-// Only Page Data
-$onlyPageData = array();
-$allPageData = array_values(array_filter(array_column($theCategorizedData, 'theData')));
-foreach($allPageData as $page) {
-	foreach ($page as $page) {
-		$onlyPageData[] = $page;
-	}
-}
-
-
 // Detect the available devices
 $available_devices = array();
 foreach($theCategorizedData as $categories) {
@@ -269,6 +248,43 @@ foreach($theCategorizedData as $categories) {
 	}
 
 }
+
+
+
+// DEVICE INFO
+
+// Bring the device category info
+$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
+
+$db->where('d.device_user_ID', 1); // !!! ?
+
+$db->orderBy('d_cat.device_cat_order', 'asc');
+$db->orderBy(' d.device_order', 'asc');
+$devices = $db->get('devices d');
+
+
+// Prepare the devices data
+$device_data = [];
+foreach ($devices as $device) {
+
+	if ( !isset($device_data[$device['device_cat_ID']]['devices']) ) {
+
+		$device_data[$device['device_cat_ID']] = array(
+			'device_cat_icon' => $device['device_cat_icon'],
+			'device_cat_name' => $device['device_cat_name'],
+			'devices' => array(),
+		);
+
+	}
+
+	$device_data[$device['device_cat_ID']]['devices'][$device["device_ID"]] = $device;
+
+}
+
+//echo "<pre>"; print_r($device_data);
+//echo "<pre>"; print_r($devices); exit();
+
+
 
 
 // Additional Scripts and Styles
