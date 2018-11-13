@@ -116,6 +116,7 @@ class UserAccess {
 
 			$mySharedPages = $this->getMy('pages');
 			$mySharedProjectsFromPages = array_unique(array_column($mySharedPages, 'project_ID'));
+
 		}
 
 
@@ -156,7 +157,7 @@ class UserAccess {
 				OR s.share_to = '.self::$user_ID.'
 			)');
 
-			$db->orWhere('project_ID', $mySharedProjectsFromPages, 'IN');
+			if ( count($mySharedProjectsFromPages) > 0 ) $db->orWhere('project_ID', $mySharedProjectsFromPages, 'IN');
 
 		}
 
