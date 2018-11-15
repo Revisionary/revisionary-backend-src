@@ -414,7 +414,7 @@ function runTheInspector() {
 
 
 				// Clean Other Outlines
-				iframeElement('body *').css('outline', '');
+				removeOutline();
 
 				// Reset the pin opacity
 				$('#pins > pin').css('opacity', '');
@@ -585,6 +585,26 @@ function runTheInspector() {
 		}).on('focus', '[contenteditable="true"][data-revisionary-index]', function(e) { // When clicked an editable text
 
 
+			outline(focused_element, focused_element_pin.attr('data-pin-private'));
+			focused_element.addClass('revisionary-focused');
+
+
+			// Open the new pin window
+			if (
+				pinWindowOpen
+				&& focused_element_pin != null && focused_element_pin.length
+				&& pinWindow.attr('data-revisionary-index') != focused_element_index
+			)
+				openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
+
+
+		}).on('blur', '[contenteditable="true"][data-revisionary-index]', function(e) { // When clicked an editable text
+
+
+			iframeElement('.revisionary-focused').removeClass('revisionary-focused');
+			removeOutline();
+
+
 			// Open the new pin window
 			if (
 				pinWindowOpen
@@ -643,6 +663,16 @@ function outline(element, private_pin) {
 }
 
 
+// Color the element
+function removeOutline() {
+
+	// Remove outlines from iframe
+	iframeElement('body *:not(.revisionary-focused)').css('outline', '');
+
+	return true;
+}
+
+
 // Switch to a different pin mode
 function switchPinType(pinType, pinPrivate) {
 
@@ -698,7 +728,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 	// Remove outlines from iframe
-	iframeElement('body *').css('outline', '');
+	removeOutline();
 
 
 	if ( (cursorActive || forceClose) && !forceOpen ) {
@@ -1918,7 +1948,7 @@ function convertPin(pin_ID, targetPin) {
 		pinWindow.attr('data-pin-modification-type', 'null');
 
 		// Remove outlines from iframe
-		iframeElement('body *').css('outline', '');
+		removeOutline();
 
 	}
 

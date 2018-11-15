@@ -426,7 +426,7 @@ $(function() {
 	}).on('mouseout', '.pins-list > .pin', function(e) {
 
 		$('#pins > pin').css('opacity', '');
-		iframeElement('body *').css('outline', '');
+		removeOutline();
 
 		e.preventDefault();
 	});
@@ -480,7 +480,7 @@ $(function() {
 
 
 		// Clear all outlines
-		iframeElement('body *').css('outline', '');
+		removeOutline();
 
 
 		// Outline the element if this is a live pin
@@ -488,7 +488,7 @@ $(function() {
 
 			var hoveringPinPrivate = $(this).attr("data-pin-private");
 
-			iframeElement('body *').css('outline', 'none');
+			removeOutline();
 			iframeElement('body *[data-revisionary-index="'+ $(this).attr("data-revisionary-index") +'"]').css('outline', '2px dashed ' + (hoveringPinPrivate == 1 ? '#FC0FB3' : '#7ED321'), 'important');
 
 		}
@@ -564,7 +564,7 @@ $(function() {
 
 		hoveringPin = false;
 
-		iframeElement('body *').css('outline', '');
+		removeOutline();
 
 
 		// Show the cursor
