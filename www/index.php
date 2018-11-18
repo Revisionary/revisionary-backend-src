@@ -56,13 +56,6 @@ ob_end_flush();
 
 if ($_url[0] != "ajax" && $debug_mode) {
 
-	/*
-	echo "<pre>";
-	print_r( getUserInfo() );
-	echo "</pre>";
-	//exit;
-	*/
-
 	echo "<pre>";
 	print_r( $Users );
 	echo "</pre>";
