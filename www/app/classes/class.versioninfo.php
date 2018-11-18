@@ -3,11 +3,8 @@
 class Version {
 
 
-	// The device ID
-	public static $versionId;
-
-	// The project name
-	public $versionName;
+	// The version ID
+	public static $version_ID;
 
 
 
@@ -15,17 +12,14 @@ class Version {
 
 	public function __construct() {
 
-		// Set the project name
-        //$this->versionName = $this->getInfo('version_name');
-
     }
 
 
 	// ID Setter
-    public static function ID($versionId) {
+    public static function ID($version_ID) {
 
 	    // Set the device ID
-		self::$versionId = $versionId;
+		self::$version_ID = $version_ID;
 		return new static;
 
     }
@@ -39,7 +33,7 @@ class Version {
     public function getInfo($columns = null, $array = false) {
 	    global $db;
 
-	    $db->where('version_ID', self::$versionId);
+	    $db->where('version_ID', self::$version_ID);
 
 	    return $array ? $db->getOne("versions", $columns) : $db->getValue("versions", $columns);
     }
