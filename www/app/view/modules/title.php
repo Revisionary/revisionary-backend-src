@@ -38,7 +38,7 @@
 		<div class="dropdown-container" style="display: inline-block;">
 			<a href="<?=site_url($url_prefix)?>" class="dropdown-opener">
 				<h1 class="bullet bigger-bullet <?=$title == "pages" ? 'project-title' : ''?>" <?=$title == "pages" ? 'data-id="'.$_url[1].'"' : ''?>>
-					<?=$title == "pages" ? Project::ID($_url[1])->projectName : strtoupper($title)?>
+					<?=$title == "pages" ? $projectInfo['project_name'] : strtoupper($title)?>
 				</h1>
 			</a>
 			<nav class="dropdown selectable">
@@ -91,7 +91,7 @@
 			<span class="people">
 
 				<?php
-				$project_user_ID = Project::ID( $_url[1] )->getInfo('user_ID');
+				$project_user_ID = $projectInfo['user_ID'];
 				$project_user = getUserData($project_user_ID);
 				?>
 

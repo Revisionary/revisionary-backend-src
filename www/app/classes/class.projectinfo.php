@@ -6,40 +6,11 @@ class Project {
 	// The project ID
 	public static $project_ID;
 
-	// The project name
-	public $projectName;
-
-	// The project directory
-	public $projectDir;
-
-	// Current user ID
-	public $user_ID;
-
-
-	// Paths
-	public $userPath;
-	public $projectPath;
-
 
 
 	// SETTERS:
 
 	public function __construct() {
-
-		// Set the project name
-        $this->projectName = $this->getInfo('project_name');
-
-        // Set the user ID
-        $this->user_ID = $this->getInfo('user_ID');
-
-
-		// Paths
-        $userPath = $this->userPath = "user-".$this->user_ID;
-        $projectPath = $this->projectPath = "project-".self::$project_ID;
-
-
-        // Set the project directory
-        $this->projectDir = dir."/assets/cache/".$userPath."/".$projectPath;
 
     }
 
@@ -59,15 +30,25 @@ class Project {
 	// GETTERS:
 
     // Get project info
-    public function getInfo($column) {
+    public function getInfo($columns = null, $array = false) {
 	    global $db;
 
 	    $db->where('project_ID', self::$project_ID);
-	    $project = $db->getOne('projects', $column);
-		if ($project)
-			return $project[$column];
 
-	    return false;
+	    return $array ? $db->getOne("projects", $columns) : $db->getValue("projects", $columns);
+    }
+
+
+    // Get project directory
+    public function getDir() {
+
+		// Paths
+        $userPath = "user-".$this->getInfo('user_ID');
+        $projectPath = "project-".self::$project_ID;
+
+
+        // Set the project directory
+        return dir."/assets/cache/".$userPath."/".$projectPath;
     }
 
 

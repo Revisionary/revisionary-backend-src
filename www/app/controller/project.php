@@ -78,9 +78,10 @@ $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
 // If project doesn't belong to me and if no page belong to me
 if (
-	$project['user_ID'] != currentUserID() && // If the project isn't belong to me
-	array_search(currentUserID(), array_column($projectShares, 'share_to')) === false && // And, if the project isn't shared to me
-	count($allMyPages) == 0 // And, if there is no my page in it
+	$project['user_ID'] != currentUserID() // If the project isn't belong to me
+	&& array_search(currentUserID(), array_column($projectShares, 'share_to')) === false // And, if the project isn't shared to me
+	&& count($allMyPages) == 0 // And, if there is no my page in it
+	&& $catFilter != "mine"
 ) {
 
 	// Redirect to "Projects" page
@@ -252,37 +253,20 @@ foreach($theCategorizedData as $categories) {
 
 
 // DEVICE INFO
-
-// Bring the device category info
-$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
-
-$db->where('d.device_user_ID', 1); // !!! ?
-
-$db->orderBy('d_cat.device_cat_order', 'asc');
-$db->orderBy(' d.device_order', 'asc');
-$devices = $db->get('devices d');
+$device_data = UserAccess::ID()->getDeviceData();
+//echo "<pre>"; print_r($device_data); exit();
 
 
-// Prepare the devices data
-$device_data = [];
-foreach ($devices as $device) {
 
-	if ( !isset($device_data[$device['device_cat_ID']]['devices']) ) {
+// PROJECT INFO
+$projectInfo = Project::ID($project_ID)->getInfo(null, true);
+//echo "<pre>"; print_r($projectInfo); exit();
 
-		$device_data[$device['device_cat_ID']] = array(
-			'device_cat_icon' => $device['device_cat_icon'],
-			'device_cat_name' => $device['device_cat_name'],
-			'devices' => array(),
-		);
 
-	}
 
-	$device_data[$device['device_cat_ID']]['devices'][$device["device_ID"]] = $device;
-
-}
-
-//echo "<pre>"; print_r($device_data);
-//echo "<pre>"; print_r($devices); exit();
+// CATEGORY INFO
+$categories = UserAccess::ID()->getCategories($dataType, $order, $project_ID);
+//print_r($categories); exit;
 
 
 
@@ -312,5 +296,5 @@ $_SESSION["add_new_nonce"] = uniqid(mt_rand(), true);
 $_SESSION["new_device_nonce"] = uniqid(mt_rand(), true);
 
 
-$page_title = Project::ID($_url[1])->projectName." Project - Revisionary App";
+$page_title = $projectInfo['project_name']." Project - Revisionary App";
 require view('modules/categorized_blocks');

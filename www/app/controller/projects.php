@@ -90,12 +90,12 @@ require model('projects');
 $theCategorizedData = the_data();
 //echo "<pre>"; print_r(array_column($theCategorizedData, 'theData')); exit();
 //echo "<pre>"; print_r($thePreparedData); exit();
+//echo "<pre>"; print_r($mySharedPages); exit();
 
 
 
-// MY PAGES
-$allMyPages = UserAccess::ID()->getMy('pages');
-
+// MY PAGES AND COUNTS
+$allMyPages = $mySharedPages;
 $pageCount = array_column($allMyPages, 'project_ID');
 $pageCounts = array_count_values($pageCount);
 //echo "<pre>"; print_r( $pageCount ); die();
@@ -103,37 +103,14 @@ $pageCounts = array_count_values($pageCount);
 
 
 // DEVICE INFO
-
-// Bring the device category info
-$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
-
-$db->where('d.device_user_ID', 1); // !!! ?
-
-$db->orderBy('d_cat.device_cat_order', 'asc');
-$db->orderBy(' d.device_order', 'asc');
-$devices = $db->get('devices d');
+$device_data = UserAccess::ID()->getDeviceData();
+//echo "<pre>"; print_r($device_data); exit();
 
 
-// Prepare the devices data
-$device_data = [];
-foreach ($devices as $device) {
 
-	if ( !isset($device_data[$device['device_cat_ID']]['devices']) ) {
-
-		$device_data[$device['device_cat_ID']] = array(
-			'device_cat_icon' => $device['device_cat_icon'],
-			'device_cat_name' => $device['device_cat_name'],
-			'devices' => array(),
-		);
-
-	}
-
-	$device_data[$device['device_cat_ID']]['devices'][$device["device_ID"]] = $device;
-
-}
-
-//echo "<pre>"; print_r($device_data);
-//echo "<pre>"; print_r($devices); exit();
+// CATEGORY INFO
+$categories = UserAccess::ID()->getCategories($dataType, $order);
+//print_r($categories); exit;
 
 
 

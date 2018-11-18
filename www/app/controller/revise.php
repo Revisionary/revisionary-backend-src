@@ -95,103 +95,25 @@ $page_image = Page::ID($page_ID)->pageDeviceDir."/page.jpg";
 $project_image = Page::ID($page_ID)->projectDir."/project.jpg";
 
 
-//print_r($pageCat); exit();
 
 
-// If first time downloading - !!! NO NEED FOR NOW
-//if (Page::ID($page_ID)->getInfo('page_downloaded') == 0) {
+// INTERNAL REDIRECTIONS:
 
+// Http to Https Redirection
+if ( substr(Page::ID($page_ID)->remoteUrl, 0, 8) == "https://" && !ssl) {
 
-	// INTERNAL REDIRECTIONS:
-
-	// Http to Https Redirection
-	if ( substr(Page::ID($page_ID)->remoteUrl, 0, 8) == "https://" && !ssl) {
-
-		header( 'Location: '.site_url('revise/'.$page_ID, true) ); // Force HTTPS
-		die();
-
-	}
-
-	// Https to Http Redirection
-	if ( substr(Page::ID($page_ID)->remoteUrl, 0, 7) == "http://" && ssl) {
-
-		header( 'Location: '.site_url('revise/'.$page_ID, false, true) ); // Force HTTP
-		die();
-
-	}
-
-
-/*
-	// CHECK THE PAGE RESPONSE
-	$noProblem = false;
-
-	// Bring the headers
-	$OriginalUserAgent = ini_get('user_agent');
-	ini_set('user_agent', 'Mozilla/5.0');
-	$headers = @get_headers(Page::ID($page_ID)->remoteUrl, 1);
-	ini_set('user_agent', $OriginalUserAgent);
-
-	var_dump($headers);
+	header( 'Location: '.site_url('revise/'.$page_ID, true) ); // Force HTTPS
 	die();
 
-	$page_response = intval(substr($headers[0], 9, 3));
+}
 
+// Https to Http Redirection
+if ( substr(Page::ID($page_ID)->remoteUrl, 0, 7) == "http://" && ssl) {
 
-	// O.K.
-	if ( $page_response == 200 ) {
+	header( 'Location: '.site_url('revise/'.$page_ID, false, true) ); // Force HTTP
+	die();
 
-
-		// Allow doing the jobs!
-		$noProblem = true;
-
-
-	// Redirecting
-	} elseif ( $page_response == 301 || $page_response == 302 ) {
-
-
-		$new_location = $headers['Location'];
-		if ( is_array($new_location) ) $new_location = end($new_location);
-
-
-		// Update the NEW remoteUrl on DB
-		$db->where ('page_ID', $page_ID);
-		$db->update ('pages', ['page_url' => $new_location]);
-
-
-		// Refresh the page for preventing redirects
-		header( 'Location: ' . site_url('revise/'.$page_ID) );
-		die();
-
-
-	// Other
-	} else {
-
-		// Try non-ssl if the url is on SSL?
-		if ( substr(Page::ID($page_ID)->remoteUrl, 0, 8) == "https://" ) {
-
-			// Update the nonSSL remoteUrl on DB !!!???
-			$db->where ('page_ID', $page_ID);
-			$db->update ('pages', ['page_url' => "http://".substr(Page::ID($page_ID)->remoteUrl, 8)]);
-
-
-			// Refresh the page to try non-ssl
-			header( 'Location: ' . site_url('revise/'.$page_ID) );
-			die();
-
-
-		// If nothing works
-		} else {
-
-			header( 'Location: ' . site_url('?error='.Page::ID($page_ID)->remoteUrl) );
-			die();
-
-		}
-
-
-	}
-*/
-
-//} // If first time adding
+}
 
 
 
@@ -341,7 +263,6 @@ $db->where('shared_object_ID', $project_ID);
 
 // Project shares data
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
-
 //echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
 
 
@@ -358,46 +279,20 @@ $db->where('shared_object_ID', $page_ID);
 
 // Project shares data
 $pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
-
 //echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
 
 
 
 
-
 // DEVICE INFO
-
-// Bring the device category info
-$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
-
-$db->where('d.device_user_ID', 1); // !!! ?
-
-$db->orderBy('d_cat.device_cat_order', 'asc');
-$db->orderBy(' d.device_order', 'asc');
-$devices = $db->get('devices d');
+$device_data = UserAccess::ID()->getDeviceData();
+//echo "<pre>"; print_r($device_data); exit();
 
 
-// Prepare the devices data
-$device_data = [];
-foreach ($devices as $device) {
 
-	if ( !isset($device_data[$device['device_cat_ID']]['devices']) ) {
-
-		$device_data[$device['device_cat_ID']] = array(
-			'device_cat_icon' => $device['device_cat_icon'],
-			'device_cat_name' => $device['device_cat_name'],
-			'devices' => array(),
-		);
-
-	}
-
-	$device_data[$device['device_cat_ID']]['devices'][$device["device_ID"]] = $device;
-
-}
-
-//echo "<pre>"; print_r($device_data);
-//echo "<pre>"; print_r($devices); exit();
-
+// PROJECT INFO
+$projectInfo = Project::ID($project_ID)->getInfo(null, true);
+//echo "<pre>"; print_r($projectInfo); exit();
 
 
 
@@ -418,10 +313,6 @@ $db->where('parent_page_ID IS NULL');
 
 // My pages in this project
 $allMyPages = $db->get('pages p');
-
-
-
-
 //echo "<pre>"; print_r($allMyPages); echo "</pre>"; die();
 
 

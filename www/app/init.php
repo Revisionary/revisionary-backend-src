@@ -69,4 +69,4 @@ if ($debug_mode) $db->setTrace(true);
 $Users = array();
 
 // Get the current user info
-if ( userloggedIn() ) $Users[currentUserID()] = UserAccess::ID()->userData;
+if ( userloggedIn() ) $Users[currentUserID()] = UserAccess::ID()->getData();

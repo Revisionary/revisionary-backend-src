@@ -29,15 +29,11 @@
 
 				<?php
 
-					// Exclude other category types
-					$db->where('cat_type', $cat_type);
+					foreach ($categories as $catLink) {
 
-					// Exclude other users
-					$db->where('cat_user_ID', currentUserID());
+						// Skip the Uncategorized category
+						if ($catLink['cat_ID'] == 0) continue;
 
-
-					$catLinks = $db->get('categories', null, 'cat_ID, cat_name');
-					foreach ($catLinks as $catLink) {
 
 						echo '<a class="'.($catFilter == permalink($catLink['cat_name']) ? "selected" : "").'" href="'.site_url( $url_prefix.'/'.permalink($catLink['cat_name']) ).'" data-cat-id="'.$catLink['cat_ID'].'">'.$catLink['cat_name'].'</a>';
 

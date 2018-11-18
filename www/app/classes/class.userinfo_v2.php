@@ -6,29 +6,11 @@ class UserAccess {
 	// The user ID
 	public static $user_ID;
 
-	// The user data
-	public $userData;
-
 
 
 
 	// SETTERS:
 	public function __construct() {
-
-		$userInfo = $this->getInfo(null, true);
-
-		$this->userData = array(
-			'userName' => $userInfo['user_name'],
-			'firstName' => $userInfo['user_first_name'],
-			'lastName' => $userInfo['user_last_name'],
-			'fullName' => $userInfo['user_first_name']." ".$userInfo['user_last_name'],
-			'nameAbbr' => substr($userInfo['user_first_name'], 0, 1).substr($userInfo['user_last_name'], 0, 1),
-			'email' => $userInfo['user_email'],
-			'userPic' => $userInfo['user_picture'],
-			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('user-'.self::$user_ID.'/'.$userInfo['user_picture']) : asset_url('icons/follower-f.svg')
-		);
-
-		$this->userData['printPicture'] = $userInfo['user_picture'] != "" ? 'style="background-image: url('.$this->userData['userPicUrl'].');"' : false;
 
     }
 
@@ -55,10 +37,34 @@ class UserAccess {
     public function getInfo($columns = null, $array = false) {
 	    global $db;
 
-	    // GET IT FROM DB...
 	    $db->where("user_ID", self::$user_ID);
 
 		return $array ? $db->getOne("users", $columns) : $db->getValue("users", $columns);
+    }
+
+
+
+    // Get the user data
+    public function getData() {
+
+		// Get from DB
+		$userInfo = $this->getInfo(null, true);
+
+		// Prepare the data
+		$userData = array(
+			'userName' => $userInfo['user_name'],
+			'firstName' => $userInfo['user_first_name'],
+			'lastName' => $userInfo['user_last_name'],
+			'fullName' => $userInfo['user_first_name']." ".$userInfo['user_last_name'],
+			'nameAbbr' => substr($userInfo['user_first_name'], 0, 1).substr($userInfo['user_last_name'], 0, 1),
+			'email' => $userInfo['user_email'],
+			'userPic' => $userInfo['user_picture'],
+			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('user-'.self::$user_ID.'/'.$userInfo['user_picture']) : asset_url('icons/follower-f.svg')
+		);
+		$userData['printPicture'] = $userInfo['user_picture'] != "" ? 'style="background-image: url('.$userData['userPicUrl'].');"' : false;
+
+
+		return $userData;
     }
 
 
@@ -107,9 +113,15 @@ class UserAccess {
 
 
 
-    // Get current user projects
-    public function getCategorizedData($catFilter = "", $order = "", $data_type = "project", $project_ID = null) {
-		global $db;
+	// Bring data that's mine or shared to me
+    public function getMy($data_type = "projects", $catFilter = "", $order = "", $project_ID = null) {
+		global $db, $mySharedPages;
+
+
+		// Correct the data type
+		$data_type = substr($data_type, 0, -1);
+
+
 
 		// Bring the shared projects
 		if ($data_type == "project") {
@@ -152,22 +164,29 @@ class UserAccess {
 		// PROJECT EXCEPTIONS
 		if ($data_type == "project") {
 
+
+			// If shared pages exist
+			$find_in = "";
+			if ( count($mySharedProjectsFromPages) > 0 ) {
+
+				$project_IDs = join("','", $mySharedProjectsFromPages);
+				$find_in = "OR p.project_ID IN ('$project_IDs')";
+
+			}
+
+
 			$db->where('(
 				p.user_ID = '.self::$user_ID.'
 				OR s.share_to = '.self::$user_ID.'
+				'.$find_in.'
 			)');
 
-			if ( count($mySharedProjectsFromPages) > 0 ) $db->orWhere('project_ID', $mySharedProjectsFromPages, 'IN');
 
 		}
 
 
 		// PAGE EXCEPTIONS
 		if ($data_type == "page") {
-
-
-			//$mySharedProjects = $this->getMy('projects');
-			//$mySharedPagesFromProjects = array_unique(array_column($mySharedProjects, 'page_ID'));
 
 
 			// Bring the project info
@@ -260,107 +279,42 @@ class UserAccess {
 
 
 
-
-
-
-
-    public function getMy($data_type = "projects", $object_ID = null, $project_ID = null) {
+    // Get device data
+    public function getDeviceData() {
 	    global $db;
 
-		// Correct the data type
-		$data_type = substr($data_type, 0, -1);
+
+		// Bring the device category info
+		$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
+
+		$db->where('d.device_user_ID', 1); // !!! ?
+
+		$db->orderBy('d_cat.device_cat_order', 'asc');
+		$db->orderBy(' d.device_order', 'asc');
+		$devices = $db->get('devices d');
 
 
-		// Bring the shared ones
-		$db->join("shares s", "p.".$data_type."_ID = s.shared_object_ID", "LEFT");
-		$db->joinWhere("shares s", "s.share_type", $data_type);
-		$db->joinWhere("shares s", "s.share_to", self::$user_ID);
+		// Prepare the devices data
+		$device_data = [];
+		foreach ($devices as $device) {
 
+			if ( !isset($device_data[$device['device_cat_ID']]['devices']) ) {
 
-
-		// PROJECT EXCEPTIONS
-		if ($data_type == "project") {
-
-
-/*
-			// Bring the shared pages
-			if ($data_type == "project") {
+				$device_data[$device['device_cat_ID']] = array(
+					'device_cat_icon' => $device['device_cat_icon'],
+					'device_cat_name' => $device['device_cat_name'],
+					'devices' => array(),
+				);
 
 			}
-*/
 
-
-
-			$db->where('(
-				p.user_ID = '.self::$user_ID.'
-				OR s.share_to = '.self::$user_ID.'
-			)');
-
-
-			//$db->orWhere('project_ID', $mySharedProjectsFromPages, 'IN');
+			$device_data[$device['device_cat_ID']]['devices'][$device["device_ID"]] = $device;
 
 		}
 
 
-		// PAGE EXCEPTIONS
-		if ($data_type == "page") {
-
-
-			// Bring the project info
-			$db->join("projects pr", "pr.project_ID = p.project_ID", "LEFT");
-
-
-			// Bring project share info
-			$db->join("shares sp", "p.project_ID = sp.shared_object_ID", "LEFT");
-			$db->joinWhere("shares sp", "sp.share_type", 'project');
-
-
-
-			// Bring the devices
-			$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
-
-
-			// Bring the device category info
-			$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
-
-
-
-			$db->where('(
-				p.user_ID = '.self::$user_ID.'
-				OR s.share_to = '.self::$user_ID.'
-				OR pr.user_ID = '.self::$user_ID.'
-				OR sp.share_to = '.self::$user_ID.'
-			)');
-
-
-
-			// Exclude the other project pages
-			if ($project_ID) $db->where('p.project_ID', $project_ID);
-
-		}
-
-
-		// Exclude the other projects
-		if ($object_ID) $db->where("p.".$data_type."_ID", $object_ID);
-
-
-		// My pages in this project
-		return $db->get($data_type.'s p');
-
+		return $device_data;
     }
 
-
-
-
-
-
-    // Print picture image
-    public function printPicture() {
-
-		if ($this->userPic != "")
-			return 'style="background-image: url('.$this->userPicUrl.');"';
-
-	    return false;
-    }
 
 }

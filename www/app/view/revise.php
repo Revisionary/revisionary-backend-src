@@ -82,7 +82,7 @@
 
 					<span class="dropdown-container">
 						<a href="<?=site_url('project/'.$project_ID)?>" class="dropdown-opener">
-							<?=Project::ID($project_ID)->getInfo('project_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+							<?=$projectInfo['project_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 						</a>
 						<nav class="dropdown">
 							<ul>

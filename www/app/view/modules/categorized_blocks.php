@@ -22,9 +22,16 @@
 
 			// THE CATEGORY LOOP
 			$data_count = 0;
-			$categories = UserAccess::ID()->getCategories($dataType, $order, ($dataType == "page" ? $project_ID : null));
-			//print_r($categories); exit;
 			foreach ($categories as $category) {
+
+
+				// Category Filter
+				if (
+					$catFilter != ""
+					&& $catFilter != "mine"
+					&& $catFilter != "shared"
+					&& $catFilter != permalink($category['cat_name'])
+				) continue;
 
 
 				// Category action URL
@@ -83,7 +90,7 @@
 							// Update the screenshots on DB
 							$block_image_name = $dataType.'.jpg';
 
-							if ($dataType == "project") $block_image_uri = Project::ID($block[$dataType.'_ID'])->projectDir."/$block_image_name";
+							if ($dataType == "project") $block_image_uri = Project::ID($block[$dataType.'_ID'])->getDir()."/$block_image_name";
 							else $block_image_uri = Page::ID($block[$dataType.'_ID'])->pageDeviceDir."/$block_image_name";
 
 
@@ -592,7 +599,7 @@
 						?>
 					</div>
 					<div class="date-statistics">
-						<b>Created:</b> <?=timeago(Project::ID($project_ID)->getInfo('project_created') )?><br/>
+						<b>Created:</b> <?=timeago($projectInfo['project_created'])?><br/>
 						<b>Modified:</b> <?=timeago($project_modified)?>
 					</div>
 				</div>

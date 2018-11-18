@@ -16,7 +16,7 @@ class Device {
 	public function __construct() {
 
 		// Set the project name
-        $this->device_name = $this->getInfo('device_name');
+        //$this->device_name = $this->getInfo('device_name');
 
     }
 
@@ -32,21 +32,16 @@ class Device {
 
 
 
-
 	// GETTERS:
 
-    // Get device info
-    public function getInfo($column) {
+    // Get a device info
+    public function getInfo($columns = null, $array = false) {
 	    global $db;
 
-	    $db->where('device_ID', self::$device_ID);
-	    $device = $db->getOne('devices', $column);
-		if ($device)
-			return $device[$column];
+	    $db->where("device_ID", self::$device_ID);
 
-	    return false;
+		return $array ? $db->getOne("devices", $columns) : $db->getValue("devices", $columns);
     }
-
 
 
 

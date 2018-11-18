@@ -36,15 +36,12 @@ class Version {
 	// GETTERS:
 
     // Get version info
-    public function getInfo($column) {
+    public function getInfo($columns = null, $array = false) {
 	    global $db;
 
 	    $db->where('version_ID', self::$versionId);
-	    $version = $db->getOne('versions', $column);
-		if ($version)
-			return $version[$column];
 
-	    return false;
+	    return $array ? $db->getOne("versions", $columns) : $db->getValue("versions", $columns);
     }
 
 }

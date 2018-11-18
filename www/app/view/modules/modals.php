@@ -352,7 +352,7 @@ if ( isset($project_ID) ) {
 							<!-- Owner -->
 							<li class="inline-guys member">
 
-								<?php $project_user_ID = Project::ID($project_ID)->getInfo('user_ID'); ?>
+								<?php $project_user_ID = $projectInfo['user_ID']; ?>
 
 								<picture class="profile-picture big" <?=getUserData($project_user_ID)['printPicture']?>>
 									<span <?=getUserData($project_user_ID)['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData($project_user_ID)['nameAbbr']?></span>

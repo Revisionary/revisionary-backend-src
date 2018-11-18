@@ -1,24 +1,11 @@
 <?php
 
-
-/*
-$mySharedPages = UserAccess::ID()->getMy('projects');
-//$mySharedProjects = array_unique(array_column($mySharedPages, 'page_ID'));
-
-
-echo "<pre>";
-print_r( $mySharedPages );
-echo "</pre>";
-exit;
-*/
-
-
 function the_data() {
 	global $order, $catFilter, $deviceFilter, $dataType, $project_ID, $thePreparedData;
 
 
 	// Get the current user projects with categories
-	$objects = UserAccess::ID()->getCategorizedData($catFilter, $order, $dataType, $project_ID);
+	$objects = UserAccess::ID()->getMy($dataType."s", $catFilter, $order, $project_ID);
 
 	//return $objects;
 

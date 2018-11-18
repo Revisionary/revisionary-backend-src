@@ -91,30 +91,32 @@ class Page {
 
 	public function __construct() {
 
+		$pageInfo = $this->getInfo(null, true);
+
 		// Set the project ID
-        $this->project_ID = $this->getInfo('project_ID');
+        $this->project_ID = $pageInfo['project_ID'];
 
         // Set the version number
         if (self::$setPageVersion == null) $this->pageVersion = $this->getPageVersion();
         else $this->pageVersion = self::$setPageVersion;
 
         // Set the device
-        $this->pageDevice = $this->getInfo('device_ID');
+        $this->pageDevice = $pageInfo['device_ID'];
 
 		// Set the remote url
-        $this->remoteUrl = $this->getInfo('page_url');
+        $this->remoteUrl = $pageInfo['page_url'];
 
         // Set the user ID
-        $this->user_ID = $this->getInfo('user_ID');
+        $this->user_ID = $pageInfo['user_ID'];
 
         // Set the internalization count
-		$this->internalizeCount = $this->getInfo('page_internalized');
+		$this->internalizeCount = $pageInfo['page_internalized'];
 
 
 		// Paths
         $userPath = $this->userPath = "user-".$this->user_ID;
         $projectPath = $this->projectPath = "project-".$this->project_ID;
-        $pagePath = $this->pagePath = "page-".($this->getInfo('parent_page_ID') != null ? $this->getInfo('parent_page_ID') : self::$page_ID);
+        $pagePath = $this->pagePath = "page-".($pageInfo['parent_page_ID'] != null ? $pageInfo['parent_page_ID'] : self::$page_ID);
         $devicePath = $this->devicePath = "device-".$this->pageDevice;
         $versionPath = $this->versionPath = $this->pageVersion;
 
@@ -137,7 +139,7 @@ class Page {
         $this->pageFile = $this->pageDir."/".$this->pageFileName;
 
         // Set the page image file path
-        $this->pageImagePath = $this->pageDeviceDir."/".$this->getInfo('page_pic');
+        $this->pageImagePath = $this->pageDeviceDir."/".$pageInfo['page_pic'];
 
         // Set the log file
         $this->logDir = $this->pageDir."/logs";
@@ -179,15 +181,12 @@ class Page {
 	// GETTERS:
 
 	// Get page info
-    public function getInfo($column) {
+    public function getInfo($columns = null, $array = false) {
 	    global $db;
 
 	    $db->where('page_ID', self::$page_ID);
-	    $page = $db->getOne('pages', $column);
-		if ($page)
-			return $page[$column];
 
-	    return false;
+	    return $array ? $db->getOne("pages", $columns) : $db->getValue("pages", $columns);
     }
 
 
