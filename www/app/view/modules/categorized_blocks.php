@@ -30,6 +30,8 @@
 					$catFilter != ""
 					&& $catFilter != "mine"
 					&& $catFilter != "shared"
+					&& $catFilter != "archived"
+					&& $catFilter != "deleted"
 					&& $catFilter != permalink($category['cat_name'])
 				) continue;
 
