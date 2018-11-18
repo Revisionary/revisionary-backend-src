@@ -61,6 +61,10 @@ $log = new Katzgrau\KLogger\Logger(
 load_session();
 
 
+$debug_mode = false;
+if ($debug_mode) $db->setTrace(true);
+
+
 // The Users global
 $Users = array();
 
