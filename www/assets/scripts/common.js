@@ -773,7 +773,8 @@ function ajax(type, givenData = {}) {
 		url: ajax_url,
 		data: givenData,
 		//async: false,
-		dataType: 'json'
+		dataType: 'json',
+		timeout: 10000
 	});
 
 }

@@ -4,7 +4,97 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 
 
 	var statusCheckRequest = null;
-	var statusCheckTimer = setInterval(function() {
+	//var statusCheckTimer = setInterval(function() {
+
+
+/*
+	// Abort the latest request if not finalized
+	if(statusCheckRequest && statusCheckRequest.readyState != 4) {
+		console.log('Latest status check request aborted');
+		statusCheckRequest.abort();
+	}
+*/
+
+
+	// Get the up-to-date pins
+	statusCheckRequest = ajax('internalize-status',
+	{
+		'page_ID'		: page_ID,
+		'queue_ID'		: queue_ID,
+		'processID'		: processID
+
+	}).done(function(result) {
+
+		var data = result.data.final;
+
+
+		// LOG
+		$.each(result.data, function(key, value){
+
+			// Append the log !!!
+			if (key != "final")	console.log(key + ': ', value);
+
+		});
+
+
+		// Update the proggress bar
+		var width = data.processPercentage;
+		editProcess(loadingProcessID, width);
+
+
+		// Finish the process if done
+		if (width == 100)
+			endProcess(loadingProcessID);
+
+
+		// Print the current status
+		$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
+
+
+		// Print the error message when stops before completion
+		if (data.status == "not-running" &&	data.processStatus != "ready") {
+			$('#loading-info').text( 'Error');
+			editProcess(loadingProcessID, 0);
+		}
+
+
+		// If successfully downloaded
+		if (width == 100 && data.processStatus == "ready") {
+
+			// Update the global page URL
+			page_URL = data.pageUrl + '?v=' + data.internalized;
+
+
+			// Update the iframe url
+			$('iframe').attr('src', page_URL);
+
+
+			// Run the inspector
+			runTheInspector();
+
+		}
+
+
+/*
+		// Stop if process is not working or complete
+		if (data.status == "not-running" ||	data.processStatus == "ready")
+			clearTimeout(statusCheckTimer);
+*/
+
+
+		// Restart if not done
+		if (data.status != "not-running" &&	data.processStatus != "ready") {
+
+			setTimeout(function() {
+
+				checkPageStatus(page_ID, queue_ID, processID, loadingProcessID);
+
+			}, 1000);
+
+		}
+
+
+	}).fail(function() {
 
 
 		// Abort the latest request if not finalized
@@ -13,75 +103,17 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 			statusCheckRequest.abort();
 		}
 
+		setTimeout(function() {
 
-		// Get the up-to-date pins
-		statusCheckRequest = ajax('internalize-status',
-		{
-			'page_ID'		: page_ID,
-			'queue_ID'		: queue_ID,
-			'processID'		: processID
+			checkPageStatus(page_ID, queue_ID, processID, loadingProcessID);
 
-		}).done(function(result) {
-
-			var data = result.data.final;
+		}, 1000);
 
 
-			// LOG
-			$.each(result.data, function(key, value){
-
-				// Append the log !!!
-				if (key != "final")	console.log(key + ': ', value);
-
-			});
+	});
 
 
-			// Update the proggress bar
-			var width = data.processPercentage;
-			editProcess(loadingProcessID, width);
-
-
-			// Finish the process if done
-			if (width == 100)
-				endProcess(loadingProcessID);
-
-
-			// Print the current status
-			$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
-
-
-			// Print the error message when stops before completion
-			if (data.status == "not-running" &&	data.processStatus != "ready") {
-				$('#loading-info').text( 'Error');
-				editProcess(loadingProcessID, 0);
-			}
-
-
-			// If successfully downloaded
-			if (width == 100 && data.processStatus == "ready") {
-
-				// Update the global page URL
-				page_URL = data.pageUrl + '?v=' + data.internalized;
-
-
-				// Update the iframe url
-				$('iframe').attr('src', page_URL);
-
-
-				// Run the inspector
-				runTheInspector();
-
-			}
-
-
-			// Stop if process is not working or complete
-			if (data.status == "not-running" ||	data.processStatus == "ready")
-				clearTimeout(statusCheckTimer);
-
-
-		});
-
-
-	}, 1000);
+	//}, 1000);
 
 }
 
