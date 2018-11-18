@@ -332,7 +332,7 @@
 				<div class="col version">
 
 					<div class="desc nomargin">Page Version</div>
-					<a href="#" class="button"><i class="fa fa-code-branch"></i> <?=Page::ID($page_ID)->pageVersion?>.0</a>
+					<a href="#" class="button bottom-tooltip" data-tooltip="Coming Soon..."><i class="fa fa-code-branch"></i> <?=Page::ID($page_ID)->pageVersion?>.0</a>
 
 				</div>
 			</div>
