@@ -20,7 +20,7 @@ function the_data() {
 			$thePreparedData[ $object["project_ID"] ] = $object;
 
 
-		// Page data
+		// Parent Page Data
 		if ($dataType == "page" && $object['parent_page_ID'] == null && empty($deviceFilter)) {
 			$thePreparedData[ $object["page_ID"] ] = $object;
 			$thePreparedData[ $object["page_ID"] ]['subPageData'] = array();
@@ -36,13 +36,33 @@ function the_data() {
 		foreach ($objects as $object) {
 
 
-			if ($object['parent_page_ID'] != null && empty($deviceFilter))
-				$thePreparedData[ $object['parent_page_ID'] ]['subPageData'][] = $object;
-
-
-			if (!empty($deviceFilter)) {
+			// Show the device pages separately when device filter selected
+			if ( !empty($deviceFilter) ) {
 				$thePreparedData[ $object['page_ID'] ] = $object;
-				$thePreparedData[ $object["page_ID"] ]['subPageData'] = array();
+				$thePreparedData[ $object['page_ID'] ]['subPageData'] = array();
+			}
+
+
+			// Sub Page Data
+			if (
+				$object['parent_page_ID'] != null
+				&& empty($deviceFilter)
+			) {
+
+
+				// If no parent page data added, add the subpage data there
+				if ( !isset($thePreparedData[ $object['parent_page_ID'] ]) ) {
+
+					$thePreparedData[ $object['parent_page_ID'] ] = $object;
+					$thePreparedData[ $object['parent_page_ID'] ]['subPageData'] = array();
+
+				} else {
+
+					$thePreparedData[ $object['parent_page_ID'] ]['subPageData'][] = $object;
+
+				}
+
+
 			}
 
 
@@ -50,10 +70,14 @@ function the_data() {
 
 	}
 
+	//return $thePreparedData;
+
 
 	// Categorize the pages
 	$theData = [];
 	foreach ($thePreparedData as $object) {
+
+		//echo "object: ";print_r($object);
 
 		if ( $object['cat_ID'] == null ) $object['cat_ID'] = 0;
 		if ( $object['cat_name'] == null ) $object['cat_name'] = 'Uncategorized';
