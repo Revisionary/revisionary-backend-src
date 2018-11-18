@@ -252,21 +252,19 @@ foreach($theCategorizedData as $categories) {
 
 
 
-// DEVICE INFO
-$device_data = UserAccess::ID()->getDeviceData();
-//echo "<pre>"; print_r($device_data); exit();
-
-
-
 // PROJECT INFO
 $projectInfo = Project::ID($project_ID)->getInfo(null, true);
 //echo "<pre>"; print_r($projectInfo); exit();
 
 
-
 // CATEGORY INFO
 $categories = UserAccess::ID()->getCategories($dataType, $order, $project_ID);
 //print_r($categories); exit;
+
+
+// DEVICE INFO
+$device_data = UserAccess::ID()->getDeviceData();
+//echo "<pre>"; print_r($device_data); exit();
 
 
 

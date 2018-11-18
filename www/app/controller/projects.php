@@ -101,16 +101,14 @@ $pageCounts = array_count_values($pageCount);
 //echo "<pre>"; print_r( $pageCount ); die();
 
 
+// CATEGORY INFO
+$categories = UserAccess::ID()->getCategories($dataType, $order);
+//print_r($categories); exit;
+
 
 // DEVICE INFO
 $device_data = UserAccess::ID()->getDeviceData();
 //echo "<pre>"; print_r($device_data); exit();
-
-
-
-// CATEGORY INFO
-$categories = UserAccess::ID()->getCategories($dataType, $order);
-//print_r($categories); exit;
 
 
 
