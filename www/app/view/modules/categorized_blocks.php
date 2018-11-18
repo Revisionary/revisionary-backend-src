@@ -83,7 +83,7 @@
 						$block_url = site_url('project/'.$block[$dataType.'_ID']);
 
 
-						// THUMBNAIL CHECK
+						// THUMBNAIL
 						if ( $block[$dataType.'_pic'] == null ) {
 
 
@@ -182,12 +182,8 @@
 											<?php
 
 											// SHARES QUERY
-
-											// Exlude other types
-											$db->where('share_type', $dataType);
-
-											// Is this block?
-											$db->where('shared_object_ID', $block[$dataType.'_ID']);
+											$db->where('share_type', $dataType); // Exlude other types
+											$db->where('shared_object_ID', $block[$dataType.'_ID']); // Is this block?
 
 											// Get the data
 											$blockShares = $db->get('shares', null, "share_to, sharer_user_ID");
@@ -360,13 +356,13 @@
 											<?php
 											if ($dataType == "page") {
 
-												$pageStatus = Page::ID($block['page_ID'])->getPageStatus(true)['status'];
+												//$pageStatus = Page::ID( $block['page_ID'] )->getPageStatus(true)['status'];
 											?>
 
 
 												<!-- Current Device -->
 												<a href="<?=site_url('revise/'.$block['page_ID'])?>" data-status="<?=$pageStatus?>">
-													<i class="fa <?=$block['device_cat_icon']?>" data-tooltip="<?=$block['device_name']?>: <?=ucfirst($pageStatus)?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
+													<i class="fa <?=$block['device_cat_icon']?>" data-tooltip="<?=$block['device_cat_name']?> (<?=$block['device_width']?>x<?=$block['device_height']?>)" aria-hidden="true"></i>
 												</a>
 
 												<?php
@@ -381,12 +377,12 @@
 													$all_devices = $block['subPageData'];
 													foreach ($all_devices as $device) {
 
-														$pageStatus = Page::ID($device['page_ID'])->getPageStatus(true)['status'];
+														//$pageStatus = Page::ID($device['page_ID'])->getPageStatus(true)['status'];
 
 												?>
 
 														<a href="<?=site_url('revise/'.$device['page_ID'])?>" data-status="<?=$pageStatus?>">
-															<i class="fa <?=$device['device_cat_icon']?>" data-tooltip="<?=$device['device_name']?>: <?=ucfirst($pageStatus)?>" aria-hidden="true" <?=$pageStatus != "ready" ? "style='color: red;'" : ""?>></i>
+															<i class="fa <?=$device['device_cat_icon']?>" data-tooltip="<?=$device['device_cat_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)" aria-hidden="true"></i>
 														</a>
 
 													<?php
@@ -427,8 +423,7 @@
 												$db->where('page_ID', $block['page_ID']);
 												$db->where('user_ID', currentUserID());
 
-												// Show the final one
-												$db->orderBy('version_number');
+												$db->orderBy('version_number'); // Show the final one
 
 											    $pageVersion = $db->getValue('versions', 'version_number');
 */
