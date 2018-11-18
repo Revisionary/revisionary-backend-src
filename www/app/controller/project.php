@@ -192,8 +192,8 @@ if (
 	// Add the pages
 	$parent_page_ID = Page::ID()->addNew(
 		post('page-url'),
-		post('page-name'),
 		post('project_ID'),
+		post('page-name'),
 		post('category'),
 		post('order'),
 		is_array(post('devices')) ? post('devices') : array(), // Device IDs array

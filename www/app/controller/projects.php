@@ -14,12 +14,20 @@ if ( !userloggedIn() ) {
 // ADD NEW
 if (
 	post('add_new') == "true"
+	&& post('page-url') != ""
 	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
 ) {
 
 
+	// Add the domain name as project name if not already entered
+	$project_name = post('project-name');
+	if ($project_name == "")
+		$project_name = ucwords( str_replace('-', ' ', explode('.', parseUrl(post('page-url'))['domain'])[0]) );
+
+
+
 	$project_ID = Project::ID()->addNew(
-		post('project-name'),
+		$project_name,
 		post('category'),
 		post('order'),
 		is_array(post('project_shares')) ? post('project_shares') : array()
@@ -31,7 +39,6 @@ if (
 	$firstPageAdded = false;
 	if (
 		post('page-url') != "" &&
-		post('page-name') != "" &&
 		is_array(post('devices')) &&
 		count(post('devices')) > 0
 	) {
@@ -40,8 +47,8 @@ if (
 		// Add the pages
 		$parent_page_ID = Page::ID()->addNew(
 			post('page-url'),
-			post('page-name'),
 			$project_ID,
+			post('page-name'),
 			0, // Category ID
 			post('order'),
 			is_array(post('devices')) ? post('devices') : array(), // Device IDs array

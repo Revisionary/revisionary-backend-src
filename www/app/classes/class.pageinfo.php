@@ -370,8 +370,8 @@ class Page {
     // Add a new page
     public function addNew(
     	string $page_url,
-    	string $page_name,
     	int $project_ID, // The project_ID that new page is belong to
+    	string $page_name = '',
     	int $category_ID = 0, // The category_ID that new page is belong to
     	int $order_number = 0, // The order number
     	array $devices = array(4), // Array of device_IDs
@@ -384,11 +384,22 @@ class Page {
 
 
 		// Security check !!!
-		if ( $page_url == "" || $page_name == "" ) return false;
+		if ( $page_url == "" || $project_ID == "" ) return false;
 
 
 
 		// More DB Checks of arguments !!!
+
+
+
+		// If no name added, try finding page name from URL
+		if ($page_name == '') {
+			$pathes = explode('/', trim(parse_url($page_url)['path'], '/'));
+			$page_name = ucwords(str_replace('-', ' ', end($pathes)));
+		}
+
+		if ($page_name == '')
+			$page_name = 'Untitled';
 
 
 

@@ -118,7 +118,9 @@ function the_data() {
 
 /*
 echo "<pre>";
-//print_r($theData);
+$url = 'https://www.bilaltas.net/resume/my-resume/';
+$pathes = explode('/', trim(parse_url($url)['path'], '/'));
+print_r( end($path) );
 echo "</pre> ***********************************************************";
 //exit;
 */

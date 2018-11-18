@@ -134,22 +134,44 @@ function page_members() {
 			<div class="col xl-5-7">
 
 
-				<h4 class="section-title xl-left">Project Info</h4>
+				<h4 class="section-title xl-left">Page Info</h4>
 
-				<h3>Project Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this project." aria-hidden="true"></i></h3>
-				<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." tabindex="1" autofocus required/>
+				<h3><i class="fa fa-link"></i> First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
+				<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
+				<small class="design-uploader">or <a href="#" data-tooltip="Not working yet.">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
 
 
-				<a href="#" class="option-toggler more-options">More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+				<?=print_device_selector()?><br/><br/>
 
-				<a href="#" class="option-toggler less-options">Less Options <i class="fa fa-caret-up" aria-hidden="true"></i></a>
+
+
+				<a href="#" class="option-toggler more-options"><i class="fa fa-sliders-h"></i> More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+				<a href="#" class="option-toggler less-options"><i class="fa fa-sliders-h"></i> Less Options <i class="fa fa-caret-up" aria-hidden="true"></i><hr/></a>
 
 
 				<!-- More Options -->
 				<div class="more-options-wrapper">
 
 
-					<h3>Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Sharing to emails that are not users is not working right now." aria-hidden="true"></i></h3>
+
+					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this page like Home, About, ..." aria-hidden="true"></i></h3>
+					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="2"/>
+
+
+					<?=page_members()?><br/><br/>
+
+
+
+
+					<h4 class="section-title xl-left">Project Info</h4>
+
+					<h3>Project Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this project." aria-hidden="true"></i></h3>
+					<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." tabindex="3" />
+
+
+
+
+					<h3><i class="fa fa-share-alt xl-hidden"></i> Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Sharing to emails that are not users is not working right now." aria-hidden="true"></i></h3>
 					<div class="people">
 
 
@@ -177,25 +199,6 @@ function page_members() {
 
 
 					</div>
-					<br/>
-
-
-					<h4 class="section-title xl-left">Page Info</h4>
-
-					<h3><i class="fa fa-link"></i> First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
-					<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="2" required disabled/>
-					<small class="design-uploader">or <a href="#" data-tooltip="Not working yet.">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
-
-
-					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this page like Home, About, ..." aria-hidden="true"></i></h3>
-					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="3" required disabled/>
-
-
-					<?=print_device_selector()?>
-
-
-					<?=page_members()?>
-
 					<br/>
 
 
@@ -262,23 +265,22 @@ if ( isset($project_ID) ) {
 				<small class="design-uploader">or <a href="#" data-tooltip="Not working yet.">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
 
 
-				<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
-				<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="2" required/>
-
-
-
 				<?=print_device_selector()?>
 
 
 				<br/>
 				<br/>
-				<a href="#" class="option-toggler more-options"><i class="fa fa-share-alt"></i> Sharing Options (Optional) <i class="fa fa-caret-down" aria-hidden="true"></i></a>
-
-				<a href="#" class="option-toggler less-options"><i class="fa fa-share-alt"></i> Hide Sharing Options <i class="fa fa-caret-up" aria-hidden="true"></i></a>
+				<a href="#" class="option-toggler more-options"><i class="fa fa-sliders-h"></i> More Options (Optional) <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+				<a href="#" class="option-toggler less-options"><i class="fa fa-sliders-h"></i> Less Options <i class="fa fa-caret-up" aria-hidden="true"></i><hr/></a>
 
 
 				<!-- More Options -->
 				<div class="more-options-wrapper">
+
+
+					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
+					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="2"/>
+
 
 					<?=page_members()?>
 					<br/>
