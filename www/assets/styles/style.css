@@ -5257,6 +5257,9 @@ a {
     opacity: 0;
     transition: 0s;
     transition-delay: 500ms; }
+    .dropdown-container > nav.dropdown.right {
+      left: auto;
+      right: 0; }
     .dropdown-container > nav.dropdown:hover {
       opacity: 1;
       visibility: visible; }

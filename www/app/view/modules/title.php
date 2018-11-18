@@ -41,7 +41,7 @@
 					<?=$title == "pages" ? $projectInfo['project_name'] : strtoupper($title)?>
 				</h1>
 			</a>
-			<nav class="dropdown selectable">
+			<nav class="dropdown right selectable">
 				<ul class="projects-menu xl-left">
 					<li class="menu-item <?=$catFilter == "" ? "selected" : ""?>">
 						<a href="<?=site_url($url_prefix)?>">

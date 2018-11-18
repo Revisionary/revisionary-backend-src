@@ -400,6 +400,11 @@ a {
 		transition: 0s;
 		transition-delay: 500ms;
 
+		&.right {
+			left: auto;
+			right: 0;
+		}
+
 
 		&:hover {
 			opacity: 1;
