@@ -6141,7 +6141,8 @@ footer .footer-links a {
   .name-field.editing .actions input.edit-name {
     display: inline-block;
     font-size: 16px;
-    line-height: 18.4px; }
+    line-height: 18.4px;
+    max-width: 80%; }
 
 .sortable .sortable-placeholder {
   border: 5px dashed;
