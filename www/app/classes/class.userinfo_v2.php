@@ -267,6 +267,7 @@ class UserAccess {
 			null,
 			'
 				*,
+				p.user_ID as user_ID,
 				oc.sort_ID as cat_sort_ID,
 				oc.sort_type as cat_sort_type,
 				oc.sort_object_ID as cat_sort_object_ID,
