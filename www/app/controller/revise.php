@@ -46,12 +46,12 @@ $page = array_filter($allMyPages, function($pageFound) use ($page_ID) {
 $page = end($page);
 //echo "<pre>"; print_r($page); echo "</pre>"; die();
 
-
-// Check if page exists
+// Check if page not exists, redirect to the projects page
 if ( !$page ) {
 	header('Location: '.site_url('projects'));
 	die();
 }
+
 
 // Get parent page ID
 $parentpage_ID = $page['parent_page_ID'];
@@ -135,8 +135,6 @@ if ( substr($pageData->remoteUrl, 0, 7) == "http://" && ssl) {
 if ( !file_exists($pageData->logDir) )
 	mkdir($pageData->logDir, 0755, true);
 @chmod($pageData->logDir, 0755);
-
-
 
 
 

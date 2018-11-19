@@ -4,16 +4,6 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 
 
 	var statusCheckRequest = null;
-	//var statusCheckTimer = setInterval(function() {
-
-
-/*
-	// Abort the latest request if not finalized
-	if(statusCheckRequest && statusCheckRequest.readyState != 4) {
-		console.log('Latest status check request aborted');
-		statusCheckRequest.abort();
-	}
-*/
 
 
 	// Get the up-to-date pins
@@ -75,13 +65,6 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 		}
 
 
-/*
-		// Stop if process is not working or complete
-		if (data.status == "not-running" ||	data.processStatus == "ready")
-			clearTimeout(statusCheckTimer);
-*/
-
-
 		// Restart if not done
 		if (data.status != "not-running" &&	data.processStatus != "ready") {
 
@@ -112,8 +95,6 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 
 	});
 
-
-	//}, 1000);
 
 }
 
