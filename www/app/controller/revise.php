@@ -31,6 +31,38 @@ if ( !isset($page_ID) || !is_numeric($page_ID) ) {
 }
 
 
+
+// THE PAGE INFO
+
+// All my pages
+$allMyPages = UserAccess::ID()->getMy('pages');
+//echo "<pre>"; print_r($allMyPages); echo "</pre>"; die();
+
+
+// Find the current page
+$page = array_filter($allMyPages, function($pageFound) use ($page_ID) {
+    return ($pageFound['page_ID'] == $page_ID);
+});
+$page = end($page);
+//echo "<pre>"; print_r($page); echo "</pre>"; die();
+
+
+// Check if page exists
+if ( !$page ) {
+	header('Location: '.site_url('projects'));
+	die();
+}
+
+// Get parent page ID
+$parentpage_ID = $page['parent_page_ID'];
+
+// Get project ID
+$project_ID = $page['project_ID'];
+
+
+
+// VERSION INFO
+
 // Get the latest version !!! Check this
 $db->where('page_ID', $page_ID);
 if ( isset($version_number) ) $db->where('version_number', $version_number);
@@ -48,28 +80,9 @@ if ($version) {
 	// GIVE AN ERROR !!! Redirect to home
 
 	$version_ID = 0;
-	$version_number = "0.1";
+	$version_number = "1";
 
 }
-
-
-
-// THE PAGE INFO
-$pageData = Page::ID($page_ID);
-$page = $pageData->getInfo(null, true);
-
-// Check if page exists
-if ( !$page ) {
-	header('Location: '.site_url('projects'));
-	die();
-}
-
-
-// Get parent page ID
-$parentpage_ID = $page['parent_page_ID'];
-
-// Get project ID
-$project_ID = $page['project_ID'];
 
 
 
@@ -77,32 +90,23 @@ $project_ID = $page['project_ID'];
 
 // Get device ID
 $deviceID = $page['device_ID'];
-$deviceInfo = Device::ID($deviceID)->getInfo(null, true);
 
 // Get the device sizes
-$width = $page['page_width'] ? $page['page_width'] : $deviceInfo['device_width'];
-$height = $page['page_height'] ? $page['page_height'] : $deviceInfo['device_height'];
+$width = $page['page_width'] ? $page['page_width'] : $page['device_width'];
+$height = $page['page_height'] ? $page['page_height'] : $page['device_height'];
 
 // Get device name
-$device_name = $deviceInfo['device_name'];
+$device_name = $page['device_name'];
 
 // Get the device icon
-$deviceCatID = $deviceInfo['device_cat_ID'];
-$deviceIcon = $deviceInfo['device_cat_icon'];
+$deviceCatID = $page['device_cat_ID'];
+$deviceIcon = $page['device_cat_icon'];
 
-
-
-// Page Category !!! Check this
-$db->where('page_cat_page_ID', $page_ID);
-$db->orWhere('page_cat_page_ID', $parentpage_ID);
-$pageCatID = $db->getValue('page_cat_connect', 'page_cat_ID');
-
-$db->where('cat_ID', $pageCatID);
-$pageCat = $db->getOne('categories');
 
 
 // Screenshots
-$page_image = $pageData->pageDeviceDir."/page.jpg";
+$pageData = Page::ID($page_ID);
+$page_image = $pageData->pageImagePath;
 $project_image = $pageData->projectDir."/project.jpg";
 
 
@@ -154,11 +158,10 @@ $process_status = "";
 
 // If already working queue exists
 if (
-
 	!$forceReInternalize &&
-
 	$existing_queue != null
 ) {
+
 
 	// Error catch
 	if ( !is_array($existing_queue) || count($existing_queue) > 1  || count($existing_queue) == 0 )
@@ -194,8 +197,8 @@ if (
 
 	!$forceReInternalize &&
 
-	file_exists($pageData->pageDir) && // Folder is exist
-	file_exists($pageData->pageFile) && // HTML is downloaded
+	file_exists( $pageData->pageDir ) && // Folder is exist
+	file_exists( $pageData->pageFile ) && // HTML is downloaded
 	file_exists( $page_image ) && // Page image ready
 	file_exists( $project_image ) && // // Project image ready
 	file_exists( $pageData->logDir."/browser.log" ) && // No error on Browser
@@ -204,6 +207,7 @@ if (
 
 ) {
 
+
 	$process_status = "Already downloaded page #$page_ID is opening for user #".currentUserID().".";
 
 
@@ -211,17 +215,9 @@ if (
 	$log->info($process_status);
 
 
-	// Initiate Internalizator
-	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v4.php '.$page_ID.' '.session_id());
-	$process->run($pageData->logDir."/internalize-tasks-php.log", true);
-	$process_ID = $process->getPid();
-
-
-	$process_status .= " BackgroundProcess::getPid() -> ". $process->getPid();
-
-
 // Needs to be completely internalized
 } else {
+
 
 	$process_status = "Page #$page_ID needs to be re-internalized for user #".currentUserID().".";
 
@@ -264,9 +260,6 @@ if (
 
 
 
-
-
-
 // PROJECT SHARES QUERY
 
 // Exlude other types
@@ -278,8 +271,6 @@ $db->where('shared_object_ID', $project_ID);
 // Project shares data
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 //echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
-
-
 
 
 
@@ -297,11 +288,9 @@ $pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
 
 
-
 // DEVICE INFO
 $device_data = UserAccess::ID()->getDeviceData();
 //echo "<pre>"; print_r($device_data); exit();
-
 
 
 // PROJECT INFO
@@ -309,16 +298,13 @@ $projectInfo = Project::ID($project_ID)->getInfo(null, true);
 //echo "<pre>"; print_r($projectInfo); exit();
 
 
+// All my projects
+$allMyProjects = UserAccess::ID()->getMy('projects');
+//echo "<pre>"; print_r($allMyProjects); echo "</pre>"; die();
 
 
-// Bring the pages that user can access !!! Not deleted / archived ones, put this on a Access::ID() class!
 
-// My pages in this project
-$allMyPages = UserAccess::ID()->getMy('pages');
-//echo "<pre>"; print_r($allMyPages); echo "</pre>"; die();
-
-
-// Filters
+// FILTERS
 $pin_filter = "all";
 if (
 	get('filter') == "complete" ||
@@ -331,9 +317,7 @@ if (
 
 
 /*
-echo "<pre>";
-print_r($existing_queue);
-echo "</pre>";
+echo "<pre>"; print_r($existing_queue); echo "</pre>";
 
 echo $process_status."<br>";
 echo $process_ID;

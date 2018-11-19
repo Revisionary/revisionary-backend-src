@@ -97,8 +97,7 @@ class Page {
         $this->project_ID = $pageInfo['project_ID'];
 
         // Set the version number
-        if (self::$setPageVersion == null) $this->pageVersion = $this->getPageVersion();
-        else $this->pageVersion = self::$setPageVersion;
+        $this->pageVersion = self::$setPageVersion == null ? $this->getPageVersion() : self::$setPageVersion;
 
         // Set the device
         $this->pageDevice = $pageInfo['device_ID'];

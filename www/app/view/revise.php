@@ -4,7 +4,7 @@
 
 	user_ID = '<?=currentUserID()?>';
 	page_ID = '<?=$page_ID?>';
-	remote_URL = '<?=Page::ID($page_ID)->remoteUrl?>';
+	remote_URL = '<?=$pageData->remoteUrl?>';
 
 	version_number = '<?=$version_number?>';
 	version_ID = '<?=$version_ID?>';
@@ -18,7 +18,7 @@
 
 	<div class="progress-info">
 		<ul>
-			<li style="color: white;"><?=Page::ID($page_ID)->cachedUrl?></li>
+			<li style="color: white;"><?=$pageData->cachedUrl?></li>
 		</ul>
 	</div>
 
@@ -31,8 +31,8 @@
 	<span class="dates">
 
 		<?php
-		$date_created = timeago(Page::ID($page_ID)->getInfo('page_created') );
-		$last_updated = timeago(Page::ID($page_ID)->getInfo('page_modified') );
+		$date_created = timeago($page['page_created'] );
+		$last_updated = timeago($page['page_modified'] );
 
 		echo "<div class='date created'><b>Date Created:</b> $date_created</div>";
 		if ($date_created != $last_updated)
@@ -53,8 +53,6 @@
 	?>
 
 </div>
-
-
 
 
 
@@ -87,12 +85,11 @@
 						<nav class="dropdown">
 							<ul>
 								<?php
-								$other_projects = UserAccess::ID()->getMy('projects');
-								foreach ($other_projects as $project) {
+								foreach ($allMyProjects as $project) {
 
 
-									$pages_of_project = array_filter($allMyPages, function($page) use ($project) {
-									    return ($page['project_ID'] == $project['project_ID'] && $page['parent_page_ID'] == null);
+									$pages_of_project = array_filter($allMyPages, function($pageFound) use ($project) {
+									    return ($pageFound['project_ID'] == $project['project_ID'] && $pageFound['parent_page_ID'] == null);
 									});
 
 
@@ -109,11 +106,11 @@
 										<nav class="dropdown">
 											<ul>
 												<?php
-												foreach ($pages_of_project as $page) {
+												foreach ($pages_of_project as $pageFromProject) {
 
-													$selected = $page['page_ID'] == $page_ID || $page['page_ID'] == $parentpage_ID ? "class='selected'" : "";
+													$selected = $pageFromProject['page_ID'] == $page_ID || $pageFromProject['page_ID'] == $parentpage_ID ? "class='selected'" : "";
 												?>
-												<li <?=$selected?>><a href="<?=site_url('revise/'.$page['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$page['page_name']?></a></li>
+												<li <?=$selected?>><a href="<?=site_url('revise/'.$pageFromProject['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?></a></li>
 												<?php
 												}
 												?>
@@ -137,14 +134,14 @@
 
 
 				<?php
-				if ($pageCat['cat_name'] != "") {
+				if ($page['cat_name'] != null) {
 				?>
 				<div class="col categories">
 
 					<div class="desc">Category</div>
 
-					<a href="<?=site_url('project/'.$project_ID.'/'.permalink($pageCat['cat_name']))?>">
-						<?=$pageCat['cat_name']?>
+					<a href="<?=site_url('project/'.$project_ID.'/'.permalink($page['cat_name']))?>">
+						<?=$page['cat_name']?>
 					</a>
 					<sep><i class="fa fa-chevron-right"></i></sep>
 
@@ -159,21 +156,21 @@
 
 					<span class="dropdown-container">
 						<a href="<?=site_url('project/'.$project_ID)?>" class="dropdown-opener">
-							<?=Page::ID($page_ID)->getInfo('page_name')?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+							<?=$page['page_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 						</a>
 						<nav class="dropdown">
 							<ul>
 								<?php
 
-								$other_pages = array_filter($allMyPages, function($page) use ($project_ID) {
-									return ($page['project_ID'] == $project_ID && $page['parent_page_ID'] == null);
+								$other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) {
+									return ($pageFound['project_ID'] == $project_ID);
 								});
 
-								foreach ($other_pages as $page) {
+								foreach ($other_pages as $pageOther) { if ($pageOther['parent_page_ID'] != null) continue;
 
-									$selected = $page['page_ID'] == $page_ID || $page['page_ID'] == $parentpage_ID ? "class='selected'" : "";
+									$selected = $pageOther['page_ID'] == $page_ID || $pageOther['page_ID'] == $parentpage_ID ? "class='selected'" : "";
 								?>
-								<li <?=$selected?>><a href="<?=site_url('revise/'.$page['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$page['page_name']?></a></li>
+								<li <?=$selected?>><a href="<?=site_url('revise/'.$pageOther['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a></li>
 								<?php
 								}
 								?>
@@ -195,45 +192,17 @@
 					<span class="dropdown-container">
 
 						<a href="#" class="button dropdown-opener select-device"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i> <?=$device_name?> (<?=$width?>x<?=$height?>)  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
-						<?php
-
-						if ( $parentpage_ID == null ) $parentpage_ID = $page_ID;
-
-						// SUB PAGES QUERY
-
-						// Check if other devices available
-						$db->where("parent_page_ID", $parentpage_ID);
-						$db->orWhere("page_ID", $parentpage_ID);
-
-						// Bring the archive info
-						$db->join("archives arc", "arc.archived_object_ID = p.page_ID", "LEFT");
-						$db->joinWhere("archives arc", "arc.archiver_user_ID", currentUserID());
-						$db->joinWhere("archives arc", "arc.archive_type", "page");
-
-						// Bring the delete info
-						$db->join("deletes del", "del.deleted_object_ID = p.page_ID", "LEFT");
-						$db->joinWhere("deletes del", "del.deleter_user_ID", currentUserID());
-						$db->joinWhere("deletes del", "del.delete_type", "page");
-
-						// Exclude deleted and archived
-						$db->where('del.deleted_object_ID IS NULL');
-						$db->where('arc.archived_object_ID IS NULL');
-
-						// Bring the devices
-						$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
-
-						// Bring the device category info
-						$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
-
-						// Order by IDs
-						$db->orderBy('d.device_ID', 'asc');
-
-						$existing_devices = $db->get('pages p');
-
-						?>
 						<nav class="dropdown">
 							<ul class="xl-left">
 							<?php
+
+							if ( $parentpage_ID == null ) $parentpage_ID = $page_ID;
+
+
+							// EXISTING DEVICES
+							$existing_devices = array_filter($allMyPages, function($pageFound) use ($parentpage_ID) {
+								return ($pageFound['parent_page_ID'] == $parentpage_ID || $pageFound['page_ID'] == $parentpage_ID);
+							});
 							foreach ($existing_devices as $device) {
 								if ($device['page_ID'] == $page_ID) continue;
 
@@ -242,8 +211,8 @@
 								$existing_device_width = $device['device_width'];
 								$existing_device_height = $device['device_height'];
 
-								$page_width = Page::ID($device['page_ID'])->getInfo('page_width');
-								$page_height = Page::ID($device['page_ID'])->getInfo('page_height');
+								$page_width = $device['page_width'];
+								$page_height = $device['page_height'];
 
 								if ($page_width != null && $page_width != null) {
 									$existing_device_width = $page_width;
@@ -331,7 +300,7 @@
 				<div class="col version">
 
 					<div class="desc nomargin">Page Version</div>
-					<a href="#" class="button bottom-tooltip" data-tooltip="Coming Soon..."><i class="fa fa-code-branch"></i> <?=Page::ID($page_ID)->pageVersion?>.0</a>
+					<a href="#" class="button bottom-tooltip" data-tooltip="Coming Soon..."><i class="fa fa-code-branch"></i> <?=$pageData->pageVersion?>.0</a>
 
 				</div>
 			</div>
