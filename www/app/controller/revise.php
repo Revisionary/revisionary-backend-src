@@ -6,6 +6,15 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 $forceReInternalize = get('redownload') === "" ? true : false;
 
 
+
+// Get the page ID
+$page_ID = $_url[1];
+
+// Get the version number
+$version_number = isset($_url[2]) ? $_url[2] : null; // Check if version exists !!!
+
+
+
 // SECURITY CHECKS
 
 // If not logged in, go login page !!! Change when public revising available
@@ -16,29 +25,13 @@ if (!userloggedIn()) {
 
 
 // If no page specified or not numeric, go projects page
-if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
+if ( !isset($page_ID) || !is_numeric($page_ID) ) {
 	header('Location: '.site_url('projects'));
 	die();
 }
 
 
-// If page doesn't exist
-$db->where("page_ID", $_url[1]);
-$page = $db->getOne("pages", "page_ID, user_ID");
-if ( !$page ) {
-	header('Location: '.site_url('projects'));
-	die();
-}
-
-
-
-// Get the page ID
-$page_ID = $_url[1]; // Check if page exists !!!
-
-// Get the version number
-$version_number = isset($_url[2]) ? $_url[2] : null; // Check if version exists !!!
-
-// Get the latest version
+// Get the latest version !!! Check this
 $db->where('page_ID', $page_ID);
 if ( isset($version_number) ) $db->where('version_number', $version_number);
 $db->orderBy('version_number');
@@ -46,42 +39,60 @@ $version = $db->getOne('versions');
 
 // If version found
 if ($version) {
+
 	$version_ID = $version['version_ID'];
 	$version_number = $version['version_number'];
+
 } else {
 
 	// GIVE AN ERROR !!! Redirect to home
 
 	$version_ID = 0;
 	$version_number = "0.1";
+
+}
+
+
+
+// THE PAGE INFO
+$pageData = Page::ID($page_ID);
+$page = $pageData->getInfo(null, true);
+
+// Check if page exists
+if ( !$page ) {
+	header('Location: '.site_url('projects'));
+	die();
 }
 
 
 // Get parent page ID
-$parentpage_ID = Page::ID($page_ID)->getInfo('parent_page_ID');
+$parentpage_ID = $page['parent_page_ID'];
 
 // Get project ID
-$project_ID = Page::ID($page_ID)->getInfo('project_ID');
+$project_ID = $page['project_ID'];
+
+
+
+// DEVICE INFO
 
 // Get device ID
-$deviceID = Page::ID($page_ID)->getInfo('device_ID');
+$deviceID = $page['device_ID'];
+$deviceInfo = Device::ID($deviceID)->getInfo(null, true);
 
 // Get the device sizes
-$width = Page::ID($page_ID)->getInfo('page_width') ? Page::ID($page_ID)->getInfo('page_width') : Device::ID($deviceID)->getInfo('device_width');
-$height = Page::ID($page_ID)->getInfo('page_height') ? Page::ID($page_ID)->getInfo('page_height') : Device::ID($deviceID)->getInfo('device_height');
-
-// Check if custom size entered
+$width = $page['page_width'] ? $page['page_width'] : $deviceInfo['device_width'];
+$height = $page['page_height'] ? $page['page_height'] : $deviceInfo['device_height'];
 
 // Get device name
-$device_name = Device::ID($deviceID)->getInfo('device_name');
+$device_name = $deviceInfo['device_name'];
 
 // Get the device icon
-$deviceCatID = Device::ID($deviceID)->getInfo('device_cat_ID');
-$db->where('device_cat_ID', $deviceCatID);
-$deviceCat = $db->getOne('device_categories');
-$deviceIcon = $deviceCat['device_cat_icon'];
+$deviceCatID = $deviceInfo['device_cat_ID'];
+$deviceIcon = $deviceInfo['device_cat_icon'];
 
-// Page Category
+
+
+// Page Category !!! Check this
 $db->where('page_cat_page_ID', $page_ID);
 $db->orWhere('page_cat_page_ID', $parentpage_ID);
 $pageCatID = $db->getValue('page_cat_connect', 'page_cat_ID');
@@ -91,16 +102,15 @@ $pageCat = $db->getOne('categories');
 
 
 // Screenshots
-$page_image = Page::ID($page_ID)->pageDeviceDir."/page.jpg";
-$project_image = Page::ID($page_ID)->projectDir."/project.jpg";
+$page_image = $pageData->pageDeviceDir."/page.jpg";
+$project_image = $pageData->projectDir."/project.jpg";
 
 
 
-
-// INTERNAL REDIRECTIONS:
+// PROTOCOL REDIRECTIONS:
 
 // Http to Https Redirection
-if ( substr(Page::ID($page_ID)->remoteUrl, 0, 8) == "https://" && !ssl) {
+if ( substr($pageData->remoteUrl, 0, 8) == "https://" && !ssl) {
 
 	header( 'Location: '.site_url('revise/'.$page_ID, true) ); // Force HTTPS
 	die();
@@ -108,7 +118,7 @@ if ( substr(Page::ID($page_ID)->remoteUrl, 0, 8) == "https://" && !ssl) {
 }
 
 // Https to Http Redirection
-if ( substr(Page::ID($page_ID)->remoteUrl, 0, 7) == "http://" && ssl) {
+if ( substr($pageData->remoteUrl, 0, 7) == "http://" && ssl) {
 
 	header( 'Location: '.site_url('revise/'.$page_ID, false, true) ); // Force HTTP
 	die();
@@ -118,9 +128,9 @@ if ( substr(Page::ID($page_ID)->remoteUrl, 0, 7) == "http://" && ssl) {
 
 
 // Create the log folder if not exists
-if ( !file_exists(Page::ID($page_ID)->logDir) )
-	mkdir(Page::ID($page_ID)->logDir, 0755, true);
-@chmod(Page::ID($page_ID)->logDir, 0755);
+if ( !file_exists($pageData->logDir) )
+	mkdir($pageData->logDir, 0755, true);
+@chmod($pageData->logDir, 0755);
 
 
 
@@ -130,19 +140,16 @@ if ( !file_exists(Page::ID($page_ID)->logDir) )
 $db->where('queue_type', 'internalize');
 $db->where('queue_object_ID', $page_ID);
 
-
 $db->where("(queue_status = 'working' OR queue_status = 'waiting')");
-
-
 $existing_queue = $db->get('queues');
+
+
 $queue_ID = "";
 $process_ID = "";
 $process_status = "";
 
-/*
-var_dump($existing_queue);
-die();
-*/
+
+// var_dump($existing_queue); die();
 
 
 // If already working queue exists
@@ -150,26 +157,33 @@ if (
 
 	!$forceReInternalize &&
 
-	$existing_queue !== null &&
-	count($existing_queue) > 0
+	$existing_queue != null
 ) {
 
+	// Error catch
+	if ( !is_array($existing_queue) || count($existing_queue) > 1  || count($existing_queue) == 0 )
+		die('Error #Q21. Please try again...');
+
+
+	// Set the queue
 	$existing_queue = $existing_queue[0];
-
-
-	$process_status = "DB: ".ucfirst($existing_queue['queue_status'])." Queue Found. Process ID: ".$existing_queue['queue_PID']." Queue ID: ".$existing_queue['queue_ID'];
 
 
 	$queue_PID = $existing_queue['queue_PID'];
 	$queue_ID = $existing_queue['queue_ID'];
+	$queue_status = $existing_queue['queue_status'];
+
+
+	$process_status = "DB: ".ucfirst($queue_status)." Queue Found. Page: #$page_ID User: #".currentUserID()." Process ID: #$queue_PID Queue ID: #$queue_ID";
 
 
 	// Site log
-	$log->info( ucfirst($existing_queue['queue_status'])." Queue found. Page: #$page_ID User: #".currentUserID()." Queue ID: #$queue_ID Queue PID: #$queue_PID");
+	$log->info($process_status);
+
 
 	// Set the process ID to check
-	$process = BackgroundProcess::createFromPID( $queue_PID );
 	$process_ID = $queue_PID;
+	$process = BackgroundProcess::createFromPID( $process_ID );
 
 
 	$process_status .= " BackgroundProcess::getPid() -> ". $process->getPid();
@@ -180,13 +194,13 @@ if (
 
 	!$forceReInternalize &&
 
-	file_exists(Page::ID($page_ID)->pageDir) && // Folder is exist
-	file_exists(Page::ID($page_ID)->pageFile) && // HTML is downloaded
+	file_exists($pageData->pageDir) && // Folder is exist
+	file_exists($pageData->pageFile) && // HTML is downloaded
 	file_exists( $page_image ) && // Page image ready
 	file_exists( $project_image ) && // // Project image ready
-	file_exists( Page::ID($page_ID)->logDir."/browser.log" ) && // No error on Browser
-	file_exists( Page::ID($page_ID)->logDir."/html-filter.log" ) && // No error on HTML filtering
-	file_exists( Page::ID($page_ID)->logDir."/css-filter.log" ) // No error on CSS filtering
+	file_exists( $pageData->logDir."/browser.log" ) && // No error on Browser
+	file_exists( $pageData->logDir."/html-filter.log" ) && // No error on HTML filtering
+	file_exists( $pageData->logDir."/css-filter.log" ) // No error on CSS filtering
 
 ) {
 
@@ -194,12 +208,12 @@ if (
 
 
 	// Site log
-	$log->info("Already downloaded page #$page_ID is opening for user #".currentUserID().".");
+	$log->info($process_status);
 
 
 	// Initiate Internalizator
 	$process = new BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v4.php '.$page_ID.' '.session_id());
-	$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
+	$process->run($pageData->logDir."/internalize-tasks-php.log", true);
 	$process_ID = $process->getPid();
 
 
@@ -213,23 +227,23 @@ if (
 
 
 	// Site log
-	$log->error("Page #$page_ID needs to be re-internalized for user #".currentUserID().".");
+	$log->error($process_status);
 
 
 	// Remove the existing and wrong files
-	if ( file_exists(Page::ID($page_ID)->pageDir) )
-		deleteDirectory(Page::ID($page_ID)->pageDir);
+	if ( file_exists($pageData->pageDir) )
+		deleteDirectory($pageData->pageDir);
 
 
 	// Re-Create the log folder if not exists
-	if ( !file_exists(Page::ID($page_ID)->logDir) )
-		mkdir(Page::ID($page_ID)->logDir, 0755, true);
-	@chmod(Page::ID($page_ID)->logDir, 0755);
+	if ( !file_exists($pageData->logDir) )
+		mkdir($pageData->logDir, 0755, true);
+	@chmod($pageData->logDir, 0755);
 
 
 	// Logger
-	$logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
-		'filename' => Page::ID($page_ID)->logFileName,
+	$logger = new Katzgrau\KLogger\Logger($pageData->logDir, Psr\Log\LogLevel::DEBUG, array(
+		'filename' => $pageData->logFileName,
 	    'extension' => 'log', // changes the log file extension
 	));
 
@@ -299,20 +313,8 @@ $projectInfo = Project::ID($project_ID)->getInfo(null, true);
 
 // Bring the pages that user can access !!! Not deleted / archived ones, put this on a Access::ID() class!
 
-// Bring the shared ones
-$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
-$db->joinWhere("shares s", "s.share_type", "page");
-$db->joinWhere("shares s", "s.share_to", currentUserID());
-
-// Ony my pages or shared to me
-$db->where('(user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-
-// Exclude the other projects
-//$db->where('project_ID', $_url[1]);
-$db->where('parent_page_ID IS NULL');
-
 // My pages in this project
-$allMyPages = $db->get('pages p');
+$allMyPages = UserAccess::ID()->getMy('pages');
 //echo "<pre>"; print_r($allMyPages); echo "</pre>"; die();
 
 

@@ -87,13 +87,12 @@
 						<nav class="dropdown">
 							<ul>
 								<?php
-								$db->where('user_ID', currentUserID());
-								$other_projects = $db->get('projects');
+								$other_projects = UserAccess::ID()->getMy('projects');
 								foreach ($other_projects as $project) {
 
 
 									$pages_of_project = array_filter($allMyPages, function($page) use ($project) {
-									    return ($page['project_ID'] == $project['project_ID']);
+									    return ($page['project_ID'] == $project['project_ID'] && $page['parent_page_ID'] == null);
 									});
 
 
@@ -167,7 +166,7 @@
 								<?php
 
 								$other_pages = array_filter($allMyPages, function($page) use ($project_ID) {
-								    if ($page['project_ID'] == $project_ID) return true;
+									return ($page['project_ID'] == $project_ID && $page['parent_page_ID'] == null);
 								});
 
 								foreach ($other_pages as $page) {

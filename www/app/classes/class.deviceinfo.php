@@ -6,17 +6,11 @@ class Device {
 	// The device ID
 	public static $device_ID;
 
-	// The project name
-	public $device_name;
-
 
 
 	// SETTERS:
 
 	public function __construct() {
-
-		// Set the project name
-        //$this->device_name = $this->getInfo('device_name');
 
     }
 
@@ -38,9 +32,10 @@ class Device {
     public function getInfo($columns = null, $array = false) {
 	    global $db;
 
-	    $db->where("device_ID", self::$device_ID);
+		$db->join("device_categories c", "c.device_cat_ID = d.device_cat_ID", "LEFT");
+	    $db->where("d.device_ID", self::$device_ID);
 
-		return $array ? $db->getOne("devices", $columns) : $db->getValue("devices", $columns);
+		return $array ? $db->getOne("devices d", $columns) : $db->getValue("devices d", $columns);
     }
 
 

@@ -35,9 +35,8 @@ if ( !isset($project_ID) || !is_numeric($project_ID) ) {
 }
 
 
-// If project doesn't exist
-$db->where("project_ID", $project_ID);
-$project = $db->getOne("projects", "project_ID, user_ID");
+// Project Info
+$project = Project::ID($project_ID)->getInfo("project_ID, user_ID", true);
 if ( !$project ) {
 	header('Location: '.site_url('projects'));
 	die();
