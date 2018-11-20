@@ -152,6 +152,21 @@ html, body {
       line-height: normal; }
   #top-bar nav.dropdown {
     color: black; }
+  #top-bar .device .device-registered {
+    position: relative; }
+    #top-bar .device .device-registered > a {
+      padding-right: 25px; }
+      #top-bar .device .device-registered > a:hover + .delete-device {
+        visibility: visible; }
+    #top-bar .device .device-registered .delete-device {
+      visibility: hidden;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12px; }
+      #top-bar .device .device-registered .delete-device:hover {
+        visibility: visible; }
   #top-bar .share > .tab {
     letter-spacing: 1.5px; }
     #top-bar .share > .tab > * {

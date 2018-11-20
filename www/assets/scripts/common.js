@@ -639,6 +639,133 @@ $(function() {
 	});
 
 
+	// ACTIONS - Archive, delete, recover, rename, ...
+	$('[data-action]').click(function(e) {
+
+		if (!dataType || dataType == null) var dataType = $(this).attr('data-type');
+
+
+		var action = $(this).attr('data-action');
+		var parent_item = $(this).parent().parent();
+
+		if (action == "rename") {
+
+			var input = parent_item.find('input.edit-name');
+			parent_item.toggleClass('editing');
+
+
+			// If the same text
+			if ( input.val() == input.attr('value') ) {
+				e.preventDefault();
+				return false;
+			}
+
+		}
+
+
+		// Confirmations
+		var confirm_text;
+
+		if ( action =='archive' )
+			confirm_text = `Are you sure you want to archive this ${dataType}?`;
+
+		if ( action =='delete' )
+			confirm_text = `Are you sure you want to delete this ${dataType}?`;
+
+		if ( action =='recover' )
+			confirm_text = `Are you sure you want to recover this ${dataType}?`;
+
+		if ( action =='remove' )
+			confirm_text = `Are you sure you want to completely remove this ${dataType}? Keep in mind that no one will be able to access this ${dataType}`+ (dataType == 'project' ? ' and its pages' : '') +` anymore!`;
+
+
+
+		// If confirmed, send data
+		if (action == "rename" || action == "add-new-category" || confirm(confirm_text) ) {
+
+			var url = $(this).attr('href');
+			var block = $(this).parents('.block');
+
+
+			// Start progress bar action
+			var actionID = newProcess();
+
+			// AJAX Send data
+			$.get(url, {ajax:true, inputText: ( action == "rename" ? input.val() : '' )}, function(result){
+
+				$.each(result.data, function(key, data){
+
+					console.log(key, data);
+
+					// Progressbar Update
+					if ( data.status == "successful" ) {
+
+
+						if (action == "rename") {
+
+							parent_item.find('.name').text( input.val() );
+							input.attr('value', input.val() );
+
+							$('.filter [data-cat-id="' + parent_item.attr('data-cat-id') + '"]').text( input.val() );
+
+						} else if (action == "add-new-category") {
+
+							alert('New category added!');
+
+						} else { // Archive / Delete / Remove
+
+
+							// If a category is deleting
+							if ( parent_item.hasClass('cat-separator') ) {
+
+								var deleted_cat_id = parent_item.attr('data-cat-id');
+
+
+								// Remove from filter bar
+								$('.filter [data-cat-id="' + deleted_cat_id + '"]').remove();
+
+
+								// Remove the category
+								parent_item.remove();
+
+
+								// Update the add new blocks
+								addNewPageButtons();
+
+
+
+							} else
+								block.remove();
+
+						}
+
+						// End the process
+						endProcess(actionID);
+
+
+					} else {
+
+						if (action == "rename") {
+
+							parent_item.addClass('editing ' + data.status);
+
+						}
+
+					}
+
+				});
+
+			}, 'json');
+
+		}
+
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
 });
 
 

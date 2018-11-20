@@ -220,10 +220,12 @@
 								}
 
 
+								$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$device['page_ID'];
+
 							?>
 
-								<li>
-									<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i> <?=$device['device_cat_name']?> (<?=$existing_device_width?>x<?=$existing_device_height?>)</a>
+								<li class="device-registered block">
+									<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i> <?=$device['device_cat_name']?> (<?=$existing_device_width?>x<?=$existing_device_height?>)</a> <i class="fa fa-times delete-device" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Device" data-action="delete" data-type="page"></i>
 								</li>
 
 							<?php

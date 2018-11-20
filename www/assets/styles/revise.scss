@@ -298,6 +298,36 @@ html, body {
 		color: $color;
 	}
 
+	.device {
+
+
+		.device-registered {
+			position: relative;
+
+			& > a {
+				padding-right: 25px;
+
+				&:hover + .delete-device {
+					visibility: visible;
+				}
+			}
+
+			.delete-device {
+				visibility: hidden;
+				position: absolute;
+				right: 10px;
+				top: 50%;
+				transform: translateY(-50%);
+				font-size: 12px;
+
+				&:hover {
+					visibility: visible;
+				}
+			}
+		}
+
+	}
+
 	.share > .tab {
 		letter-spacing: 1.5px;
 
