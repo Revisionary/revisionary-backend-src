@@ -304,20 +304,20 @@
 
 					<div class="desc nomargin">Page Version</div>
 					<span class="dropdown-container">
-						<a href="#" class="button dropdown-opener"><i class="fa fa-code-branch"></i> <?=$pageData->pageVersion?>.0</a>
+						<a href="#" class="button dropdown-opener"><i class="fa fa-code-branch"></i> v<?=number_format($version_number, 1)?></a>
 						<nav class="dropdown">
 							<ul class="xl-left">
 								<?php
 								//print_r($versions);
 								foreach ($versions as $version) {
 
-									if ("v".$version['version_number'] == $pageData->pageVersion) continue;
+									//if ("v".$version['version_number'] == $pageData->pageVersion) continue;
 
 									$action_url = 'ajax?type=data-action&data-type=version&nonce='.$_SESSION['js_nonce'].'&id='.$version['version_ID'];
 								?>
-								<li class="block <?="v".$version['version_number'] == $pageData->pageVersion ? "selected" : ""?>">
-									<a href="<?=current_url()?>"><i class="fa fa-sign-in-alt"></i> v<?=number_format($version['version_number'], 1)." - ".$version['version_name']?></a>
-									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Version" data-action="delete" data-type="version"></i>
+								<li class="block <?=$version['version_number'] == $version_number ? "selected" : ""?>">
+									<a href="<?=site_url('revise/'.$page['page_ID'].'/'.$version['version_number'])?>"><i class="fa fa-sign-in-alt"></i> v<?=number_format($version['version_number'], 1)." - ".$version['version_name']?></a>
+									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Version" data-action="remove" data-type="version"></i>
 								</li>
 								<?php
 								}

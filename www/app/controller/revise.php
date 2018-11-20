@@ -65,19 +65,39 @@ $project_ID = $page['project_ID'];
 
 // Get the latest version !!! Check this
 $db->where('page_ID', $page_ID);
-if ( isset($version_number) ) $db->where('version_number', $version_number);
-$db->orderBy('version_number');
+//if ( isset($version_number) ) $db->where('version_number', $version_number);
+$db->orderBy('version_number', 'DESC');
 $versions = $db->get('versions');
+//echo "<pre>"; print_r($versions); echo "</pre>"; die();
 
 // If version found
 if ($versions) {
 
-	$version_ID = $versions[0]['version_ID'];
-	$version_number = $versions[0]['version_number'];
+
+
+	if ($version_number) {
+
+		// Find the current page
+		$version = array_filter($versions, function($versionFound) use ($version_number) {
+		    return ($versionFound['version_number'] == $version_number);
+		});
+		$pageVersion = end($version);
+
+
+		$version_ID = $pageVersion['version_ID'];
+		$version_number = $pageVersion['version_number'];
+
+	} else {
+
+		$version_ID = $versions[0]['version_ID'];
+		$version_number = $versions[0]['version_number'];
+
+	}
 
 } else {
 
-	// GIVE AN ERROR !!! Redirect to home
+
+	// REDIRECT TO PAGES !!!
 
 	$version_ID = 0;
 	$version_number = "1";
