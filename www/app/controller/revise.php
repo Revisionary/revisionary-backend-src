@@ -67,13 +67,13 @@ $project_ID = $page['project_ID'];
 $db->where('page_ID', $page_ID);
 if ( isset($version_number) ) $db->where('version_number', $version_number);
 $db->orderBy('version_number');
-$version = $db->getOne('versions');
+$versions = $db->get('versions');
 
 // If version found
-if ($version) {
+if ($versions) {
 
-	$version_ID = $version['version_ID'];
-	$version_number = $version['version_number'];
+	$version_ID = $versions[0]['version_ID'];
+	$version_number = $versions[0]['version_number'];
 
 } else {
 

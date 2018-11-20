@@ -225,7 +225,8 @@
 							?>
 
 								<li class="device-registered block">
-									<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i> <?=$device['device_cat_name']?> (<?=$existing_device_width?>x<?=$existing_device_height?>)</a> <i class="fa fa-times delete-device" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Device" data-action="delete" data-type="page"></i>
+									<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i> <?=$device['device_cat_name']?> (<?=$existing_device_width?>x<?=$existing_device_height?>)</a>
+									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Device" data-action="delete" data-type="page"></i>
 								</li>
 
 							<?php
@@ -302,7 +303,31 @@
 				<div class="col version">
 
 					<div class="desc nomargin">Page Version</div>
-					<a href="#" class="button bottom-tooltip" data-tooltip="Coming Soon..."><i class="fa fa-code-branch"></i> <?=$pageData->pageVersion?>.0</a>
+					<span class="dropdown-container">
+						<a href="#" class="button dropdown-opener"><i class="fa fa-code-branch"></i> <?=$pageData->pageVersion?>.0</a>
+						<nav class="dropdown">
+							<ul class="xl-left">
+								<?php
+								//print_r($versions);
+								foreach ($versions as $version) {
+
+									if ("v".$version['version_number'] == $pageData->pageVersion) continue;
+
+									$action_url = 'ajax?type=data-action&data-type=version&nonce='.$_SESSION['js_nonce'].'&id='.$version['version_ID'];
+								?>
+								<li class="block <?="v".$version['version_number'] == $pageData->pageVersion ? "selected" : ""?>">
+									<a href="<?=current_url()?>"><i class="fa fa-sign-in-alt"></i> v<?=number_format($version['version_number'], 1)." - ".$version['version_name']?></a>
+									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Version" data-action="delete" data-type="version"></i>
+								</li>
+								<?php
+								}
+								?>
+								<li>
+									<a href="#" class="add-version bottom-tooltip" data-tooltip="Coming Soon..."><i class="fa fa-plus" aria-hidden="true"></i> New Version</a>
+								</li>
+							</ul>
+						</nav>
+					</span>
 
 				</div>
 			</div>

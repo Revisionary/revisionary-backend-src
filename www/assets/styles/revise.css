@@ -134,15 +134,6 @@ html, body {
     #top-bar .breadcrumbs sep {
       font-size: 12px;
       margin: 0 8px; }
-    #top-bar .breadcrumbs .selected {
-      font-weight: bold;
-      background-color: black;
-      color: white; }
-      #top-bar .breadcrumbs .selected > a,
-      #top-bar .breadcrumbs .selected > .dropdown-container,
-      #top-bar .breadcrumbs .selected > .dropdown-container > a {
-        background-color: black;
-        color: white; }
   #top-bar > .wrap {
     height: 45px;
     padding: 5px;
@@ -152,21 +143,30 @@ html, body {
       line-height: normal; }
   #top-bar nav.dropdown {
     color: black; }
-  #top-bar .device .device-registered {
-    position: relative; }
-    #top-bar .device .device-registered > a {
-      padding-right: 25px; }
-      #top-bar .device .device-registered > a:hover + .delete-device {
-        visibility: visible; }
-    #top-bar .device .device-registered .delete-device {
-      visibility: hidden;
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 12px; }
-      #top-bar .device .device-registered .delete-device:hover {
-        visibility: visible; }
+    #top-bar nav.dropdown .selected {
+      font-weight: bold;
+      background-color: black;
+      color: white; }
+      #top-bar nav.dropdown .selected > a,
+      #top-bar nav.dropdown .selected > .dropdown-container,
+      #top-bar nav.dropdown .selected > .dropdown-container > a {
+        background-color: black;
+        color: white; }
+    #top-bar nav.dropdown .block {
+      position: relative; }
+      #top-bar nav.dropdown .block > a {
+        padding-right: 25px; }
+        #top-bar nav.dropdown .block > a:hover + .delete {
+          visibility: visible; }
+      #top-bar nav.dropdown .block .delete {
+        visibility: hidden;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 12px; }
+        #top-bar nav.dropdown .block .delete:hover {
+          visibility: visible; }
   #top-bar .share > .tab {
     letter-spacing: 1.5px; }
     #top-bar .share > .tab > * {
