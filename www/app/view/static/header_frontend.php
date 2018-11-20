@@ -60,7 +60,7 @@
 						</picture> <?=getUserData()['fullName']?>
 					</a>
 
-					<nav class="dropdown user-menu">
+					<nav class="dropdown right user-menu">
 						<ul>
 							<li class="notifications">
 								There's nothing to mention now.<br/>
