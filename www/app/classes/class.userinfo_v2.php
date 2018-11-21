@@ -114,7 +114,7 @@ class UserAccess {
 
 
 	// Bring data that's mine or shared to me
-    public function getMy($data_type = "projects", $catFilter = "", $order = "", $project_ID = null) {
+    public function getMy($data_type = "projects", $catFilter = "", $order = "", $project_ID = null, $object_ID = null) {
 		global $db, $mySharedPages;
 
 
@@ -260,6 +260,27 @@ class UserAccess {
 		// Order Projects
 		if ($order == "name") $db->orderBy("p.".$data_type."_name", "asc");
 		if ($order == "date") $db->orderBy("p.".$data_type."_created", "asc");
+
+
+		if ($object_ID) {
+
+			$db->where('p.'.$data_type.'_ID', $object_ID);
+
+			return $db->getOne(
+				$data_type.'s p',
+				null,
+				'
+					*,
+					p.user_ID as user_ID,
+					oc.sort_ID as cat_sort_ID,
+					oc.sort_type as cat_sort_type,
+					oc.sort_object_ID as cat_sort_object_ID,
+					oc.sort_number as cat_sort_number,
+					oc.sorter_user_ID as cat_sorter_user_ID
+				'
+			);
+
+		}
 
 
 		return $db->get(
