@@ -40,7 +40,7 @@ const truncate = (str, len) => str.length > len ? str.slice(0, len) + '…' : st
 
 
 
-let browser;
+let browser = {};
 
 require('http').createServer(async (req, res) => {
 	const { host } = req.headers;
@@ -175,7 +175,7 @@ require('http').createServer(async (req, res) => {
 
 
 			// Launch the browser if browser is not already open
-			if (!browser) {
+			if (!browser[url]) {
 				console.log('🚀 Launch browser!');
 				const config = {
 					ignoreHTTPSErrors: true,
@@ -194,13 +194,13 @@ require('http').createServer(async (req, res) => {
 					config.args.push('--auto-open-devtools-for-tabs');
 				}
 				if (CHROME_BIN) config.executablePath = CHROME_BIN;
-				browser = await puppeteer.launch(config);
+				browser[url] = await puppeteer.launch(config);
 			}
 
 
 
 			// Open a new tab
-			page = await browser.newPage();
+			page = await browser[url].newPage();
 
 
 
@@ -415,7 +415,7 @@ require('http').createServer(async (req, res) => {
 
 
 						//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
-						console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} ${url} -> ` + downloadableRequests[downloadedIndex].newUrl);
+						console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} ${url}`);
 
 					}, e => {
 						console.error(`📋❌${response.status()} ${response.url()} failed: ${e}`);
@@ -436,6 +436,11 @@ require('http').createServer(async (req, res) => {
 				width,
 				height,
 			});
+
+
+
+			// Set User Agent
+			//await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3419.0 Safari/537.36');
 
 
 
@@ -504,6 +509,7 @@ require('http').createServer(async (req, res) => {
 
 				let downloadableTotal = downloadableRequests.length;
 				let downloadedFiles = [];
+				let renderDifference = 0;
 
 
 				// DOWNLOAD
@@ -520,14 +526,25 @@ require('http').createServer(async (req, res) => {
 
 						let buffer = downloadable.buffer;
 
+						if (downloadable.newFileName == "index.html") {
 
-						if (downloadable.newFileName == "index.html" && SSR) {
 
-							// Save the unrendered version first? !!!
-							fs.writeFileSync(siteDir + 'original.html', buffer);
-							try{ fs.chownSync(siteDir + 'original.html', 33, 33); } catch(e) {}
+							console.log(downloadable.newFileName, 'BUFFER LENGTH:', buffer.length);
+							console.log(downloadable.newFileName, 'renderedHTML LENGTH:', renderedHTML.length);
+							renderDifference = renderedHTML.length - buffer.length;
+							console.log(downloadable.newFileName, 'DIFFERENCE:', renderDifference);
 
-							buffer = renderedHTML;
+
+							// Server side rendered buffer
+							if (SSR) {
+
+								// Save the unrendered version first? !!!
+								fs.writeFileSync(siteDir + 'original.html', buffer);
+								try{ fs.chownSync(siteDir + 'original.html', 33, 33); } catch(e) {}
+
+								buffer = renderedHTML;
+
+							}
 
 						}
 
@@ -600,11 +617,12 @@ require('http').createServer(async (req, res) => {
 				const dataString = JSON.stringify({
 					status: (downloadedFiles.length ? 'success' : 'error'),
 					realPageURL : realPageURL,
+					renderDifference : renderDifference,
 					downloadedFiles: downloadedFiles
 				}, null, '\t');
 
 
-				// Write to the log file
+				// Write to the log fileb
 				fs.writeFileSync(logDir+'browser.log', dataString);
 
 
@@ -740,15 +758,31 @@ require('http').createServer(async (req, res) => {
 		try {
 
 			if (page && page.close) {
-				console.log('🗑 Disposing ' + url);
+				console.log('🗑 Tab closing for ' + url);
 				page.removeAllListeners();
-				await page.close();
-			}
+				page.close().then(buffer => {
 
-			if (browser) {
-				console.log('🔌 Close the browser for ' + url);
-				browser.close();
-				browser = null;
+
+					console.log('🗑✅ Tab closed for ' + url);
+
+
+					if (browser[url]) {
+
+						console.log('🔌 Closing the browser for ' + url);
+
+						browser[url].close();
+						browser[url] = null;
+						delete browser[url];
+
+						console.log('🔌✅ Browser closed for ' + url);
+
+					}
+
+				}, e => {
+					console.error(`❌ Page Closing Failed (URL: ${url}): ${e}`);
+				});
+
+
 			}
 
 		} catch (e) {
@@ -807,8 +841,19 @@ require('http').createServer(async (req, res) => {
 		if (/not opened/i.test(message) && browser) {
 			console.error('🕸 Web socket failed');
 			try {
-				browser.close();
-				browser = null;
+
+				for (var burl in browser) {
+				    if (browser.hasOwnProperty(burl)) {
+
+				        console.log(burl + " Browser Closing...");
+
+				        browser[burl].close();
+						browser[burl] = null;
+						delete browser[url];
+
+				    }
+				}
+
 			} catch (err) {
 				console.warn(`Chrome could not be killed ${err.message}`);
 				browser = null;
@@ -818,7 +863,21 @@ require('http').createServer(async (req, res) => {
 }).listen(PORT || 3000);
 
 process.on('SIGINT', () => {
-	if (browser) browser.close();
+	if (browser) {
+
+		for (var burl in browser) {
+		    if (browser.hasOwnProperty(burl)) {
+
+		        console.log(burl + " Browser Closing...");
+
+		        browser[burl].close();
+				browser[burl] = null;
+				delete browser[url];
+
+		    }
+		}
+
+	}
 	process.exit();
 });
 
