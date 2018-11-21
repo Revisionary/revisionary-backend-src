@@ -10,6 +10,15 @@
 
 		<?php
 
+			// Generate new nonce for JS
+			$_SESSION["js_nonce"] = uniqid(mt_rand(), true);
+
+
+			// Generate new nonce for adding projects or pages
+			$_SESSION["add_new_nonce"] = uniqid(mt_rand(), true);
+
+
+
 			// Additional CSS Files
 			if (isset($additionalCSS) && is_array($additionalCSS) ) {
 
@@ -21,6 +30,11 @@
 		?>
 
 		<script src="<?=asset_url('scripts/vendor/jquery-3.3.1.min.js')?>"></script>
+		<script>
+			var ajax_url = '<?=site_url('ajax')?>';
+			var nonce = '<?=$_SESSION["js_nonce"]?>';
+			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
+		</script>
 
 		<?php
 
@@ -33,19 +47,6 @@
 
 			}
 		?>
-
-
-		<?php
-
-		// Generate new nonce for JS
-		$_SESSION["js_nonce"] = uniqid(mt_rand(), true);
-
-		?>
-		<script>
-			var ajax_url = '<?=site_url('ajax')?>';
-			var nonce = '<?=$_SESSION["js_nonce"]?>';
-			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
-		</script>
 
 		<link rel="icon" href="<?=asset_url('images/revisionary-icon.png')?>" sizes="32x32">
 		<link rel="icon" href="<?=asset_url('images/revisionary-icon.png')?>" sizes="192x192">
