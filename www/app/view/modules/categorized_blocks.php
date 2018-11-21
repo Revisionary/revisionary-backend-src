@@ -363,7 +363,7 @@
 
 
 												<!-- Current Device -->
-												<a href="<?=site_url('revise/'.$block['page_ID'])?>" data-status="<?=$pageStatus?>">
+												<a href="<?=site_url('revise/'.$block['page_ID'])?>">
 													<i class="fa <?=$block['device_cat_icon']?>" data-tooltip="<?=$block['device_cat_name']?> (<?=$block['device_width']?>x<?=$block['device_height']?>)" aria-hidden="true"></i>
 												</a>
 
@@ -383,7 +383,7 @@
 
 												?>
 
-														<a href="<?=site_url('revise/'.$device['page_ID'])?>" data-status="<?=$pageStatus?>">
+														<a href="<?=site_url('revise/'.$device['page_ID'])?>">
 															<i class="fa <?=$device['device_cat_icon']?>" data-tooltip="<?=$device['device_cat_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)" aria-hidden="true"></i>
 														</a>
 
