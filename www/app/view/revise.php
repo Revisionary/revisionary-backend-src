@@ -56,7 +56,6 @@
 
 
 
-
 <div id="top-bar">
 
 	<div class="wrap xl-flexbox xl-between xl-bottom xl-center">
@@ -89,8 +88,9 @@
 
 
 									$pages_of_project = array_filter($allMyPages, function($pageFound) use ($project) {
-									    return ($pageFound['project_ID'] == $project['project_ID'] && $pageFound['parent_page_ID'] == null);
+									    return ($pageFound['project_ID'] == $project['project_ID']);
 									});
+									$pages_of_project = categorize($pages_of_project, 'page', '', true);
 
 
 									$selected = $project['project_ID'] == $project_ID ? "selected" : "";
@@ -165,8 +165,9 @@
 								$other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) {
 									return ($pageFound['project_ID'] == $project_ID);
 								});
+								$other_pages = categorize($other_pages, 'page', '', true);
 
-								foreach ($other_pages as $pageOther) { if ($pageOther['parent_page_ID'] != null) continue;
+								foreach ($other_pages as $pageOther) {
 
 									$selected = $pageOther['page_ID'] == $page_ID || $pageOther['page_ID'] == $parentpage_ID ? "class='selected'" : "";
 								?>
