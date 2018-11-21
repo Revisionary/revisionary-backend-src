@@ -6,23 +6,11 @@ class Pin {
 	// The pin ID
 	public static $pin_ID;
 
-	// The pin name
-	public $pin_type;
-
-	// Current user ID
-	public $user_ID;
-
 
 
 	// SETTERS:
 
 	public function __construct() {
-
-		// Set the pin name
-        $this->pin_type = $this->getInfo('pin_type');
-
-        // Set the user ID
-        $this->user_ID = $this->getInfo('user_ID');
 
     }
 
