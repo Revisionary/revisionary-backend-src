@@ -46,23 +46,20 @@ if ( !$project ) {
 
 
 
-
-
-
-
-
 // PAGES DATA MODEL
 $dataType = "page";
-require model('projects');
-$theCategorizedData = the_data();
+$allMyPagesList = UserAccess::ID()->getMy("pages", $catFilter, $order, $project_ID);
+$theCategorizedData = categorize($allMyPagesList, $dataType, $deviceFilter);
 //echo "<pre>"; print_r(array_column($theCategorizedData, 'theData')); exit();
-//echo "<pre>"; print_r($thePreparedData); exit();
+
 
 
 
 // MY PAGES IN THIS PROJECT
 $allMyPages = $thePreparedData;
 //echo "<pre>"; print_r( $allMyPages ); die();
+
+
 
 
 

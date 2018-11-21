@@ -92,12 +92,10 @@ $catFilter = isset($_url[1]) ? $_url[1] : '';
 
 
 // PROJECTS DATA MODEL
-$dataType = 'project';
-require model('projects');
-$theCategorizedData = the_data();
+$dataType = "project";
+$allMyProjectsList = UserAccess::ID()->getMy("projects", $catFilter, $order);
+$theCategorizedData = categorize($allMyProjectsList, $dataType);
 //echo "<pre>"; print_r(array_column($theCategorizedData, 'theData')); exit();
-//echo "<pre>"; print_r($thePreparedData); exit();
-//echo "<pre>"; print_r($mySharedPages); exit();
 
 
 

@@ -1,13 +1,7 @@
 <?php
 
-function the_data() {
-	global $order, $catFilter, $deviceFilter, $dataType, $project_ID, $thePreparedData;
-
-
-	// Get the current user projects with categories
-	$objects = UserAccess::ID()->getMy($dataType."s", $catFilter, $order, $project_ID);
-
-	//return $objects;
+function categorize($objects, $dataType, $deviceFilter = "", $prepared = false) {
+	global $thePreparedData;
 
 
 	// Prepare the data
@@ -70,7 +64,7 @@ function the_data() {
 
 	}
 
-	//return $thePreparedData;
+	if ($prepared) return $thePreparedData;
 
 
 	// Categorize the pages
@@ -110,6 +104,7 @@ function the_data() {
 	return $theData;
 
 }
+
 
 
 //echo "<pre>";
