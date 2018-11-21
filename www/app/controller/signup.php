@@ -87,7 +87,7 @@ if ( isset($_POST['user-submit']) ) {
 
 
 			if (post('redirect_to') != "") {
-				header("Location: ".post('redirect_to'));
+				header("Location: ".htmlspecialchars_decode(post('redirect_to'))); // !!! Check security
 				die();
 			}
 

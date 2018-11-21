@@ -400,7 +400,7 @@ class Page {
 			$page_name = ucwords(str_replace('-', ' ', end($pathes)));
 		}
 
-		if ( is_array($pathes) && (count($pathes) == 0 || count($pathes) == 1) ) {
+		if ( $page_name == '' && is_array($pathes) && (count($pathes) == 0 || count($pathes) == 1) ) {
 			$page_name = 'Home';
 		}
 

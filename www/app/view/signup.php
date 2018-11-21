@@ -31,7 +31,7 @@
 							</div>
 						</div>
 
-						<input type="hidden" name="redirect_to" value="<?=!empty(get('redirect')) ? urldecode(get('redirect')) : site_url('projects')?>" />
+						<input type="hidden" name="redirect_to" value="<?=!empty(get('redirect')) ? htmlspecialchars_decode(get('redirect')) : site_url('projects')?>" />
 						<input type="hidden" name="user-cookie" value="1" />
 					</div>
 				</div>
@@ -41,7 +41,7 @@
 			<div class="wrap register-button">
 				<div class="col xl-11-12">
 					<div class="xl-center button-desc">If you are already registered</div>
-				<a href="<?=site_url('login'.( !empty(get('redirect')) ? "?redirect=".get('redirect') : "" ) )?>"><button class="full">LOGIN</button></a>
+				<a href="<?=site_url('login'.( !empty(get('redirect')) ? "?redirect=".urlencode(get('redirect')) : "" ) )?>"><button class="full">LOGIN</button></a>
 				</div>
 			</div>
 

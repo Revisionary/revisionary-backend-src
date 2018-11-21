@@ -138,7 +138,7 @@ function page_members() {
 
 				<h3><i class="fa fa-link"></i> First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
 				<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
-				<small class="design-uploader">or <a href="#" data-tooltip="Not working yet.">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
+				<small class="design-uploader">or <a href="#" data-tooltip="Coming soon...">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Coming soon..." aria-hidden="true"></i></small>
 
 
 				<?=print_device_selector()?><br/><br/>
@@ -262,7 +262,7 @@ if ( isset($project_ID) ) {
 
 				<h3><i class="fa fa-link"></i> URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
 				<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
-				<small class="design-uploader">or <a href="#" data-tooltip="Not working yet.">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Not working yet." aria-hidden="true"></i></small>
+				<small class="design-uploader">or <a href="#" data-tooltip="Coming soon...">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Coming soon..." aria-hidden="true"></i></small>
 
 
 				<?=print_device_selector()?>

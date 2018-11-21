@@ -29,7 +29,7 @@
 								<input type="submit" name="login-submit" value="Login" class="user-submit" />
 							</div>
 						</div>
-						<input type="hidden" name="redirect_to" value="<?=urldecode(get('redirect'))?>" />
+						<input type="hidden" name="redirect_to" value="<?=htmlspecialchars_decode(get('redirect'))?>" />
 					</div>
 				</div>
 			</form><br/>
@@ -38,7 +38,7 @@
 			<div class="wrap register-button">
 				<div class="col xl-11-12">
 					<div class="xl-center button-desc">If you aren't registered yet</div>
-					<a href="<?=site_url('signup'.( !empty(get('redirect')) ? "?redirect=".get('redirect') : "" ) )?>"><button class="full">REGISTER FOR FREE</button></a>
+					<a href="<?=site_url('signup'.( !empty(get('redirect')) ? "?redirect=".urlencode(get('redirect')) : "" ) )?>"><button class="full">REGISTER FOR FREE</button></a>
 				</div>
 			</div>
 

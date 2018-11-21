@@ -83,7 +83,7 @@ $(function() {
 	// Share Modal
 	$(document).on('click', '.share-button', function(e) {
 
-		if (!dataType || dataType == null) var dataType = $(this).attr('data-type');
+		if (!dataType || dataType == null) dataType = $(this).attr('data-type');
 
 		var projectShare = $(this).hasClass('project');
 
@@ -642,7 +642,7 @@ $(function() {
 	// ACTIONS - Archive, delete, recover, rename, ...
 	$('[data-action]').click(function(e) {
 
-		if (!dataType || dataType == null) var dataType = $(this).attr('data-type');
+		if (!dataType || dataType == null) dataType = $(this).attr('data-type');
 
 
 		var action = $(this).attr('data-action');
