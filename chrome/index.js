@@ -145,6 +145,7 @@ require('http').createServer(async (req, res) => {
 		let actionDone = false;
 		const width = parseInt(queryData.width, 10) || 1024;
 		const height = parseInt(queryData.height, 10) || 768;
+		const page_ID = parseInt(queryData.page_ID) || url;
 		const fullPage = queryData.fullPage == 'true' || false;
 		const SSR = queryData.ssr == 'true' || false;
 		const siteDir = queryData.sitedir || 'site/x/y/z/';
@@ -175,7 +176,7 @@ require('http').createServer(async (req, res) => {
 
 
 			// Launch the browser if browser is not already open
-			if (!browser[url]) {
+			if (!browser[page_ID]) {
 				console.log('🚀 Launch browser!');
 				const config = {
 					ignoreHTTPSErrors: true,
@@ -194,13 +195,13 @@ require('http').createServer(async (req, res) => {
 					config.args.push('--auto-open-devtools-for-tabs');
 				}
 				if (CHROME_BIN) config.executablePath = CHROME_BIN;
-				browser[url] = await puppeteer.launch(config);
+				browser[page_ID] = await puppeteer.launch(config);
 			}
 
 
 
 			// Open a new tab
-			page = await browser[url].newPage();
+			page = await browser[page_ID].newPage();
 
 
 
@@ -766,15 +767,15 @@ require('http').createServer(async (req, res) => {
 					console.log('🗑✅ Tab closed for ' + url);
 
 
-					if (browser[url]) {
+					if (browser[page_ID]) {
 
-						console.log('🔌 Closing the browser for ' + url);
+						console.log('🔌 Closing the browser for ' + url, ' PAGE ID: ' + page_ID);
 
-						browser[url].close();
-						browser[url] = null;
-						delete browser[url];
+						browser[page_ID].close();
+						browser[page_ID] = null;
+						delete browser[page_ID];
 
-						console.log('🔌✅ Browser closed for ' + url);
+						console.log('🔌✅ Browser closed for ' + url, ' PAGE ID: ' + page_ID);
 
 					}
 
@@ -842,14 +843,14 @@ require('http').createServer(async (req, res) => {
 			console.error('🕸 Web socket failed');
 			try {
 
-				for (var burl in browser) {
-				    if (browser.hasOwnProperty(burl)) {
+				for (var p_ID in browser) {
+				    if (browser.hasOwnProperty(p_ID)) {
 
-				        console.log(burl + " Browser Closing...");
+				        console.log(p_ID + " Browser Closing...");
 
-				        browser[burl].close();
-						browser[burl] = null;
-						delete browser[url];
+				        browser[p_ID].close();
+						browser[p_ID] = null;
+						delete browser[p_ID];
 
 				    }
 				}
@@ -865,14 +866,14 @@ require('http').createServer(async (req, res) => {
 process.on('SIGINT', () => {
 	if (browser) {
 
-		for (var burl in browser) {
-		    if (browser.hasOwnProperty(burl)) {
+		for (var p_ID in browser) {
+		    if (browser.hasOwnProperty(p_ID)) {
 
-		        console.log(burl + " Browser Closing...");
+		        console.log(p_ID + " Browser Closing...");
 
-		        browser[burl].close();
-				browser[burl] = null;
-				delete browser[url];
+		        browser[p_ID].close();
+				browser[p_ID] = null;
+				delete browser[p_ID];
 
 		    }
 		}

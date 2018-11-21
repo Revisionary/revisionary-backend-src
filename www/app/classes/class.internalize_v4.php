@@ -123,6 +123,7 @@ class Internalize_v4 {
 
 
 		// Page Info
+		$page_ID = $this->page_ID;
 		$pageInfo = $this->pageData->pageInfo;
 
 
@@ -143,6 +144,7 @@ class Internalize_v4 {
 		$processLink .= "?url=".urlencode($url);
 		$processLink .= "&action=internalize";
 		$processLink .= "&width=$width&height=$height";
+		$processLink .= "&page_ID=$page_ID";
 		$processLink .= "&sitedir=".urlencode($pageDir."/");
 
 
