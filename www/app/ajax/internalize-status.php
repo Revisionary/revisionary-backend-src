@@ -8,6 +8,10 @@ $page_ID = request('page_ID');
 $queue_ID = request('queue_ID');
 
 
+// Get the page data
+$pageData = Page::ID($page_ID);
+
+
 // STATUS CHECK
 $status = 'not-running';
 if ( $process->isRunning() )
@@ -18,8 +22,8 @@ elseif ( is_numeric($queue_ID) ) {
 
 
 	// Logger
-	$logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
-		'filename' => Page::ID($page_ID)->logFileName,
+	$logger = new Katzgrau\KLogger\Logger($pageData->logDir, Psr\Log\LogLevel::DEBUG, array(
+		'filename' => $pageData->logFileName,
 	    'extension' => 'log', // changes the log file extension
 	));
 
@@ -48,32 +52,32 @@ $data = array(
 
 	// JUST TO SEE
 	'page_ID' => $page_ID,
-	'userID' => Page::ID($page_ID)->user_ID,
+	'userID' => $pageData->user_ID,
 	'queue_ID' => $queue_ID,
 
 	'status' => $status,
 	'processID' => $process->getPid(),
-	'processStatus' => Page::ID($page_ID)->pageStatus['status'],
-	'processDescription' => Page::ID($page_ID)->pageStatus['description'],
-	'processPercentage' => Page::ID($page_ID)->pageStatus['percentage'],
+	'processStatus' => $pageData->pageStatus['status'],
+	'processDescription' => $pageData->pageStatus['description'],
+	'processPercentage' => $pageData->pageStatus['percentage'],
 
-	'CSS Files' => Page::ID($page_ID)->getDownloadedQuantity('filtred', 'css-filter')."/".Page::ID($page_ID)->getDownloadedQuantity('total', 'css-filter'),
+	'CSS Files' => $pageData->getDownloadedQuantity('filtred', 'css-filter')."/".$pageData->getDownloadedQuantity('total', 'css-filter'),
 
 
 
 	// REAL DATA
 	'final' => [
 		'status' => $status,
-		'processStatus' => Page::ID($page_ID)->pageStatus['status'],
-		'processDescription' => Page::ID($page_ID)->pageStatus['description'],
-		'processPercentage' => Page::ID($page_ID)->pageStatus['percentage'],
+		'processStatus' => $pageData->pageStatus['status'],
+		'processDescription' => $pageData->pageStatus['description'],
+		'processPercentage' => $pageData->pageStatus['percentage'],
 		'processID' => $process->getPid(),
 		'queue_ID' => $queue_ID,
-		'pageUrl' => Page::ID($page_ID)->cachedUrl,
-		'internalized' => Page::ID($page_ID)->internalizeCount,
+		'pageUrl' => $pageData->cachedUrl,
+		'internalized' => $pageData->internalizeCount,
 
-		'totalCss' => Page::ID($page_ID)->getDownloadedQuantity('total', 'css-filter'),
-		'downloadedCss' => Page::ID($page_ID)->getDownloadedQuantity('filtred', 'css-filter'),
+		'totalCss' => $pageData->getDownloadedQuantity('total', 'css-filter'),
+		'downloadedCss' => $pageData->getDownloadedQuantity('filtred', 'css-filter'),
 	]
 );
 

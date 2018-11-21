@@ -374,8 +374,13 @@ if (request('action') == "remove") {
 			}
 
 			// Remove the page folder
-			if ($type == "page")
-				deleteDirectory( dir."/assets/cache/user-".currentUserID()."/".Page::ID( request('id') )->projectPath."/".Page::ID( request('id') )->pagePath."/".Page::ID( request('id') )->devicePath."/" );
+			if ($type == "page"){
+
+				$pageData = Page::ID( request('id') );
+
+				deleteDirectory( dir."/assets/cache/user-".currentUserID()."/".$pageData->projectPath."/".$pageData->pagePath."/".$pageData->devicePath."/" );
+
+			}
 
 
 			// Remove from archives
@@ -421,7 +426,9 @@ if (request('action') == "remove") {
 
 				foreach($subPages as $subPage_ID) {
 
-					deleteDirectory( dir."/assets/cache/user-".currentUserID()."/".Page::ID( $subPage_ID )->projectPath."/".Page::ID( $subPage_ID )->pagePath."/".Page::ID( $subPage_ID )->devicePath."/" );
+					$pageData = Page::ID( $subPage_ID );
+
+					deleteDirectory( dir."/assets/cache/user-".currentUserID()."/".$pageData->projectPath."/".$pageData->pagePath."/".$pageData->devicePath."/" );
 
 					// Remove from archives
 					$db->where('archive_type', $type);

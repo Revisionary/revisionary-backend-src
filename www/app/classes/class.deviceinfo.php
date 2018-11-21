@@ -56,16 +56,22 @@ class Device {
 	    global $db, $logger;
 
 
+
 	    // DB Checks !!! (Page exists?, Device exists?, etc.)
 
 
+
+		// Get the parent page info
 		if ($parent_page_ID != null) {
 
-			if ($page_name == null) $page_name = Page::ID($parent_page_ID)->getInfo('page_name');
-			if ($page_url == null) $page_url = Page::ID($parent_page_ID)->getInfo('page_url');
-			if ($project_ID == null) $project_ID = Page::ID($parent_page_ID)->getInfo('project_ID');
+		    $parentPageInfo = Page::ID($parent_page_ID)->getInfo(null, true);
+
+			if ($page_name == null) $page_name = $parentPageInfo['page_name'];
+			if ($page_url == null) $page_url = $parentPageInfo['page_url'];
+			if ($project_ID == null) $project_ID = $parentPageInfo['project_ID'];
 
 		}
+
 
 
 		// START ADDING
@@ -93,6 +99,11 @@ class Device {
 
 
 
+		// Retrieve the new page data
+		$pageData = Page::ID($page_ID);
+
+
+
 		// START DOWNLOADING
 		if ($start_downloading) {
 
@@ -100,19 +111,19 @@ class Device {
 			// ADD TO QUEUE
 
 			// Remove the existing and wrong files
-			if ( file_exists(Page::ID($page_ID)->pageDir) )
-				deleteDirectory(Page::ID($page_ID)->pageDir);
+			if ( file_exists($pageData->pageDir) )
+				deleteDirectory($pageData->pageDir);
 
 
 			// Re-Create the log folder if not exists
-			if ( !file_exists(Page::ID($page_ID)->logDir) )
-				mkdir(Page::ID($page_ID)->logDir, 0755, true);
-			@chmod(Page::ID($page_ID)->logDir, 0755);
+			if ( !file_exists($pageData->logDir) )
+				mkdir($pageData->logDir, 0755, true);
+			@chmod($pageData->logDir, 0755);
 
 
 			// Logger
-			$logger = new Katzgrau\KLogger\Logger(Page::ID($page_ID)->logDir, Psr\Log\LogLevel::DEBUG, array(
-				'filename' => Page::ID($page_ID)->logFileName,
+			$logger = new Katzgrau\KLogger\Logger($pageData->logDir, Psr\Log\LogLevel::DEBUG, array(
+				'filename' => $pageData->logFileName,
 			    'extension' => 'log', // changes the log file extension
 			));
 

@@ -9,6 +9,9 @@ class Page {
 	// The selected page version
 	public static $setPageVersion;
 
+	// The page info
+	public $pageInfo;
+
 	// The page version
 	public $pageVersion;
 
@@ -91,7 +94,7 @@ class Page {
 
 	public function __construct() {
 
-		$pageInfo = $this->getInfo(null, true);
+		$pageInfo = $this->pageInfo = $this->getInfo(null, true);
 
 		// Set the project ID
         $this->project_ID = $pageInfo['project_ID'];

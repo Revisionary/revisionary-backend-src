@@ -23,13 +23,16 @@ require realpath('.').'/app/init.php';
 session_write_close();
 
 
+// Get the page data
+$pageData = Page::ID($page_ID);
+
 
 // Logger
 $logger = new Katzgrau\KLogger\Logger(
-	Page::ID($page_ID)->logDir,
+	$pageData->logDir,
 	Psr\Log\LogLevel::DEBUG,
 	array(
-		'filename' => Page::ID($page_ID)->logFileName,
+		'filename' => $pageData->logFileName,
 	    'extension' => 'log', // changes the log file extension
 	)
 );

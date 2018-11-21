@@ -8,6 +8,9 @@ class Internalize_v4 {
 	// The Page ID
 	public $page_ID;
 
+	// The Page data
+	public $pageData;
+
 	// The Queue ID
 	public $queue_ID;
 
@@ -65,6 +68,11 @@ class Internalize_v4 {
 		$this->page_ID = $page_ID;
 		$this->queue_ID = $queue_ID;
 
+
+		// Get the page data
+		$this->pageData = Page::ID($page_ID);
+
+
 	}
 
 
@@ -114,16 +122,20 @@ class Internalize_v4 {
 		$logger->info("Browser job is starting.");
 
 
-		// Variables
-		$page_ID = $this->page_ID;
-		$url = Page::ID($page_ID)->remoteUrl;
-		$pageDir = Page::ID($page_ID)->pageDir;
+		// Page Info
+		$pageInfo = $this->pageData->pageInfo;
+
+
+		$url = $this->pageData->remoteUrl;
+		$pageDir = $this->pageData->pageDir;
 
 
 		// Device info
-		$deviceID = Page::ID($page_ID)->getInfo('device_ID');
-		$width = Page::ID($page_ID)->getInfo('page_width') ? Page::ID($page_ID)->getInfo('page_width') : Device::ID($deviceID)->getInfo('device_width');
-		$height = Page::ID($page_ID)->getInfo('page_height') ? Page::ID($page_ID)->getInfo('page_height') : Device::ID($deviceID)->getInfo('device_height');
+		$deviceID = $pageInfo['device_ID'];
+		$deviceInfo = Device::ID($deviceID)->getInfo(null, true);
+
+		$width = $pageInfo['page_width'] ? $pageInfo['page_width'] : $deviceInfo['device_width'];
+		$height = $pageInfo['page_height'] ? $pageInfo['page_height'] : $deviceInfo['device_height'];
 
 
 		// Chrome container request link
@@ -239,7 +251,7 @@ class Internalize_v4 {
 
 
 		// Do nothing if there is no HTML file
-		if ( !file_exists( Page::ID($this->page_ID)->pageFile ) ) {
+		if ( !file_exists( $this->pageData->pageFile ) ) {
 
 			// Update the queue status
 			$queue->update_status($this->queue_ID, "error", "HTML couldn't be filtered. (No file)");
@@ -251,12 +263,12 @@ class Internalize_v4 {
 
 		// GET HTML CONTENT
 		// Get the HTML from the downloaded file
-		$html = file_get_contents(Page::ID($this->page_ID)->pageFile);
+		$html = file_get_contents($this->pageData->pageFile);
 
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
+		file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Started \r\n", FILE_APPEND);
 
 
 
@@ -294,9 +306,9 @@ class Internalize_v4 {
 		        if ( $countHead == 1 ) {
 
 			        // Specific Log
-					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
+					file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->pageData->remoteUrl."' \r\n", FILE_APPEND);
 
-					$new_base = "<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+					$new_base = "<base href='".$this->pageData->remoteUrl."'>";
 
 			        return $head_tag.$new_base;
 
@@ -323,9 +335,9 @@ class Internalize_v4 {
 			        if ( $countHtml == 1 ) {
 
 				        // Specific Log
-						file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".Page::ID($this->page_ID)->remoteUrl."' \r\n", FILE_APPEND);
+						file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->pageData->remoteUrl."' \r\n", FILE_APPEND);
 
-						$new_base = "<base href='".Page::ID($this->page_ID)->remoteUrl."'>";
+						$new_base = "<base href='".$this->pageData->remoteUrl."'>";
 
 						return $html_tag.$new_base;
 
@@ -353,7 +365,7 @@ class Internalize_v4 {
 
 
 		        // Absoluted URL
-		        $new_url = url_to_absolute(Page::ID($this->page_ID)->remoteUrl, $the_url);
+		        $new_url = url_to_absolute($this->pageData->remoteUrl, $the_url);
 
 
 				// If it has host, but no protocol (without http or https)
@@ -362,7 +374,7 @@ class Internalize_v4 {
 
 
 		        // If not on our server, don't touch it !!!
-		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] )
+		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl($this->pageData->remoteUrl)['domain'] )
 		        	$new_url = $the_url;
 
 
@@ -373,7 +385,7 @@ class Internalize_v4 {
 
 		        // If file is from the remote url, and already downloaded
 		        if (
-		        	//parseUrl($new_url)['domain'] == parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] && // TO ALLOW CDN URLs !!!
+		        	//parseUrl($new_url)['domain'] == parseUrl($this->pageData->remoteUrl)['domain'] && // TO ALLOW CDN URLs !!!
 		        	$css_resource_key !== false &&
 		        	(	// Check if this is really stylesheet calling tag
 		        		strpos($full_tag, 'rel="stylesheet"') !== false ||
@@ -388,12 +400,12 @@ class Internalize_v4 {
 
 
 			        // Change the URL again with the downloaded file
-			        $new_url = Page::ID($this->page_ID)->pageUri."css/".$css_file_name;
+			        $new_url = $this->pageData->pageUri."css/".$css_file_name;
 
 
 
 			        // Specific Log
-					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+					file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 				}
 
@@ -415,12 +427,12 @@ class Internalize_v4 {
 
 
 		        // Found URL Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
 
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
 
 
 	            return $new_full_tag;
@@ -442,7 +454,7 @@ class Internalize_v4 {
 
 
 		        // Absoluted URL
-		        $new_url = url_to_absolute(Page::ID($this->page_ID)->remoteUrl, $the_url);
+		        $new_url = url_to_absolute($this->pageData->remoteUrl, $the_url);
 
 
 				// If it has host, but no protocol (without http or https)
@@ -451,7 +463,7 @@ class Internalize_v4 {
 
 
 		        // If not on our server, don't touch it !!!
-		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain'] )
+		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl($this->pageData->remoteUrl)['domain'] )
 		        	$new_url = $the_url;
 
 
@@ -468,12 +480,12 @@ class Internalize_v4 {
 
 
 			        // Change the URL again with the downloaded file
-			        $new_url = Page::ID($this->page_ID)->pageUri."js/".$js_file_name;
+			        $new_url = $this->pageData->pageUri."js/".$js_file_name;
 
 
 
 			        // Specific Log
-					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+					file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 				}
 
@@ -495,12 +507,12 @@ class Internalize_v4 {
 
 
 		        // Found URL Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
 
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
 
 
 	            return $new_full_tag;
@@ -516,7 +528,7 @@ class Internalize_v4 {
 	        function ($style) {
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Inpage Style Filtred \r\n", FILE_APPEND);
 
 		        return $style['tag'].$this->filter_css($style['content'])."</style>";
 
@@ -534,7 +546,7 @@ class Internalize_v4 {
 		        $filtred_css = $this->filter_css($the_css);
 
 		        // Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Inline Style Filtred: '".$the_css."' -> '".$filtred_css."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Inline Style Filtred: '".$the_css."' -> '".$filtred_css."' \r\n", FILE_APPEND);
 
 
 	            return str_replace(
@@ -571,7 +583,7 @@ class Internalize_v4 {
 		        if ( !in_array(strtoupper($tag_name), $this->easy_html_elements) ) {
 
 					// Specific Log
-					file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - SKIPPED TAGNAME TO INDEX: \r\n
+					file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - SKIPPED TAGNAME TO INDEX: \r\n
 					".$tag_name." \r\n
 					".$tag."' \r\n \r\n", FILE_APPEND);
 
@@ -591,7 +603,7 @@ class Internalize_v4 {
 
 
 				// Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - ELEMENT TO INDEX: \r\n
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - ELEMENT TO INDEX: \r\n
 				".$tag." \r\n
 				".$new_tag."' \r\n \r\n", FILE_APPEND);
 
@@ -609,13 +621,13 @@ class Internalize_v4 {
 		// SAVING:
 
 		// Save the file if exists
-		if ( file_exists( Page::ID($this->page_ID)->pageFile ) )
-			$updated = file_put_contents( Page::ID($this->page_ID)->pageFile, $html, FILE_TEXT);
+		if ( file_exists( $this->pageData->pageFile ) )
+			$updated = file_put_contents( $this->pageData->pageFile, $html, FILE_TEXT);
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->page_ID)->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$updated ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->page_ID)->logDir."/_html-filter.log", Page::ID($this->page_ID)->logDir.(!$updated ? '/__' : '/')."html-filter.log");
+		file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".(!$updated ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename($this->pageData->logDir."/_html-filter.log", $this->pageData->logDir.(!$updated ? '/__' : '/')."html-filter.log");
 
 
 		if (!$updated) {
@@ -666,7 +678,7 @@ class Internalize_v4 {
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->downloadedCSS)."} \r\n", FILE_APPEND);
+		file_put_contents( $this->pageData->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Started {TOTAL:".count($this->downloadedCSS)."} \r\n", FILE_APPEND);
 
 
 
@@ -684,7 +696,7 @@ class Internalize_v4 {
 
 				$fileName = $info['new_file_name'];
 				$css_url = $info['url'];
-				$fileUri = Page::ID($this->page_ID)->pageDir."/css/".$fileName;
+				$fileUri = $this->pageData->pageDir."/css/".$fileName;
 
 
 				// Get the old CSS
@@ -700,7 +712,7 @@ class Internalize_v4 {
 
 
 				// Specific Log
-				file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_filtered ? " <b>NOT</b>":'')." Filtered: '".$css_url."' -> '".$fileName."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] -".(!$css_filtered ? " <b>NOT</b>":'')." Filtered: '".$css_url."' -> '".$fileName."' \r\n", FILE_APPEND);
 
 				if (!$css_filtered) $css_filtered_has_error = true;
 
@@ -713,8 +725,8 @@ class Internalize_v4 {
 
 
 		// Specific Log
-		file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_filtered_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
-		rename(Page::ID($this->page_ID)->logDir."/_css-filter.log", Page::ID($this->page_ID)->logDir."/".($css_filtered_has_error ? "__" : "")."css-filter.log");
+		file_put_contents( $this->pageData->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Finished".($css_filtered_has_error ? " <b>WITH ERRORS</b>":'')." \r\n", FILE_APPEND);
+		rename($this->pageData->logDir."/_css-filter.log", $this->pageData->logDir."/".($css_filtered_has_error ? "__" : "")."css-filter.log");
 
 
 		// Return true if no error
@@ -757,15 +769,15 @@ class Internalize_v4 {
 
 
 		// Increase the internalization count
-		$newInternalizeCount = Page::ID($this->page_ID)->internalizeCount + 1;
-		Page::ID($this->page_ID)->edit('page_internalized', $newInternalizeCount);
+		$newInternalizeCount = $this->pageData->internalizeCount + 1;
+		$this->pageData->edit('page_internalized', $newInternalizeCount);
 
 
 		// Init Log
 		$logger->info("Internalization #$newInternalizeCount is complete.");
 
 
-		return Page::ID($this->page_ID)->cachedUrl;
+		return $this->pageData->cachedUrl;
 	}
 
 
@@ -791,7 +803,7 @@ class Internalize_v4 {
 
 
 		if (empty($url))
-			$url = Page::ID($this->page_ID)->remoteUrl;
+			$url = $this->pageData->remoteUrl;
 
 
 		// Internalize Fonts - No Need for now !!!
@@ -819,7 +831,7 @@ class Internalize_v4 {
         		// Absolution Logs
 				$logger->debug('Full URL absoluted in CSS: ', $css_urls);
 				$logger->info('URL absoluted in CSS: '.$relative_url.' -> '.$new_url);
-		        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+		        file_put_contents( $this->pageData->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				$parsed_url = parseUrl($absolute_url);
@@ -846,7 +858,7 @@ class Internalize_v4 {
 /* // REMOVED TO ALLOW CDN URLs !!!
 				// If not same domain URL
 				if (
-					$parsed_url['domain'] != parseUrl(Page::ID($this->page_ID)->remoteUrl)['domain']
+					$parsed_url['domain'] != parseUrl($this->pageData->remoteUrl)['domain']
 				) {
 
 					$logger->info('Different domain URL skipped in CSS: '.$absolute_url);
@@ -881,12 +893,12 @@ class Internalize_v4 {
 					// Downloaded file name
 					$font_file_name = $this->downloadedFonts[$font_resource_key]['new_file_name'];
 
-					$new_url = Page::ID($this->page_ID)->pageUri."fonts/".$file_name_hashed;
+					$new_url = $this->pageData->pageUri."fonts/".$file_name_hashed;
 
 
 					// Font Logs
 					$logger->info('Font Detected: '.$relative_url.' -> '.$new_url);
-			        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+			        file_put_contents( $this->pageData->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				} elseif ( $css_resource_key !== false ) {
@@ -894,12 +906,12 @@ class Internalize_v4 {
 					// Downloaded file name
 					$downloaded_css = $this->downloadedCSS[$css_resource_key]['new_file_name'];
 
-					$new_url = Page::ID($this->page_ID)->pageUri."css/".$downloaded_css;
+					$new_url = $this->pageData->pageUri."css/".$downloaded_css;
 
 
 					// CSS Import Logs
 					$logger->info('Imported CSS Detected: '.$relative_url.' -> '.$new_url);
-			        file_put_contents( Page::ID($this->page_ID)->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Imported CSS Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+			        file_put_contents( $this->pageData->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Imported CSS Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				}
