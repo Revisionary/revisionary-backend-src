@@ -18,7 +18,6 @@
 
 			<form action="<?=site_url('projects', true)?>" method="get">
 
-				<!-- Add nonce !!! -->
 				<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
 				<input type="hidden" name="add_new" value="true"/>
 				<input type="hidden" name="category" value="0"/>
