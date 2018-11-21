@@ -165,7 +165,8 @@ class Internalize_v4 {
 
 
 
-			// Send the request again
+			// Send the request again after 2 seconds
+			sleep(2);
 			$data = $this->getData($processLink);
 
 			if (!$data || $data->status != "success" || count($data->downloadedFiles) == 0) {
