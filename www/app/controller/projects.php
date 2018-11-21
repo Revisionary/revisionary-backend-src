@@ -13,24 +13,24 @@ if ( !userloggedIn() ) {
 
 // ADD NEW
 if (
-	post('add_new') == "true"
-	&& post('page-url') != ""
+	request('add_new') == "true"
+	&& request('page-url') != ""
 	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
 ) {
 
 
 	// Add the domain name as project name if not already entered
-	$project_name = post('project-name');
+	$project_name = request('project-name');
 	if ($project_name == "")
-		$project_name = ucwords( str_replace('-', ' ', explode('.', parseUrl(post('page-url'))['domain'])[0]) );
+		$project_name = ucwords( str_replace('-', ' ', explode('.', parseUrl(request('page-url'))['domain'])[0]) );
 
 
 
 	$project_ID = Project::ID()->addNew(
 		$project_name,
-		post('category'),
-		post('order'),
-		is_array(post('project_shares')) ? post('project_shares') : array()
+		request('category'),
+		request('order'),
+		is_array(request('project_shares')) ? request('project_shares') : array()
 	);
 
 
@@ -38,23 +38,23 @@ if (
 	// Add the first pages
 	$firstPageAdded = false;
 	if (
-		post('page-url') != "" &&
-		is_array(post('devices')) &&
-		count(post('devices')) > 0
+		request('page-url') != "" &&
+		is_array(request('devices')) &&
+		count(request('devices')) > 0
 	) {
 
 
 		// Add the pages
 		$parent_page_ID = Page::ID()->addNew(
-			post('page-url'),
+			request('page-url'),
 			$project_ID,
-			post('page-name'),
+			request('page-name'),
 			0, // Category ID
-			post('order'),
-			is_array(post('devices')) ? post('devices') : array(), // Device IDs array
-			is_array(post('page_shares')) ? post('page_shares') : array(),
-			post('page-width') != "" ? post('page-width') : null,
-			post('page-height') != "" ? post('page-height') : null
+			request('order'),
+			is_array(request('devices')) ? request('devices') : array(), // Device IDs array
+			is_array(request('page_shares')) ? request('page_shares') : array(),
+			request('page-width') != "" ? request('page-width') : null,
+			request('page-height') != "" ? request('page-height') : null
 		);
 
 		if ($parent_page_ID) $firstPageAdded = true;
@@ -132,10 +132,6 @@ $additionalHeadJS = [
 $additionalBodyJS = [
 	'vendor/jquery.mCustomScrollbar.concat.min.js'
 ];
-
-
-// Generate new nonce for add new modals
-$_SESSION["add_new_nonce"] = uniqid(mt_rand(), true);
 
 
 $page_title = "Projects - Revisionary App";

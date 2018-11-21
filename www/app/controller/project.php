@@ -180,22 +180,22 @@ if (
 
 // ADD NEW PAGE
 if (
-	post('add_new') == "true"
-	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
+	request('add_new') == "true"
+	// && request('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
 ) {
 
 
 	// Add the pages
 	$parent_page_ID = Page::ID()->addNew(
-		post('page-url'),
-		post('project_ID'),
-		post('page-name'),
-		post('category'),
-		post('order'),
-		is_array(post('devices')) ? post('devices') : array(), // Device IDs array
-		is_array(post('page_shares')) ? post('page_shares') : array(),
-		post('page-width') != "" ? post('page-width') : null,
-		post('page-height') != "" ? post('page-height') : null
+		request('page-url'),
+		request('project_ID'),
+		request('page-name'),
+		request('category'),
+		request('order'),
+		is_array(request('devices')) ? request('devices') : array(), // Device IDs array
+		is_array(request('page_shares')) ? request('page_shares') : array(),
+		request('page-width') != "" ? request('page-width') : null,
+		request('page-height') != "" ? request('page-height') : null
 	);
 
 
@@ -280,10 +280,6 @@ $additionalHeadJS = [
 $additionalBodyJS = [
 	'vendor/jquery.mCustomScrollbar.concat.min.js'
 ];
-
-
-// Generate new nonce for add new modals
-$_SESSION["add_new_nonce"] = uniqid(mt_rand(), true);
 
 
 // Generate new nonce for add new devices

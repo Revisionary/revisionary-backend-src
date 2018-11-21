@@ -16,8 +16,20 @@
 				</ul>
 			</div>
 
-			<form action="#" method="get" data-tooltip="Coming Soon...">
-				<input type="url" name="new_url" placeholder="ENTER A WEBSITE URL"/>
+			<form action="<?=site_url('projects', true)?>" method="get">
+
+				<!-- Add nonce !!! -->
+				<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
+				<input type="hidden" name="add_new" value="true"/>
+				<input type="hidden" name="category" value="0"/>
+				<input type="hidden" name="order" value="0"/>
+
+				<input type="hidden" name="devices[]" value="11"/>
+				<input type="hidden" name="page-width" value="1440"/>
+				<input type="hidden" name="page-height" value="900"/>
+
+
+				<input type="url" name="page-url" placeholder="ENTER A WEBSITE URL" tabindex="1" autofocus/>
 				<input type="submit"/>
 			</form>
 			<span class="description">Add your comments and edit any website’s content, <br/>
