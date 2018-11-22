@@ -667,6 +667,7 @@ $data['data'] = array(
 
 	'status' => $status,
 	'action' => request('action'),
+	'data-type' => request('data-type'),
 	'nonce' => request('nonce'),
 	'S_nonce' => $_SESSION['js_nonce'],
 	//'data' => $orderData

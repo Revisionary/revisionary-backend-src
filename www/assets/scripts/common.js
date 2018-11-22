@@ -1,6 +1,12 @@
 $(function() {
 
 
+	// Prevent clicking '#' links
+	$('a[href="#"]').click(function(e) {
+		e.preventDefault();
+	});
+
+
 	// New Page/Project Modal
 	$(document).on('click', '.add-new-box', function(e) {
 
@@ -83,7 +89,7 @@ $(function() {
 	// Share Modal
 	$(document).on('click', '.share-button', function(e) {
 
-		if (!dataType || dataType == null) dataType = $(this).attr('data-type');
+		dataType = $(this).attr('data-type') || dataType;
 
 		var projectShare = $(this).hasClass('project');
 
@@ -642,7 +648,7 @@ $(function() {
 	// ACTIONS - Archive, delete, recover, rename, ...
 	$('[data-action]').click(function(e) {
 
-		if (!dataType || dataType == null) dataType = $(this).attr('data-type');
+		dataType = $(this).attr('data-type') || dataType;
 
 
 		var action = $(this).attr('data-action');
@@ -781,6 +787,29 @@ $(window).on("load", function (e) {
 
 
 });
+
+
+// NEW PAGE/PROJECT CLONES
+function addNewPageButtons() {
+
+	var page_type = "Page";
+	if ( $('h1').text() == "PROJECTS" ) page_type = "Project";
+
+	var box_html = $('<div>').append( $('.add-new-template').clone().removeClass('add-new-template').addClass('add-new-block') ).html();
+
+	$('.add-new-block').remove();
+
+	$('.cat-separator').each(function() {
+
+		if ( $(this).prev().hasClass('block') || ($(this).prev().hasClass('cat-separator') && !$(this).prev().hasClass('xl-hidden')) ) {
+
+			$(this).prev().after(box_html);
+
+		}
+
+	});
+
+}
 
 
 

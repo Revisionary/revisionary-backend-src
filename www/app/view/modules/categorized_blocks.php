@@ -61,9 +61,9 @@
 					<span class="actions">
 
 						<input class="edit-name" type="text" value="<?=$category['cat_name']?>"/>
-						<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+						<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename" data-type="category"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
-						<a href="<?=site_url($action_url.'&action=remove')?>" data-action="remove"><i class="fa fa-trash" aria-hidden="true"></i></a>
+						<a href="<?=site_url($action_url.'&action=remove')?>" data-action="remove" data-type="category"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
 					</span>
 
@@ -473,15 +473,15 @@
 
 												if ($catFilter == "archived" || $catFilter == "deleted") {
 											?>
-											<a href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>" data-action="recover" data-tooltip="Recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
+											<a href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>" data-action="recover" data-type="<?=$dataType?>" data-tooltip="Recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
 											<?php
 												} else {
 											?>
-											<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-tooltip="Archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
+											<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-type="<?=$dataType?>" data-tooltip="Archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
 											<?php
 												}
 											?>
-											<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+											<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-type="<?=$dataType?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
 
 										</div>
@@ -502,7 +502,7 @@
 											<span class="actions">
 
 												<input class="edit-name" type="text" value="<?=$block[$dataType.'_name']?>"/>
-												<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+												<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename" data-type="<?=$dataType?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
 											</span>
 											<?php

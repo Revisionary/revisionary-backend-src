@@ -3,10 +3,8 @@ var screenHeight = $(window).height();
 
 $(function() {
 
-	// Prevent clicking '#' links
-	$('a[href="#"]').click(function(e) {
-		e.preventDefault();
-	});
+	// Add the new project/page buttons
+	addNewPageButtons();
 
 
 	// Block Sizes
@@ -65,7 +63,7 @@ $(function() {
 	});
 
 
-	// DRAG DETECTOR
+	// Drag Detector
 	$('.sortable [draggable="true"]').bind('dragstart', function( event ) {
 
 
@@ -102,111 +100,7 @@ $(function() {
 	});
 
 
-
-	// Open the new page modal if project is just added
-	if(window.location.hash == "#add-first-page") {
-
-
-		openModal('#add-new-page');
-
-		var thisBlock = $('.add-new-template');
-		var catID = thisBlock.prevAll('.cat-separator:first').attr('data-cat-id') || 0;
-		var catName = thisBlock.prevAll('.cat-separator:first').find('.name').text();
-		var orderNumber = thisBlock.prev('.block').attr('data-order') || 0;
-
-		$('#add-new-page .to').html("To <b></b> Section");
-		$('#add-new-page .to > b').text(catName);
-
-		if (catName == "Uncategorized")
-			$('#add-new-page .to').html("");
-
-
-		// Category ID input update
-		$('#add-new-page input[name="category"]').attr('value', catID);
-
-
-		// Order number input update
-		$('#add-new-page input[name="order"]').attr('value', ( typeof orderNumber !== 'undefined' ? parseInt(orderNumber) + 1 : 0 ));
-
-
-		// Focus to the input
-		setTimeout(function() {
-
-			$('#add-new-page input[autofocus]').focus();
-
-		}, 500);
-
-
-
-	}
-
-
-
-	// NEW PAGE/PROJECT CLONES
-	function addNewPageButtons() {
-
-		var page_type = "Page";
-		if ( $('h1').text() == "PROJECTS" ) page_type = "Project";
-
-		var box_html = $('<div>').append( $('.add-new-template').clone().removeClass('add-new-template').addClass('add-new-block') ).html();
-
-		$('.add-new-block').remove();
-
-		$('.cat-separator').each(function() {
-
-			if ( $(this).prev().hasClass('block') || ($(this).prev().hasClass('cat-separator') && !$(this).prev().hasClass('xl-hidden')) ) {
-
-				$(this).prev().after(box_html);
-
-			}
-
-		});
-
-	}
-
-
-	function updateOrderNumbers() {
-
-		var categories = $('.blocks > .cat-separator');
-
-		categories.each(function(index) {
-
-			var catID = $(this).attr('data-id');
-
-			$(this).nextAll( ".block:not(.cat-separator):not(.add-new-block):not(.add-new-template)" ).attr('data-cat-id', catID);
-
-
-		});
-
-
-
-		var newOrder = [];
-		var blocks = $('.blocks > .col:not(.add-new-block):not(.add-new-template)');
-
-		blocks.each(function(index) {
-
-			$(this).attr('data-order', index);
-
-			//$(this).prevUntil( $('.cat-separator'), ".block" ).attr('data-order', 'Test' + index);
-
-			newOrder.push({
-	            'type' : $(this).attr('data-type'),
-	            'ID' :  $(this).attr('data-id'),
-	            'catID' :  $(this).attr('data-cat-id'),
-	            'order' : index
-	        });
-
-		});
-
-		return newOrder;
-
-	}
-
-
-	addNewPageButtons();
-
-
-	// Update the current screen size
+	// Update the current screen size !!! Common?
 	$(window).resize(function() {
 
 		var width = $(this).width();
@@ -249,3 +143,42 @@ $(function() {
 
 
 });
+
+
+// Update order numbers
+function updateOrderNumbers() {
+
+	var categories = $('.blocks > .cat-separator');
+
+	categories.each(function(index) {
+
+		var catID = $(this).attr('data-id');
+
+		$(this).nextAll( ".block:not(.cat-separator):not(.add-new-block):not(.add-new-template)" ).attr('data-cat-id', catID);
+
+
+	});
+
+
+
+	var newOrder = [];
+	var blocks = $('.blocks > .col:not(.add-new-block):not(.add-new-template)');
+
+	blocks.each(function(index) {
+
+		$(this).attr('data-order', index);
+
+		//$(this).prevUntil( $('.cat-separator'), ".block" ).attr('data-order', 'Test' + index);
+
+		newOrder.push({
+            'type' : $(this).attr('data-type'),
+            'ID' :  $(this).attr('data-id'),
+            'catID' :  $(this).attr('data-cat-id'),
+            'order' : index
+        });
+
+	});
+
+	return newOrder;
+
+}
