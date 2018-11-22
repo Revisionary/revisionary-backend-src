@@ -19,6 +19,9 @@ class Internalize_v4 {
 	// HTML file to download
 	public $downloadedHTML = array();
 
+	// Serverside rendered file and normal file character difference
+	public $renderDifference = 0;
+
 	// CSS files to download
 	public $downloadedCSS = array();
 
@@ -31,6 +34,8 @@ class Internalize_v4 {
 	// Images to download !!! Not yet
 	public $downloadedImages = array();
 
+
+	// Easy HTML Elements
 	public $easy_html_elements = array(
 	    "A",
 		"B",
@@ -217,10 +222,15 @@ class Internalize_v4 {
 		}
 
 
+		// Serverside rendered file and normal file character difference
+		$this->renderDifference = $data->renderDifference;
+
+
 		// Log
 		$logger->debug("Downloaded CSS files:", $this->downloadedCSS);
 		$logger->debug("Downloaded JS files:", $this->downloadedJS);
 		$logger->debug("Downloaded Font files:", $this->downloadedFonts);
+		$logger->debug("SSR Difference: ".$this->renderDifference);
 
 
 
