@@ -4,6 +4,8 @@ $data = array();
 $status = "initiated";
 $shareType = false;
 
+$data['data']['status'] = $status;
+
 
 /*
 // NONCE CHECK !!! Disabled for now!
@@ -164,12 +166,8 @@ $dbData = Array(
 );
 $share_ID = $db->insert('shares', $dbData);
 
-if ($share_ID) {
-
-	$data['data']['status'] = $shareType."-added";
-
-
-}
+if ($share_ID) $data['data']['status'] = $shareType."-added";
+else $data['data']['status'] = "not-added";
 
 
 

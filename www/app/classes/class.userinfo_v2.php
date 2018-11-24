@@ -56,7 +56,7 @@ class UserAccess {
 			'firstName' => $userInfo['user_first_name'],
 			'lastName' => $userInfo['user_last_name'],
 			'fullName' => $userInfo['user_first_name']." ".$userInfo['user_last_name'],
-			'nameAbbr' => substr($userInfo['user_first_name'], 0, 1).substr($userInfo['user_last_name'], 0, 1),
+			'nameAbbr' => mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
 			'email' => $userInfo['user_email'],
 			'userPic' => $userInfo['user_picture'],
 			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('user-'.self::$user_ID.'/'.$userInfo['user_picture']) : asset_url('icons/follower-f.svg')
