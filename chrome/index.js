@@ -348,14 +348,18 @@ require('http').createServer(async (req, res) => {
 							// Prepend the site directory
 							newDir = siteDir + newDir;
 
-							downloadableRequests[downloadableRequests.length] = {
-								remoteUrl: url,
-								fileType: fileType,
-								fileName: fileName,
-								newDir: newDir,
-								newFileName: newFileName,
-								buffer: null
-							};
+
+							downloadableRequests.push(
+								{
+									remoteUrl: url,
+									fileType: fileType,
+									fileName: fileName,
+									newDir: newDir,
+									newFileName: newFileName,
+									buffer: null
+								}
+							);
+
 							console.log('📄📋 #'+downloadableRequests.length+' '+fileType.toUpperCase()+' to Download: ', fileName + ' -> ' + siteDir + newDir + newFileName);
 
 						}
@@ -411,12 +415,19 @@ require('http').createServer(async (req, res) => {
 					response.buffer().then(buffer => { bufferCount++;
 
 
-						// Add the buffer
-						downloadableRequests[downloadedIndex].buffer = buffer;
+						if (downloadableRequests[downloadedIndex].buffer == null || downloadableRequests[downloadedIndex].buffer.length == 0) {
 
 
-						//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
-						console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} ${url}`);
+							// Add the buffer
+							downloadableRequests[downloadedIndex].buffer = buffer;
+
+
+							//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
+							console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} (BUFFER LENGTH: ${buffer.length}) ${url}`);
+
+
+						}
+
 
 					}, e => {
 						console.error(`📋❌${response.status()} ${response.url()} failed: ${e}`);
@@ -497,6 +508,7 @@ require('http').createServer(async (req, res) => {
 
 		switch (action) {
 			case 'internalize': {
+
 
 				//console.log('🌎 Real Page URL: ', realPageURL);
 
