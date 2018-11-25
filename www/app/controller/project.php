@@ -1,6 +1,5 @@
 <?php
 
-
 // Get the project ID
 $project_ID = $_url[1];
 
@@ -12,10 +11,6 @@ $catFilter = isset($_url[2]) ? $_url[2] : '';
 
 // Device Filter
 $deviceFilter = get('device');
-
-
-
-
 
 
 
@@ -44,8 +39,6 @@ if ( !$project ) {
 
 
 
-
-
 // PAGES DATA MODEL
 $dataType = "page";
 $allMyPagesList = UserAccess::ID()->getMy("pages", $catFilter, $order, $project_ID);
@@ -54,12 +47,9 @@ $theCategorizedData = categorize($allMyPagesList, $dataType, $deviceFilter);
 
 
 
-
 // MY PAGES IN THIS PROJECT
 $allMyPages = $thePreparedData;
 //echo "<pre>"; print_r( $allMyPages ); die();
-
-
 
 
 
@@ -70,7 +60,6 @@ $db->where('share_type', 'project');
 $db->where('shared_object_ID', $project_ID);
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 //echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
-
 
 // If project doesn't belong to me and if no page belong to me
 if (
@@ -261,7 +250,6 @@ $categories = UserAccess::ID()->getCategories($dataType, $order, $project_ID);
 // DEVICE INFO
 $device_data = UserAccess::ID()->getDeviceData();
 //echo "<pre>"; print_r($device_data); exit();
-
 
 
 

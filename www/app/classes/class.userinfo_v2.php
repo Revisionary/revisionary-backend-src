@@ -114,7 +114,7 @@ class UserAccess {
 
 
 	// Bring data that's mine or shared to me
-    public function getMy($data_type = "projects", $catFilter = "", $order = "", $project_ID = null, $object_ID = null) {
+    public function getMy($data_type = "projects", $catFilter = "", $order = "", $project_ID = null, $object_ID = null, $deletes_archives = false) {
 		global $db, $mySharedPages;
 
 
@@ -126,7 +126,7 @@ class UserAccess {
 		// Bring the shared projects
 		if ($data_type == "project") {
 
-			$mySharedPages = $this->getMy('pages');
+			$mySharedPages = $this->getMy('pages', "", "", null, null, true);
 			$mySharedProjectsFromPages = array_unique(array_column($mySharedPages, 'project_ID'));
 
 		}
@@ -198,7 +198,6 @@ class UserAccess {
 			$db->joinWhere("shares sp", "sp.share_type", 'project');
 
 
-
 			// Bring the devices
 			$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
 
@@ -207,14 +206,12 @@ class UserAccess {
 			$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
 
 
-
 			$db->where('(
 				p.user_ID = '.self::$user_ID.'
 				OR s.share_to = '.self::$user_ID.'
 				OR pr.user_ID = '.self::$user_ID.'
 				OR sp.share_to = '.self::$user_ID.'
 			)');
-
 
 
 			// Exclude the other project pages
@@ -232,10 +229,15 @@ class UserAccess {
 			$db->where('p.user_ID != '.self::$user_ID);
 
 
-		// Exclude deleted and archived
-		$db->where('del.deleted_object_ID IS '.($catFilter == "deleted" ? 'NOT' : '').' NULL');
-		if ($catFilter != "deleted")
-			$db->where('arc.archived_object_ID IS '.($catFilter == "archived" ? 'NOT' : '').' NULL');
+
+		if (!$deletes_archives) {
+
+			// Exclude deleted and archived
+			$db->where('del.deleted_object_ID IS '.($catFilter == "deleted" ? 'NOT' : '').' NULL');
+			if ($catFilter != "deleted")
+				$db->where('arc.archived_object_ID IS '.($catFilter == "archived" ? 'NOT' : '').' NULL');
+
+		}
 
 
 		// Bring the category order info

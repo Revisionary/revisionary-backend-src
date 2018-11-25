@@ -1,13 +1,10 @@
 <?php
-use Cocur\BackgroundProcess\BackgroundProcess;
-
 
 // If not logged in, go login page
 if ( !userloggedIn() ) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }
-
 
 
 
@@ -80,6 +77,7 @@ if (
 	die();
 
 }
+
 
 
 // Get the order
