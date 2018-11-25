@@ -2436,8 +2436,10 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 
 	var editSummary = "";
 	if (pin_modification == null) editSummary = '<br /><i class="edit-summary">No change yet.</i>';
-	if (pin_modification_type == "html" && pin_modification != null && pin_modification != "")
-		editSummary = '<br /><i class="edit-summary">'+ pin_modification +'</i>';
+	if (pin_modification_type == "html" && pin_modification != null && pin_modification != "") {
+		var text_no_html = html_entity_decode(pin_modification).replace(/(<([^>]+)>)/ig,"");
+		editSummary = '<br /><i class="edit-summary">'+ text_no_html +'</i>';
+	}
 
 	if (pin_modification_type == "image" && pin_modification != null && pin_modification != "")
 		editSummary = '<br /><i class="edit-summary"><img src="'+ pin_modification +'" alt="" /></i>';
