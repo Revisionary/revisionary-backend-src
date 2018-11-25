@@ -103,6 +103,21 @@ html, body {
       transform: rotate(180deg); }
     #top-bar .pins .pins-list .pin-title.close + .pin-comments {
       display: none; }
+    #top-bar .pins .pins-list .pin-title i.edit-summary {
+      width: 100%;
+      display: block;
+      transform: none !important;
+      padding-left: 60px;
+      color: gray;
+      margin-top: -12px;
+      font-size: 10px;
+      text-transform: none;
+      box-sizing: border-box; }
+      #top-bar .pins .pins-list .pin-title i.edit-summary > img {
+        max-width: 50px;
+        max-height: 50px;
+        width: auto;
+        height: auto; }
   #top-bar .pin-mode .current-mode > a > i.fa-mouse-pointer {
     display: none; }
   #top-bar .pin-mode .current-mode .mode-label {

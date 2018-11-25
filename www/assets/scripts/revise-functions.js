@@ -2431,7 +2431,17 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 	// Pin description
 	var pinText = "Comment Pin";
 	if (pin_type == "live") pinText = "Live Edit and " + pinText;
+	if (pin_modification_type == "image") pinText = pinText.replace('Live Edit', 'Image Edit');
 	if (pin_private == "1") pinText = "Private " + pinText;
+
+	var editSummary = "";
+	if (pin_modification == null) editSummary = '<br /><i class="edit-summary">No change yet.</i>';
+	if (pin_modification_type == "html" && pin_modification != null && pin_modification != "")
+		editSummary = '<br /><i class="edit-summary">'+ pin_modification +'</i>';
+
+	if (pin_modification_type == "image" && pin_modification != null && pin_modification != "")
+		editSummary = '<br /><i class="edit-summary"><img src="'+ pin_modification +'" alt="" /></i>';
+
 
 	return ' \
 		<div class="pin '+pin_type+' '+(pin_complete == "1" ? "complete" : "incomplete")+'" \
@@ -2449,7 +2459,10 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 			<a href="#" class="pin-locator"> \
 				'+ pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary, 'mid') +' \
 			</a> \
-			<a href="#" class="pin-title close">'+pinText+' <i class="fa fa-caret-up" aria-hidden="true"></i></a> \
+			<a href="#" class="pin-title close"> \
+				'+pinText+' <i class="fa fa-caret-up" aria-hidden="true"></i> \
+				'+ editSummary +' \
+			</a> \
 			<div class="pin-comments"><div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div></div> \
 		</div> \
 	';
