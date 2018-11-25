@@ -41,7 +41,9 @@ if ( !$project ) {
 
 // PAGES DATA MODEL
 $dataType = "page";
-$allMyPagesList = UserAccess::ID()->getMy("pages", $catFilter, $order, $project_ID);
+$allMyPagesList = UserAccess::ID()->getMy("pages", $catFilter, $order, $project_ID, null, true);
+//echo "<pre>"; print_r($allMyPagesList); exit();
+
 $theCategorizedData = categorize($allMyPagesList, $dataType, $deviceFilter);
 //echo "<pre>"; print_r(array_column($theCategorizedData, 'theData')); exit();
 
@@ -65,7 +67,7 @@ $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 if (
 	$project['user_ID'] != currentUserID() // If the project isn't belong to me
 	&& array_search(currentUserID(), array_column($projectShares, 'share_to')) === false // And, if the project isn't shared to me
-	&& count($allMyPages) == 0 // And, if there is no my page in it
+	&& count($allMyPagesList) == 0 // And, if there is no my page in it
 	&& $catFilter != "mine"
 ) {
 

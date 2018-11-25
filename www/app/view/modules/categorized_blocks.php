@@ -135,6 +135,27 @@
 							) continue;
 
 
+							// Archive/Delete Filters
+							if (
+								$catFilter == "" &&
+								($block['delete_ID'] != null || $block['archive_ID'] != null)
+							) continue;
+
+
+							// Delete Filters
+							if (
+								$catFilter == "deleted" &&
+								$block['delete_ID'] == null
+							) continue;
+
+
+							// Archive Filters
+							if (
+								$catFilter == "archived" &&
+								$block['archive_ID'] == null
+							) continue;
+
+
 							// Page Image Url
 							$image_page_ID = $block['page_ID'];
 							if ( is_numeric($block['parent_page_ID']) )
