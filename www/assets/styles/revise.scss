@@ -847,6 +847,53 @@ html, body {
 	}
 
 
+	.differences {
+		display: none;
+
+
+		.diff {
+
+			&.green {
+				background: #eaf2c2;
+				color: #406619;
+				text-decoration: none;
+			}
+
+			&.red {
+				text-decoration: line-through;
+				color: #b30000;
+				background: #fadad7;
+			}
+
+			&.grey {
+
+			}
+
+		}
+
+	}
+
+	&.show-differences {
+
+		& .edits-switch-wrap.differences{
+			display: flex;
+		}
+
+		& .edit-content.differences {
+			display: block;
+		}
+
+
+		& .edits-switch-wrap.changes,
+		& .edit-content.changes,
+		& .edits-switch-wrap.original,
+		& .edit-content.original {
+			display: none !important;
+		}
+
+	}
+
+
 	// SHADOWS
 	&[data-pin-private="1"] {
 	    box-shadow: 0px 0px 18px 1px $color-private;

@@ -495,6 +495,25 @@ html, body {
   #pin-window .image-editor,
   #pin-window .content-editor {
     display: none; }
+  #pin-window .differences {
+    display: none; }
+    #pin-window .differences .diff.green {
+      background: #eaf2c2;
+      color: #406619;
+      text-decoration: none; }
+    #pin-window .differences .diff.red {
+      text-decoration: line-through;
+      color: #b30000;
+      background: #fadad7; }
+  #pin-window.show-differences .edits-switch-wrap.differences {
+    display: flex; }
+  #pin-window.show-differences .edit-content.differences {
+    display: block; }
+  #pin-window.show-differences .edits-switch-wrap.changes,
+  #pin-window.show-differences .edit-content.changes,
+  #pin-window.show-differences .edits-switch-wrap.original,
+  #pin-window.show-differences .edit-content.original {
+    display: none !important; }
   #pin-window[data-pin-private="1"] {
     box-shadow: 0px 0px 18px 1px #FC0F42; }
   #pin-window[data-pin-type="live"] {

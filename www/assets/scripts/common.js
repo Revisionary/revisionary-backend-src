@@ -881,6 +881,11 @@ function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, u
 
 
 // HELPERS:
+function cleanHTML(s) {
+
+	return s.replace(/(<([^>]+)>)/ig,"");
+}
+
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');

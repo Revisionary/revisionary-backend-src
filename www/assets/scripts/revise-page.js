@@ -244,6 +244,39 @@ $(function() {
 	});
 
 
+	// Toggle differences content
+	$('.difference-switch').click(function(e) {
+
+		pinWindow.toggleClass('show-differences');
+
+		var diffText = pinWindow.hasClass('show-differences') ? "SHOW CHANGES" : "SHOW DIFFERENCE";
+		var diffIcon = pinWindow.hasClass('show-differences') ? "fa-pencil-alt" : "fa-random";
+
+		pinWindow.find('.content-editor span.diff-text').text(diffText);
+		pinWindow.find('.content-editor .difference-switch > i').removeClass('fa-random', 'fa-pencil-alt').addClass(diffIcon);
+
+
+		if (pinWindow.hasClass('show-differences')) {
+
+			var originalContent = pinWindow.find('.content-editor .edit-content.original').html();
+			var changedContent = pinWindow.find('.content-editor .edit-content.changes').html();
+
+
+			// Difference check
+			var diffContent = diffCheck(originalContent, changedContent)
+
+
+			// Add the differences content
+			pinWindow.find('.content-editor .edit-content.differences').html( diffContent );
+
+		}
+
+
+		e.preventDefault();
+
+	});
+
+
 	// Pin window content changes
 	var doChange = {};
 	$(document).on('input', '#pin-window.active .content-editor .edit-content', function(e) {

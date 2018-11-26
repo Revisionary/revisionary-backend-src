@@ -542,16 +542,29 @@
 				</div>
 			</div>
 
+			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap differences">
+				<div class="col">DIFFERENCE:</div>
+				<div class="col edits-switch-wrap">
+
+					<a href="#" class="switch edits-switch changes xl-hidden">
+						<img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/>
+						SHOW CHANGED
+					</a>
+
+				</div>
+			</div>
+
 			<div class="wrap xl-1">
 				<div class="col">
 					<div class="edit-content changes" contenteditable="true"></div>
 					<div class="edit-content original"></div>
+					<div class="edit-content differences"></div>
 				</div>
 			</div>
 
 			<div class="wrap xl-1 xl-right difference-switch-wrap">
-				<a href="#" class="col switch difference-switch" data-tooltip="Coming soon.">
-					<i class="fa fa-random" aria-hidden="true"></i> SHOW DIFFERENCE
+				<a href="#" class="col switch difference-switch">
+					<i class="fa fa-random" aria-hidden="true"></i> <span class="diff-text">SHOW DIFFERENCE</span>
 				</a>
 			</div>
 

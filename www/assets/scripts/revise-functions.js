@@ -582,6 +582,24 @@ function runTheInspector() {
 			Pins[pinIndex].pin_modification = htmlentities(changes, "ENT_QUOTES");
 
 
+			// If differences tab is open
+			if ( pinWindowOpen && pinWindow.hasClass('show-differences') ) {
+
+
+				var originalContent = pinWindow.find('.content-editor .edit-content.original').html();
+				var changedContent = pinWindow.find('.content-editor .edit-content.changes').html();
+
+
+				// Difference check
+				var diffContent = diffCheck(originalContent, changedContent)
+
+
+				// Add the differences content
+				pinWindow.find('.content-editor .edit-content.differences').html( diffContent );
+
+			}
+
+
 			// Remove unsent job
 			if (doChangeOnPage[elementIndex]) clearTimeout(doChangeOnPage[elementIndex]);
 
@@ -1634,6 +1652,12 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 		.attr('data-revisionary-index', theIndex);
 
 
+	// Reset the differences fields
+	pinWindow.removeClass('show-differences');
+	pinWindow.find('span.diff-text').text('SHOW DIFFERENCE');
+	pinWindow.find('.difference-switch > i').removeClass('fa-random', 'fa-pencil-alt').addClass('fa-random');
+
+
 	// Update the pin type section
 	pinWindow.find('pin.chosen-pin')
 		.attr('data-pin-type', thePinType)
@@ -1682,6 +1706,9 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 				changedContent = html_entity_decode(pin.pin_modification);
 
 
+			// Difference check
+			//var diffContent = diffCheck(originalContent, changedContent)
+
 
 			// Add the original HTML content
 			pinWindow.find('.content-editor .edit-content.original').html( originalContent );
@@ -1689,6 +1716,10 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 			// Add the changed HTML content
 			pinWindow.find('.content-editor .edit-content.changes').html( changedContent );
+
+
+			// Add the differences content
+			//pinWindow.find('.content-editor .edit-content.differences').html( diffContent );
 
 
 		}
@@ -2437,7 +2468,7 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 	var editSummary = "";
 	if (pin_modification == null) editSummary = '<br /><i class="edit-summary">No change yet.</i>';
 	if (pin_modification_type == "html" && pin_modification != null && pin_modification != "") {
-		var text_no_html = html_entity_decode(pin_modification).replace(/(<([^>]+)>)/ig,"");
+		var text_no_html = cleanHTML(html_entity_decode(pin_modification));
 		editSummary = '<br /><i class="edit-summary">'+ text_no_html +'</i>';
 	}
 
@@ -2507,6 +2538,30 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 
 // HELPERS:
+function diffCheck(originalContent, changedContent) {
+
+
+	var diff = JsDiff.diffChars( cleanHTML(originalContent), cleanHTML(changedContent) );
+	var diffContent = "";
+
+
+	// Prepare diff data
+	diff.forEach(function(part){
+	  // green for additions, red for deletions
+	  // grey for common parts
+
+	  var color = part.added ? 'green' :
+	    part.removed ? 'red' : 'grey';
+
+	  var diffPart = "<span class='diff "+ color +"'>"+ part.value +"</span>";
+	  diffContent += diffPart;
+
+	});
+
+
+	return diffContent;
+}
+
 function get_html_translation_table(table, quote_style) {
   //  discuss at: http://phpjs.org/functions/get_html_translation_table/
   // original by: Philip Peterson

@@ -355,6 +355,7 @@ $additionalHeadJS = [
 	'revise-globals.js',
 	'revise-functions.js',
 	'vendor/jquery-ui.min.js',
+	'vendor/diff.js',
 	'vendor/popline/jquery.popline.js',
 	'vendor/popline/plugins/jquery.popline.link.js',
 	//'vendor/popline/plugins/jquery.popline.blockquote.js',
