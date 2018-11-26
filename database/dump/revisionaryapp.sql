@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 27, 2018 at 05:15 AM
+-- Generation Time: Nov 26, 2018 at 07:52 AM
 -- Server version: 8.0.12
 -- PHP Version: 7.2.8
 
@@ -30,10 +30,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `archives` (
   `archive_ID` bigint(20) NOT NULL,
-  `archive_type` varchar(10) NOT NULL,
+  `archive_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `archived_object_ID` bigint(20) NOT NULL,
   `archiver_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -43,10 +43,10 @@ CREATE TABLE `archives` (
 
 CREATE TABLE `categories` (
   `cat_ID` bigint(20) NOT NULL,
-  `cat_name` varchar(200) NOT NULL,
-  `cat_type` varchar(20) NOT NULL,
+  `cat_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cat_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `cat_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -56,10 +56,10 @@ CREATE TABLE `categories` (
 
 CREATE TABLE `deletes` (
   `delete_ID` bigint(20) NOT NULL,
-  `delete_type` varchar(10) NOT NULL,
+  `delete_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted_object_ID` bigint(20) NOT NULL,
   `deleter_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -69,16 +69,16 @@ CREATE TABLE `deletes` (
 
 CREATE TABLE `devices` (
   `device_ID` bigint(20) NOT NULL,
-  `device_name` text NOT NULL,
+  `device_name` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `device_width` mediumint(10) NOT NULL,
   `device_height` mediumint(10) NOT NULL,
   `device_rotateable` tinyint(1) NOT NULL DEFAULT '0',
-  `device_color` varchar(10) DEFAULT NULL,
-  `device_frame` varchar(15) DEFAULT NULL,
+  `device_color` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `device_frame` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `device_cat_ID` bigint(20) NOT NULL,
   `device_order` bigint(20) NOT NULL,
   `device_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `devices`
@@ -105,10 +105,10 @@ INSERT INTO `devices` (`device_ID`, `device_name`, `device_width`, `device_heigh
 
 CREATE TABLE `device_categories` (
   `device_cat_ID` bigint(20) NOT NULL,
-  `device_cat_name` varchar(20) NOT NULL,
-  `device_cat_icon` varchar(20) NOT NULL,
+  `device_cat_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `device_cat_icon` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `device_cat_order` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `device_categories`
@@ -129,11 +129,11 @@ INSERT INTO `device_categories` (`device_cat_ID`, `device_cat_name`, `device_cat
 
 CREATE TABLE `pages` (
   `page_ID` bigint(20) NOT NULL,
-  `page_name` varchar(200) NOT NULL,
-  `page_pic` varchar(15) DEFAULT NULL,
-  `page_url` text NOT NULL,
-  `page_user` varchar(60) DEFAULT NULL,
-  `page_pass` varchar(60) DEFAULT NULL,
+  `page_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `page_pic` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `page_url` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `page_user` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `page_pass` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `page_width` mediumint(10) DEFAULT NULL,
   `page_height` mediumint(10) DEFAULT NULL,
   `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -143,7 +143,7 @@ CREATE TABLE `pages` (
   `device_ID` bigint(20) NOT NULL,
   `parent_page_ID` bigint(20) DEFAULT NULL,
   `user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -156,7 +156,7 @@ CREATE TABLE `page_cat_connect` (
   `page_cat_page_ID` bigint(20) NOT NULL,
   `page_cat_ID` bigint(20) NOT NULL,
   `page_cat_connect_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -166,7 +166,7 @@ CREATE TABLE `page_cat_connect` (
 
 CREATE TABLE `pins` (
   `pin_ID` bigint(20) NOT NULL,
-  `pin_type` varchar(10) NOT NULL,
+  `pin_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `pin_private` tinyint(1) NOT NULL DEFAULT '0',
   `pin_complete` tinyint(1) NOT NULL DEFAULT '0',
   `pin_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -174,12 +174,12 @@ CREATE TABLE `pins` (
   `pin_x` decimal(20,5) NOT NULL,
   `pin_y` decimal(20,5) NOT NULL,
   `pin_element_index` bigint(20) NOT NULL,
-  `pin_modification_type` varchar(10) DEFAULT NULL,
-  `pin_modification` longtext,
-  `pin_modification_original` tinytext,
+  `pin_modification_type` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pin_modification` longtext COLLATE utf8mb4_unicode_ci,
+  `pin_modification_original` text COLLATE utf8mb4_unicode_ci,
   `version_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -189,12 +189,12 @@ CREATE TABLE `pins` (
 
 CREATE TABLE `pin_comments` (
   `comment_ID` bigint(20) NOT NULL,
-  `pin_comment` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `pin_comment` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `comment_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `comment_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pin_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -204,11 +204,11 @@ CREATE TABLE `pin_comments` (
 
 CREATE TABLE `projects` (
   `project_ID` bigint(20) NOT NULL,
-  `project_name` varchar(200) NOT NULL,
-  `project_pic` varchar(15) DEFAULT NULL,
+  `project_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `project_pic` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `project_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -221,7 +221,7 @@ CREATE TABLE `project_cat_connect` (
   `project_cat_project_ID` bigint(20) NOT NULL,
   `project_cat_ID` bigint(20) NOT NULL,
   `project_cat_connect_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -231,15 +231,15 @@ CREATE TABLE `project_cat_connect` (
 
 CREATE TABLE `queues` (
   `queue_ID` bigint(20) NOT NULL,
-  `queue_type` varchar(60) DEFAULT NULL,
+  `queue_type` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `queue_object_ID` bigint(20) NOT NULL,
   `queue_PID` bigint(20) DEFAULT NULL,
-  `queue_status` varchar(20) NOT NULL DEFAULT 'waiting',
+  `queue_status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'waiting',
   `queue_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `queue_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `queue_message` text,
+  `queue_message` mediumtext COLLATE utf8mb4_unicode_ci,
   `user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -249,11 +249,11 @@ CREATE TABLE `queues` (
 
 CREATE TABLE `shares` (
   `share_ID` bigint(20) NOT NULL,
-  `share_type` varchar(10) NOT NULL,
+  `share_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `shared_object_ID` bigint(20) NOT NULL,
-  `share_to` varchar(100) NOT NULL,
+  `share_to` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sharer_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -263,11 +263,11 @@ CREATE TABLE `shares` (
 
 CREATE TABLE `sorting` (
   `sort_ID` bigint(20) NOT NULL,
-  `sort_type` varchar(15) NOT NULL,
+  `sort_type` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sort_object_ID` bigint(20) NOT NULL,
   `sort_number` bigint(20) NOT NULL DEFAULT '0',
   `sorter_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -277,16 +277,16 @@ CREATE TABLE `sorting` (
 
 CREATE TABLE `users` (
   `user_ID` bigint(20) NOT NULL,
-  `user_name` varchar(25) NOT NULL,
-  `user_email` varchar(100) NOT NULL,
-  `user_password` varchar(255) NOT NULL,
-  `user_first_name` varchar(20) NOT NULL,
-  `user_last_name` varchar(20) NOT NULL,
-  `user_picture` varchar(15) DEFAULT NULL,
+  `user_name` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_first_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_last_name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_picture` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_has_public_profile` tinyint(1) NOT NULL DEFAULT '0',
   `user_registered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_level_ID` smallint(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -303,8 +303,8 @@ INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `use
 
 CREATE TABLE `user_levels` (
   `user_level_ID` smallint(5) NOT NULL,
-  `user_level_name` varchar(10) NOT NULL,
-  `user_level_description` text NOT NULL,
+  `user_level_name` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_level_description` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_level_max_project` int(5) NOT NULL,
   `user_level_max_page` int(5) NOT NULL,
   `user_level_max_live_pin` int(5) NOT NULL,
@@ -312,8 +312,8 @@ CREATE TABLE `user_levels` (
   `user_level_max_client` int(5) NOT NULL,
   `user_level_max_load` int(5) NOT NULL,
   `user_level_price` float NOT NULL,
-  `user_level_color` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `user_level_color` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_levels`
@@ -333,13 +333,13 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 
 CREATE TABLE `versions` (
   `version_ID` bigint(20) NOT NULL,
-  `version_name` varchar(100) NOT NULL DEFAULT 'Initial version',
+  `version_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Initial version',
   `version_number` bigint(20) NOT NULL DEFAULT '1',
   `version_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `version_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `page_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Indexes for dumped tables
@@ -499,13 +499,13 @@ ALTER TABLE `deletes`
 -- AUTO_INCREMENT for table `devices`
 --
 ALTER TABLE `devices`
-  MODIFY `device_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `device_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `device_categories`
 --
 ALTER TABLE `device_categories`
-  MODIFY `device_cat_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `device_cat_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -565,13 +565,13 @@ ALTER TABLE `sorting`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_ID` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_levels`
 --
 ALTER TABLE `user_levels`
-  MODIFY `user_level_ID` smallint(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_level_ID` smallint(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `versions`
