@@ -2541,7 +2541,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 function diffCheck(originalContent, changedContent) {
 
 
-	var diff = JsDiff.diffChars( cleanHTML(originalContent), cleanHTML(changedContent) );
+	var diff = JsDiff.diffWords( cleanHTML(originalContent), cleanHTML(changedContent) );
 	var diffContent = "";
 
 
