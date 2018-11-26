@@ -22,6 +22,7 @@ if ( !is_numeric($pin_ID) )
 	return;
 
 
+
 // DO THE SECURITY CHECKS !!!
 // a. Current user can edit this pin?
 
@@ -31,6 +32,8 @@ if ( !is_numeric($pin_ID) )
 $pin_modified = Pin::ID($pin_ID)->modify($modification);
 
 if ($pin_modified) $status = "Pin Modified: $pin_ID";
+else $status = "error";
+
 
 
 // CREATE THE RESPONSE

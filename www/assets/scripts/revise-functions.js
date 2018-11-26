@@ -2044,7 +2044,7 @@ function saveChange(pin_ID, modification) {
 
 	}).done(function(result){
 
-		//console.log(result.data);
+		console.log(result.data);
 
 		// Update the pin status
 		if (modification != "{%null%}") $('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', "1");
