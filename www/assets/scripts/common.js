@@ -881,7 +881,15 @@ function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, u
 
 
 // HELPERS:
-function cleanHTML(s) {
+function cleanHTML(s, allowBRs = false) {
+
+	if (allowBRs) {
+
+		s = s.replace(/<(br)[^>]+>/ig,'<$1>');
+		return s.replace(/(<(?!br\s*\/?)[^>]+>)/ig,"");
+
+	}
+
 
 	return s.replace(/(<([^>]+)>)/ig,"");
 }
