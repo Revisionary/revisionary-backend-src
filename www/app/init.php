@@ -69,7 +69,7 @@ $log = new Katzgrau\KLogger\Logger(
 load_session();
 
 
-$debug_mode = true;
+$debug_mode = false;
 if ($debug_mode) $db->setTrace(true);
 
 
