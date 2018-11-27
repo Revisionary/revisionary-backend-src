@@ -645,6 +645,19 @@ function runTheInspector() {
 				openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
 
 
+		}).on('paste', '[contenteditable]', function(e) { // When pasting rich text
+
+
+			e.preventDefault();
+
+			var plain_text = (e.originalEvent || e).clipboardData.getData('text/plain');
+
+			if(typeof plain_text !== 'undefined')
+				document.getElementById("the-page").contentWindow.document.execCommand('insertText', false, plain_text);
+
+			console.log('PASTED: ', plain_text);
+
+
 		});
 
 
