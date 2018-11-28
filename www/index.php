@@ -34,8 +34,8 @@ if(!file_exists(controller($_url[0]))){
 	$_url[0] = 'index';
 
 	// If 404 page exists, better to show this one
-	if(file_exists(controller('404')))
-		$_url[0] = '404';
+	if(file_exists(controller('errors')))
+		$_url[0] = 'errors';
 }
 
 

@@ -3,7 +3,7 @@
 
 	<div class="vertical-middle" style="text-align: center;">
 		<h1>FORGIVE US</h1>
-		<p>We could not find the page you are looking for. :(</p>
+		<p><?=$page_title?> :(</p>
 	</div>
 
 </main><!-- #first-section -->
