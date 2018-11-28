@@ -4,8 +4,6 @@ node_modules
 
 database/mysql/*
 
-config-remote.php
-
 www/assets/cache/user-*/project-*/*.png
 www/assets/cache/user-*/project-*/*.jpg
 www/assets/cache/user-*/project-*/page-*/device-*

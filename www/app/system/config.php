@@ -6,20 +6,16 @@ $config = array();
 
 // Environmental settings
 $config['env'] = [
-	'name' 		=> "local-dev",
-	'domain'	=> "revisionaryapp.com",
-	'subdomain' => "dev",
-	'insecure_subdomain' => "inscr",
-	'db_host' 	=> "db",
-	'db_name' 	=> "revisionaryapp",
-	'db_user' 	=> "user",
-	'db_pass' 	=> "test",
-	'timezone'  => "Europe/Istanbul"
+	'name' 		=> $_ENV['ENV_NAME'],
+	'domain'	=> $_ENV['DOMAIN'],
+	'subdomain' => $_ENV['SUBDOMAIN'],
+	'insecure_subdomain' => $_ENV['INSECURE_SUBDOMAIN'],
+	'db_host' 	=> $_ENV['DB_HOST'],
+	'db_name' 	=> $_ENV['DB_NAME'],
+	'db_user' 	=> $_ENV['DB_USER'],
+	'db_pass' 	=> $_ENV['DB_PASSWORD'],
+	'timezone'  => $_ENV['DB_TIMEZONE']
 ];
-
-// Check for the remote configuration
-if (file_exists(realpath('.') . '/app/system/config-remote.php'))
-	require 'config-remote.php';
 
 
 
@@ -36,7 +32,7 @@ if ($config['env']['name'] == 'local-dev') {
 
 
 
-// Database
+// Database Info
 $config['db'] = [
   'host' => $config['env']['db_host'],
   'name' => $config['env']['db_name'],

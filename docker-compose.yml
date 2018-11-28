@@ -4,13 +4,15 @@ services:
         build: .
         container_name: php-apache
         restart: on-failure
+        env_file:
+            - ./.env
         depends_on:
             - db
             - composer
             - chrome
         ports:
-            - 127.0.0.1:80:80
-            - 127.0.0.1:443:443
+            - ${LOCAL_IP}:80:80
+            - ${LOCAL_IP}:443:443
         volumes:
             - ./www:/var/www/html
             - ./logs:/var/log/apache2
@@ -22,12 +24,12 @@ services:
         container_name: mysql
         restart: on-failure
         ports:
-            - 127.0.0.1:3306:3306
+            - ${LOCAL_IP}:3306:3306
         environment:
-            MYSQL_DATABASE: revisionaryapp
-            MYSQL_USER: user
-            MYSQL_PASSWORD: test
-            MYSQL_ROOT_PASSWORD: test
+            MYSQL_DATABASE: ${DB_NAME}
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
         volumes:
             - ./database/dump:/docker-entrypoint-initdb.d
             - ./database/mysql:/var/lib/mysql
@@ -39,11 +41,11 @@ services:
         depends_on:
             - db
         ports:
-            - 127.0.0.1:8000:80
+            - ${LOCAL_IP}:8000:80
         environment:
-            MYSQL_USER: user
-            MYSQL_PASSWORD: test
-            MYSQL_ROOT_PASSWORD: test
+            MYSQL_USER: ${DB_USER}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     composer:
         image: composer/composer
         container_name: composer
@@ -60,7 +62,7 @@ services:
         working_dir: /app
         restart: on-failure
         ports:
-            - 127.0.0.1:8080:3000
+            - ${LOCAL_IP}:8080:3000
         volumes:
             - ./www/assets/cache:/var/www/html/assets/cache
 volumes:
