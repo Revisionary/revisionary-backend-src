@@ -9,8 +9,8 @@ services:
             - composer
             - chrome
         ports:
-            - "80:80"
-            - "443:443"
+            - 127.0.0.1:80:80
+            - 127.0.0.1:443:443
         volumes:
             - ./www:/var/www/html
             - ./logs:/var/log/apache2
@@ -22,7 +22,7 @@ services:
         container_name: mysql
         restart: on-failure
         ports:
-            - "3306:3306"
+            - 127.0.0.1:3306:3306
         environment:
             MYSQL_DATABASE: revisionaryapp
             MYSQL_USER: user
@@ -39,7 +39,7 @@ services:
         depends_on:
             - db
         ports:
-            - 8000:80
+            - 127.0.0.1:8000:80
         environment:
             MYSQL_USER: user
             MYSQL_PASSWORD: test
@@ -60,7 +60,7 @@ services:
         working_dir: /app
         restart: on-failure
         ports:
-            - "8080:3000"
+            - 127.0.0.1:8080:3000
         volumes:
             - ./www/assets/cache:/var/www/html/assets/cache
 volumes:
