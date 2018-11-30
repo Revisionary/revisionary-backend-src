@@ -28,7 +28,7 @@
 				<input type="hidden" name="page-height" value="900"/>
 
 
-				<input type="url" name="page-url" placeholder="ENTER A WEBSITE URL" tabindex="1" autofocus/>
+				<input type="url" name="page-url" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocus/>
 				<input type="submit"/>
 			</form>
 			<span class="description">Add your comments and edit any website’s content, <br/>
