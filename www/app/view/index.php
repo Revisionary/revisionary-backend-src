@@ -88,6 +88,48 @@
 jQuery(document).ready(function($) {
 
 
+	// Update the current screen size !!! Common?
+	$(window).resize(function() {
+
+		var width = $(this).width();
+		var height = $(this).height();
+
+		screenWidth = width;
+		screenHeight = height - 45 - 2; // -45 for the topbar, -2 for borders !!! ?
+
+		//console.log(width, height);
+
+		// Show new values
+		$('.screen-width').text(screenWidth);
+		$('.screen-height').text(screenHeight);
+
+		// Edit the input values
+		$('input[name="page-width"]').attr('value', screenWidth);
+		$('input[name="page-height"]').attr('value', screenHeight);
+
+
+		$('[data-device-id="11"]').attr('data-device-width', screenWidth);
+		$('[data-device-id="11"]').attr('data-device-height', screenHeight);
+
+
+		$('.new-device[data-device-id="11"]').each(function() {
+
+			var newDeviceURL = $(this).attr('href');
+			var widthOnURL = getParameterByName('page_width', newDeviceURL);
+			var heightOnURL = getParameterByName('page_height', newDeviceURL);
+
+			var newURL = newDeviceURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
+			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+screenHeight);
+
+			$(this).attr('href', newURL);
+			//console.log(newURL);
+
+		});
+
+
+	}).resize();
+
+
 	// QUESTIONS LOOP
 	$('.home-questions ul > li:first-child').addClass('active');
 
