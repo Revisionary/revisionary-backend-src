@@ -74,7 +74,6 @@ $versions = $db->get('versions');
 if ($versions) {
 
 
-
 	if ($version_number) {
 
 		// Find the current page
@@ -93,6 +92,7 @@ if ($versions) {
 		$version_number = $versions[0]['version_number'];
 
 	}
+
 
 } else {
 

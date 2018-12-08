@@ -30,7 +30,7 @@ if ( !isset($project_ID) || !is_numeric($project_ID) ) {
 }
 
 
-// Project Info
+// If the specified project doesn't exist, go projects page
 $project = Project::ID($project_ID)->getInfo("project_ID, user_ID", true);
 if ( !$project ) {
 	header('Location: '.site_url('projects'));
