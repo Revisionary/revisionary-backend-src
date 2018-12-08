@@ -79,11 +79,18 @@ if ( isset($_POST['user-submit']) ) {
 			'user_level_ID' => 2 // Free one
 		);
 
-		$id = $db->insert ('users', $data);
+		$id = $db->insert('users', $data);
 		if ($id) {
 
 			// Create the session
 			$_SESSION['user_ID'] = $id;
+
+
+			// Update the shares
+			$db->where('share_to', $eMail);
+			$db->update ('shares', array(
+				'share_to' => $id
+			));
 
 
 			if (post('redirect_to') != "") {
