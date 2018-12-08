@@ -136,10 +136,7 @@ class UserAccess {
 
 		// Bring the shared ones
 		$db->join("shares s", "p.".$data_type."_ID = s.shared_object_ID", "LEFT");
-
-		$db->joinWhere("shares s", "s.share_to", self::$user_ID);
-		$db->joinOrWhere("shares s", "s.share_to", getUserData()['email']);
-
+		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".getUserData()['email']."')");
 		$db->joinWhere("shares s", "s.share_type", $data_type);
 
 
