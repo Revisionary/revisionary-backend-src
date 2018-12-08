@@ -77,4 +77,22 @@ if ($debug_mode) $db->setTrace(true);
 $Users = array();
 
 // Get the current user info
-if ( userloggedIn() ) $Users[currentUserID()] = UserAccess::ID()->getData();
+if ( userloggedIn() ) {
+
+	$current_user_data = UserAccess::ID()->getData();
+	if ($current_user_data) {
+
+		$Users[currentUserID()] = $current_user_data;
+
+	} else { // If user not found
+
+		// Log out and go home
+		if( session_destroy() ) {
+			header('Location: '.site_url());
+			die();
+		}
+
+	}
+	unset($current_user_data);
+
+}

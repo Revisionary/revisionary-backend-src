@@ -49,6 +49,8 @@ class UserAccess {
 
 		// Get from DB
 		$userInfo = $this->getInfo(null, true);
+		if (!$userInfo) return false;
+
 
 		// Prepare the data
 		$userData = array(
