@@ -82,7 +82,7 @@ function page_members() {
 
 
 
-<h3><i class="fa fa-share-alt"></i> Page Members <i class="fa fa-question-circle tooltip" data-tooltip="Sharing to emails that are not users is not working right now." aria-hidden="true"></i></h3>
+<h3><i class="fa fa-share-alt"></i> Page Members <i class="fa fa-question-circle tooltip" data-tooltip="Users who can access only this page." aria-hidden="true"></i></h3>
 <div class="people">
 
 
@@ -171,7 +171,7 @@ function page_members() {
 
 
 
-					<h3><i class="fa fa-share-alt xl-hidden"></i> Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Sharing to emails that are not users is not working right now." aria-hidden="true"></i></h3>
+					<h3><i class="fa fa-share-alt xl-hidden"></i> Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Users who can access this project with all the pages in it." aria-hidden="true"></i></h3>
 					<div class="people">
 
 
@@ -278,7 +278,7 @@ if ( isset($project_ID) ) {
 				<div class="more-options-wrapper">
 
 
-					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="Test message" aria-hidden="true"></i></h3>
+					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this page like Home, About, ..." aria-hidden="true"></i></h3>
 					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="2"/>
 
 
