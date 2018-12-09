@@ -213,6 +213,7 @@ function runTheInspector() {
 
 	        focused_element_index = focused_element.attr('data-revisionary-index');
 	        focused_element_has_index = focused_element_index != null ? true : false;
+		    focused_element_index = focused_element_index != null ? focused_element_index : 0;
 	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 			focused_element_html = focused_element.html();
 	        focused_element_children = focused_element.children();
@@ -260,6 +261,7 @@ function runTheInspector() {
 				// Update refocused sub elements
 		        focused_element_index = focused_element.attr('data-revisionary-index');
 		        focused_element_has_index = focused_element_index != null ? true : false;
+		        focused_element_index = focused_element_index != null ? focused_element_index : 0;
 		        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 				focused_element_html = focused_element.html();
 		        focused_element_children = focused_element.children();
@@ -450,6 +452,7 @@ function runTheInspector() {
 
 						// If not editable, switch back to the standard pin
 						switchCursorType('standard');
+						outline(focused_element, currentPinPrivate, true);
 
 					}
 
@@ -700,9 +703,15 @@ function toggleTab(opener, forceClose = false) {
 
 
 // Color the element
-function outline(element, private_pin) {
+function outline(element, private_pin, block = false) {
 
-	element.css('outline', '2px dashed ' + (private_pin == 1 ? '#FC0FB3' : '#7ED321'), 'important');
+	var elementColor = private_pin == 1 ? '#FC0FB3' : '#7ED321';
+	if (block) elementColor = private_pin == 1 ? '#cc00ff' : '#6b95f3';
+
+	var outlineWidth = '2px';
+	if (block) outlineWidth = '1px';
+
+	element.css('outline', outlineWidth + ' dashed ' + elementColor, 'important');
 
 }
 

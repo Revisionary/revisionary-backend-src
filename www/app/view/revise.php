@@ -519,7 +519,7 @@
 		<div class="content-editor">
 
 			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
-				<div class="col title">EDIT CONTENT:</div>
+				<div class="col title"><i class="fa fa-pencil-alt"></i> EDIT CONTENT:</div>
 				<div class="col">
 
 					<a href="#" class="switch edits-switch original">
@@ -531,7 +531,10 @@
 			</div>
 
 			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
-				<div class="col">ORIGINAL CONTENT:</div>
+				<div class="col">
+					<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
+					ORIGINAL CONTENT:
+				</div>
 				<div class="col edits-switch-wrap">
 
 					<a href="#" class="switch edits-switch changes">
@@ -543,7 +546,7 @@
 			</div>
 
 			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap differences">
-				<div class="col">DIFFERENCE:</div>
+				<div class="col"><i class="fa fa-random"></i> DIFFERENCE:</div>
 				<div class="col edits-switch-wrap">
 
 					<a href="#" class="switch edits-switch changes xl-hidden">
@@ -554,7 +557,7 @@
 				</div>
 			</div>
 
-			<div class="wrap xl-1">
+			<div class="wrap xl-1 content-boxes">
 				<div class="col">
 					<div class="edit-content changes" contenteditable="true"></div>
 					<div class="edit-content original"></div>
@@ -562,10 +565,30 @@
 				</div>
 			</div>
 
-			<div class="wrap xl-1 xl-right difference-switch-wrap">
-				<a href="#" class="col switch difference-switch">
+			<div class="wrap xl-1 difference-switch-wrap">
+				<a href="#" class="col xl-right switch difference-switch">
 					<i class="fa fa-random" aria-hidden="true"></i> <span class="diff-text">SHOW DIFFERENCE</span>
 				</a>
+			</div>
+
+		</div>
+
+		<div class="visual-editor xl-hidden">
+
+			<div class="wrap xl-1">
+				<div class="col">
+					<i class="fa fa-object-group"></i> OPTIONS:
+				</div>
+				<div class="col options">
+
+					<ul>
+						<li>Show | Hide</li>
+						<li>Spacing</li>
+						<li>Show | Hide</li>
+						<li>Show | Hide</li>
+					</ul>
+
+				</div>
 			</div>
 
 		</div>
