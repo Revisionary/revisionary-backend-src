@@ -435,6 +435,14 @@ $(function() {
 		var targetPin = $(this).children('pin');
 
 
+		// Confirm if converting to standard pin
+		if (
+			pinWindow.attr('data-pin-type') == "live"
+			&& targetPin.attr('data-pin-type') == "standard"
+			&& !confirm('Are you sure you want to convert this live pin to a standard comment pin? All your changes will be reverted.')
+		) return false;
+
+
 		// Remove the image on this element
 		convertPin(pin_ID, targetPin);
 
