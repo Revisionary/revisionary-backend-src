@@ -6,7 +6,10 @@
 
 				<div class="col xl-6-12 xl-center filter invert-hover">
 
-					<i class="fa fa-search" data-tooltip="Coming Soon..."></i>
+					<div class="filter-blocks">
+						<input type="text" placeholder="Type here..." class="search-in-page"/>
+						<i class="fa fa-search" data-tooltip="Search in <?=$dataType?>s"></i>
+					</div>
 
 				<?php
 

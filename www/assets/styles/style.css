@@ -5073,6 +5073,29 @@ button {
   font-size: 20px;
   background-color: white; }
 
+.filter-blocks {
+  position: relative; }
+  .filter-blocks i {
+    cursor: pointer; }
+  .filter-blocks input[type="text"] {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    border: 2px solid;
+    padding: 2px 5px;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    visibility: hidden;
+    opacity: 0;
+    right: -100%;
+    transition: 500ms; }
+    .filter-blocks input[type="text"].active {
+      visibility: visible;
+      opacity: 1;
+      right: calc(100% + 8px); }
+
 input[type='submit'],
 button {
   display: inline-block;

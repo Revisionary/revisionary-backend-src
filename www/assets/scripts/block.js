@@ -142,6 +142,45 @@ $(function() {
 	}).resize();
 
 
+
+	$('.filter-blocks i').click(function() {
+
+		$('.filter-blocks input').toggleClass('active');
+
+		if ( $('.filter-blocks input').hasClass('active') ) {
+
+
+			// Focus to the input
+			setTimeout(function() {
+
+				$('.filter-blocks input').focus();
+
+			}, 500);
+
+
+		} else {
+
+			$('.block').show();
+			$('.filter-blocks input').val("");
+
+		}
+
+	});
+
+
+	$('.filter-blocks input').keyup(function(){
+    	var selectSize = $(this).val().toLowerCase();
+        if (selectSize != "") filter(selectSize);
+        else $('.block').show();
+    });
+    function filter(e) {
+        var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
+        $('.block').hide().filter(function () {
+            return regex.test( $(this).find('.box-name .name').text().toLowerCase() )
+        }).show();
+    }
+
+
 });
 
 
