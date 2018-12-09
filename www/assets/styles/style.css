@@ -5090,7 +5090,11 @@ button {
     visibility: hidden;
     opacity: 0;
     right: -100%;
-    transition: 500ms; }
+    transition: 500ms;
+    border-radius: 8px;
+    outline: none; }
+    .filter-blocks input[type="text"]:focus {
+      border-color: #007acc; }
     .filter-blocks input[type="text"].active {
       visibility: visible;
       opacity: 1;

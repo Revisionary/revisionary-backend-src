@@ -162,6 +162,12 @@ button {
 	    opacity: 0;
 	    right: -100%;
 	    transition: 500ms;
+	    border-radius: 8px;
+	    outline: none;
+
+	    &:focus {
+		    border-color: $color-secondary;
+	    }
 
 	    &.active {
 		    visibility: visible;
