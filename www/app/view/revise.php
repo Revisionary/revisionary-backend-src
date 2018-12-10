@@ -472,7 +472,7 @@
 		<div class="image-editor">
 
 			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
-				<div class="col title">Drag & Drop or <span class="select-file">Select File</span></div>
+				<div class="col title"><i class="fa fa-image"></i> Drag & Drop or <span class="select-file">Select File</span></div>
 				<div class="col">
 
 					<a href="#" class="switch edits-switch original">
@@ -577,15 +577,26 @@
 
 			<div class="wrap xl-1">
 				<div class="col">
-					<i class="fa fa-object-group"></i> OPTIONS:
+					<i class="fa fa-sliders-h"></i> OPTIONS:
 				</div>
 				<div class="col options">
 
-					<ul>
-						<li>Show | Hide</li>
-						<li>Spacing</li>
-						<li>Show | Hide</li>
-						<li>Show | Hide</li>
+					<ul class="no-bullet">
+						<li><i class="fa fa-eye"></i> Show | <i class="fa fa-eye-slash"></i> Hide</li>
+						<li><i class="fa fa-object-group"></i> Spacing & Positions
+							<ul>
+								<li>Margins</li>
+								<li>Paddings</li>
+								<li>Positions</li>
+							</ul>
+						</li>
+						<li><i class="fa fa-tint"></i> Color
+							<ul>
+								<li><i class="fa fa-palette"></i> Text</li>
+								<li><i class="fa fa-fill-drip"></i> Background</li>
+							</ul>
+						</li>
+						<li><i class="fa fa-low-vision"></i> Opacity</li>
 					</ul>
 
 				</div>

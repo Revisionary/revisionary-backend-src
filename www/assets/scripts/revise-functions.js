@@ -445,14 +445,14 @@ function runTheInspector() {
 					if (focused_element_editable) {
 
 						switchCursorType('live');
-						outline(focused_element, currentPinPrivate);
+						outline(focused_element, currentPinPrivate, currentPinType);
 
 
 					} else {
 
 						// If not editable, switch back to the standard pin
-						switchCursorType('standard');
-						outline(focused_element, currentPinPrivate, true);
+						switchCursorType('standard'); console.log(currentPinType);
+						outline(focused_element, currentPinPrivate, (focused_element_editable ? "live" : "standard"));
 
 					}
 
@@ -468,7 +468,7 @@ function runTheInspector() {
 
 
 						// Color the element that has a pin according to the pin type
-						outline(focused_element, focused_element_pin.attr('data-pin-private'));
+						outline(focused_element, focused_element_pin.attr('data-pin-private'), focused_element_pin.attr('data-pin-type'));
 
 
 						// Update the cursor
@@ -703,13 +703,15 @@ function toggleTab(opener, forceClose = false) {
 
 
 // Color the element
-function outline(element, private_pin, block = false) {
+function outline(element, private_pin, pin_type = "live") {
+
+	var block = pin_type == "live" ? false : true;
 
 	var elementColor = private_pin == 1 ? '#FC0FB3' : '#7ED321';
 	if (block) elementColor = private_pin == 1 ? '#cc00ff' : '#6b95f3';
 
 	var outlineWidth = '2px';
-	if (block) outlineWidth = '1px';
+	if (block) outlineWidth = '2px';
 
 	element.css('outline', outlineWidth + ' dashed ' + elementColor, 'important');
 

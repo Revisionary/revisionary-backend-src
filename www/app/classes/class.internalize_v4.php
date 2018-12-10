@@ -64,6 +64,13 @@ class Internalize_v4 {
 		"IMG"
 	);
 
+	// Other HTML Block Elements
+	public $block_html_elements = array(
+	    "HEADER",
+	    "MAIN",
+	    "FOOTER",
+	);
+
 
 
 	// When initialized
@@ -574,6 +581,7 @@ class Internalize_v4 {
 
 	    // PUT THE ELEMENT INDEXES
 	    $countElement = 0;
+	    $html = str_replace('<body ', '<body data-revisionary-index="0" ', $html);
 		$html = preg_replace_callback(
 	        '/<body[^<]*?>|(?!^)\G(.*?)(?<tag><(?<tagname>[a-z1-9]+[1-9]?)\s?[^<]*?>)(?=.*<\/body>)/si',
 	        function ($matches) {
@@ -593,7 +601,7 @@ class Internalize_v4 {
 
 
 		        // If it isn't easily editable
-		        if ( !in_array(strtoupper($tag_name), $this->easy_html_elements) ) {
+		        if ( !in_array(strtoupper($tag_name), $this->easy_html_elements) && !in_array(strtoupper($tag_name), $this->block_html_elements) ) {
 
 					// Specific Log
 					file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - SKIPPED TAGNAME TO INDEX: \r\n

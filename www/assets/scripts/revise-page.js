@@ -461,7 +461,7 @@ $(function() {
 		var element_index = $(this).find('pin').attr('data-revisionary-index');
 
 		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
-		if (pin_type == "live") outline(iframeElement(element_index), pin_private);
+		outline(iframeElement(element_index), pin_private, pin_type);
 
 		e.preventDefault();
 	}).on('mouseout', '.pins-list > .pin', function(e) {
@@ -524,15 +524,9 @@ $(function() {
 		removeOutline();
 
 
-		// Outline the element if this is a live pin
-		if ($(this).attr("data-pin-type") == "live") {
-
-			var hoveringPinPrivate = $(this).attr("data-pin-private");
-
-			removeOutline();
-			iframeElement('body *[data-revisionary-index="'+ $(this).attr("data-revisionary-index") +'"]').css('outline', '2px dashed ' + (hoveringPinPrivate == 1 ? '#FC0FB3' : '#7ED321'), 'important');
-
-		}
+		// Outline the element
+		var hoveringPinPrivate = $(this).attr("data-pin-private");
+		outline(iframeElement($(this).attr("data-revisionary-index")), hoveringPinPrivate, $(this).attr("data-pin-type"));
 
 
 		e.preventDefault();
