@@ -67,6 +67,16 @@ $(function() {
 
 		$('.pin-mode .dropdown').hide();
 
+
+		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+
+		if (history.pushState) {
+		    var newurl = queryParameter(currentUrl, 'pinmode', (selectedPinType == "live" ? "" : selectedPinType));
+		    newurl = queryParameter(newurl, 'privatepin', selectedPinPrivate);
+		    window.history.pushState({path:newurl},'',newurl);
+		}
+
+
 		e.preventDefault();
 		return false;
 	});
@@ -79,6 +89,16 @@ $(function() {
 	// Cursor deactivator
 	$('.deactivator').click(function(e) {
 		toggleCursorActive(true);
+
+
+		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+
+		if (history.pushState) {
+		    var newurl = queryParameter(currentUrl, 'pinmode', 'off');
+		    newurl = queryParameter(newurl, 'privatepin', '');
+		    window.history.pushState({path:newurl},'',newurl);
+		}
+
 
 		e.preventDefault();
 		return false;
@@ -490,9 +510,12 @@ $(function() {
 		$('#pins, .pins-list').attr('data-filter', filter);
 
 
-		var queryString = filter == "all" ? '' : '?filter='+ filter;
+
+		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+
+
 		if (history.pushState) {
-		    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + queryString;
+		    var newurl = queryParameter(currentUrl, 'filter', (filter == "all" ? '' : filter));
 		    window.history.pushState({path:newurl},'',newurl);
 		}
 

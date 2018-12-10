@@ -258,7 +258,7 @@ html, body {
 			}
 		}
 
-		[data-pin-type="deactive"] {
+		[data-pin-type="off"] {
 
 			& > a > i.fa-dot-circle {
 				display: none;
@@ -618,6 +618,7 @@ html, body {
 	opacity: 0;
 	background-color: white;
 	border: 5px solid $color;
+	border-radius: 10px;
 	padding: 20px;
 	position: absolute;
 	width: 300px;

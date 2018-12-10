@@ -74,7 +74,6 @@ var currentCursorType = "standard";
 
 var currentPinType = "live";
 var currentPinPrivate = 0;
-var currentPinComplete = 0;
 var currentPinLabel = "Live";
 
 var currentPinNumber = 1;
@@ -140,7 +139,10 @@ $(function() {
 	pinTypeSelectorOpen = pinTypeSelector.parent().hasClass('selector-open');
 
 	cursor = $('.mouse-cursor');
+
 	currentPinType = activator.data('pin-type');
+	currentPinPrivate = activator.data('pin-private');
+	currentPinLabel = activator.find('.mode-label').text();
 	currentPinNumber = $('#pins > pin').length + 1;
 
 	pinsListOpen = $('#top-bar .pins').hasClass('open');

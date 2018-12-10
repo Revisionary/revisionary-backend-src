@@ -160,8 +160,17 @@ function runTheInspector() {
 
 
 		// CURSOR WORKS:
-		// Close Pin Mode pinTypeSelector - If on revise mode !!!
-		toggleCursorActive(false, true);
+		// Close Pin Mode pinTypeSelector
+		if (currentPinType == "off") {
+
+			toggleCursorActive(true);
+
+		} else {
+
+			switchPinType(currentPinType, currentPinPrivate);
+			toggleCursorActive(false, true);
+
+		}
 
 
 
@@ -451,7 +460,7 @@ function runTheInspector() {
 					} else {
 
 						// If not editable, switch back to the standard pin
-						switchCursorType('standard'); console.log(currentPinType);
+						switchCursorType('standard');
 						outline(focused_element, currentPinPrivate, (focused_element_editable ? "live" : "standard"));
 
 					}
@@ -708,7 +717,7 @@ function outline(element, private_pin, pin_type = "live") {
 	var block = pin_type == "live" ? false : true;
 
 	var elementColor = private_pin == 1 ? '#FC0FB3' : '#7ED321';
-	if (block) elementColor = private_pin == 1 ? '#cc00ff' : '#6b95f3';
+	if (block) elementColor = private_pin == 1 ? '#6b95f3' : '#1DBCC9';
 
 	var outlineWidth = '2px';
 	if (block) outlineWidth = '2px';
@@ -754,10 +763,6 @@ function switchPinType(pinType, pinPrivate) {
 	if (!cursorActive) toggleCursorActive(false, true);
 
 
-	// Close the type selector
-	//if (pinTypeSelectorOpen) togglePinTypeSelector(true);
-
-
 	// Close the open pin window
 	if (pinWindowOpen) closePinWindow();
 
@@ -778,6 +783,7 @@ function switchCursorType(cursorType, pinPrivate = currentPinPrivate) {
 // Toggle Inspect Mode
 function toggleCursorActive(forceClose = false, forceOpen = false) {
 
+
 	cursor.stop();
 	var cursorVisible = cursor.is(":visible");
 
@@ -790,7 +796,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 		// Deactivate
-		activator.attr('data-pin-type', 'deactive');
+		activator.attr('data-pin-type', 'off');
 
 		// Update the label
 		$('.current-mode .mode-label').text('Off');
@@ -2562,6 +2568,24 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 
 // HELPERS:
+function queryParameter(url, key, value) {
+
+
+	var url = new URL(url);
+	var query_string = url.search;
+	var search_params = new URLSearchParams(query_string);
+
+
+	if (value == "") search_params.delete(key);
+	else search_params.set(key, value);
+
+
+	url.search = search_params.toString();
+	var new_url = url.toString();
+
+	return new_url;
+}
+
 function diffCheck(originalContent, changedContent) {
 
 

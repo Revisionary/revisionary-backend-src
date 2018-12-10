@@ -337,8 +337,8 @@
 		<div class="col xl-left pin-mode">
 
 			<div class="desc nomargin">Pin Mode</div>
-			<div class="dropdown-container current-mode active" data-pin-type="live" data-pin-private="0">
-				<a href="#" class="button dropdown-opener"><i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label">LIVE</span></a>
+			<div class="dropdown-container current-mode active" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
+				<a href="#" class="button dropdown-opener"><i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label"><?=$pin_text?></span></a>
 				<nav class="dropdown">
 					<ul class="pin-types">
 						<li data-pin-type="live" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> LIVE PREFERRED COMMENT</a></li>
@@ -577,26 +577,32 @@
 
 			<div class="wrap xl-1">
 				<div class="col">
-					<i class="fa fa-sliders-h"></i> OPTIONS:
+					<i class="fa fa-sliders-h"></i> VIEW OPTIONS:
 				</div>
 				<div class="col options">
 
 					<ul class="no-bullet">
-						<li><i class="fa fa-eye"></i> Show | <i class="fa fa-eye-slash"></i> Hide</li>
-						<li><i class="fa fa-object-group"></i> Spacing & Positions
-							<ul>
+						<li>
+							<i class="fa fa-eye"></i> Show | <i class="fa fa-eye-slash"></i> Hide
+						</li>
+						<li>
+							<i class="fa fa-low-vision"></i> Opacity <i class="fa fa-angle-down"></i>
+						</li>
+						<li>
+							<i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i>
+							<ul class="xl-hidden">
 								<li>Margins</li>
 								<li>Paddings</li>
 								<li>Positions</li>
 							</ul>
 						</li>
-						<li><i class="fa fa-tint"></i> Color
-							<ul>
+						<li>
+							<i class="fa fa-tint"></i> Color <i class="fa fa-angle-down"></i>
+							<ul class="xl-hidden">
 								<li><i class="fa fa-palette"></i> Text</li>
 								<li><i class="fa fa-fill-drip"></i> Background</li>
 							</ul>
 						</li>
-						<li><i class="fa fa-low-vision"></i> Opacity</li>
 					</ul>
 
 				</div>

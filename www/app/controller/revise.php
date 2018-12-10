@@ -334,6 +334,24 @@ if (
 
 
 
+// PIN MODE
+$pin_mode = "live";
+if (
+	get('pinmode') == "live" ||
+	get('pinmode') == "standard" ||
+	get('pinmode') == "off"
+) $pin_mode = get('pinmode');
+
+$pin_private = "0";
+if (
+	get('privatepin') == "1"
+) $pin_private = get('privatepin');
+
+$pin_text = $pin_mode;
+if ($pin_private == "1") $pin_text = "Private ".$pin_text;
+if ($pin_mode == "standard") $pin_text = "Only Comment";
+
+
 /*
 echo "<pre>"; print_r($existing_queue); echo "</pre>";
 
