@@ -227,7 +227,7 @@ function runTheInspector() {
 			focused_element_html = focused_element.html();
 	        focused_element_children = focused_element.children();
 	        focused_element_grand_children = focused_element_children.children();
-			focused_element_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
+			focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
 			focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
 			focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
 
@@ -275,7 +275,7 @@ function runTheInspector() {
 				focused_element_html = focused_element.html();
 		        focused_element_children = focused_element.children();
 		        focused_element_grand_children = focused_element_children.children();
-				focused_element_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
+				focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
 				focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
 				focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
 
@@ -447,60 +447,61 @@ function runTheInspector() {
 
 				// LIVE REACTIONS:
 				focused_element_has_live_pin = false;
-				if (currentPinType == "live") {
+				//if (currentPinType == "live") {
 
 
-					// Editable check
-					if (focused_element_editable) {
+				// Editable check
+				if (focused_element_editable && currentPinType == "live") {
 
-						switchCursorType('live');
-						outline(focused_element, currentPinPrivate, currentPinType);
-
-
-					} else {
-
-						// If not editable, switch back to the standard pin
-						switchCursorType('standard');
-						outline(focused_element, currentPinPrivate, (focused_element_editable ? "live" : "standard"));
-
-					}
+					switchCursorType('live');
+					outline(focused_element, currentPinPrivate, currentPinType);
 
 
-					// Check if the element already has a pin
-					if ( focused_element_editable && focused_element_pin.length ) {
+				} else {
 
-						focused_element_has_live_pin = true;
+					// If not editable, switch back to the standard pin
+					switchCursorType('standard');
+					outline(focused_element, currentPinPrivate, (focused_element_editable && currentPinType == "live" ? "live" : "standard"));
 
-
-						// Point to the pin
-						$('#pins > pin:not([data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
-
-
-						// Color the element that has a pin according to the pin type
-						outline(focused_element, focused_element_pin.attr('data-pin-private'), focused_element_pin.attr('data-pin-type'));
+				}
 
 
-						// Update the cursor
-						var elementPin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
-						changePinNumber( elementPin.text() );
-						switchCursorType(elementPin.data('pin-type'), elementPin.data('pin-private'));
+				// Check if the element already has a pin
+				if ( focused_element_pin.length ) {
+
+					focused_element_has_live_pin = focused_element_pin.attr('data-pin-type') == "live" ? true : false;
+
+
+					// Point to the pin
+					$('#pins > pin:not([data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
+
+
+					// Color the element that has a pin according to the pin type
+					outline(focused_element, focused_element_pin.attr('data-pin-private'), focused_element_pin.attr('data-pin-type'));
+
+
+					// Update the cursor
+					var elementPin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
+					if (!elementPin.length) elementPin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]').first();
+					changePinNumber( elementPin.text() );
+					switchCursorType(elementPin.data('pin-type'), elementPin.data('pin-private'), (elementPin.data('pin-type') == "live" ? true : false));
 
 
 
-						//console.log('This element already has a live pin.');
+					//console.log('This element already has a live pin.');
 
-					} else {
-
-
-						// Re-update the cursor number
-						currentPinNumber = $('#pins > pin').length + 1;
-						changePinNumber(currentPinNumber);
+				} else {
 
 
-					}
+					// Re-update the cursor number
+					currentPinNumber = $('#pins > pin').length + 1;
+					changePinNumber(currentPinNumber);
 
 
-				} // If current pin type is 'live'
+				}
+
+
+				//} // If current pin type is 'live'
 
 
 
@@ -770,9 +771,22 @@ function switchPinType(pinType, pinPrivate) {
 
 
 // Switch to a different cursor mode
-function switchCursorType(cursorType, pinPrivate = currentPinPrivate) {
+function switchCursorType(cursorType, pinPrivate = currentPinPrivate, existing = false) {
 
-	log(cursorType);
+	//console.log(cursorType);
+
+
+	// Showing an existing pin on cursor?
+	if (existing) {
+
+		cursor.addClass('existing');
+
+	} else {
+
+		cursor.removeClass('existing');
+
+	}
+
 
 	cursor.attr('data-pin-type', cursorType).attr('data-pin-private', pinPrivate);
 	currentCursorType = cursorType;
