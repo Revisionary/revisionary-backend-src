@@ -561,9 +561,13 @@ function runTheInspector() {
 			var elementIndex = $(this).attr('data-revisionary-index');
 			var pin_ID = pinElement('[data-revisionary-index="'+elementIndex+'"]').attr('data-pin-id');
 			var changedElement = $(this);
+			var modification = changedElement.html();
+			var change = htmlentities(modification, "ENT_QUOTES");
 
-			//var changedElementOriginal = changedElement.html();
-			var changes = changedElement.html();
+
+		    // Update from the Pins global
+			var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+			var pinIndex = Pins.indexOf(pin);
 
 
 			//console.log('REGISTERED CHANGES', changes);
@@ -573,21 +577,36 @@ function runTheInspector() {
 			stopAutoRefresh();
 
 
+			// Register the change only if different than the original
+			var noChange = false;
+			if (Pins[pinIndex].pin_modification_original == change) {
+
+				console.log('NO CHANGE');
+
+				noChange = true;
+				change = null;
+
+			}
+
+
 			// Apply the change on pin window
-			$('#pin-window.active .content-editor .edit-content.changes').html(changes);
+			$('#pin-window.active .content-editor .edit-content.changes').html(modification);
 
 
 			// Register as edited
-			changedElement
-				.attr('data-revisionary-edited', "1")
-				.attr('data-revisionary-showing-changes', "1");
+			if (!noChange) {
 
+				changedElement.attr('data-revisionary-edited', "1");
+				changedElement.attr('data-revisionary-showing-changes', "1");
 
-		    // Update from the Pins global
-			var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-			var pinIndex = Pins.indexOf(pin);
+			} else {
 
-			Pins[pinIndex].pin_modification = htmlentities(changes, "ENT_QUOTES");
+				changedElement.removeAttr('data-revisionary-showing-changes');
+				changedElement.removeAttr('data-revisionary-edited');
+
+			}
+
+			Pins[pinIndex].pin_modification = change;
 
 
 			// If differences tab is open
@@ -614,7 +633,7 @@ function runTheInspector() {
 			// Send changes to DB after 1 second
 			doChangeOnPage[elementIndex] = setTimeout(function(){
 
-				saveChange(pin_ID, changes);
+				saveChange(pin_ID, (noChange ? "{%null%}" : modification ));
 
 			}, 1000);
 
@@ -624,17 +643,17 @@ function runTheInspector() {
 		}).on('focus', '[contenteditable="true"][data-revisionary-index]', function(e) { // When clicked an editable text
 
 
-			outline(focused_element, focused_element_pin.attr('data-pin-private'));
+			outline(focused_element, focused_element_live_pin.attr('data-pin-private'));
 			focused_element.addClass('revisionary-focused');
 
 
 			// Open the new pin window
 			if (
 				pinWindowOpen
-				&& focused_element_pin != null && focused_element_pin.length
+				&& focused_element_live_pin != null && focused_element_live_pin.length
 				&& pinWindow.attr('data-revisionary-index') != focused_element_index
 			)
-				openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
+				openPinWindow(focused_element_live_pin.attr('data-pin-x'), focused_element_live_pin.attr('data-pin-y'), focused_element_live_pin.attr('data-pin-id'));
 
 
 		}).on('blur', '[contenteditable="true"][data-revisionary-index]', function(e) { // When clicked an editable text
@@ -642,15 +661,6 @@ function runTheInspector() {
 
 			iframeElement('.revisionary-focused').removeClass('revisionary-focused');
 			removeOutline();
-
-
-			// Open the new pin window
-			if (
-				pinWindowOpen
-				&& focused_element_pin != null && focused_element_pin.length
-				&& pinWindow.attr('data-revisionary-index') != focused_element_index
-			)
-				openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
 
 
 		}).on('paste', '[contenteditable]', function(e) { // When pasting rich text
@@ -718,7 +728,7 @@ function outline(element, private_pin, pin_type = "live") {
 	var outlineWidth = '2px';
 	if (block) outlineWidth = '2px';
 
-	element.css('outline', outlineWidth + ' dashed ' + elementColor, 'important');
+	if (element != null) element.css('outline', outlineWidth + ' dashed ' + elementColor, 'important');
 
 }
 
@@ -2099,6 +2109,18 @@ function saveChange(pin_ID, modification) {
 	var pinIndex = Pins.indexOf(pin);
 	var change = modification == "{%null%}" ? null : htmlentities(modification, "ENT_QUOTES");
 
+
+	// Register the change only if different than the original
+	if (Pins[pinIndex].pin_modification_original == change) {
+
+		//console.log('NO CHANGE');
+
+		change = null;
+		modification = "{%null%}";
+
+	}
+
+
 	Pins[pinIndex].pin_modification = change;
 
 
@@ -2117,11 +2139,17 @@ function saveChange(pin_ID, modification) {
 		console.log(result.data);
 
 		// Update the pin status
-		if (modification != "{%null%}") $('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', "1");
+		if (modification != "{%null%}")
+			$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', "1");
+		else
+			$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', "0");
 
 
 		// Update the pin window status
-		if (modification != "{%null%}") pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+		if (modification != "{%null%}")
+			pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+		else
+			pinWindow.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
 
 
 		// Finish the process

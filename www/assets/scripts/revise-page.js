@@ -303,9 +303,15 @@ $(function() {
 
 		var pin_ID = pinWindow.attr('data-pin-id');
 		var elementIndex = pinWindow.attr('data-revisionary-index');
-		var changes = $(this).html();
+		var modification = $(this).html();
+		var change = modification == "{%null%}" ? null : htmlentities(modification, "ENT_QUOTES");
 		var changedElement = iframeElement(elementIndex);
 		var changedElementOriginal = changedElement.html();
+
+
+	    // Update from the Pins global
+		var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+		var pinIndex = Pins.indexOf(pin);
 
 
 		//console.log('REGISTERED CHANGES', changes);
@@ -315,18 +321,36 @@ $(function() {
 		stopAutoRefresh();
 
 
+		// Register the change only if different than the original
+		var noChange = false;
+		if (Pins[pinIndex].pin_modification_original == change) {
+
+			console.log('NO CHANGE');
+
+			noChange = true;
+			change = null;
+
+		}
+
+
 		// Apply the change
-		changedElement.html(changes)
-			.attr('data-revisionary-edited', "1")
-			.attr('data-revisionary-showing-changes', "1")
-			.attr('contenteditable', "true");
+		changedElement.html(modification);
+		changedElement.attr('contenteditable', "true");
+
+		if (!noChange) {
+
+			changedElement.attr('data-revisionary-edited', "1");
+			changedElement.attr('data-revisionary-showing-changes', "1");
+
+		} else {
+
+			changedElement.removeAttr('data-revisionary-showing-changes');
+			changedElement.removeAttr('data-revisionary-edited');
+
+		}
 
 
-	    // Update from the Pins global
-		var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-		var pinIndex = Pins.indexOf(pin);
-
-		Pins[pinIndex].pin_modification = htmlentities(changes, "ENT_QUOTES");
+		Pins[pinIndex].pin_modification = change;
 
 
 		// Remove unsent job
@@ -335,7 +359,7 @@ $(function() {
 		// Send changes to DB after 1 second
 		doChange[elementIndex] = setTimeout(function(){
 
-			saveChange(pin_ID, changes);
+			saveChange(pin_ID, (noChange ? "{%null%}" : modification ));
 
 		}, 1000);
 
