@@ -497,7 +497,7 @@ $(function() {
 
 
 	// Hovering a pin from the pins list tab
-	var pinAnimation;
+	var pinAnimation, pinAnimationTimeout;
 	$(document).on('mouseover', '.pins-list > .pin', function(e) {
 
 		var pin_ID = $(this).find('pin').attr('data-pin-id');
@@ -511,19 +511,26 @@ $(function() {
 		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
 		outline(iframeElement(element_index), pin_private, pin_type);
 
-
 		if (pinAnimation) pinAnimation.stop();
-		pinAnimation = iframeElement('html, body').animate({
+		if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
+		pinAnimationTimeout = setTimeout(function() {
 
-			scrollTop: parseInt( pinY ) - 20,
-			//scrollLeft: pinX !!!
+			if (pinAnimation) pinAnimation.stop();
+			pinAnimation = iframeElement('html, body').animate({
+
+				scrollTop: parseInt( pinY ) - 20
+				//scrollLeft: pinX !!!
+
+			}, 500);
 
 		}, 500);
 
 
-
 		e.preventDefault();
 	}).on('mouseout', '.pins-list > .pin', function(e) {
+
+		if (pinAnimation) pinAnimation.stop();
+		if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
 
 		$('#pins > pin').css('opacity', '');
 		removeOutline();
