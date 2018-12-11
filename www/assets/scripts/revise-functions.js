@@ -453,7 +453,7 @@ function runTheInspector() {
 
 
 					// Editable check
-					if (focused_element_editable) {
+					if (focused_element_editable && currentPinType == "live") {
 
 						switchCursorType('live');
 						outline(focused_element, currentPinPrivate, currentPinType);
@@ -468,7 +468,7 @@ function runTheInspector() {
 					}
 
 
-					// Check if the element already has a pin
+					// Check if the element already has a live pin
 					if ( focused_element_live_pin.length ) {
 
 
@@ -477,14 +477,9 @@ function runTheInspector() {
 
 
 						// Update the cursor
-						var elementPin = focused_element_live_pin;
-						if (!elementPin.length) elementPin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]').first();
-						changePinNumber( elementPin.text() );
-						switchCursorType(elementPin.data('pin-type'), elementPin.data('pin-private'), elementPin.data('pin-type'));
-
-
-						// Color the element that has a pin according to the pin type
-						outline(focused_element, elementPin.attr('data-pin-private'), elementPin.attr('data-pin-type'));
+						changePinNumber( focused_element_live_pin.text() );
+						switchCursorType(focused_element_live_pin.data('pin-type'), focused_element_live_pin.data('pin-private'), focused_element_live_pin.data('pin-type'));
+						outline(focused_element, focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type'));
 
 
 
