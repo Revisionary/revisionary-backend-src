@@ -513,6 +513,9 @@ function runTheInspector() {
 		}).on('click', function(e) { // Detect the mouse clicks in frame
 
 
+			//console.log('CLICKED SOMEWHERE', focused_element_index);
+
+
 			// If cursor is active
 			if (cursorActive) {
 
@@ -534,6 +537,12 @@ function runTheInspector() {
 
 				}
 
+
+			} else {
+
+				// Close the pin window if open and not cursor active and not content editable
+				if ( pinWindowOpen && !iframeElement(focused_element_index).is('[contenteditable]') )
+					closePinWindow();
 
 			}
 
