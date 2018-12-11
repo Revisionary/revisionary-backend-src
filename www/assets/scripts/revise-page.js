@@ -473,15 +473,48 @@ $(function() {
 
 
 	// Hovering a pin from the pins list tab
+	var pinAnimation;
 	$(document).on('mouseover', '.pins-list > .pin', function(e) {
 
 		var pin_ID = $(this).find('pin').attr('data-pin-id');
 		var pin_type = $(this).find('pin').attr('data-pin-type');
 		var pin_private = $(this).find('pin').attr('data-pin-private');
 		var element_index = $(this).find('pin').attr('data-revisionary-index');
+		var pinX =  pinElement(pin_ID).attr('data-pin-x');
+		var pinY =  pinElement(pin_ID).attr('data-pin-y');
+
 
 		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
 		outline(iframeElement(element_index), pin_private, pin_type);
+
+
+		if (pinAnimation) pinAnimation.stop();
+		pinAnimation = iframeElement('html, body').animate({
+
+			scrollTop: parseInt( pinY ) - 20,
+			//scrollLeft: pinX !!!
+
+		}, 500, function() {
+
+	      // Callback after animation
+	      // Must change focus!
+	      var $target = iframeElement(element_index);
+	      $target.focus();
+
+	      if ($target.is(":focus")) { // Checking if the target was focused
+
+	        return false;
+
+	      } else {
+
+	        $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+	        $target.focus(); // Set focus again
+
+	      }
+
+	    });
+
+
 
 		e.preventDefault();
 	}).on('mouseout', '.pins-list > .pin', function(e) {
