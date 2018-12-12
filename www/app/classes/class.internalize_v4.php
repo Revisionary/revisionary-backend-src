@@ -384,18 +384,22 @@ class Internalize_v4 {
 		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
 
 
+		        // Remove extra slashes from the URL
+		        $the_url_clean = str_replace('\/', '/', $the_url);
+
+
 		        // Absoluted URL
-		        $new_url = url_to_absolute($this->pageData->remoteUrl, $the_url);
+		        $new_url = url_to_absolute($this->pageData->remoteUrl, $the_url_clean);
 
 
 				// If it has host, but no protocol (without http or https)
-		        if (parseUrl($the_url)['host'] != "" )
-		        	$new_url = url_to_absolute(parseUrl($the_url)['full_host'], $the_url);
+		        if (parseUrl($the_url_clean)['host'] != "" )
+		        	$new_url = url_to_absolute(parseUrl($the_url_clean)['full_host'], $the_url_clean);
 
 
 		        // If not on our server, don't touch it !!!
-		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl($this->pageData->remoteUrl)['domain'] )
-		        	$new_url = $the_url;
+		        if (parseUrl($the_url_clean)['domain'] != "" && parseUrl($the_url_clean)['domain'] != parseUrl($this->pageData->remoteUrl)['domain'] )
+		        	$new_url = $the_url_clean;
 
 
 
@@ -425,7 +429,7 @@ class Internalize_v4 {
 
 
 			        // Specific Log
-					file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+					file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS - Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 				}
 
@@ -447,12 +451,12 @@ class Internalize_v4 {
 
 
 		        // Found URL Log
-				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
+				//file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
 
 
 		        // Specific Log
-				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
-				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
 
 
 	            return $new_full_tag;
@@ -473,18 +477,22 @@ class Internalize_v4 {
 		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
 
 
+		        // Remove extra slashes from the URL
+		        $the_url_clean = str_replace('\/', '/', $the_url);
+
+
 		        // Absoluted URL
-		        $new_url = url_to_absolute($this->pageData->remoteUrl, $the_url);
+		        $new_url = url_to_absolute($this->pageData->remoteUrl, $the_url_clean);
 
 
 				// If it has host, but no protocol (without http or https)
-		        if (parseUrl($the_url)['host'] != "" )
-		        	$new_url = url_to_absolute(parseUrl($the_url)['full_host'], $the_url);
+		        if (parseUrl($the_url_clean)['host'] != "" )
+		        	$new_url = url_to_absolute(parseUrl($the_url_clean)['full_host'], $the_url_clean);
 
 
 		        // If not on our server, don't touch it !!!
-		        if (parseUrl($the_url)['domain'] != "" && parseUrl($the_url)['domain'] != parseUrl($this->pageData->remoteUrl)['domain'] )
-		        	$new_url = $the_url;
+		        if (parseUrl($the_url_clean)['domain'] != "" && parseUrl($the_url_clean)['domain'] != parseUrl($this->pageData->remoteUrl)['domain'] )
+		        	$new_url = $the_url_clean;
 
 
 
@@ -505,7 +513,7 @@ class Internalize_v4 {
 
 
 			        // Specific Log
-					file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+					file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 				}
 
@@ -527,12 +535,12 @@ class Internalize_v4 {
 
 
 		        // Found URL Log
-				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
+				//file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
 
 
 		        // Specific Log
-				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
-				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
 
 
 	            return $new_full_tag;
