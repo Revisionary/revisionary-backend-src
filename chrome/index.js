@@ -279,17 +279,35 @@ require('http').createServer(async (req, res) => {
 				} else if (otherResources) {
 					console.log(`❌♨️ ${method} ${resourceType} ${shortURL}`);
 					request.abort();
+				} else if (
+					ourHost != requestHost &&
+					cdnDetector.detectFromHostname(requestHost) != null &&
+					(
+						requestHost == "connect.facebook.net"
+						|| requestHost == "www.facebook.com"
+						|| requestHost == "www.google.com"
+						|| requestHost == "www.gstatic.com"
+					)
+				) {
+					console.log(`❌🌪 ${method} ${resourceType} ${shortURL}`);
+					request.abort();
 				} else {
 					console.log(`✅ ${method} ${resourceType} ${fileName} ${shortURL}`);
 					request.continue();
 					reqCount++;
 
 
+					// Detect CDN
+					let fromCDN = false;
+					if (ourHost != requestHost && cdnDetector.detectFromHostname(requestHost) != null) {
+						console.log('🌪 CDN DETECTED: ', requestHost);
+						fromCDN = true;
+					}
+
+
 					// If on the same host, or provided by a CDN
-					if (
-						ourHost == requestHost ||
-						cdnDetector.detectFromHostname(requestHost) != null
-					) {
+					if ( ourHost == requestHost || fromCDN ) {
+
 
 						let shouldDownload = true;
 						let newFileName = "noname.txt";
