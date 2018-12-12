@@ -625,10 +625,10 @@ class Internalize_v4 {
 
 
 				// If ends with '/>'...
-				if ( substr($tag, -2 ) == '/>' ) $new_tag = str_replace('/>', ' data-revisionary-index="'.$countElement.'" />', $tag);
+				if ( substr($tag, -2 ) == '/>' ) $new_tag = str_replace('/>', ' data-revisionary-index='.$countElement.' />', $tag);
 
 				// If ends with only '>'...
-				elseif ( substr($tag, -1 ) == '>' ) $new_tag = str_replace('>', ' data-revisionary-index="'.$countElement.'">', $tag);
+				elseif ( substr($tag, -1 ) == '>' ) $new_tag = str_replace('>', ' data-revisionary-index='.$countElement.' >', $tag);
 
 
 				// Specific Log
