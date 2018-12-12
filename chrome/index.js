@@ -287,6 +287,7 @@ require('http').createServer(async (req, res) => {
 						|| requestHost == "www.facebook.com"
 						|| requestHost == "www.google.com"
 						|| requestHost == "www.gstatic.com"
+						|| requestHost == "fonts.gstatic.com"
 					)
 				) {
 					console.log(`❌🌪 ${method} ${resourceType} ${shortURL}`);
@@ -328,7 +329,7 @@ require('http').createServer(async (req, res) => {
 
 							cssCount++;
 							newDir = "css/";
-							newFileName = cssCount + '.' + fileExtension;
+							newFileName = cssCount + '.css';
 
 						}
 
@@ -337,7 +338,7 @@ require('http').createServer(async (req, res) => {
 
 							jsCount++;
 							newDir = "js/";
-							newFileName = jsCount + '.' + fileExtension;
+							newFileName = jsCount + '.js';
 
 						}
 
