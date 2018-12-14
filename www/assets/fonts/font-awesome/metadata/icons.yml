@@ -3606,7 +3606,7 @@ desktop:
       - cpu
       - demo
       - desktop
-      - device
+      - screen
       - machine
       - monitor
       - pc
@@ -7674,7 +7674,7 @@ laptop:
       - cpu
       - dell
       - demo
-      - device
+      - screen
       - dude you're getting
       - mac
       - macbook
@@ -8818,7 +8818,7 @@ mobile:
       - call
       - cell phone
       - cellphone
-      - device
+      - screen
       - iphone
       - number
       - screen
@@ -8837,7 +8837,7 @@ mobile-alt:
       - call
       - cell phone
       - cellphone
-      - device
+      - screen
       - iphone
       - number
       - screen
@@ -12445,7 +12445,7 @@ tablet:
   search:
     terms:
       - apple
-      - device
+      - screen
       - ipad
       - kindle
       - screen
@@ -12459,7 +12459,7 @@ tablet-alt:
   search:
     terms:
       - apple
-      - device
+      - screen
       - ipad
       - kindle
       - screen

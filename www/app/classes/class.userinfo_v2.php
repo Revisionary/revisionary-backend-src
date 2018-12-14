@@ -1,6 +1,6 @@
 <?php
 
-class UserAccess {
+class User {
 
 
 	// The user ID
@@ -61,7 +61,7 @@ class UserAccess {
 			'nameAbbr' => mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
 			'email' => $userInfo['user_email'],
 			'userPic' => $userInfo['user_picture'],
-			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('user-'.self::$user_ID.'/'.$userInfo['user_picture']) : asset_url('icons/follower-f.svg')
+			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.self::$user_ID.'/'.$userInfo['user_picture']) : asset_url('icons/follower-f.svg')
 		);
 		$userData['printPicture'] = $userInfo['user_picture'] != "" ? 'style="background-image: url('.$userData['userPicUrl'].');"' : false;
 
@@ -122,7 +122,6 @@ class UserAccess {
 
 		// Correct the data type
 		$data_type = substr($data_type, 0, -1);
-
 
 
 		// Bring the shared projects
@@ -199,14 +198,6 @@ class UserAccess {
 			// Bring project share info
 			$db->join("shares sp", "p.project_ID = sp.shared_object_ID", "LEFT");
 			$db->joinWhere("shares sp", "sp.share_type", 'project');
-
-
-			// Bring the devices
-			$db->join("devices d", "d.device_ID = p.device_ID", "LEFT");
-
-
-			// Bring the device category info
-			$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
 
 
 			$db->where('(
@@ -308,41 +299,133 @@ class UserAccess {
 
 
 
-    // Get device data
-    public function getDeviceData() {
+    // Get screen data
+    public function getScreenData() {
 	    global $db;
 
 
-		// Bring the device category info
-		$db->join("device_categories d_cat", "d.device_cat_ID = d_cat.device_cat_ID", "LEFT");
+		// Bring the screen category info
+		$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
 
-		$db->where('d.device_user_ID', 1); // !!! ?
+		$db->where('s.screen_user_ID', 1); // !!! ?
 
-		$db->orderBy('d_cat.device_cat_order', 'asc');
-		$db->orderBy(' d.device_order', 'asc');
-		$devices = $db->get('devices d');
+		$db->orderBy('s_cat.screen_cat_order', 'asc');
+		$db->orderBy(' s.screen_order', 'asc');
+		$screens = $db->get('screens s');
 
 
-		// Prepare the devices data
-		$device_data = [];
-		foreach ($devices as $device) {
+		// Prepare the screens data
+		$screen_data = [];
+		foreach ($screens as $screen) {
 
-			if ( !isset($device_data[$device['device_cat_ID']]['devices']) ) {
+			if ( !isset($screen_data[$screen['screen_cat_ID']]['screens']) ) {
 
-				$device_data[$device['device_cat_ID']] = array(
-					'device_cat_icon' => $device['device_cat_icon'],
-					'device_cat_name' => $device['device_cat_name'],
-					'devices' => array(),
+				$screen_data[$screen['screen_cat_ID']] = array(
+					'screen_cat_icon' => $screen['screen_cat_icon'],
+					'screen_cat_name' => $screen['screen_cat_name'],
+					'screens' => array(),
 				);
 
 			}
 
-			$device_data[$device['device_cat_ID']]['devices'][$device["device_ID"]] = $device;
+			$screen_data[$screen['screen_cat_ID']]['screens'][$screen["screen_ID"]] = $screen;
 
 		}
 
 
-		return $device_data;
+		return $screen_data;
+    }
+
+
+
+
+    // ACTIONS:
+
+    // Reorder
+    public function reorder(
+	    array $orderData
+    ) {
+	    global $db;
+
+
+
+
+		$status = "initated";
+		foreach($orderData as $data) {
+
+			// Security Check !!! Needs more: ID, Cat ID check from DB. Order number check?
+			if (
+				(
+					$data['type'] != "category" &&
+					$data['type'] != "project" &&
+					$data['type'] != "page"
+				) ||
+				!is_numeric( intval($data['ID']) ) ||
+				!is_numeric( intval($data['catID']) ) ||
+				!is_numeric( intval($data['order']) )
+			) {
+				return false;
+			}
+
+
+			// Pass on category 0
+			if ($data['type'] == "category" && intval($data['ID']) == 0) continue;
+
+
+
+			// DB Checks !!! If exists...
+
+
+
+			// Delete the old record
+			$db->where('sort_type', $data['type']);
+			$db->where('sort_object_ID', $data['ID']);
+			$db->where('sorter_user_ID', self::$user_ID);
+			$db->delete('sorting');
+
+
+			// Add the new record
+			$dbData = Array (
+				"sort_type" => $data['type'],
+				"sort_object_ID" => $data['ID'],
+				"sort_number" => $data['order'],
+				"sorter_user_ID" => self::$user_ID
+			);
+			$sort_ID = $db->insert('sorting', $dbData);
+
+			if ($sort_ID) {
+				$status = "ordering-successful";
+
+
+				if ($data['type'] == "page" || $data['type'] == "project") {
+
+					// Delete the old record
+					$db->where($data['type'].'_cat_'.$data['type'].'_ID', $data['ID']);
+					$db->where($data['type'].'_cat_connect_user_ID', self::$user_ID);
+					$db->delete($data['type'].'_cat_connect');
+
+
+					// Add the new record
+					$id_connect = $db->insert($data['type'].'_cat_connect', array(
+						$data['type']."_cat_".$data['type']."_ID" => $data['ID'],
+						$data['type']."_cat_ID" => $data['catID'],
+						$data['type']."_cat_connect_user_ID" => self::$user_ID
+					));
+					if ($id_connect) $status = "category-successful";
+
+
+				}
+
+			}
+
+
+
+
+		} // Loop
+
+
+		return $status == "ordering-successful" || $status == "category-successful";
+
     }
 
 

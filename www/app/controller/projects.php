@@ -16,63 +16,62 @@ if (
 ) {
 
 
-	// Add the domain name as project name if not already entered
-	$project_name = request('project-name');
-	if ($project_name == "")
-		$project_name = ucwords( str_replace('-', ' ', explode('.', parseUrl(request('page-url'))['domain'])[0]) );
-
-
-
+	// Add the project
 	$project_ID = Project::ID()->addNew(
-		$project_name,
+		request('project-name'),
+		is_array(request('project_shares')) ? request('project_shares') : array(),
 		request('category'),
 		request('order'),
-		is_array(request('project_shares')) ? request('project_shares') : array()
+		request('page-url')
 	);
 
-
-
-	// Add the first pages
-	$firstPageAdded = false;
-	if (
-		request('page-url') != "" &&
-		is_array(request('devices')) &&
-		count(request('devices')) > 0
-	) {
-
-
-		// Add the pages
-		$parent_page_ID = Page::ID()->addNew(
-			request('page-url'),
-			$project_ID,
-			request('page-name'),
-			0, // Category ID
-			request('order'),
-			is_array(request('devices')) ? request('devices') : array(), // Device IDs array
-			is_array(request('page_shares')) ? request('page_shares') : array(),
-			request('page-width') != "" ? request('page-width') : null,
-			request('page-height') != "" ? request('page-height') : null
-		);
-
-		if ($parent_page_ID) $firstPageAdded = true;
-
+	// Check the result
+	if(!$project_ID) {
+		header('Location: '.site_url('projects?addprojecterror')); // If unsuccessful
+		die();
 	}
 
 
 
+	// Add the Page
+	$page_ID = Page::ID()->addNew(
+		$project_ID,
+		request('page-url'),
+		request('page-name'),
+		is_array(request('page_shares')) ? request('page_shares') : array()
+	);
+
 	// Check the result
-	if(!$project_ID) {
+	if(!$page_ID) {
 		header('Location: '.site_url('projects?addpageerror')); // If unsuccessful
 		die();
 	}
 
 
 
+	// Add the Devices
+	$device_ID = Device::ID()->addNew(
+		$page_ID,
+		is_array(request('screens')) ? request('screens') : array(), // Screen IDs array
+		request('page-width') != "" ? request('page-width') : null,
+		request('page-height') != "" ? request('page-height') : null
+	);
+
+	// Check the result
+	if(!$device_ID) {
+		header('Location: '.site_url('projects?adddeviceerror')); // If unsuccessful
+		die();
+	}
+
+
+
 	// If successful
-	if ($firstPageAdded)
-		header('Location: '.site_url('revise/'.$parent_page_ID));
-	else
+	if ($device_ID)
+		header('Location: '.site_url('revise/'.$device_ID));
+	elseif ($project_ID)
 		header('Location: '.site_url('project/'.$project_ID.'#add-first-page'));
+	else
+		header('Location: '.site_url('projects?adderror'));
 
 	die();
 
@@ -91,7 +90,7 @@ $catFilter = isset($_url[1]) ? $_url[1] : '';
 
 // PROJECTS DATA MODEL
 $dataType = "project";
-$allMyProjectsList = UserAccess::ID()->getMy("projects", $catFilter, $order);
+$allMyProjectsList = User::ID()->getMy("projects", $catFilter, $order);
 $theCategorizedData = categorize($allMyProjectsList, $dataType);
 //echo "<pre>"; print_r(array_column($theCategorizedData, 'theData')); exit();
 
@@ -105,19 +104,19 @@ $pageCounts = array_count_values($pageCount);
 
 
 // CATEGORY INFO
-$categories = UserAccess::ID()->getCategories($dataType, $order);
-//print_r($categories); exit;
+$categories = User::ID()->getCategories($dataType, $order);
+//echo "<pre>"; print_r($categories); exit();
 
 
-// DEVICE INFO
-$device_data = UserAccess::ID()->getDeviceData();
-//echo "<pre>"; print_r($device_data); exit();
+// SCREEN INFO
+$screen_data = User::ID()->getScreenData();
+//echo "<pre>"; print_r($screen_data); exit();
 
 
 
 // Additional Scripts and Styles
 $additionalCSS = [
-	'jquery.mCustomScrollbar.css'
+	'vendor/jquery.mCustomScrollbar.css'
 ];
 
 $additionalHeadJS = [

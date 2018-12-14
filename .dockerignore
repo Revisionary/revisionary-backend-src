@@ -3,6 +3,6 @@
 node_modules
 npm-debug.log
 
-www/assets/cache/user-*/project-*/*.png
-www/assets/cache/user-*/project-*/*.jpg
-www/assets/cache/user-*/project-*/page-*/device-*
+www/cache/projects/project-*/*.png
+www/cache/projects/project-*/*.jpg
+www/cache/projects/project-*/page-*/v*

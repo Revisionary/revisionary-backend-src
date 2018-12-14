@@ -5,8 +5,8 @@
 
 
 // Helpers
-@import '_normalize';
-@import '_flexiblegs-css';
+@import 'vendor/_normalize';
+@import 'vendor/_flexiblegs-css';
 
 /**
  * General
@@ -596,7 +596,7 @@ a {
 } // .dropdown-container
 
 
-.device-adder {
+.screen-adder {
 
 	& * {
 		color: $color !important;
@@ -1385,7 +1385,7 @@ input.share-email {
 		}
 	}
 
-	ul.selected-devices {
+	ul.selected-screens {
 		list-style: none;
 		margin-top: 0;
 
@@ -1408,7 +1408,7 @@ input.share-email {
 				letter-spacing: 1px;
 			}
 
-			& > a.remove-device {
+			& > a.remove-screen {
 				color: #d6d6d6;
 
 				&:hover {
@@ -1418,7 +1418,7 @@ input.share-email {
 		}
 	}
 
-	.add-device {
+	.add-screen {
 		font-weight: bold;
 		font-size: 18px;
 	}
@@ -1852,7 +1852,7 @@ footer {
 				}
 			}
 
-			.devices {
+			.screens {
 
 				a > i {
 					font-size: 30px;

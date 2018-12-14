@@ -131,15 +131,15 @@ $(function() {
 		$('input[name="page-height"]').attr('value', height);
 
 		// Update the URLs
-		$('.new-device[data-device-id="11"]').each(function() {
+		$('.new-screen[data-screen-id="11"]').each(function() {
 
-			var newDeviceURL = $(this).attr('href');
+			var newScreenURL = $(this).attr('href');
 			//var topBarHeight = $('#top-bar').outerHeight();
 
-			var widthOnURL = getParameterByName('page_width', newDeviceURL);
-			var heightOnURL = getParameterByName('page_height', newDeviceURL);
+			var widthOnURL = getParameterByName('page_width', newScreenURL);
+			var heightOnURL = getParameterByName('page_height', newScreenURL);
 
-			var newURL = newDeviceURL.replace('page_width='+widthOnURL, 'page_width='+width);
+			var newURL = newScreenURL.replace('page_width='+widthOnURL, 'page_width='+width);
 			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+height);
 
 			$(this).attr('href', newURL);

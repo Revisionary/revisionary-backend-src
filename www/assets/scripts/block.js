@@ -39,13 +39,21 @@ $(function() {
 		// Start the process
 		var actionID = newProcess();
 
+
+		console.log('Send data');
+
 	    // AJAX update the order
 		$.post(ajax_url, {
-			'type':'data-action',
-			'action': 'reorder',
+			'ajax'		: true,
+			'type' 		: 'data-action',
+			'action' 	: 'reorder',
+			'data-type' : 'user',
 			'orderData' : orderData,
+			'id' 		: 0,
 			'nonce' : nonce
 		}, function(result){
+
+			console.log(result);
 
 
 			$.each(result.data, function(key, data){
@@ -70,8 +78,8 @@ $(function() {
 		// Remove all add new boxes
 		$('.add-new-block').css('opacity', '0').css('width', '0').css('padding', '0');
 
-		// Remove all the device navigations
-		$('.devices nav.dropdown').hide();
+		// Remove all the screen navigations
+		$('.screens nav.dropdown').hide();
 
 
 	}).bind('dragend', function( event ){
@@ -80,8 +88,8 @@ $(function() {
 		// Re-add them
     	addNewPageButtons();
 
-		// Show all the device navigations
-		$('.devices nav.dropdown').show();
+		// Show all the screen navigations
+		$('.screens nav.dropdown').show();
 
 
     });
@@ -120,17 +128,17 @@ $(function() {
 		$('input[name="page-height"]').attr('value', screenHeight);
 
 
-		$('[data-device-id="11"]').attr('data-device-width', screenWidth);
-		$('[data-device-id="11"]').attr('data-device-height', screenHeight);
+		$('[data-screen-id="11"]').attr('data-screen-width', screenWidth);
+		$('[data-screen-id="11"]').attr('data-screen-height', screenHeight);
 
 
-		$('.new-device[data-device-id="11"]').each(function() {
+		$('.new-screen[data-screen-id="11"]').each(function() {
 
-			var newDeviceURL = $(this).attr('href');
-			var widthOnURL = getParameterByName('page_width', newDeviceURL);
-			var heightOnURL = getParameterByName('page_height', newDeviceURL);
+			var newScreenURL = $(this).attr('href');
+			var widthOnURL = getParameterByName('page_width', newScreenURL);
+			var heightOnURL = getParameterByName('page_height', newScreenURL);
 
-			var newURL = newDeviceURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
+			var newURL = newScreenURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
 			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+screenHeight);
 
 			$(this).attr('href', newURL);

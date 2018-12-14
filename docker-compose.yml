@@ -16,7 +16,8 @@ services:
         volumes:
             - ./www:/var/www/html
             - ./logs:/var/log/apache2
-            - ./www/assets/cache:/var/www/html/assets/cache
+            - ./logs:/var/www/logs
+            - ./www/cache:/var/www/html/cache
         networks:
             - default
     db:
@@ -64,7 +65,7 @@ services:
         ports:
             - ${LOCAL_IP}:8080:3000
         volumes:
-            - ./www/assets/cache:/var/www/html/assets/cache
+            - ./www/cache:/var/www/html/cache
 volumes:
     persistent:
 networks:

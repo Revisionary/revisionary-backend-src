@@ -30,7 +30,7 @@ function asset_url_nocache($url = null) {
 }
 
 function cache_url($url = null, $forceSSL = false, $unForceSSL = false) {
-  return asset_url('cache/' . $url, $forceSSL, $unForceSSL);
+  return ($forceSSL ? secure_url : ($unForceSSL ? insecure_url : url)) . '/cache/' . $url;
 }
 
 function current_url($query = "", $removeQuery = "", $forceSSL = false) {

@@ -543,38 +543,38 @@ $(function() {
 
 
 
-	// Add new device to modal
-	$('.device-add > li > a').click(function(e) {
+	// Add new screen to modal
+	$('.screen-add > li > a').click(function(e) {
 
-		var listed_device = $(this).parent();
-		var listed_device_cat = $(this).parents('.device-cat');
+		var listed_screen = $(this).parent();
+		var listed_screen_cat = $(this).parents('.screen-cat');
 
-		var device_id = $(this).attr('data-device-id');
-		var device_width = $(this).attr('data-device-width');
-		var device_height = $(this).attr('data-device-height');
-		var device_cat_name = $(this).attr('data-device-cat-name');
-		var device_cat_icon = $(this).attr('data-device-cat-icon');
+		var screen_id = $(this).attr('data-screen-id');
+		var screen_width = $(this).attr('data-screen-width');
+		var screen_height = $(this).attr('data-screen-height');
+		var screen_cat_name = $(this).attr('data-screen-cat-name');
+		var screen_cat_icon = $(this).attr('data-screen-cat-icon');
 
 
-		var new_device_html = '\
+		var new_screen_html = '\
 			<li>\
-				<input type="hidden" name="devices[]" value="'+device_id+'"/>\
-				<i class="fa '+ device_cat_icon +'" aria-hidden="true"></i> <span>'+device_cat_name+' ('+device_width+' x '+device_height+')</span>\
-				<a href="#" class="remove-device"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+				<input type="hidden" name="screens[]" value="'+screen_id+'"/>\
+				<i class="fa '+ screen_cat_icon +'" aria-hidden="true"></i> <span>'+screen_cat_name+' ('+screen_width+' x '+screen_height+')</span>\
+				<a href="#" class="remove-screen"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 			</li>\
 		';
 
 
 
-		if (device_id == 11) {
+		if (screen_id == 11) {
 
-			new_device_html = '\
+			new_screen_html = '\
 				<li>\
-					<input type="hidden" name="devices[]" value="'+device_id+'">\
-					<input type="hidden" name="page-width" value="'+device_width+'">\
-					<input type="hidden" name="page-height" value="'+device_height+'">\
-					<i class="fa '+ device_cat_icon +'" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width">'+device_width+'</span> x <span class="screen-height">'+device_height+'</span>)</span>\
-					<a href="#" class="remove-device"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+					<input type="hidden" name="screens[]" value="'+screen_id+'">\
+					<input type="hidden" name="page-width" value="'+screen_width+'">\
+					<input type="hidden" name="page-height" value="'+screen_height+'">\
+					<i class="fa '+ screen_cat_icon +'" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width">'+screen_width+'</span> x <span class="screen-height">'+screen_height+'</span>)</span>\
+					<a href="#" class="remove-screen"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 				</li>\
 			';
 
@@ -583,19 +583,19 @@ $(function() {
 
 
 
-		$('.selected-devices').append(new_device_html);
+		$('.selected-screens').append(new_screen_html);
 
 
-		listed_device.hide();
+		listed_screen.hide();
 
 
-		// Check if any other device left in that category
-		if ( !listed_device.parent().children(':visible').length )
-			listed_device_cat.hide();
+		// Check if any other screen left in that category
+		if ( !listed_screen.parent().children(':visible').length )
+			listed_screen_cat.hide();
 
 
 		// Show all the remove buttons
-		$('.selected-devices a.remove-device').show();
+		$('.selected-screens a.remove-screen').show();
 
 
 		e.preventDefault();
@@ -604,39 +604,39 @@ $(function() {
 	});
 
 
-	// Delete selected device from the list
-	$(document).on('click', '.selected-devices a.remove-device', function(e) {
+	// Delete selected screen from the list
+	$(document).on('click', '.selected-screens a.remove-screen', function(e) {
 
 
-		var listed_device = $(this).parent();
-		var listed_device_cat = $(this).parents('.device-cat');
+		var listed_screen = $(this).parent();
+		var listed_screen_cat = $(this).parents('.screen-cat');
 
-		var device = listed_device.find('input');
-		var device_id = device.attr('value');
-		var device_from_list = $('.device-add > li > a[data-device-id="'+device_id+'"]').parent();
+		var screen = listed_screen.find('input');
+		var screen_id = screen.attr('value');
+		var screen_from_list = $('.screen-add > li > a[data-screen-id="'+screen_id+'"]').parent();
 
 
 		// Show in the list
-		device_from_list.show();
+		screen_from_list.show();
 
 
 		// Show the category
-		device_from_list.parents('.device-cat').show();
+		screen_from_list.parents('.screen-cat').show();
 
 
-		// Remove the device
-		listed_device.remove();
+		// Remove the screen
+		listed_screen.remove();
 
 
-		// Count the selected devices and if less than 2, hide that remover
-		if ( $('.selected-devices > li').length < 2 ) {
+		// Count the selected screens and if less than 2, hide that remover
+		if ( $('.selected-screens > li').length < 2 ) {
 
-			$('.selected-devices a.remove-device').hide();
+			$('.selected-screens a.remove-screen').hide();
 
 		}
 
 
-		console.log('REMOVE', device_id);
+		console.log('REMOVE', screen_id);
 
 
 		e.preventDefault();

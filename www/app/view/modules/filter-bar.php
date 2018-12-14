@@ -47,13 +47,13 @@
 
 
 
-					$action_url = 'ajax?type=data-action&data-type='.$dataType.'&nonce='.$_SESSION['js_nonce'];
+					$action_url = 'ajax?type=data-action&data-type=category&nonce='.$_SESSION['js_nonce'];
 
 					if ($dataType == "page")
 						$action_url .= '&project_ID='.$project_ID;
 
 					?>
-					<a href="<?=site_url($action_url.'&action=add-new-category')?>" class="action" data-actionn="add-new-category" data-tooltip="Add New Category"><span style="font-family: Arial; font-weight: bold;"><i class="fa fa-plus"></i></span></a>
+					<a href="<?=site_url($action_url.'&action='.$dataType.'New')?>" class="action" data-actionn="<?=$dataType?>New" data-tooltip="Add New Category"><span style="font-family: Arial; font-weight: bold;"><i class="fa fa-plus"></i></span></a>
 
 				</div>
 
@@ -64,20 +64,20 @@
 						if ($_url[0] == "project") {
 					?>
 					<div class="dropdown-container">
-						<span class="dropdown-opener">DEVICE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+						<span class="dropdown-opener">SCREEN <i class="fa fa-caret-down" aria-hidden="true"></i></span>
 						<nav class="dropdown selectable xl-left">
-							<ul class="device-selector">
+							<ul class="screen-selector">
 
-								<li <?= $deviceFilter == "" || $deviceFilter == "all" ? ' class="selected"' : ""?>>
-									<a href="<?=current_url('', 'device')?>" data-device="5"><i class="fa" aria-hidden="true"></i> All</a>
+								<li <?= $screenFilter == "" || $screenFilter == "all" ? ' class="selected"' : ""?>>
+									<a href="<?=current_url('', 'screen')?>" data-screen="5"><i class="fa" aria-hidden="true"></i> All</a>
 								</li>
 
 							<?php
-							foreach($available_devices as $device) {
+							foreach($available_screens as $screen) {
 							?>
 
-								<li <?=$deviceFilter == $device['device_cat_ID'] ? ' class="selected"' : ""?>>
-									<a href="<?=current_url('device='.$device['device_cat_ID'])?>" data-device="4"><i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i> <?=$device['device_cat_name']?></a>
+								<li <?=$screenFilter == $screen['screen_cat_ID'] ? ' class="selected"' : ""?>>
+									<a href="<?=current_url('screen='.$screen['screen_cat_ID'])?>" data-screen="4"><i class="fa <?=$screen['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen['screen_cat_name']?></a>
 								</li>
 
 							<?php

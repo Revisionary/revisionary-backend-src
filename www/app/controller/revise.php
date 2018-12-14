@@ -8,10 +8,7 @@ $forceReInternalize = get('redownload') === "" ? true : false;
 
 
 // Get the page ID
-$page_ID = $_url[1];
-
-// Get the version number
-$version_number = isset($_url[2]) ? $_url[2] : null; // Check if version exists !!!
+$device_ID = $_url[1];
 
 
 
@@ -25,8 +22,18 @@ if (!userloggedIn()) {
 
 
 // If no page specified or not numeric, go projects page
-if ( !isset($page_ID) || !is_numeric($page_ID) ) {
-	header('Location: '.site_url('projects'));
+if ( !isset($device_ID) || !is_numeric($device_ID) ) {
+	header('Location: '.site_url('projects?invaliddevice'));
+	die();
+}
+
+
+// If the specified device doesn't exist, go projects page
+$deviceData = Device::ID($device_ID);
+$device = $deviceData->getInfo("*", true);
+//die_to_print($device);
+if ( !$device ) {
+	header('Location: '.site_url('projects?devicedoesntexist'));
 	die();
 }
 
@@ -35,100 +42,53 @@ if ( !isset($page_ID) || !is_numeric($page_ID) ) {
 // THE PAGE INFO
 
 // All my pages
-$allMyPages = UserAccess::ID()->getMy('pages');
-//echo "<pre>"; print_r($allMyPages); echo "</pre>"; die();
+$allMyPages = User::ID()->getMy('pages');
+//die_to_print($allMyPages);
 
 
 // Find the current page
-$page = array_filter($allMyPages, function($pageFound) use ($page_ID) {
-    return ($pageFound['page_ID'] == $page_ID);
+$page = array_filter($allMyPages, function($pageFound) use ($device) {
+    return ($pageFound['page_ID'] == $device['page_ID']);
 });
 $page = end($page);
-//echo "<pre>"; print_r($page); echo "</pre>"; die();
+//die_to_print($page);
 
 // Check if page not exists, redirect to the projects page
 if ( !$page ) {
-	header('Location: '.site_url('projects'));
+	header('Location: '.site_url('projects?pagedoesntexist'));
 	die();
 }
 
 
-// Get parent page ID
-$parentpage_ID = $page['parent_page_ID'];
-
 // Get project ID
 $project_ID = $page['project_ID'];
+$page_ID = $device['page_ID'];
 
 
 
-// VERSION INFO
+// SCREEN INFO
 
-// Get the latest version !!! Check this
-$db->where('page_ID', $page_ID);
-//if ( isset($version_number) ) $db->where('version_number', $version_number);
-$db->orderBy('version_number', 'DESC');
-$versions = $db->get('versions');
-//echo "<pre>"; print_r($versions); echo "</pre>"; die();
+// Get screen ID
+$screenID = $device['screen_ID'];
 
-// If version found
-if ($versions) {
+// Get the screen sizes
+$width = $device['device_width'] ? $device['device_width'] : $device['screen_width'];
+$height = $device['device_height'] ? $device['device_height'] : $device['screen_height'];
 
+// Get screen name
+$screen_name = $device['screen_name'];
 
-	if ($version_number) {
-
-		// Find the current page
-		$version = array_filter($versions, function($versionFound) use ($version_number) {
-		    return ($versionFound['version_number'] == $version_number);
-		});
-		$pageVersion = end($version);
-
-
-		$version_ID = $pageVersion['version_ID'];
-		$version_number = $pageVersion['version_number'];
-
-	} else {
-
-		$version_ID = $versions[0]['version_ID'];
-		$version_number = $versions[0]['version_number'];
-
-	}
-
-
-} else {
-
-
-	// REDIRECT TO PAGES !!!
-
-	$version_ID = 0;
-	$version_number = "1";
-
-}
+// Get the screen icon
+$screenCatID = $device['screen_cat_ID'];
+$screenIcon = $device['screen_cat_icon'];
 
 
 
-// DEVICE INFO
-
-// Get device ID
-$deviceID = $page['device_ID'];
-
-// Get the device sizes
-$width = $page['page_width'] ? $page['page_width'] : $page['device_width'];
-$height = $page['page_height'] ? $page['page_height'] : $page['device_height'];
-
-// Get device name
-$device_name = $page['device_name'];
-
-// Get the device icon
-$deviceCatID = $page['device_cat_ID'];
-$deviceIcon = $page['device_cat_icon'];
-
-
-
-// Screenshots
+// Screenshots !!!
 $pageData = Page::ID($page_ID);
-$page_image = $pageData->pageImagePath;
-$project_image = $pageData->projectDir."/project.jpg";
-
+$device_image = $deviceData->getImage();
+$project_image = cache."/projects/project-$project_ID/project.jpg";
+//die("$device_image -> $project_image");
 
 
 // PROTOCOL REDIRECTIONS:
@@ -136,7 +96,7 @@ $project_image = $pageData->projectDir."/project.jpg";
 // Http to Https Redirection
 if ( substr($pageData->remoteUrl, 0, 8) == "https://" && !ssl) {
 
-	header( 'Location: '.site_url('revise/'.$page_ID, true) ); // Force HTTPS
+	header( 'Location: '.site_url('revise/'.$device_ID, true) ); // Force HTTPS
 	die();
 
 }
@@ -144,7 +104,7 @@ if ( substr($pageData->remoteUrl, 0, 8) == "https://" && !ssl) {
 // Https to Http Redirection
 if ( substr($pageData->remoteUrl, 0, 7) == "http://" && ssl) {
 
-	header( 'Location: '.site_url('revise/'.$page_ID, false, true) ); // Force HTTP
+	header( 'Location: '.site_url('revise/'.$device_ID, false, true) ); // Force HTTP
 	die();
 
 }
@@ -160,7 +120,7 @@ if ( !file_exists($pageData->logDir) )
 
 // Check if queue is already working
 $db->where('queue_type', 'internalize');
-$db->where('queue_object_ID', $page_ID);
+$db->where('queue_object_ID', $device_ID);
 
 $db->where("(queue_status = 'working' OR queue_status = 'waiting')");
 $existing_queue = $db->get('queues');
@@ -195,7 +155,7 @@ if (
 	$queue_status = $existing_queue['queue_status'];
 
 
-	$process_status = "DB: ".ucfirst($queue_status)." Queue Found. Page: #$page_ID User: #".currentUserID()." Process ID: #$queue_PID Queue ID: #$queue_ID";
+	$process_status = "DB: ".ucfirst($queue_status)." Queue Found. Page: #$device_ID User: #".currentUserID()." Process ID: #$queue_PID Queue ID: #$queue_ID";
 
 
 	// Site log
@@ -217,7 +177,7 @@ if (
 
 	file_exists( $pageData->pageDir ) && // Folder is exist
 	file_exists( $pageData->pageFile ) && // HTML is downloaded
-	file_exists( $page_image ) && // Page image ready
+	file_exists( $device_image ) && // Page image ready
 	file_exists( $project_image ) && // // Project image ready
 	file_exists( $pageData->logDir."/browser.log" ) && // No error on Browser
 	file_exists( $pageData->logDir."/html-filter.log" ) && // No error on HTML filtering
@@ -226,7 +186,7 @@ if (
 ) {
 
 
-	$process_status = "Already downloaded page #$page_ID is opening for user #".currentUserID().".";
+	$process_status = "Already downloaded page #$device_ID is opening for user #".currentUserID().".";
 
 
 	// Site log
@@ -237,7 +197,7 @@ if (
 } else {
 
 
-	$process_status = "Page #$page_ID needs to be re-internalized for user #".currentUserID().".";
+	$process_status = "Page #$device_ID needs to be internalized for user #".currentUserID().".";
 
 
 	// Site log
@@ -265,13 +225,13 @@ if (
 	// NEW QUEUE
 	// Add a new job to the queue
 	$queue = new Queue();
-	$queue_results = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.", session_id());
+	$queue_results = $queue->new_job('internalize', $device_ID, "Waiting other works to be done.", session_id());
 	$process_ID = $queue_results['process_ID'];
 	$queue_ID = $queue_results['queue_ID'];
 
 
 	// Site log
-	$log->info("Page #$page_ID added to the queue #$queue_ID. Process ID: #".$process_ID." User: #".currentUserID().".");
+	$log->info("Page #$device_ID added to the queue #$queue_ID. Process ID: #".$process_ID." User: #".currentUserID().".");
 
 
 }
@@ -298,7 +258,7 @@ $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 $db->where('share_type', 'page');
 
 // Is this project?
-$db->where('shared_object_ID', $page_ID);
+$db->where('shared_object_ID', $device_ID);
 
 // Project shares data
 $pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
@@ -306,9 +266,9 @@ $pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
 
 
-// DEVICE INFO
-$device_data = UserAccess::ID()->getDeviceData();
-//echo "<pre>"; print_r($device_data); exit();
+// SCREEN INFO
+$screen_data = User::ID()->getScreenData();
+//echo "<pre>"; print_r($screen_data); exit();
 
 
 // PROJECT INFO
@@ -317,7 +277,7 @@ $projectInfo = Project::ID($project_ID)->getInfo(null, true);
 
 
 // All my projects
-$allMyProjects = UserAccess::ID()->getMy('projects');
+$allMyProjects = User::ID()->getMy('projects');
 //echo "<pre>"; print_r($allMyProjects); echo "</pre>"; die();
 
 
@@ -363,8 +323,8 @@ die();
 
 
 $additionalCSS = [
-	'jquery.mCustomScrollbar.css',
-	'popline-theme/default.css',
+	'vendor/jquery.mCustomScrollbar.css',
+	'vendor/popline-theme/default.css',
 	'revise.css'
 ];
 
@@ -392,8 +352,8 @@ $additionalBodyJS = [
 ];
 
 
-// Generate new nonce for add new devices
-$_SESSION["new_device_nonce"] = uniqid(mt_rand(), true);
+// Generate new nonce for add new screens
+$_SESSION["new_screen_nonce"] = uniqid(mt_rand(), true);
 
 
 // Generate new nonce for pin actions

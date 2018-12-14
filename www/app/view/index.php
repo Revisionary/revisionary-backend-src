@@ -23,7 +23,7 @@
 				<input type="hidden" name="category" value="0"/>
 				<input type="hidden" name="order" value="0"/>
 
-				<input type="hidden" name="devices[]" value="11"/>
+				<input type="hidden" name="screens[]" value="11"/>
 				<input type="hidden" name="page-width" value="1440"/>
 				<input type="hidden" name="page-height" value="900"/>
 
@@ -108,17 +108,17 @@ jQuery(document).ready(function($) {
 		$('input[name="page-height"]').attr('value', screenHeight);
 
 
-		$('[data-device-id="11"]').attr('data-device-width', screenWidth);
-		$('[data-device-id="11"]').attr('data-device-height', screenHeight);
+		$('[data-screen-id="11"]').attr('data-screen-width', screenWidth);
+		$('[data-screen-id="11"]').attr('data-screen-height', screenHeight);
 
 
-		$('.new-device[data-device-id="11"]').each(function() {
+		$('.new-screen[data-screen-id="11"]').each(function() {
 
-			var newDeviceURL = $(this).attr('href');
-			var widthOnURL = getParameterByName('page_width', newDeviceURL);
-			var heightOnURL = getParameterByName('page_height', newDeviceURL);
+			var newScreenURL = $(this).attr('href');
+			var widthOnURL = getParameterByName('page_width', newScreenURL);
+			var heightOnURL = getParameterByName('page_height', newScreenURL);
 
-			var newURL = newDeviceURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
+			var newURL = newScreenURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
 			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+screenHeight);
 
 			$(this).attr('href', newURL);

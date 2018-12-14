@@ -61,8 +61,6 @@ $data = array(
 	'processDescription' => $pageData->pageStatus['description'],
 	'processPercentage' => $pageData->pageStatus['percentage'],
 
-	'CSS Files' => $pageData->getDownloadedQuantity('filtred', 'css-filter')."/".$pageData->getDownloadedQuantity('total', 'css-filter'),
-
 
 
 	// REAL DATA
@@ -75,9 +73,6 @@ $data = array(
 		'queue_ID' => $queue_ID,
 		'pageUrl' => $pageData->cachedUrl,
 		'internalized' => $pageData->internalizeCount,
-
-		'totalCss' => $pageData->getDownloadedQuantity('total', 'css-filter'),
-		'downloadedCss' => $pageData->getDownloadedQuantity('filtred', 'css-filter'),
 	]
 );
 

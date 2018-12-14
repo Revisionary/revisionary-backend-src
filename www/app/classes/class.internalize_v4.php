@@ -143,12 +143,12 @@ class Internalize_v4 {
 		$pageDir = $this->pageData->pageDir;
 
 
-		// Device info
-		$deviceID = $pageInfo['device_ID'];
-		$deviceInfo = Device::ID($deviceID)->getInfo(null, true);
+		// Screen info
+		$screenID = $pageInfo['screen_ID'];
+		$screenInfo = Screen::ID($screenID)->getInfo(null, true);
 
-		$width = $pageInfo['page_width'] ? $pageInfo['page_width'] : $deviceInfo['device_width'];
-		$height = $pageInfo['page_height'] ? $pageInfo['page_height'] : $deviceInfo['device_height'];
+		$width = $pageInfo['page_width'] ? $pageInfo['page_width'] : $screenInfo['screen_width'];
+		$height = $pageInfo['page_height'] ? $pageInfo['page_height'] : $screenInfo['screen_height'];
 
 
 		// Chrome container request link
@@ -157,6 +157,7 @@ class Internalize_v4 {
 		$processLink .= "&action=internalize";
 		$processLink .= "&width=$width&height=$height";
 		$processLink .= "&page_ID=$page_ID";
+		$processLink .= "&screen_ID=$screenID";
 		$processLink .= "&sitedir=".urlencode($pageDir."/");
 
 

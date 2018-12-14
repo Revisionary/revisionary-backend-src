@@ -9,8 +9,8 @@ $order = isset($_GET['order']) ? $_GET['order'] : '';
 // Category Filter
 $catFilter = isset($_url[2]) ? $_url[2] : '';
 
-// Device Filter
-$deviceFilter = get('device');
+// Screen Filter
+$screenFilter = get('screen');
 
 
 
@@ -41,17 +41,22 @@ if ( !$project ) {
 
 // PAGES DATA MODEL
 $dataType = "page";
-$allMyPagesList = UserAccess::ID()->getMy("pages", $catFilter, $order, $project_ID, null, true);
+$allMyPagesList = User::ID()->getMy("pages", $catFilter, $order, $project_ID, null, true);
 //echo "<pre>"; print_r($allMyPagesList); exit();
 
-$theCategorizedData = categorize($allMyPagesList, $dataType, $deviceFilter);
-//echo "<pre>"; print_r(array_column($theCategorizedData, 'theData')); exit();
+$theCategorizedData = categorize($allMyPagesList, $dataType, $screenFilter);
+//echo "<pre>"; print_r($theCategorizedData); exit();
 
 
 
 // MY PAGES IN THIS PROJECT
 $allMyPages = $thePreparedData;
 //echo "<pre>"; print_r( $allMyPages ); die();
+
+
+// MY DEVICES IN THIS PROJECT
+$allMyDevices = $devices;
+//echo "<pre>"; print_r( $allMyDevices ); die();
 
 
 
@@ -84,13 +89,13 @@ $totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = 0;
 
 // Bring all the pins
 $allMyPins = array();
-if ($allMyPages) {
+if ($allMyPages && $allMyDevices) {
 
-	$db->join("versions ver", "pin.version_ID = ver.version_ID", "LEFT");
+	$db->join("devices d", "pin.device_ID = d.device_ID", "LEFT");
 
-	$page_IDs = array_column($allMyPages, "page_ID"); //print_r($page_IDs);
-	$db->where('ver.page_ID', $page_IDs, 'IN');
-	$allMyPins = $db->get('pins pin', null, "pin.pin_type, pin.pin_private, pin.user_ID, ver.page_ID");
+	$device_IDs = array_column($allMyDevices, "device_ID"); //print_r($page_IDs);
+	$db->where('d.device_ID', $device_IDs, 'IN');
+	$allMyPins = $db->get('pins pin', null, "pin.pin_type, pin.pin_private, pin.user_ID, d.device_ID");
 	//var_dump($allMyPins); die();
 
 
@@ -119,50 +124,33 @@ if ($allMyPages) {
 
 
 
-// ADD NEW DEVICE
+// ADD NEW SCREEN
 if (
-	is_numeric(get('new_device'))
+	is_numeric(get('new_screen'))
 	&& is_numeric(get('page_ID'))
-	// && get('nonce') == $_SESSION["new_device_nonce"] !!! Disable the nonce check for now!
+	// && get('nonce') == $_SESSION["new_screen_nonce"] !!! Disable the nonce check for now!
 ) {
 
 
 
-	// Check if custom device sizes exist
-	if ( is_numeric(get('page_width')) && is_numeric(get('page_height')) ) {
-
-		// Add the device with dimensions
-		$page_ID = Device::ID()->addNew(
-			get('new_device'),
-			get('page_ID'),
-			null,
-			null,
-			null,
-			get('page_width'),
-			get('page_height')
-		);
-
-	} else {
-
-		// Add the device
-		$page_ID = Device::ID()->addNew(
-			get('new_device'),
-			get('page_ID')
-		);
-
-	}
-
-
+	// Add the Devices
+	$device_ID = Device::ID()->addNew(
+		get('page_ID'),
+		array(get('new_screen')),
+		request('page-width') != "" ? request('page-width') : null,
+		request('page-height') != "" ? request('page-height') : null
+	);
 
 	// Check the result
-	if(!$page_ID) {
+	if(!$device_ID) {
 		header('Location: '.site_url('projects?adddeviceerror')); // If unsuccessful
 		die();
 	}
 
 
+
 	// If successful, redirect to "Revise" page
-	header('Location: '.site_url('revise/'.$page_ID));
+	header('Location: '.site_url('revise/'.$device_ID));
 	die();
 
 }
@@ -176,29 +164,43 @@ if (
 ) {
 
 
-	// Add the pages
-	$parent_page_ID = Page::ID()->addNew(
+
+	// Add the Page
+	$page_ID = Page::ID()->addNew(
+		$project_ID,
 		request('page-url'),
-		request('project_ID'),
 		request('page-name'),
-		request('category'),
-		request('order'),
-		is_array(request('devices')) ? request('devices') : array(), // Device IDs array
 		is_array(request('page_shares')) ? request('page_shares') : array(),
-		request('page-width') != "" ? request('page-width') : null,
-		request('page-height') != "" ? request('page-height') : null
+		request('category'),
+		request('order')
 	);
 
-
 	// Check the result
-	if(!$parent_page_ID) {
-		header('Location: '.site_url('project/'.$project_ID.'?addpageerror')); // If unsuccessful
+	if(!$page_ID) {
+		header('Location: '.site_url("project/$project_ID?addpageerror")); // If unsuccessful
 		die();
 	}
 
 
+
+	// Add the Devices
+	$device_ID = Device::ID()->addNew(
+		$page_ID,
+		is_array(request('screens')) ? request('screens') : array(), // Screen IDs array
+		request('page-width') != "" ? request('page-width') : null,
+		request('page-height') != "" ? request('page-height') : null
+	);
+
+	// Check the result
+	if(!$device_ID) {
+		header('Location: '.site_url("project/$project_ID?adddeviceerror")); // If unsuccessful
+		die();
+	}
+
+
+
 	// If successful, redirect to "Revise" page
-	header('Location: '.site_url('revise/'.$parent_page_ID));
+	header('Location: '.site_url('revise/'.$device_ID));
 	die();
 
 }
@@ -211,26 +213,23 @@ $db->orderBy('page_modified', 'desc');
 $project_modified = $db->getValue("pages", "page_modified");
 
 
-// Detect the available devices
-$available_devices = array();
+
+// Detect the available screens
+$available_screens = array();
 foreach($theCategorizedData as $categories) {
 
-	foreach($categories['theData'] as $page) {
+	if ( isset($categories['theData']) ) {
 
-		$available_devices[$page['device_cat_ID']] = array(
-			"device_cat_ID" => $page['device_cat_ID'],
-			"device_cat_name" => $page['device_cat_name'],
-			"device_cat_icon" => $page['device_cat_icon']
-		);
+		foreach($categories['theData'] as $page) {
+			foreach ($page['devicesData'] as $device) {
 
-		foreach ($page['subPageData'] as $subPage) {
+				$available_screens[$device['screen_cat_ID']] = array(
+					"screen_cat_ID" => $device['screen_cat_ID'],
+					"screen_cat_name" => $device['screen_cat_name'],
+					"screen_cat_icon" => $device['screen_cat_icon']
+				);
 
-			$available_devices[$subPage['device_cat_ID']] = array(
-				"device_cat_ID" => $subPage['device_cat_ID'],
-				"device_cat_name" => $subPage['device_cat_name'],
-				"device_cat_icon" => $subPage['device_cat_icon']
-			);
-
+			}
 		}
 
 	}
@@ -245,23 +244,24 @@ $projectInfo = Project::ID($project_ID)->getInfo(null, true);
 
 
 // CATEGORY INFO
-$categories = UserAccess::ID()->getCategories($dataType, $order, $project_ID);
-//print_r($categories); exit;
+$categories = User::ID()->getCategories($dataType, $order, $project_ID);
+//echo "<pre>"; print_r($categories); exit();
 
 
-// DEVICE INFO
-$device_data = UserAccess::ID()->getDeviceData();
-//echo "<pre>"; print_r($device_data); exit();
+// SCREEN INFO
+$screen_data = User::ID()->getScreenData();
+//echo "<pre>"; print_r($screen_data); exit();
 
 
 
 // Additional Scripts and Styles
 $additionalCSS = [
-	'jquery.mCustomScrollbar.css'
+	'vendor/jquery.mCustomScrollbar.css'
 ];
 
 $additionalHeadJS = [
 	'process.js',
+	'vendor/jquery.mCustomScrollbar.concat.min.js',
 	'vendor/jquery.sortable.min.js',
 	'common.js',
 	'block.js'
@@ -272,8 +272,8 @@ $additionalBodyJS = [
 ];
 
 
-// Generate new nonce for add new devices
-$_SESSION["new_device_nonce"] = uniqid(mt_rand(), true);
+// Generate new nonce for add new screens
+$_SESSION["new_screen_nonce"] = uniqid(mt_rand(), true);
 
 
 $page_title = $projectInfo['project_name']." Project - Revisionary App";

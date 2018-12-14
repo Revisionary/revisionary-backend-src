@@ -1,7 +1,16 @@
 <?php
 
-function categorize($objects, $dataType, $deviceFilter = "", $prepared = false) {
-	global $thePreparedData;
+function categorize($objects, $dataType, $prepared = false) {
+	global $thePreparedData, $devices;
+
+
+	// Bring the devices data for pages
+	if ($dataType == "page") {
+
+		$page_IDs = array_unique(array_column($objects, 'page_ID'));
+		$devices = Device::ID()->getDevices($page_IDs);
+
+	}
 
 
 	// Prepare the data
@@ -14,60 +23,34 @@ function categorize($objects, $dataType, $deviceFilter = "", $prepared = false) 
 			$thePreparedData[ $object["project_ID"] ] = $object;
 
 
-		// Parent Page Data
-		if ($dataType == "page" && $object['parent_page_ID'] == null && empty($deviceFilter)) {
+		// Page Data
+		if ($dataType == "page") {
+
 			$thePreparedData[ $object["page_ID"] ] = $object;
-			$thePreparedData[ $object["page_ID"] ]['subPageData'] = array();
+			$thePreparedData[ $object["page_ID"] ]['devicesData'] = array();
+
+
+			// Extract this page's devices
+			$pageDevices = array_filter($devices, function ($device) use ($object) {
+			    return ($device['page_ID'] == $object['page_ID']);
+			});
+
+
+			// Import the page devices
+			if (is_array($pageDevices) && count($pageDevices) > 0)
+				$thePreparedData[ $object["page_ID"] ]['devicesData'] = $pageDevices;
+
+
 		}
 
 
 	}
 
 
-	// Import the subpages
-	if ($dataType == "page") {
-
-		foreach ($objects as $object) {
+	//if ($prepared) return $thePreparedData;
 
 
-			// Show the device pages separately when device filter selected
-			if ( !empty($deviceFilter) ) {
-				$thePreparedData[ $object['page_ID'] ] = $object;
-				$thePreparedData[ $object['page_ID'] ]['subPageData'] = array();
-			}
-
-
-			// Sub Page Data
-			if (
-				$object['parent_page_ID'] != null
-				&& empty($deviceFilter)
-			) {
-
-
-				// If no parent page data added, add the subpage data there
-				if ( !isset($thePreparedData[ $object['parent_page_ID'] ]) ) {
-
-					$thePreparedData[ $object['parent_page_ID'] ] = $object;
-					$thePreparedData[ $object['parent_page_ID'] ]['subPageData'] = array();
-
-				} else {
-
-					$thePreparedData[ $object['parent_page_ID'] ]['subPageData'][] = $object;
-
-				}
-
-
-			}
-
-
-		}
-
-	}
-
-	if ($prepared) return $thePreparedData;
-
-
-	// Categorize the pages
+	// Categorize the data
 	$theData = [];
 	foreach ($thePreparedData as $object) {
 

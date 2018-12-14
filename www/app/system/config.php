@@ -62,7 +62,7 @@ define('session_lifetime', 99999);
 define('model', dir . '/app/model');
 define('view', dir . '/app/view');
 define('controller', dir . '/app/controller');
-define('cache', dir . '/assets/cache');
+define('cache', dir . '/cache');
 define('port', (isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : "") );
 define('ssl', $_https);
 define('secure_url', "https://".subdomain."." . domain);

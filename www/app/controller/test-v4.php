@@ -5,16 +5,16 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 //echo file_get_contents('http://chrome:3000/screenshot/http://tr.bilaltas.net/');
 
 //header("content-type: application/json");
-//echo file_get_contents('http://chrome:3000/internalize/https://www.twelve12.com/?fullPage=false&width=1440&height=900&sitedir=/var/www/html/assets/cache/');
+//echo file_get_contents('http://chrome:3000/internalize/https://www.twelve12.com/?fullPage=false&width=1440&height=900&sitedir=/var/www/html/cache/');
 
 
 
 
 $page_ID = 9;
 
-$deviceID = Page::ID($page_ID)->getInfo('device_ID');
-$width = Device::ID($deviceID)->getInfo('device_width');
-$height = Device::ID($deviceID)->getInfo('device_height');
+$screenID = Page::ID($page_ID)->getInfo('screen_ID');
+$width = Screen::ID($screenID)->getInfo('screen_width');
+$height = Screen::ID($screenID)->getInfo('screen_height');
 
 
 $link = "http://chrome:3000/";

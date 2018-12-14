@@ -81,58 +81,78 @@
 					foreach ($theCategorizedData[$category_ID]['theData'] as $block) {
 
 
-						// Block URL
-						$block_url = site_url('project/'.$block[$dataType.'_ID']);
 
 
-						// THUMBNAIL
-						if ( $block[$dataType.'_pic'] == null ) {
+						if ($dataType == "project") {
 
 
-							// Update the screenshots on DB
-							$block_image_name = $dataType.'.jpg';
-
-							if ($dataType == "project") $block_image_uri = Project::ID($block[$dataType.'_ID'])->getDir()."/$block_image_name";
-							else $block_image_uri = Page::ID($block[$dataType.'_ID'])->pageDeviceDir."/$block_image_name";
+							// Block URL
+							$block_url = site_url('project/'.$block['project_ID']);
 
 
-							// Add image names to database
-							if ( file_exists($block_image_uri) ) {
+							// Block Images
+							$block_image_name = "project.jpg";
+							$block_image_path = "projects/project-".$block['project_ID']."/$block_image_name";
+							$block_image_uri = cache."/$block_image_path";
+							$block_image_url = cache_url($block_image_path);
 
-								$db->where($dataType.'_ID', $block[$dataType.'_ID']);
-								$db->update($dataType.'s', array(
-									$dataType.'_pic' => $block_image_name
-								), 1);
-
-								$block[$dataType.'_pic'] = $block_image_name;
-
-							}
 
 						}
 
-						// Project Image URL
-						$block_image_url = cache_url('user-'.$block['user_ID'].'/project-'.$block[$dataType.'_ID'].'/'.$block[$dataType.'_pic']);
 
-
-
-						// Page Filter Device Functions
 						if ($dataType == "page") {
 
 
-							// Device filter
-							if (
-								$deviceFilter != "" && is_numeric($deviceFilter) &&
-								$block['device_cat_ID'] != $deviceFilter
-							) continue;
+							$blockDevices = $block['devicesData'];
 
 
-							// Combined Devices
+							// Screen filter
+							if ( $screenFilter != "" && is_numeric($screenFilter) ) {
+
+
+								// Extract the selected screen
+								$blockDevices = array_filter($blockDevices, function ($device) use ($screenFilter) {
+								    return ($device['screen_cat_ID'] == $screenFilter);
+								});
+
+
+								if ( count($blockDevices) == 0 ) continue;
+
+							}
+
+
+
+							$firstDevice = reset($blockDevices);
+
+
+							// First device Image
+							$block_image_name = "device-".$firstDevice['device_ID'].".jpg";
+							$block_image_path = "projects/project-".$block['project_ID']."/page-".$block['page_ID']."/screenshots/$block_image_name";
+							$block_image_uri = cache."/$block_image_path";
+							$block_image_url = cache_url($block_image_path);
+
+
+							// First device URL
+							$block_url = site_url('revise/'.$firstDevice['device_ID']);
+
+
+
+
+
+/*
+
+*/
+
+
+/*
+							// Combined Screens !!!
 							if (
 								//$catFilter != "archived" &&
 								//$catFilter != "deleted" &&
-								$deviceFilter == "" &&
+								$screenFilter == "" &&
 								array_search($block['parent_page_ID'], array_column($allMyPages, 'page_ID')) !== false
 							) continue;
+*/
 
 
 							// Archive/Delete Filters
@@ -156,19 +176,11 @@
 							) continue;
 
 
-							// Page Image Url
-							$image_page_ID = $block['page_ID'];
-							if ( is_numeric($block['parent_page_ID']) )
-								$image_page_ID = $block['parent_page_ID'];
-
-							$block_image_url = cache_url('user-'.$block['user_ID'].'/project-'.$block['project_ID'].'/page-'.$image_page_ID.'/device-'.$block['device_ID'].'/'.$block['page_pic']);
-
 						}
 
 
-					$image_style = "background-image: url(".$block_image_url.");";
-					if ( $block[$dataType.'_pic'] == null )
-						$image_style = "";
+						// Image style bg code
+						$image_style = file_exists($block_image_uri) ? "background-image: url(".$block_image_url.");" : "";
 
 					?>
 
@@ -292,38 +304,35 @@
 
 											<?php
 
+$livePinCount = $standardPinCount = $privatePinCount = 0;
 
+if ($dataType == "page" && $allMyPins) {
 
-											$livePinCount = $standardPinCount = $privatePinCount = 0;
+	$device_IDs = array_column($blockDevices, "device_ID");
 
-											if ($dataType == "page" && $allMyPins) {
+	$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $device_IDs) {
 
-												$page_IDs = array_column($block['subPageData'], "page_ID");
-												$page_IDs[] = $block['page_ID'];
+		$pageCondition = in_array($value['device_ID'], $device_IDs);
 
-												$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
+		return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0";
 
-													$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
+	}));
+	$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $device_IDs) {
 
-													return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0";
+		$pageCondition = in_array($value['device_ID'], $device_IDs);
 
-												}));
-												$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
+		return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0";
 
-													$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
+	}));
+	$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $device_IDs) {
 
-													return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0";
+		$pageCondition = in_array($value['device_ID'], $device_IDs);
 
-												}));
-												$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $deviceFilter, $page_IDs) {
+		return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
 
-													$pageCondition = $deviceFilter == "" ? in_array($value['page_ID'], $page_IDs) : $value['page_ID'] == $block['page_ID'];
+	}));
 
-													return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
-
-												}));
-
-											}
+}
 											?>
 
 											<?php
@@ -350,7 +359,7 @@
 											?>
 
 										</div>
-										<div class="col xl-1-1 xl-center <?=$dataType == "page" ? "devices" : "pages"?>" style="position: relative;">
+										<div class="col xl-1-1 xl-center <?=$dataType == "page" ? "screens" : "pages"?>" style="position: relative;">
 
 
 
@@ -363,7 +372,10 @@
 												<a href="<?=$block_url?>">
 
 												<?php
-												$block_count = $pageCounts[$block['project_ID']];
+
+													$block_count = 0;
+													if ( isset($pageCounts[$block['project_ID']]) )
+														$block_count = $pageCounts[$block['project_ID']];
 												?>
 
 													<div class="page-count"><?=$block_count?> <br>Page<?=$block_count > 1 ? 's' : ''?></div>
@@ -383,44 +395,26 @@
 											?>
 
 
-												<!-- Current Device -->
-												<a href="<?=site_url('revise/'.$block['page_ID'])?>">
-													<i class="fa <?=$block['device_cat_icon']?>" data-tooltip="<?=$block['device_cat_name']?> (<?=$block['device_width']?>x<?=$block['device_height']?>)" aria-hidden="true"></i>
-												</a>
-
 												<?php
 
-												if (
-													//$catFilter != "archived" &&
-													//$catFilter != "deleted" &&
-													$deviceFilter == ""
-												) {
+												foreach ($blockDevices as $device) {
 
-
-													$all_devices = $block['subPageData'];
-													foreach ($all_devices as $device) {
-
-														//$pageStatus = Page::ID($device['page_ID'])->getPageStatus(true)['status'];
+													//$pageStatus = Page::ID($screen['page_ID'])->getPageStatus(true)['status'];
 
 												?>
 
-														<a href="<?=site_url('revise/'.$device['page_ID'])?>">
-															<i class="fa <?=$device['device_cat_icon']?>" data-tooltip="<?=$device['device_cat_name']?> (<?=$device['device_width']?>x<?=$device['device_height']?>)" aria-hidden="true"></i>
-														</a>
-
-													<?php
-													}
-													?>
-
-													<span class="dropdown-container">
-														<a href="#" class="dropdown-opener add-device"><span style="font-family: Arial;">+</span></a>
-														<?php require view('modules/add-device'); ?>
-													</span>
-
+													<a href="<?=site_url('revise/'.$device['device_ID'])?>">
+														<i class="fa <?=$device['screen_cat_icon']?>" data-tooltip="<?=$device['screen_cat_name']?> (<?=$device['screen_width']?>x<?=$device['screen_height']?>)" aria-hidden="true"></i>
+													</a>
 
 												<?php
-												} // If not Archived or Deleted or filtred
+												}
 												?>
+
+												<span class="dropdown-container">
+													<a href="#" class="dropdown-opener add-screen"><span style="font-family: Arial;">+</span></a>
+													<?php require view('modules/add-screen'); ?>
+												</span>
 
 											<?php
 											} // if ($dataType == "page")
@@ -435,31 +429,7 @@
 
 
 										</div>
-										<div class="col xl-4-12 xl-center version">
-
-											<?php
-
-											// VERSION
-											if ($dataType == "page") {
-
-/*
-												$db->where('page_ID', $block['page_ID']);
-												$db->where('user_ID', currentUserID());
-
-												$db->orderBy('version_number'); // Show the final one
-
-											    $pageVersion = $db->getValue('versions', 'version_number');
-*/
-
-												$pageVersion = '1.0';
-
-											?>
-
-											<a href="#" data-tooltip="Coming Soon...">v<?=empty($pageVersion) ? "0.1" : $pageVersion?></a>
-
-											<?php
-											}
-											?>
+										<div class="col xl-4-12 xl-center">
 
 										</div>
 										<div class="col xl-4-12 xl-right actions">
@@ -470,31 +440,9 @@
 												$action_url = 'ajax?type=data-action&data-type='.$dataType.'&nonce='.$_SESSION['js_nonce'].'&id='.$block[$dataType.'_ID'];
 
 
-												// Add the subpages
-												if (
-													$dataType == "page" &&
-													isset($all_devices) &&
-													count($all_devices) > 0
-												) {
-
-													$subPages = "";
-
-													foreach ($all_devices as $device) {
-
-														$subPages .= $device['page_ID'].",";
-
-													}
-
-													$subPages = trim($subPages, ",");
-
-													$action_url .= "&subpages=$subPages";
-
-												}
-
-
 												if ($catFilter == "archived" || $catFilter == "deleted") {
 											?>
-											<a href="<?=site_url($action_url.'&action=recover-'.$catFilter)?>" data-action="recover" data-type="<?=$dataType?>" data-tooltip="Recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
+											<a href="<?=site_url($action_url.'&action=recover')?>" data-action="recover" data-type="<?=$dataType?>" data-tooltip="Recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
 											<?php
 												} else {
 											?>

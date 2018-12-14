@@ -1,57 +1,57 @@
 <?php
-function print_device_selector() {
-	global $db, $device_data;
+function print_screen_selector() {
+	global $db, $screen_data;
 ?>
 
-<h3 style="margin-bottom: 0">Screen Size <i class="fa fa-question-circle tooltip" data-tooltip="Add your device size that you wish to edit your site." aria-hidden="true"></i></h3>
-<ul class="selected-devices">
+<h3 style="margin-bottom: 0">Screen Size <i class="fa fa-question-circle tooltip" data-tooltip="Add your screen size that you wish to edit your site." aria-hidden="true"></i></h3>
+<ul class="selected-screens">
 	<li>
-		<input type="hidden" name="devices[]" value="11"/>
+		<input type="hidden" name="screens[]" value="11"/>
 		<input type="hidden" name="page-width" value="1440"/>
 		<input type="hidden" name="page-height" value="900"/>
 		<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width">1440</span> x <span class="screen-height">900</span>)</span>
-		<a href="#" class="remove-device" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+		<a href="#" class="remove-screen" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 	</li>
 </ul>
 <span class="dropdown-container">
 
-	<span class="dropdown-opener add-device"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</span>
+	<span class="dropdown-opener add-screen"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</span>
 
 	<nav class="dropdown xl-left">
-		<ul class="device-adder">
+		<ul class="screen-adder">
 			<?php
-			foreach ($device_data as $device_cat) {
+			foreach ($screen_data as $screen_cat) {
 			?>
 
-			<li class="device-cat" <?=$device_cat['device_cat_name'] == "Custom" ? "style='display:none;'" : ""?>>
+			<li class="screen-cat" <?=$screen_cat['screen_cat_name'] == "Custom" ? "style='display:none;'" : ""?>>
 
 				<div class="dropdown-container">
 					<div class="dropdown-opener">
-						<i class="fa <?=$device_cat['device_cat_icon']?>" aria-hidden="true"></i> <?=$device_cat['device_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+						<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
 					</div>
 					<nav class="dropdown selectable addable xl-left">
-						<ul class="device-add">
+						<ul class="screen-add">
 							<?php
-							foreach ($device_cat['devices'] as $device) {
+							foreach ($screen_cat['screens'] as $screen) {
 							?>
-							<li class="device" <?=$device['device_ID'] == 11 ? "style='display:none;'" : ""?>>
+							<li class="screen" <?=$screen['screen_ID'] == 11 ? "style='display:none;'" : ""?>>
 								<a href="#"
-									data-device-id="<?=$device['device_ID']?>"
-									data-device-width="<?=$device['device_width']?>"
-									data-device-height="<?=$device['device_height']?>"
-									data-device-cat-name="<?=$device_cat['device_cat_name']?>"
-									data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
+									data-screen-id="<?=$screen['screen_ID']?>"
+									data-screen-width="<?=$screen['screen_width']?>"
+									data-screen-height="<?=$screen['screen_height']?>"
+									data-screen-cat-name="<?=$screen_cat['screen_cat_name']?>"
+									data-screen-cat-icon="<?=$screen_cat['screen_cat_icon']?>"
 								>
-									<?=$device['device_name']?> (<span class="<?=$device['device_ID'] == 11 ? "screen-" : "device-"?>width"><?=$device['device_width']?></span> x <span class="<?=$device['device_ID'] == 11 ? "screen-" : "device-"?>height"><?=$device['device_height']?></span>)
+									<?=$screen['screen_name']?> (<span class="<?=$screen['screen_ID'] == 11 ? "screen-" : "screen-"?>width"><?=$screen['screen_width']?></span> x <span class="<?=$screen['screen_ID'] == 11 ? "screen-" : "screen-"?>height"><?=$screen['screen_height']?></span>)
 								</a>
 							</li>
 							<?php
 							}
 
-							// Custom Device
-							if ($device_cat['device_cat_name'] == "Custom...") {
+							// Custom Screen
+							if ($screen_cat['screen_cat_name'] == "Custom...") {
 							?>
-							<li><a href="#" data-device-id="<?=$device['device_ID']?>">Add New</a></li>
+							<li><a href="#" data-screen-id="<?=$screen['screen_ID']?>">Add New</a></li>
 							<?php
 							}
 							?>
@@ -141,7 +141,7 @@ function page_members() {
 				<small class="design-uploader">or <a href="#" data-tooltip="Coming soon...">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Coming soon..." aria-hidden="true"></i></small>
 
 
-				<?=print_device_selector()?><br/><br/>
+				<?=print_screen_selector()?><br/><br/>
 
 
 
@@ -265,7 +265,7 @@ if ( isset($project_ID) ) {
 				<small class="design-uploader">or <a href="#" data-tooltip="Coming soon...">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Coming soon..." aria-hidden="true"></i></small>
 
 
-				<?=print_device_selector()?>
+				<?=print_screen_selector()?>
 
 
 				<br/>

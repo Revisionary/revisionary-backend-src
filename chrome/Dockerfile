@@ -22,6 +22,7 @@ RUN chmod +x /usr/local/bin/dumb-init
 
 # Install puppeteer so it's available in the container.
 RUN mkdir /app
+RUN mkdir -p /app/site/project/page/version/logs/
 COPY package.json /app
 COPY package-lock.json /app
 COPY index.js /app

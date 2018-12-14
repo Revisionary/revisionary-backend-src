@@ -5366,12 +5366,12 @@ a {
           margin-top: -9px;
           line-height: 18px; }
 
-.device-adder * {
+.screen-adder * {
   color: black !important; }
-  .device-adder *:hover {
+  .screen-adder *:hover {
     color: #007acc !important; }
 
-.device-adder a {
+.screen-adder a {
   font-size: 15px;
   line-height: 18px;
   letter-spacing: 0; }
@@ -5920,28 +5920,28 @@ input.share-email.error {
       position: relative;
       top: -5px;
       right: -5px; }
-  .popup-window ul.selected-devices {
+  .popup-window ul.selected-screens {
     list-style: none;
     margin-top: 0; }
-    .popup-window ul.selected-devices > li {
+    .popup-window ul.selected-screens > li {
       text-align: left;
       padding-left: 40px;
       margin-top: 10px; }
-      .popup-window ul.selected-devices > li > i {
+      .popup-window ul.selected-screens > li > i {
         display: inline-block;
         width: 60px;
         text-align: center;
         font-size: 35px;
         position: relative;
         bottom: -6px; }
-      .popup-window ul.selected-devices > li > span {
+      .popup-window ul.selected-screens > li > span {
         font-size: 18px;
         letter-spacing: 1px; }
-      .popup-window ul.selected-devices > li > a.remove-device {
+      .popup-window ul.selected-screens > li > a.remove-screen {
         color: #d6d6d6; }
-        .popup-window ul.selected-devices > li > a.remove-device:hover {
+        .popup-window ul.selected-screens > li > a.remove-screen:hover {
           color: black; }
-  .popup-window .add-device {
+  .popup-window .add-screen {
     font-weight: bold;
     font-size: 18px; }
 
@@ -6234,7 +6234,7 @@ footer .footer-links a {
             bottom: auto;
             right: -5px;
             top: -5px; }
-      .block .box .overlay .devices a > i {
+      .block .box .overlay .screens a > i {
         font-size: 30px; }
       .block .box .overlay > div:not(.people):not(.pages) {
         padding: 0 2px; }

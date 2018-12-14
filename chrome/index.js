@@ -146,10 +146,11 @@ require('http').createServer(async (req, res) => {
 		const width = parseInt(queryData.width, 10) || 1024;
 		const height = parseInt(queryData.height, 10) || 768;
 		const page_ID = parseInt(queryData.page_ID) || url;
+		const device_ID = parseInt(queryData.device_ID) || 0;
 		const fullPage = queryData.fullPage == 'true' || false;
 		const SSR = queryData.ssr == 'true' || false;
-		const siteDir = queryData.sitedir || 'site/x/y/z/';
-		const logDir = siteDir+'logs/';
+		const siteDir = queryData.sitedir || 'site/project/page/version/';
+		const logDir = siteDir + 'logs/';
 
 
 		// Create the log folder if not exist
@@ -621,14 +622,14 @@ require('http').createServer(async (req, res) => {
 					}), 20 * 1000, 'Screenshot timed out');
 
 					// Page Screenshot Saving
-					const pageScreenshotDir = siteDir + "../";
-					const pageScreenshot = pageScreenshotDir + 'page.jpg';
+					const pageScreenshotDir = siteDir + "screenshots/";
+					const pageScreenshot = pageScreenshotDir + 'device-' + device_ID + '.jpg';
 					if (!fs.existsSync(pageScreenshotDir)) fs.mkdirSync(pageScreenshotDir);
 					fs.writeFileSync(pageScreenshot, screenshot);
 					console.log('📸 Page Screenshot Saved: ', pageScreenshot);
 
 					// Project Screenshot Saving if not exists
-					const projectScreenshotDir = pageScreenshotDir + "../../";
+					const projectScreenshotDir = pageScreenshotDir + "../../../";
 					const projectScreenshot = projectScreenshotDir + 'project.jpg';
 					if (!fs.existsSync(projectScreenshotDir)) fs.mkdirSync(projectScreenshotDir);
 					if (!fs.existsSync(projectScreenshot)) {

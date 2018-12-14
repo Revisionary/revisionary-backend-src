@@ -69,7 +69,7 @@ $log = new Katzgrau\KLogger\Logger(
 load_session();
 
 
-$debug_mode = false;
+$debug_mode = true;
 if ($debug_mode) $db->setTrace(true);
 
 
@@ -79,7 +79,7 @@ $Users = array();
 // Get the current user info
 if ( userloggedIn() ) {
 
-	$current_user_data = UserAccess::ID()->getData();
+	$current_user_data = User::ID()->getData();
 	if ($current_user_data) {
 
 		$Users[currentUserID()] = $current_user_data;

@@ -184,15 +184,15 @@
 			</div>
 
 		</div>
-		<div class="col device-version">
+		<div class="col screen-version">
 
 			<div class="wrap xl-gutter-8">
-				<div class="col device">
+				<div class="col screen">
 
 					<div class="desc nomargin">Screen Size</div>
 					<span class="dropdown-container">
 
-						<a href="#" class="button dropdown-opener select-device"><i class="fa <?=$deviceIcon?>" aria-hidden="true"></i> <?=$device_name?> (<?=$width?>x<?=$height?>)  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+						<a href="#" class="button dropdown-opener select-screen"><i class="fa <?=$screenIcon?>" aria-hidden="true"></i> <?=$screen_name?> (<?=$width?>x<?=$height?>)  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 						<nav class="dropdown">
 							<ul class="xl-left">
 							<?php
@@ -200,83 +200,83 @@
 							if ( $parentpage_ID == null ) $parentpage_ID = $page_ID;
 
 
-							// EXISTING DEVICES
-							$existing_devices = array_filter($allMyPages, function($pageFound) use ($parentpage_ID) {
+							// EXISTING SCREENS
+							$existing_screens = array_filter($allMyPages, function($pageFound) use ($parentpage_ID) {
 								return ($pageFound['parent_page_ID'] == $parentpage_ID || $pageFound['page_ID'] == $parentpage_ID);
 							});
-							foreach ($existing_devices as $device) {
-								if ($device['page_ID'] == $page_ID) continue;
+							foreach ($existing_screens as $screen) {
+								if ($screen['page_ID'] == $page_ID) continue;
 
 
 
-								$existing_device_width = $device['device_width'];
-								$existing_device_height = $device['device_height'];
+								$existing_screen_width = $screen['screen_width'];
+								$existing_screen_height = $screen['screen_height'];
 
-								$page_width = $device['page_width'];
-								$page_height = $device['page_height'];
+								$page_width = $screen['page_width'];
+								$page_height = $screen['page_height'];
 
 								if ($page_width != null && $page_width != null) {
-									$existing_device_width = $page_width;
-									$existing_device_height = $page_height;
+									$existing_screen_width = $page_width;
+									$existing_screen_height = $page_height;
 								}
 
 
-								$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$device['page_ID'];
+								$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$screen['page_ID'];
 
 							?>
 
-								<li class="device-registered block">
-									<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa <?=$device['device_cat_icon']?>" aria-hidden="true"></i> <?=$device['device_cat_name']?> (<?=$existing_device_width?>x<?=$existing_device_height?>)</a>
-									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Device" data-action="delete" data-type="page"></i>
+								<li class="screen-registered block">
+									<a href="<?=site_url('revise/'.$screen['page_ID'])?>"><i class="fa <?=$screen['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
+									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Screen" data-action="delete" data-type="page"></i>
 								</li>
 
 							<?php
 							}
 							?>
 								<li class="dropdown-container">
-									<a href="#" class="dropdown-opener add-device"><i class="fa fa-plus" aria-hidden="true"></i> Add New Screen</a>
+									<a href="#" class="dropdown-opener add-screen"><i class="fa fa-plus" aria-hidden="true"></i> Add New Screen</a>
 									<nav class="dropdown xl-left">
-										<ul class="device-adder">
+										<ul class="screen-adder">
 											<?php
-											foreach ($device_data as $device_cat) {
+											foreach ($screen_data as $screen_cat) {
 											?>
 
 											<li>
 
 												<div class="dropdown-container">
 													<div class="dropdown-opener">
-														<i class="fa <?=$device_cat['device_cat_icon']?>" aria-hidden="true"></i> <?=$device_cat['device_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+														<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
 													</div>
 													<nav class="dropdown selectable addable xl-left">
-														<ul class="device-addd">
+														<ul class="screen-addd">
 															<?php
-															foreach ($device_cat['devices'] as $device) {
+															foreach ($screen_cat['screens'] as $screen) {
 
 
-																$device_link = site_url("project/$project_ID?new_device=".$device['device_ID']."&page_ID=".$parentpage_ID);
-																$device_label = $device['device_name']." (".$device['device_width']."x".$device['device_height'].")";
-																if ($device['device_ID'] == 11) {
-																	$device_link = queryArg('page_width='.$device['device_width'], $device_link);
-																	$device_link = queryArg('page_height='.$device['device_height'], $device_link);
-																	$device_label = $device['device_name']." (<span class='screen-width'>".$device['device_width']."</span>x<span class='screen-height'>".$device['device_height']."</span>)";
+																$screen_link = site_url("project/$project_ID?new_screen=".$screen['screen_ID']."&page_ID=".$parentpage_ID);
+																$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
+																if ($screen['screen_ID'] == 11) {
+																	$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
+																	$screen_link = queryArg('page_height='.$screen['screen_height'], $screen_link);
+																	$screen_label = $screen['screen_name']." (<span class='screen-width'>".$screen['screen_width']."</span>x<span class='screen-height'>".$screen['screen_height']."</span>)";
 																}
 
-																$device_link = queryArg('nonce='.$_SESSION["new_device_nonce"], $device_link);
+																$screen_link = queryArg('nonce='.$_SESSION["new_screen_nonce"], $screen_link);
 
 
 
 
 															?>
 															<li>
-																<a href="<?=$device_link?>"
-																	class="new-device"
-																	data-device-id="<?=$device['device_ID']?>"
-																	data-device-width="<?=$device['device_width']?>"
-																	data-device-height="<?=$device['device_height']?>"
-																	data-device-cat-name="<?=$device_cat['device_cat_name']?>"
-																	data-device-cat-icon="<?=$device_cat['device_cat_icon']?>"
+																<a href="<?=$screen_link?>"
+																	class="new-screen"
+																	data-screen-id="<?=$screen['screen_ID']?>"
+																	data-screen-width="<?=$screen['screen_width']?>"
+																	data-screen-height="<?=$screen['screen_height']?>"
+																	data-screen-cat-name="<?=$screen_cat['screen_cat_name']?>"
+																	data-screen-cat-icon="<?=$screen_cat['screen_cat_icon']?>"
 																>
-																	<?=$device_label?>
+																	<?=$screen_label?>
 																</a>
 															</li>
 															<?php
