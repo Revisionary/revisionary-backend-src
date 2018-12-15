@@ -1,5 +1,28 @@
 #!/bin/bash
 
+
+# COPY THE .env.local FILE IF EXISTS
+if [[ -f .env.local ]] && [[ ! -f .env ]]; then
+
+	cp .env.local .env
+
+fi
+
+
+# Get data from .env file
+if [[ -f .env ]]; then
+
+	source .env
+
+else
+
+	echo "There is no '.env' file. Please create one."
+	exit
+
+fi
+
+
+
 read -ep "Which do you want to do? (rebuild | remove-files | prune-docker | reset-all): " CLEAN
 
 if [[ $CLEAN == rebuild ]]; then
@@ -19,9 +42,18 @@ if [[ $CLEAN == rebuild ]]; then
 
 	fi
 
+
 	echo "Rebuilding the project..."
 	sh helpers/docker-build.sh
 	echo "Project rebuilt."
+
+
+	echo "Checking MySQL to be ready..."
+	while ! docker-compose exec db mysqladmin --user=${DB_USER} --password=${DB_ROOT_PASSWORD} --host "${LOCAL_IP}" ping --silent &> /dev/null ; do
+		echo "Waiting for database connection..."
+		sleep 3
+	done
+	echo "Site is ready!"
 
 
 elif [[ $CLEAN == remove-files ]]; then
