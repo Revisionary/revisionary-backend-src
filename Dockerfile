@@ -35,7 +35,8 @@ RUN service apache2 restart
 RUN chown -R www-data:www-data /var/www/
 RUN chmod -R g+rw /var/www/
 
-# Update the log permissions
+# Create the site log file and update the permissions
+RUN touch /var/log/apache2/site.log
 RUN chown -R www-data:www-data /var/log/apache2/site.log
 RUN chmod -R g+rw /var/log/apache2/site.log
 
