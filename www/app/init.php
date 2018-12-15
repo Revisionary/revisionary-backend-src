@@ -54,6 +54,10 @@ $db->rawQuery("SET time_zone='$offset';");
 unset($now, $mins, $sgn, $mins, $hrs, $offset);
 
 
+// DEBUG MODE
+$debug_mode = false;
+
+
 // Initiate Logger
 if ($debug_mode) {
 
@@ -73,7 +77,6 @@ if ($debug_mode) {
 load_session();
 
 
-$debug_mode = false;
 if ($debug_mode) $db->setTrace(true);
 
 
