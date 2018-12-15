@@ -35,6 +35,10 @@ RUN service apache2 restart
 RUN chown -R www-data:www-data /var/www/
 RUN chmod -R g+rw /var/www/
 
+# Update the log permissions
+RUN chown -R www-data:www-data /var/log/apache2/site.log
+RUN chmod -R g+rw /var/log/apache2/site.log
+
 
 # Expose the ports
 EXPOSE 80 443
