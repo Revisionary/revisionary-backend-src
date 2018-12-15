@@ -8,8 +8,9 @@ if [[ $CLEAN == rebuild ]]; then
 	read -ep "Would you like to delete all the files and data as well? (yes | no): " DELETE
 
 
-	echo "Rebuilding the project..."
+	echo "Closing the server..."
 	docker-compose down
+	echo "Server became down."
 
 
 	if [[ $DELETE == yes ]]; then
@@ -18,8 +19,8 @@ if [[ $CLEAN == rebuild ]]; then
 
 	fi
 
-
-	docker-compose up -d --build
+	echo "Rebuilding the project..."
+	sh helpers/docker-build.sh
 	echo "Project rebuilt."
 
 
