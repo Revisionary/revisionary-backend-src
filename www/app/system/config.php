@@ -54,7 +54,7 @@ define('subdomain', $config['env']['subdomain']);
 define('insecure_subdomain', $config['env']['insecure_subdomain']);
 define('dir', realpath('.'));
 define('backdir', realpath('..'));
-define('logdir', "/var/log/apache2");
+define('logdir', dir . '/app/logs');
 define('session_name', 'revisionary_session');
 define('sessiondir', backdir."/sessions");
 define('session_lifetime', 99999);

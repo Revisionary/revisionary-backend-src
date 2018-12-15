@@ -17,6 +17,7 @@ services:
             - ./www:/var/www/html
             - ./logs:/var/log/apache2
             - ./www/cache:/var/www/html/cache
+            - ./www/app/logs:/var/www/html/app/logs
         networks:
             - default
     db:
