@@ -47,7 +47,7 @@ function categorize($objects, $dataType, $prepared = false) {
 	}
 
 
-	//if ($prepared) return $thePreparedData;
+	if ($prepared) return $thePreparedData;
 
 
 	// Categorize the data

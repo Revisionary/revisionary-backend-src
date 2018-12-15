@@ -71,7 +71,7 @@ if ( !empty($process_ID) ) {
 
 /*
 		// Run Directly?
-		$process = new Cocur\BackgroundProcess\BackgroundProcess('php '.dir.'/app/bgprocess/internalize_v4.php '.$page_ID.' '.session_id().' '.$queue_ID);
+		$process = new Cocur\BackgroundProcess\BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.session_id().' '.$queue_ID);
 		$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
 		$process_ID = $process->getPid();
 */

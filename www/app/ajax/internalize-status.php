@@ -24,7 +24,7 @@ elseif ( is_numeric($queue_ID) ) {
 	// Logger
 	$logger = new Katzgrau\KLogger\Logger($pageData->logDir, Psr\Log\LogLevel::DEBUG, array(
 		'filename' => $pageData->logFileName,
-	    'extension' => 'log', // changes the log file extension
+	    'extension' => $pageData->logFileExtension, // changes the log file extension
 	));
 
 

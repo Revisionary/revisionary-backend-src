@@ -38,6 +38,10 @@ if ( !$device ) {
 }
 
 
+// Get page ID
+$page_ID = $device['page_ID'];
+
+
 
 // THE PAGE INFO
 
@@ -60,9 +64,16 @@ if ( !$page ) {
 }
 
 
-// Get project ID
+// Get the project ID
 $project_ID = $page['project_ID'];
-$page_ID = $device['page_ID'];
+
+
+// Find the other pages from this project
+$other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) {
+	return ($pageFound['project_ID'] == $project_ID);
+});
+$other_pages = categorize($other_pages, 'page', true);
+//die_to_print($other_pages);
 
 
 
@@ -84,11 +95,12 @@ $screenIcon = $device['screen_cat_icon'];
 
 
 
-// Screenshots !!!
+// Screenshots
 $pageData = Page::ID($page_ID);
 $device_image = $deviceData->getImage();
 $project_image = cache."/projects/project-$project_ID/project.jpg";
 //die("$device_image -> $project_image");
+
 
 
 // PROTOCOL REDIRECTIONS:
@@ -110,7 +122,6 @@ if ( substr($pageData->remoteUrl, 0, 7) == "http://" && ssl) {
 }
 
 
-
 // Create the log folder if not exists
 if ( !file_exists($pageData->logDir) )
 	mkdir($pageData->logDir, 0755, true);
@@ -120,7 +131,7 @@ if ( !file_exists($pageData->logDir) )
 
 // Check if queue is already working
 $db->where('queue_type', 'internalize');
-$db->where('queue_object_ID', $device_ID);
+$db->where('queue_object_ID', $page_ID);
 
 $db->where("(queue_status = 'working' OR queue_status = 'waiting')");
 $existing_queue = $db->get('queues');
@@ -131,10 +142,10 @@ $process_ID = "";
 $process_status = "";
 
 
-// var_dump($existing_queue); die();
+//var_dump($existing_queue); die();
 
 
-// If already working queue exists
+// If already working queue exists !!!
 if (
 	!$forceReInternalize &&
 	$existing_queue != null
@@ -201,7 +212,7 @@ if (
 
 
 	// Site log
-	$log->error($process_status);
+	$log->info($process_status);
 
 
 	// Remove the existing and wrong files
@@ -218,20 +229,20 @@ if (
 	// Logger
 	$logger = new Katzgrau\KLogger\Logger($pageData->logDir, Psr\Log\LogLevel::DEBUG, array(
 		'filename' => $pageData->logFileName,
-	    'extension' => 'log', // changes the log file extension
+	    'extension' => $pageData->logFileExtension, // changes the log file extension
 	));
 
 
 	// NEW QUEUE
 	// Add a new job to the queue
 	$queue = new Queue();
-	$queue_results = $queue->new_job('internalize', $device_ID, "Waiting other works to be done.", session_id());
+	$queue_results = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.", session_id());
 	$process_ID = $queue_results['process_ID'];
 	$queue_ID = $queue_results['queue_ID'];
 
 
 	// Site log
-	$log->info("Page #$device_ID added to the queue #$queue_ID. Process ID: #".$process_ID." User: #".currentUserID().".");
+	$log->info("Page #$page_ID added to the queue #$queue_ID. Process ID: #".$process_ID." User: #".currentUserID().".");
 
 
 }
@@ -258,7 +269,7 @@ $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 $db->where('share_type', 'page');
 
 // Is this project?
-$db->where('shared_object_ID', $device_ID);
+$db->where('shared_object_ID', $page_ID);
 
 // Project shares data
 $pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
@@ -276,9 +287,14 @@ $projectInfo = Project::ID($project_ID)->getInfo(null, true);
 //echo "<pre>"; print_r($projectInfo); exit();
 
 
-// All my projects
+// MY PROJECTS
 $allMyProjects = User::ID()->getMy('projects');
 //echo "<pre>"; print_r($allMyProjects); echo "</pre>"; die();
+
+
+// MY DEVICES IN THIS PROJECT
+$allMyDevices = $devices;
+//echo "<pre>"; print_r( $allMyDevices ); die();
 
 
 
@@ -359,6 +375,7 @@ $_SESSION["new_screen_nonce"] = uniqid(mt_rand(), true);
 // Generate new nonce for pin actions
 $_SESSION["pin_nonce"] = uniqid(mt_rand(), true);
 //error_log("SESSION CREATED: ".$_SESSION["pin_nonce"]);
+
 
 
 $page_title = "Revision Mode";

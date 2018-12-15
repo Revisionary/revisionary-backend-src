@@ -43,7 +43,7 @@ $queue = new Queue();
 
 
 // Initialize internalizator
-$internalize = new Internalize_v4($page_ID, $queue_ID);
+$internalize = new Internalize($page_ID, $queue_ID);
 
 
 // Reset the variables

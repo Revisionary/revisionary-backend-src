@@ -6,9 +6,6 @@
 	page_ID = '<?=$page_ID?>';
 	remote_URL = '<?=$pageData->remoteUrl?>';
 
-	version_number = '<?=$version_number?>';
-	version_ID = '<?=$version_ID?>';
-
 	var pin_nonce = '<?=$_SESSION["pin_nonce"]?>';
 
 </script>
@@ -90,7 +87,8 @@
 									$pages_of_project = array_filter($allMyPages, function($pageFound) use ($project) {
 									    return ($pageFound['project_ID'] == $project['project_ID']);
 									});
-									$pages_of_project = categorize($pages_of_project, 'page', '', true);
+									$pages_of_project = categorize($pages_of_project, 'page', true);
+									//die_to_print($pages_of_project);
 
 
 									$selected = $project['project_ID'] == $project_ID ? "selected" : "";
@@ -108,7 +106,7 @@
 												<?php
 												foreach ($pages_of_project as $pageFromProject) {
 
-													$selected = $pageFromProject['page_ID'] == $page_ID || $pageFromProject['page_ID'] == $parentpage_ID ? "class='selected'" : "";
+													$selected = $pageFromProject['page_ID'] == $page_ID ? "class='selected'" : "";
 												?>
 												<li <?=$selected?>><a href="<?=site_url('revise/'.$pageFromProject['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?></a></li>
 												<?php
@@ -162,14 +160,9 @@
 							<ul>
 								<?php
 
-								$other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) {
-									return ($pageFound['project_ID'] == $project_ID);
-								});
-								$other_pages = categorize($other_pages, 'page', '', true);
-
 								foreach ($other_pages as $pageOther) {
 
-									$selected = $pageOther['page_ID'] == $page_ID || $pageOther['page_ID'] == $parentpage_ID ? "class='selected'" : "";
+									$selected = $pageOther['page_ID'] == $page_ID ? "class='selected'" : "";
 								?>
 								<li <?=$selected?>><a href="<?=site_url('revise/'.$pageOther['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a></li>
 								<?php
@@ -197,23 +190,17 @@
 							<ul class="xl-left">
 							<?php
 
-							if ( $parentpage_ID == null ) $parentpage_ID = $page_ID;
-
-
-							// EXISTING SCREENS
-							$existing_screens = array_filter($allMyPages, function($pageFound) use ($parentpage_ID) {
-								return ($pageFound['parent_page_ID'] == $parentpage_ID || $pageFound['page_ID'] == $parentpage_ID);
-							});
-							foreach ($existing_screens as $screen) {
-								if ($screen['page_ID'] == $page_ID) continue;
+							// EXISTING DEVICES
+							foreach ($allMyDevices as $device) {
+								if ($device['page_ID'] == $page_ID) continue;
 
 
 
-								$existing_screen_width = $screen['screen_width'];
-								$existing_screen_height = $screen['screen_height'];
+								$existing_screen_width = $device['screen_width'];
+								$existing_screen_height = $device['screen_height'];
 
-								$page_width = $screen['page_width'];
-								$page_height = $screen['page_height'];
+								$page_width = $device['device_width'];
+								$page_height = $device['device_height'];
 
 								if ($page_width != null && $page_width != null) {
 									$existing_screen_width = $page_width;
@@ -226,7 +213,7 @@
 							?>
 
 								<li class="screen-registered block">
-									<a href="<?=site_url('revise/'.$screen['page_ID'])?>"><i class="fa <?=$screen['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
+									<a href="<?=site_url('revise/'.$device['page_ID'])?>"><i class="fa <?=$device['screen_cat_icon']?>" aria-hidden="true"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
 									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Screen" data-action="delete" data-type="page"></i>
 								</li>
 
@@ -253,7 +240,7 @@
 															foreach ($screen_cat['screens'] as $screen) {
 
 
-																$screen_link = site_url("project/$project_ID?new_screen=".$screen['screen_ID']."&page_ID=".$parentpage_ID);
+																$screen_link = site_url("project/$project_ID?new_screen=".$screen['screen_ID']."&page_ID=".$page_ID);
 																$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
 																if ($screen['screen_ID'] == 11) {
 																	$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
@@ -299,36 +286,6 @@
 						</nav>
 					</span>
 
-
-				</div>
-				<div class="col version">
-
-					<div class="desc nomargin">Page Version</div>
-					<span class="dropdown-container">
-						<a href="#" class="button dropdown-opener"><i class="fa fa-code-branch"></i> v<?=number_format($version_number, 1)?></a>
-						<nav class="dropdown">
-							<ul class="xl-left">
-								<?php
-								//print_r($versions);
-								foreach ($versions as $version) {
-
-									//if ("v".$version['version_number'] == $pageData->pageVersion) continue;
-
-									$action_url = 'ajax?type=data-action&data-type=version&nonce='.$_SESSION['js_nonce'].'&id='.$version['version_ID'];
-								?>
-								<li class="block <?=$version['version_number'] == $version_number ? "selected" : ""?>">
-									<a href="<?=site_url('revise/'.$page['page_ID'].'/'.$version['version_number'])?>"><i class="fa fa-sign-in-alt"></i> v<?=number_format($version['version_number'], 1)." - ".$version['version_name']?></a>
-									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Version" data-action="remove" data-type="version"></i>
-								</li>
-								<?php
-								}
-								?>
-								<li>
-									<a href="#" class="add-version bottom-tooltip" data-tooltip="Coming Soon..."><i class="fa fa-plus" aria-hidden="true"></i> New Version</a>
-								</li>
-							</ul>
-						</nav>
-					</span>
 
 				</div>
 			</div>

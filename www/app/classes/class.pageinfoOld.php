@@ -53,7 +53,7 @@ class PageOld {
 	public $logDir;
 
 	// Log File Name
-	public $logFileName;
+	public $logFileName = "internalize-process-php";
 
 	// Log File
 	public $logFile;
@@ -136,7 +136,7 @@ class PageOld {
         $this->logDir = $this->pageDir."/logs";
 
         // Set the log file name
-        $this->logFileName = "internalize-process-php";
+        $this->logFileName;
 
         // Set the log file
         $this->logFile = $this->logDir."/".$this->logFileName.".log";

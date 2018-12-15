@@ -3,11 +3,27 @@
 class Page {
 
 
-	// The page ID
+	// The IDs
 	public static $page_ID;
-
 	public $project_ID;
+	public $user_ID;
+
+
 	public $remoteUrl;
+	public $cachedUrl;
+
+	public $pageDir;
+	public $pageFileName = "index.html";
+	public $pageFile;
+	public $pageUri;
+
+	public $logDir;
+	public $logFileName = "internalize-process-php";
+	public $logFileExtension = "log";
+	public $logFile;
+
+	public $internalizeCount;
+	public $pageStatus;
 
 
 
@@ -17,8 +33,42 @@ class Page {
 
 		$pageInfo = $this->getInfo('*', true);
 
+
+		// IDs
+		$this->user_ID = $pageInfo['user_ID'];
 		$this->project_ID = $pageInfo['project_ID'];
-		//$this->remoteUrl = $pageInfo['project_ID'];
+		$this->remoteUrl = $pageInfo['page_url'];
+
+
+		$this->internalizeCount = $pageInfo['page_internalized'];
+
+
+		// Page directory
+		$this->pageDir = $this->getDir();
+        $this->pageFile = $this->pageDir."/".$this->pageFileName;
+
+
+        // Paths
+        $projectPath = "project-".$this->project_ID;
+        $pagePath = "page-".self::$page_ID;
+		$fullPath = "projects/$projectPath/$pagePath/";
+
+
+        // Set the page cache directory URL
+        $this->pageUri = cache_url($fullPath, (substr($this->remoteUrl, 0, 8) == "https://" ? true : false));
+        $this->cachedUrl = $this->pageUri.$this->pageFileName;
+
+
+		// Log directory
+		$this->logDir = $this->pageDir."/logs";
+        $this->logFile = $this->logDir."/".$this->logFileName.".".$this->logFileExtension;
+
+
+
+        // Set the page status
+        $this->pageStatus = $this->getPageStatus();
+
+
 
     }
 
@@ -44,6 +94,136 @@ class Page {
 	    $db->where('page_ID', self::$page_ID);
 
 	    return $array ? $db->getOne("pages", $columns) : $db->getValue("pages", $columns);
+    }
+
+
+    // Get the page download status
+    public function getPageStatus($static = false) {
+
+
+		// 0% - WAITING FOR THE QUEUE
+		$process_status = [
+			"status" => "waiting",
+			"description" => "Waiting for the queue",
+			"percentage" => 0
+		];
+
+
+		if (!file_exists($this->logDir))
+			$process_status = [
+				"status" => "Ready to Download",
+				"description" => "Page needs to be downloaded",
+				"percentage" => 0
+			];
+
+
+		if ($static) {
+
+			// DAMAGED PAGES
+			if (
+				!file_exists($this->pageFile) ||
+				!file_exists($this->logDir."/html-filter.log") ||
+				!file_exists($this->logDir."/css-filter.log")
+			)
+				$process_status = [
+					"status" => "download-needed",
+					"description" => "Download needed",
+					"percentage" => 0
+				];
+
+		}
+
+
+		// 10% - PAGE IS DOWNLOADING
+		if (
+			file_exists($this->logDir."/browser.log")
+		)
+			$process_status = [
+				"status" => "downloading-page",
+				"description" => "Downloading the page",
+				"percentage" => 25
+			];
+
+
+		// 25% - PAGE IS DOWNLOADED
+		if (
+			file_exists($this->pageFile)
+		)
+			$process_status = [
+				"status" => "downloaded-page",
+				"description" => "Page is downloaded",
+				"percentage" => 25
+			];
+
+
+		// 50% - UPDATING THE PAGE
+		if (file_exists($this->logDir."/_html-filter.log"))
+			$process_status = [
+				"status" => "updating-html",
+				"description" => "Updating the page",
+				"percentage" => 50
+			];
+
+
+		// 70% - PAGE UPDATED
+		if (file_exists($this->logDir."/html-filter.log"))
+			$process_status = [
+				"status" => "updated-html",
+				"description" => "Page updated",
+				"percentage" => 70
+			];
+
+		// 0% - HTML Filter Error
+		if (file_exists($this->logDir."/__html-filter.log"))
+			$process_status = [
+				"status" => "updating-html-error",
+				"description" => "The page couldn't be updated",
+				"percentage" => 0
+			];
+
+
+		// 75% - FIXING THE STYLES
+		if (file_exists($this->logDir."/_css-filter.log"))
+			$process_status = [
+				"status" => "updating-css",
+				"description" => "Fixing the styles",
+				"percentage" => 75
+			];
+
+
+		// 95% - STYLES ARE PERFECTED
+		if (file_exists($this->logDir."/css-filter.log"))
+			$process_status = [
+				"status" => "updated-css",
+				"description" => "Styles are perfected",
+				"percentage" => 95
+			];
+
+		// 0% - CSS Filter Error
+		if (file_exists($this->logDir."/__css-filter.log"))
+			$process_status = [
+				"status" => "updating-css-error",
+				"description" => "The styles couldn't be fixed",
+				"percentage" => 0
+			];
+
+
+
+		// 100% - READY
+		if (
+			file_exists($this->pageFile) &&
+			file_exists($this->logDir."/html-filter.log") &&
+			file_exists($this->logDir."/css-filter.log")
+		)
+			$process_status = [
+				"status" => "ready",
+				"description" => "Ready! Loading the site",
+				"percentage" => 100
+			];
+
+
+		return $process_status;
+
     }
 
 

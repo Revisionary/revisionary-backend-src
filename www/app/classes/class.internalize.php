@@ -2,7 +2,7 @@
 use Cocur\BackgroundProcess\BackgroundProcess;
 
 
-class Internalize_v4 {
+class Internalize {
 
 
 	// The Page ID
