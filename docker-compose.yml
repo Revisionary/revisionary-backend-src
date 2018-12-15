@@ -58,6 +58,7 @@ services:
             - ./www:/var/www/html
     chrome:
         build: ./chrome
+        user: www-data
         cap_add:
             - SYS_ADMIN
         container_name: chrome
