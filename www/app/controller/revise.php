@@ -168,7 +168,7 @@ if (
 
 
 	// Site log
-	$log->info($process_status);
+	if ($debug_mode) $log->info($process_status);
 
 
 	// Set the process ID to check
@@ -199,7 +199,7 @@ if (
 
 
 	// Site log
-	$log->info($process_status);
+	if ($debug_mode) $log->info($process_status);
 
 
 
@@ -223,7 +223,7 @@ if (
 
 
 		// Site log
-		$log->info("Page #$page_ID | Device #$device_ID screenshot job added to the queue #$queue_ID. Process ID: #".$process_ID." | User: #".currentUserID().".");
+		if ($debug_mode) $log->info("Page #$page_ID | Device #$device_ID screenshot job added to the queue #$queue_ID. Process ID: #".$process_ID." | User: #".currentUserID().".");
 
 
 	}
@@ -261,7 +261,7 @@ if (
 
 
 	// Site log
-	$log->info("Page #$page_ID | Device #$device_ID internalization job added to the queue #$queue_ID. Process ID: #".$process_ID." | User: #".currentUserID().".");
+	if ($debug_mode) $log->info("Page #$page_ID | Device #$device_ID internalization job added to the queue #$queue_ID. Process ID: #".$process_ID." | User: #".currentUserID().".");
 
 
 }
