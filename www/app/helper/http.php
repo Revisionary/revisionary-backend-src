@@ -1,6 +1,6 @@
 <?php
 
-// GET RESPONSE CODE
+// Get Response Code
 function get_http_response_code($url) {
 
 	$response = "000";
@@ -29,4 +29,18 @@ function get_http_response_code($url) {
 		return $response;
 	else
 		return false;
+}
+
+
+
+// Get content from remote URL
+function getRemoteData($url, $timeout = 20) {
+
+
+	return json_decode(file_get_contents($url, false, stream_context_create(array('http'=>
+	    array(
+	        'timeout' => $timeout,  // Seconds
+	    )
+	))));
+
 }

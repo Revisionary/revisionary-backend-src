@@ -135,14 +135,12 @@ $db->where('queue_object_ID', $page_ID);
 
 $db->where("(queue_status = 'working' OR queue_status = 'waiting')");
 $existing_queue = $db->get('queues');
+//die_to_print($existing_queue);
 
 
 $queue_ID = "";
 $process_ID = "";
 $process_status = "";
-
-
-//var_dump($existing_queue); die();
 
 
 // If already working queue exists !!!
@@ -166,7 +164,7 @@ if (
 	$queue_status = $existing_queue['queue_status'];
 
 
-	$process_status = "DB: ".ucfirst($queue_status)." Queue Found. Page: #$device_ID User: #".currentUserID()." Process ID: #$queue_PID Queue ID: #$queue_ID";
+	$process_status = "DB: ".ucfirst($queue_status)." Queue Found. Page #$page_ID | Device #$device_ID | User: #".currentUserID()." | Process ID: #$queue_PID | Queue ID: #$queue_ID";
 
 
 	// Site log
@@ -188,7 +186,7 @@ if (
 
 	file_exists( $pageData->pageDir ) && // Folder is exist
 	file_exists( $pageData->pageFile ) && // HTML is downloaded
-	file_exists( $device_image ) && // Page image ready
+	//file_exists( $device_image ) && // Device image ready
 	file_exists( $project_image ) && // // Project image ready
 	file_exists( $pageData->logDir."/browser.log" ) && // No error on Browser
 	file_exists( $pageData->logDir."/html-filter.log" ) && // No error on HTML filtering
@@ -197,22 +195,43 @@ if (
 ) {
 
 
-	$process_status = "Already downloaded page #$device_ID is opening for user #".currentUserID().".";
+	$process_status = "Already downloaded Page #$page_ID | Device #$device_ID is opening for user #".currentUserID().".";
 
 
 	// Site log
 	$log->info($process_status);
+
+
+
+	// Device screenshot check
+	if ( !file_exists( $device_image ) ) {
+
+
+		// Logger
+		$logger = new Katzgrau\KLogger\Logger($pageData->logDir, Psr\Log\LogLevel::DEBUG, array(
+			'filename' => 'screenshot',
+		    'extension' => $pageData->logFileExtension, // changes the log file extension
+		));
+
+
+		// NEW QUEUE
+		// Add a new job to the queue
+		$queue = new Queue();
+		$queue_results = $queue->new_job('screenshot', $page_ID, $device_ID, "Waiting other works to be done.");
+		$process_ID = $queue_results['process_ID'];
+		$queue_ID = $queue_results['queue_ID'];
+
+
+		// Site log
+		$log->info("Page #$page_ID | Device #$device_ID screenshot job added to the queue #$queue_ID. Process ID: #".$process_ID." | User: #".currentUserID().".");
+
+
+	}
+
 
 
 // Needs to be completely internalized
 } else {
-
-
-	$process_status = "Page #$device_ID needs to be internalized for user #".currentUserID().".";
-
-
-	// Site log
-	$log->info($process_status);
 
 
 	// Remove the existing and wrong files
@@ -236,13 +255,13 @@ if (
 	// NEW QUEUE
 	// Add a new job to the queue
 	$queue = new Queue();
-	$queue_results = $queue->new_job('internalize', $page_ID, "Waiting other works to be done.", session_id());
+	$queue_results = $queue->new_job('internalize', $page_ID, $device_ID, "Waiting other works to be done.");
 	$process_ID = $queue_results['process_ID'];
 	$queue_ID = $queue_results['queue_ID'];
 
 
 	// Site log
-	$log->info("Page #$page_ID added to the queue #$queue_ID. Process ID: #".$process_ID." User: #".currentUserID().".");
+	$log->info("Page #$page_ID | Device #$device_ID internalization job added to the queue #$queue_ID. Process ID: #".$process_ID." | User: #".currentUserID().".");
 
 
 }
@@ -250,51 +269,39 @@ if (
 
 
 // PROJECT SHARES QUERY
-
-// Exlude other types
 $db->where('share_type', 'project');
-
-// Is this project?
 $db->where('shared_object_ID', $project_ID);
-
-// Project shares data
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
-//echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
+//die_to_print($projectShares);
 
 
 
 // PAGE SHARES QUERY
-
-// Exlude other types
 $db->where('share_type', 'page');
-
-// Is this project?
 $db->where('shared_object_ID', $page_ID);
-
-// Project shares data
 $pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
-//echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
+//die_to_print($projectShares);
 
 
 
 // SCREEN INFO
 $screen_data = User::ID()->getScreenData();
-//echo "<pre>"; print_r($screen_data); exit();
+//die_to_print($screen_data);
 
 
 // PROJECT INFO
 $projectInfo = Project::ID($project_ID)->getInfo(null, true);
-//echo "<pre>"; print_r($projectInfo); exit();
+//die_to_print($projectInfo);
 
 
 // MY PROJECTS
 $allMyProjects = User::ID()->getMy('projects');
-//echo "<pre>"; print_r($allMyProjects); echo "</pre>"; die();
+//die_to_print($allMyProjects);
 
 
 // MY DEVICES IN THIS PROJECT
 $allMyDevices = $devices;
-//echo "<pre>"; print_r( $allMyDevices ); die();
+//die_to_print($allMyDevices);
 
 
 

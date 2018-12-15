@@ -8,11 +8,11 @@ $status = "initiated";
 
 
 // Get the pin info
-$version_ID = request('version_ID');
+$device_ID = request('device_ID');
 
 
 // Are they numbers?
-if ( !is_numeric($version_ID) )
+if ( !is_numeric($device_ID) )
 	return;
 
 
@@ -22,8 +22,8 @@ if ( !is_numeric($version_ID) )
 
 
 
-// Get pins from this version
-$db->where('version_ID', $version_ID);
+// Get pins from this device
+$db->where('device_ID', $device_ID);
 
 // Hide private pins to other people
 $db->where ("(user_ID = ".currentUserID()." or (user_ID != ".currentUserID()." and pin_private = 0))");
@@ -52,7 +52,7 @@ $data['data'] = array(
 	'status' => $status,
 	'nonce' => request('nonce'),
 	'S_nonce' => $_SESSION['pin_nonce'],
-	'version_ID' => $version_ID
+	'device_ID' => $device_ID
 
 );
 

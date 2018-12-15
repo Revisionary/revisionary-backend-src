@@ -3,13 +3,12 @@ var iframe;
 
 // IDs
 var user_ID;
+var device_ID;
 var page_ID;
 var page_URL;
 var remote_URL;
 var page_ready = false;
 var page_redirected = false;
-var version_ID;
-var version_number;
 
 // HTML Element Index
 var fileIndexed = false;

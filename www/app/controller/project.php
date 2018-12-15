@@ -42,21 +42,21 @@ if ( !$project ) {
 // PAGES DATA MODEL
 $dataType = "page";
 $allMyPagesList = User::ID()->getMy("pages", $catFilter, $order, $project_ID, null, true);
-//echo "<pre>"; print_r($allMyPagesList); exit();
+//die_to_print($allMyPagesList);
 
-$theCategorizedData = categorize($allMyPagesList, $dataType, $screenFilter);
-//echo "<pre>"; print_r($theCategorizedData); exit();
+$theCategorizedData = categorize($allMyPagesList, $dataType);
+//die_to_print($theCategorizedData);
 
 
 
 // MY PAGES IN THIS PROJECT
 $allMyPages = $thePreparedData;
-//echo "<pre>"; print_r( $allMyPages ); die();
+//die_to_print($allMyPages);
 
 
 // MY DEVICES IN THIS PROJECT
 $allMyDevices = $devices;
-//echo "<pre>"; print_r( $allMyDevices ); die();
+//die_to_print($allMyDevices);
 
 
 
@@ -240,17 +240,17 @@ foreach($theCategorizedData as $categories) {
 
 // PROJECT INFO
 $projectInfo = Project::ID($project_ID)->getInfo(null, true);
-//echo "<pre>"; print_r($projectInfo); exit();
+//die_to_print($projectInfo);
 
 
 // CATEGORY INFO
 $categories = User::ID()->getCategories($dataType, $order, $project_ID);
-//echo "<pre>"; print_r($categories); exit();
+//die_to_print($categories);
 
 
 // SCREEN INFO
 $screen_data = User::ID()->getScreenData();
-//echo "<pre>"; print_r($screen_data); exit();
+//die_to_print($screen_data);
 
 
 

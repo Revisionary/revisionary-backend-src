@@ -11,6 +11,12 @@ class Internalize {
 	// The Page data
 	public $pageData;
 
+	// The Device ID
+	public $device_ID;
+
+	// The Device data
+	public $deviceData;
+
 	// The Queue ID
 	public $queue_ID;
 
@@ -74,15 +80,25 @@ class Internalize {
 
 
 	// When initialized
-	public function __construct($page_ID, $queue_ID) {
+	public function __construct($page_ID, $device_ID, $queue_ID) {
+
 
 		// Set the page ID
 		$this->page_ID = $page_ID;
-		$this->queue_ID = $queue_ID;
-
 
 		// Get the page data
 		$this->pageData = Page::ID($page_ID);
+
+
+		// Set the device ID
+		$this->device_ID = $device_ID;
+
+		// Get the page data
+		$this->deviceData = Device::ID($device_ID);
+
+
+		// The current queue ID
+		$this->queue_ID = $queue_ID;
 
 
 	}
@@ -121,7 +137,7 @@ class Internalize {
 
 	// 2. 	If job is ready to get done, open the site with Chrome
 	// 2.1. Download the HTML, CSS, JS and Font files
-	// 2.2. Take a screenshot for the page, and project if not exist
+	// 2.2. Take a screenshot for the device, and project if not exist
 	// 2.3. JSON Output all the downloaded files
 	public function browserWorks() {
 		global $db, $queue, $logger, $config;
@@ -136,19 +152,22 @@ class Internalize {
 
 		// Page Info
 		$page_ID = $this->page_ID;
-		$pageInfo = $this->pageData->pageInfo;
-
 
 		$url = $this->pageData->remoteUrl;
 		$pageDir = $this->pageData->pageDir;
 
 
-		// Screen info
-		$screenID = $pageInfo['screen_ID'];
-		$screenInfo = Screen::ID($screenID)->getInfo(null, true);
+		// Device Info
+		$device_ID = $this->device_ID;
+		$deviceInfo = $this->deviceData->getInfo(null, true);
 
-		$width = $pageInfo['page_width'] ? $pageInfo['page_width'] : $screenInfo['screen_width'];
-		$height = $pageInfo['page_height'] ? $pageInfo['page_height'] : $screenInfo['screen_height'];
+
+		// Screen info
+		$screenInfo = Screen::ID($deviceInfo['screen_ID'])->getInfo(null, true);
+
+
+		$width = $deviceInfo['device_width'] ? $deviceInfo['device_width'] : $screenInfo['screen_width'];
+		$height = $deviceInfo['device_height'] ? $deviceInfo['device_height'] : $screenInfo['screen_height'];
 
 
 		// Chrome container request link
@@ -157,12 +176,12 @@ class Internalize {
 		$processLink .= "&action=internalize";
 		$processLink .= "&width=$width&height=$height";
 		$processLink .= "&page_ID=$page_ID";
-		$processLink .= "&screen_ID=$screenID";
+		$processLink .= "&device_ID=$device_ID";
 		$processLink .= "&sitedir=".urlencode($pageDir."/");
 
 
 		// Send the request
-		$data = $this->getData($processLink);
+		$data = getRemoteData($processLink);
 
 
 		// Update the queue status
@@ -182,7 +201,7 @@ class Internalize {
 
 			// Send the request again after 2 seconds
 			sleep(2);
-			$data = $this->getData($processLink);
+			$data = getRemoteData($processLink);
 
 			if (!$data || $data->status != "success" || count($data->downloadedFiles) == 0) {
 
@@ -808,19 +827,6 @@ class Internalize {
 
 
 		return $this->pageData->cachedUrl;
-	}
-
-
-	// Get content from remote URL
-	public function getData($url, $timeout = 20) {
-
-
-		return json_decode(file_get_contents($url, false, stream_context_create(array('http'=>
-		    array(
-		        'timeout' => $timeout,  // Seconds
-		    )
-		))));
-
 	}
 
 

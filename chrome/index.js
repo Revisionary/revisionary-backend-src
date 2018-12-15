@@ -145,8 +145,9 @@ require('http').createServer(async (req, res) => {
 		let actionDone = false;
 		const width = parseInt(queryData.width, 10) || 1024;
 		const height = parseInt(queryData.height, 10) || 768;
-		const page_ID = parseInt(queryData.page_ID) || url;
 		const device_ID = parseInt(queryData.device_ID) || 0;
+		const page_ID = parseInt(queryData.page_ID) || 0;
+		const browser_ID = page_ID + '-' + device_ID || url;
 		const fullPage = queryData.fullPage == 'true' || false;
 		const SSR = queryData.ssr == 'true' || false;
 		const siteDir = queryData.sitedir || 'site/project/page/version/';
@@ -177,7 +178,7 @@ require('http').createServer(async (req, res) => {
 
 
 			// Launch the browser if browser is not already open
-			if (!browser[page_ID]) {
+			if (!browser[browser_ID]) {
 				console.log('🚀 Launch browser!');
 				const config = {
 					ignoreHTTPSErrors: true,
@@ -196,13 +197,13 @@ require('http').createServer(async (req, res) => {
 					config.args.push('--auto-open-devtools-for-tabs');
 				}
 				if (CHROME_BIN) config.executablePath = CHROME_BIN;
-				browser[page_ID] = await puppeteer.launch(config);
+				browser[browser_ID] = await puppeteer.launch(config);
 			}
 
 
 
 			// Open a new tab
-			page = await browser[page_ID].newPage();
+			page = await browser[browser_ID].newPage();
 
 
 
@@ -626,10 +627,10 @@ require('http').createServer(async (req, res) => {
 					const pageScreenshot = pageScreenshotDir + 'device-' + device_ID + '.jpg';
 					if (!fs.existsSync(pageScreenshotDir)) fs.mkdirSync(pageScreenshotDir);
 					fs.writeFileSync(pageScreenshot, screenshot);
-					console.log('📸 Page Screenshot Saved: ', pageScreenshot);
+					console.log('📸 Device Screenshot Saved: ', pageScreenshot);
 
 					// Project Screenshot Saving if not exists
-					const projectScreenshotDir = pageScreenshotDir + "../../../";
+					const projectScreenshotDir = siteDir + "../";
 					const projectScreenshot = projectScreenshotDir + 'project.jpg';
 					if (!fs.existsSync(projectScreenshotDir)) fs.mkdirSync(projectScreenshotDir);
 					if (!fs.existsSync(projectScreenshot)) {
@@ -657,6 +658,53 @@ require('http').createServer(async (req, res) => {
 
 				// Write to the log fileb
 				fs.writeFileSync(logDir+'browser.log', dataString);
+
+
+				// JSON OUTPUT
+				res.writeHead(200, {
+					'content-type': 'application/json',
+				});
+				res.end(dataString);
+
+
+				break;
+			}
+			case 'screenshot': {
+
+
+				// Screenshot status
+				let screenshotSaved;
+				let pageScreenshot;
+
+
+				// SCREENSHOTS
+				try {
+
+					const screenshot = await pTimeout(page.screenshot({
+						type: 'jpeg'
+					}), 20 * 1000, 'Screenshot timed out');
+
+					// Page Screenshot Saving
+					const pageScreenshotDir = siteDir + "screenshots/";
+					pageScreenshot = pageScreenshotDir + 'device-' + device_ID + '.jpg';
+					if (!fs.existsSync(pageScreenshotDir)) fs.mkdirSync(pageScreenshotDir);
+					fs.writeFileSync(pageScreenshot, screenshot);
+					console.log('📸 Device Screenshot Saved: ', pageScreenshot);
+					screenshotSaved = true;
+
+
+				} catch (err) {
+
+					console.log('📷❌ Screenshots could not be saved: ', err);
+					screenshotSaved = false;
+
+				}
+
+
+				const dataString = JSON.stringify({
+					status: (screenshotSaved ? 'success' : 'error'),
+					screenshot : pageScreenshot
+				}, null, '\t');
 
 
 				// JSON OUTPUT
@@ -799,13 +847,13 @@ require('http').createServer(async (req, res) => {
 					console.log('🗑✅ Tab closed for ' + url);
 
 
-					if (browser[page_ID]) {
+					if (browser[browser_ID]) {
 
 						console.log('🔌 Closing the browser for ' + url, ' PAGE ID: ' + page_ID);
 
-						browser[page_ID].close();
-						browser[page_ID] = null;
-						delete browser[page_ID];
+						browser[browser_ID].close();
+						browser[browser_ID] = null;
+						delete browser[browser_ID];
 
 						console.log('🔌✅ Browser closed for ' + url, ' PAGE ID: ' + page_ID);
 

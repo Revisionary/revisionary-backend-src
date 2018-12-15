@@ -70,10 +70,11 @@ class Device {
 		$db->where("page_ID", $page_IDs, 'IN');
 
 
-		$devices = $db->get('devices d');
+		// Order by device ID
+		$db->orderBy('d.device_ID', 'ASC');
 
 
-		return $devices;
+		return $db->get('devices d');
     }
 
 

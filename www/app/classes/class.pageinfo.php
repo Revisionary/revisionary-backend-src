@@ -8,7 +8,6 @@ class Page {
 	public $project_ID;
 	public $user_ID;
 
-
 	public $remoteUrl;
 	public $cachedUrl;
 
@@ -31,7 +30,7 @@ class Page {
 
 	public function __construct() {
 
-		$pageInfo = $this->getInfo('*', true);
+		$pageInfo = $this->getInfo(null, true);
 
 
 		// IDs
@@ -347,6 +346,29 @@ class Page {
 		return $page_ID;
 
 	}
+
+
+
+    // Edit a page
+    public function edit(
+	    string $column,
+	    $new_value
+    ) {
+	    global $db;
+
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		// Update the page
+		$db->where('page_ID', self::$page_ID);
+		$page_updated = $db->update('pages', array($column => $new_value));
+
+
+		return $page_updated;
+    }
 
 
     // Archive a page

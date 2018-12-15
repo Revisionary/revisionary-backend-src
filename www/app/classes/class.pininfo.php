@@ -48,7 +48,7 @@ class Pin {
 
     // Add a new pin
     public function addNew(
-	    int $pin_version_ID,
+	    int $pin_device_ID,
     	string $pin_type = 'standard',
     	bool $pin_private = false,
     	float $pin_x = 50,
@@ -73,7 +73,7 @@ class Pin {
 		// Add the pin
 		$pin_ID = $db->insert('pins', array(
 			"user_ID" => $pin_user_ID || currentUserID(),
-			"version_ID" => $pin_version_ID,
+			"device_ID" => $pin_device_ID,
 			"pin_type" => $pin_type,
 			"pin_private" => $pin_private,
 			"pin_x" => $pin_x,
@@ -85,7 +85,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_ID) {
-			$page_ID = Version::ID($pin_version_ID)->getInfo('page_ID');
+			$page_ID = Device::ID($pin_device_ID)->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -119,7 +119,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_updated) {
-			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
+			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -145,7 +145,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_deleted) {
-			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
+			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -171,7 +171,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_updated) {
-			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
+			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -213,7 +213,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_updated) {
-			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
+			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -239,7 +239,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_updated) {
-			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
+			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 
@@ -265,7 +265,7 @@ class Pin {
 
 		// Update the page modification date
 		if ($pin_updated) {
-			$page_ID = Version::ID( $this->getInfo('version_ID') )->getInfo('page_ID');
+			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 		}
 

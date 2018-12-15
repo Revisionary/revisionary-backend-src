@@ -88,13 +88,13 @@ class Queue {
     // JOBS:
 
     // Add a new job to the queue
-    public function new_job($queue_type, $queue_object_ID, $queue_message = "", $session_ID = null) {
+    public function new_job($queue_type, $page_ID, $device_ID, $queue_message = "") {
 	    global $db, $logger;
 
 
 		$data = array(
 			"queue_type" => $queue_type,
-			"queue_object_ID" => $queue_object_ID,
+			"queue_object_ID" => $page_ID,
 			"queue_message" => $queue_message,
 			"user_ID" => currentUserID()
 		);
@@ -110,12 +110,35 @@ class Queue {
 			// START THE PROCESS IF TYPE IS INTERNALIZE
 			if ($queue_type == 'internalize') {
 
-				$page_ID = $queue_object_ID;
+
+				// Initiate Internalizator
+				$process = new Cocur\BackgroundProcess\BackgroundProcess(
+					"php ".dir."/app/bgprocess/internalize.php $page_ID $device_ID ".session_id()." $queue_ID"
+				);
+				$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
+				$process_ID = $process->getPid();
+
+
+				// Add the PID to the queue
+				$this->update_status($queue_ID, "waiting", "Waiting other works to be done.", $process_ID);
+
+				return [
+					'queue_ID' => $queue_ID,
+					'process_ID' => $process_ID
+				];
+
+			}
+
+
+			// START THE PROCESS IF TYPE IS INTERNALIZE
+			if ($queue_type == 'screenshot') {
 
 
 				// Initiate Internalizator
-				$process = new Cocur\BackgroundProcess\BackgroundProcess('php '.dir.'/app/bgprocess/internalize.php '.$page_ID.' '.$session_ID.' '.$queue_ID);
-				$process->run(Page::ID($page_ID)->logDir."/internalize-tasks-php.log", true);
+				$process = new Cocur\BackgroundProcess\BackgroundProcess(
+					"php ".dir."/app/bgprocess/screenshot.php $page_ID $device_ID ".session_id()." $queue_ID"
+				);
+				$process->run(Page::ID($page_ID)->logDir."/screenshot-tasks-php.log", true);
 				$process_ID = $process->getPid();
 
 

@@ -33,7 +33,7 @@ $logger = new Katzgrau\KLogger\Logger(
 	$pageData->logDir,
 	Psr\Log\LogLevel::DEBUG,
 	array(
-		'filename' => $pageData->logFileName,
+		'filename' => 'screenshot',
 	    'extension' => $pageData->logFileExtension, // changes the log file extension
 	)
 );
@@ -44,7 +44,7 @@ $queue = new Queue();
 
 
 // Initialize internalizator
-$internalize = new Internalize($page_ID, $device_ID, $queue_ID);
+$screenshot = new Screenshot($page_ID, $device_ID, $queue_ID);
 
 
 // Reset the variables
@@ -60,25 +60,16 @@ echo "SessionID: $sessionID \r\n";
 // JOBS:
 
 // 1. Wait for the queue
-if ($queue_ID) $job_ready = $internalize->waitForQueue();
+if ($queue_ID) $job_ready = $screenshot->waitForQueue();
 
 
 // 2. 	If job is ready to get done, open the site with Chrome
-// 2.1. Download the HTML, CSS, JS and Font files
-// 2.2. Take a screenshot for the page, and project if not exist
-// 2.3. JSON Output all the downloaded files
-if ($job_ready) $browser_done = $internalize->browserWorks();
+// 2.1. Take a screenshot for the page, and project if not exist
+if ($job_ready) $browser_done = $screenshot->browserWorks();
 
 
-// 3. HTML absolute URL filter to correct downloaded URLs
-if ($browser_done) $html_filtred = $internalize->filterAndUpdateHTML();
+// 3. Complete the job!
+if ($browser_done) $complete = $screenshot->completeTheJob();
 
 
-// 4. Filter CSS files
-// 4.1. Absolute URL filter to correct downloaded URLs
-// 4.2. Detect fonts and correct with downloaded ones
-if ($html_filtred) $css_filtred = $internalize->filterAndUpdateCSSfiles();
-
-
-// 5. Complete the job!
-if ($css_filtred) $iframeLink = $internalize->completeTheJob();
+if ($complete) echo "Screenshot taken \r\n";
