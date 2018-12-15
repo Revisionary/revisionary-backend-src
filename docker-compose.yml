@@ -16,7 +16,6 @@ services:
         volumes:
             - ./www:/var/www/html
             - ./logs:/var/log/apache2
-            - ./logs:/var/www/logs
             - ./www/cache:/var/www/html/cache
         networks:
             - default
