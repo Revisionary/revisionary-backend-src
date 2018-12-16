@@ -5269,6 +5269,9 @@ a {
   font-size: 12px;
   line-height: 15px; }
 
+.user-menu {
+  min-width: 200px; }
+
 .dropdown-container {
   position: relative; }
   .dropdown-container > .dropdown-opener {
