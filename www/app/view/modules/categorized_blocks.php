@@ -399,13 +399,18 @@ if ($dataType == "page" && $allMyPins) {
 
 												foreach ($blockDevices as $device) {
 
-													//$pageStatus = Page::ID($screen['page_ID'])->getPageStatus(true)['status'];
+													//$pageStatus = Page::ID($device['page_ID'])->getPageStatus(true)['status'];
+
+													$action_url = 'ajax?type=data-action&data-type=device&nonce='.$_SESSION['js_nonce'].'&id='.$device['device_ID'];
 
 												?>
 
-													<a href="<?=site_url('revise/'.$device['device_ID'])?>">
-														<i class="fa <?=$device['screen_cat_icon']?>" data-tooltip="<?=$device['screen_cat_name']?> (<?=$device['screen_width']?>x<?=$device['screen_height']?>)" aria-hidden="true"></i>
-													</a>
+													<span class="block device-wrap">
+														<a href="<?=site_url('revise/'.$device['device_ID'])?>" class="device-link">
+															<i class="fa <?=$device['screen_cat_icon']?>" data-tooltip="<?=$device['screen_cat_name']?> (<?=$device['screen_width']?>x<?=$device['screen_height']?>)" aria-hidden="true"></i>
+														</a>
+														<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device bottom-tooltip" data-action="remove" data-type="device"><i class="fa fa-times-circle"></i></a>
+													</span>
 
 												<?php
 												}

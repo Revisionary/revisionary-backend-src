@@ -93,7 +93,7 @@ $(function() {
 
 		var projectShare = $(this).hasClass('project');
 
-		var theBox = projectShare && dataType == "page" ? $('.under-main-title') : $(this).parents('.block');
+		var theBox = projectShare && dataType == "page" ? $('.under-main-title') : $(this).parents('.block').first();
 		var boxName = projectShare && dataType == "page" ? $('h1.project-title').text() : theBox.find('.name').text();
 		var objectID = projectShare && dataType == "page" ? $('h1.project-title').attr('data-id') : theBox.attr('data-id');
 
@@ -690,7 +690,7 @@ $(function() {
 		if (action == "rename" || action == "add-new-category" || confirm(confirm_text) ) {
 
 			var url = $(this).attr('href');
-			var block = $(this).parents('.block');
+			var block = $(this).parents('.block').first();
 
 
 			// Start progress bar action

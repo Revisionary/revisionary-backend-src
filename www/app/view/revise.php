@@ -194,7 +194,7 @@
 
 								foreach ($other_pages as $pageOther) {
 
-									$selected = $pageOther['page_ID'] == $page_ID ? "class='selected'" : "";
+									$selected = $pageOther['page_ID'] == $page_ID ? "selected" : "";
 
 
 									$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageOther) {
@@ -204,7 +204,7 @@
 									//die_to_print($devices_of_page);
 
 								?>
-								<li <?=$selected?>>
+								<li class="<?=$selected?>">
 									<div class="dropdown-container">
 										<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>" class=" dropdown-opener"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a>
 										<?php
@@ -215,9 +215,11 @@
 												<?php
 												foreach ($devices_of_page as $deviceFromPage) {
 
-													$selected = $deviceFromPage['device_ID'] == $device_ID ? "class='selected'" : "";
+													$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 												?>
-												<li <?=$selected?>><a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$deviceFromPage['screen_cat_name']?></a></li>
+												<li class="<?=$selected?>">
+													<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+												</li>
 												<?php
 												}
 												?>

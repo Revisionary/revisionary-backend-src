@@ -6138,24 +6138,24 @@ footer .footer-links a {
 /**
  *  Blocks
  */
-.cat-separator {
+.blocks > .cat-separator {
   border-bottom: 1px solid;
   padding: 0 !important;
   margin-left: 15px;
   opacity: 0.5;
   margin-bottom: 10px; }
-  .cat-separator:hover .actions {
+  .blocks > .cat-separator:hover .actions {
     opacity: 1; }
 
-.name-field .share-icons i {
+.blocks .name-field .share-icons i {
   font-size: 10px; }
-  .name-field .share-icons i:nth-child(2) {
+  .blocks .name-field .share-icons i:nth-child(2) {
     margin-left: 1px; }
 
-.name-field .actions {
+.blocks .name-field .actions {
   opacity: 0;
   transition: 700ms; }
-  .name-field .actions input.edit-name {
+  .blocks .name-field .actions input.edit-name {
     display: none;
     width: auto;
     max-width: 100%;
@@ -6167,18 +6167,18 @@ footer .footer-links a {
     padding: 0 5px;
     margin-left: -5px; }
 
-.name-field.editing .name {
+.blocks .name-field.editing .name {
   display: none; }
 
-.name-field.editing .actions {
+.blocks .name-field.editing .actions {
   opacity: 1 !important; }
-  .name-field.editing .actions input.edit-name {
+  .blocks .name-field.editing .actions input.edit-name {
     display: inline-block;
     font-size: 16px;
     line-height: 18.4px;
     max-width: 75%; }
 
-.sortable .sortable-placeholder {
+.blocks .sortable .sortable-placeholder {
   border: 5px dashed;
   min-height: 1px;
   font-size: 1rem;
@@ -6186,38 +6186,38 @@ footer .footer-links a {
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-.sortable .box, .sortable .cat-separator {
+.blocks .sortable .box, .blocks .sortable .cat-separator {
   cursor: move; }
 
-.block {
+.blocks > .block {
   margin-bottom: 50px; }
-  .block .box {
+  .blocks > .block .box {
     border: 3px solid;
     border-radius: 10px;
     min-height: 250px;
     background-size: cover; }
-    .block .box .add-new-box:hover .plus-icon {
+    .blocks > .block .box .add-new-box:hover .plus-icon {
       color: #007acc; }
-    .block .box .overlay {
+    .blocks > .block .box .overlay {
       opacity: 0;
       background-color: rgba(0, 0, 0, 0.45);
       min-height: inherit; }
-      .block .box .overlay * {
+      .blocks > .block .box .overlay * {
         color: white; }
-      .block .box .overlay .people a {
+      .blocks > .block .box .overlay .people a {
         display: inline-block;
         line-height: 21px; }
-        .block .box .overlay .people a picture {
+        .blocks > .block .box .overlay .people a picture {
           margin: 0;
           width: 18px;
           height: 18px;
           border-color: white; }
-          .block .box .overlay .people a picture > span {
+          .blocks > .block .box .overlay .people a picture > span {
             font-size: 10px; }
-      .block .box .overlay .pages {
+      .blocks > .block .box .overlay .pages {
         display: inline-block;
         position: relative; }
-        .block .box .overlay .pages .page-count {
+        .blocks > .block .box .overlay .pages .page-count {
           position: absolute;
           top: 30px;
           font-size: 15px;
@@ -6226,43 +6226,60 @@ footer .footer-links a {
           width: 100%;
           padding-right: 20px;
           box-sizing: border-box; }
-      .block .box .overlay .modes a {
+      .blocks > .block .box .overlay .modes a {
         font-size: 30px;
         padding: 0 2px; }
-      .block .box .overlay .pins {
+      .blocks > .block .box .overlay .pins {
         padding: 4px !important; }
-        .block .box .overlay .pins pin {
+        .blocks > .block .box .overlay .pins pin {
           margin: 1px; }
-          .block .box .overlay .pins pin .notif-no {
+          .blocks > .block .box .overlay .pins pin .notif-no {
             bottom: auto;
             right: -5px;
             top: -5px; }
-      .block .box .overlay .screens a > i {
+      .blocks > .block .box .overlay .screens a > i {
         font-size: 30px; }
-      .block .box .overlay > div:not(.people):not(.pages) {
+      .blocks > .block .box .overlay > div:not(.people):not(.pages) {
         padding: 0 2px; }
-        .block .box .overlay > div:not(.people):not(.pages) > a {
+        .blocks > .block .box .overlay > div:not(.people):not(.pages) > a {
           opacity: 0.65; }
-          .block .box .overlay > div:not(.people):not(.pages) > a:hover {
+          .blocks > .block .box .overlay > div:not(.people):not(.pages) > a:hover {
             opacity: 1; }
-    .block .box:hover .overlay,
-    .block .box.no-thumb .overlay {
+    .blocks > .block .box:hover .overlay,
+    .blocks > .block .box.no-thumb .overlay {
       opacity: 1; }
-  .block .date {
+  .blocks > .block .date {
     font-size: 10px;
     line-height: 22px;
     color: #4A4A4A; }
-  .block .box-name a {
+  .blocks > .block .box-name a {
     font-size: 14px;
     line-height: 17px;
     letter-spacing: normal; }
-  .block .box-name .actions {
+  .blocks > .block .box-name .actions {
     opacity: 0;
     transition: 700ms; }
-  .block .box-name:hover .actions {
+  .blocks > .block .box-name:hover .actions {
     opacity: 1; }
-  .block input.edit-name {
+  .blocks > .block input.edit-name {
     width: 90% !important; }
+
+.blocks .device-wrap {
+  position: relative; }
+  .blocks .device-wrap .device-link {
+    display: inline-block; }
+  .blocks .device-wrap .remove-device {
+    position: absolute;
+    top: 100%;
+    right: -5px;
+    display: none; }
+    .blocks .device-wrap .remove-device > i {
+      display: block;
+      font-size: 15px !important;
+      width: 15px;
+      height: 15px; }
+  .blocks .device-wrap:hover .remove-device {
+    display: block; }
 
 .wrap, .col {
   transition: 500ms; }
