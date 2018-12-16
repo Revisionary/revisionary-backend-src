@@ -623,11 +623,11 @@ require('http').createServer(async (req, res) => {
 					}), 20 * 1000, 'Screenshot timed out');
 
 					// Page Screenshot Saving
-					const pageScreenshotDir = siteDir + "screenshots/";
-					const pageScreenshot = pageScreenshotDir + 'device-' + device_ID + '.jpg';
-					if (!fs.existsSync(pageScreenshotDir)) fs.mkdirSync(pageScreenshotDir);
-					fs.writeFileSync(pageScreenshot, screenshot);
-					console.log('📸 Device Screenshot Saved: ', pageScreenshot);
+					const deviceScreenshotDir = siteDir + "screenshots/";
+					const deviceScreenshot = deviceScreenshotDir + 'device-' + device_ID + '.jpg';
+					if (!fs.existsSync(deviceScreenshotDir)) fs.mkdirSync(deviceScreenshotDir);
+					fs.writeFileSync(deviceScreenshot, screenshot);
+					console.log('📸 Device Screenshot Saved: ', deviceScreenshot);
 
 					// Project Screenshot Saving if not exists
 					const projectScreenshotDir = siteDir + "../";
@@ -674,7 +674,7 @@ require('http').createServer(async (req, res) => {
 
 				// Screenshot status
 				let screenshotSaved;
-				let pageScreenshot;
+				let deviceScreenshot;
 
 
 				// SCREENSHOTS
@@ -684,12 +684,12 @@ require('http').createServer(async (req, res) => {
 						type: 'jpeg'
 					}), 20 * 1000, 'Screenshot timed out');
 
-					// Page Screenshot Saving
-					const pageScreenshotDir = siteDir + "screenshots/";
-					pageScreenshot = pageScreenshotDir + 'device-' + device_ID + '.jpg';
-					if (!fs.existsSync(pageScreenshotDir)) fs.mkdirSync(pageScreenshotDir);
-					fs.writeFileSync(pageScreenshot, screenshot);
-					console.log('📸 Device Screenshot Saved: ', pageScreenshot);
+					// Device Screenshot Saving
+					const deviceScreenshotDir = siteDir + "screenshots/";
+					deviceScreenshot = deviceScreenshotDir + 'device-' + device_ID + '.jpg';
+					if (!fs.existsSync(deviceScreenshotDir)) fs.mkdirSync(deviceScreenshotDir);
+					fs.writeFileSync(deviceScreenshot, screenshot);
+					console.log('📸 Device Screenshot Saved: ', deviceScreenshot);
 					screenshotSaved = true;
 
 
@@ -703,7 +703,7 @@ require('http').createServer(async (req, res) => {
 
 				const dataString = JSON.stringify({
 					status: (screenshotSaved ? 'success' : 'error'),
-					screenshot : pageScreenshot
+					screenshot : deviceScreenshot
 				}, null, '\t');
 
 
@@ -849,13 +849,13 @@ require('http').createServer(async (req, res) => {
 
 					if (browser[browser_ID]) {
 
-						console.log('🔌 Closing the browser for ' + url, ' PAGE ID: ' + page_ID);
+						console.log('🔌 Closing the browser for ' + url, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
 
 						browser[browser_ID].close();
 						browser[browser_ID] = null;
 						delete browser[browser_ID];
 
-						console.log('🔌✅ Browser closed for ' + url, ' PAGE ID: ' + page_ID);
+						console.log('🔌✅ Browser closed for ' + url, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
 
 					}
 
