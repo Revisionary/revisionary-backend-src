@@ -33,7 +33,9 @@ RUN service apache2 restart
 
 # Update the permissions
 RUN chown -R www-data:www-data /var/www/
-RUN chmod -R g+rw /var/www/
+RUN find /var/www/ -type f -exec chmod 644 {} \;
+RUN find /var/www/ -type d -exec chmod 755 {} \;
+#RUN chmod -R g+rw /var/www/
 
 
 # Expose the ports
