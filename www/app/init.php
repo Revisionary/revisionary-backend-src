@@ -58,19 +58,19 @@ unset($now, $mins, $sgn, $mins, $hrs, $offset);
 $debug_mode = false;
 
 
-// Initiate Logger
-if ($debug_mode) {
+// Site Logging
+$logFile = logdir."/site.log";
+if (file_exists($logFile)) file_put_contents($logFile, '');
+unset($logFile);
 
-	$log = new Katzgrau\KLogger\Logger(
-		logdir,
-		Psr\Log\LogLevel::DEBUG,
-		array(
-			'filename' => 'site',
-		    'extension' => 'log'
-		)
-	);
-
-}
+$log = new Katzgrau\KLogger\Logger(
+	logdir,
+	Psr\Log\LogLevel::DEBUG,
+	array(
+		'filename' => 'site',
+	    'extension' => 'log'
+	)
+);
 
 
 // Start the session

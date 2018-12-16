@@ -10,6 +10,4 @@ www/cache/
 
 database/mysql/*
 
-site.log
-
 .env
