@@ -23,9 +23,25 @@ fi
 
 
 
-read -ep "Which do you want to do? (rebuild | remove-files | prune-docker | reset-all): " CLEAN
+read -ep "Which do you want to do? (install | rebuild | remove-files | prune-docker | reset-all): " ACTION
 
-if [[ $CLEAN == rebuild ]]; then
+if [[ $ACTION == install ]]; then
+
+
+	echo "Building the project..."
+	sh helpers/docker-build.sh
+	echo "Project built."
+
+
+	echo "Checking MySQL to be ready..."
+	while ! docker-compose exec db mysqladmin --user=${DB_USER} --password=${DB_ROOT_PASSWORD} --host "${LOCAL_IP}" ping --silent &> /dev/null ; do
+		echo "Waiting for database connection..."
+		sleep 3
+	done
+	echo "Site is ready!"
+
+
+elif [[ $ACTION == rebuild ]]; then
 
 
 	read -ep "Would you like to delete all the files and data as well? (yes | no): " DELETE
@@ -56,7 +72,7 @@ if [[ $CLEAN == rebuild ]]; then
 	echo "Site is ready!"
 
 
-elif [[ $CLEAN == remove-files ]]; then
+elif [[ $ACTION == remove-files ]]; then
 
 
 	echo "Removing the files..."
@@ -64,7 +80,7 @@ elif [[ $CLEAN == remove-files ]]; then
 	echo "Files are removed."
 
 
-elif [[ $CLEAN == prune-docker ]]; then
+elif [[ $ACTION == prune-docker ]]; then
 
 
 	echo "Pruning the docker..."
@@ -72,7 +88,7 @@ elif [[ $CLEAN == prune-docker ]]; then
 	echo "Docker reset."
 
 
-elif [[ $CLEAN == reset-all ]]; then
+elif [[ $ACTION == reset-all ]]; then
 
 
 	echo "Resetting all..."
