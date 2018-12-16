@@ -277,13 +277,13 @@
 								}
 
 
-								$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$device['page_ID'];
+								$action_url = 'ajax?type=data-action&data-type=device&nonce='.$_SESSION['js_nonce'].'&id='.$device['device_ID'];
 
 							?>
 
 								<li class="screen-registered block">
 									<a href="<?=site_url('revise/'.$device['device_ID'])?>"><i class="fa <?=$device['screen_cat_icon']?>" aria-hidden="true"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
-									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Screen" data-action="delete" data-type="device"></i>
+									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" data-action="remove" data-type="device"></i>
 								</li>
 
 							<?php
@@ -599,7 +599,7 @@
 
 		</div>
 
-		<div class="visual-editor xl-hidden">
+		<div class="visual-editor <?=$debug_mode ? "" : "xl-hidden"?>">
 
 			<div class="wrap xl-1">
 				<div class="col">

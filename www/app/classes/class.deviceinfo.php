@@ -136,4 +136,25 @@ class Device {
 
 	}
 
+
+    // Remove a device
+    public function remove() {
+	    global $db;
+
+
+	    $page_ID = $this->getInfo('page_ID');
+	    $pageDir = Page::ID($page_ID)->getDir();
+    	$screenshot_file = "$pageDir/screenshots/device-".self::$device_ID.".jpg";
+
+
+		// Remove screenshot if exists
+		if ( file_exists($screenshot_file) ) unlink($screenshot_file);
+
+
+		// Remove the device
+		$db->where('device_ID', self::$device_ID);
+		return $db->delete('devices');
+
+    }
+
 }
