@@ -59,7 +59,8 @@ echo "DONE: User files REMOVED"
 
 (
 echo "Removing the Project files..."
-cd ../projects/
-rm -rf project-*
+cd ./www/cache/projects/
+# rm -rf project-*
+find . \! -name '.gitignore' -delete
 echo "DONE: Project files REMOVED"
 )
