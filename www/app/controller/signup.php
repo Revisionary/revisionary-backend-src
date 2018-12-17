@@ -13,17 +13,17 @@ $nonceError = $emptyError = $mailError = $mailExistError = $nameError = $dbError
 $errors = [];
 
 // If submitted
-if ( isset($_POST['user-submit']) ) {
+if ( post('user-submit') == "Register" ) {
 
-	if ( !isset($_POST["nonce"]) || $_POST["nonce"] !== $_SESSION["signup_nonce"] ) {
+	if ( post("nonce") !== $_SESSION["signup_nonce"] ) {
 		$nonceError = true;
 		$errors[] = "Please try again";
 	}
 
 
-	$eMail = trim(stripslashes($_POST['email']));
-	$fullName = trim(stripslashes($_POST['full_name']));
-	$password = trim(stripslashes($_POST['password']));
+	$eMail = post('email');
+	$fullName = post('full_name');
+	$password = post('password');
 
 
 	// Check if any empty field
@@ -46,7 +46,7 @@ if ( isset($_POST['user-submit']) ) {
 		$user = $db->getOne("users", "user_ID");
 		if ($user) {
 			$mailExistError = true;
-			$errors[] = "This e-mail address is already registered, please login or reset your password.";
+			$errors[] = "This e-mail address is already registered, please login or <a href='#'>reset</a> your password.";
 		}
 	}
 
@@ -70,7 +70,7 @@ if ( isset($_POST['user-submit']) ) {
 			$lastName = end($parsedFullName);
 		}
 
-		$data = Array (
+		$data = array(
 			'user_name' => permalink($fullName),
 			'user_email' => $eMail,
 			'user_first_name' => $firstName,

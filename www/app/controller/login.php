@@ -10,16 +10,16 @@ $userName = "";
 $errors = [];
 
 // If submitted
-if ( isset($_POST['login-submit']) ) {
+if ( post('login-submit') == "Login" ) {
 
 
 	// Check the nonce
-	if ( !isset($_POST["nonce"]) || $_POST["nonce"] !== $_SESSION["login_nonce"] )
+	if ( post("nonce") !== $_SESSION["login_nonce"] )
 		$errors[] = "Please try again";
 
 
-	$userName = stripslashes($_POST['username']);
-	$password = stripslashes($_POST['password']);
+	$userName = post('username');
+	$password = post('password');
 
 
 	// Check if any empty field
