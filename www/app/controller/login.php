@@ -2,8 +2,15 @@
 
 // If already logged in, go projects page
 if (userloggedIn()) {
+
+	if (post('redirect_to') != "") {
+		header("Location: ".htmlspecialchars_decode(post('redirect_to'))); // !!! Check security
+		die();
+	}
+
 	header('Location: '.site_url('projects'));
 	die();
+
 }
 
 $userName = "";
