@@ -2586,7 +2586,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 	var date = new Date(comment.comment_modified);
 	var picture = comment.user_picture;
 	var hasPic = picture == null ? false : true;
-	var printPic = hasPic ? " style='background-image: url(/assets/cache/user-"+ comment.user_ID +"/"+ comment.user_picture +");'" : "";
+	var printPic = hasPic ? " style='background-image: url(/cache/users/user-"+ comment.user_ID +"/"+ comment.user_picture +");'" : "";
 	var direction = left ? "left" : "right";
 	var itsMe = comment.user_ID == user_ID ? true : false;
 
