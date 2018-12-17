@@ -159,6 +159,16 @@ function runTheInspector() {
 
 
 
+		// SITE STYLES
+		iframeElement('body').append(' \
+		<style> \
+			/* Auto-height edited images */ \
+			img[data-revisionary-showing-changes="1"] { height: auto !important; } \
+		</style> \
+		');
+
+
+
 		// CURSOR WORKS:
 		// Close Pin Mode pinTypeSelector
 		if (currentPinType == "off") {
