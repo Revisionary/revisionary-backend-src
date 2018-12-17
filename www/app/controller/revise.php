@@ -7,11 +7,6 @@ $forceReInternalize = get('redownload') === "" ? true : false;
 
 
 
-// Get the page ID
-$device_ID = $_url[1];
-
-
-
 // SECURITY CHECKS
 
 // If not logged in, go login page !!! Change when public revising available
@@ -22,10 +17,14 @@ if (!userloggedIn()) {
 
 
 // If no page specified or not numeric, go projects page
-if ( !isset($device_ID) || !is_numeric($device_ID) ) {
+if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 	header('Location: '.site_url('projects?invaliddevice'));
 	die();
 }
+
+
+// Get the page ID
+$device_ID = $_url[1];
 
 
 // If the specified device doesn't exist, go projects page
@@ -47,7 +46,9 @@ $page_ID = $device['page_ID'];
 
 // All my pages
 $allMyPages = User::ID()->getMy('pages');
+$allMyPages = categorize($allMyPages, 'page', true);
 //die_to_print($allMyPages);
+
 
 
 // Find the current page
@@ -72,7 +73,6 @@ $project_ID = $page['project_ID'];
 $other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) {
 	return ($pageFound['project_ID'] == $project_ID);
 });
-$other_pages = categorize($other_pages, 'page', true);
 //die_to_print($other_pages);
 
 

@@ -91,7 +91,7 @@
 									    return ($pageFound['project_ID'] == $project['project_ID']);
 									});
 									$pages_of_project = categorize($pages_of_project, 'page', true);
-									//die_to_print($pages_of_project);
+									//die_to_print($pages_of_project, false);
 
 
 									$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$project['project_ID'];
@@ -116,7 +116,9 @@
 													    return ($deviceFound['page_ID'] == $pageFromProject['page_ID']);
 													});
 													$firstDevice = reset($devices_of_page);
-													//die_to_print($devices_of_page);
+													//die_to_print($devices_of_page, false);
+
+
 												?>
 												<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageFromProject['page_ID']?>">
 													<div class="dropdown-container">
@@ -156,7 +158,7 @@
 										?>
 
 										<?php
-										if ($selected != "selected") {
+										if ($selected != "selected" && 2 != 2) {
 										?>
 										<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Project" data-action="delete" data-type="project" data-id="<?=$project['project_ID']?>"></i>
 										<?php
@@ -246,7 +248,7 @@
 										?>
 
 										<?php
-										if ($selected != "selected") {
+										if ($selected != "selected" && 2 != 2) {
 										?>
 										<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Page" data-action="delete" data-type="page" data-id="<?=$pageOther['page_ID']?>"></i>
 										<?php
@@ -284,7 +286,10 @@
 							<?php
 
 							// EXISTING DEVICES
-							foreach ($allMyDevices as $device) {
+							$devices_of_mypage = array_filter($allMyDevices, function($deviceFound) use ($page_ID) {
+							    return ($deviceFound['page_ID'] == $page_ID);
+							});
+							foreach ($devices_of_mypage as $device) {
 								if ($device['device_ID'] == $device_ID) continue;
 
 

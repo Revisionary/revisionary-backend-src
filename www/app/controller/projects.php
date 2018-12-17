@@ -1,5 +1,8 @@
 <?php
 
+
+// SECURITY CHECKS
+
 // If not logged in, go login page
 if ( !userloggedIn() ) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
@@ -80,8 +83,7 @@ if (
 
 
 // Get the order
-$order = isset($_GET['order']) ? $_GET['order'] : '';
-
+$order = get('order');
 
 // Category Filter
 $catFilter = isset($_url[1]) ? $_url[1] : '';
@@ -92,7 +94,7 @@ $catFilter = isset($_url[1]) ? $_url[1] : '';
 $dataType = "project";
 $allMyProjectsList = User::ID()->getMy("projects", $catFilter, $order);
 $theCategorizedData = categorize($allMyProjectsList, $dataType);
-//echo "<pre>"; print_r(array_column($theCategorizedData, 'theData')); exit();
+//die_to_print($theCategorizedData);
 
 
 
@@ -100,17 +102,18 @@ $theCategorizedData = categorize($allMyProjectsList, $dataType);
 $allMyPages = $mySharedPages;
 $pageCount = array_column($allMyPages, 'project_ID');
 $pageCounts = array_count_values($pageCount);
-//echo "<pre>"; print_r( $pageCount ); die();
+//die_to_print($allMyPages);
+
 
 
 // CATEGORY INFO
 $categories = User::ID()->getCategories($dataType, $order);
-//echo "<pre>"; print_r($categories); exit();
+//die_to_print($categories);
 
 
 // SCREEN INFO
 $screen_data = User::ID()->getScreenData();
-//echo "<pre>"; print_r($screen_data); exit();
+//die_to_print($screen_data);
 
 
 
@@ -134,6 +137,6 @@ $additionalBodyJS = [
 $page_title = "Projects - Revisionary App";
 
 if ($catFilter == "archived" || $catFilter == "deleted")
-$page_title = ucfirst($catFilter)." ".$page_title;
+	$page_title = ucfirst($catFilter)." ".$page_title;
 
 require view('modules/categorized_blocks');

@@ -87,28 +87,3 @@ function categorize($objects, $dataType, $prepared = false) {
 	return $theData;
 
 }
-
-
-
-//echo "<pre>";
-//print_r($projects);
-//echo "</pre> *********************************************************** DATA:";
-
-/*
-echo "<pre>";
-$url = 'https://www.bilaltas.net/resume/my-resume/';
-$pathes = explode('/', trim(parse_url($url)['path'], '/'));
-print_r( end($path) );
-echo "</pre> ***********************************************************";
-//exit;
-*/
-
-
-
-
-/*
-echo "<pre>";
-print_r( the_data() );
-echo "</pre>";
-exit;
-*/

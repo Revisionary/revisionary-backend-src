@@ -1,33 +1,24 @@
 <?php
 
-// Get the project ID
-$project_ID = $_url[1];
-
-// Get the order
-$order = isset($_GET['order']) ? $_GET['order'] : '';
-
-// Category Filter
-$catFilter = isset($_url[2]) ? $_url[2] : '';
-
-// Screen Filter
-$screenFilter = get('screen');
-
-
 
 // SECURITY CHECKS
 
 // If not logged in, go login page
-if (!userloggedIn()) {
+if ( !userloggedIn() ) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }
 
 
 // If no project specified or not numeric, go projects page
-if ( !isset($project_ID) || !is_numeric($project_ID) ) {
+if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 	header('Location: '.site_url('projects'));
 	die();
 }
+
+
+// Get the project ID
+$project_ID = $_url[1];
 
 
 // If the specified project doesn't exist, go projects page
@@ -39,11 +30,20 @@ if ( !$project ) {
 
 
 
+// Get the order
+$order = get('order');
+
+// Screen Filter
+$screenFilter = get('screen');
+
+// Category Filter
+$catFilter = isset($_url[2]) ? $_url[2] : '';
+
+
+
 // PAGES DATA MODEL
 $dataType = "page";
 $allMyPagesList = User::ID()->getMy("pages", $catFilter, $order, $project_ID, null, true);
-//die_to_print($allMyPagesList);
-
 $theCategorizedData = categorize($allMyPagesList, $dataType);
 //die_to_print($theCategorizedData);
 
@@ -277,4 +277,8 @@ $_SESSION["new_screen_nonce"] = uniqid(mt_rand(), true);
 
 
 $page_title = $projectInfo['project_name']." Project - Revisionary App";
+
+if ($catFilter == "archived" || $catFilter == "deleted")
+	$page_title = ucfirst($catFilter)." Pages - Revisionary App";
+
 require view('modules/categorized_blocks');
