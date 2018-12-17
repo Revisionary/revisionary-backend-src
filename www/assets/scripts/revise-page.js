@@ -174,7 +174,7 @@ $(function() {
 
 
 	// Continue scrolling on any pin or the pin window
-	$(document).on('mousewheel', '#pins > pin', function(e) {
+	$(document).on('mousewheel', '#pins > pin, #pin-window', function(e) {
 
 		var scrollDelta = e.originalEvent.wheelDelta;
 		iframe.scrollTop( scrollOffset_top - scrollDelta );
