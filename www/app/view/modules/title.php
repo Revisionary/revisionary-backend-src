@@ -192,7 +192,9 @@
 
 	</div>
 
-	<div class="col xl-right">
+	<div class="col xl-right" data-tooltip="Dummy data...">
+
+		<b>Usage:</b> 8 MB of 25 MB (Basic Account)
 
 	</div>
 </div>
