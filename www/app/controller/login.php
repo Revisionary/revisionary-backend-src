@@ -3,8 +3,8 @@
 // If already logged in, go projects page
 if (userloggedIn()) {
 
-	if (post('redirect_to') != "") {
-		header("Location: ".htmlspecialchars_decode(post('redirect_to'))); // !!! Check security
+	if (get('redirect') != "") {
+		header("Location: ".htmlspecialchars_decode(get('redirect'))); // !!! Check security
 		die();
 	}
 
@@ -20,9 +20,11 @@ $errors = [];
 if ( post('login-submit') == "Login" ) {
 
 
+/*
 	// Check the nonce
 	if ( post("nonce") !== $_SESSION["login_nonce"] )
 		$errors[] = "Please try again";
+*/
 
 
 	$userName = post('username');

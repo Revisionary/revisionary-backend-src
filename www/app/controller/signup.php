@@ -3,8 +3,8 @@
 // If already logged in, go projects page
 if (userloggedIn()) {
 
-	if (post('redirect_to') != "") {
-		header("Location: ".htmlspecialchars_decode(post('redirect_to'))); // !!! Check security
+	if (get('redirect') != "") {
+		header("Location: ".htmlspecialchars_decode(get('redirect'))); // !!! Check security
 		die();
 	}
 
@@ -22,10 +22,12 @@ $errors = [];
 // If submitted
 if ( post('user-submit') == "Register" ) {
 
+/*
 	if ( post("nonce") !== $_SESSION["signup_nonce"] ) {
 		$nonceError = true;
 		$errors[] = "Please try again";
 	}
+*/
 
 
 	$eMail = post('email');
