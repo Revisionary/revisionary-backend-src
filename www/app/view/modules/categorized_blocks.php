@@ -42,7 +42,7 @@
 				<!-- Category Bar -->
 				<div
 					id="<?=permalink($category['cat_name'])?>"
-					class="col xl-1-1 cat-separator name-field <?php
+					class="item col xl-1-1 cat-separator name-field <?php
 						if (
 							$category['cat_name'] == "Uncategorized" ||
 							(
@@ -61,9 +61,9 @@
 					<span class="actions">
 
 						<input class="edit-name" type="text" value="<?=$category['cat_name']?>"/>
-						<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename" data-type="category"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+						<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename" data-type="category" data-id="<?=$category['cat_ID']?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
-						<a href="<?=site_url($action_url.'&action=remove')?>" data-action="remove" data-type="category"><i class="fa fa-trash" aria-hidden="true"></i></a>
+						<a href="<?=site_url($action_url.'&action=remove')?>" data-actionn="remove" data-type="category" data-id="<?=$category['cat_ID']?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
 					</span>
 
@@ -137,24 +137,6 @@
 
 
 
-
-
-/*
-
-*/
-
-
-/*
-							// Combined Screens !!!
-							if (
-								//$catFilter != "archived" &&
-								//$catFilter != "deleted" &&
-								$screenFilter == "" &&
-								array_search($block['parent_page_ID'], array_column($allMyPages, 'page_ID')) !== false
-							) continue;
-*/
-
-
 							// Archive/Delete Filters
 							if (
 								$catFilter == "" &&
@@ -184,7 +166,7 @@
 
 					?>
 
-							<div class="col block" data-order="<?=$block['sort_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block[$dataType.'_cat_ID']?>" data-type="<?=$dataType?>" draggable="true">
+							<div class="item col block" data-order="<?=$block['sort_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block[$dataType.'_cat_ID']?>" data-type="<?=$dataType?>" draggable="true">
 
 
 								<div class="box xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
@@ -405,11 +387,11 @@ if ($dataType == "page" && $allMyPins) {
 
 												?>
 
-													<span class="block device-wrap">
+													<span class="item device-wrap" data-type="device" data-id="<?=$device['device_ID']?>">
 														<a href="<?=site_url('revise/'.$device['device_ID'])?>" class="device-link">
 															<i class="fa <?=$device['screen_cat_icon']?>" data-tooltip="<?=$device['screen_cat_name']?> (<?=$device['screen_width']?>x<?=$device['screen_height']?>)" aria-hidden="true"></i>
 														</a>
-														<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device" data-action="remove" data-type="device"><i class="fa fa-times-circle"></i></a>
+														<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device" data-action="remove" data-type="device" data-id="<?=$device['device_ID']?>"><i class="fa fa-times-circle"></i></a>
 													</span>
 
 												<?php
@@ -447,15 +429,15 @@ if ($dataType == "page" && $allMyPins) {
 
 												if ($catFilter == "archived" || $catFilter == "deleted") {
 											?>
-											<a href="<?=site_url($action_url.'&action=recover')?>" data-action="recover" data-type="<?=$dataType?>" data-tooltip="Recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
+											<a href="<?=site_url($action_url.'&action=recover')?>" data-action="recover" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-tooltip="Recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
 											<?php
 												} else {
 											?>
-											<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-type="<?=$dataType?>" data-tooltip="Archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
+											<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-tooltip="Archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
 											<?php
 												}
 											?>
-											<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-type="<?=$dataType?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+											<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
 
 										</div>
@@ -476,7 +458,7 @@ if ($dataType == "page" && $allMyPins) {
 											<span class="actions">
 
 												<input class="edit-name" type="text" value="<?=$block[$dataType.'_name']?>"/>
-												<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename" data-type="<?=$dataType?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+												<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
 											</span>
 											<?php

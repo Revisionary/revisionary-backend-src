@@ -648,13 +648,14 @@ $(function() {
 	// ACTIONS - Archive, delete, recover, rename, ...
 	$('[data-action]').click(function(e) {
 
-		dataType = $(this).attr('data-type') || dataType;
+		var object_ID = $(this).attr('data-id') || null;
+		var object_type = $(this).attr('data-type') || null;
+		var action = $(this).attr('data-action') || null;
 
-
-		var action = $(this).attr('data-action');
-		var parent_item = $(this).parent().parent();
 
 		if (action == "rename") {
+
+			var parent_item = $(this).parent().parent();
 
 			var input = parent_item.find('input.edit-name');
 			parent_item.toggleClass('editing');
@@ -673,24 +674,25 @@ $(function() {
 		var confirm_text;
 
 		if ( action =='archive' )
-			confirm_text = `Are you sure you want to archive this ${dataType}?`;
+			confirm_text = `Are you sure you want to archive this ${object_type}?`;
 
 		if ( action =='delete' )
-			confirm_text = `Are you sure you want to delete this ${dataType}?`;
+			confirm_text = `Are you sure you want to delete this ${object_type}?`;
 
 		if ( action =='recover' )
-			confirm_text = `Are you sure you want to recover this ${dataType}?`;
+			confirm_text = `Are you sure you want to recover this ${object_type}?`;
 
 		if ( action =='remove' )
-			confirm_text = `Are you sure you want to completely remove this ${dataType}? Keep in mind that no one will be able to access this ${dataType}`+ (dataType == 'project' ? ' and its pages' : '') +` anymore!`;
+			confirm_text = `Are you sure you want to completely remove this ${object_type}? Keep in mind that no one will be able to access this ${object_type}`+ (object_type == 'project' ? ' and its pages' : '') +` anymore!`;
 
 
 
 		// If confirmed, send data
-		if (action == "rename" || action == "add-new-category" || confirm(confirm_text) ) {
+		if (action == "rename" || confirm(confirm_text) ) {
 
 			var url = $(this).attr('href');
 			var block = $(this).parents('.block').first();
+			var itemsToHide = $('.item[data-type="'+object_type+'"][data-id="'+object_ID+'"]');
 
 
 			// Start progress bar action
@@ -709,39 +711,26 @@ $(function() {
 
 						if (action == "rename") {
 
+
 							parent_item.find('.name').text( input.val() );
 							input.attr('value', input.val() );
 
 							$('.filter [data-cat-id="' + parent_item.attr('data-cat-id') + '"]').text( input.val() );
 
-						} else if (action == "add-new-category") {
 
-							alert('New category added!');
+						} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover") {
 
-						} else { // Archive / Delete / Remove
+							itemsToHide.remove();
 
-
-							// If a category is deleting
-							if ( parent_item.hasClass('cat-separator') ) {
-
-								var deleted_cat_id = parent_item.attr('data-cat-id');
+							// Update the add new blocks
+							if ( object_type == "category" ) addNewPageButtons();
 
 
-								// Remove from filter bar
-								$('.filter [data-cat-id="' + deleted_cat_id + '"]').remove();
+						} else {
 
 
-								// Remove the category
-								parent_item.remove();
+							console.log('Done!');
 
-
-								// Update the add new blocks
-								addNewPageButtons();
-
-
-
-							} else
-								block.remove();
 
 						}
 

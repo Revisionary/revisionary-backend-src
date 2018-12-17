@@ -6178,17 +6178,6 @@ footer .footer-links a {
     line-height: 18.4px;
     max-width: 75%; }
 
-.blocks .sortable .sortable-placeholder {
-  border: 5px dashed;
-  min-height: 1px;
-  font-size: 1rem;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box; }
-
-.blocks .sortable .box, .blocks .sortable .cat-separator {
-  cursor: move; }
-
 .blocks > .block {
   margin-bottom: 50px; }
   .blocks > .block .box {
@@ -6280,6 +6269,17 @@ footer .footer-links a {
       height: 15px; }
   .blocks .device-wrap:hover .remove-device {
     display: block; }
+
+.sortable .sortable-placeholder {
+  border: 5px dashed;
+  min-height: 1px;
+  font-size: 1rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.sortable .box, .sortable .cat-separator {
+  cursor: move; }
 
 .wrap, .col {
   transition: 500ms; }

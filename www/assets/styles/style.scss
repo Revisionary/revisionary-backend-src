@@ -1758,23 +1758,6 @@ footer {
 
 	}
 
-	.sortable {
-
-		.sortable-placeholder {
-			border: 5px dashed;
-			min-height: 1px;
-		    font-size: 1rem;
-		    -webkit-box-sizing: border-box;
-		    -moz-box-sizing: border-box;
-		    box-sizing: border-box;
-		}
-
-		.box, .cat-separator {
-		    cursor: move;
-		}
-
-	}
-
 	& > .block {
 		margin-bottom: 50px;
 
@@ -1944,6 +1927,25 @@ footer {
 
 
 }
+
+
+.sortable {
+
+	.sortable-placeholder {
+		border: 5px dashed;
+		min-height: 1px;
+	    font-size: 1rem;
+	    -webkit-box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    box-sizing: border-box;
+	}
+
+	.box, .cat-separator {
+	    cursor: move;
+	}
+
+}
+
 
 .wrap, .col {
 	transition: 500ms;

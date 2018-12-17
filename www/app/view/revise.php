@@ -93,8 +93,11 @@
 									$pages_of_project = categorize($pages_of_project, 'page', true);
 									//die_to_print($pages_of_project);
 
+
+									$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$project['project_ID'];
+
 								?>
-								<li class="<?=$selected?>">
+								<li class="item <?=$selected?>" data-type="project" data-id="<?=$project['project_ID']?>">
 									<div class="dropdown-container">
 										<a href="<?=site_url('project/'.$project['project_ID'])?>" class="<?=count($pages_of_project) ? 'dropdown-opener' : ""?>"><i class="fa fa-sign-in-alt"></i> <?=$project['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right" aria-hidden="true"></i>' : ""?></a>
 
@@ -106,7 +109,7 @@
 												<?php
 												foreach ($pages_of_project as $pageFromProject) {
 
-													$selected = $pageFromProject['page_ID'] == $page_ID ? "class='selected'" : "";
+													$selected = $pageFromProject['page_ID'] == $page_ID ? "selected" : "";
 
 
 													$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageFromProject) {
@@ -115,7 +118,7 @@
 													$firstDevice = reset($devices_of_page);
 													//die_to_print($devices_of_page);
 												?>
-												<li <?=$selected?>>
+												<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageFromProject['page_ID']?>">
 													<div class="dropdown-container">
 														<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>" class="dropdown-opener"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?></a>
 
@@ -127,9 +130,11 @@
 																<?php
 																foreach ($devices_of_page as $deviceFromPage) {
 
-																	$selected = $deviceFromPage['device_ID'] == $device_ID ? "class='selected'" : "";
+																	$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 																?>
-																<li <?=$selected?>><a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$deviceFromPage['screen_cat_name']?></a></li>
+																<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
+																	<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+																</li>
 																<?php
 																}
 																?>
@@ -146,6 +151,14 @@
 												?>
 											</ul>
 										</nav>
+										<?php
+										}
+										?>
+
+										<?php
+										if ($selected != "selected") {
+										?>
+										<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Project" data-action="delete" data-type="project" data-id="<?=$project['project_ID']?>"></i>
 										<?php
 										}
 										?>
@@ -203,8 +216,11 @@
 									$firstDevice = reset($devices_of_page);
 									//die_to_print($devices_of_page);
 
+
+									$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$pageOther['page_ID'];
+
 								?>
-								<li class="<?=$selected?>">
+								<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageOther['page_ID']?>">
 									<div class="dropdown-container">
 										<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>" class=" dropdown-opener"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a>
 										<?php
@@ -217,8 +233,8 @@
 
 													$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 												?>
-												<li class="<?=$selected?>">
-													<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+												<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
+													<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
 												</li>
 												<?php
 												}
@@ -229,7 +245,13 @@
 										}
 										?>
 
-
+										<?php
+										if ($selected != "selected") {
+										?>
+										<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Page" data-action="delete" data-type="page" data-id="<?=$pageOther['page_ID']?>"></i>
+										<?php
+										}
+										?>
 									</div>
 								</li>
 								<?php
@@ -283,9 +305,9 @@
 
 							?>
 
-								<li class="screen-registered block">
+								<li class="item screen-registered" data-type="device" data-id="<?=$device['device_ID']?>">
 									<a href="<?=site_url('revise/'.$device['device_ID'])?>"><i class="fa <?=$device['screen_cat_icon']?>" aria-hidden="true"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
-									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" data-action="remove" data-type="device"></i>
+									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" data-action="remove" data-type="device" data-id="<?=$device['device_ID']?>"></i>
 								</li>
 
 							<?php

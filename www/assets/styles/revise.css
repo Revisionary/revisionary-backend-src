@@ -167,21 +167,29 @@ html, body {
       #top-bar nav.dropdown .selected > .dropdown-container > a {
         background-color: black;
         color: white; }
-    #top-bar nav.dropdown .block {
+    #top-bar nav.dropdown .item,
+    #top-bar nav.dropdown .item > .dropdown-container {
       position: relative; }
-      #top-bar nav.dropdown .block > a {
+      #top-bar nav.dropdown .item > a,
+      #top-bar nav.dropdown .item > .dropdown-container > a {
         padding-right: 25px; }
-        #top-bar nav.dropdown .block > a:hover + .delete {
+        #top-bar nav.dropdown .item > a:hover + .delete,
+        #top-bar nav.dropdown .item > .dropdown-container > a:hover + .delete {
           visibility: visible; }
-      #top-bar nav.dropdown .block .delete {
+      #top-bar nav.dropdown .item .delete,
+      #top-bar nav.dropdown .item > .dropdown-container .delete {
         visibility: hidden;
         position: absolute;
         right: 10px;
         top: 50%;
         transform: translateY(-50%);
         font-size: 12px; }
-        #top-bar nav.dropdown .block .delete:hover {
+        #top-bar nav.dropdown .item .delete:hover,
+        #top-bar nav.dropdown .item > .dropdown-container .delete:hover {
           visibility: visible; }
+      #top-bar nav.dropdown .item:hover .delete,
+      #top-bar nav.dropdown .item > .dropdown-container:hover .delete {
+        visibility: visible; }
   #top-bar .share > .tab {
     letter-spacing: 1.5px; }
     #top-bar .share > .tab > * {

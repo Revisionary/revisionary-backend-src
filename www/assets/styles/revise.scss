@@ -318,7 +318,8 @@ html, body {
 		}
 
 
-		.block {
+		.item,
+		.item > .dropdown-container {
 			position: relative;
 
 
@@ -341,6 +342,10 @@ html, body {
 				&:hover {
 					visibility: visible;
 				}
+			}
+
+			&:hover .delete {
+				visibility: visible;
 			}
 
 		}

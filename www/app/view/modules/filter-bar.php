@@ -38,7 +38,7 @@
 						if ($catLink['cat_ID'] == 0) continue;
 
 
-						echo '<a class="'.($catFilter == permalink($catLink['cat_name']) ? "selected" : "").'" href="'.site_url( $url_prefix.'/'.permalink($catLink['cat_name']) ).'" data-cat-id="'.$catLink['cat_ID'].'">'.$catLink['cat_name'].'</a>';
+						echo '<a class="item '.($catFilter == permalink($catLink['cat_name']) ? "selected" : "").'" href="'.site_url( $url_prefix.'/'.permalink($catLink['cat_name']) ).'" data-type="category" data-id="'.$catLink['cat_ID'].'">'.$catLink['cat_name'].'</a>';
 
 					}
 
