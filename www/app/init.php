@@ -60,7 +60,7 @@ $debug_mode = false;
 
 // Site Logging
 $logFile = logdir."/site.log";
-if (file_exists($logFile)) file_put_contents($logFile, '');
+if (!file_exists($logFile)) file_put_contents($logFile, '');
 unset($logFile);
 
 $log = new Katzgrau\KLogger\Logger(
