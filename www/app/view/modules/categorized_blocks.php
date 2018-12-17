@@ -409,7 +409,7 @@ if ($dataType == "page" && $allMyPins) {
 														<a href="<?=site_url('revise/'.$device['device_ID'])?>" class="device-link">
 															<i class="fa <?=$device['screen_cat_icon']?>" data-tooltip="<?=$device['screen_cat_name']?> (<?=$device['screen_width']?>x<?=$device['screen_height']?>)" aria-hidden="true"></i>
 														</a>
-														<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device bottom-tooltip" data-action="remove" data-type="device"><i class="fa fa-times-circle"></i></a>
+														<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device" data-action="remove" data-type="device"><i class="fa fa-times-circle"></i></a>
 													</span>
 
 												<?php
