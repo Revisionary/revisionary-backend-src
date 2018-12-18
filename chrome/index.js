@@ -485,9 +485,13 @@ require('http').createServer(async (req, res) => {
 				responsePromise,
 				page.goto(pageURL, {
 					waitUntil: 'networkidle2',
+					timeout: 10000
+				}).then(() => {
+			    	console.log('Page successfully loaded.');
+				}).catch((res) => {
+				    console.log('Page loading failed.', res);
 				})
 			]);
-
 
 
 			// Pause all media and stop buffering
