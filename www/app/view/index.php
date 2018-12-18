@@ -32,7 +32,11 @@
 				<input type="submit"/>
 			</form>
 			<span class="description">Add your comments and edit any website’s content, <br/>
-	for <del>a fee</del> free!</span>
+				for <del>a fee</del> free! <br/><br/>
+
+				<a href="#" data-tooltip='Coming soon...'><i class="fa fa-play-circle"></i> See how it works</a>
+
+			</span>
 		</div>
 	</div>
 
