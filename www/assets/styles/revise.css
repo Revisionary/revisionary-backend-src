@@ -230,9 +230,10 @@ html, body {
 
 /* Pin Comments */
 .pin-comments {
-  margin-left: 10px;
   padding-top: 10px;
   padding-bottom: 25px; }
+  .pin-comments > *:not(.comment) {
+    margin-left: -10px; }
   .pin-comments .comment {
     margin-top: 10px;
     margin-bottom: 25px; }
@@ -402,6 +403,8 @@ html, body {
     margin-bottom: 0;
     padding-bottom: 5px;
     border-bottom: 1px dashed gray; }
+  #pin-window .section-content {
+    padding-left: 10px; }
   #pin-window > .top-actions .close-button {
     font-family: Arial; }
   #pin-window > .top-actions .action {

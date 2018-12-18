@@ -636,7 +636,7 @@
 				<div class="col section-title">
 					<i class="fa fa-sliders-h"></i> VIEW OPTIONS (in development):
 				</div>
-				<div class="col options">
+				<div class="col section-content options">
 
 					<ul class="no-bullet">
 						<li>
@@ -675,7 +675,7 @@
 					<i class="fa fa-comment-dots"></i> COMMENTS:
 
 				</div>
-				<div class="col pin-comments">
+				<div class="col section-content pin-comments">
 
 				</div>
 				<div class="col comment-actions">

@@ -2268,7 +2268,7 @@ function getComments(pin_ID, commentsWrapper = $('#pin-window .pin-comments')) {
 
 
 		// Clean the loading
-		commentsWrapper.html('<div class="xl-left">No comments yet.</div>');
+		commentsWrapper.html('<div class="no-comments xl-center">No comments yet.</div>');
 
 
 		// Print the comments

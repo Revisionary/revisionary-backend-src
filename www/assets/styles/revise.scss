@@ -417,9 +417,12 @@ html, body {
 
 /* Pin Comments */
 .pin-comments {
-	margin-left: 10px;
 	padding-top: 10px;
 	padding-bottom: 25px;
+
+	& > *:not(.comment) {
+		margin-left: -10px;
+	}
 
 
 	.comment {
@@ -663,6 +666,10 @@ html, body {
 		margin-bottom: 0;
 		padding-bottom: 5px;
 		border-bottom: 1px dashed gray;
+	}
+
+	.section-content {
+		padding-left: 10px;
 	}
 
 	& > .top-actions {
