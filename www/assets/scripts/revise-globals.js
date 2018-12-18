@@ -63,6 +63,14 @@ var activator;
 var cursorActive;
 var cursorWasActive;
 
+// PINS
+var pinModes = {
+	'live' 			: 'Content and View Changes',
+	'standard' 		: 'View Changes',
+	'private-live'	: 'Private Content and View Changes',
+	'private'		: 'Private View Changes'
+};
+
 // Pin Mode Selector
 var pinTypeSelector;
 var pinTypeSelectorOpen;
@@ -73,7 +81,7 @@ var currentCursorType = "standard";
 
 var currentPinType = "live";
 var currentPinPrivate = 0;
-var currentPinLabel = "Live";
+var currentPinLabel = pinModes.live;
 
 var currentPinNumber = 1;
 
@@ -141,7 +149,7 @@ $(function() {
 
 	currentPinType = activator.data('pin-type');
 	currentPinPrivate = activator.data('pin-private');
-	currentPinLabel = activator.find('.mode-label').text();
+
 	currentPinNumber = $('#pins > pin').length + 1;
 
 	pinsListOpen = $('#top-bar .pins').hasClass('open');

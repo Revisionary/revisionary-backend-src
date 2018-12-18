@@ -230,10 +230,16 @@ html, body {
 
 /* Pin Comments */
 .pin-comments {
-  margin-left: 10px; }
+  margin-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 25px; }
   .pin-comments .comment {
     margin-top: 10px;
     margin-bottom: 25px; }
+    .pin-comments .comment:first-child {
+      margin-top: 0; }
+    .pin-comments .comment:last-child {
+      margin-bottom: 0; }
     .pin-comments .comment .profile-picture {
       margin-left: 0;
       margin-right: 0; }
@@ -392,6 +398,10 @@ html, body {
     position: relative; }
     #pin-window > div:last-child {
       margin-bottom: 0; }
+  #pin-window .section-title {
+    margin-bottom: 0;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed gray; }
   #pin-window > .top-actions .close-button {
     font-family: Arial; }
   #pin-window > .top-actions .action {

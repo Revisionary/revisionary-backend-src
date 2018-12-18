@@ -393,13 +393,15 @@
 
 			<div class="desc nomargin">Pin Mode</div>
 			<div class="dropdown-container current-mode active" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
-				<a href="#" class="button dropdown-opener"><i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label"><?=$pin_text?></span></a>
+				<a href="#" class="button dropdown-opener">
+					<i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label"></span>
+				</a>
 				<nav class="dropdown">
 					<ul class="pin-types">
-						<li data-pin-type="live" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> LIVE PREFERRED COMMENT</a></li>
-						<li data-pin-type="standard" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> ONLY COMMENT</a></li>
-						<li data-pin-type="live" data-pin-private="1"><a href="#"><i class="fa fa-dot-circle"></i> LIVEABLE PRIVATE COMMENT</a></li>
-						<li class="deactivator"><a href="#"><i class="fa fa-mouse-pointer"></i> OFF</a></li>
+						<li data-pin-type="live" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a></li>
+						<li data-pin-type="standard" data-pin-private="0"><a href="#"><i class="fa fa-dot-circle"></i> ONLY VIEW CHANGES</a></li>
+						<li data-pin-type="live" data-pin-private="1"><a href="#"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a></li>
+						<li class="deactivator"><a href="#"><i class="fa fa-mouse-pointer"></i> BROWSE MODE</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -488,7 +490,7 @@
 								<li class="convert-to-standard">
 									<a href="#" class="xl-flexbox xl-middle">
 										<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
-										<span>Only Comment</span>
+										<span>Only View</span>
 									</a>
 								</li>
 
@@ -502,7 +504,7 @@
 								<li class="convert-to-private">
 									<a href="#" class="xl-flexbox xl-middle">
 										<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
-										<span>Private</span>
+										<span>Private View</span>
 									</a>
 								</li>
 
@@ -628,11 +630,11 @@
 
 		</div>
 
-		<div class="visual-editor <?=$debug_mode ? "" : "xl-hidden"?>">
+		<div class="visual-editor" data-tooltip="Coming soon...">
 
 			<div class="wrap xl-1">
-				<div class="col">
-					<i class="fa fa-sliders-h"></i> VIEW OPTIONS:
+				<div class="col section-title">
+					<i class="fa fa-sliders-h"></i> VIEW OPTIONS (in development):
 				</div>
 				<div class="col options">
 
@@ -665,20 +667,34 @@
 
 		</div>
 
-		<div class="pin-comments" style="margin-bottom: 15px;"></div>
+		<div class="comments">
 
-		<div class="comment-actions">
+			<div class="wrap xl-1">
+				<div class="col section-title">
 
-			<form action="" method="post" id="comment-sender">
-				<div class="wrap xl-flexbox xl-between">
-					<div class="col comment-input-col">
-						<input type="text" class="comment-input" placeholder="Type your comments, and hit 'Enter'..." required/>
-					</div>
-					<div class="col">
-						<input type="image" src="<?=asset_url('icons/comment-send.svg')?>"/>
-					</div>
+					<i class="fa fa-comment-dots"></i> COMMENTS:
+
 				</div>
-			</form>
+				<div class="col pin-comments">
+
+				</div>
+				<div class="col comment-actions">
+
+					<form action="" method="post" id="comment-sender">
+						<div class="wrap xl-flexbox xl-between">
+							<div class="col comment-input-col">
+								<input type="text" class="comment-input" placeholder="Type your comments, and hit 'Enter'..." required/>
+							</div>
+							<div class="col">
+								<input type="image" src="<?=asset_url('icons/comment-send.svg')?>"/>
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+
+
 
 		</div>
 

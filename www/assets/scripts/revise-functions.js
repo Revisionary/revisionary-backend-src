@@ -237,7 +237,7 @@ function runTheInspector() {
 			focused_element_html = focused_element.html();
 	        focused_element_children = focused_element.children();
 	        focused_element_grand_children = focused_element_children.children();
-			focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
+			focused_element_pin = pinElement(focused_element_index, true);
 			focused_element_live_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
 			focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
 			focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
@@ -286,7 +286,7 @@ function runTheInspector() {
 				focused_element_html = focused_element.html();
 		        focused_element_children = focused_element.children();
 		        focused_element_grand_children = focused_element_children.children();
-				focused_element_pin = $('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]');
+				focused_element_pin = pinElement(focused_element_index, true);
 				focused_element_live_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
 				focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
 				focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
@@ -578,7 +578,7 @@ function runTheInspector() {
 
 
 			var elementIndex = $(this).attr('data-revisionary-index');
-			var pin_ID = pinElement('[data-revisionary-index="'+elementIndex+'"]').attr('data-pin-id');
+			var pin_ID = pinElement('[data-pin-type="live"][data-revisionary-index="'+elementIndex+'"]').attr('data-pin-id');
 			var changedElement = $(this);
 			var modification = changedElement.html();
 			var change = htmlentities(modification, "ENT_QUOTES");
@@ -766,7 +766,7 @@ function removeOutline() {
 function switchPinType(pinType, pinPrivate) {
 
 	log('Switched Pin Type: ', pinType);
-	log('Switched Pin Private? ', pinPrivate);
+	log('Switched Pin Private: ', pinPrivate);
 
 
 	currentPinType = pinType;
@@ -774,9 +774,10 @@ function switchPinType(pinType, pinPrivate) {
 
 
 	// Change the activator color and label
-	currentPinLabel = pinType;
-	if (pinType == "standard") currentPinLabel = "Only Comment";
-	if (currentPinPrivate == "1") currentPinLabel = "Private Live";
+	if (pinType == "live") currentPinLabel = pinModes.live;
+	if (pinType == "standard") currentPinLabel = pinModes.standard;
+	if (currentPinPrivate == "1") currentPinLabel = pinModes['private-live'];
+
 	activator.attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate).find('.mode-label').text(currentPinLabel);
 
 
@@ -837,7 +838,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 		activator.attr('data-pin-type', 'off');
 
 		// Update the label
-		$('.current-mode .mode-label').text('Off');
+		$('.current-mode .mode-label').text('BROWSE MODE');
 
 
 
@@ -1088,7 +1089,7 @@ function applyChanges(showingOriginal = []) {
 		// Find the element
 		var element_index = pin.pin_element_index;
 		var element = iframeElement(element_index);
-		var pinElement = $('#pins > pin[data-pin-id="'+pin.pin_ID+'"]');
+		var thePin = pinElement(pin.pin_ID);
 
 
 		// Is showing changes
@@ -1134,7 +1135,7 @@ function applyChanges(showingOriginal = []) {
 		// Update the element and pin status
 		element.attr('data-revisionary-edited', "1")
 			.attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
-		pinElement.attr('data-revisionary-edited', "1")
+		thePin.attr('data-revisionary-edited', "1")
 			.attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
 
 
@@ -1184,7 +1185,7 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 		// Find the element
 		var element_index = pin.pin_element_index;
 		var element = iframeElement(element_index);
-		var pinElement = $('#pins > pin[data-pin-id="'+pin.pin_ID+'"]');
+		var thePin = pinElement(pin.pin_ID);
 
 
 		// Is currently showing the edits?
@@ -1217,7 +1218,7 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 			.removeAttr('data-revisionary-edited')
 			.removeAttr('data-revisionary-showing-changes')
 			.removeAttr('contenteditable');
-		pinElement.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
+		thePin.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
 
 
 	});
@@ -1636,7 +1637,7 @@ function putPin(pinX, pinY) {
 		//console.log(result.data);
 
 		var realPinID = result.data.real_pin_ID;
-		var newPin = $('#pins > pin[data-pin-id="'+temporaryPinID+'"]');
+		var newPin = pinElement(temporaryPinID);
 
 		//console.log('REAL PIN ID: '+realPinID);
 
@@ -1675,12 +1676,12 @@ function putPin(pinX, pinY) {
 function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 
-	var thePin = $('#pins > pin[data-pin-id="'+ pin_ID +'"]');
+	var thePin = pinElement(pin_ID);
 	var thePinType = thePin.attr('data-pin-type');
 	var thePinPrivate = thePin.attr('data-pin-private');
 	var thePinComplete = thePin.attr('data-pin-complete');
 	var theIndex = thePin.attr('data-revisionary-index');
-	var thePinText = thePinPrivate == '1' ? 'PRIVATE COMMENT' : 'ONLY COMMENT';
+	var thePinText = thePinPrivate == '1' ? 'PRIVATE VIEW' : 'ONLY VIEW';
 	var thePinModificationType = thePin.attr('data-pin-modification-type');
 	var thePinModified = thePin.attr('data-revisionary-edited');
 	var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
@@ -1963,7 +1964,7 @@ function removePin(pin_ID) {
 
 
 		// Remove the pin from DOM
-		$('#pins > pin[data-pin-id="'+pin_ID+'"]').remove();
+		pinElement(pin_ID).remove();
 
 
 		// Re-Index the pin counts
@@ -1995,7 +1996,7 @@ function completePin(pin_ID, complete) {
 
 
 	// Update the pin status
-	$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-pin-complete', (complete ? '1' : '0'));
+	pinElement(pin_ID).attr('data-pin-complete', (complete ? '1' : '0'));
 
 
 	// Update the pin window status
@@ -2056,7 +2057,7 @@ function convertPin(pin_ID, targetPin) {
 		Pins[pinIndex].pin_modification = null;
 		Pins[pinIndex].pin_modification_original = null;
 
-		$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-pin-modification-type', 'null');
+		pinElement(pin_ID).attr('data-pin-modification-type', 'null');
 		pinWindow.attr('data-pin-modification-type', 'null');
 
 		// Remove outlines from iframe
@@ -2069,7 +2070,7 @@ function convertPin(pin_ID, targetPin) {
 
 
 	// Update the pin status
-	$('#pins > pin[data-pin-id="'+pin_ID+'"]')
+	pinElement(pin_ID)
 		.attr('data-pin-type', pinType)
 		.attr('data-pin-private', pinPrivate);
 
@@ -2159,9 +2160,9 @@ function saveChange(pin_ID, modification) {
 
 		// Update the pin status
 		if (modification != "{%null%}")
-			$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', "1");
+			pinElement(pin_ID).attr('data-revisionary-edited', "1");
 		else
-			$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', "0");
+			pinElement(pin_ID).attr('data-revisionary-edited', "0");
 
 
 		// Update the pin window status
@@ -2207,7 +2208,7 @@ function toggleChange(pin_ID) {
 
 			// Update the Pin Window and Pin info
 			pinWindow.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
-			$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+			pinElement(pin_ID).attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
 
 
 		} else if (pin.pin_modification_type == "image") {
@@ -2220,7 +2221,7 @@ function toggleChange(pin_ID) {
 
 			// Update the Pin Window and Pin info
 			pinWindow.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
-			$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+			pinElement(pin_ID).attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
 
 
 		}
@@ -2267,7 +2268,7 @@ function getComments(pin_ID, commentsWrapper = $('#pin-window .pin-comments')) {
 
 
 		// Clean the loading
-		commentsWrapper.html('<div class="xl-center">No comments yet.</div>');
+		commentsWrapper.html('<div class="xl-left">No comments yet.</div>');
 
 
 		// Print the comments
@@ -2448,7 +2449,7 @@ function removeImage(pin_ID, element_index) {
 
 
 	// Update the pin and pin window info
-	$('#pins > pin[data-pin-id="'+pin_ID+'"]').attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
+	pinElement(pin_ID).attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
 	pinWindow.attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
 
 
@@ -2502,11 +2503,14 @@ function iframeElement(selector) {
 
 
 // Find pin element
-function pinElement(selector) {
+function pinElement(selector, byElementIndex = false) {
 
 	if ( $.isNumeric(selector) ) {
 
-		return pinElement('[data-pin-id="'+ selector +'"]');
+		if (byElementIndex)
+			return pinElement('[data-revisionary-index="'+ selector +'"]');
+		else
+			return pinElement('[data-pin-id="'+ selector +'"]');
 
 	} else {
 

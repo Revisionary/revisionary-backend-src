@@ -418,10 +418,21 @@ html, body {
 /* Pin Comments */
 .pin-comments {
 	margin-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 25px;
+
 
 	.comment {
 		margin-top: 10px;
 		margin-bottom: 25px;
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
 
 		.profile-picture {
 			margin-left: 0;
@@ -646,6 +657,12 @@ html, body {
 		&:last-child {
 			margin-bottom: 0;
 		}
+	}
+
+	.section-title {
+		margin-bottom: 0;
+		padding-bottom: 5px;
+		border-bottom: 1px dashed gray;
 	}
 
 	& > .top-actions {

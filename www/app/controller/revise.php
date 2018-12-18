@@ -330,10 +330,6 @@ if (
 	get('privatepin') == "1"
 ) $pin_private = get('privatepin');
 
-$pin_text = $pin_mode;
-if ($pin_private == "1") $pin_text = "Private ".$pin_text;
-if ($pin_mode == "standard") $pin_text = "Only Comment";
-
 
 /*
 echo "<pre>"; print_r($existing_queue); echo "</pre>";
