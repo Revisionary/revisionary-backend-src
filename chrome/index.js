@@ -266,7 +266,7 @@ require('http').createServer(async (req, res) => {
 				const otherResources = /^(manifest|other)$/i.test(resourceType);
 				// Abort requests that exceeds 15 seconds
 				// Also abort if more than 100 requests
-				if (seconds > 15) {
+				if (seconds > 10) {
 					console.log(`❌⏳ ${method} ${resourceType} ${shortURL}`);
 					request.abort();
 				} else if (reqCount > 100) {
@@ -283,13 +283,15 @@ require('http').createServer(async (req, res) => {
 					request.abort();
 				} else if (
 					ourHost != requestHost &&
-					cdnDetector.detectFromHostname(requestHost) != null &&
+					//cdnDetector.detectFromHostname(requestHost) != null &&
 					(
 						requestHost == "connect.facebook.net"
 						|| requestHost == "www.facebook.com"
 						|| requestHost == "www.google.com"
 						|| requestHost == "www.gstatic.com"
 						|| requestHost == "fonts.gstatic.com"
+						|| requestHost == "stats.wp.com"
+						|| requestHost == "s0.wp.com"
 					)
 				) {
 					console.log(`❌🌪 ${method} ${resourceType} ${shortURL}`);
@@ -381,7 +383,7 @@ require('http').createServer(async (req, res) => {
 								}
 							);
 
-							console.log('📄📋 #'+downloadableRequests.length+' '+fileType.toUpperCase()+' to Download: ', fileName + ' -> ' + siteDir + newDir + newFileName);
+							console.log('📄📋 #'+downloadableRequests.length+' '+fileType.toUpperCase()+' to Download: ', fileName + ' -> ' + newDir + newFileName);
 
 						}
 
@@ -444,7 +446,7 @@ require('http').createServer(async (req, res) => {
 
 
 							//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
-							console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} (BUFFER LENGTH: ${buffer.length}) ${url}`);
+							console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} ${url}`);
 
 
 						}

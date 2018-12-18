@@ -179,6 +179,8 @@ class Internalize {
 		$processLink .= "&device_ID=$device_ID";
 		$processLink .= "&sitedir=".urlencode($pageDir."/");
 
+		$logger->info("Process URL String: $processLink");
+
 
 		// Send the request
 		$data = getRemoteData($processLink);
