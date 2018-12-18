@@ -1630,14 +1630,14 @@ function putPin(pinX, pinY) {
 		'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
 		'pin_private'			: currentPinPrivate,
 		'pin_element_index' 	: focused_element_index,
-		'pin_device_ID'		: device_ID
+		'pin_device_ID'			: device_ID
 
 	}).done(function(result){
 
 		//console.log(result.data);
 
 		var realPinID = result.data.real_pin_ID;
-		var newPin = pinElement(temporaryPinID);
+		var newPin = pinElement('[data-pin-id="'+ temporaryPinID +'"]');
 
 		//console.log('REAL PIN ID: '+realPinID);
 
@@ -1676,7 +1676,7 @@ function putPin(pinX, pinY) {
 function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 
-	var thePin = pinElement(pin_ID);
+	var thePin = pinElement('[data-pin-id="'+pin_ID+'"]');
 	var thePinType = thePin.attr('data-pin-type');
 	var thePinPrivate = thePin.attr('data-pin-private');
 	var thePinComplete = thePin.attr('data-pin-complete');
