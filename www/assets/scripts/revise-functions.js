@@ -171,7 +171,7 @@ function runTheInspector() {
 
 		// CURSOR WORKS:
 		// Close Pin Mode pinTypeSelector
-		if (currentPinType == "off") {
+		if (currentPinType == "browse") {
 
 			toggleCursorActive(true);
 
@@ -835,7 +835,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 		// Deactivate
-		activator.attr('data-pin-type', 'off');
+		activator.attr('data-pin-type', 'browse');
 
 		// Update the label
 		$('.current-mode .mode-label').text('BROWSE MODE');

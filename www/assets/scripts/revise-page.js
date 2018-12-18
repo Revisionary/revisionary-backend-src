@@ -94,7 +94,7 @@ $(function() {
 		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
 
 		if (history.pushState) {
-		    var newurl = queryParameter(currentUrl, 'pinmode', 'off');
+		    var newurl = queryParameter(currentUrl, 'pinmode', 'browse');
 		    newurl = queryParameter(newurl, 'privatepin', '');
 		    window.history.pushState({path:newurl},'',newurl);
 		}

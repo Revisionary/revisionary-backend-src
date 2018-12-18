@@ -136,11 +136,11 @@ html, body {
     display: none; }
   #top-bar .pin-mode [data-pin-type="standard"][data-pin-private="1"] > a > i {
     color: #FC0F42; }
-  #top-bar .pin-mode [data-pin-type="off"] > a > i.fa-dot-circle {
+  #top-bar .pin-mode [data-pin-type="browse"] > a > i.fa-dot-circle {
     display: none; }
-  #top-bar .pin-mode [data-pin-type="off"] > a > i.fa-mouse-pointer {
+  #top-bar .pin-mode [data-pin-type="browse"] > a > i.fa-mouse-pointer {
     display: inline-block; }
-  #top-bar .pin-mode [data-pin-type="off"] .deactivator {
+  #top-bar .pin-mode [data-pin-type="browse"] .deactivator {
     display: none; }
   #top-bar .breadcrumbs {
     font-weight: lighter; }

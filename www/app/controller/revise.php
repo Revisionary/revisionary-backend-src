@@ -322,7 +322,7 @@ $pin_mode = "live";
 if (
 	get('pinmode') == "live" ||
 	get('pinmode') == "standard" ||
-	get('pinmode') == "off"
+	get('pinmode') == "browse"
 ) $pin_mode = get('pinmode');
 
 $pin_private = "0";
