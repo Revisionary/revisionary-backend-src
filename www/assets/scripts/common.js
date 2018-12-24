@@ -712,10 +712,8 @@ $(function() {
 						if (action == "rename") {
 
 
-							parent_item.find('.name').text( input.val() );
 							input.attr('value', input.val() );
-
-							$('.filter [data-cat-id="' + parent_item.attr('data-cat-id') + '"]').text( input.val() );
+							itemsToHide.find('.name').text( input.val() );
 
 
 						} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover") {
