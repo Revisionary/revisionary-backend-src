@@ -300,39 +300,6 @@ html, body {
 		}
 	}
 
-	.new_dropdown {
-
-		.item.deletable {
-
-			& > a {
-				padding-right: 25px;
-
-				&:hover + .delete {
-					visibility: visible;
-				}
-			}
-
-			.delete {
-				visibility: hidden;
-				position: absolute;
-				right: 10px;
-				top: 50%;
-				transform: translateY(-50%);
-				font-size: 12px;
-				cursor: pointer;
-
-				&:hover {
-					visibility: visible;
-				}
-			}
-
-			&:hover .delete {
-				visibility: visible;
-			}
-
-		}
-	}
-
 	.share > .tab {
 		letter-spacing: 1.5px;
 
@@ -688,12 +655,10 @@ html, body {
 		right: 0;
 	}
 
-/*
 	.new_dropdown {
 		text-transform: uppercase;
 
 		& > ul {
-			top: 100%;
 		    left: -4px;
 
 			& > li > a {
@@ -704,7 +669,6 @@ html, body {
 		}
 
 	}
-*/
 
 	.edit-content {
 		outline: none;

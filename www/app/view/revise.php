@@ -681,14 +681,14 @@
 					</a>
 					<ul>
 						<li>
-							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon.">
-								<span><img src="<?=asset_url('icons/mark-rectangle.png')?>" width="15" height="10" alt=""/></span>
+							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
+								<img src="<?=asset_url('icons/mark-rectangle.png')?>" width="15" height="10" alt=""/>
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<span><img src="<?=asset_url('icons/mark-ellipse.png')?>" width="15" height="14" alt=""/></span>
+								<img src="<?=asset_url('icons/mark-ellipse.png')?>" width="15" height="14" alt=""/>
 								ELLIPSE
 							</a>
 						</li>

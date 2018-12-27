@@ -563,6 +563,36 @@ a {
 					border-bottom-right-radius: 6px;
 				}
 
+				&.deletable {
+
+					& > a {
+						padding-right: 25px;
+
+						&:hover + .delete {
+							visibility: visible;
+						}
+					}
+
+					.delete {
+						visibility: hidden;
+						position: absolute;
+						right: 10px;
+						top: 50%;
+						transform: translateY(-50%);
+						font-size: 12px;
+						cursor: pointer;
+
+						&:hover {
+							visibility: visible;
+						}
+					}
+
+					&:hover .delete {
+						visibility: visible;
+					}
+
+				}
+
 				&.selected {
 					background-color: $color;
 					color: white;
@@ -597,6 +627,7 @@ a {
 
 					& > i {
 						width: 22px;
+						height: auto;
 						text-align: center;
 					}
 

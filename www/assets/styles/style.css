@@ -5354,6 +5354,22 @@ a {
         .new_dropdown a + ul > li:last-child {
           border-bottom-left-radius: 6px;
           border-bottom-right-radius: 6px; }
+        .new_dropdown a + ul > li.deletable > a {
+          padding-right: 25px; }
+          .new_dropdown a + ul > li.deletable > a:hover + .delete {
+            visibility: visible; }
+        .new_dropdown a + ul > li.deletable .delete {
+          visibility: hidden;
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 12px;
+          cursor: pointer; }
+          .new_dropdown a + ul > li.deletable .delete:hover {
+            visibility: visible; }
+        .new_dropdown a + ul > li.deletable:hover .delete {
+          visibility: visible; }
         .new_dropdown a + ul > li.selected {
           background-color: black;
           color: white; }
@@ -5377,6 +5393,7 @@ a {
               visibility: visible; }
           .new_dropdown a + ul > li > a > i {
             width: 22px;
+            height: auto;
             text-align: center; }
           .new_dropdown a + ul > li > a + ul {
             position: absolute;
