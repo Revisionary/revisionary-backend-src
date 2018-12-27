@@ -156,40 +156,22 @@ html, body {
     #top-bar > .wrap > .col {
       font-size: 12px;
       line-height: normal; }
-  #top-bar nav.dropdown {
-    color: black; }
-    #top-bar nav.dropdown .selected {
-      font-weight: bold;
-      background-color: black;
-      color: white; }
-      #top-bar nav.dropdown .selected > a,
-      #top-bar nav.dropdown .selected > .dropdown-container,
-      #top-bar nav.dropdown .selected > .dropdown-container > a {
-        background-color: black;
-        color: white; }
-    #top-bar nav.dropdown .item,
-    #top-bar nav.dropdown .item > .dropdown-container {
-      position: relative; }
-      #top-bar nav.dropdown .item > a,
-      #top-bar nav.dropdown .item > .dropdown-container > a {
-        padding-right: 25px; }
-        #top-bar nav.dropdown .item > a:hover + .delete,
-        #top-bar nav.dropdown .item > .dropdown-container > a:hover + .delete {
-          visibility: visible; }
-      #top-bar nav.dropdown .item .delete,
-      #top-bar nav.dropdown .item > .dropdown-container .delete {
-        visibility: hidden;
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 12px; }
-        #top-bar nav.dropdown .item .delete:hover,
-        #top-bar nav.dropdown .item > .dropdown-container .delete:hover {
-          visibility: visible; }
-      #top-bar nav.dropdown .item:hover .delete,
-      #top-bar nav.dropdown .item > .dropdown-container:hover .delete {
-        visibility: visible; }
+  #top-bar .new_dropdown .item.deletable > a {
+    padding-right: 25px; }
+    #top-bar .new_dropdown .item.deletable > a:hover + .delete {
+      visibility: visible; }
+  #top-bar .new_dropdown .item.deletable .delete {
+    visibility: hidden;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    cursor: pointer; }
+    #top-bar .new_dropdown .item.deletable .delete:hover {
+      visibility: visible; }
+  #top-bar .new_dropdown .item.deletable:hover .delete {
+    visibility: visible; }
   #top-bar .share > .tab {
     letter-spacing: 1.5px; }
     #top-bar .share > .tab > * {
@@ -390,7 +372,24 @@ html, body {
   padding: 20px;
   position: absolute;
   width: 300px;
-  box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5); }
+  box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5);
+  /*
+	.new_dropdown {
+		text-transform: uppercase;
+
+		& > ul {
+			top: 100%;
+		    left: -4px;
+
+			& > li > a {
+			    padding: 2px 3px;
+			    font-size: 12px;
+			}
+
+		}
+
+	}
+*/ }
   #pin-window.active {
     pointer-events: auto;
     opacity: 1; }
@@ -412,8 +411,8 @@ html, body {
     justify-content: center;
     align-items: center;
     margin-left: 20px; }
-    #pin-window > .top-actions .action > span {
-      margin-left: 5px; }
+    #pin-window > .top-actions .action > *:first-child {
+      margin-right: 5px; }
     #pin-window > .top-actions .action:first-child {
       margin-left: 0; }
   #pin-window .switch {
@@ -423,14 +422,6 @@ html, body {
   #pin-window .difference-switch-wrap {
     position: absolute;
     right: 0; }
-  #pin-window .dropdown-container {
-    text-transform: uppercase; }
-    #pin-window .dropdown-container > .dropdown {
-      top: 100%;
-      left: -4px; }
-      #pin-window .dropdown-container > .dropdown ul > li > a {
-        padding: 2px 3px;
-        font-size: 12px; }
   #pin-window .edit-content {
     outline: none;
     display: block;

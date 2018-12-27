@@ -7,66 +7,58 @@ function print_screen_selector() {
 <ul class="selected-screens">
 	<li>
 		<input type="hidden" name="screens[]" value="11"/>
-		<input type="hidden" name="page-width" value="1440"/>
-		<input type="hidden" name="page-height" value="900"/>
+		<input type="hidden" name="page_width" value="1440"/>
+		<input type="hidden" name="page_height" value="900"/>
 		<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width">1440</span> x <span class="screen-height">900</span>)</span>
 		<a href="#" class="remove-screen" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 	</li>
 </ul>
-<span class="dropdown-container">
+<span class="new_dropdown">
 
-	<span class="dropdown-opener add-screen"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</span>
+	<a href="#" class="add-screen"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
+	<ul class="xl-left screen-adder">
+		<?php
+		foreach ($screen_data as $screen_cat) {
+		?>
 
-	<nav class="dropdown xl-left">
-		<ul class="screen-adder">
-			<?php
-			foreach ($screen_data as $screen_cat) {
-			?>
+		<li class="screen-cat" <?=$screen_cat['screen_cat_name'] == "Custom" ? "style='display:none;'" : ""?>>
 
-			<li class="screen-cat" <?=$screen_cat['screen_cat_name'] == "Custom" ? "style='display:none;'" : ""?>>
+			<a href="#">
+				<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+			</a>
+			<ul class="addable xl-left screen-add">
+				<?php
+				foreach ($screen_cat['screens'] as $screen) {
+				?>
+				<li class="screen" <?=$screen['screen_ID'] == 11 ? "style='display:none;'" : ""?>>
+					<a href="#"
+						data-screen-id="<?=$screen['screen_ID']?>"
+						data-screen-width="<?=$screen['screen_width']?>"
+						data-screen-height="<?=$screen['screen_height']?>"
+						data-screen-cat-name="<?=$screen_cat['screen_cat_name']?>"
+						data-screen-cat-icon="<?=$screen_cat['screen_cat_icon']?>"
+					>
+						<?=$screen['screen_name']?> (<span class="<?=$screen['screen_ID'] == 11 ? "screen-" : "screen-"?>width"><?=$screen['screen_width']?></span> x <span class="<?=$screen['screen_ID'] == 11 ? "screen-" : "screen-"?>height"><?=$screen['screen_height']?></span>)
+					</a>
+				</li>
+				<?php
+				}
 
-				<div class="dropdown-container">
-					<div class="dropdown-opener">
-						<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
-					</div>
-					<nav class="dropdown selectable addable xl-left">
-						<ul class="screen-add">
-							<?php
-							foreach ($screen_cat['screens'] as $screen) {
-							?>
-							<li class="screen" <?=$screen['screen_ID'] == 11 ? "style='display:none;'" : ""?>>
-								<a href="#"
-									data-screen-id="<?=$screen['screen_ID']?>"
-									data-screen-width="<?=$screen['screen_width']?>"
-									data-screen-height="<?=$screen['screen_height']?>"
-									data-screen-cat-name="<?=$screen_cat['screen_cat_name']?>"
-									data-screen-cat-icon="<?=$screen_cat['screen_cat_icon']?>"
-								>
-									<?=$screen['screen_name']?> (<span class="<?=$screen['screen_ID'] == 11 ? "screen-" : "screen-"?>width"><?=$screen['screen_width']?></span> x <span class="<?=$screen['screen_ID'] == 11 ? "screen-" : "screen-"?>height"><?=$screen['screen_height']?></span>)
-								</a>
-							</li>
-							<?php
-							}
+				// Custom Screen
+				if ($screen_cat['screen_cat_name'] == "Custom...") {
+				?>
+				<li><a href="#" data-screen-id="<?=$screen['screen_ID']?>">Add New</a></li>
+				<?php
+				}
+				?>
+			</ul>
 
-							// Custom Screen
-							if ($screen_cat['screen_cat_name'] == "Custom...") {
-							?>
-							<li><a href="#" data-screen-id="<?=$screen['screen_ID']?>">Add New</a></li>
-							<?php
-							}
-							?>
-						</ul>
-					</nav>
+		</li>
 
-				</div>
-
-			</li>
-
-			<?php
-			}
-			?>
-		</ul>
-	</nav>
+		<?php
+		}
+		?>
+	</ul>
 
 </span>
 

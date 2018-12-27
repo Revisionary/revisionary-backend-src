@@ -56,8 +56,8 @@ if (
 	$device_ID = Device::ID()->addNew(
 		$page_ID,
 		is_array(request('screens')) ? request('screens') : array(), // Screen IDs array
-		request('page-width') != "" ? request('page-width') : null,
-		request('page-height') != "" ? request('page-height') : null
+		request('page_width') != "" ? request('page_width') : null,
+		request('page_height') != "" ? request('page_height') : null
 	);
 
 	// Check the result

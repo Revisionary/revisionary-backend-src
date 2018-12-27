@@ -52,26 +52,23 @@
 				</nav><!-- #main-navigation -->
 
 
-				<div class="dropdown-container">
-					<a href="#" class="dropdown-opener invert-hover user-link bullet">
+				<div class="new_dropdown">
+					<a href="#" class="invert-hover user-link bullet">
 						<picture class="profile-picture big" <?=getUserData()['printPicture']?>>
 							<span <?=getUserData()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData()['nameAbbr']?></span>
 							<div class="notif-no">3</div>
 						</picture> <?=getUserData()['fullName']?>
 					</a>
-
-					<nav class="dropdown right user-menu">
-						<ul>
-							<li class="notifications">
-								There's nothing to mention now.<br/>
-								Your notifications will be here.
-							</li>
-							<li><a href="<?=site_url('projects')?>">Projects</a></li>
-							<li><a href="<?=site_url('profile/'.getUserData()['userName'])?>">Profile</a></li>
-							<li><a href="<?=site_url('account')?>">Account</a></li>
-							<li><a href="<?=site_url('logout')?>">Logout</a></li>
-						</ul>
-					</nav>
+					<ul class="right user-menu">
+						<li class="notifications">
+							There's nothing to mention now.<br/>
+							Your notifications will be here.
+						</li>
+						<li><a href="<?=site_url('projects')?>">Projects</a></li>
+						<li><a href="<?=site_url('profile/'.getUserData()['userName'])?>">Profile</a></li>
+						<li><a href="<?=site_url('account')?>">Account</a></li>
+						<li><a href="<?=site_url('logout')?>">Logout</a></li>
+					</ul>
 				</div>
 
 				<?php

@@ -65,7 +65,7 @@ $(function() {
 
 		switchPinType(selectedPinType, selectedPinPrivate);
 
-		$('.pin-mode .dropdown').hide();
+		$('.pin-mode .new_dropdown > ul').hide();
 
 
 		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
@@ -82,7 +82,7 @@ $(function() {
 	});
 
 	$('.pin-mode').hover(function() {
-		$('.pin-mode .dropdown').css('display', '');
+		$('.pin-mode .new_dropdown > ul').css('display', '');
 	});
 
 
@@ -127,8 +127,8 @@ $(function() {
 		$('.screen-height').text(height);
 
 		// Edit the input values
-		$('input[name="page-width"]').attr('value', width);
-		$('input[name="page-height"]').attr('value', height);
+		$('input[name="page_width"]').attr('value', width);
+		$('input[name="page_height"]').attr('value', height);
 
 		// Update the URLs
 		$('.new-screen[data-screen-id="11"]').each(function() {

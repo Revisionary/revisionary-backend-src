@@ -75,103 +75,94 @@
 
 					<div class="desc">Project</div>
 
-					<span class="dropdown-container">
-						<a href="<?=site_url('project/'.$project_ID)?>" class="dropdown-opener">
+					<span class="new_dropdown">
+						<a href="<?=site_url('project/'.$project_ID)?>">
 							<?=$projectInfo['project_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 						</a>
-						<nav class="dropdown">
-							<ul>
+						<ul>
+							<?php
+							foreach ($allMyProjects as $project) {
+
+								$selected = $project['project_ID'] == $project_ID ? "selected" : "";
+
+
+								$pages_of_project = array_filter($allMyPages, function($pageFound) use ($project) {
+								    return ($pageFound['project_ID'] == $project['project_ID']);
+								});
+								$pages_of_project = categorize($pages_of_project, 'page', true);
+								//die_to_print($pages_of_project, false);
+
+
+								$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$project['project_ID'];
+
+							?>
+							<li class="item <?=$selected?>" data-type="project" data-id="<?=$project['project_ID']?>">
+
+								<a href="<?=site_url('project/'.$project['project_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$project['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ""?></a>
+
 								<?php
-								foreach ($allMyProjects as $project) {
-
-									$selected = $project['project_ID'] == $project_ID ? "selected" : "";
-
-
-									$pages_of_project = array_filter($allMyPages, function($pageFound) use ($project) {
-									    return ($pageFound['project_ID'] == $project['project_ID']);
-									});
-									$pages_of_project = categorize($pages_of_project, 'page', true);
-									//die_to_print($pages_of_project, false);
-
-
-									$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$project['project_ID'];
-
+								if ( count($pages_of_project) ) {
 								?>
-								<li class="item <?=$selected?>" data-type="project" data-id="<?=$project['project_ID']?>">
-									<div class="dropdown-container">
-										<a href="<?=site_url('project/'.$project['project_ID'])?>" class="<?=count($pages_of_project) ? 'dropdown-opener' : ""?>"><i class="fa fa-sign-in-alt"></i> <?=$project['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right" aria-hidden="true"></i>' : ""?></a>
+								<ul>
+									<?php
+									foreach ($pages_of_project as $pageFromProject) {
+
+										$selected = $pageFromProject['page_ID'] == $page_ID ? "selected" : "";
+
+
+										$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageFromProject) {
+										    return ($deviceFound['page_ID'] == $pageFromProject['page_ID']);
+										});
+										$firstDevice = reset($devices_of_page);
+										//die_to_print($devices_of_page, false);
+
+
+									?>
+									<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageFromProject['page_ID']?>">
+										<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?></a>
 
 										<?php
-										if ( count($pages_of_project) ) {
+										if ( count($devices_of_page) ) {
 										?>
-										<nav class="dropdown">
-											<ul>
-												<?php
-												foreach ($pages_of_project as $pageFromProject) {
+										<ul>
+											<?php
+											foreach ($devices_of_page as $deviceFromPage) {
 
-													$selected = $pageFromProject['page_ID'] == $page_ID ? "selected" : "";
-
-
-													$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageFromProject) {
-													    return ($deviceFound['page_ID'] == $pageFromProject['page_ID']);
-													});
-													$firstDevice = reset($devices_of_page);
-													//die_to_print($devices_of_page, false);
-
-
-												?>
-												<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageFromProject['page_ID']?>">
-													<div class="dropdown-container">
-														<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>" class="dropdown-opener"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?></a>
-
-														<?php
-														if ( count($devices_of_page) ) {
-														?>
-														<nav class="dropdown">
-															<ul>
-																<?php
-																foreach ($devices_of_page as $deviceFromPage) {
-
-																	$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
-																?>
-																<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-																	<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
-																</li>
-																<?php
-																}
-																?>
-															</ul>
-														</nav>
-														<?php
-														}
-														?>
-
-													</div>
-												</li>
-												<?php
-												}
-												?>
-											</ul>
-										</nav>
+												$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
+											?>
+											<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
+												<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+											</li>
+											<?php
+											}
+											?>
+										</ul>
 										<?php
 										}
 										?>
 
-										<?php
-										if ($selected != "selected" && 2 != 2) {
-										?>
-										<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Project" data-action="delete" data-type="project" data-id="<?=$project['project_ID']?>"></i>
-										<?php
-										}
-										?>
-									</div>
-								</li>
+									</li>
+									<?php
+									}
+									?>
+								</ul>
 								<?php
 								}
 								?>
-								<li><a href="#" class="add-new-box" data-type="project"><i class="fa fa-plus" aria-hidden="true"></i> Add New Project</a></li>
-							</ul>
-						</nav>
+
+								<?php
+								if ($selected != "selected" && 2 != 2) {
+								?>
+								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Project" data-action="delete" data-type="project" data-id="<?=$project['project_ID']?>"></i>
+								<?php
+								}
+								?>
+							</li>
+							<?php
+							}
+							?>
+							<li><a href="#" class="add-new-box" data-type="project"><i class="fa fa-plus" aria-hidden="true"></i> Add New Project</a></li>
+						</ul>
 					</span>
 					<sep><i class="fa fa-chevron-right"></i></sep>
 
@@ -199,73 +190,69 @@
 
 					<div class="desc">Page</div>
 
-					<span class="dropdown-container">
-						<a href="<?=site_url('project/'.$project_ID)?>" class="dropdown-opener">
+					<span class="new_dropdown">
+						<a href="<?=site_url('project/'.$project_ID)?>">
 							<?=$page['page_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 						</a>
-						<nav class="dropdown">
-							<ul>
+						<ul>
+							<?php
+
+							foreach ($other_pages as $pageOther) {
+
+								$selected = $pageOther['page_ID'] == $page_ID ? "selected" : "";
+
+
+								$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageOther) {
+								    return ($deviceFound['page_ID'] == $pageOther['page_ID']);
+								});
+								$firstDevice = reset($devices_of_page);
+								//die_to_print($devices_of_page);
+
+
+								$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$pageOther['page_ID'];
+
+							?>
+							<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageOther['page_ID']?>">
+
+								<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a>
 								<?php
-
-								foreach ($other_pages as $pageOther) {
-
-									$selected = $pageOther['page_ID'] == $page_ID ? "selected" : "";
-
-
-									$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageOther) {
-									    return ($deviceFound['page_ID'] == $pageOther['page_ID']);
-									});
-									$firstDevice = reset($devices_of_page);
-									//die_to_print($devices_of_page);
-
-
-									$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$pageOther['page_ID'];
-
+								if ( count($devices_of_page) ) {
 								?>
-								<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageOther['page_ID']?>">
-									<div class="dropdown-container">
-										<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>" class=" dropdown-opener"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a>
-										<?php
-										if ( count($devices_of_page) ) {
-										?>
-										<nav class="dropdown">
-											<ul>
-												<?php
-												foreach ($devices_of_page as $deviceFromPage) {
+								<ul>
+									<?php
+									foreach ($devices_of_page as $deviceFromPage) {
 
-													$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
-												?>
-												<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-													<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
-												</li>
-												<?php
-												}
-												?>
-											</ul>
-										</nav>
-										<?php
-										}
-										?>
-
-										<?php
-										if ($selected != "selected" && 2 != 2) {
-										?>
-										<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Page" data-action="delete" data-type="page" data-id="<?=$pageOther['page_ID']?>"></i>
-										<?php
-										}
-										?>
-									</div>
-								</li>
+										$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
+									?>
+									<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
+										<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+									</li>
+									<?php
+									}
+									?>
+								</ul>
 								<?php
 								}
 								?>
-								<li>
 
-									<a href="#" class="add-new-box" data-type="page"><i class="fa fa-plus" aria-hidden="true"></i> Add New Page</a>
+								<?php
+								if ($selected != "selected" && 2 != 2) {
+								?>
+								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Page" data-action="delete" data-type="page" data-id="<?=$pageOther['page_ID']?>"></i>
+								<?php
+								}
+								?>
 
-								</li>
-							</ul>
-						</nav>
+							</li>
+							<?php
+							}
+							?>
+							<li>
+
+								<a href="#" class="add-new-box" data-type="page"><i class="fa fa-plus" aria-hidden="true"></i> Add New Page</a>
+
+							</li>
+						</ul>
 					</span>
 
 				</div>
@@ -278,110 +265,101 @@
 				<div class="col screen">
 
 					<div class="desc nomargin">Screen Size</div>
-					<span class="dropdown-container">
+					<span class="new_dropdown">
 
-						<a href="#" class="button dropdown-opener select-screen"><i class="fa <?=$screenIcon?>" aria-hidden="true"></i> <?=$screen_name?> (<?=$width?>x<?=$height?>)  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
-						<nav class="dropdown">
-							<ul class="xl-left">
-							<?php
+						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>" aria-hidden="true"></i> <?=$screen_name?> (<?=$width?>x<?=$height?>)  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+						<ul class="xl-left">
+						<?php
 
-							// EXISTING DEVICES
-							$devices_of_mypage = array_filter($allMyDevices, function($deviceFound) use ($page_ID) {
-							    return ($deviceFound['page_ID'] == $page_ID);
-							});
-							foreach ($devices_of_mypage as $device) {
-								if ($device['device_ID'] == $device_ID) continue;
-
+						// EXISTING DEVICES
+						$devices_of_mypage = array_filter($allMyDevices, function($deviceFound) use ($page_ID) {
+						    return ($deviceFound['page_ID'] == $page_ID);
+						});
+						foreach ($devices_of_mypage as $device) {
+							if ($device['device_ID'] == $device_ID) continue;
 
 
-								$existing_screen_width = $device['screen_width'];
-								$existing_screen_height = $device['screen_height'];
 
-								$page_width = $device['device_width'];
-								$page_height = $device['device_height'];
+							$existing_screen_width = $device['screen_width'];
+							$existing_screen_height = $device['screen_height'];
 
-								if ($page_width != null && $page_width != null) {
-									$existing_screen_width = $page_width;
-									$existing_screen_height = $page_height;
-								}
+							$page_width = $device['device_width'];
+							$page_height = $device['device_height'];
 
-
-								$action_url = 'ajax?type=data-action&data-type=device&nonce='.$_SESSION['js_nonce'].'&id='.$device['device_ID'];
-
-							?>
-
-								<li class="item screen-registered" data-type="device" data-id="<?=$device['device_ID']?>">
-									<a href="<?=site_url('revise/'.$device['device_ID'])?>"><i class="fa <?=$device['screen_cat_icon']?>" aria-hidden="true"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
-									<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" data-action="remove" data-type="device" data-id="<?=$device['device_ID']?>"></i>
-								</li>
-
-							<?php
+							if ($page_width != null && $page_width != null) {
+								$existing_screen_width = $page_width;
+								$existing_screen_height = $page_height;
 							}
-							?>
-								<li class="dropdown-container">
-									<a href="#" class="dropdown-opener add-screen"><i class="fa fa-plus" aria-hidden="true"></i> Add New Screen</a>
-									<nav class="dropdown xl-left">
-										<ul class="screen-adder">
+
+
+							$action_url = 'ajax?type=data-action&data-type=device&nonce='.$_SESSION['js_nonce'].'&id='.$device['device_ID'];
+
+						?>
+
+							<li class="item deletable screen-registered" data-type="device" data-id="<?=$device['device_ID']?>">
+								<a href="<?=site_url('revise/'.$device['device_ID'])?>"><i class="fa <?=$device['screen_cat_icon']?>" aria-hidden="true"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
+								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" data-action="remove" data-type="device" data-id="<?=$device['device_ID']?>"></i>
+							</li>
+
+						<?php
+						}
+						?>
+							<li>
+								<a href="#" class="add-screen"><i class="fa fa-plus" aria-hidden="true"></i> Add New Screen</a>
+								<ul class="xl-left screen-adder">
+									<?php
+									foreach ($screen_data as $screen_cat) {
+									?>
+
+									<li>
+
+										<a href="#">
+											<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+										</a>
+										<ul class="addable xl-left screen-addd">
 											<?php
-											foreach ($screen_data as $screen_cat) {
+											foreach ($screen_cat['screens'] as $screen) {
+
+
+												$screen_link = site_url("project/$project_ID?new_screen=".$screen['screen_ID']."&page_ID=".$page_ID);
+												$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
+												if ($screen['screen_ID'] == 11) {
+													$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
+													$screen_link = queryArg('page_height='.$screen['screen_height'], $screen_link);
+													$screen_label = $screen['screen_name']." (<span class='screen-width'>".$screen['screen_width']."</span>x<span class='screen-height'>".$screen['screen_height']."</span>)";
+												}
+
+												$screen_link = queryArg('nonce='.$_SESSION["new_screen_nonce"], $screen_link);
+
+
+
+
 											?>
-
 											<li>
-
-												<div class="dropdown-container">
-													<div class="dropdown-opener">
-														<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
-													</div>
-													<nav class="dropdown selectable addable xl-left">
-														<ul class="screen-addd">
-															<?php
-															foreach ($screen_cat['screens'] as $screen) {
-
-
-																$screen_link = site_url("project/$project_ID?new_screen=".$screen['screen_ID']."&page_ID=".$page_ID);
-																$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
-																if ($screen['screen_ID'] == 11) {
-																	$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
-																	$screen_link = queryArg('page_height='.$screen['screen_height'], $screen_link);
-																	$screen_label = $screen['screen_name']." (<span class='screen-width'>".$screen['screen_width']."</span>x<span class='screen-height'>".$screen['screen_height']."</span>)";
-																}
-
-																$screen_link = queryArg('nonce='.$_SESSION["new_screen_nonce"], $screen_link);
-
-
-
-
-															?>
-															<li>
-																<a href="<?=$screen_link?>"
-																	class="new-screen"
-																	data-screen-id="<?=$screen['screen_ID']?>"
-																	data-screen-width="<?=$screen['screen_width']?>"
-																	data-screen-height="<?=$screen['screen_height']?>"
-																	data-screen-cat-name="<?=$screen_cat['screen_cat_name']?>"
-																	data-screen-cat-icon="<?=$screen_cat['screen_cat_icon']?>"
-																>
-																	<?=$screen_label?>
-																</a>
-															</li>
-															<?php
-															}
-															?>
-														</ul>
-													</nav>
-
-												</div>
-
+												<a href="<?=$screen_link?>"
+													class="new-screen"
+													data-screen-id="<?=$screen['screen_ID']?>"
+													data-screen-width="<?=$screen['screen_width']?>"
+													data-screen-height="<?=$screen['screen_height']?>"
+													data-screen-cat-name="<?=$screen_cat['screen_cat_name']?>"
+													data-screen-cat-icon="<?=$screen_cat['screen_cat_icon']?>"
+												>
+													<?=$screen_label?>
+												</a>
 											</li>
-
 											<?php
 											}
 											?>
 										</ul>
-									</nav>
-								</li>
-							</ul>
-						</nav>
+
+									</li>
+
+									<?php
+									}
+									?>
+								</ul>
+							</li>
+						</ul>
 					</span>
 
 
@@ -392,18 +370,16 @@
 		<div class="col xl-left pin-mode">
 
 			<div class="desc nomargin">Pin Mode</div>
-			<div class="dropdown-container current-mode active" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
-				<a href="#" class="button dropdown-opener">
+			<div class="new_dropdown current-mode active" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
+				<a href="#" class="button">
 					<i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label"></span>
 				</a>
-				<nav class="dropdown">
-					<ul class="pin-types">
-						<li class="bottom-tooltip" data-pin-type="live" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes."><a href="#"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a></li>
-						<li class="bottom-tooltip" data-pin-type="standard" data-pin-private="0" data-tooltip="You can only do the visual changes."><a href="#"><i class="fa fa-dot-circle"></i> ONLY VIEW CHANGES</a></li>
-						<li class="bottom-tooltip" data-pin-type="live" data-pin-private="1" data-tooltip="Only you can see the changes you made."><a href="#"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a></li>
-						<li class="deactivator bottom-tooltip" data-tooltip="Use this mode to be able to do something like opening a menu, closing popups, skipping slides, and changing pages(in development)."><a href="#"><i class="fa fa-mouse-pointer"></i> BROWSE MODE</a></li>
-					</ul>
-				</nav>
+				<ul class="pin-types">
+					<li class="bottom-tooltip" data-pin-type="live" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes."><a href="#"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a></li>
+					<li class="bottom-tooltip" data-pin-type="standard" data-pin-private="0" data-tooltip="You can only do the visual changes."><a href="#"><i class="fa fa-dot-circle"></i> ONLY VIEW CHANGES</a></li>
+					<li class="bottom-tooltip" data-pin-type="live" data-pin-private="1" data-tooltip="Only you can see the changes you made."><a href="#"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a></li>
+					<li class="deactivator bottom-tooltip" data-tooltip="Use this mode to be able to do something like opening a menu, closing popups, skipping slides, and changing pages(in development)."><a href="#"><i class="fa fa-mouse-pointer"></i> BROWSE MODE</a></li>
+				</ul>
 			</div>
 
 		</div>
@@ -468,48 +444,46 @@
 			<div class="col">
 
 				<div class="wrap xl-flexbox actions">
-					<div class="col action dropdown-container">
+					<div class="col action new_dropdown">
 
 						<pin
 							class="chosen-pin"
 							data-pin-type="live"
 							data-pin-private="0"
 						></pin>
-						<span class="dropdown-opener"><span class="pin-label">Live Edit</span> <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+						<a href="#"><span class="pin-label">Live Edit</span> <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 
-						<nav class="dropdown xl-left">
-							<ul class="type-convertor">
+						<ul class="xl-left type-convertor">
 
-								<li class="convert-to-live">
-									<a href="#" class="xl-flexbox xl-middle">
-										<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-										<span>Live Edit</span>
-									</a>
-								</li>
+							<li class="convert-to-live">
+								<a href="#" class="xl-flexbox xl-middle">
+									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Live Edit</span>
+								</a>
+							</li>
 
-								<li class="convert-to-standard">
-									<a href="#" class="xl-flexbox xl-middle">
-										<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
-										<span>Only View</span>
-									</a>
-								</li>
+							<li class="convert-to-standard">
+								<a href="#" class="xl-flexbox xl-middle">
+									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<span>Only View</span>
+								</a>
+							</li>
 
-								<li class="convert-to-private-live">
-									<a href="#" class="xl-flexbox xl-middle">
-										<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-										<span>Private Live</span>
-									</a>
-								</li>
+							<li class="convert-to-private-live">
+								<a href="#" class="xl-flexbox xl-middle">
+									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Live</span>
+								</a>
+							</li>
 
-								<li class="convert-to-private">
-									<a href="#" class="xl-flexbox xl-middle">
-										<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
-										<span>Private View</span>
-									</a>
-								</li>
+							<li class="convert-to-private">
+								<a href="#" class="xl-flexbox xl-middle">
+									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<span>Private View</span>
+								</a>
+							</li>
 
-							</ul>
-						</nav>
+						</ul>
 
 					</div>
 					<div class="col action" data-tooltip="Coming soon.">
@@ -701,26 +675,24 @@
 		<div class="bottom-actions">
 
 			<div class="wrap xl-flexbox xl-between">
-				<div class="col action dropdown-container">
-					<a href="#" class="dropdown-opener">
+				<div class="col action new_dropdown">
+					<a href="#">
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> MARK <i class="fa fa-caret-down" aria-hidden="true"></i>
 					</a>
-					<nav class="dropdown">
-						<ul>
-							<li>
-								<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon.">
-									<span><img src="<?=asset_url('icons/mark-rectangle.png')?>" width="15" height="10" alt=""/></span>
-									RECTANGLE
-								</a>
-							</li>
-							<li>
-								<a href="#" class="xl-left" data-tooltip="Coming soon.">
-									<span><img src="<?=asset_url('icons/mark-ellipse.png')?>" width="15" height="14" alt=""/></span>
-									ELLIPSE
-								</a>
-							</li>
-						</ul>
-					</nav>
+					<ul>
+						<li>
+							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon.">
+								<span><img src="<?=asset_url('icons/mark-rectangle.png')?>" width="15" height="10" alt=""/></span>
+								RECTANGLE
+							</a>
+						</li>
+						<li>
+							<a href="#" class="xl-left" data-tooltip="Coming soon.">
+								<span><img src="<?=asset_url('icons/mark-ellipse.png')?>" width="15" height="14" alt=""/></span>
+								ELLIPSE
+							</a>
+						</li>
+					</ul>
 				</div>
 				<div class="col action">
 					<a href="#" class="remove-pin"><i class="fa fa-trash-o" aria-hidden="true"></i> REMOVE</a>

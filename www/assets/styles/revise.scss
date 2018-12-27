@@ -300,28 +300,9 @@ html, body {
 		}
 	}
 
-	nav.dropdown {
-		color: $color;
+	.new_dropdown {
 
-
-		.selected {
-			font-weight: bold;
-			background-color: $color;
-			color: white;
-
-			& > a,
-			& > .dropdown-container,
-			& > .dropdown-container > a {
-				background-color: $color;
-				color: white;
-			}
-		}
-
-
-		.item,
-		.item > .dropdown-container {
-			position: relative;
-
+		.item.deletable {
 
 			& > a {
 				padding-right: 25px;
@@ -338,6 +319,7 @@ html, body {
 				top: 50%;
 				transform: translateY(-50%);
 				font-size: 12px;
+				cursor: pointer;
 
 				&:hover {
 					visibility: visible;
@@ -684,8 +666,8 @@ html, body {
 		    align-items: center;
 		    margin-left: 20px;
 
-		    & > span {
-			    margin-left: 5px;
+		    & > *:first-child {
+			    margin-right: 5px;
 		    }
 
 		    &:first-child {
@@ -706,14 +688,15 @@ html, body {
 		right: 0;
 	}
 
-	.dropdown-container {
+/*
+	.new_dropdown {
 		text-transform: uppercase;
 
-		& > .dropdown {
+		& > ul {
 			top: 100%;
 		    left: -4px;
 
-			ul > li > a {
+			& > li > a {
 			    padding: 2px 3px;
 			    font-size: 12px;
 			}
@@ -721,6 +704,7 @@ html, body {
 		}
 
 	}
+*/
 
 	.edit-content {
 		outline: none;

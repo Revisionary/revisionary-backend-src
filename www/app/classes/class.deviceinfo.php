@@ -113,6 +113,8 @@ class Device {
 		$screenCount = 0;
 		foreach ($screen_IDs as $screen_ID) { $screenCount++;
 
+			$screen_ID = intval($screen_ID);
+
 			// Add the new page with the screen
 			$device_ID = $db->insert('devices', array(
 				"page_ID" => $page_ID,

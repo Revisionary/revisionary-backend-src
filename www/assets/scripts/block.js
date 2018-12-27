@@ -79,7 +79,7 @@ $(function() {
 		$('.add-new-block').css('opacity', '0').css('width', '0').css('padding', '0');
 
 		// Remove all the screen navigations
-		$('.screens nav.dropdown').hide();
+		$('.screens .new_dropdown > ul').hide();
 
 
 	}).bind('dragend', function( event ){
@@ -89,7 +89,7 @@ $(function() {
     	addNewPageButtons();
 
 		// Show all the screen navigations
-		$('.screens nav.dropdown').show();
+		$('.screens .new_dropdown > ul').show();
 
 
     });
@@ -124,8 +124,8 @@ $(function() {
 		$('.screen-height').text(screenHeight);
 
 		// Edit the input values
-		$('input[name="page-width"]').attr('value', screenWidth);
-		$('input[name="page-height"]').attr('value', screenHeight);
+		$('input[name="page_width"]').attr('value', screenWidth);
+		$('input[name="page_height"]').attr('value', screenHeight);
 
 
 		$('[data-screen-id="11"]').attr('data-screen-width', screenWidth);

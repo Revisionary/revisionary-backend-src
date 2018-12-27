@@ -24,8 +24,8 @@
 				<input type="hidden" name="order" value="0"/>
 
 				<input type="hidden" name="screens[]" value="11"/>
-				<input type="hidden" name="page-width" value="1440"/>
-				<input type="hidden" name="page-height" value="900"/>
+				<input type="hidden" name="page_width" value="1440"/>
+				<input type="hidden" name="page_height" value="900"/>
 
 
 				<input type="url" name="page-url" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocus/>
@@ -108,8 +108,8 @@ jQuery(document).ready(function($) {
 		$('.screen-height').text(screenHeight);
 
 		// Edit the input values
-		$('input[name="page-width"]').attr('value', screenWidth);
-		$('input[name="page-height"]').attr('value', screenHeight);
+		$('input[name="page_width"]').attr('value', screenWidth);
+		$('input[name="page_height"]').attr('value', screenHeight);
 
 
 		$('[data-screen-id="11"]').attr('data-screen-width', screenWidth);

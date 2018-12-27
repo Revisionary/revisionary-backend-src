@@ -54,4 +54,4 @@
 		<meta name="msapplication-TileImage" content="<?=asset_url('images/revisionary-icon.png')?>">
 
 	</head>
-	<body>
+	<body class="<?=isset($_url[0]) ? $_url[0] : ""?>">

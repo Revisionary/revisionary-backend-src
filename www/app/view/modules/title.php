@@ -35,34 +35,32 @@
 
 	<div class="col xl-center title">
 
-		<div class="dropdown-container" style="display: inline-block;">
+		<div class="new_dropdown" style="display: inline-block;">
 			<a href="<?=site_url($url_prefix)?>" class="dropdown-opener">
 				<h1 class="bullet bigger-bullet <?=$title == "pages" ? 'project-title' : ''?>" <?=$title == "pages" ? 'data-id="'.$_url[1].'"' : ''?>>
 					<?=$title == "pages" ? $projectInfo['project_name'] : strtoupper($title)?>
 				</h1>
 			</a>
-			<nav class="dropdown right selectable">
-				<ul class="projects-menu xl-left">
-					<li class="menu-item <?=$catFilter == "" ? "selected" : ""?>">
-						<a href="<?=site_url($url_prefix)?>">
-							<i class="fa fa-th" aria-hidden="true"></i>
-							ALL <?=strtoupper($title)?>
-						</a>
-					</li>
-					<li class="menu-item <?=$catFilter == "archived" ? "selected" : ""?>">
-						<a href="<?=site_url($url_prefix.'/archived')?>">
-							<i class="fa fa-archive" aria-hidden="true"></i>
-							ARCHIVED <?=strtoupper($title)?>
-						</a>
-					</li>
-					<li class="menu-item <?=$catFilter == "deleted" ? "selected" : ""?>">
-						<a href="<?=site_url($url_prefix.'/deleted')?>">
-							<i class="fa fa-trash" aria-hidden="true"></i>
-							DELETED <?=strtoupper($title)?>
-						</a>
-					</li>
-				</ul>
-			</nav>
+			<ul class="right xl-left selectable">
+				<li class="menu-item <?=$catFilter == "" ? "selected" : ""?>">
+					<a href="<?=site_url($url_prefix)?>">
+						<i class="fa fa-th" aria-hidden="true"></i>
+						ALL <?=strtoupper($title)?>
+					</a>
+				</li>
+				<li class="menu-item <?=$catFilter == "archived" ? "selected" : ""?>">
+					<a href="<?=site_url($url_prefix.'/archived')?>">
+						<i class="fa fa-archive" aria-hidden="true"></i>
+						ARCHIVED <?=strtoupper($title)?>
+					</a>
+				</li>
+				<li class="menu-item <?=$catFilter == "deleted" ? "selected" : ""?>">
+					<a href="<?=site_url($url_prefix.'/deleted')?>">
+						<i class="fa fa-trash" aria-hidden="true"></i>
+						DELETED <?=strtoupper($title)?>
+					</a>
+				</li>
+			</ul>
 		</div>
 
 		<div class="under-main-title <?=$title == "projects" ? "public-link" : ""?>" <?=$title == "projects" ? "data-tooltip='Coming Soon...'" : ""?>>

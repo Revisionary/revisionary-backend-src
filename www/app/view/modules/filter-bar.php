@@ -63,58 +63,52 @@
 						// If pages shown
 						if ($_url[0] == "project") {
 					?>
-					<div class="dropdown-container">
-						<span class="dropdown-opener">SCREEN <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-						<nav class="dropdown selectable xl-left">
-							<ul class="screen-selector">
+					<div class="new_dropdown">
+						<a href="#">SCREEN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+						<ul class="selectable xl-left screen-selector">
 
-								<li <?= $screenFilter == "" || $screenFilter == "all" ? ' class="selected"' : ""?>>
-									<a href="<?=current_url('', 'screen')?>" data-screen="5"><i class="fa" aria-hidden="true"></i> All</a>
-								</li>
+							<li <?= $screenFilter == "" || $screenFilter == "all" ? ' class="selected"' : ""?>>
+								<a href="<?=current_url('', 'screen')?>" data-screen="5"><i class="fa" aria-hidden="true"></i> All</a>
+							</li>
 
-							<?php
-							foreach($available_screens as $screen) {
-							?>
+						<?php
+						foreach($available_screens as $screen) {
+						?>
 
-								<li <?=$screenFilter == $screen['screen_cat_ID'] ? ' class="selected"' : ""?>>
-									<a href="<?=current_url('screen='.$screen['screen_cat_ID'])?>" data-screen="4"><i class="fa <?=$screen['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen['screen_cat_name']?></a>
-								</li>
+							<li <?=$screenFilter == $screen['screen_cat_ID'] ? ' class="selected"' : ""?>>
+								<a href="<?=current_url('screen='.$screen['screen_cat_ID'])?>" data-screen="4"><i class="fa <?=$screen['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen['screen_cat_name']?></a>
+							</li>
 
-							<?php
-							}
-							?>
-							</ul>
-						</nav>
+						<?php
+						}
+						?>
+						</ul>
 					</div>
 					<?php
 						}
 					?>
 
-					<div class="dropdown-container" style="margin-left: 15px;">
-						<span class="dropdown-opener">SIZE <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-						<nav class="dropdown selectable xl-left">
-							<ul class="size-selector">
-								<li class="selected"><a href="#" data-column="6">6 Column</a></li>
-								<li><a href="#" data-column="5">5 Column</a></li>
-								<li><a href="#" data-column="4">4 Column</a></li>
-								<li><a href="#" data-column="3">3 Column</a></li>
-								<li><a href="#" data-column="2">2 Column</a></li>
-							</ul>
-						</nav>
+					<div class="new_dropdown" style="margin-left: 15px;">
+						<a href="#">COLUMN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+						<ul class="selectable xl-left size-selector">
+							<li class="selected"><a href="#" data-column="6">6 Column</a></li>
+							<li><a href="#" data-column="5">5 Column</a></li>
+							<li><a href="#" data-column="4">4 Column</a></li>
+							<li><a href="#" data-column="3">3 Column</a></li>
+							<li><a href="#" data-column="2">2 Column</a></li>
+						</ul>
 					</div>
 
-					<div class="dropdown-container" style="margin-left: 15px;">
-						<span class="dropdown-opener">SORT <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-						<nav class="dropdown selectable xl-left">
-							<ul class="order-selector">
-								<li <?=!isset($_GET['order']) || get('order') == "custom" ? ' class="selected"' : ""?>>
-									<a href="<?=current_url('', 'order')?>" data-order="custom">Custom</a>
-								</li>
+					<div class="new_dropdown" style="margin-left: 15px;">
+						<a href="#">SORT <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+						<ul class="selectable xl-left order-selector">
+							<li <?=!isset($_GET['order']) || get('order') == "custom" ? ' class="selected"' : ""?>>
+								<a href="<?=current_url('', 'order')?>" data-order="custom">Custom</a>
+							</li>
 
-								<li <?=get('order') == "name" ? ' class="selected"' : ""?>><a href="<?=current_url('order=name')?>" data-order="name">By Name</a></li>
-								<li <?=get('order') == "date" ? ' class="selected"' : ""?>><a href="<?=current_url('order=date')?>" data-order="date">By Date</a></li>
-							</ul>
-						</nav>
+							<li <?=get('order') == "name" ? ' class="selected"' : ""?>><a href="<?=current_url('order=name')?>" data-order="name">By Name</a></li>
+							<li <?=get('order') == "date" ? ' class="selected"' : ""?>><a href="<?=current_url('order=date')?>" data-order="date">By Date</a></li>
+						</ul>
 					</div>
 
 
@@ -122,18 +116,16 @@
 						// If projects shown
 						if ($_url[0] == "projects") {
 					?>
-					<div class="dropdown-container" style="margin-left: 15px;">
-						<span class="dropdown-opener">TOOLS <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-						<nav class="dropdown higher xl-left lower">
-							<ul class="tool-selector">
-								<li data-tooltip="Coming Soon..."><a href="#">Github Integration</a></li>
-								<li data-tooltip="Coming Soon..."><a href="#">BitBucket Integration</a></li>
-								<li data-tooltip="Coming Soon..."><a href="#">Asana Integration</a></li>
-								<li data-tooltip="Coming Soon..."><a href="#">Trello Integration</a></li>
-								<li data-tooltip="Coming Soon..."><a href="#">More Apps...</a></li>
+					<div class="new_dropdown" style="margin-left: 15px;">
+						<a href="#">TOOLS <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+						<ul class="xl-left tool-selector">
+							<li data-tooltip="Coming Soon..."><a href="#">Github Integration</a></li>
+							<li data-tooltip="Coming Soon..."><a href="#">BitBucket Integration</a></li>
+							<li data-tooltip="Coming Soon..."><a href="#">Asana Integration</a></li>
+							<li data-tooltip="Coming Soon..."><a href="#">Trello Integration</a></li>
+							<li data-tooltip="Coming Soon..."><a href="#">More Apps...</a></li>
 
-							</ul>
-						</nav>
+						</ul>
 					</div>
 					<?php
 						}

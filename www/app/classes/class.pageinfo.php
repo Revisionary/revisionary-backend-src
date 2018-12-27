@@ -276,7 +276,8 @@ class Page {
 
 		// If no name added, try finding page name from URL
 		if ($page_name == '') {
-			$pathes = explode('/', trim(parse_url($page_url)['path'], '/'));
+			$the_path = isset(parse_url($page_url)['path']) ? parse_url($page_url)['path'] : "";
+			$pathes = explode('/', trim($the_path, '/'));
 			$page_name = ucwords(str_replace('-', ' ', end($pathes)));
 		}
 

@@ -571,8 +571,8 @@ $(function() {
 			new_screen_html = '\
 				<li>\
 					<input type="hidden" name="screens[]" value="'+screen_id+'">\
-					<input type="hidden" name="page-width" value="'+screen_width+'">\
-					<input type="hidden" name="page-height" value="'+screen_height+'">\
+					<input type="hidden" name="page_width" value="'+screen_width+'">\
+					<input type="hidden" name="page_height" value="'+screen_height+'">\
 					<i class="fa '+ screen_cat_icon +'" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width">'+screen_width+'</span> x <span class="screen-height">'+screen_height+'</span>)</span>\
 					<a href="#" class="remove-screen"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 				</li>\

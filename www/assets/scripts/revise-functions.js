@@ -756,7 +756,7 @@ function outline(element, private_pin, pin_type = "live") {
 function removeOutline() {
 
 	// Remove outlines from iframe
-	iframeElement('body *:not(.revisionary-focused)').css('outline', '');
+	iframeElement('*:not(.revisionary-focused)').css('outline', '');
 
 	return true;
 }
@@ -843,7 +843,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 		// Close the dropdown
-		$('.pin-mode .dropdown').hide();
+		$('.pin-mode .new_dropdown > ul').hide();
 
 		// Hide the cursor
 		if (cursorVisible) cursor.fadeOut();
