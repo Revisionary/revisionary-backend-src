@@ -276,17 +276,16 @@ class Page {
 
 		// If no name added, try finding page name from URL
 		if ($page_name == '') {
-			$the_path = isset(parse_url($page_url)['path']) ? parse_url($page_url)['path'] : "";
-			$pathes = explode('/', trim($the_path, '/'));
-			$page_name = ucwords(str_replace('-', ' ', end($pathes)));
+			$parsed_url = parseUrl($page_url);
+			$parsed_path = pathinfo($parsed_url['path']);
+			$file_name = isset($parsed_path['filename']) ? $parsed_path['filename'] : "";
+			$page_name = ucwords(str_replace('-', ' ', $file_name));
 		}
 
-		if ( $page_name == '' && is_array($pathes) && (count($pathes) == 0 || count($pathes) == 1) ) {
-			$page_name = 'Home';
-		}
 
+		// If still empty, name it as 'Home'
 		if ($page_name == '')
-			$page_name = 'Untitled';
+			$page_name = 'Home';
 
 
 
