@@ -12,6 +12,15 @@ die();
 */
 
 /*
+Mail::SEND(
+	'bilalltas@gmail.com,bill@twelve12.com',
+	'asdasd',
+	'Test mail'
+);
+die();
+*/
+
+/*
 $message = "Test Message çıktı";
 //die_to_print( urldecode( urlencode($message) ) );
 
