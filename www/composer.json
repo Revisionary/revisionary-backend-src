@@ -4,6 +4,7 @@
         "joshcam/mysqli-database-class": "dev-master",
         "cocur/background-process": "dev-master",
         "katzgrau/klogger": "dev-master",
-        "drewm/mailchimp-api": "dev-master"
+        "drewm/mailchimp-api": "dev-master",
+        "phpmailer/phpmailer": "~6.0"
     }
 }

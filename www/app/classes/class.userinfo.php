@@ -341,6 +341,66 @@ class User {
 
     // ACTIONS:
 
+    // Add new user
+    public function addNew(
+	    string $user_email,
+	    string $user_full_name,
+	    string $user_password,
+	    string $user_name = null,
+	    int $user_level_ID = 2
+    ) {
+	    global $db;
+
+
+		// Parse the full name
+		$firstName = $user_full_name;
+		$lastName = "";
+		$parsedFullName = explode(' ', $user_full_name);
+		if (count($parsedFullName) > 1) {
+			$firstName = str_replace(' '.end($parsedFullName), '', $user_full_name);
+			$lastName = end($parsedFullName);
+		}
+
+
+		// Create the username
+		if ($user_name == null) $user_name = permalink($user_full_name);
+
+
+		// Add to the CB
+		$user_ID = $db->insert('users', array(
+			'user_name' => $user_name,
+			'user_email' => $user_email,
+			'user_first_name' => $firstName,
+			'user_last_name' => $lastName,
+			'user_password' => password_hash($user_password, PASSWORD_DEFAULT),
+			'user_level_ID' => $user_level_ID // Free one
+		));
+
+
+		// Send a welcome email
+		Notify::ID($user_ID)->mail(
+			'Welcome to Revisionary App!',
+			"Hi $firstName, <br><br> Thanks for joining us. You can now start revising websites. :)"
+		);
+
+
+		// Notify the admin
+		Notify::ID(1)->mail(
+			"New user registration by $user_full_name",
+			"
+			<b>User Information</b> <br>
+			E-Mail: $user_email <br>
+			Full Name: $user_full_name <br>
+			Username: $user_name
+			"
+		);
+
+
+		// Return the user ID
+		return $user_ID;
+    }
+
+
     // Reorder
     public function reorder(
 	    array $orderData

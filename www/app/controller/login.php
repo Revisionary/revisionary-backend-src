@@ -66,6 +66,19 @@ if ( post('login-submit') == "Login" ) {
 
 			$_SESSION['user_ID'] = $user["user_ID"];
 
+
+			// Notify the admin
+			Notify::ID(1)->mail(
+				"New login by ".$user['user_first_name']." ".$user['user_last_name'],
+				"
+				<b>User Information (Typed: $userName)</b> <br>
+				E-Mail: ".$user['user_email']." <br>
+				Full Name: ".$user['user_first_name']." ".$user['user_last_name']." <br>
+				Username: ".$user['user_name']."
+				"
+			);
+
+
 			if (post('redirect_to') != "") {
 				header("Location: ".htmlspecialchars_decode(post('redirect_to'))); // !!! Check security
 				die();

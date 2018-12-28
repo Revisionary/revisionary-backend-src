@@ -341,6 +341,21 @@ die();
 
 
 
+// Notify the admin
+Notify::ID(1)->mail(
+	getUserData()['fullName']." revising a page now.",
+	"
+	<b>User Information</b> <br>
+	E-Mail: ".getUserData()['email']." <br>
+	Full Name: ".getUserData()['fullName']." <br>
+	Username: ".getUserData()['userName']." <br><br>
+
+	<b>Page Link:</b> ".site_url('revise/'.$device_ID)." ($screen_name: $width x $height) <br>
+	"
+);
+
+
+
 $additionalCSS = [
 	'vendor/jquery.mCustomScrollbar.css',
 	'vendor/popline-theme/default.css',

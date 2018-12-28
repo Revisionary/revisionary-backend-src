@@ -14,7 +14,9 @@ $config['env'] = [
 	'db_name' 	=> $_ENV['DB_NAME'],
 	'db_user' 	=> $_ENV['DB_USER'],
 	'db_pass' 	=> $_ENV['DB_PASSWORD'],
-	'timezone'  => $_ENV['DB_TIMEZONE']
+	'timezone'  => $_ENV['DB_TIMEZONE'],
+	'gmail_smtp_user'  => $_ENV['GMAIL_SMTP_USER'],
+	'gmail_smtp_pass'  => $_ENV['GMAIL_SMTP_PASS']
 ];
 
 

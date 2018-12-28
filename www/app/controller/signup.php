@@ -70,35 +70,23 @@ if ( post('user-submit') == "Register" ) {
 	// If no error
 	if( !$nonceError && !$emptyError && !$mailError && !$mailExistError && !$nameError ) {
 
-		// Parse the full name
-		$firstName = $fullName;
-		$lastName = "";
-		$parsedFullName = explode(' ', $fullName);
-		if (count($parsedFullName) > 1) {
-			$firstName = str_replace(' '.end($parsedFullName), '', $fullName);
-			$lastName = end($parsedFullName);
-		}
 
-		$data = array(
-			'user_name' => permalink($fullName),
-			'user_email' => $eMail,
-			'user_first_name' => $firstName,
-			'user_last_name' => $lastName,
-			'user_password' => password_hash($password, PASSWORD_DEFAULT),
-			'user_level_ID' => 2 // Free one
+		$user_ID = User::ID()->addNew(
+		    $eMail,
+		    $fullName,
+		    $password
 		);
 
-		$id = $db->insert('users', $data);
-		if ($id) {
+		if ($user_ID) {
 
 			// Create the session
-			$_SESSION['user_ID'] = $id;
+			$_SESSION['user_ID'] = $user_ID;
 
 
 			// Update the shares
 			$db->where('share_to', $eMail);
 			$db->update ('shares', array(
-				'share_to' => $id
+				'share_to' => $user_ID
 			));
 
 
