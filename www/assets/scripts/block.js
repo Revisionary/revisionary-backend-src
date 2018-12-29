@@ -79,7 +79,7 @@ $(function() {
 		$('.add-new-block').css('opacity', '0').css('width', '0').css('padding', '0');
 
 		// Remove all the screen navigations
-		$('.screens .new_dropdown > ul').hide();
+		$('.screens .dropdown > ul').hide();
 
 
 	}).bind('dragend', function( event ){
@@ -89,7 +89,7 @@ $(function() {
     	addNewPageButtons();
 
 		// Show all the screen navigations
-		$('.screens .new_dropdown > ul').show();
+		$('.screens .dropdown > ul').show();
 
 
     });

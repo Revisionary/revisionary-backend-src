@@ -75,7 +75,7 @@
 
 					<div class="desc">Project</div>
 
-					<span class="new_dropdown">
+					<span class="dropdown">
 						<a href="<?=site_url('project/'.$project_ID)?>">
 							<?=$projectInfo['project_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 						</a>
@@ -190,7 +190,7 @@
 
 					<div class="desc">Page</div>
 
-					<span class="new_dropdown">
+					<span class="dropdown">
 						<a href="<?=site_url('project/'.$project_ID)?>">
 							<?=$page['page_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
 						</a>
@@ -265,7 +265,7 @@
 				<div class="col screen">
 
 					<div class="desc nomargin">Screen Size</div>
-					<span class="new_dropdown">
+					<span class="dropdown">
 
 						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>" aria-hidden="true"></i> <?=$screen_name?> (<?=$width?>x<?=$height?>)  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 						<ul class="xl-left">
@@ -370,7 +370,7 @@
 		<div class="col xl-left pin-mode">
 
 			<div class="desc nomargin">Pin Mode</div>
-			<div class="new_dropdown current-mode active" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
+			<div class="dropdown current-mode active" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
 				<a href="#" class="button">
 					<i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label"></span>
 				</a>
@@ -447,7 +447,7 @@
 			<div class="col">
 
 				<div class="wrap xl-flexbox actions">
-					<div class="col action new_dropdown">
+					<div class="col action dropdown">
 
 						<pin
 							class="chosen-pin"
@@ -697,7 +697,7 @@
 		<div class="bottom-actions">
 
 			<div class="wrap xl-flexbox xl-between">
-				<div class="col action new_dropdown">
+				<div class="col action dropdown">
 					<a href="#">
 						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> MARK <i class="fa fa-caret-down" aria-hidden="true"></i>
 					</a>

@@ -63,7 +63,7 @@
 						// If pages shown
 						if ($_url[0] == "project") {
 					?>
-					<div class="new_dropdown">
+					<div class="dropdown">
 						<a href="#">SCREEN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 						<ul class="selectable xl-left screen-selector">
 
@@ -88,7 +88,7 @@
 						}
 					?>
 
-					<div class="new_dropdown" style="margin-left: 15px;">
+					<div class="dropdown" style="margin-left: 15px;">
 						<a href="#">COLUMN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 						<ul class="selectable xl-left size-selector">
 							<li class="selected"><a href="#" data-column="6">6 Column</a></li>
@@ -99,7 +99,7 @@
 						</ul>
 					</div>
 
-					<div class="new_dropdown" style="margin-left: 15px;">
+					<div class="dropdown" style="margin-left: 15px;">
 						<a href="#">SORT <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 						<ul class="selectable xl-left order-selector">
 							<li <?=!isset($_GET['order']) || get('order') == "custom" ? ' class="selected"' : ""?>>
@@ -116,7 +116,7 @@
 						// If projects shown
 						if ($_url[0] == "projects") {
 					?>
-					<div class="new_dropdown" style="margin-left: 15px;">
+					<div class="dropdown" style="margin-left: 15px;">
 						<a href="#">TOOLS <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 						<ul class="xl-left tool-selector">
 							<li data-tooltip="Coming Soon..."><a href="#">Github Integration</a></li>

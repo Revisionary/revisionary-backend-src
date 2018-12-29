@@ -31,7 +31,7 @@
 		<br/>
 
 
-		<span class="new_dropdown">
+		<span class="dropdown">
 			<a href="#" class="learn-more">Dropdown Link <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 			<ul>
 				<li><span>No Link Item</span></li>

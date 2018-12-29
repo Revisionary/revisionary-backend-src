@@ -843,7 +843,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 		// Close the dropdown
-		$('.pin-mode .new_dropdown > ul').hide();
+		$('.pin-mode .dropdown > ul').hide();
 
 		// Hide the cursor
 		if (cursorVisible) cursor.fadeOut();

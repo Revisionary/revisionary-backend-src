@@ -61,6 +61,7 @@ body {
 }
 
 h1 {
+    word-break: break-word;
 	font-size: 64px;
 	line-height: 60px;
 	letter-spacing: 8px;
@@ -441,7 +442,7 @@ a {
 
 
 
-.new_dropdown { // <SPAN | DIV>
+.dropdown { // <SPAN | DIV>
 	position: relative;
 	cursor: auto;
 
@@ -479,6 +480,12 @@ a {
 			&.right {
 				left: auto;
 				right: 0;
+			}
+
+			&.center {
+				left: 50%;
+			    transform: translateX(-50%);
+				right: auto;
 			}
 
 			&.selectable {
@@ -650,17 +657,17 @@ a {
 							visibility: visible;
 						}
 
-					} // .new_dropdown > a + ul > li > a + ul
+					} // .dropdown > a + ul > li > a + ul
 
-				} // .new_dropdown > a + ul > li > a
+				} // .dropdown > a + ul > li > a
 
-			} // .new_dropdown > a + ul > li
+			} // .dropdown > a + ul > li
 
-		} // .new_dropdown > a + ul
+		} // .dropdown > a + ul
 
-	} // .new_dropdown > a
+	} // .dropdown > a
 
-} // .new_dropdown
+} // .dropdown
 
 
 .screen-adder {
@@ -1009,7 +1016,7 @@ header {
 
 .title {
 
-	.new_dropdown > ul {
+	.dropdown > ul {
 		min-width: 220px;
 	}
 

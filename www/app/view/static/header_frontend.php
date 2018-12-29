@@ -52,7 +52,7 @@
 				</nav><!-- #main-navigation -->
 
 
-				<div class="new_dropdown">
+				<div class="dropdown">
 					<a href="#" class="invert-hover user-link bullet">
 						<picture class="profile-picture big" <?=getUserData()['printPicture']?>>
 							<span <?=getUserData()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData()['nameAbbr']?></span>

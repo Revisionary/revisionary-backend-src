@@ -35,7 +35,7 @@
 
 	<div class="col xl-center title">
 
-		<div class="new_dropdown" style="display: inline-block;">
+		<div class="dropdown" style="display: inline-block;">
 			<a href="<?=site_url($url_prefix)?>" class="dropdown-opener">
 				<h1 class="bullet bigger-bullet <?=$title == "pages" ? 'project-title' : ''?>" <?=$title == "pages" ? 'data-id="'.$_url[1].'"' : ''?>>
 					<?=$title == "pages" ? $projectInfo['project_name'] : strtoupper($title)?>
@@ -190,7 +190,7 @@
 
 	</div>
 
-	<div class="col xl-right" data-tooltip="Dummy data...">
+	<div class="col xl-right" data-tooltip="In development...">
 
 		<b>Usage:</b> 8 MB of 25 MB (Basic Account)
 

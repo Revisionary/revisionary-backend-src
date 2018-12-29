@@ -398,7 +398,7 @@ if ($dataType == "page" && $allMyPins) {
 												}
 												?>
 
-												<span class="new_dropdown">
+												<span class="dropdown">
 													<a href="#" class="add-screen"><span style="font-family: Arial;">+</span></a>
 													<?php require view('modules/add-screen'); ?>
 												</span>

@@ -65,7 +65,7 @@ $(function() {
 
 		switchPinType(selectedPinType, selectedPinPrivate);
 
-		$('.pin-mode .new_dropdown > ul').hide();
+		$('.pin-mode .dropdown > ul').hide();
 
 
 		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
@@ -82,7 +82,7 @@ $(function() {
 	});
 
 	$('.pin-mode').hover(function() {
-		$('.pin-mode .new_dropdown > ul').css('display', '');
+		$('.pin-mode .dropdown > ul').css('display', '');
 	});
 
 

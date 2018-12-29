@@ -412,11 +412,11 @@ html, body {
   #pin-window .difference-switch-wrap {
     position: absolute;
     right: 0; }
-  #pin-window .new_dropdown {
+  #pin-window .dropdown {
     text-transform: uppercase; }
-    #pin-window .new_dropdown > ul {
+    #pin-window .dropdown > ul {
       left: -4px; }
-      #pin-window .new_dropdown > ul > li > a {
+      #pin-window .dropdown > ul > li > a {
         padding: 2px 3px;
         font-size: 12px; }
   #pin-window .edit-content {

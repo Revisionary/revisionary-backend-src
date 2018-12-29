@@ -5004,6 +5004,7 @@ body {
     line-height: 25px; }
 
 h1 {
+  word-break: break-word;
   font-size: 64px;
   line-height: 60px;
   letter-spacing: 8px;
@@ -5280,17 +5281,17 @@ a {
 .user-menu {
   min-width: 200px; }
 
-.new_dropdown {
+.dropdown {
   position: relative;
   cursor: auto; }
-  .new_dropdown a {
+  .dropdown a {
     cursor: pointer;
     margin-bottom: 0; }
-    .new_dropdown a:hover + ul {
+    .dropdown a:hover + ul {
       opacity: 1;
       transition-delay: 0s !important;
       visibility: visible; }
-    .new_dropdown a + ul {
+    .dropdown a + ul {
       position: absolute;
       z-index: 2;
       left: 0;
@@ -5302,22 +5303,26 @@ a {
       opacity: 0;
       transition: 0s;
       transition-delay: 500ms; }
-      .new_dropdown a + ul:hover {
+      .dropdown a + ul:hover {
         opacity: 1;
         transition-delay: 0s !important;
         visibility: visible; }
-      .new_dropdown a + ul.right {
+      .dropdown a + ul.right {
         left: auto;
         right: 0; }
-      .new_dropdown a + ul.selectable > li > a {
+      .dropdown a + ul.center {
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto; }
+      .dropdown a + ul.selectable > li > a {
         padding-left: 30px; }
-      .new_dropdown a + ul.selectable > li.selected {
+      .dropdown a + ul.selectable > li.selected {
         background-color: white;
         color: black; }
-        .new_dropdown a + ul.selectable > li.selected > a {
+        .dropdown a + ul.selectable > li.selected > a {
           position: relative;
           color: inherit !important; }
-          .new_dropdown a + ul.selectable > li.selected > a:before {
+          .dropdown a + ul.selectable > li.selected > a:before {
             content: "\f00c";
             font-family: 'Font Awesome 5 Free';
             font-weight: 900;
@@ -5326,10 +5331,10 @@ a {
             top: 50%;
             margin-top: -9px;
             line-height: 18px; }
-      .new_dropdown a + ul.addable > li > a {
+      .dropdown a + ul.addable > li > a {
         position: relative;
         padding-left: 30px; }
-        .new_dropdown a + ul.addable > li > a:before {
+        .dropdown a + ul.addable > li > a:before {
           content: "\f067";
           font-family: 'Font Awesome 5 Free';
           font-weight: 900;
@@ -5338,7 +5343,7 @@ a {
           top: 50%;
           margin-top: -9px;
           line-height: 18px; }
-      .new_dropdown a + ul > li {
+      .dropdown a + ul > li {
         margin-bottom: -2px;
         background-color: #fff;
         border: 2px solid black;
@@ -5348,17 +5353,17 @@ a {
         white-space: nowrap;
         position: relative;
         color: black; }
-        .new_dropdown a + ul > li:first-child {
+        .dropdown a + ul > li:first-child {
           border-top-left-radius: 6px;
           border-top-right-radius: 6px; }
-        .new_dropdown a + ul > li:last-child {
+        .dropdown a + ul > li:last-child {
           border-bottom-left-radius: 6px;
           border-bottom-right-radius: 6px; }
-        .new_dropdown a + ul > li.deletable > a {
+        .dropdown a + ul > li.deletable > a {
           padding-right: 25px; }
-          .new_dropdown a + ul > li.deletable > a:hover + .delete {
+          .dropdown a + ul > li.deletable > a:hover + .delete {
             visibility: visible; }
-        .new_dropdown a + ul > li.deletable .delete {
+        .dropdown a + ul > li.deletable .delete {
           visibility: hidden;
           position: absolute;
           right: 10px;
@@ -5366,36 +5371,36 @@ a {
           transform: translateY(-50%);
           font-size: 12px;
           cursor: pointer; }
-          .new_dropdown a + ul > li.deletable .delete:hover {
+          .dropdown a + ul > li.deletable .delete:hover {
             visibility: visible; }
-        .new_dropdown a + ul > li.deletable:hover .delete {
+        .dropdown a + ul > li.deletable:hover .delete {
           visibility: visible; }
-        .new_dropdown a + ul > li.selected {
+        .dropdown a + ul > li.selected {
           background-color: black;
           color: white; }
-          .new_dropdown a + ul > li.selected > a {
+          .dropdown a + ul > li.selected > a {
             color: inherit !important; }
-        .new_dropdown a + ul > li > span {
+        .dropdown a + ul > li > span {
           display: inline-block;
           width: 100%;
           padding: 5px;
           color: inherit; }
-        .new_dropdown a + ul > li > a {
+        .dropdown a + ul > li > a {
           display: inline-block;
           width: 100%;
           padding: 5px;
           color: inherit; }
-          .new_dropdown a + ul > li > a:hover {
+          .dropdown a + ul > li > a:hover {
             color: #007acc; }
-            .new_dropdown a + ul > li > a:hover + ul {
+            .dropdown a + ul > li > a:hover + ul {
               opacity: 1;
               transition-delay: 0s !important;
               visibility: visible; }
-          .new_dropdown a + ul > li > a > i {
+          .dropdown a + ul > li > a > i {
             width: 22px;
             height: auto;
             text-align: center; }
-          .new_dropdown a + ul > li > a + ul {
+          .dropdown a + ul > li > a + ul {
             position: absolute;
             z-index: 2;
             left: 100%;
@@ -5407,7 +5412,7 @@ a {
             opacity: 0;
             transition: 0s;
             transition-delay: 0; }
-            .new_dropdown a + ul > li > a + ul:hover {
+            .dropdown a + ul > li > a + ul:hover {
               opacity: 1;
               transition-delay: 0s !important;
               visibility: visible; }
@@ -5653,7 +5658,7 @@ header {
 .toolbar {
   margin-bottom: 35px; }
 
-.title .new_dropdown > ul {
+.title .dropdown > ul {
   min-width: 220px; }
 
 .under-main-title {

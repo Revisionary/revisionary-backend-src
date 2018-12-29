@@ -13,7 +13,7 @@ function print_screen_selector() {
 		<a href="#" class="remove-screen" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 	</li>
 </ul>
-<span class="new_dropdown">
+<span class="dropdown">
 
 	<a href="#" class="add-screen"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
 	<ul class="xl-left screen-adder">
