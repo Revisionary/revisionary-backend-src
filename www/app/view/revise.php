@@ -607,14 +607,14 @@
 		<div class="visual-editor" data-tooltip="Coming soon...">
 
 			<div class="wrap xl-1">
-				<div class="col section-title">
+				<div class="col section-title collapsed">
 					<i class="fa fa-sliders-h"></i> VIEW OPTIONS (in development):
 				</div>
 				<div class="col section-content options">
 
-					<ul class="no-bullet">
-						<li>
-							<i class="fa fa-eye"></i> Show | <i class="fa fa-eye-slash"></i> Hide
+					<ul class="no-bullet options">
+						<li class="choice">
+							<a href="#" class="active"><i class="fa fa-eye"></i> Show</a> | <a href="#"><i class="fa fa-eye-slash"></i> Hide</a>
 						</li>
 						<li>
 							<i class="fa fa-low-vision"></i> Opacity <i class="fa fa-angle-down"></i>
@@ -649,21 +649,25 @@
 					<i class="fa fa-comment-dots"></i> COMMENTS:
 
 				</div>
-				<div class="col section-content pin-comments">
+				<div class="col section-content">
 
-				</div>
-				<div class="col comment-actions">
+					<div class="pin-comments">
 
-					<form action="" method="post" id="comment-sender">
-						<div class="wrap xl-flexbox xl-between">
-							<div class="col comment-input-col">
-								<input type="text" class="comment-input" placeholder="Type your comments, and hit 'Enter'..." required/>
+					</div>
+					<div class="comment-actions">
+
+						<form action="" method="post" id="comment-sender">
+							<div class="wrap xl-flexbox xl-between">
+								<div class="col comment-input-col">
+									<input type="text" class="comment-input" placeholder="Type your comments, and hit 'Enter'..." required/>
+								</div>
+								<div class="col">
+									<input type="image" src="<?=asset_url('icons/comment-send.svg')?>"/>
+								</div>
 							</div>
-							<div class="col">
-								<input type="image" src="<?=asset_url('icons/comment-send.svg')?>"/>
-							</div>
-						</div>
-					</form>
+						</form>
+
+					</div>
 
 				</div>
 			</div>

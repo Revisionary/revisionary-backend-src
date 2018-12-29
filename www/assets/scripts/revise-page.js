@@ -225,6 +225,23 @@ $(function() {
 	});
 
 
+	// Pin window section toggle
+	$('#pin-window .section-title').click(function(e) {
+
+
+		// Toggle the collapsed class
+		$(this).toggleClass('collapsed');
+
+
+		// Update the location and size values first
+		relocatePins(null, null, null, true);
+
+
+		e.preventDefault();
+
+	});
+
+
 	// Comment Sender
 	$('#comment-sender').submit(function(e) {
 

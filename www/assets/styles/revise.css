@@ -368,7 +368,23 @@ html, body {
   #pin-window .section-title {
     margin-bottom: 0;
     padding-bottom: 5px;
-    border-bottom: 1px dashed gray; }
+    border-bottom: 1px dashed gray;
+    border-top: 1px dashed gray;
+    padding-top: 5px;
+    position: relative;
+    cursor: pointer; }
+    #pin-window .section-title::after {
+      content: "\f068";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%); }
+    #pin-window .section-title.collapsed::after {
+      content: "\f067"; }
+    #pin-window .section-title.collapsed + .section-content {
+      display: none; }
   #pin-window .section-content {
     padding-left: 10px; }
   #pin-window > .top-actions .close-button {
@@ -504,6 +520,23 @@ html, body {
   #pin-window.show-differences .edits-switch-wrap.original,
   #pin-window.show-differences .edit-content.original {
     display: none !important; }
+  #pin-window ul.options {
+    font-weight: 100; }
+    #pin-window ul.options > li {
+      margin-bottom: 5px; }
+      #pin-window ul.options > li:last-child {
+        margin-bottom: 0; }
+      #pin-window ul.options > li.choice {
+        margin-left: -5px; }
+        #pin-window ul.options > li.choice > a {
+          border: 1px solid white;
+          padding: 2px 5px;
+          border-radius: 10px; }
+        #pin-window ul.options > li.choice > .active {
+          background-color: black;
+          color: white;
+          border-color: white;
+          outline-color: black; }
   #pin-window[data-pin-private="1"] {
     box-shadow: 0px 0px 18px 1px #FC0F42; }
   #pin-window[data-pin-type="live"] {

@@ -615,6 +615,32 @@ html, body {
 		margin-bottom: 0;
 		padding-bottom: 5px;
 		border-bottom: 1px dashed gray;
+		border-top: 1px dashed gray;
+		padding-top: 5px;
+		position: relative;
+		cursor: pointer;
+
+		&::after {
+			content: "\f068";
+	    	font-family: 'Font Awesome 5 Free';
+	    	font-weight: 900;
+	    	position: absolute;
+	    	right: 0;
+		    top: 50%;
+		    transform: translateY(-50%);
+		}
+
+		&.collapsed {
+
+			&::after {
+				content: "\f067";
+			}
+
+			& + .section-content {
+				display: none;
+			}
+
+		}
 	}
 
 	.section-content {
@@ -872,6 +898,38 @@ html, body {
 		& .edits-switch-wrap.original,
 		& .edit-content.original {
 			display: none !important;
+		}
+
+	}
+
+	ul.options {
+		font-weight: 100;
+
+		& > li {
+			margin-bottom: 5px;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+			&.choice {
+				margin-left: -5px;
+
+				& > a {
+					border: 1px solid white;
+					padding: 2px 5px;
+					border-radius: 10px;
+				}
+
+				& > .active {
+					background-color: $color;
+					color: white;
+					border-color: white;
+					outline-color: $color;
+				}
+
+			}
+
 		}
 
 	}
