@@ -441,6 +441,9 @@
 	>
 
 		<div class="wrap xl-flexbox xl-between top-actions">
+			<div class="col move-window">
+				<i class="fa fa-arrows-alt"></i>
+			</div>
 			<div class="col">
 
 				<div class="wrap xl-flexbox actions">

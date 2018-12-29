@@ -350,6 +350,8 @@ html, body {
 #pin-window {
   pointer-events: none;
   opacity: 0;
+  visibility: hidden;
+  display: none;
   background-color: white;
   border: 5px solid black;
   border-radius: 10px;
@@ -359,7 +361,9 @@ html, body {
   box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5); }
   #pin-window.active {
     pointer-events: auto;
-    opacity: 1; }
+    opacity: 1;
+    visibility: visible;
+    display: block; }
   #pin-window > div {
     margin-bottom: 25px;
     position: relative; }
@@ -399,6 +403,8 @@ html, body {
       margin-right: 5px; }
     #pin-window > .top-actions .action:first-child {
       margin-left: 0; }
+  #pin-window .move-window {
+    cursor: move; }
   #pin-window .switch {
     font-size: 12px;
     line-height: 14px;

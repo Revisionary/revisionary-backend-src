@@ -182,6 +182,22 @@ $(function() {
 	});
 
 
+	// Pin window draggable
+	$("#pin-window").draggable({
+		handle: ".move-window",
+		cursor: "move",
+		opacity: 0.7,
+		containment: "#page",
+		iframeFix: true,
+		start: function( event, ui ) {
+
+			// console.log('PIN WINDOW IS MOVING');
+			$("#pin-window").addClass('moved');
+
+		}
+	});
+
+
 	// Close pin window
 	$('#pin-window .close-button').click(function(e) {
 

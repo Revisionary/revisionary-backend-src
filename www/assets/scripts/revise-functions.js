@@ -1464,8 +1464,8 @@ function relocatePins(pin_selector = null, x = null, y = null, onlyPinWindow = f
 
 
 	// Relocate the pin window
-	pinWindow.css('left', new_scrolled_window_x + "px");
-	pinWindow.css('top', new_scrolled_window_y + "px");
+	pinWindow.not('.moved').css('left', new_scrolled_window_x + "px");
+	pinWindow.not('.moved').css('top', new_scrolled_window_y + "px");
 
 }
 
@@ -1895,6 +1895,10 @@ function closePinWindow() {
 
 	// Add the loading text after loading
 	pinWindow.addClass('loading');
+
+
+	// Remove the moved class
+	pinWindow.removeClass('moved');
 
 
 	// Reset the pin opacity

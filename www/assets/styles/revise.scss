@@ -589,6 +589,8 @@ html, body {
 #pin-window {
 	pointer-events: none;
 	opacity: 0;
+	visibility: hidden;
+	display: none;
 	background-color: white;
 	border: 5px solid $color;
 	border-radius: 10px;
@@ -600,6 +602,8 @@ html, body {
 	&.active {
 		pointer-events: auto;
 		opacity: 1;
+		visibility: visible;
+		display: block;
 	}
 
 	& > div {
@@ -669,6 +673,10 @@ html, body {
 		    }
 		}
 
+	}
+
+	.move-window {
+		cursor: move;
 	}
 
 	.switch {
