@@ -41,6 +41,10 @@ class Notify {
 	    string $subject,
 	    string $notification
     ) {
+	    global $debug_mode;
+
+	    if ($debug_mode) return true;
+
 
 
 		$recipients = "";

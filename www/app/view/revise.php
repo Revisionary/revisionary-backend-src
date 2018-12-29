@@ -441,7 +441,7 @@
 	>
 
 		<div class="wrap xl-flexbox xl-between top-actions">
-			<div class="col move-window">
+			<div class="col move-window" data-tooltip="Drag & Drop the pin window to detach from the pin.">
 				<i class="fa fa-arrows-alt"></i>
 			</div>
 			<div class="col">
@@ -499,7 +499,7 @@
 
 			</div>
 			<div class="col">
-				<a href="#" class="close-button"><i class="fa fa-check"></i></a>
+				<a href="#" class="close-button" data-tooltip="Close this pin window when you're done here."><i class="fa fa-check"></i></a>
 			</div>
 		</div>
 
@@ -720,7 +720,7 @@
 					<a href="#" class="remove-pin"><i class="fa fa-trash-o" aria-hidden="true"></i> REMOVE</a>
 				</div>
 				<div class="col action pin-complete">
-					<a href="#" class="complete-pin">
+					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
 						<pin
 							data-pin-type="standard"
 							data-pin-private="0"

@@ -5464,6 +5464,9 @@ a {
   [data-tooltip].bottom-tooltip:hover:after {
     bottom: auto;
     top: 100%; }
+  [data-tooltip].left-tooltip:hover:after {
+    right: auto;
+    left: 0; }
 
 .light-border picture.profile-picture {
   border-color: white; }

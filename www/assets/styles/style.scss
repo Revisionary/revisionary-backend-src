@@ -740,6 +740,11 @@ a {
 		top: 100%;
 	}
 
+	&.left-tooltip:hover:after {
+		right: auto;
+		left: 0;
+	}
+
 }
 
 .light-border picture.profile-picture {
