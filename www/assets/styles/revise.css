@@ -533,6 +533,9 @@ html, body {
       margin-bottom: 5px; }
       #pin-window ul.options > li:last-child {
         margin-bottom: 0; }
+      #pin-window ul.options > li i {
+        width: 22px;
+        text-align: center; }
       #pin-window ul.options > li.choice {
         margin-left: -5px; }
         #pin-window ul.options > li.choice > a {
