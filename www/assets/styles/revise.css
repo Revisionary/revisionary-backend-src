@@ -372,7 +372,8 @@ html, body {
     border-top: 1px dashed gray;
     padding-top: 5px;
     position: relative;
-    cursor: pointer; }
+    cursor: pointer;
+    user-select: none; }
     #pin-window .section-title::after {
       content: "\f068";
       font-family: 'Font Awesome 5 Free';

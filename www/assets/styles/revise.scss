@@ -619,6 +619,7 @@ html, body {
 		padding-top: 5px;
 		position: relative;
 		cursor: pointer;
+		user-select: none;
 
 		&::after {
 			content: "\f068";

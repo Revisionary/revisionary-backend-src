@@ -502,104 +502,119 @@
 
 		<div class="image-editor">
 
-			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
-				<div class="col title"><i class="fa fa-image"></i> Drag & Drop or <span class="select-file">Select File</span></div>
-				<div class="col">
-
-					<a href="#" class="switch edits-switch original">
-						<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
-						SHOW ORIGINAL
-					</a>
-
-				</div>
-			</div>
-
-			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
-				<div class="col">ORIGINAL IMAGE:</div>
-				<div class="col edits-switch-wrap">
-
-					<a href="#" class="switch edits-switch changes">
-						<img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/>
-						SHOW CHANGED
-					</a>
-
-				</div>
-			</div>
-
 			<div class="wrap xl-1">
-				<div class="col">
-					<div class="edit-content changes uploader">
+				<div class="col section-title"><i class="fa fa-image"></i> CONTENT:</div>
+				<div class="col section-content">
 
-					    <img class="new-image" src=""/>
-					    <div class="info"><span><span style="text-decoration: underline;">Click here</span> or drag here your image for preview</span></div>
-					    <input type="file" name="image" id="filePhoto" data-max-size="3145728" />
+					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
+						<div class="col title">Drag & Drop or <span class="select-file">Select File</span></div>
+						<div class="col">
 
+							<a href="#" class="switch edits-switch original">
+								<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
+								SHOW ORIGINAL
+							</a>
+
+						</div>
 					</div>
-					<div class="edit-content original">
-					    <img class="original-image" src=""/>
+
+					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
+						<div class="col">ORIGINAL IMAGE:</div>
+						<div class="col edits-switch-wrap">
+
+							<a href="#" class="switch edits-switch changes">
+								<img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/>
+								SHOW CHANGED
+							</a>
+
+						</div>
 					</div>
+
+					<div class="wrap xl-1">
+						<div class="col">
+							<div class="edit-content changes uploader">
+
+							    <img class="new-image" src=""/>
+							    <div class="info"><span><span style="text-decoration: underline;">Click here</span> or drag here your image for preview</span></div>
+							    <input type="file" name="image" id="filePhoto" data-max-size="3145728" />
+
+							</div>
+							<div class="edit-content original">
+							    <img class="original-image" src=""/>
+							</div>
+						</div>
+					</div>
+					<div class="wrap xl-1 xl-right difference-switch-wrap">
+						<a href="#" class="col switch remove-image">
+							<i class="fa fa-unlink" aria-hidden="true"></i> REMOVE IMAGE
+						</a>
+					</div>
+
 				</div>
 			</div>
-			<div class="wrap xl-1 xl-right difference-switch-wrap">
-				<a href="#" class="col switch remove-image">
-					<i class="fa fa-unlink" aria-hidden="true"></i> REMOVE IMAGE
-				</a>
-			</div>
+
 		</div>
 
 		<div class="content-editor">
 
-			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
-				<div class="col title"><i class="fa fa-pencil-alt"></i> EDIT CONTENT:</div>
-				<div class="col">
+			<div class="wrap xl-1">
+				<div class="col section-title"><i class="fa fa-pencil-alt"></i> CONTENT:</div>
+				<div class="col section-content">
 
-					<a href="#" class="switch edits-switch original">
-						<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
-						SHOW ORIGINAL
-					</a>
+					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
+						<div class="col title">EDIT CONTENT:</div>
+						<div class="col">
+
+							<a href="#" class="switch edits-switch original">
+								<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
+								SHOW ORIGINAL
+							</a>
+
+						</div>
+					</div>
+
+					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
+						<div class="col">
+							<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
+							ORIGINAL CONTENT:
+						</div>
+						<div class="col edits-switch-wrap">
+
+							<a href="#" class="switch edits-switch changes">
+								<img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/>
+								SHOW CHANGED
+							</a>
+
+						</div>
+					</div>
+
+					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap differences">
+						<div class="col"><i class="fa fa-random"></i> DIFFERENCE:</div>
+						<div class="col edits-switch-wrap">
+
+							<a href="#" class="switch edits-switch changes xl-hidden">
+								<img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/>
+								SHOW CHANGED
+							</a>
+
+						</div>
+					</div>
+
+					<div class="wrap xl-1 content-boxes">
+						<div class="col">
+							<div class="edit-content changes" contenteditable="true"></div>
+							<div class="edit-content original"></div>
+							<div class="edit-content differences"></div>
+						</div>
+					</div>
+
+					<div class="wrap xl-1 difference-switch-wrap">
+						<a href="#" class="col xl-right switch difference-switch">
+							<i class="fa fa-random" aria-hidden="true"></i> <span class="diff-text">SHOW DIFFERENCE</span>
+						</a>
+					</div>
 
 				</div>
-			</div>
-
-			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
-				<div class="col">
-					<img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/>
-					ORIGINAL CONTENT:
-				</div>
-				<div class="col edits-switch-wrap">
-
-					<a href="#" class="switch edits-switch changes">
-						<img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/>
-						SHOW CHANGED
-					</a>
-
-				</div>
-			</div>
-
-			<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap differences">
-				<div class="col"><i class="fa fa-random"></i> DIFFERENCE:</div>
-				<div class="col edits-switch-wrap">
-
-					<a href="#" class="switch edits-switch changes xl-hidden">
-						<img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/>
-						SHOW CHANGED
-					</a>
-
-				</div>
-			</div>
-
-			<div class="wrap xl-1 content-boxes">
-				<div class="col">
-					<div class="edit-content changes" contenteditable="true"></div>
-					<div class="edit-content original"></div>
-					<div class="edit-content differences"></div>
-				</div>
-			</div>
-
-			<div class="wrap xl-1 difference-switch-wrap">
-				<a href="#" class="col xl-right switch difference-switch">
-					<i class="fa fa-random" aria-hidden="true"></i> <span class="diff-text">SHOW DIFFERENCE</span>
-				</a>
 			</div>
 
 		</div>
