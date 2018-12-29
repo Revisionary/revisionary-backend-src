@@ -506,8 +506,8 @@
 		<div class="image-editor">
 
 			<div class="wrap xl-1">
-				<div class="col section-title"><i class="fa fa-image"></i> CONTENT:</div>
-				<div class="col section-content">
+				<div class="col section-title"><i class="fa fa-image"></i> CONTENT</div>
+				<div class="col section-content" style="padding-top: 10px;">
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
 						<div class="col title">Drag & Drop or <span class="select-file">Select File</span></div>
@@ -561,8 +561,8 @@
 		<div class="content-editor">
 
 			<div class="wrap xl-1">
-				<div class="col section-title"><i class="fa fa-pencil-alt"></i> CONTENT:</div>
-				<div class="col section-content">
+				<div class="col section-title"><i class="fa fa-pencil-alt"></i> CONTENT</div>
+				<div class="col section-content" style="padding-top: 10px;">
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
 						<div class="col title">EDIT CONTENT:</div>
@@ -626,11 +626,11 @@
 
 			<div class="wrap xl-1">
 				<div class="col section-title collapsed">
-					<i class="fa fa-sliders-h"></i> VIEW OPTIONS (in development):
+					<i class="fa fa-sliders-h"></i> VIEW OPTIONS (in development)
 				</div>
 				<div class="col section-content options">
 
-					<ul class="no-bullet options">
+					<ul class="no-bullet options" style="margin-bottom: 0;">
 						<li class="choice">
 							<a href="#" class="active"><i class="fa fa-eye"></i> Show</a> | <a href="#"><i class="fa fa-eye-slash"></i> Hide</a>
 						</li>
@@ -664,7 +664,7 @@
 			<div class="wrap xl-1">
 				<div class="col section-title">
 
-					<i class="fa fa-comment-dots"></i> COMMENTS:
+					<i class="fa fa-comment-dots"></i> COMMENTS
 
 				</div>
 				<div class="col section-content">
