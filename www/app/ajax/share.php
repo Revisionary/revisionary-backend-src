@@ -3,6 +3,7 @@
 $data = array();
 $status = "initiated";
 $shareType = false;
+$shareTo = "";
 
 $data['data']['status'] = $status;
 
@@ -106,6 +107,7 @@ if ( $user !== null ) {
 
 	// Change the share type
 	$shareType = 'user';
+	$shareTo = $user['user_ID'];
 
 
 
@@ -151,6 +153,7 @@ if ( $user !== null ) {
 
 	// Change the share type
 	$shareType = 'email';
+	$shareTo = post("email");
 
 
 }
@@ -158,16 +161,40 @@ if ( $user !== null ) {
 
 
 // Add the share to DB
-$dbData = Array(
+$share_ID = $db->insert('shares', array(
+
 	"share_type" => post('data-type'),
 	"shared_object_ID" => post("object_ID"),
-	"share_to" => $shareType == "email" ? post("email") : $user['user_ID'],
+	"share_to" => $shareTo,
 	"sharer_user_ID" => currentUserID()
-);
-$share_ID = $db->insert('shares', $dbData);
 
-if ($share_ID) $data['data']['status'] = $shareType."-added";
-else $data['data']['status'] = "not-added";
+));
+
+if ($share_ID) {
+
+	$data['data']['status'] = $shareType."-added";
+
+
+	// Notify the user
+	if ( post('data-type') == "page" || post('data-type') == "project" ) {
+
+
+		$object_link = site_url(post('data-type').'/'.post("object_ID"));
+
+
+		Notify::ID($shareTo)->mail(
+			getUserData()['fullName']." shared a ".post('data-type')." with you.",
+
+			"Hello, ".getUserData()['fullName']."(".getUserData()['email'].") shared a ".post('data-type')." with you from Revisionary App. Here is the link to access this ".post('data-type').": <br>
+
+<a href='$object_link' target='_blank'>$object_link</a>"
+		);
+
+
+	}
+
+
+} else $data['data']['status'] = "not-added";
 
 
 

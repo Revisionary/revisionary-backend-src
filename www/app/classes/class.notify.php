@@ -25,8 +25,6 @@ class Notify {
 		if ( is_array($user_ID) )
 			$user_ID = array_unique($user_ID);
 
-		if ( is_string($user_ID) )
-			$user_ID = intval($user_ID);
 
 	    // Set the user ID
 		self::$user_ID = $user_ID;
@@ -57,6 +55,11 @@ class Notify {
 				$recipients .= getUserData($user_ID)['email'].",";
 
 			}
+
+		} elseif ( is_string(self::$user_ID) ) {
+
+			// ID written as a string email
+			$recipients = self::$user_ID;
 
 		} else {
 
