@@ -385,7 +385,7 @@
 		</div>
 		<div class="col share">
 
-			<a href="#" class="button page share-button" data-type="page" data-object-id="<?=$page_ID?>"><i class="fa fa-share-alt"></i> SHARE</a>
+			<a href="#" class="button" data-modal="share_new" data-type="page" data-object-id="<?=$page_ID?>" data-object-name="<?=$page['page_name']?>" data-iamowner="<?=$page['user_ID'] == currentUserID() ? "yes" : "no"?>"><i class="fa fa-share-alt"></i> SHARE</a>
 
 		</div>
 		<div class="col pins tab-container open">
@@ -728,7 +728,7 @@
 						></pin>
 						DONE
 					</a>
-					<a href="#" class="incomplete-pin">
+					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
 						<pin
 							data-pin-type="standard"
 							data-pin-private="0"

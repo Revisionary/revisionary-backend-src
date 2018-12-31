@@ -91,6 +91,14 @@ a.learn-more {
 	font-weight: bold;
 }
 
+.text {
+
+	&-uppercase {
+		text-transform: uppercase;
+	}
+
+}
+
 ul {
 
 	& > li {
@@ -100,6 +108,11 @@ ul {
 	&.no-bullet {
 		list-style-type: none;
 		padding-left: 0;
+	}
+
+	&.no-spacing {
+		margin: 0;
+		padding: 0;
 	}
 
 }
@@ -756,6 +769,31 @@ a {
 
 .light-border picture.profile-picture {
     border-color: white;
+}
+
+figure.profile-picture {
+	width: 40px;
+	height: 40px;
+    background-size: cover;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid $color;
+
+
+	& > .abbr {
+		font-weight: normal;
+	    font-size: 15px;
+	    line-height: 20px;
+	    text-transform: uppercase;
+	}
+
+    &.has-pic > .abbr {
+	    display: none;
+    }
+
 }
 
 picture.profile-picture {
@@ -1503,6 +1541,39 @@ input.share-email {
 		font-size: 18px;
 	}
 
+
+	&#share_new {
+
+		&[data-type="project"] {
+
+			.hide-when-project {
+				display: none;
+			}
+
+		}
+
+		&[data-iamowner="no"] {
+
+			.hide-if-not-owner {
+				display: none;
+			}
+
+		}
+
+		&[data-iamowner="yes"] {
+
+			[data-my-share="no"] {
+
+				.change-access {
+					display: inline-block;
+				}
+
+			}
+
+		}
+
+	}
+
 }
 
 
@@ -1510,7 +1581,7 @@ input.share-email {
 	list-style-type: none;
 
 	& > .member {
-		margin-bottom: 20px;
+		margin-bottom: 5px;
 		position: relative;
 
 		.owner-badge {
@@ -1525,6 +1596,34 @@ input.share-email {
 		&.owner .remove,
 		&.unremoveable .remove {
 			display: none;
+		}
+
+		&[data-itsme="no"] {
+
+			.owner-badge {
+				display: none;
+			}
+
+		}
+
+		&[data-my-share="no"] {
+
+			.change-access {
+				display: none;
+			}
+
+		}
+
+		&[data-itsme="yes"] {
+
+			.hide-if-me {
+				display: none;
+			}
+
+			.change-access {
+				display: none !important;
+			}
+
 		}
 
 		.email {
@@ -2027,6 +2126,10 @@ footer {
 .wrap, .col {
 	transition: 500ms;
 }
+
+
+
+
 
 
 

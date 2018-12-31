@@ -534,3 +534,109 @@ if ( isset($project_ID) ) {
 
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="share_new" class="popup-window xl-center xl-5-12 scrollable-content" data-type="" data-object-id="" data-iamowner="" data-currentuser-id="<?=currentUserID()?>">
+	<h2>Share</h2>
+	<h5 class="to">The <b><span class="data-name"></b> <span class="data-type"></span></h5>
+
+
+
+	<div class="wrap xl-center xl-gutter-8">
+		<div class="col xl-9-10">
+
+
+
+
+			<!-- THEAD -->
+			<div class="wrap xl-table xl-gutter-24">
+				<div class="col">
+
+					<h4 style="margin-bottom: 10px;">Member</h4>
+
+				</div>
+				<div class="col xl-3-8 xl-right">
+
+					<h4 style="margin-bottom: 10px;">Access Level</h4>
+
+				</div>
+			</div>
+
+
+
+
+
+			<!-- MEMBERS -->
+			<ul class="xl-left no-spacing members">
+
+			</ul><br/>
+
+
+
+
+
+
+			<form action="" method="post">
+				<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
+
+
+				<!-- Add New -->
+				<div class="wrap xl-table xl-gutter-24">
+					<div class="col xl-3-8 hide-when-project">
+
+						<h4 style="margin-bottom: 15px;">Access Level</h4>
+						<span class="text-uppercase dropdown">
+
+							<a href="#">THIS <span class="data-type"></span> <i class="fa fa-caret-down"></i></a>
+							<ul class="selectable">
+								<li class="selected"><a href="#">THIS <span class="data-type"></span></a></li>
+								<li><a href="#">WHOLE PROJECT</a></li>
+							</ul>
+
+						</span>
+
+					</div>
+					<div class="col">
+
+						<h4 class="xl-center" style="margin-bottom: 10px;">Add New User</h4>
+						<input id="share-email" class="share-email" type="email" placeholder='Type an e-mail address and hit "Enter"...' />
+
+					</div>
+				</div><br/>
+
+
+				<!-- Actions -->
+				<div class="wrap xl-2 xl-center xl-flexbox">
+					<div class="col">
+
+						<button class="dark small add-member" disabled>Add</button>
+
+					</div>
+					<div class="col xl-first">
+
+						<button class="cancel-button light small">Close</button>
+
+					</div>
+				</div>
+				<br/>
+
+
+			</form>
+
+
+
+		</div>
+	</div>
+
+
+</div>

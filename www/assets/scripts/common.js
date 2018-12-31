@@ -2,8 +2,90 @@ $(function() {
 
 
 	// Prevent clicking '#' links
-	$('a[href="#"]').click(function(e) {
+	$(document).on('click', 'a[href="#"]', function(e) {
 		e.preventDefault();
+	});
+
+
+	// Modal Opener
+	$(document).on('click', '[data-modal]', function(e) {
+
+
+		var modalName = $(this).attr('data-modal');
+		var dataType = $(this).attr('data-type');
+		var object_ID = $(this).attr('data-object-id');
+		var objectName = $(this).attr('data-object-name');
+		var iamOwner = $(this).attr('data-iamowner');
+
+
+		// SHARE MODALS
+		if (modalName == "share_new") {
+
+
+			var modal = $('#share_new');
+			var currentUserId = modal.attr('data-currentuser-id');
+
+
+			// Update the modal data
+			modal.attr('data-type', dataType);
+			modal.attr('data-object-id', object_ID);
+			modal.attr('data-iamowner', iamOwner);
+
+
+			// Update the fields
+			modal.find('.data-type').text(dataType);
+			modal.find('.data-name').text(objectName);
+
+
+			// Clean the old data
+			modal.find('.members').html('');
+
+
+			// Bring the users from DB
+			ajax('shares-get', {
+
+				id : object_ID,
+				dataType : dataType
+
+			}).done(function(result) {
+
+
+				console.log('RESULTS:', result);
+
+
+				var users = result.users;
+
+				// Append the users
+				$(users).each(function(i, user) {
+
+					modal.find('.members').append(
+						new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, dataType, currentUserId, user.sharer_user_ID)
+					);
+
+				});
+
+
+
+			}).fail(function(result) {
+
+
+				console.log('FAILED:', result);
+
+
+			});
+
+
+		}
+
+
+		// Open the modal
+		openModal('#'+modalName);
+
+
+
+		e.preventDefault();
+		return false;
+
 	});
 
 
@@ -85,8 +167,7 @@ $(function() {
 	});
 
 
-
-	// Share Modal
+	// Share Modal !!!
 	$(document).on('click', '.share-button', function(e) {
 
 		dataType = $(this).attr('data-type') || dataType;
@@ -542,7 +623,6 @@ $(function() {
 	});
 
 
-
 	// Add new screen to modal
 	$('.screen-add > li > a').click(function(e) {
 
@@ -878,6 +958,47 @@ function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, u
 				<span '+hasPic+'>'+(mStatus == 'email' ? '<i class="fa fa-envelope" aria-hidden="true"></i>' : nameabbr)+'</span>\
 			</picture>\
 		</a>\
+	';
+
+}
+
+function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, type, currentUserId, sharer_user_ID) { console.log(user_ID, currentUserId);
+
+
+	var hasPic = userImageUrl != null ? "has-pic" : "";
+	var printPicture = hasPic == "has-pic" ? "style='background-image: url("+ userImageUrl +")'" : "";
+
+	var shareText = "This " + type;
+	if (mStatus == "owner") shareText = type + " Owner";
+	if (mStatus == "project") shareText = "Whole Project";
+
+
+	return '\
+		<li class="wrap xl-flexbox xl-middle xl-between member item" data-type="user" data-object-id="'+ user_ID +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
+			<div class="col">\
+				<div class="wrap xl-flexbox xl-middle xl-gutter-8">\
+					<div class="col">\
+						<figure class="profile-picture '+ hasPic +'" '+ printPicture +'>\
+							<span class="abbr">'+ nameAbbr +'</span>\
+						</figure>\
+					</div>\
+					<div class="col">\
+						<span class="full-name">'+ fullName +'</span>\
+						<span class="email">('+ email +')</span>\
+						<span class="owner-badge">ME</span>\
+					</div>\
+				</div>\
+			</div>\
+			<div class="col text-uppercase dropdown access">\
+				<a href="#">'+ shareText +' <i class="fa fa-caret-down change-access"></i></a>\
+				<ul class="right selectable change-access">\
+					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +'"><a href="#">THIS '+type+'</a></li>\
+					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +'"><a href="#">WHOLE PROJECT</a></li>\
+					<li class="'+ ( mStatus == "owner" ? "selected" : "" ) +' hide-if-not-owner"><a href="#">'+type+' OWNER</a></li>\
+					<li><a href="#">REMOVE ACCESS</a></li>\
+				</ul>\
+			</div>\
+		</li>\
 	';
 
 }
