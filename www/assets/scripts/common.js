@@ -7,92 +7,6 @@ $(function() {
 	});
 
 
-	// Modal Opener
-	$(document).on('click', '[data-modal]', function(e) {
-
-
-		var modalName = $(this).attr('data-modal');
-		var dataType = $(this).attr('data-type');
-		var object_ID = $(this).attr('data-object-id');
-		var objectName = $(this).attr('data-object-name');
-		var iamOwner = $(this).attr('data-iamowner');
-
-
-		// SHARE MODALS
-		if (modalName == "share_new") {
-
-
-			var modal = $('#share_new');
-			var currentUserId = modal.attr('data-currentuser-id');
-
-
-			// Update the modal data
-			modal.attr('data-type', dataType);
-			modal.attr('data-object-id', object_ID);
-			modal.attr('data-iamowner', iamOwner);
-
-
-			// Update the fields
-			modal.find('.data-type').text(dataType);
-			modal.find('.data-name').text(objectName);
-
-
-			// Clean the old data
-			modal.find('.members').html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Loading...</span></div>');
-
-
-			// Bring the users from DB
-			ajax('shares-get', {
-
-				id : object_ID,
-				dataType : dataType
-
-			}).done(function(result) {
-
-
-				console.log('RESULTS:', result);
-
-
-				// Clean the wrapper
-				modal.find('.members').html('');
-
-
-				var users = result.users;
-
-				// Append the users
-				$(users).each(function(i, user) {
-
-					modal.find('.members').append(
-						new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, dataType, currentUserId, user.sharer_user_ID)
-					);
-
-				});
-
-
-
-			}).fail(function(result) {
-
-
-				console.log('FAILED:', result);
-
-
-			});
-
-
-		}
-
-
-		// Open the modal
-		openModal('#'+modalName);
-
-
-
-		e.preventDefault();
-		return false;
-
-	});
-
-
 	// New Page/Project Modal
 	$(document).on('click', '.add-new-box', function(e) {
 
@@ -136,6 +50,7 @@ $(function() {
 	});
 
 
+
 	// Close Modal
 	$('.cancel-button').on('click', function(e) {
 
@@ -147,6 +62,21 @@ $(function() {
 		return false;
 
 	});
+
+	// Close Modal via Escape key
+	$(document).keydown(function (e){
+
+	    if(e.keyCode == 27) { // Escape
+
+			console.log('GET OUT!!!!');
+			$('.popup-window.active .cancel-button').trigger('click');
+
+		    e.preventDefault();
+		    return false;
+	    }
+
+	});
+
 
 
 	// More Options Button on New Page/Project Modal
@@ -248,7 +178,7 @@ $(function() {
 	});
 
 
-	// Share input
+	// Share input !!!
 	$('#share .share-email').on('keyup', function() {
 
 		var inputVal = $(this).val();
@@ -860,6 +790,71 @@ $(function() {
 	});
 
 
+	// Modal Opener
+	$(document).on('click', '[data-modal]', function(e) {
+
+
+		var modalName = $(this).attr('data-modal');
+		var dataType = $(this).attr('data-type');
+		var object_ID = $(this).attr('data-object-id');
+		var objectName = $(this).attr('data-object-name');
+		var iamOwner = $(this).attr('data-iamowner');
+
+
+		// SHARE MODALS
+		if (modalName == "share_new") {
+
+
+			var modal = $('#share_new');
+			var currentUserId = modal.attr('data-currentuser-id');
+
+
+			// Update the modal data
+			modal.attr('data-type', dataType);
+			modal.attr('data-object-id', object_ID);
+			modal.attr('data-iamowner', iamOwner);
+
+
+			// Update the fields
+			modal.find('.data-type').text(dataType);
+			modal.find('.data-name').text(objectName);
+
+
+			updateShares();
+
+
+		}
+
+
+		// Open the modal
+		openModal('#'+modalName);
+
+
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
+	// Share input
+	$('#share_new .share-email').on('keyup', function() {
+
+		var inputVal = $(this).val();
+
+		if ( inputVal.length > 0 ) {
+
+			$('#share_new button.add-member').prop('disabled', false);
+
+		} else {
+
+			$('#share_new button.add-member').prop('disabled', true);
+
+		}
+
+	});
+
+
 });
 
 
@@ -896,6 +891,69 @@ function addNewPageButtons() {
 		}
 
 	});
+
+}
+
+
+// Update shares
+function updateShares() {
+
+	console.log('Updating the shares...');
+
+
+	var modal = $('#share_new');
+	var currentUserId = modal.attr('data-currentuser-id');
+
+
+	// Update the modal data
+	var dataType = modal.attr('data-type');
+	var object_ID = modal.attr('data-object-id');
+	var iamOwner = modal.attr('data-iamowner');
+
+
+	// Clean the old data
+	modal.find('.members').html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Loading...</span></div>');
+
+
+	// Bring the users from DB
+	ajax('shares-get', {
+
+		id : object_ID,
+		dataType : dataType
+
+	}).done(function(result) {
+
+
+		//console.log('RESULTS:', result);
+
+
+		// Clean the wrapper
+		modal.find('.members').html('');
+
+
+		var users = result.users;
+
+		// Append the users
+		$(users).each(function(i, user) {
+
+			modal.find('.members').append(
+				new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, dataType, currentUserId, user.sharer_user_ID)
+			);
+
+		});
+
+
+
+	}).fail(function(result) {
+
+
+		console.log('FAILED:', result);
+
+
+	});
+
+
+	console.log('Shares updated');
 
 }
 
@@ -966,7 +1024,7 @@ function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, u
 
 }
 
-function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, type, currentUserId, sharer_user_ID) { console.log(user_ID, currentUserId);
+function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, type, currentUserId, sharer_user_ID) {
 
 
 	var hasPic = userImageUrl != null ? "has-pic" : "";
@@ -996,8 +1054,8 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 			<div class="col text-uppercase dropdown access">\
 				<a href="#">'+ shareText +' <i class="fa fa-caret-down change-access"></i></a>\
 				<ul class="right selectable change-access">\
-					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +'"><a href="#">THIS '+type+'</a></li>\
-					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +'"><a href="#">WHOLE PROJECT</a></li>\
+					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +' hide-if-me"><a href="#">THIS '+type+'</a></li>\
+					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +' hide-if-me"><a href="#">WHOLE PROJECT</a></li>\
 					<li class="'+ ( mStatus == "owner" ? "selected" : "" ) +' hide-if-not-owner"><a href="#">'+type+' OWNER</a></li>\
 					<li><a href="#">REMOVE ACCESS</a></li>\
 				</ul>\

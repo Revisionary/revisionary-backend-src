@@ -6030,6 +6030,8 @@ input.share-email.error {
     display: none; }
   .popup-window#share_new[data-iamowner="yes"] [data-my-share="no"] .change-access {
     display: inline-block; }
+  .popup-window#share_new[data-iamowner="yes"] [data-itsme="yes"] .change-access {
+    display: none; }
 
 .members {
   list-style-type: none; }
@@ -6052,7 +6054,7 @@ input.share-email.error {
     .members > .member[data-itsme="yes"] .hide-if-me {
       display: none; }
     .members > .member[data-itsme="yes"] .change-access {
-      display: none !important; }
+      display: inline-block; }
     .members > .member .remove {
       position: absolute;
       right: 0;
