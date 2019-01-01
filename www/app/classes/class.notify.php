@@ -41,9 +41,9 @@ class Notify {
 	    string $subject,
 	    string $notification
     ) {
-	    global $debug_mode;
+	    global $config;
 
-	    if ($debug_mode) return true;
+	    if ($config['env']['name'] != "remote-dev") return true;
 
 
 
