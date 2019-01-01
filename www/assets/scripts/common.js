@@ -38,7 +38,7 @@ $(function() {
 
 
 			// Clean the old data
-			modal.find('.members').html('');
+			modal.find('.members').html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Loading...</span></div>');
 
 
 			// Bring the users from DB
@@ -51,6 +51,10 @@ $(function() {
 
 
 				console.log('RESULTS:', result);
+
+
+				// Clean the wrapper
+				modal.find('.members').html('');
 
 
 				var users = result.users;
