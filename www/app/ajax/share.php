@@ -5,16 +5,16 @@ $status = "initiated";
 $shareType = false;
 $shareTo = "";
 
-$data['data']['status'] = $status;
+$data['status'] = $status;
 
 
 /*
 // NONCE CHECK !!! Disabled for now!
 if ( post("nonce") !== $_SESSION["js_nonce"] ) {
 
-	$data['data']['status'] = "security-error";
-	$data['data']['posted_nonce'] = post("nonce");
-	$data['data']['session_nonce'] = $_SESSION["js_nonce"];
+	$data['status'] = "security-error";
+	$data['posted_nonce'] = post("nonce");
+	$data['session_nonce'] = $_SESSION["js_nonce"];
 
 
 	// CREATE THE ERROR RESPONSE
@@ -30,10 +30,10 @@ if ( post("nonce") !== $_SESSION["js_nonce"] ) {
 // Valid e-mail?
 if (!filter_var(post("email"), FILTER_VALIDATE_EMAIL)) {
 
-	$data['data']['status'] = "invalid-email";
-	$data['data']['email'] = post("email");
-	$data['data']['posted_nonce'] = post("nonce");
-	$data['data']['session_nonce'] = $_SESSION["js_nonce"];
+	$data['status'] = "invalid-email";
+	$data['email'] = post("email");
+	$data['posted_nonce'] = post("nonce");
+	$data['session_nonce'] = $_SESSION["js_nonce"];
 
 
 	// CREATE THE ERROR RESPONSE
@@ -48,7 +48,7 @@ if (!filter_var(post("email"), FILTER_VALIDATE_EMAIL)) {
 // Valid ID?
 if ( !is_numeric(post("object_ID")) ) {
 
-	$data['data']['status'] = "invalid-id";
+	$data['status'] = "invalid-id";
 
 
 	// CREATE THE ERROR RESPONSE
@@ -65,7 +65,6 @@ if ( !is_numeric(post("object_ID")) ) {
 $db->where('user_email', post("email"));
 $user = $db->getOne('users');
 
-
 // If found
 if ( $user !== null ) {
 
@@ -73,34 +72,13 @@ if ( $user !== null ) {
 	// If current user
 	if ($user['user_ID'] == currentUserID()) {
 
-		$data['data']['status'] = "invalid-email";
+		$data['status'] = "invalid-email";
 
 
 		// CREATE THE ERROR RESPONSE
-		echo json_encode(array(
+		die(json_encode(array(
 		  'data' => $data
-		));
-
-		return;
-	}
-
-
-	// Check if already shared
-	$db->where( 'share_to', $user['user_ID'] );
-	$db->where( 'shared_object_ID', post('object_ID') );
-	$shares = $db->get('shares');
-
-	if ( count($shares) > 0 ) {
-
-		$data['data']['status'] = "already-exist";
-
-
-		// CREATE THE ERROR RESPONSE
-		echo json_encode(array(
-		  'data' => $data
-		));
-
-		return;
+		)));
 	}
 
 
@@ -111,9 +89,7 @@ if ( $user !== null ) {
 
 
 
-
-
-	$data['data'] = array(
+	$data = array(
 		'status' => 'found',
 		'user_ID' => $user['user_ID'],
 		'user_fullname' => getUserData($user['user_ID'])['fullName'],
@@ -124,31 +100,12 @@ if ( $user !== null ) {
 		'user_name' => '<span '.(getUserData($user['user_ID'])['userPic'] != "" ? "class='has-pic'" : "").'>'.(getUserData($user['user_ID'])['nameAbbr']).'</span>',
 	);
 
+
 } else { // Not found
 
-	$data['data'] = array(
+	$data = array(
 		'status' => 'not-found'
 	);
-
-
-	// Check if already shared
-	$db->where( 'share_to', post('email') );
-	$db->where( 'shared_object_ID', post('object_ID') );
-	$shares = $db->get('shares');
-
-	if ( count($shares) > 0 ) {
-
-		$data['data']['status'] = "already-exist";
-
-
-		// CREATE THE ERROR RESPONSE
-		echo json_encode(array(
-		  'data' => $data
-		));
-
-		return;
-	}
-
 
 
 	// Change the share type
@@ -160,19 +117,38 @@ if ( $user !== null ) {
 
 
 
+// Check if already shared
+$db->where( 'share_to', $shareTo );
+$db->where( 'share_type', post('data-type') );
+$db->where( 'shared_object_ID', post('object_ID') );
+$shares = $db->get('shares');
+
+if ( count($shares) > 0 ) {
+
+	$data['status'] = "already-exist";
+
+
+	// CREATE THE ERROR RESPONSE
+	die(json_encode(array(
+	  'data' => $data
+	)));
+}
+
+
+
 // Add the share to DB
 $share_ID = $db->insert('shares', array(
 
+	"share_to" => $shareTo,
 	"share_type" => post('data-type'),
 	"shared_object_ID" => post("object_ID"),
-	"share_to" => $shareTo,
 	"sharer_user_ID" => currentUserID()
 
 ));
 
-if ($share_ID) {
+if ($share_ID) { // If successful
 
-	$data['data']['status'] = $shareType."-added";
+	$data['status'] = $shareType."-added";
 
 
 	// Notify the user
@@ -194,11 +170,11 @@ if ($share_ID) {
 	}
 
 
-} else $data['data']['status'] = "not-added";
+} else $data['status'] = "not-added";
 
 
 
 // CREATE THE RESPONSE
-echo json_encode(array(
+die(json_encode(array(
   'data' => $data
-));
+)));

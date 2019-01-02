@@ -50,7 +50,7 @@
 					$action_url = 'ajax?type=data-action&data-type=category&nonce='.$_SESSION['js_nonce'];
 
 					if ($dataType == "page")
-						$action_url .= '&project_ID='.$project_ID;
+						$action_url .= '&firstParameter='.$project_ID;
 
 					?>
 					<a href="<?=site_url($action_url.'&action='.$dataType.'New')?>" class="action" data-actionn="<?=$dataType?>New" data-tooltip="Add New Category"><span style="font-family: Arial; font-weight: bold;"><i class="fa fa-plus"></i></span></a>

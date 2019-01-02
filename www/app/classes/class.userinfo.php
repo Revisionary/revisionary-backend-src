@@ -22,6 +22,8 @@ class User {
 		if ($user_ID == null)
 			$user_ID = currentUserID();
 
+
+
 	    // Set the user ID
 		self::$user_ID = $user_ID;
 		return new static;
@@ -445,7 +447,7 @@ class User {
 			// Delete the old record
 			$db->where('sort_type', $data['type']);
 			$db->where('sort_object_ID', $data['ID']);
-			$db->where('sorter_user_ID', self::$user_ID);
+			$db->where('sorter_user_ID', currentUserID());
 			$db->delete('sorting');
 
 
@@ -454,7 +456,7 @@ class User {
 				"sort_type" => $data['type'],
 				"sort_object_ID" => $data['ID'],
 				"sort_number" => $data['order'],
-				"sorter_user_ID" => self::$user_ID
+				"sorter_user_ID" => currentUserID()
 			);
 			$sort_ID = $db->insert('sorting', $dbData);
 
@@ -466,7 +468,7 @@ class User {
 
 					// Delete the old record
 					$db->where($data['type'].'_cat_'.$data['type'].'_ID', $data['ID']);
-					$db->where($data['type'].'_cat_connect_user_ID', self::$user_ID);
+					$db->where($data['type'].'_cat_connect_user_ID', currentUserID());
 					$db->delete($data['type'].'_cat_connect');
 
 
@@ -474,7 +476,7 @@ class User {
 					$id_connect = $db->insert($data['type'].'_cat_connect', array(
 						$data['type']."_cat_".$data['type']."_ID" => $data['ID'],
 						$data['type']."_cat_ID" => $data['catID'],
-						$data['type']."_cat_connect_user_ID" => self::$user_ID
+						$data['type']."_cat_connect_user_ID" => currentUserID()
 					));
 					if ($id_connect) $status = "category-successful";
 
@@ -490,6 +492,31 @@ class User {
 
 
 		return $status == "ordering-successful" || $status == "category-successful";
+
+    }
+
+
+    // Unshare
+    public function unshare(
+	    string $share_type,
+	    int $shared_object_ID
+    ) {
+	    global $db;
+
+
+	    // Check the ownership
+	    $object_user_ID = $share_type::ID($shared_object_ID)->getInfo('user_ID');
+	    $iamowner = $object_user_ID == currentUserID() ? true : false;
+
+
+		// Remove share from DB
+		$db->where('share_type', $share_type);
+		$db->where('shared_object_ID', $shared_object_ID);
+		$db->where('share_to', self::$user_ID);
+
+		if (!$iamowner) $db->where('sharer_user_ID', currentUserID());
+
+		return $db->delete('shares');
 
     }
 

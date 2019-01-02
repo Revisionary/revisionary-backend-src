@@ -546,7 +546,7 @@ if ( isset($project_ID) ) {
 
 
 
-<div id="share_new" class="popup-window xl-center xl-5-12 scrollable-content" data-type="" data-object-id="" data-iamowner="" data-currentuser-id="<?=currentUserID()?>">
+<div id="share_new" class="popup-window xl-center xl-5-12 scrollable-content" data-type="" data-id="" data-iamowner="" data-currentuser-id="<?=currentUserID()?>">
 	<h2>Share</h2>
 	<h5 class="to">The <b><span class="data-name"></b> <span class="data-type"></span></h5>
 
@@ -609,7 +609,7 @@ if ( isset($project_ID) ) {
 					<div class="col">
 
 						<h4 class="xl-center" style="margin-bottom: 10px;">Add New User</h4>
-						<input id="share-email" class="share-email" type="email" placeholder='Type an e-mail address and hit "Enter"...' />
+						<input id="share-email" class="share-email share_new-email" type="email" placeholder='Type an e-mail address and hit "Enter"...' />
 
 					</div>
 				</div><br/>

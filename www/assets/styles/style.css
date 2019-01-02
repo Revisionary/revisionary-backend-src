@@ -5150,7 +5150,13 @@ textarea {
   font-size: 14px; }
 
 [disabled] {
-  opacity: 0.5; }
+  opacity: 0.5;
+  cursor: default;
+  /*
+	&:hover {
+		background-color: $color !important;
+	}
+*/ }
 
 [draggable="true"] {
   -moz-user-select: none;
@@ -5314,6 +5320,8 @@ a {
         opacity: 1;
         transition-delay: 0s !important;
         visibility: visible; }
+      .dropdown a + ul.no-delay {
+        transition-delay: 0ms; }
       .dropdown a + ul.right {
         left: auto;
         right: 0; }
