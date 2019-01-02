@@ -123,6 +123,21 @@ $db->where( 'share_type', post('data-type') );
 $db->where( 'shared_object_ID', post('object_ID') );
 $shares = $db->get('shares');
 
+// Check the project shares if the current type is page
+if (post('data-type') == "page") {
+
+	$project_ID = Page::ID( post('object_ID') )->project_ID;
+
+
+	// Check if the project is already shared
+	$db->where( 'share_to', $shareTo );
+	$db->where( 'share_type', 'project' );
+	$db->where( 'shared_object_ID', $project_ID );
+	$project_shares = $db->get('shares');
+	$shares = array_merge($shares, $project_shares);
+
+}
+
 if ( count($shares) > 0 ) {
 
 	$data['status'] = "already-exist";

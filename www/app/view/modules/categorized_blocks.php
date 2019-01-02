@@ -62,9 +62,9 @@
 						<span class="actions">
 
 							<input class="edit-name" type="text" value="<?=$category['cat_name']?>"/>
-							<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil"></i></a>
 
-							<a href="<?=site_url($action_url.'&action=remove')?>" data-action="remove"><i class="fa fa-trash" aria-hidden="true"></i></a>
+							<a href="<?=site_url($action_url.'&action=remove')?>" data-action="remove"><i class="fa fa-trash"></i></a>
 
 						</span>
 					</span>
@@ -263,7 +263,7 @@
 												data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 											>
 												<picture class="profile-picture email">
-													<i class="fa fa-envelope" aria-hidden="true"></i>
+													<i class="fa fa-envelope"></i>
 												</picture>
 											</a>
 
@@ -364,7 +364,7 @@ if ($dataType == "page" && $allMyPins) {
 
 													<div class="page-count"><?=$block_count?> <br>Page<?=$block_count > 1 ? 's' : ''?></div>
 
-													<i class="fa fa-search" aria-hidden="true" style="font-size: 120px;"></i>
+													<i class="fa fa-search" style="font-size: 120px;"></i>
 												</a>
 
 											<?php
@@ -391,7 +391,7 @@ if ($dataType == "page" && $allMyPins) {
 
 													<span class="item device-wrap" data-type="device" data-id="<?=$device['device_ID']?>">
 														<a href="<?=site_url('revise/'.$device['device_ID'])?>" class="device-link">
-															<i class="fa <?=$device['screen_cat_icon']?>" data-tooltip="<?=$device['screen_cat_name']?> (<?=$device['screen_width']?>x<?=$device['screen_height']?>)" aria-hidden="true"></i>
+															<i class="fa <?=$device['screen_cat_icon']?>" data-tooltip="<?=$device['screen_cat_name']?> (<?=$device['screen_width']?>x<?=$device['screen_height']?>)"></i>
 														</a>
 														<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device" data-action="remove" data-confirm="Are you sure you want to completely remove this screen? Keep in mind that no one will be able to access this device and its pins anymore!"><i class="fa fa-times-circle"></i></a>
 													</span>
@@ -414,7 +414,7 @@ if ($dataType == "page" && $allMyPins) {
 										<div class="col xl-4-12 xl-left share">
 
 
-											<a href="#" class="share-button <?=$dataType?>" data-tooltip="Share"><i class="fa fa-share-alt" aria-hidden="true"></i></a>
+											<a href="#" data-modal="share_new" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-object-name="<?=$block[$dataType.'_name']?>" data-iamowner="<?=$block['user_ID'] == currentUserID() ? "yes" : "no"?>" data-tooltip="Share"><i class="fa fa-share-alt"></i></a>
 
 
 										</div>
@@ -452,7 +452,7 @@ if ($dataType == "page" && $allMyPins) {
 
 
 										<span class="name-field">
-											<span class="share-icons"><?=$isShared ? '<i class="fa fa-share-square-o" data-tooltip="You have shared this '.$dataType.' to someone." aria-hidden="true"></i>' : ""?><?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" data-tooltip="Someone has shared this '.$dataType.' to you." aria-hidden="true"></i> ' : ''?></span> <a href="<?=$block_url?>" class="invert-hover name"><?=$block[$dataType.'_name']?></a>
+											<span class="share-icons"><?=$isShared ? '<i class="fa fa-share-square-o" data-tooltip="You have shared this '.$dataType.' to someone."></i>' : ""?><?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" data-tooltip="Someone has shared this '.$dataType.' to you."></i> ' : ''?></span> <a href="<?=$block_url?>" class="invert-hover name"><?=$block[$dataType.'_name']?></a>
 
 											<?php
 											if ($block['user_ID'] == currentUserID()) {

@@ -44,19 +44,19 @@
 			<ul class="right xl-left selectable">
 				<li class="menu-item <?=$catFilter == "" ? "selected" : ""?>">
 					<a href="<?=site_url($url_prefix)?>">
-						<i class="fa fa-th" aria-hidden="true"></i>
+						<i class="fa fa-th"></i>
 						ALL <?=strtoupper($title)?>
 					</a>
 				</li>
 				<li class="menu-item <?=$catFilter == "archived" ? "selected" : ""?>">
 					<a href="<?=site_url($url_prefix.'/archived')?>">
-						<i class="fa fa-archive" aria-hidden="true"></i>
+						<i class="fa fa-archive"></i>
 						ARCHIVED <?=strtoupper($title)?>
 					</a>
 				</li>
 				<li class="menu-item <?=$catFilter == "deleted" ? "selected" : ""?>">
 					<a href="<?=site_url($url_prefix.'/deleted')?>">
-						<i class="fa fa-trash" aria-hidden="true"></i>
+						<i class="fa fa-trash"></i>
 						DELETED <?=strtoupper($title)?>
 					</a>
 				</li>
@@ -71,10 +71,10 @@
 
 			?>
 			<a href="<?=site_url(getUserData()['userName'])?>">
-				<i class="fa fa-link" aria-hidden="true"></i> https://revisionaryapp.com/<?=getUserData()['userName']?>
+				<i class="fa fa-link"></i> https://revisionaryapp.com/<?=getUserData()['userName']?>
 			</a>
 			<a href="#" class="privacy">
-				<i class="fa fa-globe-americas"></i> <i class="fa fa-caret-down" aria-hidden="true"></i>
+				<i class="fa fa-globe-americas"></i> <i class="fa fa-caret-down"></i>
 			</a>
 			<?php
 
@@ -82,8 +82,8 @@
 
 			?>
 
-			<a class="member-selector share-button project" href="#">
-				<i class="fa fa-share-alt" data-tooltip="Share" aria-hidden="true"></i>
+			<a class="member-selector" href="#" data-modal="share_new" data-type="project" data-id="<?=$project_ID?>" data-object-name="<?=$projectInfo['project_name']?>" data-iamowner="<?=$projectInfo['user_ID'] == currentUserID() ? "yes" : "no"?>" data-tooltip="Share this project">
+				<i class="fa fa-share-alt"></i>
 			</a>
 
 			<span class="people">
@@ -163,7 +163,7 @@
 					data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 				>
 					<picture class="profile-picture email">
-						<i class="fa fa-envelope" aria-hidden="true"></i>
+						<i class="fa fa-envelope"></i>
 					</picture>
 				</a>
 

@@ -34,7 +34,7 @@ $shared_users = array();
 
 // 1. Find the owner
 $objectData = $dataType::ID($object_ID);
-$owner_ID = $objectData->user_ID;
+$owner_ID = $objectData->getInfo('user_ID');
 $ownerInfo = getUserData($owner_ID);
 
 

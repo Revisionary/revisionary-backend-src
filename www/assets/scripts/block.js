@@ -34,33 +34,7 @@ $(function() {
 
 
 	    // Update the order
-	    var orderData = updateOrderNumbers(); //console.log(orderData);
-
-
-		// Start the process
-		var actionID = newProcess();
-
-	    // AJAX update the order
-		$.post(ajax_url, {
-			'ajax'		: true,
-			'type' 		: 'data-action',
-			'action' 	: 'reorder',
-			'data-type' : 'user',
-			'firstParameter' : orderData,
-			'id' 		: 0,
-			'nonce' : nonce
-		}, function(result){
-
-
-			var data = result.data;
-			console.log('RESULT: ', data);
-
-
-			// Progressbar Update
-			if ( data.status == "successful" ) endProcess(actionID);
-
-
-		}, 'json');
+	    doAction('reorder', 'user', 0, updateOrderNumbers());
 
 
 	});

@@ -433,6 +433,23 @@ $(function() {
 	});
 
 
+	// Plain text paste on content editable blocks
+	$('[contenteditable]').on('paste',function(e) {
+
+
+		e.preventDefault();
+
+		var plain_text = (e.originalEvent || e).clipboardData.getData('text/plain');
+
+		if(typeof plain_text !== 'undefined')
+			document.execCommand('insertText', false, plain_text);
+
+		console.log('PASTED: ', plain_text);
+
+
+	});
+
+
 	// ACTIONS - Archive, delete, recover, rename, ...
 	$(document).on('click', '[data-action]', function(e) {
 
@@ -482,23 +499,6 @@ $(function() {
 
 		e.preventDefault();
 		return false;
-
-	});
-
-
-	// Plain text paste on content editable blocks
-	$('[contenteditable]').on('paste',function(e) {
-
-
-		e.preventDefault();
-
-		var plain_text = (e.originalEvent || e).clipboardData.getData('text/plain');
-
-		if(typeof plain_text !== 'undefined')
-			document.execCommand('insertText', false, plain_text);
-
-		console.log('PASTED: ', plain_text);
-
 
 	});
 
@@ -575,7 +575,7 @@ $(function() {
 
 
 	// Add new member
-	$('.share_new-email').keydown(function (e){
+	$('.share_new-email').keydown(function (e) {
 
 
 	    if(e.keyCode == 13) {
@@ -772,7 +772,7 @@ function addshare_new() {
 
 
 // Do an action
-function doAction(action, object_type, object_ID, firstParameter, secondParameter, nonce = "") {
+function doAction(action, object_type, object_ID, firstParameter = null, secondParameter = null, nonce = "") {
 
 
 	// Start progress bar action
@@ -820,7 +820,7 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 			} else {
 
-				console.log('Done!?');
+				console.log(action + ' DONE');
 
 			}
 
