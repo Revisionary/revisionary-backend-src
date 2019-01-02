@@ -5028,9 +5028,16 @@ a {
 a.learn-more {
   font-weight: bold; }
 
+.text-uppercase {
+  text-transform: uppercase; }
+
 ul.no-bullet {
   list-style-type: none;
   padding-left: 0; }
+
+ul.no-spacing {
+  margin: 0;
+  padding: 0; }
 
 .button-desc {
   font-size: 20px;
@@ -5143,7 +5150,13 @@ textarea {
   font-size: 14px; }
 
 [disabled] {
-  opacity: 0.5; }
+  opacity: 0.5;
+  cursor: default;
+  /*
+	&:hover {
+		background-color: $color !important;
+	}
+*/ }
 
 [draggable="true"] {
   -moz-user-select: none;
@@ -5307,6 +5320,8 @@ a {
         opacity: 1;
         transition-delay: 0s !important;
         visibility: visible; }
+      .dropdown a + ul.no-delay {
+        transition-delay: 0ms; }
       .dropdown a + ul.right {
         left: auto;
         right: 0; }
@@ -5475,6 +5490,24 @@ a {
 
 .light-border picture.profile-picture {
   border-color: white; }
+
+figure.profile-picture {
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid black; }
+  figure.profile-picture > .abbr {
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 20px;
+    text-transform: uppercase; }
+  figure.profile-picture.has-pic > .abbr {
+    display: none; }
 
 picture.profile-picture {
   width: 20px;
@@ -5999,11 +6032,19 @@ input.share-email.error {
   .popup-window .add-screen {
     font-weight: bold;
     font-size: 18px; }
+  .popup-window#share_new[data-type="project"] .hide-when-project {
+    display: none; }
+  .popup-window#share_new[data-iamowner="no"] .hide-if-not-owner {
+    display: none; }
+  .popup-window#share_new[data-iamowner="yes"] [data-my-share="no"] .change-access {
+    display: inline-block; }
+  .popup-window#share_new[data-iamowner="yes"] [data-itsme="yes"] .change-access {
+    display: none; }
 
 .members {
   list-style-type: none; }
   .members > .member {
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     position: relative; }
     .members > .member .owner-badge {
       border: 1px solid black;
@@ -6014,6 +6055,14 @@ input.share-email.error {
     .members > .member.owner .remove,
     .members > .member.unremoveable .remove {
       display: none; }
+    .members > .member[data-itsme="no"] .owner-badge {
+      display: none; }
+    .members > .member[data-my-share="no"] .change-access {
+      display: none; }
+    .members > .member[data-itsme="yes"] .hide-if-me {
+      display: none; }
+    .members > .member[data-itsme="yes"] .change-access {
+      display: inline-block; }
     .members > .member .remove {
       position: absolute;
       right: 0;

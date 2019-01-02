@@ -22,6 +22,8 @@ class User {
 		if ($user_ID == null)
 			$user_ID = currentUserID();
 
+
+
 	    // Set the user ID
 		self::$user_ID = $user_ID;
 		return new static;
@@ -37,6 +39,11 @@ class User {
     public function getInfo($columns = null, $array = false) {
 	    global $db;
 
+
+		// If email is given
+		if ( !is_numeric(self::$user_ID) ) return false;
+
+
 	    $db->where("user_ID", self::$user_ID);
 
 		return $array ? $db->getOne("users", $columns) : $db->getValue("users", $columns);
@@ -49,7 +56,7 @@ class User {
 
 		// Get from DB
 		$userInfo = $this->getInfo(null, true);
-		if (!$userInfo) return false;
+		if (is_numeric(self::$user_ID) && !$userInfo) return false;
 
 
 		// Prepare the data
@@ -57,11 +64,11 @@ class User {
 			'userName' => $userInfo['user_name'],
 			'firstName' => $userInfo['user_first_name'],
 			'lastName' => $userInfo['user_last_name'],
-			'fullName' => $userInfo['user_first_name']." ".$userInfo['user_last_name'],
-			'nameAbbr' => mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
-			'email' => $userInfo['user_email'],
+			'fullName' => !is_numeric(self::$user_ID) ? self::$user_ID : $userInfo['user_first_name']." ".$userInfo['user_last_name'],
+			'nameAbbr' => !is_numeric(self::$user_ID) ? '<i class="fa fa-envelope"></i>' : mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
+			'email' => !is_numeric(self::$user_ID) ? 'Not confirmed yet' : $userInfo['user_email'],
 			'userPic' => $userInfo['user_picture'],
-			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.self::$user_ID.'/'.$userInfo['user_picture']) : asset_url('icons/follower-f.svg')
+			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.self::$user_ID.'/'.$userInfo['user_picture']) : null
 		);
 		$userData['printPicture'] = $userInfo['user_picture'] != "" ? 'style="background-image: url('.$userData['userPicUrl'].');"' : false;
 
@@ -440,7 +447,7 @@ class User {
 			// Delete the old record
 			$db->where('sort_type', $data['type']);
 			$db->where('sort_object_ID', $data['ID']);
-			$db->where('sorter_user_ID', self::$user_ID);
+			$db->where('sorter_user_ID', currentUserID());
 			$db->delete('sorting');
 
 
@@ -449,7 +456,7 @@ class User {
 				"sort_type" => $data['type'],
 				"sort_object_ID" => $data['ID'],
 				"sort_number" => $data['order'],
-				"sorter_user_ID" => self::$user_ID
+				"sorter_user_ID" => currentUserID()
 			);
 			$sort_ID = $db->insert('sorting', $dbData);
 
@@ -461,7 +468,7 @@ class User {
 
 					// Delete the old record
 					$db->where($data['type'].'_cat_'.$data['type'].'_ID', $data['ID']);
-					$db->where($data['type'].'_cat_connect_user_ID', self::$user_ID);
+					$db->where($data['type'].'_cat_connect_user_ID', currentUserID());
 					$db->delete($data['type'].'_cat_connect');
 
 
@@ -469,7 +476,7 @@ class User {
 					$id_connect = $db->insert($data['type'].'_cat_connect', array(
 						$data['type']."_cat_".$data['type']."_ID" => $data['ID'],
 						$data['type']."_cat_ID" => $data['catID'],
-						$data['type']."_cat_connect_user_ID" => self::$user_ID
+						$data['type']."_cat_connect_user_ID" => currentUserID()
 					));
 					if ($id_connect) $status = "category-successful";
 
@@ -485,6 +492,31 @@ class User {
 
 
 		return $status == "ordering-successful" || $status == "category-successful";
+
+    }
+
+
+    // Unshare
+    public function unshare(
+	    string $share_type,
+	    int $shared_object_ID
+    ) {
+	    global $db;
+
+
+	    // Check the ownership
+	    $object_user_ID = $share_type::ID($shared_object_ID)->getInfo('user_ID');
+	    $iamowner = $object_user_ID == currentUserID() ? true : false;
+
+
+		// Remove share from DB
+		$db->where('share_type', $share_type);
+		$db->where('shared_object_ID', $shared_object_ID);
+		$db->where('share_to', self::$user_ID);
+
+		if (!$iamowner) $db->where('sharer_user_ID', currentUserID());
+
+		return $db->delete('shares');
 
     }
 

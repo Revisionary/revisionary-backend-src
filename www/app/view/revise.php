@@ -153,7 +153,7 @@
 								<?php
 								if ($selected != "selected" && 2 != 2) {
 								?>
-								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Project" data-action="delete" data-type="project" data-id="<?=$project['project_ID']?>"></i>
+								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Project" data-action="delete" data-confirm="Are you sure you want to delete this project?"></i>
 								<?php
 								}
 								?>
@@ -238,7 +238,7 @@
 								<?php
 								if ($selected != "selected" && 2 != 2) {
 								?>
-								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Page" data-action="delete" data-type="page" data-id="<?=$pageOther['page_ID']?>"></i>
+								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Page" data-action="delete" data-confirm="Are you sure you want to delete this page?"></i>
 								<?php
 								}
 								?>
@@ -298,7 +298,7 @@
 
 							<li class="item deletable screen-registered" data-type="device" data-id="<?=$device['device_ID']?>">
 								<a href="<?=site_url('revise/'.$device['device_ID'])?>"><i class="fa <?=$device['screen_cat_icon']?>" aria-hidden="true"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
-								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" data-action="remove" data-type="device" data-id="<?=$device['device_ID']?>"></i>
+								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" data-action="remove" data-confirm="Are you sure you want to remove this screen?"></i>
 							</li>
 
 						<?php
@@ -385,7 +385,7 @@
 		</div>
 		<div class="col share">
 
-			<a href="#" class="button page share-button" data-type="page" data-object-id="<?=$page_ID?>"><i class="fa fa-share-alt"></i> SHARE</a>
+			<a href="#" class="button" data-modal="share_new" data-type="page" data-id="<?=$page_ID?>" data-object-name="<?=$page['page_name']?>" data-iamowner="<?=$page['user_ID'] == currentUserID() ? "yes" : "no"?>"><i class="fa fa-share-alt"></i> SHARE</a>
 
 		</div>
 		<div class="col pins tab-container open">
@@ -728,7 +728,7 @@
 						></pin>
 						DONE
 					</a>
-					<a href="#" class="incomplete-pin">
+					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
 						<pin
 							data-pin-type="standard"
 							data-pin-private="0"

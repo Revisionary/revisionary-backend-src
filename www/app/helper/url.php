@@ -1,8 +1,6 @@
 <?php
+
 // SITE URLS
-function filterUrl($str) {
-  return htmlspecialchars(trim($str));
-}
 
 function url($index) {
   global $_url;

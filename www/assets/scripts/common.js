@@ -2,7 +2,7 @@ $(function() {
 
 
 	// Prevent clicking '#' links
-	$('a[href="#"]').click(function(e) {
+	$(document).on('click', 'a[href="#"]', function(e) {
 		e.preventDefault();
 	});
 
@@ -50,6 +50,7 @@ $(function() {
 	});
 
 
+
 	// Close Modal
 	$('.cancel-button').on('click', function(e) {
 
@@ -61,6 +62,21 @@ $(function() {
 		return false;
 
 	});
+
+	// Close Modal via Escape key
+	$(document).keydown(function (e){
+
+	    if(e.keyCode == 27) { // Escape
+
+			console.log('GET OUT!!!!');
+			$('.popup-window.active .cancel-button').trigger('click');
+
+		    e.preventDefault();
+		    return false;
+	    }
+
+	});
+
 
 
 	// More Options Button on New Page/Project Modal
@@ -83,232 +99,6 @@ $(function() {
 
 
 	});
-
-
-
-	// Share Modal
-	$(document).on('click', '.share-button', function(e) {
-
-		dataType = $(this).attr('data-type') || dataType;
-
-		var projectShare = $(this).hasClass('project');
-
-		var theBox = projectShare && dataType == "page" ? $('.under-main-title') : $(this).parents('.block').first();
-		var boxName = projectShare && dataType == "page" ? $('h1.project-title').text() : theBox.find('.name').text();
-		var objectID = projectShare && dataType == "page" ? $('h1.project-title').attr('data-id') : theBox.attr('data-id');
-
-		if (!objectID) objectID = $(this).attr('data-object-id');
-
-
-		console.log('Data Type: ', dataType); console.log('projectShare: ', projectShare); console.log('OBJECT ID: ', objectID);
-
-
-		// Change the name
-		if (boxName) $('#share .to > b').text(boxName);
-
-
-		// Add the ID
-		$('.share-email').attr('data-id', objectID);
-
-
-		// Page or project modal?
-		$('#share-email').attr('data-type', projectShare ? "project" : "page");
-
-
-		// Hide PHP project shares
-		if (projectShare)
-			$('#share .project-shares').hide();
-		else
-			$('#share .project-shares').show();
-
-
-		// Correct the title
-		$('#share .data-type').text(dataType == 'project' || projectShare ? 'Project' : 'Page');
-
-
-		// Remove the old people
-		$('#share .members:not(.project-php):not(.page-php)').html('');
-
-
-		// Add the people !!! Fill the members from DB !!!
-		if (theBox.length) {
-
-			theBox.find('.people > a').each(function(i, member) {
-
-				var mStatus = $(member).attr('data-mstatus');
-				var email = $(member).attr('data-email');
-				var fullName = $(member).attr('data-fullname');
-				var nameabbr = $(member).attr('data-nameabbr');
-				var userImageUrl = $(member).attr('data-avatar');
-				var user_ID = $(member).attr('data-userid');
-				var unremoveable = $(member).attr('data-unremoveable');
-
-
-				$('#share .members:not(.project-php)').append(
-					memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, user_ID, unremoveable, objectID)
-				);
-
-			});
-
-		}
-
-
-		// Open the modal
-		openModal('#share');
-
-
-		e.preventDefault();
-		return false;
-
-	});
-
-
-	// Share input
-	$('#share .share-email').on('keyup', function() {
-
-		var inputVal = $(this).val();
-
-		if ( inputVal.length > 0 ) {
-
-			$('#share button.add-member').prop('disabled', false);
-
-		} else {
-
-			$('#share button.add-member').prop('disabled', true);
-
-		}
-
-	});
-
-
-	// Add Member Button
-	$('.add-member').on('click', function(e) {
-
-		addShare( $('#share-email') );
-
-		e.preventDefault();
-		return false;
-	});
-
-
-	// Add new member
-	$('.share-email').keydown(function (e){
-
-
-	    if(e.keyCode == 13) {
-
-			addShare( $(this) );
-
-		    e.preventDefault();
-		    return false;
-	    }
-
-	});
-
-
-	function addShare(element) {
-
-		var input = element;
-		var type = element.attr('data-type');
-		var objectID = element.attr('data-id');
-		var theBox = type == 'project' && $('.under-main-title .people').length ? $('.under-main-title') : $('.block[data-id="'+objectID+'"]');
-		var memberList = $('.members');
-
-
-
-	    input.prop('disabled', true);
-
-	    console.log(type, nonce, objectID, input.val());
-
-
-		// Start the process
-		var actionID = newProcess();
-
-		// AJAX Send data
-		$.post(ajax_url, {
-
-			'type'		: 'share',
-			'data-type'	: type,
-			'nonce'		: nonce,
-			'object_ID'	: objectID,
-			'email'		: input.val()
-
-		}, function(result){
-
-			$.each(result.data, function(key, data){
-
-
-				console.log(key, data);
-
-
-				// If user added
-				if ( data.status == "user-added" ) {
-
-					// Add to members
-					$('#share .members:not(.project-php)').append(
-						memberTemplate('user', input.val(), data.user_fullname, data.user_nameabbr, data.user_avatar, data.user_ID, "", objectID)
-					);
-
-
-					// Add to the box
-					if (theBox.length) {
-
-						theBox.find('.people').append(
-							memberTemplateSmall('user', input.val(), data.user_fullname, data.user_nameabbr, data.user_avatar, data.user_ID, "")
-						);
-
-					}
-
-
-					input.removeClass('error');
-					input.val('');
-					$('#share button.add-member').prop('disabled', true);
-
-
-				} else if ( data.status == "email-added" ) {
-
-					// Add to members
-					$('#share .members:not(.project-php)').append(
-						memberTemplate('email', input.val(), '', '', '', '', '', objectID)
-					);
-
-
-					// Add to the box
-					if (theBox.length) {
-
-						theBox.find('.people').append(
-							memberTemplateSmall('email', input.val(), '', '', '', '', '')
-						);
-
-					}
-
-
-					input.removeClass('error');
-					input.val('');
-					$('#share button.add-member').prop('disabled', true);
-
-				} else if ( data.status == "invalid-email" ) {
-
-					input.addClass('error');
-
-				} else {
-
-					input.addClass(data.status);
-
-				}
-
-				input.prop('disabled', false);
-
-
-				// Finish the process
-				endProcess(actionID);
-
-			});
-
-		}, 'json');
-
-
-    }
 
 
 	// Unshare Member
@@ -379,7 +169,6 @@ $(function() {
 		return false;
 
 	});
-
 
 
 	// Add user toggle
@@ -542,7 +331,6 @@ $(function() {
 	});
 
 
-
 	// Add new screen to modal
 	$('.screen-add > li > a').click(function(e) {
 
@@ -646,20 +434,30 @@ $(function() {
 
 
 	// ACTIONS - Archive, delete, recover, rename, ...
-	$('[data-action]').click(function(e) {
+	$(document).on('click', '[data-action]', function(e) {
 
-		var object_ID = $(this).attr('data-id') || null;
-		var object_type = $(this).attr('data-type') || null;
+
+		// Item details
+		var item = $(this).parents('.item');
+		var object_ID = item.attr('data-id') || null;
+		var object_type = item.attr('data-type') || null;
+		var firstParameter = item.attr('data-parameter') || null;
+		var secondParameter = item.attr('data-second-parameter') || null;
+
+
+		// Action details
 		var action = $(this).attr('data-action') || null;
+		var confirmText = $(this).attr('data-confirm') || false;
 
 
+		// When renaming
 		if (action == "rename") {
 
-			var parent_item = $(this).parent().parent();
+			var parent_item = item.find('.name-field');
+			var input = item.find('input.edit-name');
+			firstParameter = input.val();
 
-			var input = parent_item.find('input.edit-name');
 			parent_item.toggleClass('editing');
-
 
 			// If the same text
 			if ( input.val() == input.attr('value') ) {
@@ -670,87 +468,16 @@ $(function() {
 		}
 
 
-		// Confirmations
-		var confirm_text;
+		if (action == "unshare") {
 
-		if ( action =='archive' )
-			confirm_text = `Are you sure you want to archive this ${object_type}?`;
+			secondParameter = $('#share_new').attr('data-id');
 
-		if ( action =='delete' )
-			confirm_text = `Are you sure you want to delete this ${object_type}?`;
-
-		if ( action =='recover' )
-			confirm_text = `Are you sure you want to recover this ${object_type}?`;
-
-		if ( action =='remove' )
-			confirm_text = `Are you sure you want to completely remove this ${object_type}? Keep in mind that no one will be able to access this ${object_type}`+ (object_type == 'project' ? ' and its pages' : '') +` anymore!`;
-
+		}
 
 
 		// If confirmed, send data
-		if (action == "rename" || confirm(confirm_text) ) {
-
-			var url = $(this).attr('href');
-			var block = $(this).parents('.block').first();
-			var itemsToHide = $('.item[data-type="'+object_type+'"][data-id="'+object_ID+'"]');
-
-
-			// Start progress bar action
-			var actionID = newProcess();
-
-			// AJAX Send data
-			$.get(url, {ajax:true, inputText: ( action == "rename" ? input.val() : '' )}, function(result){
-
-				$.each(result.data, function(key, data){
-
-					console.log(key, data);
-
-					// Progressbar Update
-					if ( data.status == "successful" ) {
-
-
-						if (action == "rename") {
-
-
-							input.attr('value', input.val() );
-							itemsToHide.find('.name').text( input.val() );
-
-
-						} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover") {
-
-							itemsToHide.remove();
-
-							// Update the add new blocks
-							if ( object_type == "category" ) addNewPageButtons();
-
-
-						} else {
-
-
-							console.log('Done!');
-
-
-						}
-
-						// End the process
-						endProcess(actionID);
-
-
-					} else {
-
-						if (action == "rename") {
-
-							parent_item.addClass('editing ' + data.status);
-
-						}
-
-					}
-
-				});
-
-			}, 'json');
-
-		}
+		if ( !confirmText || confirm(confirmText) )
+			doAction(action, object_type, object_ID, firstParameter, secondParameter);
 
 
 		e.preventDefault();
@@ -775,6 +502,91 @@ $(function() {
 
 	});
 
+
+	// Modal Opener
+	$(document).on('click', '[data-modal]', function(e) {
+
+
+		var modalName = $(this).attr('data-modal');
+		var dataType = $(this).attr('data-type');
+		var object_ID = $(this).attr('data-id');
+		var objectName = $(this).attr('data-object-name');
+		var iamOwner = $(this).attr('data-iamowner');
+
+
+		// SHARE MODALS
+		if (modalName == "share_new") {
+
+
+			var modal = $('#share_new');
+			var input = modal.find('.share_new-email');
+			var currentUserId = modal.attr('data-currentuser-id');
+
+
+			// Update the modal data
+			modal.attr('data-type', dataType);
+			modal.attr('data-id', object_ID);
+			modal.attr('data-iamowner', iamOwner);
+
+
+			// Update the fields
+			modal.find('.data-type').text(dataType);
+			modal.find('.data-name').text(objectName);
+
+
+			// Reset the input and button
+			input.removeClass('error');
+			input.val('');
+			$('#share button.add-member').prop('disabled', true);
+
+
+			updateShares();
+
+
+		}
+
+
+		// Open the modal
+		openModal('#'+modalName);
+
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
+	// Share input
+	$('#share_new .share-email').on('keyup', function() {
+
+		var inputVal = $(this).val();
+
+		if ( inputVal.length > 0 ) {
+
+			$('#share_new button.add-member').prop('disabled', false);
+
+		} else {
+
+			$('#share_new button.add-member').prop('disabled', true);
+
+		}
+
+	});
+
+
+	// Add new member
+	$('.share_new-email').keydown(function (e){
+
+
+	    if(e.keyCode == 13) {
+
+			addshare_new( $(this) );
+
+		    e.preventDefault();
+		    return false;
+	    }
+
+	});
 
 });
 
@@ -814,6 +626,231 @@ function addNewPageButtons() {
 	});
 
 }
+
+
+// Update shares
+function updateShares() {
+
+	console.log('Updating the shares...');
+
+
+	var modal = $('#share_new');
+	var currentUserId = modal.attr('data-currentuser-id');
+
+
+	// Update the modal data
+	var dataType = modal.attr('data-type');
+	var object_ID = modal.attr('data-id');
+	var iamOwner = modal.attr('data-iamowner');
+
+
+	// Clean the old data
+	modal.find('.members').html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Loading...</span></div>');
+
+
+	// Bring the users from DB
+	ajax('shares-get', {
+
+		id : object_ID,
+		dataType : dataType
+
+	}).done(function(result) {
+
+
+		//console.log('RESULTS:', result);
+
+
+		// Clean the wrapper
+		modal.find('.members').html('');
+
+
+		var users = result.users;
+
+		// Append the users
+		$(users).each(function(i, user) {
+
+			modal.find('.members').append(
+				new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, dataType, currentUserId, user.sharer_user_ID)
+			);
+
+		});
+
+
+
+	}).fail(function(result) {
+
+
+		console.log('FAILED:', result);
+
+
+	});
+
+
+	console.log('Shares updated');
+
+}
+
+
+// Add a share
+function addshare_new() {
+
+
+	var modal = $('#share_new');
+	var input = modal.find('.share_new-email');
+	var object_ID = modal.attr('data-id');
+	var type = modal.attr('data-type');
+
+
+	console.log('ADDING A SHARE: ', type, object_ID, input.val());
+
+
+	// Disable the input
+	input.prop('disabled', true);
+
+
+	// Start the process
+	var actionID = newProcess();
+
+	ajax('share', {
+
+		'data-type'	: type,
+		'object_ID'	: object_ID,
+		'email'		: input.val(),
+		'nonce'		: nonce
+
+	}).done(function(result) {
+
+
+		console.log(result);
+
+		var data = result.data;
+
+
+		// If user added
+		if ( data.status == "user-added" || data.status == "email-added" ) {
+
+
+			// Update the shares list
+			updateShares();
+
+
+			// Reset the input and button
+			input.removeClass('error');
+			input.val('');
+			$('#share button.add-member').prop('disabled', true);
+
+
+			// Scroll to the bottom
+			modal.find('.mCustomScrollBox').animate({
+				scrollTop: 999
+			}, "slow");
+
+
+		} else if ( data.status == "invalid-email" ) {
+
+			input.addClass('error');
+
+		} else {
+
+			input.addClass(data.status);
+
+		}
+
+
+		// Reactivate the input
+		input.prop('disabled', false);
+
+
+
+		// Finish the process
+		endProcess(actionID);
+
+	});
+
+
+}
+
+
+// Do an action
+function doAction(action, object_type, object_ID, firstParameter, secondParameter, nonce = "") {
+
+
+	// Start progress bar action
+	var actionID = newProcess();
+
+	// AJAX Send data
+	ajax('data-action', {
+		'ajax' 			  : true,
+		'action' 		  : action,
+		'data-type' 	  : object_type,
+		'id' 			  : object_ID,
+		'firstParameter'  : firstParameter,
+		'secondParameter' : secondParameter,
+		'nonce' : nonce
+	}).done(function(result) {
+
+
+		var data = result.data;
+		var items = $('.item[data-type="'+object_type+'"][data-id="'+object_ID+'"]');
+
+
+		console.log("RESPONSE: ", data);
+
+
+		// Progressbar Update
+		if ( data.status == "successful" ) {
+
+
+			if (action == "rename") {
+
+
+				items.find('input.edit-name').attr('value', firstParameter );
+				items.find('.name').text( firstParameter );
+
+
+			} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover" || action == "unshare") {
+
+
+				// Hide the item
+				items.remove();
+
+				// Update the add new blocks
+				if ( object_type == "category" ) addNewPageButtons();
+
+
+			} else {
+
+				console.log('Done!?');
+
+			}
+
+
+			// End the process
+			endProcess(actionID);
+
+
+		} else { // UNSUCCESSFUL
+
+
+			if (action == "rename") {
+
+				item.find('.name-field').addClass('editing ' + data.status);
+
+			}
+
+
+		}
+
+
+	}).fail(function(error) {
+
+		console.log('FAILED: ', error);
+
+	});
+
+
+}
+
 
 
 
@@ -878,6 +915,47 @@ function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, u
 				<span '+hasPic+'>'+(mStatus == 'email' ? '<i class="fa fa-envelope" aria-hidden="true"></i>' : nameabbr)+'</span>\
 			</picture>\
 		</a>\
+	';
+
+}
+
+function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, type, currentUserId, sharer_user_ID) {
+
+
+	var hasPic = userImageUrl != null ? "has-pic" : "";
+	var printPicture = hasPic == "has-pic" ? "style='background-image: url("+ userImageUrl +")'" : "";
+
+	var shareText = "This " + type;
+	if (mStatus == "owner") shareText = type + " Owner";
+	if (mStatus == "project") shareText = "Whole Project";
+
+
+	return '\
+		<li class="wrap xl-flexbox xl-middle xl-between member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
+			<div class="col">\
+				<div class="wrap xl-flexbox xl-middle xl-gutter-8">\
+					<div class="col">\
+						<figure class="profile-picture '+ hasPic +'" '+ printPicture +'>\
+							<span class="abbr">'+ nameAbbr +'</span>\
+						</figure>\
+					</div>\
+					<div class="col">\
+						<span class="full-name">'+ fullName +'</span>\
+						<span class="email">('+ email +')</span>\
+						<span class="owner-badge">ME</span>\
+					</div>\
+				</div>\
+			</div>\
+			<div class="col text-uppercase dropdown access">\
+				<a href="#">'+ shareText +' <i class="fa fa-caret-down change-access"></i></a>\
+				<ul class="no-delay right selectable change-access">\
+					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +' hide-if-me"><a href="#">THIS '+type+'</a></li>\
+					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +' hide-if-me"><a href="#">WHOLE PROJECT</a></li>\
+					<li class="'+ ( mStatus == "owner" ? "selected" : "" ) +' hide-if-not-owner"><a href="#">'+type+' OWNER</a></li>\
+					<li><a href="#" data-action="unshare" data-confirm="Are you sure you want to remove access for this user?">REMOVE ACCESS</a></li>\
+				</ul>\
+			</div>\
+		</li>\
 	';
 
 }

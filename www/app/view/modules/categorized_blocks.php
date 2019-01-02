@@ -42,7 +42,7 @@
 				<!-- Category Bar -->
 				<div
 					id="<?=permalink($category['cat_name'])?>"
-					class="item col xl-1-1 cat-separator name-field <?php
+					class="item col xl-1-1 cat-separator <?php
 						if (
 							$category['cat_name'] == "Uncategorized" ||
 							(
@@ -57,14 +57,16 @@
 					data-type="category"
 					draggable="true"
 				>
-					<span class="name"><?=$category['cat_name']?></span>
-					<span class="actions">
+					<span class="name-field">
+						<span class="name"><?=$category['cat_name']?></span>
+						<span class="actions">
 
-						<input class="edit-name" type="text" value="<?=$category['cat_name']?>"/>
-						<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename" data-type="category" data-id="<?=$category['cat_ID']?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+							<input class="edit-name" type="text" value="<?=$category['cat_name']?>"/>
+							<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 
-						<a href="<?=site_url($action_url.'&action=remove')?>" data-actionn="remove" data-type="category" data-id="<?=$category['cat_ID']?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+							<a href="<?=site_url($action_url.'&action=remove')?>" data-action="remove"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
+						</span>
 					</span>
 
 				</div>
@@ -391,7 +393,7 @@ if ($dataType == "page" && $allMyPins) {
 														<a href="<?=site_url('revise/'.$device['device_ID'])?>" class="device-link">
 															<i class="fa <?=$device['screen_cat_icon']?>" data-tooltip="<?=$device['screen_cat_name']?> (<?=$device['screen_width']?>x<?=$device['screen_height']?>)" aria-hidden="true"></i>
 														</a>
-														<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device" data-action="remove" data-type="device" data-id="<?=$device['device_ID']?>"><i class="fa fa-times-circle"></i></a>
+														<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device" data-action="remove" data-confirm="Are you sure you want to completely remove this screen? Keep in mind that no one will be able to access this device and its pins anymore!"><i class="fa fa-times-circle"></i></a>
 													</span>
 
 												<?php
@@ -429,15 +431,15 @@ if ($dataType == "page" && $allMyPins) {
 
 												if ($catFilter == "archived" || $catFilter == "deleted") {
 											?>
-											<a href="<?=site_url($action_url.'&action=recover')?>" data-action="recover" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-tooltip="Recover"><i class="fa fa-reply" aria-hidden="true"></i></a>
+											<a href="<?=site_url($action_url.'&action=recover')?>" data-action="recover" data-confirm="Are you sure you want to recover this <?=$dataType?>?" data-tooltip="Recover"><i class="fa fa-reply"></i></a>
 											<?php
 												} else {
 											?>
-											<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-tooltip="Archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
+											<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-confirm="Are you sure you want to archive this <?=$dataType?>?" data-tooltip="Archive"><i class="fa fa-archive"></i></a>
 											<?php
 												}
 											?>
-											<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash" aria-hidden="true"></i></a>
+											<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-confirm="<?=$catFilter == "deleted" ? 'Are you sure you want to completely remove this '.$dataType.'? Keep in mind that no one will be able to access this '.$dataType.' anymore!' : 'Are you sure you want to delete this '.$dataType.'?' ?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash"></i></a>
 
 
 										</div>
@@ -457,8 +459,8 @@ if ($dataType == "page" && $allMyPins) {
 											?>
 											<span class="actions">
 
-												<input class="edit-name" type="text" value="<?=$block[$dataType.'_name']?>"/>
-												<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+												<input class="edit-name item" type="text" value="<?=$block[$dataType.'_name']?>" />
+												<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil"></i></a>
 
 											</span>
 											<?php
