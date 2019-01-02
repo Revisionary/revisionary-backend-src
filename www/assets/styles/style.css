@@ -6013,7 +6013,6 @@ input.share-email.error {
     margin-top: 0; }
     .popup-window ul.selected-screens > li {
       text-align: left;
-      padding-left: 40px;
       margin-top: 10px; }
       .popup-window ul.selected-screens > li > i {
         display: inline-block;
@@ -6032,14 +6031,18 @@ input.share-email.error {
   .popup-window .add-screen {
     font-weight: bold;
     font-size: 18px; }
-  .popup-window#share_new[data-type="project"] .hide-when-project {
+  .popup-window#share[data-type="project"] .hide-when-project {
     display: none; }
-  .popup-window#share_new[data-iamowner="no"] .hide-if-not-owner {
+  .popup-window#share[data-iamowner="no"] .hide-if-not-owner {
     display: none; }
-  .popup-window#share_new[data-iamowner="yes"] [data-my-share="no"] .change-access {
+  .popup-window#share[data-iamowner="yes"] [data-my-share="no"] .change-access {
     display: inline-block; }
-  .popup-window#share_new[data-iamowner="yes"] [data-itsme="yes"] .change-access {
+  .popup-window#share[data-iamowner="yes"] [data-itsme="yes"] .change-access {
     display: none; }
+  .popup-window#add-new[data-type="page"] .project-info {
+    display: none; }
+  .popup-window#add-new[data-type="project"] ul.selected-screens > li {
+    padding-left: 80px; }
 
 .members {
   list-style-type: none; }
@@ -6281,13 +6284,23 @@ footer .footer-links a {
 
 .blocks > .block {
   margin-bottom: 50px; }
+  .blocks > .block.add-new-block .box a,
+  .blocks > .block.add-new-template .box a {
+    min-height: inherit;
+    letter-spacing: normal; }
+    .blocks > .block.add-new-block .box a:hover .plus-icon,
+    .blocks > .block.add-new-template .box a:hover .plus-icon {
+      color: #007acc; }
+    .blocks > .block.add-new-block .box a .plus-icon,
+    .blocks > .block.add-new-template .box a .plus-icon {
+      font-family: Arial;
+      font-size: 90px;
+      line-height: 80px; }
   .blocks > .block .box {
     border: 3px solid;
     border-radius: 10px;
     min-height: 250px;
     background-size: cover; }
-    .blocks > .block .box .add-new-box:hover .plus-icon {
-      color: #007acc; }
     .blocks > .block .box .overlay {
       opacity: 0;
       background-color: rgba(0, 0, 0, 0.45);

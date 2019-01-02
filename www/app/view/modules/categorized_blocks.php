@@ -414,7 +414,7 @@ if ($dataType == "page" && $allMyPins) {
 										<div class="col xl-4-12 xl-left share">
 
 
-											<a href="#" data-modal="share_new" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-object-name="<?=$block[$dataType.'_name']?>" data-iamowner="<?=$block['user_ID'] == currentUserID() ? "yes" : "no"?>" data-tooltip="Share"><i class="fa fa-share-alt"></i></a>
+											<a href="#" data-modal="share" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-object-name="<?=$block[$dataType.'_name']?>" data-iamowner="<?=$block['user_ID'] == currentUserID() ? "yes" : "no"?>" data-tooltip="Share"><i class="fa fa-share-alt"></i></a>
 
 
 										</div>
@@ -501,10 +501,10 @@ if ($dataType == "page" && $allMyPins) {
 
 						<div class="box xl-center">
 
-							<a href="#" data-type="<?=$dataType?>" class="add-new-box wrap xl-flexbox xl-middle xl-center" style="min-height: inherit; letter-spacing: normal;">
+							<a href="#" class="wrap xl-flexbox xl-middle xl-center" data-modal="add-new" data-type="<?=$dataType?>" data-id="<?=$dataType == "project" ? "new" : $block['project_ID']?>">
 								<div class="col">
 									New <?=ucfirst($dataType)?>
-									<div class="plus-icon" style="font-family: Arial; font-size: 90px; line-height: 80px;">+</div>
+									<div class="plus-icon">+</div>
 								</div>
 							</a>
 

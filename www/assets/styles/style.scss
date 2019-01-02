@@ -1520,7 +1520,6 @@ input.share-email {
 
 		& > li {
 			text-align: left;
-			padding-left: 40px;
 			margin-top: 10px;
 
 			& > i {
@@ -1553,7 +1552,7 @@ input.share-email {
 	}
 
 
-	&#share_new {
+	&#share {
 
 		&[data-type="project"] {
 
@@ -1587,6 +1586,27 @@ input.share-email {
 					display: none;
 				}
 
+			}
+
+		}
+
+	}
+
+
+	&#add-new {
+
+		&[data-type="page"] {
+
+			.project-info {
+				display: none;
+			}
+
+		}
+
+		&[data-type="project"] {
+
+			ul.selected-screens > li {
+				padding-left: 80px;
 			}
 
 		}
@@ -1956,18 +1976,33 @@ footer {
 	& > .block {
 		margin-bottom: 50px;
 
+		&.add-new-block,
+		&.add-new-template {
+
+			.box a {
+				min-height: inherit;
+				letter-spacing: normal;
+
+				&:hover .plus-icon {
+					color: $color-secondary;
+				}
+
+				.plus-icon {
+					font-family: Arial;
+					font-size: 90px;
+					line-height: 80px;
+				}
+
+			}
+
+		}
+
 		.box {
 		    border: 3px solid;
 		    border-radius: 10px;
 		    min-height: 250px;
 		    background-size: cover;
 
-			.add-new-box {
-
-				&:hover .plus-icon {
-					color: $color-secondary;
-				}
-			}
 
 		    .overlay {
 			    opacity: 0;

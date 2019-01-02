@@ -7,49 +7,6 @@ $(function() {
 	});
 
 
-	// New Page/Project Modal
-	$(document).on('click', '.add-new-box', function(e) {
-
-		var type = $(this).attr('data-type');
-
-		var modalSelector = '#add-new-'+ type;
-
-		openModal(modalSelector);
-
-		var thisBlock = $(this).parent().parent();
-		var catID = thisBlock.prevAll('.cat-separator:first').attr('data-cat-id') || 0;
-		var catName = thisBlock.prevAll('.cat-separator:first').find('.name').text();
-		var orderNumber = thisBlock.prev('.block').attr('data-order') || 0;
-
-		$(modalSelector + ' .to').html("To <b></b> Section");
-		$(modalSelector + ' .to > b').text(catName);
-
-		if (catName == "Uncategorized")
-			$(modalSelector + ' .to').html("");
-
-
-		// Category ID input update
-		$(modalSelector + ' input[name="category"]').attr('value', catID);
-
-
-		// Order number input update
-		$(modalSelector + ' input[name="order"]').attr('value', ( typeof orderNumber !== 'undefined' ? parseInt(orderNumber) + 1 : 0 ));
-
-
-		// Focus to the input
-		setTimeout(function() {
-
-			$(modalSelector + ' input[autofocus]').focus();
-
-		}, 500);
-
-
-		e.preventDefault();
-		return false;
-
-	});
-
-
 
 	// Close Modal
 	$('.cancel-button').on('click', function(e) {
@@ -100,75 +57,6 @@ $(function() {
 
 	});
 
-
-	// Unshare Member
-	$(document).on('click', '.remove-member', function(e) {
-
-		var type = $('#share-email').attr('data-type');
-		var member = $(this).parent();
-		var memberID = $(this).attr('data-userid');
-		var objectID = $(this).attr('data-id');
-
-
-		console.log(memberID, objectID);
-
-
-		if ( confirm('Are you sure you want to unshare?') ) {
-
-			// Start the process
-			var actionID = newProcess();
-
-			// AJAX Send data
-			$.post(ajax_url, {
-
-				'type'		: 'unshare',
-				'data-type'	: type,
-				'nonce'		: nonce,
-				'object_ID'	: objectID,
-				'user_ID'	: memberID
-
-			}, function(result){
-
-				$.each(result.data, function(key, data){
-
-					console.log(key, data);
-
-					// If member is unshared
-					if ( data.status == "unshared" ) {
-
-						// Remove the member
-						member.remove();
-
-
-						// Remove from box people
-						$('.block[data-id="'+objectID+'"] .people a[data-userid="'+memberID+'"]').remove();
-						$('.block[data-id="'+objectID+'"] .people a[data-email="'+memberID+'"]').remove();
-
-						// If project members, remove from the project members section under the title
-						if ( type == "project" && $('.under-main-title .people').length ) {
-							$('.under-main-title .people a[data-userid="'+memberID+'"]').remove();
-							$('.under-main-title .people a[data-email="'+memberID+'"]').remove();
-						}
-
-
-						// Finish the process
-						endProcess(actionID);
-
-					}
-
-
-				});
-
-			}, 'json');
-
-		}
-
-
-
-		e.preventDefault();
-		return false;
-
-	});
 
 
 	// Add user toggle
@@ -487,7 +375,7 @@ $(function() {
 
 		if (action == "unshare") {
 
-			secondParameter = $('#share_new').attr('data-id');
+			secondParameter = $('#share').attr('data-id');
 
 		}
 
@@ -508,30 +396,32 @@ $(function() {
 
 
 		var modalName = $(this).attr('data-modal');
+		var modal = $('#' + modalName);
+		var currentUserId = modal.attr('data-currentuser-id');
+
 		var dataType = $(this).attr('data-type');
 		var object_ID = $(this).attr('data-id');
 		var objectName = $(this).attr('data-object-name');
 		var iamOwner = $(this).attr('data-iamowner');
 
 
+		// Update the modal data
+		modal.attr('data-type', dataType);
+		modal.attr('data-id', object_ID);
+		modal.attr('data-iamowner', iamOwner);
+
+
+		// Update the fields
+		modal.find('.data-type').text(dataType);
+		modal.find('.data-name').text(objectName);
+
+
+
 		// SHARE MODALS
-		if (modalName == "share_new") {
+		if (modalName == "share") {
 
 
-			var modal = $('#share_new');
-			var input = modal.find('.share_new-email');
-			var currentUserId = modal.attr('data-currentuser-id');
-
-
-			// Update the modal data
-			modal.attr('data-type', dataType);
-			modal.attr('data-id', object_ID);
-			modal.attr('data-iamowner', iamOwner);
-
-
-			// Update the fields
-			modal.find('.data-type').text(dataType);
-			modal.find('.data-name').text(objectName);
+			var input = modal.find('.share-email');
 
 
 			// Reset the input and button
@@ -541,6 +431,49 @@ $(function() {
 
 
 			updateShares();
+
+
+		}
+
+
+		// NEW PAGE/PROJECT MODALS
+		if (modalName == "add-new") {
+
+
+			// Update the project ID
+			modal.find('input[name="project_ID"]').attr('value', object_ID);
+
+			var thisBlock = $(this).parents('.block');
+			var catID = thisBlock.prevAll('.cat-separator:first').attr('data-cat-id') || 0;
+			var catName = thisBlock.prevAll('.cat-separator:first').find('.name').text();
+			var orderNumber = thisBlock.prev('.block').attr('data-order') || 0;
+
+
+			// Update the current category name
+			modal.find('.to').html('');
+			if (catName != "Uncategorized" && thisBlock.length)
+				modal.find('.to').html("To <b>"+ catName +"</b> Section");
+
+
+			// Print the project name
+			if (!thisBlock.length && modalName == "add-new" && dataType == "page")
+				modal.find('.to').html("To <b>"+ objectName +"</b> Project");
+
+
+			// Category ID input update
+			modal.find('input[name="category"]').attr('value', catID);
+
+
+			// Order number input update
+			modal.find('input[name="order"]').attr('value', ( typeof orderNumber !== 'undefined' ? parseInt(orderNumber) + 1 : 0 ));
+
+
+			// Focus to the input
+			setTimeout(function() {
+
+				modal.find('input[autofocus]').focus();
+
+			}, 500);
 
 
 		}
@@ -557,17 +490,17 @@ $(function() {
 
 
 	// Share input
-	$('#share_new .share-email').on('keyup', function() {
+	$('#share .share-email').on('keyup', function() {
 
 		var inputVal = $(this).val();
 
 		if ( inputVal.length > 0 ) {
 
-			$('#share_new button.add-member').prop('disabled', false);
+			$('#share button.add-member').prop('disabled', false);
 
 		} else {
 
-			$('#share_new button.add-member').prop('disabled', true);
+			$('#share button.add-member').prop('disabled', true);
 
 		}
 
@@ -575,12 +508,12 @@ $(function() {
 
 
 	// Add new member
-	$('.share_new-email').keydown(function (e) {
+	$('.share-email').keydown(function (e) {
 
 
 	    if(e.keyCode == 13) {
 
-			addshare_new( $(this) );
+			addshare( $(this) );
 
 		    e.preventDefault();
 		    return false;
@@ -634,7 +567,7 @@ function updateShares() {
 	console.log('Updating the shares...');
 
 
-	var modal = $('#share_new');
+	var modal = $('#share');
 	var currentUserId = modal.attr('data-currentuser-id');
 
 
@@ -692,11 +625,11 @@ function updateShares() {
 
 
 // Add a share
-function addshare_new() {
+function addshare() {
 
 
-	var modal = $('#share_new');
-	var input = modal.find('.share_new-email');
+	var modal = $('#share');
+	var input = modal.find('.share-email');
 	var object_ID = modal.attr('data-id');
 	var type = modal.attr('data-type');
 

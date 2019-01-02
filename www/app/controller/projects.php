@@ -15,21 +15,29 @@ if ( !userloggedIn() ) {
 if (
 	request('add_new') == "true"
 	&& request('page-url') != ""
+	&& request('project_ID') != ""
+	&& (request('project_ID') == "new" || is_numeric(request('project_ID')) )
 	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
 ) {
 
+	$project_ID = request('project_ID');
+
 
 	// Add the project
-	$project_ID = Project::ID()->addNew(
-		request('project-name'),
-		is_array(request('project_shares')) ? request('project_shares') : array(),
-		request('category'),
-		request('order'),
-		request('page-url')
-	);
+	if ($project_ID == "new") {
+
+		$project_ID = Project::ID()->addNew(
+			request('project-name'),
+			is_array(request('project_shares')) ? request('project_shares') : array(),
+			request('category'),
+			request('order'),
+			request('page-url')
+		);
+
+	}
 
 	// Check the result
-	if(!$project_ID) {
+	if(!$project_ID || !is_numeric($project_ID)) {
 		header('Location: '.site_url('projects?addprojecterror')); // If unsuccessful
 		die();
 	}
@@ -46,7 +54,7 @@ if (
 
 	// Check the result
 	if(!$page_ID) {
-		header('Location: '.site_url('projects?addpageerror')); // If unsuccessful
+		header('Location: '.site_url("project/$project_ID?addpageerror")); // If unsuccessful
 		die();
 	}
 
@@ -62,7 +70,7 @@ if (
 
 	// Check the result
 	if(!$device_ID) {
-		header('Location: '.site_url('projects?adddeviceerror')); // If unsuccessful
+		header('Location: '.site_url("project/$project_ID?adddeviceerror")); // If unsuccessful
 		die();
 	}
 
@@ -71,8 +79,6 @@ if (
 	// If successful
 	if ($device_ID)
 		header('Location: '.site_url('revise/'.$device_ID));
-	elseif ($project_ID)
-		header('Location: '.site_url('project/'.$project_ID.'#add-first-page'));
 	else
 		header('Location: '.site_url('projects?adderror'));
 

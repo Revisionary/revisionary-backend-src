@@ -82,7 +82,7 @@
 
 			?>
 
-			<a class="member-selector" href="#" data-modal="share_new" data-type="project" data-id="<?=$project_ID?>" data-object-name="<?=$projectInfo['project_name']?>" data-iamowner="<?=$projectInfo['user_ID'] == currentUserID() ? "yes" : "no"?>" data-tooltip="Share this project">
+			<a class="member-selector" href="#" data-modal="share" data-type="project" data-id="<?=$project_ID?>" data-object-name="<?=$projectInfo['project_name']?>" data-iamowner="<?=$projectInfo['user_ID'] == currentUserID() ? "yes" : "no"?>" data-tooltip="Share this project">
 				<i class="fa fa-share-alt"></i>
 			</a>
 

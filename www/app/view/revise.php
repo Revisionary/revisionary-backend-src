@@ -77,7 +77,7 @@
 
 					<span class="dropdown">
 						<a href="<?=site_url('project/'.$project_ID)?>">
-							<?=$projectInfo['project_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+							<?=$projectInfo['project_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
 							<?php
@@ -161,7 +161,7 @@
 							<?php
 							}
 							?>
-							<li><a href="#" class="add-new-box" data-type="project"><i class="fa fa-plus" aria-hidden="true"></i> Add New Project</a></li>
+							<li><a href="#" data-modal="add-new" data-type="project" data-id="new"><i class="fa fa-plus"></i> Add New Project</a></li>
 						</ul>
 					</span>
 					<sep><i class="fa fa-chevron-right"></i></sep>
@@ -192,7 +192,7 @@
 
 					<span class="dropdown">
 						<a href="<?=site_url('project/'.$project_ID)?>">
-							<?=$page['page_name']?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+							<?=$page['page_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
 							<?php
@@ -249,7 +249,7 @@
 							?>
 							<li>
 
-								<a href="#" class="add-new-box" data-type="page"><i class="fa fa-plus" aria-hidden="true"></i> Add New Page</a>
+								<a href="#" data-modal="add-new" data-object-name="<?=$projectInfo['project_name']?>" data-type="page" data-id="<?=$projectInfo['project_ID']?>"><i class="fa fa-plus"></i> Add New Page</a>
 
 							</li>
 						</ul>
@@ -267,7 +267,7 @@
 					<div class="desc nomargin">Screen Size</div>
 					<span class="dropdown">
 
-						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>" aria-hidden="true"></i> <?=$screen_name?> (<?=$width?>x<?=$height?>)  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>"></i> <?=$screen_name?> (<?=$width?>x<?=$height?>)  <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left">
 						<?php
 
@@ -297,7 +297,7 @@
 						?>
 
 							<li class="item deletable screen-registered" data-type="device" data-id="<?=$device['device_ID']?>">
-								<a href="<?=site_url('revise/'.$device['device_ID'])?>"><i class="fa <?=$device['screen_cat_icon']?>" aria-hidden="true"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
+								<a href="<?=site_url('revise/'.$device['device_ID'])?>"><i class="fa <?=$device['screen_cat_icon']?>"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
 								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" data-action="remove" data-confirm="Are you sure you want to remove this screen?"></i>
 							</li>
 
@@ -305,7 +305,7 @@
 						}
 						?>
 							<li>
-								<a href="#" class="add-screen"><i class="fa fa-plus" aria-hidden="true"></i> Add New Screen</a>
+								<a href="#" class="add-screen"><i class="fa fa-plus"></i> Add New Screen</a>
 								<ul class="xl-left screen-adder">
 									<?php
 									foreach ($screen_data as $screen_cat) {
@@ -314,7 +314,7 @@
 									<li>
 
 										<a href="#">
-											<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+											<i class="fa <?=$screen_cat['screen_cat_icon']?>"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right"></i>
 										</a>
 										<ul class="addable xl-left screen-addd">
 											<?php
@@ -385,7 +385,7 @@
 		</div>
 		<div class="col share">
 
-			<a href="#" class="button" data-modal="share_new" data-type="page" data-id="<?=$page_ID?>" data-object-name="<?=$page['page_name']?>" data-iamowner="<?=$page['user_ID'] == currentUserID() ? "yes" : "no"?>"><i class="fa fa-share-alt"></i> SHARE</a>
+			<a href="#" class="button" data-modal="share" data-type="page" data-id="<?=$page_ID?>" data-object-name="<?=$page['page_name']?>" data-iamowner="<?=$page['user_ID'] == currentUserID() ? "yes" : "no"?>"><i class="fa fa-share-alt"></i> SHARE</a>
 
 		</div>
 		<div class="col pins tab-container open">
@@ -454,7 +454,7 @@
 							data-pin-type="live"
 							data-pin-private="0"
 						></pin>
-						<a href="#"><span class="pin-label">Live Edit</span> <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+						<a href="#"><span class="pin-label">Live Edit</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
@@ -491,7 +491,7 @@
 					</div>
 					<div class="col action" data-tooltip="Coming soon.">
 
-						<i class="fa fa-user-o" aria-hidden="true"></i>
+						<i class="fa fa-user-o"></i>
 						<span>ASSIGNEE</span>
 
 					</div>
@@ -549,7 +549,7 @@
 					</div>
 					<div class="wrap xl-1 xl-right difference-switch-wrap">
 						<a href="#" class="col switch remove-image">
-							<i class="fa fa-unlink" aria-hidden="true"></i> REMOVE IMAGE
+							<i class="fa fa-unlink"></i> REMOVE IMAGE
 						</a>
 					</div>
 
@@ -613,7 +613,7 @@
 
 					<div class="wrap xl-1 difference-switch-wrap">
 						<a href="#" class="col xl-right switch difference-switch">
-							<i class="fa fa-random" aria-hidden="true"></i> <span class="diff-text">SHOW DIFFERENCE</span>
+							<i class="fa fa-random"></i> <span class="diff-text">SHOW DIFFERENCE</span>
 						</a>
 					</div>
 
@@ -699,7 +699,7 @@
 			<div class="wrap xl-flexbox xl-between">
 				<div class="col action dropdown">
 					<a href="#">
-						<i class="fa fa-pencil-square-o" aria-hidden="true"></i> MARK <i class="fa fa-caret-down" aria-hidden="true"></i>
+						<i class="fa fa-pencil-square-o"></i> MARK <i class="fa fa-caret-down"></i>
 					</a>
 					<ul>
 						<li>
@@ -717,7 +717,7 @@
 					</ul>
 				</div>
 				<div class="col action">
-					<a href="#" class="remove-pin"><i class="fa fa-trash-o" aria-hidden="true"></i> REMOVE</a>
+					<a href="#" class="remove-pin"><i class="fa fa-trash-o"></i> REMOVE</a>
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">

@@ -142,56 +142,6 @@ if (
 
 	// Check the result
 	if(!$device_ID) {
-		header('Location: '.site_url('projects?adddeviceerror')); // If unsuccessful
-		die();
-	}
-
-
-
-	// If successful, redirect to "Revise" page
-	header('Location: '.site_url('revise/'.$device_ID));
-	die();
-
-}
-
-
-
-// ADD NEW PAGE
-if (
-	request('add_new') == "true"
-	// && request('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
-) {
-
-
-
-	// Add the Page
-	$page_ID = Page::ID()->addNew(
-		$project_ID,
-		request('page-url'),
-		request('page-name'),
-		is_array(request('page_shares')) ? request('page_shares') : array(),
-		request('category'),
-		request('order')
-	);
-
-	// Check the result
-	if(!$page_ID) {
-		header('Location: '.site_url("project/$project_ID?addpageerror")); // If unsuccessful
-		die();
-	}
-
-
-
-	// Add the Devices
-	$device_ID = Device::ID()->addNew(
-		$page_ID,
-		is_array(request('screens')) ? request('screens') : array(), // Screen IDs array
-		request('page_width') != "" ? request('page_width') : null,
-		request('page_height') != "" ? request('page_height') : null
-	);
-
-	// Check the result
-	if(!$device_ID) {
 		header('Location: '.site_url("project/$project_ID?adddeviceerror")); // If unsuccessful
 		die();
 	}
