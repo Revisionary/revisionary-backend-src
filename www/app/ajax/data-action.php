@@ -40,7 +40,7 @@ if (
 		   && $action != "reorder"
 		   && $action != "unshare"
 		)
-	|| (!is_numeric( $id ) && !filter_var($id, FILTER_VALIDATE_EMAIL) )
+	|| (!is_numeric( $id ) && $id != "new" && $id != 0 && !filter_var($id, FILTER_VALIDATE_EMAIL) )
 ) {
 	$status = "fail";
 }
@@ -61,7 +61,9 @@ if ($status != 'fail') {
 // Redirect if not ajax
 if ( request('ajax') != true ) {
 
-	header('Location: '.$_SERVER['HTTP_REFERER']);
+	$return_url = queryArg("status=$status", $_SERVER['HTTP_REFERER']);
+
+	header('Location: '. $return_url );
 	die();
 
 }
