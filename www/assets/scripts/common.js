@@ -7,7 +7,6 @@ $(function() {
 	});
 
 
-
 	// Close Modal
 	$('.cancel-button').on('click', function(e) {
 
@@ -35,7 +34,6 @@ $(function() {
 	});
 
 
-
 	// More Options Button on New Page/Project Modal
 	$('.popup-window .option-toggler').on('click', function(e) {
 
@@ -56,7 +54,6 @@ $(function() {
 
 
 	});
-
 
 
 	// Add user toggle
@@ -520,6 +517,17 @@ $(function() {
 	    }
 
 	});
+
+
+	// Add Member Button
+	$('.add-member').on('click', function(e) {
+
+		addshare( $('#share-email') );
+
+		e.preventDefault();
+		return false;
+	});
+
 
 });
 
