@@ -419,7 +419,7 @@ function join_url( $parts, $encode = FALSE ) {
 
 
 // QUERY ARGUMENTS
-// Add/Update Query Argument
+// Add/Update Query Argument ( Usage: queryArg('key=value', $url) )
 function queryArg($newQuery, $url) {
 
 	// Parse the URL
@@ -460,7 +460,7 @@ function queryArg($newQuery, $url) {
 }
 
 
-// Remove Query Argument
+// Remove Query Argument ( Usage: removeQueryArg('key', $url) )
 function removeQueryArg($key, $url) {
 
 	$parsed = parse_url($url);
