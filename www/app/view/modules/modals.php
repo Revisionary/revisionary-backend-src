@@ -101,9 +101,9 @@
 
 
 						<!-- Owner -->
-						<a href="<?=site_url('profile/'.getUserData()['userName'])?>">
-							<picture class="profile-picture" <?=getUserData()['printPicture']?>>
-								<span <?=getUserData()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData()['nameAbbr']?></span>
+						<a href="<?=site_url('profile/'.getUserInfo()['userName'])?>">
+							<picture class="profile-picture" <?=getUserInfo()['printPicture']?>>
+								<span <?=getUserInfo()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserInfo()['nameAbbr']?></span>
 							</picture>
 						</a>
 
@@ -141,9 +141,9 @@
 
 
 							<!-- Owner -->
-							<a href="<?=site_url('profile/'.getUserData()['userName'])?>">
-								<picture class="profile-picture" <?=getUserData()['printPicture']?>>
-									<span <?=getUserData()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData()['nameAbbr']?></span>
+							<a href="<?=site_url('profile/'.getUserInfo()['userName'])?>">
+								<picture class="profile-picture" <?=getUserInfo()['printPicture']?>>
+									<span <?=getUserInfo()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserInfo()['nameAbbr']?></span>
 								</picture>
 							</a>
 

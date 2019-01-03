@@ -8,7 +8,7 @@ function currentUserID() {
 	return userloggedIn() ? $_SESSION['user_ID'] : "guest";
 }
 
-function getUserData($user_ID = 0) {
+function getUserInfo($user_ID = 0) {
 	global $Users;
 
 	// Get the User ID

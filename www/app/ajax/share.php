@@ -92,12 +92,12 @@ if ( $user !== null ) {
 	$data = array(
 		'status' => 'found',
 		'user_ID' => $user['user_ID'],
-		'user_fullname' => getUserData($user['user_ID'])['fullName'],
-		'user_nameabbr' => getUserData($user['user_ID'])['nameAbbr'],
-		'user_link' => site_url('profile/'.getUserData($user['user_ID'])['userName']),
-		'user_photo' => getUserData($user['user_ID'])['printPicture'],
-		'user_avatar' => getUserData($user['user_ID'])['userPicUrl'],
-		'user_name' => '<span '.(getUserData($user['user_ID'])['userPic'] != "" ? "class='has-pic'" : "").'>'.(getUserData($user['user_ID'])['nameAbbr']).'</span>',
+		'user_fullname' => getUserInfo($user['user_ID'])['fullName'],
+		'user_nameabbr' => getUserInfo($user['user_ID'])['nameAbbr'],
+		'user_link' => site_url('profile/'.getUserInfo($user['user_ID'])['userName']),
+		'user_photo' => getUserInfo($user['user_ID'])['printPicture'],
+		'user_avatar' => getUserInfo($user['user_ID'])['userPicUrl'],
+		'user_name' => '<span '.(getUserInfo($user['user_ID'])['userPic'] != "" ? "class='has-pic'" : "").'>'.(getUserInfo($user['user_ID'])['nameAbbr']).'</span>',
 	);
 
 
@@ -174,9 +174,9 @@ if ($share_ID) { // If successful
 
 
 		Notify::ID($shareTo)->mail(
-			getUserData()['fullName']." shared a ".post('data-type')." with you.",
+			getUserInfo()['fullName']." shared a ".post('data-type')." with you.",
 
-			"Hello, ".getUserData()['fullName']."(".getUserData()['email'].") shared a ".post('data-type')." with you from Revisionary App. Here is the link to access this ".post('data-type').": <br>
+			"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['email'].") shared a ".post('data-type')." with you from Revisionary App. Here is the link to access this ".post('data-type').": <br>
 
 <a href='$object_link' target='_blank'>$object_link</a>"
 		);

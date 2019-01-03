@@ -178,7 +178,7 @@
 
 											<?php
 											$block_user_ID = $block['user_ID'];
-											$block_user = getUserData($block_user_ID);
+											$block_user = getUserInfo($block_user_ID);
 											?>
 
 											<!-- Owner -->
@@ -230,7 +230,7 @@
 													$shared_user_ID = $share['share_to'];
 
 													if ( is_numeric($share['share_to']) ) {
-														$shared_user = getUserData($shared_user_ID);
+														$shared_user = getUserInfo($shared_user_ID);
 												?>
 
 											<a href="<?=site_url($shared_user['userName'])?>"

@@ -345,12 +345,12 @@ die();
 if (currentUserID() != 1) {
 
 	Notify::ID(1)->mail(
-		getUserData()['fullName']." revising a page now.",
+		getUserInfo()['fullName']." revising a page now.",
 		"
 		<b>User Information</b> <br>
-		E-Mail: ".getUserData()['email']." <br>
-		Full Name: ".getUserData()['fullName']." <br>
-		Username: ".getUserData()['userName']." <br><br>
+		E-Mail: ".getUserInfo()['email']." <br>
+		Full Name: ".getUserInfo()['fullName']." <br>
+		Username: ".getUserInfo()['userName']." <br><br>
 
 		<b>Page Link:</b> ".site_url('revise/'.$device_ID)." ($screen_name: $width x $height) <br>
 		"

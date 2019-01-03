@@ -54,10 +54,10 @@
 
 				<div class="dropdown">
 					<a href="#" class="invert-hover user-link bullet">
-						<picture class="profile-picture big" <?=getUserData()['printPicture']?>>
-							<span <?=getUserData()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserData()['nameAbbr']?></span>
+						<picture class="profile-picture big" <?=getUserInfo()['printPicture']?>>
+							<span <?=getUserInfo()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserInfo()['nameAbbr']?></span>
 							<div class="notif-no">3</div>
-						</picture> <?=getUserData()['fullName']?>
+						</picture> <?=getUserInfo()['fullName']?>
 					</a>
 					<ul class="right user-menu">
 						<li class="notifications">
@@ -65,7 +65,7 @@
 							Your notifications will be here.
 						</li>
 						<li><a href="<?=site_url('projects')?>">Projects</a></li>
-						<li><a href="<?=site_url('profile/'.getUserData()['userName'])?>">Profile</a></li>
+						<li><a href="<?=site_url('profile/'.getUserInfo()['userName'])?>">Profile</a></li>
 						<li><a href="<?=site_url('account')?>">Account</a></li>
 						<li><a href="<?=site_url('logout')?>">Logout</a></li>
 					</ul>

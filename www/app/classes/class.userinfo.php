@@ -142,7 +142,7 @@ class User {
 
 		// Bring the shared ones
 		$db->join("shares s", "p.".$data_type."_ID = s.shared_object_ID", "LEFT");
-		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".getUserData()['email']."')");
+		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".getUserInfo()['email']."')");
 		$db->joinWhere("shares s", "s.share_type", $data_type);
 
 
@@ -186,7 +186,7 @@ class User {
 			$db->where('(
 				p.user_ID = '.self::$user_ID.'
 				OR s.share_to = '.self::$user_ID.'
-				OR s.share_to = "'.getUserData()['email'].'"
+				OR s.share_to = "'.getUserInfo()['email'].'"
 				'.$find_in.'
 			)');
 
@@ -210,10 +210,10 @@ class User {
 			$db->where('(
 				p.user_ID = '.self::$user_ID.'
 				OR s.share_to = '.self::$user_ID.'
-				OR s.share_to = "'.getUserData()['email'].'"
+				OR s.share_to = "'.getUserInfo()['email'].'"
 				OR pr.user_ID = '.self::$user_ID.'
 				OR sp.share_to = '.self::$user_ID.'
-				OR sp.share_to = "'.getUserData()['email'].'"
+				OR sp.share_to = "'.getUserInfo()['email'].'"
 			)');
 
 

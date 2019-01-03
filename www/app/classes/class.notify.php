@@ -56,7 +56,7 @@ class Notify {
 					$user_ID = intval($user_ID);
 
 				// Bring the user info
-				$recipients .= getUserData($user_ID)['email'].",";
+				$recipients .= getUserInfo($user_ID)['email'].",";
 
 			}
 
@@ -68,7 +68,7 @@ class Notify {
 		} else {
 
 			// Bring the user info
-			$recipients = getUserData(self::$user_ID)['email'];
+			$recipients = getUserInfo(self::$user_ID)['email'];
 
 		}
 

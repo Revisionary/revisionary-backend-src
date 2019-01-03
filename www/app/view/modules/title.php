@@ -70,8 +70,8 @@
 			if ($title == "projects") {
 
 			?>
-			<a href="<?=site_url(getUserData()['userName'])?>">
-				<i class="fa fa-link"></i> https://revisionaryapp.com/<?=getUserData()['userName']?>
+			<a href="<?=site_url(getUserInfo()['userName'])?>">
+				<i class="fa fa-link"></i> https://revisionaryapp.com/<?=getUserInfo()['userName']?>
 			</a>
 			<a href="#" class="privacy">
 				<i class="fa fa-globe-americas"></i> <i class="fa fa-caret-down"></i>
@@ -90,7 +90,7 @@
 
 				<?php
 				$project_user_ID = $projectInfo['user_ID'];
-				$project_user = getUserData($project_user_ID);
+				$project_user = getUserInfo($project_user_ID);
 				?>
 
 				<!-- Owner -->
@@ -130,7 +130,7 @@
 						$shared_user_ID = $share['share_to'];
 
 						if ( is_numeric($share['share_to']) ) {
-							$shared_user = getUserData($shared_user_ID);
+							$shared_user = getUserInfo($shared_user_ID);
 					?>
 
 				<a href="<?=site_url($shared_user['userName'])?>"

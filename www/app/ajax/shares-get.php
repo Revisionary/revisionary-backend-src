@@ -35,7 +35,7 @@ $shared_users = array();
 // 1. Find the owner
 $objectData = $dataType::ID($object_ID);
 $owner_ID = $objectData->getInfo('user_ID');
-$ownerInfo = getUserData($owner_ID);
+$ownerInfo = getUserInfo($owner_ID);
 
 
 if ($ownerInfo) {
@@ -73,7 +73,7 @@ if ( $dataType == "page" ) {
 		// Add the shared users
 		foreach ($object_shares as $sharedUser) {
 
-			$shredUserInfo = getUserData($sharedUser['share_to']);
+			$shredUserInfo = getUserInfo($sharedUser['share_to']);
 			$shared_users[] = array(
 				'mStatus' => "project",
 				'email' => $shredUserInfo['email'],
@@ -103,7 +103,7 @@ if ($object_shares) {
 	// Add the shared users
 	foreach ($object_shares as $sharedUser) {
 
-		$shredUserInfo = getUserData($sharedUser['share_to']);
+		$shredUserInfo = getUserInfo($sharedUser['share_to']);
 		$shared_users[] = array(
 			'mStatus' => "shared",
 			'email' => $shredUserInfo['email'],
