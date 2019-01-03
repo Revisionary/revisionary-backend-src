@@ -75,6 +75,11 @@ elif [[ $ACTION == rebuild ]]; then
 elif [[ $ACTION == remove-files ]]; then
 
 
+	echo "Closing the server..."
+	docker-compose down
+	echo "Server became down."
+
+
 	echo "Removing the files..."
 	sh helpers/clean-files.sh
 	echo "Files are removed."
@@ -83,12 +88,22 @@ elif [[ $ACTION == remove-files ]]; then
 elif [[ $ACTION == prune-docker ]]; then
 
 
+	echo "Closing the server..."
+	docker-compose down
+	echo "Server became down."
+
+
 	echo "Pruning the docker..."
 	sh helpers/clean-docker.sh
 	echo "Docker reset."
 
 
 elif [[ $ACTION == reset-all ]]; then
+
+
+	echo "Closing the server..."
+	docker-compose down
+	echo "Server became down."
 
 
 	echo "Resetting all..."
