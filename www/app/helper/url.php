@@ -200,7 +200,7 @@ function parseUrl($url) {
 
 // CONVERT RELATIVE URLS TO ABSOULUTE
 // http://nadeausoftware.com/articles/2008/05/php_tip_how_convert_relative_url_absolute_url
-function url_to_absolute( $baseUrl, $relativeUrl ) {
+function url_to_absolute( $baseUrl, $relativeUrl ) { //error_log("BASE: $baseUrl ---- RELATIVE: $relativeUrl");
 
 
 	if (parseUrl($relativeUrl)['host'] != "" ) {
@@ -292,7 +292,7 @@ function split_url( $url, $decode = TRUE ) {
 
 	$parts = array();
 
-    $xunressub     = 'a-zA-Z\d\-._~\!$&\'()*+,;=';
+    $xunressub     = 'a-zA-Z\d\-._~\!$&\'()*+,;=\|';
     $xpchar        = $xunressub . ':@%';
 
     $xscheme       = '([a-zA-Z][a-zA-Z\d+-.]*)';
