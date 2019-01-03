@@ -181,6 +181,36 @@ class Pin {
 	}
 
 
+    // inComplete a pin
+    public function inComplete() {
+	    global $db;
+
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		// Update the pin
+		$db->where('pin_ID', self::$pin_ID);
+		$pin_updated = $db->update('pins', array('pin_complete' => 0));
+
+		// Update the page modification date
+		if ($pin_updated) {
+			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
+			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+
+
+			// Notify the page owners about the pin completion !!!
+
+		}
+
+
+		return $pin_updated;
+
+	}
+
+
     // Convert a pin
     public function convert(
 	    string $pin_type,
@@ -236,32 +266,6 @@ class Pin {
 		// Update the pin
 		$db->where('pin_ID', self::$pin_ID);
 		$pin_updated = $db->update('pins', array('pin_modification' => $modification));
-
-		// Update the page modification date
-		if ($pin_updated) {
-			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
-		}
-
-
-		return $pin_updated;
-
-	}
-
-
-    // inComplete a pin
-    public function inComplete() {
-	    global $db;
-
-
-
-		// More DB Checks of arguments !!! (This user can complete?)
-
-
-
-		// Update the pin
-		$db->where('pin_ID', self::$pin_ID);
-		$pin_updated = $db->update('pins', array('pin_complete' => 0));
 
 		// Update the page modification date
 		if ($pin_updated) {
