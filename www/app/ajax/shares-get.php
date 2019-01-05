@@ -127,9 +127,10 @@ $status = count($shared_users) > 0 ? "Users received" : "No Users Found";
 $info = array(
 
 	'status' => $status,
+	'dataType' => $dataType,
+	'object_ID' => $object_ID,
 	'nonce' => request('nonce'),
-	'S_nonce' => $_SESSION['pin_nonce'],
-	'object_ID' => $object_ID
+	'S_nonce' => $_SESSION['js_nonce']
 
 );
 
