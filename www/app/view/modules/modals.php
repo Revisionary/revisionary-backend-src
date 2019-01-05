@@ -261,7 +261,7 @@
 					<div class="col">
 
 						<h4 class="xl-center" style="margin-bottom: 10px;">Add New User</h4>
-						<input id="share-email" class="share-email share-email" type="email" placeholder='Type an e-mail address and hit "Enter"...' />
+						<input id="share-email" class="share-email" type="email" placeholder='Type an e-mail address and hit "Enter"...' autofocus />
 
 					</div>
 				</div><br/>

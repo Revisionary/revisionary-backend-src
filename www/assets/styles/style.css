@@ -5875,7 +5875,7 @@ section > div:last-child .side-content {
       display: block !important; }
 
 input.share-email.error {
-  border-color: red; }
+  border-color: red !important; }
 
 /**
  * Misc

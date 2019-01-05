@@ -914,7 +914,7 @@ function getPins(applyChanges = true, firstRetrieve = false) {
 	// Send the Ajax request
 	autoRefreshRequest = ajax('pins-get',
 	{
-		'nonce'	  	: pin_nonce,
+
 		'device_ID'	: device_ID
 
 	}).done(function( result ) {
@@ -1327,7 +1327,6 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 
 		    $.post(ajax_url, {
 				'type'	  	 : 'pin-relocate',
-				'nonce'	  	 : pin_nonce,
 				'pin_ID'	 : pin_ID,
 				'pin_x' 	 : pinX,
 				'pin_y' 	 : pinY
@@ -1623,7 +1622,6 @@ function putPin(pinX, pinY) {
 	// Add pin to the DB
     ajax('pin-add',
     {
-		'nonce'	  	 			: pin_nonce,
 		'pin_x' 	 			: pinX,
 		'pin_y' 	 			: pinY,
 		'pin_type' 	 			: currentCursorType,
@@ -1932,7 +1930,6 @@ function removePin(pin_ID) {
     ajax('pin-remove',
     {
 		'type'	  	: 'pin-remove',
-		'nonce'	  	: pin_nonce,
 		'pin_ID'	: pin_ID
 
 	}).done(function(result){
@@ -2015,8 +2012,7 @@ function completePin(pin_ID, complete) {
 	ajax('pin-complete',
 	{
 		'pin_ID' 	   : pin_ID,
-		'complete'	   : (complete ? 'complete' : 'incomplete'),
-		'nonce'		   : pin_nonce
+		'complete'	   : (complete ? 'complete' : 'incomplete')
 
 	}).done(function(result) {
 
@@ -2104,8 +2100,7 @@ function convertPin(pin_ID, targetPin) {
 	{
 		'pin_ID' 	    : pin_ID,
 		'pin_type'		: pinType,
-		'pin_private'   : pinPrivate,
-		'nonce'		    : pin_nonce
+		'pin_private'   : pinPrivate
 
 	}).done(function(result) {
 
@@ -2155,7 +2150,6 @@ function saveChange(pin_ID, modification) {
     ajax('pin-modify',
     {
 		'modification' 	 	: modification,
-		'nonce'	  	 		: pin_nonce,
 		'pin_ID'			: pin_ID
 
 	}).done(function(result){
@@ -2260,7 +2254,7 @@ function getComments(pin_ID, commentsWrapper = $('#pin-window .pin-comments')) {
 	// Send the Ajax request
     ajax('comments-get',
     {
-		'nonce'	  	: pin_nonce,
+
 		'pin_ID'	: pin_ID
 
 	}).done(function(result){
@@ -2351,7 +2345,7 @@ function sendComment(pin_ID, message) {
 
     ajax('comment-add',
     {
-		'nonce'	  	: pin_nonce,
+
 		'pin_ID'	: pin_ID,
 		'message'	: message
 
@@ -2398,7 +2392,7 @@ function deleteComment(pin_ID, comment_ID) {
 
     ajax('comment-delete',
     {
-		'nonce'	  	 : pin_nonce,
+
 		'pin_ID'	 : pin_ID,
 		'comment_ID' : comment_ID
 

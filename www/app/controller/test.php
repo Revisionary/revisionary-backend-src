@@ -2,6 +2,12 @@
 <?php
 
 
+$the_page = Project::ID($_url[1]);
+
+print_r($the_page);
+
+if ( $the_page ) echo "YES";
+else var_dump($the_page);
 
 
 

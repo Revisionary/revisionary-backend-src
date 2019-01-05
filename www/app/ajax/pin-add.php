@@ -47,7 +47,7 @@ $data = array(
 
 	'status' => $status,
 	'nonce' => request('nonce'),
-	'S_nonce' => $_SESSION['pin_nonce'],
+	//'S_nonce' => $_SESSION['pin_nonce'],
 	'pin_x' => $pin_x,
 	'pin_y' => $pin_y,
 	'real_pin_ID' => $pin_ID

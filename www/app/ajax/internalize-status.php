@@ -52,7 +52,7 @@ $data = array(
 
 	// JUST TO SEE
 	'page_ID' => $page_ID,
-	'userID' => $pageData->user_ID,
+	'userID' => $pageData->getInfo('user_ID'),
 	'queue_ID' => $queue_ID,
 
 	'status' => $status,

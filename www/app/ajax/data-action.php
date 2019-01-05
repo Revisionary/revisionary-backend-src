@@ -50,9 +50,21 @@ if (
 // If no problem, DB Update
 if ($status != 'fail') {
 
-	// Do the action
-	$result = $type::ID($id)->$action($first_parameter, $second_parameter);
-	$status = $result ? "successful" : "fail-db";
+	if (class_exists($type)) {
+
+		$typeApi = $type::ID($id);
+
+		if (method_exists($typeApi, $action)) {
+
+
+			// Do the action
+			$result = $typeApi->$action($first_parameter, $second_parameter);
+			$status = $result ? "successful" : "fail-db";
+
+
+		} else $status = "fail-m";
+
+	} else $status = "fail-c";
 
 }
 

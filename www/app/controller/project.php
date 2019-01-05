@@ -12,7 +12,7 @@ if ( !userloggedIn() ) {
 
 // If no project specified or not numeric, go projects page
 if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
-	header('Location: '.site_url('projects'));
+	header('Location: '.site_url('projects?invalid'));
 	die();
 }
 
@@ -22,11 +22,17 @@ $project_ID = $_url[1];
 
 
 // If the specified project doesn't exist, go projects page
-$project = Project::ID($project_ID)->getInfo("project_ID, user_ID", true);
+$project = Project::ID($project_ID);
 if ( !$project ) {
-	header('Location: '.site_url('projects'));
+	header('Location: '.site_url('projects?projectdoesntexist'));
 	die();
 }
+
+
+// PROJECT INFO
+$projectInfo = $project->getInfo();
+//die_to_print($projectInfo);
+
 
 
 
@@ -70,7 +76,7 @@ $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
 // If project doesn't belong to me and if no page belong to me
 if (
-	$project['user_ID'] != currentUserID() // If the project isn't belong to me
+	$projectInfo['user_ID'] != currentUserID() // If the project isn't belong to me
 	&& array_search(currentUserID(), array_column($projectShares, 'share_to')) === false // And, if the project isn't shared to me
 	&& count($allMyPagesList) == 0 // And, if there is no my page in it
 	&& $catFilter != "mine"
@@ -87,7 +93,6 @@ if (
 // COUNT ALL THE PINS
 $totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = 0;
 
-// Bring all the pins
 $allMyPins = array();
 if ($allMyPages && $allMyDevices) {
 
@@ -124,38 +129,6 @@ if ($allMyPages && $allMyDevices) {
 
 
 
-// ADD NEW SCREEN
-if (
-	is_numeric(get('new_screen'))
-	&& is_numeric(get('page_ID'))
-	// && get('nonce') == $_SESSION["new_screen_nonce"] !!! Disable the nonce check for now!
-) {
-
-
-	// Add the Devices
-	$device_ID = Device::ID()->addNew(
-		get('page_ID'),
-		array(get('new_screen')),
-		request('page_width') != "" ? request('page_width') : null,
-		request('page_height') != "" ? request('page_height') : null
-	);
-
-	// Check the result
-	if(!$device_ID) {
-		header('Location: '.site_url("project/$project_ID?adddeviceerror")); // If unsuccessful
-		die();
-	}
-
-
-
-	// If successful, redirect to "Revise" page
-	header('Location: '.site_url('revise/'.$device_ID));
-	die();
-
-}
-
-
-
 // Project last modified
 $db->where('project_ID', $project_ID);
 $db->orderBy('page_modified', 'desc');
@@ -184,12 +157,6 @@ foreach($theCategorizedData as $categories) {
 	}
 
 }
-
-
-
-// PROJECT INFO
-$projectInfo = Project::ID($project_ID)->getInfo(null, true);
-//die_to_print($projectInfo);
 
 
 // CATEGORY INFO
@@ -222,7 +189,7 @@ $additionalBodyJS = [
 
 
 // Generate new nonce for add new screens
-$_SESSION["new_screen_nonce"] = uniqid(mt_rand(), true);
+//$_SESSION["new_screen_nonce"] = uniqid(mt_rand(), true);
 
 
 $page_title = $projectInfo['project_name']." Project - Revisionary App";

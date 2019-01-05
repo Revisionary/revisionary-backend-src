@@ -64,7 +64,7 @@ class Screen {
 		// Get the parent page info
 		if ($parent_page_ID != null) {
 
-		    $parentPageInfo = Page::ID($parent_page_ID)->getInfo(null, true);
+		    $parentPageInfo = Page::ID($parent_page_ID)->getInfo();
 
 			if ($page_name == null) $page_name = $parentPageInfo['page_name'];
 			if ($page_url == null) $page_url = $parentPageInfo['page_url'];

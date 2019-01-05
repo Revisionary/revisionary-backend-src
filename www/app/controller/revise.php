@@ -390,11 +390,11 @@ $additionalBodyJS = [
 
 
 // Generate new nonce for add new screens
-$_SESSION["new_screen_nonce"] = uniqid(mt_rand(), true);
+//$_SESSION["new_screen_nonce"] = uniqid(mt_rand(), true);
 
 
 // Generate new nonce for pin actions
-$_SESSION["pin_nonce"] = uniqid(mt_rand(), true);
+//$_SESSION["pin_nonce"] = uniqid(mt_rand(), true);
 //error_log("SESSION CREATED: ".$_SESSION["pin_nonce"]);
 
 

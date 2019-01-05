@@ -2,6 +2,7 @@
 
 $data = array();
 $status = "initiated";
+$email = post("email");
 
 
 // NONCE CHECK !!! Disabled for now!
@@ -9,23 +10,21 @@ $status = "initiated";
 
 
 // Valid e-mail?
-if (!filter_var(post("email"), FILTER_VALIDATE_EMAIL)) {
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-	$data['data']['status'] = "invalid-email";
+	$data['status'] = "invalid-email";
 
 
 	// CREATE THE ERROR RESPONSE
-	echo json_encode(array(
+	die(json_encode(array(
 	  'data' => $data
-	));
-
-	return;
+	)));
 }
 
 
 
 // DB Check for existing user
-$db->where('user_email', post("email"));
+$db->where('user_email', $email);
 $user = $db->getOne('users');
 
 
@@ -36,7 +35,7 @@ if ( $user !== null ) {
 	// If current user
 	if ($user['user_ID'] == currentUserID()) {
 
-		$data['data']['status'] = "invalid-email";
+		$data['status'] = "invalid-email";
 
 
 		// CREATE THE ERROR RESPONSE
@@ -51,19 +50,24 @@ if ( $user !== null ) {
 
 
 
-	$data['data'] = array(
+	$data = array(
 		'status' => 'found',
+		'share_to' => $user['user_ID'],
 		'user_ID' => $user['user_ID'],
 		'user_link' => site_url('profile/'.getUserInfo($user['user_ID'])['userName']),
 		'user_photo' => getUserInfo($user['user_ID'])['printPicture'],
 		'user_name' => '<span '.(getUserInfo($user['user_ID'])['userPic'] != "" ? "class='has-pic'" : "").'>'.(getUserInfo($user['user_ID'])['nameAbbr']).'</span>',
 	);
 
+
 } else { // Not found
 
-	$data['data'] = array(
-		'status' => 'not-found'
+
+	$data = array(
+		'status' => 'not-found',
+		'share_to' => $email
 	);
+
 
 }
 

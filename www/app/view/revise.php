@@ -7,8 +7,6 @@
 	page_ID = '<?=$page_ID?>';
 	remote_URL = '<?=$pageData->remoteUrl?>';
 
-	var pin_nonce = '<?=$_SESSION["pin_nonce"]?>';
-
 </script>
 
 
@@ -321,7 +319,7 @@
 											foreach ($screen_cat['screens'] as $screen) {
 
 
-												$screen_link = site_url("project/$project_ID?new_screen=".$screen['screen_ID']."&page_ID=".$page_ID);
+												$screen_link = site_url("projects?new_screen=".$screen['screen_ID']."&page_ID=".$page_ID);
 												$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
 												if ($screen['screen_ID'] == 11) {
 													$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
@@ -329,7 +327,7 @@
 													$screen_label = $screen['screen_name']." (<span class='screen-width'>".$screen['screen_width']."</span>x<span class='screen-height'>".$screen['screen_height']."</span>)";
 												}
 
-												$screen_link = queryArg('nonce='.$_SESSION["new_screen_nonce"], $screen_link);
+												//$screen_link = queryArg('nonce='.$_SESSION["new_screen_nonce"], $screen_link);
 
 
 

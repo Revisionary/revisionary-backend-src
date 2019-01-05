@@ -1320,7 +1320,7 @@ section > div:last-child .side-content {
 input.share-email {
 
     &.error {
-	    border-color: red;
+	    border-color: red !important;
     }
 
 }

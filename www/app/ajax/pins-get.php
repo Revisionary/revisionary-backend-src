@@ -51,7 +51,7 @@ $data['data'] = array(
 
 	'status' => $status,
 	'nonce' => request('nonce'),
-	'S_nonce' => $_SESSION['pin_nonce'],
+	//'S_nonce' => $_SESSION['pin_nonce'],
 	'device_ID' => $device_ID
 
 );

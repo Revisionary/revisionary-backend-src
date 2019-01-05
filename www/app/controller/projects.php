@@ -11,7 +11,7 @@ if ( !userloggedIn() ) {
 
 
 
-// ADD NEW
+// ADD NEW PROJECT OR PAGE
 if (
 	request('add_new') == "true"
 	&& request('page-url') != ""
@@ -82,6 +82,38 @@ if (
 	else
 		header('Location: '.site_url('projects?adderror'));
 
+	die();
+
+}
+
+
+
+// ADD NEW SCREEN
+if (
+	is_numeric(get('new_screen'))
+	&& is_numeric(get('page_ID'))
+	// && get('nonce') == $_SESSION["new_screen_nonce"] !!! Disable the nonce check for now!
+) {
+
+
+	// Add the Devices
+	$device_ID = Device::ID()->addNew(
+		get('page_ID'),
+		array(get('new_screen')),
+		request('page_width') != "" ? request('page_width') : null,
+		request('page_height') != "" ? request('page_height') : null
+	);
+
+	// Check the result
+	if(!$device_ID) {
+		header('Location: '.site_url("project/$project_ID?adddeviceerror")); // If unsuccessful
+		die();
+	}
+
+
+
+	// If successful, redirect to "Revise" page
+	header('Location: '.site_url('revise/'.$device_ID));
 	die();
 
 }

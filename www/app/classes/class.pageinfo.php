@@ -3,10 +3,8 @@
 class Page {
 
 
-	// The IDs
 	public static $page_ID;
-	public $project_ID;
-	public $user_ID;
+	public static $pageInfo;
 
 	public $remoteUrl;
 	public $cachedUrl;
@@ -30,16 +28,9 @@ class Page {
 
 	public function __construct() {
 
-		$pageInfo = $this->getInfo(null, true);
 
-
-		// IDs
-		$this->user_ID = $pageInfo['user_ID'];
-		$this->project_ID = $pageInfo['project_ID'];
-		$this->remoteUrl = $pageInfo['page_url'];
-
-
-		$this->internalizeCount = $pageInfo['page_internalized'];
+		$this->remoteUrl = self::$pageInfo['page_url'];
+		$this->internalizeCount = self::$pageInfo['page_internalized'];
 
 
 		// Page directory
@@ -48,7 +39,7 @@ class Page {
 
 
         // Paths
-        $projectPath = "project-".$this->project_ID;
+        $projectPath = "project-".self::$pageInfo['project_ID'];
         $pagePath = "page-".self::$page_ID;
 		$fullPath = "projects/$projectPath/$pagePath/";
 
@@ -74,10 +65,37 @@ class Page {
 
 	// ID Setter
     public static function ID($page_ID = null) {
+	    global $db;
+
 
 	    // Set the page ID
-		if ($page_ID != null) self::$page_ID = $page_ID;
-		return new static;
+		if ($page_ID != null && is_numeric($page_ID)) {
+
+
+			$db->where('page_ID', $page_ID);
+			$pageInfo = $db->getOne("pages");
+
+			if ( $pageInfo ) {
+
+				self::$page_ID = $page_ID;
+				self::$pageInfo = $pageInfo;
+				return new static;
+
+			}
+
+
+		}
+
+
+	    // For the new page
+		if ($page_ID == null) {
+
+			self::$page_ID = "new";
+			return new static;
+
+		}
+
+		return false;
 
     }
 
@@ -87,12 +105,10 @@ class Page {
 	// GETTERS:
 
     // Get page info
-    public function getInfo($columns = null, $array = false) {
-	    global $db;
+    public function getInfo($column = null) {
 
-	    $db->where('page_ID', self::$page_ID);
+	    return $column == null ? self::$pageInfo : self::$pageInfo[$column];
 
-	    return $array ? $db->getOne("pages", $columns) : $db->getValue("pages", $columns);
     }
 
 
@@ -230,7 +246,7 @@ class Page {
     public function getDir() {
 
 		// Paths
-        $projectPath = Project::ID($this->project_ID)->getDir();
+        $projectPath = Project::ID(self::$pageInfo['project_ID'])->getDir();
         $pagePath = "page-".self::$page_ID;
 
 
@@ -450,46 +466,43 @@ class Page {
 	    global $db;
 
 
-	    	$pageInfo = $this->getInfo('user_ID, project_ID', true);
-
-
-			// Get the page info
-	    	$page_user_ID = $pageInfo['user_ID'];
-	    	$project_ID = $pageInfo['project_ID'];
-	    	$iamowner = $page_user_ID == currentUserID() ? true : false;
+		// Get the page info
+    	$page_user_ID = self::$pageInfo['user_ID'];
+    	$project_ID = self::$pageInfo['project_ID'];
+    	$iamowner = $page_user_ID == currentUserID() ? true : false;
 
 
 
-			// ARCHIVE & DELETE REMOVAL
-			$this->recover();
+		// ARCHIVE & DELETE REMOVAL
+		$this->recover();
 
 
 
-			// SORTING REMOVAL
-			$db->where('sort_type', 'page');
-			$db->where('sort_object_ID', self::$page_ID);
-			if (!$iamowner) $db->where('sorter_user_ID', currentUserID());
-			$db->delete('sorting');
+		// SORTING REMOVAL
+		$db->where('sort_type', 'page');
+		$db->where('sort_object_ID', self::$page_ID);
+		if (!$iamowner) $db->where('sorter_user_ID', currentUserID());
+		$db->delete('sorting');
 
 
 
-			// SHARE REMOVAL
-			$db->where('share_type', 'page');
-			$db->where('shared_object_ID', self::$page_ID);
-			if (!$iamowner) $db->where('(sharer_user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-			$db->delete('shares');
+		// SHARE REMOVAL
+		$db->where('share_type', 'page');
+		$db->where('shared_object_ID', self::$page_ID);
+		if (!$iamowner) $db->where('(sharer_user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+		$db->delete('shares');
 
 
 
-			// PAGE REMOVAL
-			$db->where('page_ID', self::$page_ID);
-			if (!$iamowner) $db->where('user_ID', currentUserID());
-			$page_removed = $db->delete('pages');
+		// PAGE REMOVAL
+		$db->where('page_ID', self::$page_ID);
+		if (!$iamowner) $db->where('user_ID', currentUserID());
+		$page_removed = $db->delete('pages');
 
 
 
-			// Delete the page folder
-			if ($iamowner) deleteDirectory( cache."/projects/project-$project_ID/page-".self::$page_ID."/" );
+		// Delete the page folder
+		if ($iamowner) deleteDirectory( cache."/projects/project-$project_ID/page-".self::$page_ID."/" );
 
 
 		return $page_removed;

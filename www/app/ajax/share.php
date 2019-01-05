@@ -1,11 +1,19 @@
 <?php
 
+// Defaults
 $data = array();
-$status = "initiated";
+$data['status'] = "initiated";
 $shareType = false;
 $shareTo = "";
 
-$data['status'] = $status;
+
+// Data received
+$type = post('data-type');
+$object_ID = post("object_ID");
+$email = post("email");
+
+
+
 
 
 /*
@@ -27,42 +35,54 @@ if ( post("nonce") !== $_SESSION["js_nonce"] ) {
 */
 
 
-// Valid e-mail?
-if (!filter_var(post("email"), FILTER_VALIDATE_EMAIL)) {
+// Valid type?
+if ($type != "project" && $type != "page") {
 
-	$data['status'] = "invalid-email";
-	$data['email'] = post("email");
-	$data['posted_nonce'] = post("nonce");
-	$data['session_nonce'] = $_SESSION["js_nonce"];
+	$data['status'] = "invalid-process";
 
 
 	// CREATE THE ERROR RESPONSE
-	echo json_encode(array(
+	die(json_encode(array(
 	  'data' => $data
-	));
+	)));
+}
 
-	return;
+
+
+// Valid e-mail?
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+	$data['status'] = "invalid-email";
+	$data['email'] = $email;
+
+
+	// CREATE THE ERROR RESPONSE
+	die(json_encode(array(
+	  'data' => $data
+	)));
 }
 
 
 // Valid ID?
-if ( !is_numeric(post("object_ID")) ) {
+if ( !is_numeric($object_ID) ) {
 
 	$data['status'] = "invalid-id";
 
 
 	// CREATE THE ERROR RESPONSE
-	echo json_encode(array(
+	die(json_encode(array(
 	  'data' => $data
-	));
-
-	return;
+	)));
 }
+
+
+// Am I owner of the object?
+//$type::ID()
 
 
 
 // DB Check for existing user
-$db->where('user_email', post("email"));
+$db->where('user_email', $email);
 $user = $db->getOne('users');
 
 // If found
@@ -110,7 +130,7 @@ if ( $user !== null ) {
 
 	// Change the share type
 	$shareType = 'email';
-	$shareTo = post("email");
+	$shareTo = $email;
 
 
 }
@@ -119,14 +139,14 @@ if ( $user !== null ) {
 
 // Check if already shared
 $db->where( 'share_to', $shareTo );
-$db->where( 'share_type', post('data-type') );
+$db->where( 'share_type', $type );
 $db->where( 'shared_object_ID', post('object_ID') );
 $shares = $db->get('shares');
 
 // Check the project shares if the current type is page
-if (post('data-type') == "page") {
+if ($type == "page") {
 
-	$project_ID = Page::ID( post('object_ID') )->project_ID;
+	$project_ID = Page::ID( post('object_ID') )->getInfo('project_ID');
 
 
 	// Check if the project is already shared
@@ -155,8 +175,8 @@ if ( count($shares) > 0 ) {
 $share_ID = $db->insert('shares', array(
 
 	"share_to" => $shareTo,
-	"share_type" => post('data-type'),
-	"shared_object_ID" => post("object_ID"),
+	"share_type" => $type,
+	"shared_object_ID" => $object_ID,
 	"sharer_user_ID" => currentUserID()
 
 ));
@@ -167,16 +187,16 @@ if ($share_ID) { // If successful
 
 
 	// Notify the user
-	if ( post('data-type') == "page" || post('data-type') == "project" ) {
+	if ( $type == "page" || $type == "project" ) {
 
 
-		$object_link = site_url(post('data-type').'/'.post("object_ID"));
+		$object_link = site_url($type.'/'.$object_ID);
 
 
 		Notify::ID($shareTo)->mail(
-			getUserInfo()['fullName']." shared a ".post('data-type')." with you.",
+			getUserInfo()['fullName']." shared a ".$type." with you.",
 
-			"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['email'].") shared a ".post('data-type')." with you from Revisionary App. Here is the link to access this ".post('data-type').": <br>
+			"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['email'].") shared a ".$type." with you from Revisionary App. Here is the link to access this ".$type.": <br>
 
 <a href='$object_link' target='_blank'>$object_link</a>"
 		);

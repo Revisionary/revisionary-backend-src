@@ -3,8 +3,8 @@
 class Project {
 
 
-	// The project ID
 	public static $project_ID;
+	public static $projectInfo;
 
 
 
@@ -17,10 +17,37 @@ class Project {
 
 	// ID Setter
     public static function ID($project_ID = null) {
+		global $db;
 
-	    // Set the project ID
-		if ($project_ID != null) self::$project_ID = $project_ID;
-		return new static;
+
+	    // Set the page ID
+		if ($project_ID != null && is_numeric($project_ID)) {
+
+
+			$db->where('project_ID', $project_ID);
+			$projectInfo = $db->getOne("projects");
+
+			if ( $projectInfo ) {
+
+				self::$project_ID = $project_ID;
+				self::$projectInfo = $projectInfo;
+				return new static;
+
+			}
+
+
+		}
+
+
+	    // For the new page
+		if ($project_ID == null) {
+
+			self::$project_ID = "new";
+			return new static;
+
+		}
+
+		return false;
 
     }
 
@@ -30,12 +57,10 @@ class Project {
 	// GETTERS:
 
     // Get project info
-    public function getInfo($columns = null, $array = false) {
-	    global $db;
+    public function getInfo($column = null) {
 
-	    $db->where('project_ID', self::$project_ID);
+		return $column == null ? self::$projectInfo : self::$projectInfo[$column];
 
-	    return $array ? $db->getOne("projects", $columns) : $db->getValue("projects", $columns);
     }
 
 

@@ -74,11 +74,12 @@ $(function() {
 		var type = $(this).attr('data-type');
 		var userList = $('.shares.user.'+type);
 		var emailList = $('.shares.email.'+type);
+		var lists = $('.shares.'+type);
 
 		function userTemplate_html(user_ID, userLink, userPhoto, userName, type, deletable = true) {
 
 			return '\
-				<li class="'+ (!deletable ? 'undeletable' : '') +'">\
+				<li class="'+ (!deletable ? 'undeletable' : '') +'" data-to="'+ user_ID +'">\
 					'+ (deletable ? '<input type="hidden" name="'+type+'_shares[]" value="' + user_ID + '"/>' : '') +'\
 					<a href="' + userLink + '">\
 						<picture class="profile-picture" ' + userPhoto + '>\
@@ -94,7 +95,7 @@ $(function() {
 		function emailTemplate_html(email, type, deletable = true) {
 
 			return '\
-				<li class="'+ (!deletable ? 'undeletable' : '') +'">\
+				<li class="'+ (!deletable ? 'undeletable' : '') +'" data-to="'+ email +'">\
 					'+ (deletable ? '<input type="hidden" name="'+type+'_shares[]" value="'+email+'"/>' : '') +'\
 					<span>\
 						'+email+'\
@@ -114,71 +115,67 @@ $(function() {
 			// Start the process
 			var actionID = newProcess();
 
-			// AJAX Send data
-			$.post(ajax_url, {
+			ajax('user-check', {
 
-				'type'	: 'user-check',
-				'nonce'	: nonce,
-				'email'	: input.val()
+				'email'	: input.val(),
+				'nonce'	: nonce
 
-			}, function(result){
-
-				$.each(result.data, function(key, data){
+			}).done(function(result) {
 
 
-					console.log(key, data);
+				var data = result.data;
+				console.log('DATA: ', data);
 
 
-					// If user found
-					if ( data.status == "found" ) {
+				if ( data.status == "found" || data.status == "not-found" ) {
+
+
+					if ( !lists.find('[value="'+data.share_to+'"]').length && !$('.shares.project').children('[data-to="'+data.share_to+'"]').length ) {
 
 
 						// Add if not already exists
-						if ( !userList.find('[value="'+data.user_ID+'"]').length )
-							userList.append(userTemplate_html(data.user_ID, data.user_link, data.user_photo, data.user_name, type));
+						if ( data.status == "found" )
+							userList.append( userTemplate_html(data.user_ID, data.user_link, data.user_photo, data.user_name, type) );
 
+						if ( data.status == "not-found" )
+							emailList.append( emailTemplate_html(input.val(), type) );
 
-						// Also add to the page shares list
-						if ( type == "project" && $('.shares.user.page').length && !$('.shares.user.page [data-value="'+data.user_ID+'"]').length ) {
-							$('.shares.user.page').append(userTemplate_html(data.user_ID, data.user_link, data.user_photo, data.user_name, type, false));
-						}
-
-
-						input.removeClass('error');
-						input.val('');
-
-					} else if ( data.status == "not-found" ) {
-
-
-						if ( !emailList.find('[value="'+input.val()+'"]').length )
-							emailList.append(emailTemplate_html(input.val(), type));
-
-
-						// Also add to the page shares list
-						if ( type == "project" && $('.shares.email.page').length && !$('.shares.email.page [data-value="'+input.val()+'"]').length ) {
-							$('.shares.email.page').append(emailTemplate_html(input.val(), type, false));
-						}
-
-
-						input.removeClass('error');
-						input.val('');
-
-					} else if ( data.status == "invalid-email" ) {
-
-						input.addClass('error');
-
-					} else {
 
 					}
 
-					input.prop('disabled', false);
 
-					// Finish the process
-					endProcess(actionID);
 
-				});
+					// If project sharing
+					if (type == "project") {
 
-			}, 'json');
+
+						// Remove from the page list
+						$('.shares.page').children('[data-to="'+data.share_to+'"]').remove();
+
+					}
+
+
+
+					input.removeClass('error');
+					input.val('');
+
+
+				} else {
+
+					input.addClass('error');
+
+				}
+
+
+				input.prop('disabled', false);
+				input.focus();
+
+
+				// Finish the process
+				endProcess(actionID);
+
+
+			});
 
 
 
@@ -418,7 +415,7 @@ $(function() {
 		if (modalName == "share") {
 
 
-			var input = modal.find('.share-email');
+			var input = modal.find('#share-email');
 
 
 			// Reset the input and button
@@ -465,19 +462,19 @@ $(function() {
 			modal.find('input[name="order"]').attr('value', ( typeof orderNumber !== 'undefined' ? parseInt(orderNumber) + 1 : 0 ));
 
 
-			// Focus to the input
-			setTimeout(function() {
-
-				modal.find('input[autofocus]').focus();
-
-			}, 500);
-
-
 		}
 
 
 		// Open the modal
 		openModal('#'+modalName);
+
+
+		// Focus the element
+		setTimeout(function() {
+
+			if (modal.find('input[autofocus]').length) modal.find('input[autofocus]').focus();
+
+		}, 500);
 
 
 		e.preventDefault();
@@ -487,7 +484,7 @@ $(function() {
 
 
 	// Share input
-	$('#share .share-email').on('keyup', function() {
+	$('#share #share-email').on('keyup', function() {
 
 		var inputVal = $(this).val();
 
@@ -501,11 +498,7 @@ $(function() {
 
 		}
 
-	});
-
-
-	// Add new member
-	$('.share-email').keydown(function (e) {
+	}).on('keydown', function (e) {
 
 
 	    if(e.keyCode == 13) {
@@ -520,12 +513,20 @@ $(function() {
 
 
 	// Add Member Button
-	$('.add-member').on('click', function(e) {
+	$('#share .add-member').on('click', function(e) {
 
-		addshare( $('#share-email') );
+		addshare( $('#share #share-email') );
 
 		e.preventDefault();
 		return false;
+	});
+
+
+	// Error inputs when typing
+	$('input').keydown(function() {
+
+		$(this).removeClass('error');
+
 	});
 
 
@@ -637,9 +638,10 @@ function addshare() {
 
 
 	var modal = $('#share');
-	var input = modal.find('.share-email');
-	var object_ID = modal.attr('data-id');
 	var type = modal.attr('data-type');
+	var object_ID = modal.attr('data-id');
+	var input = modal.find('#share-email');
+	var nonce = "";
 
 
 	console.log('ADDING A SHARE: ', type, object_ID, input.val());
@@ -662,9 +664,8 @@ function addshare() {
 	}).done(function(result) {
 
 
-		console.log(result);
-
 		var data = result.data;
+		console.log('DATA: ', data);
 
 
 		// If user added
@@ -700,6 +701,7 @@ function addshare() {
 
 		// Reactivate the input
 		input.prop('disabled', false);
+		input.focus();
 
 
 

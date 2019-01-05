@@ -59,7 +59,7 @@ if ($ownerInfo) {
 // 2. Find the project shares (if only the type is page)
 if ( $dataType == "page" ) {
 
-	$project_ID = $objectData->project_ID;
+	$project_ID = $objectData->getInfo('project_ID');
 
 
 	$db->where('share_type', 'project');
