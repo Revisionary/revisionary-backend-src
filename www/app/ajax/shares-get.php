@@ -62,18 +62,34 @@ if ($ownerInfo) {
 if ( $dataType == "page" ) {
 
 	$project_ID = $objectData->getInfo('project_ID');
+	$project_owner_ID = Project::ID()->getInfo('user_ID');
+	$projectOwnerInfo = getUserInfo($project_owner_ID);
+
+	// Add the owner
+	$shared_users[] = array(
+		'mStatus' => "projectowner",
+		'type' => 'project',
+		'object_ID' => $project_ID,
+		'email' => $projectOwnerInfo['email'],
+		'fullName' => $projectOwnerInfo['fullName'],
+		'nameAbbr' => $projectOwnerInfo['nameAbbr'],
+		'userImageUrl' => $projectOwnerInfo['userPicUrl'],
+		'user_ID' => $project_owner_ID,
+		'sharer_user_ID' => 0
+	);
 
 
 	$db->where('share_type', 'project');
 	$db->where('shared_object_ID', $project_ID);
-	$object_shares = $db->get('shares', null, "share_to, sharer_user_ID");
+	$project_shares = $db->get('shares', null, "share_to, sharer_user_ID");
 
-	if ($object_shares) {
+
+	if ($project_shares) {
 
 		$status = "Project shares added";
 
 		// Add the shared users
-		foreach ($object_shares as $sharedUser) {
+		foreach ($project_shares as $sharedUser) {
 
 			$shredUserInfo = getUserInfo($sharedUser['share_to']);
 			$shared_users[] = array(

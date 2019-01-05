@@ -631,21 +631,34 @@ function updateShares() {
 		//console.log('RESULTS:', result);
 
 
-		// Clean the wrapper
+		// Clean the wrappers
 		modal.find('.members').html('');
-		$('.people > a').remove();
+
+		$(users).each(function(i, user) {
+
+			$('.people[data-type="'+ user.type +'"][data-id="'+ user.object_ID +'"]').html('');
+
+		});
+
+
 
 
 		// Append the users
-		var pagesReset = false;
-		var projectsReset = false;
+		var ownerID;
 		$(users).each(function(i, user) {
+
+			if (user.mStatus == "owner") ownerID = user.user_ID;
+			var skipUser = user.mStatus == "projectowner" && ownerID == user.user_ID ? true : false;
 
 
 			// Modal info
-			modal.find('.members').append(
-				new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, dataType, user.type, currentUserId, user.sharer_user_ID, user.object_ID, object_ID)
-			);
+			if (!skipUser) {
+
+				modal.find('.members').append(
+					new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, dataType, user.type, currentUserId, user.sharer_user_ID, user.object_ID, object_ID)
+				);
+
+			}
 
 
 			// Add to the people
@@ -920,6 +933,7 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 
 	var shareText = "This " + dataType;
 	if (mStatus == "owner") shareText = dataType + " Owner";
+	if (mStatus == "projectowner") shareText = "Project Owner";
 	if (mStatus == "project") {
 		shareText = "Whole Project";
 	}
