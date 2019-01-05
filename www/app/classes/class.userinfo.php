@@ -563,8 +563,6 @@ class User {
 
 	    }
 
-	    error_log("NEW: $new_share_type -> $new_shared_object_ID");
-
 
 		return $db->update('shares', array(
 			'share_type' => $new_share_type,

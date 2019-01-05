@@ -86,7 +86,7 @@
 				<i class="fa fa-share-alt"></i>
 			</a>
 
-			<span class="people">
+			<span class="people" data-type="project" data-id="<?=$project_ID?>">
 
 				<?php
 				$project_user_ID = $projectInfo['user_ID'];

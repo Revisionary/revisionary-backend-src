@@ -627,21 +627,32 @@ function updateShares() {
 	}).done(function(result) {
 
 
+		var users = result.users;
 		//console.log('RESULTS:', result);
 
 
 		// Clean the wrapper
 		modal.find('.members').html('');
+		$('.people > a').remove();
 
-
-		var users = result.users;
 
 		// Append the users
+		var pagesReset = false;
+		var projectsReset = false;
 		$(users).each(function(i, user) {
 
+
+			// Modal info
 			modal.find('.members').append(
 				new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, dataType, user.type, currentUserId, user.sharer_user_ID, user.object_ID, object_ID)
 			);
+
+
+			// Add to the people
+			$('.people[data-type="'+ user.type +'"][data-id="'+ user.object_ID +'"]').append(
+				memberTemplateSmall(user.mStatus, user.email, user.fullName, user.nameabbr, user.userImageUrl, user.user_ID)
+			);
+
 
 		});
 
@@ -782,7 +793,7 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 				items.find('.name').text( firstParameter );
 
 
-			} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover" || action == "unshare") {
+			} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover") {
 
 
 				// Hide the item
@@ -792,7 +803,7 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 				if ( object_type == "category" ) addNewPageButtons();
 
 
-			} else if (action == "changeshareaccess") {
+			} else if (action == "changeshareaccess" || action == "unshare") {
 
 
 				// Update the shares list again

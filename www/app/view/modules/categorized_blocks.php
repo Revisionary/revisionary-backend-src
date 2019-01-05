@@ -174,7 +174,7 @@
 								<div class="box xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
 
 									<div class="wrap overlay xl-flexbox xl-top xl-between xl-5 members">
-										<div class="col xl-4-12 xl-left xl-top people">
+										<div class="col xl-4-12 xl-left xl-top people" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>">
 
 											<?php
 											$block_user_ID = $block['user_ID'];
