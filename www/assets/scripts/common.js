@@ -342,6 +342,7 @@ $(function() {
 		var object_type = item.attr('data-type') || null;
 		var firstParameter = item.attr('data-parameter') || null;
 		var secondParameter = item.attr('data-second-parameter') || null;
+		var thirdParameter = item.attr('data-third-parameter') || null;
 
 
 		// Action details
@@ -367,16 +368,9 @@ $(function() {
 		}
 
 
-		if (action == "unshare") {
-
-			//secondParameter = $('#share').attr('data-id');
-
-		}
-
-
 		// If confirmed, send data
 		if ( !confirmText || confirm(confirmText) )
-			doAction(action, object_type, object_ID, firstParameter, secondParameter);
+			doAction(action, object_type, object_ID, firstParameter, secondParameter, thirdParameter);
 
 
 		e.preventDefault();
@@ -606,6 +600,7 @@ function addNewPageButtons() {
 // Update shares
 function updateShares() {
 
+
 	console.log('Updating the shares...');
 
 
@@ -645,7 +640,7 @@ function updateShares() {
 		$(users).each(function(i, user) {
 
 			modal.find('.members').append(
-				new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, user.type, currentUserId, user.sharer_user_ID, user.object_ID)
+				new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, dataType, user.type, currentUserId, user.sharer_user_ID, user.object_ID, object_ID)
 			);
 
 		});
@@ -750,7 +745,7 @@ function addshare() {
 
 
 // Do an action
-function doAction(action, object_type, object_ID, firstParameter = null, secondParameter = null, nonce = "") {
+function doAction(action, object_type, object_ID, firstParameter = null, secondParameter = null, thirdParameter = null, nonce = "") {
 
 
 	// Start progress bar action
@@ -764,6 +759,7 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 		'id' 			  : object_ID,
 		'firstParameter'  : firstParameter,
 		'secondParameter' : secondParameter,
+		'thirdParameter'  : thirdParameter,
 		'nonce' : nonce
 	}).done(function(result) {
 
@@ -794,6 +790,13 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 
 				// Update the add new blocks
 				if ( object_type == "category" ) addNewPageButtons();
+
+
+			} else if (action == "changeshareaccess") {
+
+
+				// Update the shares list again
+				updateShares();
 
 
 			} else {
@@ -897,22 +900,22 @@ function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, u
 
 }
 
-function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, type, currentUserId, sharer_user_ID, object_ID) {
+function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, dataType, type, currentUserId, sharer_user_ID, object_ID, page_ID) {
 
+	console.log(email, dataType);
 
 	var hasPic = userImageUrl != null ? "has-pic" : "";
 	var printPicture = hasPic == "has-pic" ? "style='background-image: url("+ userImageUrl +")'" : "";
 
-	var shareText = "This " + type;
-	if (mStatus == "owner") shareText = type + " Owner";
+	var shareText = "This " + dataType;
+	if (mStatus == "owner") shareText = dataType + " Owner";
 	if (mStatus == "project") {
 		shareText = "Whole Project";
-		type = mStatus;
 	}
 
 
 	return '\
-		<li class="wrap xl-flexbox xl-middle xl-between member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-second-parameter="'+ object_ID +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
+		<li class="wrap xl-flexbox xl-middle xl-between member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-second-parameter="'+ object_ID +'" data-third-parameter="'+ page_ID +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
 			<div class="col">\
 				<div class="wrap xl-flexbox xl-middle xl-gutter-8">\
 					<div class="col">\
@@ -930,9 +933,9 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 			<div class="col text-uppercase dropdown access">\
 				<a href="#">'+ shareText +' <i class="fa fa-caret-down change-access"></i></a>\
 				<ul class="no-delay right selectable change-access">\
-					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +' hide-if-me"><a href="#">THIS '+type+'</a></li>\
-					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +' hide-if-me hide-when-project"><a href="#">WHOLE PROJECT</a></li>\
-					<li class="'+ ( mStatus == "owner" ? "selected" : "" ) +' hide-if-not-owner"><a href="#">'+type+' OWNER</a></li>\
+					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +' hide-if-me"><a href="#" data-action="changeshareaccess">THIS '+dataType+'</a></li>\
+					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +' hide-if-me hide-when-project" data-action="changeshareaccess"><a href="#">WHOLE PROJECT</a></li>\
+					<li class="'+ ( mStatus == "owner" ? "selected" : "" ) +' hide-if-not-owner"><a href="#">'+dataType+' OWNER</a></li>\
 					<li><a href="#" data-action="unshare" data-confirm="Are you sure you want to remove access for this user?">REMOVE ACCESS</a></li>\
 				</ul>\
 			</div>\

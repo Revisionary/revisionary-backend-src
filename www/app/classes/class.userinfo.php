@@ -521,4 +521,57 @@ class User {
     }
 
 
+    // Change Share Access
+    public function changeshareaccess(
+	    string $share_type,
+	    int $shared_object_ID,
+	    int $new_shared_object_ID = null
+    ) {
+	    global $db;
+
+
+	    // Check the ownership
+	    $objectInfo = ucfirst($share_type)::ID($shared_object_ID)->getInfo();
+	    $object_user_ID = $objectInfo['user_ID'];
+	    $iamowner = $object_user_ID == currentUserID() ? true : false;
+
+
+
+		// Remove share from DB
+		$db->where('share_type', $share_type);
+		$db->where('shared_object_ID', $shared_object_ID);
+		$db->where('share_to', self::$user_ID);
+		if (!$iamowner) $db->where('sharer_user_ID', currentUserID());
+
+
+
+		// Page to project
+	    if ($share_type == "page") {
+
+		    // Find the project info
+			$new_shared_object_ID = $objectInfo['project_ID'];
+			$new_share_type = "project";
+
+	    }
+
+
+		// Project to page
+	    if ($share_type == "project") {
+
+		    // Find the project info
+			$new_share_type = "page";
+
+	    }
+
+	    error_log("NEW: $new_share_type -> $new_shared_object_ID");
+
+
+		return $db->update('shares', array(
+			'share_type' => $new_share_type,
+			'shared_object_ID' => $new_shared_object_ID
+		));
+
+    }
+
+
 }

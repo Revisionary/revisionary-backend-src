@@ -15,6 +15,7 @@ $action = request('action');
 $id = request('id');
 $first_parameter = request('firstParameter');
 $second_parameter = request('secondParameter');
+$third_parameter = request('thirdParameter');
 
 
 
@@ -39,6 +40,7 @@ if (
 		   && $action != "rename"
 		   && $action != "reorder"
 		   && $action != "unshare"
+		   && $action != "changeshareaccess"
 		)
 	|| (!is_numeric( $id ) && $id != "new" && $id != 0 && !filter_var($id, FILTER_VALIDATE_EMAIL) )
 ) {
@@ -58,7 +60,7 @@ if ($status != 'fail') {
 
 
 			// Do the action
-			$result = $typeApi->$action($first_parameter, $second_parameter);
+			$result = $typeApi->$action($first_parameter, $second_parameter, $third_parameter);
 			$status = $result ? "successful" : "fail-db";
 
 
