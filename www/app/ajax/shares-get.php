@@ -45,6 +45,8 @@ if ($ownerInfo) {
 	// Add the owner
 	$shared_users[] = array(
 		'mStatus' => "owner",
+		'type' => $dataType,
+		'object_ID' => $object_ID,
 		'email' => $ownerInfo['email'],
 		'fullName' => $ownerInfo['fullName'],
 		'nameAbbr' => $ownerInfo['nameAbbr'],
@@ -76,6 +78,8 @@ if ( $dataType == "page" ) {
 			$shredUserInfo = getUserInfo($sharedUser['share_to']);
 			$shared_users[] = array(
 				'mStatus' => "project",
+				'type' => 'project',
+				'object_ID' => $project_ID,
 				'email' => $shredUserInfo['email'],
 				'fullName' => $shredUserInfo['fullName'],
 				'nameAbbr' => $shredUserInfo['nameAbbr'],
@@ -106,6 +110,8 @@ if ($object_shares) {
 		$shredUserInfo = getUserInfo($sharedUser['share_to']);
 		$shared_users[] = array(
 			'mStatus' => "shared",
+			'type' => $dataType,
+			'object_ID' => $object_ID,
 			'email' => $shredUserInfo['email'],
 			'fullName' => $shredUserInfo['fullName'],
 			'nameAbbr' => $shredUserInfo['nameAbbr'],

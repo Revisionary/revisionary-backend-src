@@ -3,7 +3,6 @@
 // Defaults
 $data = array();
 $data['status'] = "initiated";
-$shareType = false;
 $shareTo = "";
 
 
@@ -11,8 +10,7 @@ $shareTo = "";
 $type = post('data-type');
 $object_ID = post("object_ID");
 $email = post("email");
-
-
+$add_type = post("add-type");
 
 
 
@@ -33,6 +31,7 @@ if ( post("nonce") !== $_SESSION["js_nonce"] ) {
 	return;
 }
 */
+
 
 
 // Valid type?
@@ -76,8 +75,28 @@ if ( !is_numeric($object_ID) ) {
 }
 
 
-// Am I owner of the object?
-//$type::ID()
+// Is this object exist?
+$object = $type::ID($object_ID);
+if (!$object) {
+
+	$data['status'] = "invalid-obj";
+
+
+	// CREATE THE ERROR RESPONSE
+	die(json_encode(array(
+	  'data' => $data
+	)));
+}
+$objectInfo = $object->getInfo();
+$iamowner = $objectInfo['user_ID'] == currentUserID();
+
+// Do I access this object?
+if ( !$iamowner ) {
+
+	// Is this object shared to me?
+	// ...
+
+}
 
 
 
@@ -104,7 +123,6 @@ if ( $user !== null ) {
 
 
 	// Change the share type
-	$shareType = 'user';
 	$shareTo = $user['user_ID'];
 
 
@@ -129,9 +147,20 @@ if ( $user !== null ) {
 
 
 	// Change the share type
-	$shareType = 'email';
 	$shareTo = $email;
 
+
+}
+
+
+
+// If different type selected
+if ( $type == "page" && $add_type == "project" ) {
+
+
+	// Find the project ID
+	$object_ID = $objectInfo['project_ID'];
+	$type = "project";
 
 }
 
@@ -140,13 +169,13 @@ if ( $user !== null ) {
 // Check if already shared
 $db->where( 'share_to', $shareTo );
 $db->where( 'share_type', $type );
-$db->where( 'shared_object_ID', post('object_ID') );
+$db->where( 'shared_object_ID', $object_ID );
 $shares = $db->get('shares');
 
 // Check the project shares if the current type is page
 if ($type == "page") {
 
-	$project_ID = Page::ID( post('object_ID') )->getInfo('project_ID');
+	$project_ID = Page::ID( $object_ID )->getInfo('project_ID');
 
 
 	// Check if the project is already shared
@@ -183,7 +212,7 @@ $share_ID = $db->insert('shares', array(
 
 if ($share_ID) { // If successful
 
-	$data['status'] = $shareType."-added";
+	$data['status'] = "added";
 
 
 	// Notify the user
@@ -211,5 +240,11 @@ if ($share_ID) { // If successful
 
 // CREATE THE RESPONSE
 die(json_encode(array(
-  'data' => $data
+	'info' => array(
+		'type' => $type,
+		'object_ID' => $object_ID,
+		'email' => $email,
+		'add_type' => $add_type
+	),
+	'data' => $data
 )));

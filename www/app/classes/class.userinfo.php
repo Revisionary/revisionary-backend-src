@@ -17,7 +17,7 @@ class User {
 
 
 	// ID Setter
-    public static function ID($user_ID = null) {
+    public static function ID($user_ID = null) { // UPDATE HERE
 
 		if ($user_ID == null)
 			$user_ID = currentUserID();
@@ -505,7 +505,7 @@ class User {
 
 
 	    // Check the ownership
-	    $object_user_ID = $share_type::ID($shared_object_ID)->getInfo('user_ID');
+	    $object_user_ID = ucfirst($share_type)::ID($shared_object_ID)->getInfo('user_ID');
 	    $iamowner = $object_user_ID == currentUserID() ? true : false;
 
 

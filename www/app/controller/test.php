@@ -1,8 +1,10 @@
 <pre>
 <?php
 
+//echo Project::ID(6)->getInfo('user_ID');
 
-$the_page = Project::ID($_url[1]);
+
+$the_page = Project::ID(6);
 
 print_r($the_page);
 

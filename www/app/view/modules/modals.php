@@ -249,10 +249,10 @@
 						<h4 style="margin-bottom: 15px;">Access Level</h4>
 						<span class="text-uppercase dropdown">
 
-							<a href="#">THIS <span class="data-type"></span> <i class="fa fa-caret-down"></i></a>
-							<ul class="selectable">
-								<li class="selected"><a href="#">THIS <span class="data-type"></span></a></li>
-								<li><a href="#">WHOLE PROJECT</a></li>
+							<a href="#"><span class="new-access-type">THIS <span class="data-type"></span></span> <i class="fa fa-caret-down"></i></a>
+							<ul class="selectable no-delay new-access-type-selector">
+								<li class="selected"><a href="#" data-type="page">THIS PAGE</a></li>
+								<li><a href="#" data-type="project">WHOLE PROJECT</a></li>
 							</ul>
 
 						</span>
@@ -261,7 +261,7 @@
 					<div class="col">
 
 						<h4 class="xl-center" style="margin-bottom: 10px;">Add New User</h4>
-						<input id="share-email" class="share-email" type="email" placeholder='Type an e-mail address and hit "Enter"...' autofocus />
+						<input id="share-email" class="share-email" type="email" data-add-type="" placeholder='Type an e-mail address and hit "Enter"...' autofocus />
 
 					</div>
 				</div><br/>

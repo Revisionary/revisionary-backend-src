@@ -67,7 +67,7 @@ $(function() {
 	});
 
 
-	// Add new user
+	// ADD NEW MODAL: New user
 	$('.new-member + input').keydown(function (e){
 
 		var input = $(this);
@@ -186,7 +186,7 @@ $(function() {
 	});
 
 
-	// Delete selected shared person from the list
+	// ADD NEW MODAL: Delete selected shared person from the list
 	$(document).on('click', '.shares a.remove-share', function(e) {
 
 
@@ -213,7 +213,7 @@ $(function() {
 	});
 
 
-	// Add new screen to modal
+	// ADD NEW MODAL: New screen
 	$('.screen-add > li > a').click(function(e) {
 
 		var listed_screen = $(this).parent();
@@ -274,7 +274,7 @@ $(function() {
 	});
 
 
-	// Delete selected screen from the list
+	// ADD NEW MODAL: Delete selected screen from the list
 	$(document).on('click', '.selected-screens a.remove-screen', function(e) {
 
 
@@ -369,7 +369,7 @@ $(function() {
 
 		if (action == "unshare") {
 
-			secondParameter = $('#share').attr('data-id');
+			//secondParameter = $('#share').attr('data-id');
 
 		}
 
@@ -418,7 +418,15 @@ $(function() {
 			var input = modal.find('#share-email');
 
 
+			// Reset the new access selector
+			$('#share .new-access-type-selector > li').removeClass('selected');
+			$('#share .new-access-type-selector > li:first-child').addClass('selected');
+			var accessLabel = $('#share .new-access-type-selector > li:first-child > a').text();
+			$('#share .new-access-type').text(accessLabel);
+
+
 			// Reset the input and button
+			input.attr('data-add-type', dataType);
 			input.removeClass('error');
 			input.val('');
 			$('#share button.add-member').prop('disabled', true);
@@ -483,7 +491,7 @@ $(function() {
 	});
 
 
-	// Share input
+	// SHARE MODAL: Share input
 	$('#share #share-email').on('keyup', function() {
 
 		var inputVal = $(this).val();
@@ -512,10 +520,35 @@ $(function() {
 	});
 
 
-	// Add Member Button
+	// SHARE MODAL: Add Member Button
 	$('#share .add-member').on('click', function(e) {
 
 		addshare( $('#share #share-email') );
+
+		e.preventDefault();
+		return false;
+	});
+
+
+	// SHARE MODAL: New member access type change
+	$('#share .new-access-type-selector > li > a').on('click', function(e) {
+
+		var newType = $(this).attr('data-type');
+		var newLabel = $(this).text();
+
+
+		// Update the share input
+		$('#share #share-email').attr('data-add-type', newType);
+
+
+		// Update the label
+		$('#share .new-access-type').text(newLabel);
+
+
+		// Update the selected item
+		$('#share .new-access-type-selector > li').removeClass('selected');
+		$(this).parent().addClass('selected');
+
 
 		e.preventDefault();
 		return false;
@@ -612,7 +645,7 @@ function updateShares() {
 		$(users).each(function(i, user) {
 
 			modal.find('.members').append(
-				new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, dataType, currentUserId, user.sharer_user_ID)
+				new_modal_shared_member(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID, user.type, currentUserId, user.sharer_user_ID, user.object_ID)
 			);
 
 		});
@@ -641,6 +674,7 @@ function addshare() {
 	var type = modal.attr('data-type');
 	var object_ID = modal.attr('data-id');
 	var input = modal.find('#share-email');
+	var addType = input.attr('data-add-type');
 	var nonce = "";
 
 
@@ -659,17 +693,18 @@ function addshare() {
 		'data-type'	: type,
 		'object_ID'	: object_ID,
 		'email'		: input.val(),
+		'add-type' 	: addType,
 		'nonce'		: nonce
 
 	}).done(function(result) {
 
 
 		var data = result.data;
-		console.log('DATA: ', data);
+		console.log(result);
 
 
 		// If user added
-		if ( data.status == "user-added" || data.status == "email-added" ) {
+		if ( data.status == "added" ) {
 
 
 			// Update the shares list
@@ -694,7 +729,7 @@ function addshare() {
 
 		} else {
 
-			input.addClass(data.status);
+			input.addClass('error ' + data.status);
 
 		}
 
@@ -862,7 +897,7 @@ function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, u
 
 }
 
-function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, type, currentUserId, sharer_user_ID) {
+function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, type, currentUserId, sharer_user_ID, object_ID) {
 
 
 	var hasPic = userImageUrl != null ? "has-pic" : "";
@@ -870,11 +905,14 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 
 	var shareText = "This " + type;
 	if (mStatus == "owner") shareText = type + " Owner";
-	if (mStatus == "project") shareText = "Whole Project";
+	if (mStatus == "project") {
+		shareText = "Whole Project";
+		type = mStatus;
+	}
 
 
 	return '\
-		<li class="wrap xl-flexbox xl-middle xl-between member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
+		<li class="wrap xl-flexbox xl-middle xl-between member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-second-parameter="'+ object_ID +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
 			<div class="col">\
 				<div class="wrap xl-flexbox xl-middle xl-gutter-8">\
 					<div class="col">\
