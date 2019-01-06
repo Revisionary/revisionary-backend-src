@@ -439,7 +439,7 @@
 	>
 
 		<div class="wrap xl-flexbox xl-between top-actions">
-			<div class="col move-window" data-tooltip="Drag & Drop the pin window to detach from the pin.">
+			<div class="col move-window left-tooltip" data-tooltip="Drag & Drop the pin window to detach from the pin.">
 				<i class="fa fa-arrows-alt"></i>
 			</div>
 			<div class="col">
