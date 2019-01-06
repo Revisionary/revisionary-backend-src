@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Dec 17, 2018 at 08:45 AM
+-- Generation Time: Jan 06, 2019 at 09:34 PM
 -- Server version: 8.0.13
 -- PHP Version: 7.2.13
 
@@ -128,6 +128,7 @@ CREATE TABLE `pins` (
   `pin_modification_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pin_modification` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `pin_modification_original` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `pin_css` longtext COLLATE utf8mb4_unicode_ci,
   `device_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

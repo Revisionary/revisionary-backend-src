@@ -1027,7 +1027,7 @@ function applyPins(oldPins = []) {
 
 
 	// Revert the changes first
-	var showingOriginal = revertChanges([], oldPins);
+	var showingOriginal = revertChanges([], oldPins); // !!! REVERT THE CSS CHANGES
 
 
 	// Empty the pins
@@ -1078,18 +1078,30 @@ function applyChanges(showingOriginal = []) {
 	$(Pins).each(function(i, pin) {
 
 
-		// Skip standard and unmodified pins
-		if ( pin.pin_type != "live") return true;
-
-
-		console.log('APPLYING PIN: ', i, pin);
-
-
-
 		// Find the element
 		var element_index = pin.pin_element_index;
 		var element = iframeElement(element_index);
 		var thePin = pinElement(pin.pin_ID);
+
+
+
+		// CSS CODES:
+		if ( pin.pin_css != null ) {
+
+
+			// Add the CSS codes
+			iframeElement('body').append('<style data-index="'+ element_index +'">[data-revisionary-index="'+ element_index +'"]{'+ pin.pin_css +'}</style>');
+
+
+		}
+
+
+		// MODIFICATIONS:
+		// Skip standard and unmodified pins
+		if ( pin.pin_type != "live" ) return true;
+
+
+		console.log('APPLYING PIN: ', i, pin);
 
 
 		// Is showing changes
@@ -1174,6 +1186,10 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 		if ( element_indexes.length && !element_indexes.includes(pin.pin_element_index) ) return true;
 
 
+		// Revert the CSS
+		iframeElement('style[data-index="'+ pin.pin_element_index +'"]').remove();
+
+
 		// Skip standard and unmodified pins
 		if ( pin.pin_type != "live" || pin.pin_modification_original == null ) return true;
 
@@ -1201,7 +1217,6 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 			// Revert the change
 			var oldHTML = html_entity_decode(pin.pin_modification_original); //console.log('NEW', newHTML);
 			element.html( oldHTML );
-
 
 		// If the type is image change
 		} else if ( pin.pin_modification_type == "image" ) {
