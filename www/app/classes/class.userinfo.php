@@ -572,4 +572,31 @@ class User {
     }
 
 
+    // Make owner
+    public function makeownerof(
+	    string $data_type,
+	    int $object_ID
+    ) {
+		global $db;
+
+
+		// Is object exist
+		$object = $data_type::ID($object_ID);
+		if (!$object) return false;
+
+
+		// Remove me from the shares
+		$db->where('share_type', $data_type);
+		$db->where('shared_object_ID', $object_ID);
+		$db->where('share_to', self::$user_ID);
+		$deleted = $db->delete('shares');
+
+
+		// Make me owner
+		if ($deleted) return $object->changeownership(self::$user_ID);
+
+		return false;
+    }
+
+
 }

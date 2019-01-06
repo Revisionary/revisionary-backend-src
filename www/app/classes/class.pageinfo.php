@@ -528,4 +528,34 @@ class Page {
 
     }
 
+
+    // Change owner
+    public function changeownership(
+	    int $user_ID
+    ) {
+		global $db;
+
+		$old_owner_ID = self::$pageInfo['user_ID'];
+
+
+		// Share to old owner
+		$db->insert('shares', array(
+
+			"share_to" => $old_owner_ID,
+			"share_type" => 'page',
+			"shared_object_ID" => self::$page_ID,
+			"sharer_user_ID" => $user_ID
+
+		));
+
+
+
+		$db->where('page_ID', self::$page_ID);
+		$db->where('user_ID', currentUserID());
+		return $db->update('pages', array(
+			'user_ID' => $user_ID
+		));
+
+    }
+
 }

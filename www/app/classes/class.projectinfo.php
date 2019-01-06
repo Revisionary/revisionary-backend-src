@@ -323,4 +323,34 @@ class Project {
 
     }
 
+
+    // Change owner
+    public function changeownership(
+	    int $user_ID
+    ) {
+		global $db;
+
+		$old_owner_ID = self::$projectInfo['user_ID'];
+
+
+		// Share to old owner
+		$db->insert('shares', array(
+
+			"share_to" => $old_owner_ID,
+			"share_type" => 'project',
+			"shared_object_ID" => self::$project_ID,
+			"sharer_user_ID" => $user_ID
+
+		));
+
+
+		$db->where('project_ID', self::$project_ID);
+		$db->where('user_ID', currentUserID());
+
+		return $db->update('projects', array(
+			'user_ID' => $user_ID
+		));
+
+    }
+
 }
