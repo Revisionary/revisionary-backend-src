@@ -967,7 +967,7 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 				<ul class="no-delay right selectable change-access">\
 					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +' hide-if-me"><a href="#" data-action="changeshareaccess">THIS '+dataType+'</a></li>\
 					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +' hide-if-me hide-when-project" data-action="changeshareaccess"><a href="#">WHOLE PROJECT</a></li>\
-					<li class="'+ ( mStatus == "owner" ? "selected" : "" ) +' hide-if-not-owner"><a href="#" data-action="makeownerof">'+dataType+' OWNER</a></li>\
+					<li class="'+ ( mStatus == "owner" ? "selected" : "" ) +' hide-if-not-owner"><a href="#" data-action="makeownerof" data-confirm="Are you sure you want to make this user owner of this '+dataType+'?">'+dataType+' OWNER</a></li>\
 					<li><a href="#" data-action="unshare" data-confirm="Are you sure you want to remove access for this user?">REMOVE ACCESS</a></li>\
 				</ul>\
 			</div>\
