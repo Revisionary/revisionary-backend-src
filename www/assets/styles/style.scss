@@ -1653,6 +1653,14 @@ input.share-email {
 
 		}
 
+		&[data-share-status="projectowner"] {
+
+			.change-access {
+				display: none !important;
+			}
+
+		}
+
 		&[data-itsme="yes"] {
 
 			.hide-if-me {

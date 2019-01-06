@@ -6062,6 +6062,8 @@ input.share-email.error {
       display: none; }
     .members > .member[data-my-share="no"] .change-access {
       display: none; }
+    .members > .member[data-share-status="projectowner"] .change-access {
+      display: none !important; }
     .members > .member[data-itsme="yes"] .hide-if-me {
       display: none; }
     .members > .member[data-itsme="yes"] .change-access {

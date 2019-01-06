@@ -506,7 +506,8 @@ class User {
 
 	    // Check the ownership
 	    $object_user_ID = ucfirst($share_type)::ID($shared_object_ID)->getInfo('user_ID');
-	    $iamowner = $object_user_ID == currentUserID() ? true : false;
+	    $iamowner = $object_user_ID == currentUserID();
+	    $iamshared = self::$user_ID == currentUserID();
 
 
 		// Remove share from DB
@@ -514,7 +515,7 @@ class User {
 		$db->where('shared_object_ID', $shared_object_ID);
 		$db->where('share_to', self::$user_ID);
 
-		if (!$iamowner) $db->where('sharer_user_ID', currentUserID());
+		if (!$iamowner && !$iamshared) $db->where('sharer_user_ID', currentUserID());
 
 		return $db->delete('shares');
 
