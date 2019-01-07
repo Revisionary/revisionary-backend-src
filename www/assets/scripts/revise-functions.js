@@ -1747,6 +1747,21 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	pinWindow.find('.pin-label').text(thePinText);
 
 
+
+	// CSS OPTIONS:
+	var thePinElement = iframeElement(theIndex);
+
+	// Display
+	var display = thePinElement.css('display') != "none" ? "block" : "none";
+	pinWindow.find('.edit-display > a').removeClass('active');
+	pinWindow.find('.edit-display > .edit-display-'+display).addClass('active');
+
+	// Opacity
+	var opacity = thePinElement.css('opacity');
+	pinWindow.find('.edit-opacity #edit-opacity').attr('value', opacity).trigger('change');
+
+
+
 	// If on 'Live' mode
 	if (thePinType == 'live') {
 

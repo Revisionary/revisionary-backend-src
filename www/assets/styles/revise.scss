@@ -690,7 +690,7 @@ html, body {
 		right: 0;
 	}
 
-	.dropdown {
+	.action.dropdown {
 		text-transform: uppercase;
 
 		& > ul {
@@ -913,6 +913,11 @@ html, body {
 
 	ul.options {
 		font-weight: 100;
+		letter-spacing: normal;
+
+		a {
+			letter-spacing: inherit;
+		}
 
 		& > li {
 			margin-bottom: 5px;

@@ -557,6 +557,22 @@ $(function() {
 	});
 
 
+	// Range sliders
+	$('input[type="range"]').on('input change', function() {
+
+
+		var value = $(this).val();
+		console.log('Changed', value);
+
+		// Find the percentage
+		var percentage = parseInt(value * 100);
+
+
+		$(this).next('.percentage').text(percentage);
+
+
+	});
+
 });
 
 
