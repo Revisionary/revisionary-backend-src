@@ -1615,6 +1615,7 @@ function putPin(pinX, pinY) {
 		pin_modification: null,
 		pin_modification_original: modificationOriginal,
 		pin_modification_type: modificationType,
+		pin_css: null,
 		pin_private: currentPinPrivate,
 		pin_type: currentCursorType,
 		pin_x: pinX,
@@ -3139,7 +3140,16 @@ function isEqual(value, other) {
 	// Compare the length of the length of the two items
 	var valueLen = type === '[object Array]' ? value.length : Object.keys(value).length;
 	var otherLen = type === '[object Array]' ? other.length : Object.keys(other).length;
-	if (valueLen !== otherLen) return false;
+	if (valueLen !== otherLen) {
+
+		console.log('####################');
+		console.log('DIFFERENCE(Length):');
+		console.log(valueLen);
+		console.log(otherLen);
+		console.log('####################');
+
+		return false;
+	}
 
 	// Compare two items
 	var compare = function (item1, item2) {
@@ -3149,21 +3159,57 @@ function isEqual(value, other) {
 
 		// If an object or array, compare recursively
 		if (['[object Array]', '[object Object]'].indexOf(itemType) >= 0) {
-			if (!isEqual(item1, item2)) return false;
+			if (!isEqual(item1, item2)) {
+
+				console.log('####################');
+				console.log('DIFFERENCE(Asd):');
+				console.log(item1);
+				console.log(item2);
+				console.log('####################');
+
+				return false;
+			}
 		}
 
 		// Otherwise, do a simple comparison
 		else {
 
 			// If the two items are not the same type, return false
-			if (itemType !== Object.prototype.toString.call(item2)) return false;
+			if (itemType !== Object.prototype.toString.call(item2)) {
+
+				console.log('####################');
+				console.log('DIFFERENCE(Type):');
+				console.log(itemType);
+				console.log(Object.prototype.toString.call(item2));
+				console.log('####################');
+
+				return false;
+			}
 
 			// Else if it's a function, convert to a string and compare
 			// Otherwise, just compare
 			if (itemType === '[object Function]') {
-				if (item1.toString() !== item2.toString()) return false;
+				if (item1.toString() !== item2.toString()) {
+
+					console.log('####################');
+					console.log('DIFFERENCE(toString):');
+					console.log(item1.toString());
+					console.log(item2.toString());
+					console.log('####################');
+
+					return false;
+				}
 			} else {
-				if (item1 !== item2) return false;
+				if (item1 !== item2) {
+
+					console.log('####################');
+					console.log('DIFFERENCE(Items):');
+					console.log(item1);
+					console.log(item2);
+					console.log('####################');
+
+					return false;
+				}
 			}
 
 		}
