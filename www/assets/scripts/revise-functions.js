@@ -473,7 +473,7 @@ function runTheInspector() {
 
 						// If not editable, switch back to the standard pin
 						switchCursorType('standard');
-						outline(focused_element, currentPinPrivate, (focused_element_editable && currentPinType == "live" ? "live" : "standard"));
+						if (focused_element_has_index) outline(focused_element, currentPinPrivate, (focused_element_editable && currentPinType == "live" ? "live" : "standard"));
 
 					}
 

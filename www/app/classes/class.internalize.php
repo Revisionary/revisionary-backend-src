@@ -630,6 +630,7 @@ class Internalize {
 		        $tag_name = $matches['tagname'];
 
 
+/*
 		        // If it isn't easily editable
 		        if ( !in_array(strtoupper($tag_name), $this->easy_html_elements) && !in_array(strtoupper($tag_name), $this->block_html_elements) ) {
 
@@ -641,6 +642,7 @@ class Internalize {
 
 			        return $html_element;
 			    }
+*/
 
 
 		        $countElement++;
