@@ -530,6 +530,8 @@ html, body {
   #pin-window ul.options {
     font-weight: 100;
     letter-spacing: normal; }
+    #pin-window ul.options[data-display="none"] .hide-when-hidden {
+      display: none; }
     #pin-window ul.options a {
       letter-spacing: inherit; }
     #pin-window ul.options > li {

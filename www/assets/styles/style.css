@@ -5039,6 +5039,9 @@ ul.no-spacing {
   margin: 0;
   padding: 0; }
 
+ul.full {
+  width: 100%; }
+
 .button-desc {
   font-size: 20px;
   line-height: 40px;

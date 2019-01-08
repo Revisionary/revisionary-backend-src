@@ -504,7 +504,7 @@
 		<div class="image-editor">
 
 			<div class="wrap xl-1">
-				<div class="col section-title collapsed"><i class="fa fa-image"></i> CONTENT</div>
+				<div class="col section-title"><i class="fa fa-image"></i> CONTENT</div>
 				<div class="col section-content" style="padding-top: 10px;">
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
@@ -559,7 +559,7 @@
 		<div class="content-editor">
 
 			<div class="wrap xl-1">
-				<div class="col section-title collapsed"><i class="fa fa-pencil-alt"></i> CONTENT</div>
+				<div class="col section-title"><i class="fa fa-pencil-alt"></i> CONTENT</div>
 				<div class="col section-content" style="padding-top: 10px;">
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
@@ -623,46 +623,53 @@
 		<div class="visual-editor">
 
 			<div class="wrap xl-1">
-				<div class="col section-title">
+				<div class="col section-title collapsed">
 
 					<i class="fa fa-sliders-h"></i> VIEW OPTIONS
 
 				</div>
 				<div class="col section-content options">
 
-					<ul class="no-bullet options" style="margin-bottom: 0;">
-						<li class="choice edit-display">
-							<a href="#" class="active edit-display-block"><i class="fa fa-eye"></i> Show</a>
-							 |
-							<a href="#" class="edit-display-none"><i class="fa fa-eye-slash"></i> Hide</a>
+					<ul class="no-bullet options" style="margin-bottom: 0; position: relative;" data-display="" data-opacity="">
+						<li class="xl-right" style="position: absolute; right: 0; top: 0;">
+
+							<a href="#" data-tooltip="Show Original"><img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/></a>
+
 						</li>
-						<li class="dropdown edit-opacity">
+						<li class="choice edit-display">
+							<a href="#" class="active edit-display-block" data-edit-css="show"><i class="fa fa-eye"></i> Show</a>
+							 |
+							<a href="#" class="edit-display-none" data-edit-css="hide"><i class="fa fa-eye-slash"></i> Hide</a>
+						</li>
+						<li class="dropdown edit-opacity hide-when-hidden">
 							<a href="#"><i class="fa fa-low-vision"></i> Opacity <i class="fa fa-angle-down"></i></a>
-							<ul class="" style="width: 100%;">
+							<ul class="full">
 								<li>
-									<input type="range" min="0" max="1" step="0.01" value="1" class="range-slider" id="edit-opacity"> <div class="percentage">100</div>
+									<input type="range" min="0" max="1" step="0.01" value="1" class="range-slider" id="edit-opacity" data-edit-css="opacity"> <div class="percentage">100</div>
 								</li>
 							</ul>
 						</li>
-						<li class="dropdown">
+						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
 							<a href="#"><i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i></a>
-							<ul class="no-delay">
+							<ul class="no-delay full">
 								<li>Margins</li>
+								<li>Borders</li>
 								<li>Paddings</li>
 								<li>Positions</li>
 							</ul>
 						</li>
-						<li class="dropdown">
-							<a href="#"><i class="fa fa-tint"></i> Color <i class="fa fa-angle-down"></i></a>
-							<ul class="no-delay">
-								<li><i class="fa fa-palette"></i> Text</li>
-								<li><i class="fa fa-fill-drip"></i> Background</li>
+						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
+							<a href="#"><i class="fa fa-font"></i> Text <i class="fa fa-angle-down"></i></a>
+							<ul class="no-delay full">
+								<li><i class="fa fa-tint"></i> Color</li>
+								<li><i class="fa fa-bold"></i> Style</li>
+								<li><i class="fa fa-align-left"></i> Alignment</li>
 							</ul>
 						</li>
-						<li class="dropdown">
+						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
 							<a href="#"><i class="fa fa-layer-group"></i> Background <i class="fa fa-angle-down"></i></a>
-							<ul class="no-delay">
-								<li><i class="fa fa-palette"></i> Color</li>
+							<ul class="no-delay full">
+								<li><i class="fa fa-fill-drip"></i> Color</li>
 								<li><i class="fa fa-image"></i> Image</li>
 							</ul>
 						</li>
@@ -676,7 +683,7 @@
 		<div class="comments">
 
 			<div class="wrap xl-1">
-				<div class="col section-title collapsed">
+				<div class="col section-title">
 
 					<i class="fa fa-comment-dots"></i> COMMENTS
 

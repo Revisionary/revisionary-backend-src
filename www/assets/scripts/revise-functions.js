@@ -1755,10 +1755,11 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	var display = thePinElement.css('display') != "none" ? "block" : "none";
 	pinWindow.find('.edit-display > a').removeClass('active');
 	pinWindow.find('.edit-display > .edit-display-'+display).addClass('active');
+	pinWindow.find('ul.options').attr('data-display', display);
 
 	// Opacity
 	var opacity = thePinElement.css('opacity');
-	pinWindow.find('.edit-opacity #edit-opacity').attr('value', opacity).trigger('change');
+	pinWindow.find('.edit-opacity #edit-opacity').val(opacity).trigger('change');
 
 
 

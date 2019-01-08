@@ -538,7 +538,7 @@ $(function() {
 		var pin_private = $(this).find('pin').attr('data-pin-private');
 		var element_index = $(this).find('pin').attr('data-revisionary-index');
 		var pinX =  pinElement(pin_ID).attr('data-pin-x');
-		var pinY =  pinElement(pin_ID).attr('data-pin-y');
+		var pinY =  pinElement(pin_ID).attr('data-pin-y'); console.log(pinY, ($('.iframe-container').height() / 2), 22.5, parseInt( pinY ) - ($('.iframe-container').height() / 2) - 22.5);
 
 
 		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
@@ -551,7 +551,7 @@ $(function() {
 			if (pinAnimation) pinAnimation.stop();
 			pinAnimation = iframeElement('html, body').animate({
 
-				scrollTop: parseInt( pinY ) - 20
+				scrollTop: parseInt( pinY ) - ($('.iframe-container').height() / 2) + 22.5
 				//scrollLeft: pinX !!!
 
 			}, 500);
@@ -712,6 +712,50 @@ $(function() {
 
 	});
 
+
+	// CSS EDITS
+	$('[data-edit-css]').on('click input', function(e) {
+
+		var action = $(this).attr('data-edit-css');
+		var elementIndex = pinWindow.attr('data-revisionary-index');
+		var element = iframeElement(elementIndex);
+
+
+		console.log('EDIT CSS: ', action, elementIndex);
+
+
+		// SHOW & HIDE
+		if (action == "hide") {
+
+			element.hide();
+			$('.edit-display > a').removeClass('active');
+			$('.edit-display > a.edit-display-none').addClass('active');
+			pinWindow.find('ul.options').attr('data-display', 'none');
+
+		} else if (action == "show") {
+
+			element.show();
+			$('.edit-display > a').removeClass('active');
+			$('.edit-display > a.edit-display-block').addClass('active');
+			pinWindow.find('ul.options').attr('data-display', 'block');
+
+		}
+
+
+		// OPACITY
+		if (action == "opacity") {
+
+			var opacity = $(this).val();
+
+			element.css('opacity', opacity);
+
+		}
+
+
+		relocatePins(null, null, null, true);
+		e.preventDefault();
+
+	});
 
 
 });

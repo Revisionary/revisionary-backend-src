@@ -915,6 +915,14 @@ html, body {
 		font-weight: 100;
 		letter-spacing: normal;
 
+		&[data-display="none"] {
+
+			.hide-when-hidden {
+				display: none;
+			}
+
+		}
+
 		a {
 			letter-spacing: inherit;
 		}
