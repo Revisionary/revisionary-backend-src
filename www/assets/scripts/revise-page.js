@@ -748,6 +748,7 @@ $(function() {
 			var opacity = $(this).val();
 
 			element.css('opacity', opacity);
+			pinWindow.find('ul.options').attr('data-opacity', opacity);
 
 		}
 
