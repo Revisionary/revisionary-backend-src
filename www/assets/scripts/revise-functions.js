@@ -6,9 +6,9 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 	// If being force reinternalizing, update the URL
 	var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
 
-	if (history.pushState && queryParameter(currentUrl, 'redownload') != null) {
+	if (history.replaceState) {
 	    var newurl = queryParameter(currentUrl, 'redownload', "");
-	    window.history.pushState({path:newurl},'',newurl);
+	    if (newurl != currentUrl) window.history.replaceState({path:newurl},'',newurl);
 	}
 
 
@@ -1757,6 +1757,32 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 	// CSS OPTIONS:
 	var thePinElement = iframeElement(theIndex);
+
+	// Update the current element section
+	$('.element-tag, .element-id, .element-class').text('');
+
+	// Tag Name
+	var tagName = thePinElement.prop("tagName");
+	$('.element-tag').text(tagName);
+
+	// Classes
+	var classes = "";
+	var classList = thePinElement.attr('class');
+	if (classList != null) {
+
+		$.each(classList.split(/\s+/), function(index, className) {
+
+			classes = classes + "."+className;
+
+		});
+		$('.element-class').text(classes);
+
+	}
+
+	// ID Name
+	var idName = thePinElement.attr("id");
+	if (idName != null) $('.element-id').text('#'+idName);
+
 
 	// Display
 	var display = thePinElement.css('display') != "none" ? "block" : "none";

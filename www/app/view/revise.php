@@ -631,9 +631,9 @@
 				<div class="col section-content options">
 
 					<ul class="no-bullet options" style="margin-bottom: 0;" data-display="" data-opacity="">
-						<li class="" style="position: relative;">
+						<li class="current-element" style="position: relative; padding-right: 20px;">
 
-							<b>Current Element:</b> h1
+							<b>Current Element:</b> <span class="element-tag">h1</span><span class="element-id">#main-title</span><span class="element-class">.title</span>
 
 							<a href="#" data-tooltip="Show Original" style="position: absolute; right: 0; top: 0;"><img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/></a>
 
