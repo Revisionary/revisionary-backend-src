@@ -387,11 +387,13 @@ if ($dataType == "page" && $allMyPins) {
 
 													$action_url = 'ajax?type=data-action&data-type=device&nonce='.$_SESSION['js_nonce'].'&id='.$device['device_ID'];
 
+													$screenWidth = $device['device_width'] ? $device['device_width'] : $device['screen_width'];
+													$screenHeight = $device['device_height'] ? $device['device_height'] : $device['screen_height'];
 												?>
 
 													<span class="item device-wrap" data-type="device" data-id="<?=$device['device_ID']?>">
 														<a href="<?=site_url('revise/'.$device['device_ID'])?>" class="device-link">
-															<i class="fa <?=$device['screen_cat_icon']?>" data-tooltip="<?=$device['screen_cat_name']?> (<?=$device['screen_width']?>x<?=$device['screen_height']?>)"></i>
+															<i class="fa <?=$device['screen_cat_icon']?>" data-tooltip="<?=$device['screen_cat_name']?> (<?=$screenWidth?>x<?=$screenHeight?>)"></i>
 														</a>
 														<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device" data-action="remove" data-confirm="Are you sure you want to completely remove this screen? Keep in mind that no one will be able to access this device and its pins anymore!"><i class="fa fa-times-circle"></i></a>
 													</span>

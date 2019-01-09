@@ -3,11 +3,17 @@
 function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 
 
-	var statusCheckRequest = null;
+	// If being force reinternalizing, update the URL
+	var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+
+	if (history.pushState && queryParameter(currentUrl, 'redownload') != null) {
+	    var newurl = queryParameter(currentUrl, 'redownload', "");
+	    window.history.pushState({path:newurl},'',newurl);
+	}
 
 
 	// Get the up-to-date pins
-	statusCheckRequest = ajax('internalize-status',
+	var statusCheckRequest = ajax('internalize-status',
 	{
 		'page_ID'		: page_ID,
 		'queue_ID'		: queue_ID,
@@ -2659,7 +2665,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 
 // HELPERS:
-function queryParameter(url, key, value) {
+function queryParameter(url, key, value = null) {
 
 
 	var url = new URL(url);
@@ -2669,6 +2675,9 @@ function queryParameter(url, key, value) {
 
 	if (value == "") search_params.delete(key);
 	else search_params.set(key, value);
+
+
+	if (value == null) return search_params.get(key);
 
 
 	url.search = search_params.toString();

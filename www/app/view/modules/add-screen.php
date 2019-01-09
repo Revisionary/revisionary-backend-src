@@ -12,7 +12,7 @@
 			<?php
 			foreach ($screen_cat['screens'] as $screen) {
 
-				$screen_link = site_url("new_screen=".$screen['screen_ID']."&page_ID=".$block['page_ID']);
+				$screen_link = site_url("projects/?new_screen=".$screen['screen_ID']."&page_ID=".$block['page_ID']);
 				$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
 				if ($screen['screen_ID'] == 11) {
 					$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);

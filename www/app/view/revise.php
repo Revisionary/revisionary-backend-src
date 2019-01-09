@@ -630,10 +630,12 @@
 				</div>
 				<div class="col section-content options">
 
-					<ul class="no-bullet options" style="margin-bottom: 0; position: relative;" data-display="" data-opacity="">
-						<li class="xl-right" style="position: absolute; right: 0; top: 0;">
+					<ul class="no-bullet options" style="margin-bottom: 0;" data-display="" data-opacity="">
+						<li class="" style="position: relative;">
 
-							<a href="#" data-tooltip="Show Original"><img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/></a>
+							<b>Current Element:</b> h1
+
+							<a href="#" data-tooltip="Show Original" style="position: absolute; right: 0; top: 0;"><img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/></a>
 
 						</li>
 						<li class="choice edit-display">
