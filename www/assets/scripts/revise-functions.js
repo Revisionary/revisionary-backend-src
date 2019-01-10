@@ -587,51 +587,17 @@ function runTheInspector() {
 			var pin_ID = pinElement('[data-pin-type="live"][data-revisionary-index="'+elementIndex+'"]').attr('data-pin-id');
 			var changedElement = $(this);
 			var modification = changedElement.html();
-			var change = htmlentities(modification, "ENT_QUOTES");
 
 
-		    // Update from the Pins global
-			var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-			var pinIndex = Pins.indexOf(pin);
-
-
-			//console.log('REGISTERED CHANGES', changes);
+			//console.log('REGISTERED CHANGES', modification);
 
 
 			// Stop the auto-refresh
 			stopAutoRefresh();
 
 
-			// Register the change only if different than the original
-			var noChange = false;
-			if (Pins[pinIndex].pin_modification_original == change) {
-
-				console.log('NO CHANGE');
-
-				noChange = true;
-				change = null;
-
-			}
-
-
-			// Apply the change on pin window
+			// Instant apply the change on pin window
 			$('#pin-window.active .content-editor .edit-content.changes').html(modification);
-
-
-			// Register as edited
-			if (!noChange) {
-
-				changedElement.attr('data-revisionary-edited', "1");
-				changedElement.attr('data-revisionary-showing-changes', "1");
-
-			} else {
-
-				changedElement.removeAttr('data-revisionary-showing-changes');
-				changedElement.removeAttr('data-revisionary-edited');
-
-			}
-
-			Pins[pinIndex].pin_modification = change;
 
 
 			// If differences tab is open
@@ -658,7 +624,7 @@ function runTheInspector() {
 			// Send changes to DB after 1 second
 			doChangeOnPage[elementIndex] = setTimeout(function(){
 
-				saveChange(pin_ID, (noChange ? "{%null%}" : modification ));
+				saveChange(pin_ID, modification);
 
 			}, 1000);
 
@@ -855,7 +821,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 		if (cursorVisible) cursor.fadeOut();
 
 		// Show the original cursor
-		iframeElement('body, body *').css('cursor', '', '');
+		iframeElement('#revisionary-cursor').remove();
 
 		// Enable all the links
 	    // ...
@@ -879,7 +845,8 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 		if (!cursorVisible && !pinWindowOpen) cursor.fadeIn();
 
 		// Hide the original cursor
-		iframeElement('body, body *').css('cursor', 'none', 'important');
+		if ( !iframeElement('#revisionary-cursor').length )
+			iframeElement('body').append('<style id="revisionary-cursor"> * { cursor: none !important; } </style>');
 
 		// Disable all the links
 	    // ...
@@ -1130,9 +1097,15 @@ function applyChanges(showingOriginal = []) {
 			if ( pin.pin_modification_type == "html" ) {
 
 
+				//console.log('MODIFICATION ORIG:', pin.pin_modification);
+
+
 				// Apply the change
 				var newHTML = html_entity_decode(pin.pin_modification); //console.log('NEW', newHTML);
 				element.html( newHTML ).attr('contenteditable', (isShowingOriginal ? "false" : "true"));
+
+
+				//console.log('MODIFICATION DECODED:', newHTML);
 
 
 			// If the type is image change
@@ -2190,7 +2163,13 @@ function saveChange(pin_ID, modification) {
     // Update from the Pins global
 	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
 	var pinIndex = Pins.indexOf(pin);
+	var elementIndex = pin.pin_element_index;
+	var changedElement = iframeElement(elementIndex);
 	var change = modification == "{%null%}" ? null : htmlentities(modification, "ENT_QUOTES");
+
+
+	//console.log('ORIGINAL:', Pins[pinIndex].pin_modification_original);
+	//console.log('CHANGE:', change);
 
 
 	// Register the change only if different than the original
@@ -2204,9 +2183,6 @@ function saveChange(pin_ID, modification) {
 	}
 
 
-	Pins[pinIndex].pin_modification = change;
-
-
 	// Start the process
 	var newPinProcessID = newProcess();
 
@@ -2218,20 +2194,31 @@ function saveChange(pin_ID, modification) {
 
 	}).done(function(result){
 
-		console.log(result.data);
 
-		// Update the pin status
-		if (modification != "{%null%}")
+		var data = result.data; console.log(data);
+		var filtered_modification = data.modification;
+
+
+		// Update the global
+		Pins[pinIndex].pin_modification = filtered_modification; //console.log('FILTERED: ', filtered_modification);
+
+
+		// Update the status
+		if (modification != "{%null%}") {
+
 			pinElement(pin_ID).attr('data-revisionary-edited', "1");
-		else
-			pinElement(pin_ID).attr('data-revisionary-edited', "0");
-
-
-		// Update the pin window status
-		if (modification != "{%null%}")
 			pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-		else
+			changedElement.attr('data-revisionary-edited', "1");
+			changedElement.attr('data-revisionary-showing-changes', "1");
+
+		} else {
+
+			pinElement(pin_ID).attr('data-revisionary-edited', "0");
 			pinWindow.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
+			changedElement.removeAttr('data-revisionary-showing-changes');
+			changedElement.removeAttr('data-revisionary-edited');
+
+		}
 
 
 		// Finish the process

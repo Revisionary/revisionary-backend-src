@@ -21,9 +21,7 @@ function filterArray(array &$array, $filter = true) {
 
 function filterRequest($handler, $name) {
 
-	//if ($noFilter) return filterArray($_REQUEST[$name]);
-
-	if(isset($handler[$name])) {
+	if (isset($handler[$name])) {
 
 		// If Array
 		if ( is_array($handler[$name]) ) return filterArray($handler[$name]);
@@ -34,5 +32,4 @@ function filterRequest($handler, $name) {
 	}
 
 	return false;
-
 }

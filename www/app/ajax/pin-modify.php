@@ -37,16 +37,16 @@ else $status = "error";
 
 
 // CREATE THE RESPONSE
-$data = array();
-$data['data'] = array(
+$data = array(
 
 	'status' => $status,
 	'nonce' => request('nonce'),
+	'modification' => $modification,
 	//'S_nonce' => $_SESSION['pin_nonce'],
 	'pin_ID' => $pin_ID
 
 );
 
-echo json_encode(array(
+die(json_encode(array(
   'data' => $data
-));
+)));

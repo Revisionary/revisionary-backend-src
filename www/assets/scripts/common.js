@@ -562,7 +562,7 @@ $(function() {
 
 
 		var value = $(this).val();
-		console.log('Changed', value);
+		//console.log('Changed', value);
 
 		// Find the percentage
 		var percentage = parseInt(value * 100);
