@@ -93,7 +93,7 @@ $iamowner = $objectInfo['user_ID'] == currentUserID();
 // Do I access this object?
 if ( !$iamowner ) {
 
-	// Is this object shared to me?
+	// Is this object shared to me? !!!
 	// ...
 
 }
