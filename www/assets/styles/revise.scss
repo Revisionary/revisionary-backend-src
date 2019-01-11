@@ -915,6 +915,15 @@ html, body {
 		font-weight: 100;
 		letter-spacing: normal;
 
+		&[data-changed="no"] {
+
+			.reset-css,
+			.show-original {
+				display: none;
+			}
+
+		}
+
 		&[data-display="none"] {
 
 			.hide-when-hidden {

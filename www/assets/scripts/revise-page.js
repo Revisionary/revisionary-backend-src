@@ -485,6 +485,32 @@ $(function() {
 	});
 
 
+	// Remove Image
+	$('.reset-css').click(function(e) {
+
+		var pin_ID = pinWindow.attr('data-pin-id');
+		var element_index = parseInt(pinWindow.attr('data-revisionary-index'));
+
+
+		if ( confirm('Are you sure you want to reset all your view options?') ) {
+
+
+			// Reset CSS on DB
+			resetCSS(pin_ID);
+
+
+			// Remove the styles
+			iframeElement('style[data-index="'+ element_index +'"]').remove();
+
+
+		}
+
+
+		e.preventDefault();
+
+	});
+
+
 	// Convert Pin
 	$('.type-convertor > li > a').click(function(e) {
 
@@ -668,7 +694,7 @@ $(function() {
 
 			// Toggle the pin window even if just a little dragging
 		    if (!pinDragging)
-				togglePinWindow(focusedPin.attr('data-pin-x'), focusedPin.attr('data-pin-y'), focusedPin.attr('data-pin-id'));
+				togglePinWindow(focusedPin.attr('data-pin-id'));
 
 
 			focusedPin = null;

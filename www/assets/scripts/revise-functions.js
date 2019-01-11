@@ -544,7 +544,7 @@ function runTheInspector() {
 						|| focused_element_pin.attr('data-pin-modification-type') == "image"
 						|| focused_element.attr('data-revisionary-showing-changes') == "0"
 					)
-						openPinWindow(focused_element_pin.attr('data-pin-x'), focused_element_pin.attr('data-pin-y'), focused_element_pin.attr('data-pin-id'));
+						openPinWindow( focused_element_pin.attr('data-pin-id') );
 
 				} else {
 
@@ -644,7 +644,7 @@ function runTheInspector() {
 				&& focused_element_live_pin != null && focused_element_live_pin.length
 				&& pinWindow.attr('data-revisionary-index') != focused_element_index
 			)
-				openPinWindow(focused_element_live_pin.attr('data-pin-x'), focused_element_live_pin.attr('data-pin-y'), focused_element_live_pin.attr('data-pin-id'));
+				openPinWindow( focused_element_live_pin.attr('data-pin-id') );
 
 
 		}).on('blur', '[contenteditable="true"][data-revisionary-index]', function(e) { // When clicked an editable text
@@ -1616,7 +1616,7 @@ function putPin(pinX, pinY) {
 
 
 	// Open the pin window
-	openPinWindow(pinX, pinY, temporaryPinID, true);
+	openPinWindow(temporaryPinID, true);
 
 
 
@@ -1678,7 +1678,15 @@ function putPin(pinX, pinY) {
 
 
 // Open the pin window
-function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
+function openPinWindow(pin_ID, firstTime = false) {
+
+	console.log('OPEN WINDOW PIN ID', pin_ID, firstTime);
+
+
+/*
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pinIndex = Pins.indexOf(pin);
+*/
 
 
 	var thePin = pinElement('[data-pin-id="'+pin_ID+'"]');
@@ -1742,6 +1750,8 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 
 	// CSS OPTIONS:
 	var thePinElement = iframeElement(theIndex);
+	var styleElement = iframeElement('style[data-index="'+ theIndex +'"]');
+	var options = pinWindow.find('ul.options');
 
 	// Update the current element section
 	$('.element-tag, .element-id, .element-class').text('');
@@ -1773,12 +1783,16 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	var display = thePinElement.css('display') != "none" ? "block" : "none";
 	pinWindow.find('.edit-display > a').removeClass('active');
 	pinWindow.find('.edit-display > .edit-display-'+display).addClass('active');
-	pinWindow.find('ul.options').attr('data-display', display);
+	options.attr('data-display', display);
 
 	// Opacity
 	var opacity = thePinElement.css('opacity');
 	pinWindow.find('.edit-opacity #edit-opacity').val(opacity).trigger('change');
-	pinWindow.find('ul.options').attr('data-opacity', opacity);
+	options.attr('data-opacity', opacity);
+
+
+	// Style Element
+	options.attr('data-changed', (styleElement.length ? "yes" : "no"));
 
 
 
@@ -1933,6 +1947,10 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 // Close pin window
 function closePinWindow() {
 
+
+	console.log('PIN WINDOW CLOSING.');
+
+
 	// Previous state of window
 	pinWindowWasOpen = pinWindowOpen;
 
@@ -1958,6 +1976,15 @@ function closePinWindow() {
 
 	// Enable the iframe
 	//$('#the-page').css('pointer-events', '');
+
+}
+
+
+// Toggle pin window
+function togglePinWindow(pin_ID) {
+
+	if (pinWindowOpen && pinWindow.attr('data-pin-id') == pin_ID) closePinWindow();
+	else openPinWindow(pin_ID);
 
 }
 
@@ -2200,8 +2227,8 @@ function saveChange(pin_ID, modification) {
 	var modifyPinProcessID = newProcess();
 
 	// Update from DB
-    ajax('pin-modify',
-    {
+    ajax('pin-modify', {
+
 		'modification' 	 	: modification,
 		'pin_ID'			: pin_ID
 
@@ -2247,7 +2274,6 @@ function saveChange(pin_ID, modification) {
 function saveCSS(pin_ID, css) {
 
 
-    // Add pin to the DB
     console.log( 'Save CSS for the pin #' + pin_ID + ' on DB!!', css);
 
 
@@ -2268,8 +2294,8 @@ function saveCSS(pin_ID, css) {
 	var pinCSSProcessID = newProcess();
 
 	// Update from DB
-    ajax('pin-css',
-    {
+    ajax('pin-css', {
+
 		'css' 	 : css,
 		'pin_ID' : pin_ID
 
@@ -2284,24 +2310,17 @@ function saveCSS(pin_ID, css) {
 		Pins[pinIndex].pin_css = cssCode; //console.log('FILTERED: ', filtered_css);
 
 
-/*
-		// Update the status
-		if (modification != "{%null%}") {
+		// Update the changed status
+		pinWindow.find('ul.options').attr('data-changed', (cssCode != null ? "yes" : "no"));
 
-			pinElement(pin_ID).attr('data-revisionary-edited', "1");
-			pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-			changedElement.attr('data-revisionary-edited', "1");
-			changedElement.attr('data-revisionary-showing-changes', "1");
 
-		} else {
+		// Remove the CSS codes if null
+		if (cssCode == null) {
 
-			pinElement(pin_ID).attr('data-revisionary-edited', "0");
-			pinWindow.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
-			changedElement.removeAttr('data-revisionary-showing-changes');
-			changedElement.removeAttr('data-revisionary-edited');
+		    // Reopen the pin window
+		    openPinWindow(pin_ID);
 
 		}
-*/
 
 
 		// Finish the process
@@ -2309,6 +2328,19 @@ function saveCSS(pin_ID, css) {
 
 	});
 
+
+}
+
+
+// DB: Reset CSS changes
+function resetCSS(pin_ID) {
+
+
+    console.log( 'Reset CSS for the pin #' + pin_ID + ' on DB!!');
+
+
+	// Reset the codes
+    saveCSS(pin_ID, {display: "block"});
 
 }
 
@@ -2360,15 +2392,6 @@ function toggleChange(pin_ID) {
 
 
 	}
-
-}
-
-
-// Toggle pin window
-function togglePinWindow(pin_x, pin_y, pin_ID) {
-
-	if (pinWindowOpen && pinWindow.attr('data-pin-id') == pin_ID) closePinWindow();
-	else openPinWindow(pin_x, pin_y, pin_ID);
 
 }
 
