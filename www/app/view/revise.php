@@ -673,6 +673,7 @@
 							<ul class="no-delay full">
 								<li><i class="fa fa-fill-drip"></i> Color</li>
 								<li><i class="fa fa-image"></i> Image</li>
+								<li><i class="fa fa-crosshairs"></i> Position</li>
 							</ul>
 						</li>
 					</ul>
