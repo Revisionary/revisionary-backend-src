@@ -635,6 +635,7 @@
 
 							<b>Current Element:</b> <span class="element-tag">h1</span><span class="element-id">#main-title</span><span class="element-class">.title</span>
 
+							<a href="#" data-tooltip="Reset Changes" style="position: absolute; right: 15px; top: 5px; font-size: 10px;"><i class="fa fa-unlink"></i></a>
 							<a href="#" data-tooltip="Show Original" style="position: absolute; right: 0; top: 0;"><img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/></a>
 
 						</li>
