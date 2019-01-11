@@ -56,7 +56,7 @@ foreach ($css as $key => $value) {
 	) return;
 
 
-	// If display == block, skip this
+	// Skip if display is block
 	if ($key == "display" && $value == "block") continue;
 
 

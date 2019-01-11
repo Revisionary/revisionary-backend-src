@@ -700,14 +700,12 @@ $(function() {
 		// SHOW & HIDE
 		if (action == "hide") {
 
-			element.hide();
 			$('.edit-display > a').removeClass('active');
 			$('.edit-display > a.edit-display-none').addClass('active');
 			options.attr('data-display', 'none');
 
 		} else if (action == "show") {
 
-			element.show();
 			$('.edit-display > a').removeClass('active');
 			$('.edit-display > a.edit-display-block').addClass('active');
 			options.attr('data-display', 'block');
@@ -719,8 +717,6 @@ $(function() {
 		if (action == "opacity") {
 
 			var opacity = $(this).val();
-
-			element.css('opacity', opacity);
 			options.attr('data-opacity', opacity);
 
 		}
@@ -730,6 +726,21 @@ $(function() {
 			display : options.attr('data-display'),
 			opacity : options.attr('data-opacity')
 		}
+
+
+		// Instant update the element
+		var cssCode = "";
+		$.each( css, function( key, value ) {
+
+			// Skip if display is block
+			if (key == "display" && value == "block") return true;
+
+			cssCode = cssCode + key + ":" + value + "; ";
+
+		});
+
+		// Update the CSS
+		updateCSS(elementIndex, cssCode);
 
 
 		// Remove unsent job

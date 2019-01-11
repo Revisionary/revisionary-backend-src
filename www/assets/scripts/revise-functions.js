@@ -1059,14 +1059,8 @@ function applyChanges(showingOriginal = []) {
 
 
 		// CSS CODES:
-		if ( pin.pin_css != null ) {
+		if ( pin.pin_css != null ) updateCSS(element_index, pin.pin_css);
 
-
-			// Add the CSS codes
-			iframeElement('body').append('<style data-index="'+ element_index +'">[data-revisionary-index="'+ element_index +'"]{'+ pin.pin_css +'}</style>');
-
-
-		}
 
 
 		// MODIFICATIONS:
@@ -1147,6 +1141,24 @@ function applyChanges(showingOriginal = []) {
 	page_ready = true;
 	$('body').addClass('ready');
 
+
+}
+
+
+// Update CSS
+function updateCSS(element_index, cssCodes) {
+
+
+	// Mark the old one
+	iframeElement('style[data-index="'+ element_index +'"]').addClass('old');
+
+
+	// Add the new CSS codes
+	iframeElement('body').append('<style data-index="'+ element_index +'">[data-revisionary-index="'+ element_index +'"]{'+ cssCodes +'}</style>');
+
+
+	// Remove the old ones
+	iframeElement('style.old[data-index="'+ element_index +'"]').remove();
 
 }
 
@@ -2265,11 +2277,11 @@ function saveCSS(pin_ID, css) {
 
 
 		var data = result.data; console.log(data);
-		var filtered_css = data.css_code;
+		var cssCode = data.css_code;
 
 
 		// Update the global
-		Pins[pinIndex].pin_css = filtered_css; //console.log('FILTERED: ', filtered_css);
+		Pins[pinIndex].pin_css = cssCode; //console.log('FILTERED: ', filtered_css);
 
 
 /*
