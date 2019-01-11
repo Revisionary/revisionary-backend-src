@@ -173,11 +173,26 @@ $(function() {
 
 
 
+	// Stop scrolling on content editor
+	var scrollOnContent = false;
+	$(document).on('mousewheel', '#pin-window [contenteditable]', function(e) {
+
+		scrollOnContent = true;
+		//console.log('SCROLL ON CONTENT');
+
+	});
+
+
+
 	// Continue scrolling on any pin or the pin window
 	$(document).on('mousewheel', '#pins > pin, #pin-window', function(e) {
 
+		//if (!scrollOnContent) console.log('SCROLL ON WINDOW');
+
 		var scrollDelta = e.originalEvent.wheelDelta;
-		iframe.scrollTop( scrollOffset_top - scrollDelta );
+		if (!scrollOnContent) iframe.scrollTop( scrollOffset_top - scrollDelta );
+
+		scrollOnContent = false;
 
 	});
 
