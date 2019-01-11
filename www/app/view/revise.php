@@ -487,7 +487,7 @@
 						</ul>
 
 					</div>
-					<div class="col action" data-tooltip="Coming soon.">
+					<div class="col action" data-tooltip="Coming soon." style="display: none !important;">
 
 						<i class="fa fa-user-o"></i>
 						<span>ASSIGNEE</span>
