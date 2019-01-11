@@ -611,7 +611,8 @@ class Internalize {
 
 	    // PUT THE ELEMENT INDEXES
 	    $countElement = 0;
-	    $html = str_replace('<body ', '<body data-revisionary-index="0" ', $html);
+	    $html = str_replace('data-revisionary-index=', 'rvi=', $html);
+	    $html = str_replace('<body ', '<body data-revisionary-index=0 ', $html);
 		$html = preg_replace_callback(
 	        '/<body[^<]*?>|(?!^)\G(.*?)(?<tag><(?<tagname>[a-z1-9]+[1-9]?)\s?[^<]*?>)/si',
 	        function ($matches) {
@@ -656,7 +657,7 @@ class Internalize {
 
 
 				// Specific Log
-				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - ELEMENT TO INDEX: \r\n
+				file_put_contents( $this->pageData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - ELEMENT TO INDEX (#$countElement): \r\n
 				".$tag." \r\n
 				".$new_tag."' \r\n \r\n", FILE_APPEND);
 
