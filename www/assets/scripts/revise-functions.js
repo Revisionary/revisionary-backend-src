@@ -2630,7 +2630,7 @@ function updatePinsList() {
 
 		// Add the pin to the list
 		$('.pins-list').append(
-			listedPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y)
+			listedPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y, pin.pin_css)
 		);
 
 
@@ -2702,7 +2702,7 @@ function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_mo
 
 
 // Listed pin template
-function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary = false) {
+function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, pin_css) {
 
 	// Pin description
 	var pinText = "Comment Pin";
@@ -2711,7 +2711,8 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 	if (pin_private == "1") pinText = "Private " + pinText;
 
 	var editSummary = "";
-	if (pin_modification == null) editSummary = '<br /><i class="edit-summary">-No change yet.-</i>';
+	if (pin_modification == null && pin_css == null) editSummary = '<br /><i class="edit-summary">-No change yet.-</i>';
+	if (pin_css != null) editSummary = '<br /><i class="edit-summary">-Some visual changes has been made.-</i>';
 	if (pin_modification == "") editSummary = '<br /><i class="edit-summary">-Content deleted.-</i>';
 	if (pin_modification_type == "html" && pin_modification != null && pin_modification != "") {
 		var text_no_html = cleanHTML(html_entity_decode(pin_modification));
@@ -2724,7 +2725,6 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 
 	return ' \
 		<div class="pin '+pin_type+' '+(pin_complete == "1" ? "complete" : "incomplete")+'" \
-			'+(temporary ? "temporary" : "")+' \
 			data-pin-type="'+pin_type+'" \
 			data-pin-private="'+pin_private+'" \
 			data-pin-complete="'+pin_complete+'" \
@@ -2736,7 +2736,7 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 			data-revisionary-edited="'+( pin_modification != null ? '1' : '0' )+'" \
 			data-revisionary-showing-changes="1"> \
 			<a href="#" class="pin-locator"> \
-				'+ pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary, 'mid') +' \
+				'+ pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, false, 'mid') +' \
 			</a> \
 			<a href="#" class="pin-title close"> \
 				'+pinText+' <i class="fa fa-caret-up" aria-hidden="true"></i> \
