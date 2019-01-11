@@ -1766,6 +1766,7 @@ function openPinWindow(pin_x, pin_y, pin_ID, firstTime) {
 	// Opacity
 	var opacity = thePinElement.css('opacity');
 	pinWindow.find('.edit-opacity #edit-opacity').val(opacity).trigger('change');
+	pinWindow.find('ul.options').attr('data-opacity', opacity);
 
 
 
@@ -2184,7 +2185,7 @@ function saveChange(pin_ID, modification) {
 
 
 	// Start the process
-	var newPinProcessID = newProcess();
+	var modifyPinProcessID = newProcess();
 
 	// Update from DB
     ajax('pin-modify',
@@ -2222,7 +2223,77 @@ function saveChange(pin_ID, modification) {
 
 
 		// Finish the process
-		endProcess(newPinProcessID);
+		endProcess(modifyPinProcessID);
+
+	});
+
+
+}
+
+
+// DB: Save CSS changes
+function saveCSS(pin_ID, css) {
+
+
+    // Add pin to the DB
+    console.log( 'Save CSS for the pin #' + pin_ID + ' on DB!!', css);
+
+
+    // Update from the Pins global
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pinIndex = Pins.indexOf(pin);
+
+	var elementIndex = pin.pin_element_index;
+	var changedElement = iframeElement(elementIndex);
+
+	//var change = modification == "{%null%}" ? null : htmlentities(modification, "ENT_QUOTES");
+
+
+	//console.log('CHANGE:', change);
+
+
+	// Start the process
+	var pinCSSProcessID = newProcess();
+
+	// Update from DB
+    ajax('pin-css',
+    {
+		'css' 	 : css,
+		'pin_ID' : pin_ID
+
+	}).done(function(result){
+
+
+		var data = result.data; console.log(data);
+		var filtered_css = data.css_code;
+
+
+		// Update the global
+		Pins[pinIndex].pin_css = filtered_css; //console.log('FILTERED: ', filtered_css);
+
+
+/*
+		// Update the status
+		if (modification != "{%null%}") {
+
+			pinElement(pin_ID).attr('data-revisionary-edited', "1");
+			pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+			changedElement.attr('data-revisionary-edited', "1");
+			changedElement.attr('data-revisionary-showing-changes', "1");
+
+		} else {
+
+			pinElement(pin_ID).attr('data-revisionary-edited', "0");
+			pinWindow.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
+			changedElement.removeAttr('data-revisionary-showing-changes');
+			changedElement.removeAttr('data-revisionary-edited');
+
+		}
+*/
+
+
+		// Finish the process
+		endProcess(pinCSSProcessID);
 
 	});
 

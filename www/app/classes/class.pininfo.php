@@ -279,6 +279,32 @@ class Pin {
 	}
 
 
+    // Update CSS
+    public function updateCSS($css) {
+	    global $db;
+
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		// Update the pin
+		$db->where('pin_ID', self::$pin_ID);
+		$pin_updated = $db->update('pins', array('pin_css' => $css));
+
+		// Update the page modification date
+		if ($pin_updated) {
+			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
+			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+		}
+
+
+		return $pin_updated;
+
+	}
+
+
     // Get the comments
     public function comments() {
 	    global $db;

@@ -680,14 +680,21 @@ $(function() {
 
 
 	// CSS EDITS
+	var doChangeCSS = {};
 	$('[data-edit-css]').on('click input', function(e) {
 
 		var action = $(this).attr('data-edit-css');
+		var pin_ID = pinWindow.attr('data-pin-id');
 		var elementIndex = pinWindow.attr('data-revisionary-index');
 		var element = iframeElement(elementIndex);
+		var options = pinWindow.find('ul.options');
 
 
 		console.log('EDIT CSS: ', action, elementIndex);
+
+
+		// Stop the auto-refresh
+		stopAutoRefresh();
 
 
 		// SHOW & HIDE
@@ -696,14 +703,14 @@ $(function() {
 			element.hide();
 			$('.edit-display > a').removeClass('active');
 			$('.edit-display > a.edit-display-none').addClass('active');
-			pinWindow.find('ul.options').attr('data-display', 'none');
+			options.attr('data-display', 'none');
 
 		} else if (action == "show") {
 
 			element.show();
 			$('.edit-display > a').removeClass('active');
 			$('.edit-display > a.edit-display-block').addClass('active');
-			pinWindow.find('ul.options').attr('data-display', 'block');
+			options.attr('data-display', 'block');
 
 		}
 
@@ -714,9 +721,28 @@ $(function() {
 			var opacity = $(this).val();
 
 			element.css('opacity', opacity);
-			pinWindow.find('ul.options').attr('data-opacity', opacity);
+			options.attr('data-opacity', opacity);
 
 		}
+
+
+		var css = {
+			display : options.attr('data-display'),
+			opacity : options.attr('data-opacity')
+		}
+
+
+		// Remove unsent job
+		if (doChangeCSS[elementIndex]) clearTimeout(doChangeCSS[elementIndex]);
+
+		// Send changes to DB after 1 second
+		doChangeCSS[elementIndex] = setTimeout(function(){
+
+			saveCSS(pin_ID, css);
+
+		}, 1000);
+
+		//console.log('Content changed.');
 
 
 		relocatePins(null, null, null, true);
