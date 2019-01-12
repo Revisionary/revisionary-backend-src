@@ -630,13 +630,19 @@
 				</div>
 				<div class="col section-content options">
 
-					<ul class="no-bullet options" style="margin-bottom: 0;" data-changed="no" data-display="" data-opacity="">
-						<li class="current-element" style="position: relative; padding-right: 20px;">
+					<ul class="no-bullet options" style="margin-bottom: 0;" data-changed="no" data-showing-changes="yes" data-display="" data-opacity="">
+						<li class="current-element" style="position: relative; padding-right: 100px;">
 
-							<b>Current Element:</b> <span class="element-tag">tag</span><span class="element-id">#id</span><span class="element-class">.class</span>
+							<b>EDIT STYLE FOR:</b> <span class="element-tag">tag</span><span class="element-id">#id</span><span class="element-class">.class</span>
 
-							<a href="#" class="reset-css" data-tooltip="Reset Changes" style="position: absolute; right: 15px; top: 5px; font-size: 10px;"><i class="fa fa-unlink"></i></a>
-							<a href="#" class="show-original" data-tooltip="Show Original" style="position: absolute; right: 0; top: 0;"><img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/></a>
+							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px;">
+								<span class="original"><img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/> SHOW ORIGINAL</span>
+								<span class="changes"><img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/> SHOW CHANGES</span>
+							</a>
+
+							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px;">
+								<span><i class="fa fa-unlink"></i>RESET CHANGES</span>
+							</a>
 
 						</li>
 						<li class="choice edit-display">

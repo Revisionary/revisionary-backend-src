@@ -407,6 +407,7 @@ html, body {
     cursor: move; }
   #pin-window .switch {
     font-size: 12px;
+    font-weight: 400;
     line-height: 14px;
     letter-spacing: 0; }
   #pin-window .difference-switch-wrap {
@@ -531,7 +532,14 @@ html, body {
     font-weight: 100;
     letter-spacing: normal; }
     #pin-window ul.options[data-changed="no"] .reset-css,
-    #pin-window ul.options[data-changed="no"] .show-original {
+    #pin-window ul.options[data-changed="no"] .show-original-css {
+      display: none; }
+    #pin-window ul.options[data-showing-changes="yes"] .changes {
+      display: none; }
+    #pin-window ul.options[data-showing-changes="no"] > li:not(:first-child) {
+      opacity: 0.2;
+      pointer-events: none; }
+    #pin-window ul.options[data-showing-changes="no"] .original {
       display: none; }
     #pin-window ul.options[data-display="none"] .hide-when-hidden {
       display: none; }

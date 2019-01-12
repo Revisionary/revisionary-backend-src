@@ -485,7 +485,7 @@ $(function() {
 	});
 
 
-	// Remove Image
+	// Reset CSS
 	$('.reset-css').click(function(e) {
 
 		var pin_ID = pinWindow.attr('data-pin-id');
@@ -504,6 +504,20 @@ $(function() {
 
 
 		}
+
+
+		e.preventDefault();
+
+	});
+
+
+	// Show original CSS toggle
+	$('.show-original-css').click(function(e) {
+
+		var pin_ID = pinWindow.attr('data-pin-id');
+
+
+		toggleCSS(pin_ID);
 
 
 		e.preventDefault();

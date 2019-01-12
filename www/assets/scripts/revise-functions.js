@@ -1751,6 +1751,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 	// CSS OPTIONS:
 	var thePinElement = iframeElement(theIndex);
 	var styleElement = iframeElement('style[data-index="'+ theIndex +'"]');
+	var isShowingCSS = styleElement.html() == "" ? false : true;
 	var options = pinWindow.find('ul.options');
 
 	// Update the current element section
@@ -1793,6 +1794,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 	// Style Element
 	options.attr('data-changed', (styleElement.length ? "yes" : "no"));
+	options.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"));
 
 
 
@@ -2389,6 +2391,36 @@ function toggleChange(pin_ID) {
 
 
 		}
+
+
+	}
+
+}
+
+
+// Toggle content edits
+function toggleCSS(pin_ID) {
+
+
+    // Get the pin from the Pins global
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+
+
+	// If pin and its CSS found
+	if (pin && pin.pin_css != null) {
+
+
+		var elementIndex = pin.pin_element_index;
+		var styleElement = iframeElement('style[data-index="'+ elementIndex +'"]');
+		var isShowingCSS = styleElement.html() == "" ? false : true;
+
+
+		// Toggle the styles
+		styleElement.html( (isShowingCSS ? "" : '[data-revisionary-index="'+ elementIndex +'"]{ '+ pin.pin_css +' }') );
+
+
+		// Toggle the option
+		pinWindow.find('ul.options').attr('data-showing-changes', (isShowingCSS ? "no" : "yes"));
 
 
 	}

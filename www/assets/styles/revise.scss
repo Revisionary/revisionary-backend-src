@@ -681,6 +681,7 @@ html, body {
 
 	.switch {
 		font-size: 12px;
+		font-weight: 400;
 		line-height: 14px;
 		letter-spacing: 0;
 	}
@@ -918,7 +919,28 @@ html, body {
 		&[data-changed="no"] {
 
 			.reset-css,
-			.show-original {
+			.show-original-css {
+				display: none;
+			}
+
+		}
+
+		&[data-showing-changes="yes"] {
+
+			.changes {
+				display: none;
+			}
+
+		}
+
+		&[data-showing-changes="no"] {
+
+			& > li:not(:first-child) {
+				opacity: 0.2;
+				pointer-events: none;
+			}
+
+			.original {
 				display: none;
 			}
 
