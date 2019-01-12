@@ -659,20 +659,20 @@
 							</ul>
 						</li>
 						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
+							<a href="#"><i class="fa fa-font"></i> Text & Item <i class="fa fa-angle-down"></i></a>
+							<ul class="no-delay full">
+								<li><i class="fa fa-tint"></i> Color</li>
+								<li><i class="fa fa-bold"></i> Style</li>
+								<li><i class="fa fa-align-left"></i> Alignment</li>
+							</ul>
+						</li>
+						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
 							<a href="#"><i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i></a>
 							<ul class="no-delay full">
 								<li>Margins</li>
 								<li>Borders</li>
 								<li>Paddings</li>
 								<li>Positions</li>
-							</ul>
-						</li>
-						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
-							<a href="#"><i class="fa fa-font"></i> Text <i class="fa fa-angle-down"></i></a>
-							<ul class="no-delay full">
-								<li><i class="fa fa-tint"></i> Color</li>
-								<li><i class="fa fa-bold"></i> Style</li>
-								<li><i class="fa fa-align-left"></i> Alignment</li>
 							</ul>
 						</li>
 						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
