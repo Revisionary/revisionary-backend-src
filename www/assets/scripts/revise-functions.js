@@ -449,8 +449,9 @@ function runTheInspector() {
 
 /*
 				// See what am I focusing
-				//console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
-				//console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable );
+				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
+				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable );
+				console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
 */
 
 
@@ -470,6 +471,7 @@ function runTheInspector() {
 
 					// Editable check
 					if (focused_element_editable && currentPinType == "live") {
+
 
 						switchCursorType('live');
 						outline(focused_element, currentPinPrivate, currentPinType);
@@ -494,8 +496,8 @@ function runTheInspector() {
 
 						// Update the cursor
 						changePinNumber( focused_element_live_pin.text() );
-						switchCursorType(focused_element_live_pin.data('pin-type'), focused_element_live_pin.data('pin-private'), focused_element_live_pin.data('pin-type'));
-						outline(focused_element, focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type'));
+						switchCursorType( focused_element_live_pin.attr('data-pin-type'), focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type') );
+						outline( focused_element, focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type') );
 
 
 
@@ -2113,8 +2115,8 @@ function convertPin(pin_ID, targetPin) {
 
 
 	// New values
-	var pinType = targetPin.data('pin-type');
-	var pinPrivate = targetPin.data('pin-private');
+	var pinType = targetPin.attr('data-pin-type');
+	var pinPrivate = targetPin.attr('data-pin-private');
 	var pinLabel = targetPin.next().text();
 	var elementIndex = parseInt( pinElement(pin_ID).attr('data-revisionary-index') ); console.log('element-index', elementIndex);
 

@@ -60,8 +60,8 @@ $(function() {
 	// Pin mode change
 	$('.pin-types li:not(.deactivator) a').click(function(e) {
 
-		var selectedPinType = $(this).parent().data('pin-type');
-		var selectedPinPrivate = $(this).parent().data('pin-private');
+		var selectedPinType = $(this).parent().attr('data-pin-type');
+		var selectedPinPrivate = $(this).parent().attr('data-pin-private');
 
 		switchPinType(selectedPinType, selectedPinPrivate);
 
@@ -385,7 +385,7 @@ $(function() {
 	// Uploader
 	$('#filePhoto').change(function() {
 
-		var maxSize = $(this).data('max-size');
+		var maxSize = $(this).attr('data-max-size');
 
 
 	    var reader = new FileReader();
@@ -600,7 +600,7 @@ $(function() {
 		console.log('SHOW THE PINS: ', filter);
 
 
-		var filter = $(this).data('filter');
+		var filter = $(this).attr('data-filter');
 
 
 		$('.pins-filter > a').removeClass('selected');

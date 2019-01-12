@@ -10,7 +10,7 @@ $(function() {
 	// Block Sizes
 	$('.size-selector a').click(function(e) {
 
-		var selected = $(this).data('column');
+		var selected = $(this).attr('data-column');
 
 		$('.blocks').removeClass(function (index, className) {
 		    return (className.match (/(^|\s)xl-\S+/g) || []).join(' ');
