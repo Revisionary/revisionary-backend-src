@@ -1756,6 +1756,8 @@ function openPinWindow(pin_ID, firstTime = false) {
 	var isShowingCSS = styleElement.html() == "" ? false : true;
 	var options = pinWindow.find('ul.options');
 
+
+
 	// Update the current element section
 	$('.element-tag, .element-id, .element-class').text('');
 
@@ -1782,19 +1784,34 @@ function openPinWindow(pin_ID, firstTime = false) {
 	if (idName != null) $('.element-id').text('#'+idName);
 
 
-	// Display
-	var display = thePinElement.css('display') != "none" ? "block" : "none";
-	pinWindow.find('.edit-display > a').removeClass('active');
-	pinWindow.find('.edit-display > .edit-display-'+display).addClass('active');
-	options.attr('data-display', display);
 
-	// Opacity
-	var opacity = thePinElement.css('opacity');
-	pinWindow.find('.edit-opacity #edit-opacity').val(opacity).trigger('change');
-	options.attr('data-opacity', opacity);
+	// Update the CSS properties
+	var properties = options.find('[data-edit-css]');
+	$(properties).each(function(i, propertyElement) {
 
 
-	// Style Element
+		// Get the property name and values
+		var property = $(propertyElement).attr('data-edit-css');
+		var value = thePinElement.css(property);
+
+
+		// Update the main options
+		options.attr('data-'+property, value);
+
+
+		// Update the choices
+		options.find('a[data-edit-css="'+ property +'"]').removeClass('active');
+		options.find('a[data-edit-css="'+ property +'"][data-value="'+ value +'"]').addClass('active');
+
+
+		// Inputs
+		options.find('input[data-edit-css="'+ property +'"]').val(value).trigger('change');
+
+
+	});
+
+
+	// Changed status
 	options.attr('data-changed', (styleElement.length ? "yes" : "no"));
 	options.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"));
 
@@ -1952,7 +1969,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 function closePinWindow() {
 
 
-	console.log('PIN WINDOW CLOSING.');
+	if (pinWindowOpen) console.log('PIN WINDOW CLOSING.');
 
 
 	// Previous state of window
@@ -2329,6 +2346,10 @@ function saveCSS(pin_ID, css) {
 
 		// Finish the process
 		endProcess(pinCSSProcessID);
+
+	}).fail(function(fail) {
+
+		console.log('FAILED: ', fail);
 
 	});
 

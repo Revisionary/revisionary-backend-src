@@ -32,6 +32,20 @@ die(json_encode(array(
 
 
 
+
+/*
+
+			'display' 			: options.attr('data-display'),
+			'opacity' 			: options.attr('data-opacity'),
+			'text-align'		: options.attr('data-text-align'),
+			'text-decoration'	: options.attr('data-text-decoration'),
+			'font-weight'		: options.attr('data-font-weight'),
+			'font-style'		: options.attr('data-font-style')
+
+*/
+
+
+
 // Prepare the CSS code to save
 $css_code = "";
 foreach ($css as $key => $value) {
@@ -41,6 +55,10 @@ foreach ($css as $key => $value) {
 	if (
 		$key != "display"
 		&& $key != "opacity"
+		&& $key != "text-align"
+		&& $key != "text-decoration-line"
+		&& $key != "font-weight"
+		&& $key != "font-style"
 	) return;
 
 
@@ -52,6 +70,18 @@ foreach ($css as $key => $value) {
 
 		// Opacity rules
 		|| ($key == "opacity" && (!is_numeric($value) || $value > 1 || $value < 0) )
+
+		// Text Align rules
+		|| ($key == "text-align" && $value != "left" && $value != "center" && $value != "justify" && $value != "right")
+
+		// Text Decoration rules
+		|| ($key == "text-decoration-line" && $value != "underline" && $value != "none")
+
+		// Font Weight rules
+		|| ($key == "font-weight" && (!is_numeric($value) && $value != "bold" && $value != "normal") )
+
+		// Font style rules
+		|| ($key == "font-style" && $value != "italic" && $value != "normal")
 
 	) return;
 

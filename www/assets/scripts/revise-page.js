@@ -738,52 +738,50 @@ $(function() {
 	var doChangeCSS = {};
 	$('[data-edit-css]').on('click input', function(e) {
 
-		var action = $(this).attr('data-edit-css');
+
+		var property = $(this).attr('data-edit-css');
+		var isActive = $(this).hasClass('active');
+
+		var value = $(this).attr('data-value') || $(this).val();
+		var defaultValue = $(this).attr('data-default');
+
+
+		value = isActive ? defaultValue : value;
+
+
 		var pin_ID = pinWindow.attr('data-pin-id');
 		var elementIndex = pinWindow.attr('data-revisionary-index');
-		var element = iframeElement(elementIndex);
 		var options = pinWindow.find('ul.options');
 
 
-		console.log('EDIT CSS: ', action, elementIndex);
+		console.log('EDIT CSS: ', property, value, elementIndex);
 
 
 		// Stop the auto-refresh
 		stopAutoRefresh();
 
 
-		// SHOW & HIDE
-		if (action == "hide") {
-
-			$('.edit-display > a').removeClass('active');
-			$('.edit-display > a.edit-display-none').addClass('active');
-			options.attr('data-display', 'none');
-
-		} else if (action == "show") {
-
-			$('.edit-display > a').removeClass('active');
-			$('.edit-display > a.edit-display-block').addClass('active');
-			options.attr('data-display', 'block');
-
-		}
+		// Disable the active status
+		options.find('a[data-edit-css="'+ property +'"]').removeClass('active');
+		options.find('a[data-edit-css="'+ property +'"][data-value="'+ value +'"]').addClass('active');
 
 
-		// OPACITY
-		if (action == "opacity") {
-
-			var opacity = $(this).val();
-			options.attr('data-opacity', opacity);
-
-		}
+		// Add the value
+		options.attr('data-' + property, value);
 
 
+		// Prepare the CSS data
 		var css = {
-			display : options.attr('data-display'),
-			opacity : options.attr('data-opacity')
+			'display' 				: options.attr('data-display'),
+			'opacity' 				: options.attr('data-opacity'),
+			'text-align'			: options.attr('data-text-align'),
+			'text-decoration-line'	: options.attr('data-text-decoration-line'),
+			'font-weight'			: options.attr('data-font-weight'),
+			'font-style'			: options.attr('data-font-style')
 		}
 
 
-		// Instant update the element
+		// Prepare the CSS declarations
 		var cssCode = "";
 		$.each( css, function( key, value ) {
 
@@ -794,7 +792,8 @@ $(function() {
 
 		});
 
-		// Update the CSS
+
+		// Instant update the CSS
 		updateCSS(elementIndex, cssCode);
 
 
@@ -807,8 +806,6 @@ $(function() {
 			saveCSS(pin_ID, css);
 
 		}, 1000);
-
-		//console.log('Content changed.');
 
 
 		relocatePins(null, null, null, true);

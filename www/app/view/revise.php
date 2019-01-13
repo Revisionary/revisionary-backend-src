@@ -630,7 +630,7 @@
 				</div>
 				<div class="col section-content options">
 
-					<ul class="no-bullet options" style="margin-bottom: 0;" data-changed="no" data-showing-changes="yes" data-display="" data-opacity="">
+					<ul class="no-bullet options" style="margin-bottom: 0;" data-changed="no" data-showing-changes="yes">
 						<li class="current-element" style="position: relative; padding-right: 100px;">
 
 							<b>EDIT STYLE FOR:</b> <span class="element-tag">tag</span><span class="element-id">#id</span><span class="element-class">.class</span>
@@ -645,25 +645,48 @@
 							</a>
 
 						</li>
-						<li class="choice edit-display">
-							<a href="#" class="active edit-display-block" data-edit-css="show"><i class="fa fa-eye"></i> Show</a>
-							 |
-							<a href="#" class="edit-display-none" data-edit-css="hide"><i class="fa fa-eye-slash"></i> Hide</a>
+						<li class="choice">
+
+							<a href="#" data-edit-css="display" data-value="block" data-default="none" class="active"><i class="fa fa-eye"></i> Show</a> |
+							<a href="#" data-edit-css="display" data-value="none" data-default="block"><i class="fa fa-eye-slash"></i> Hide</a>
+
 						</li>
 						<li class="dropdown edit-opacity hide-when-hidden">
+
 							<a href="#"><i class="fa fa-low-vision"></i> Opacity <i class="fa fa-angle-down"></i></a>
 							<ul class="full">
 								<li>
-									<input type="range" min="0" max="1" step="0.01" value="1" class="range-slider" id="edit-opacity" data-edit-css="opacity"> <div class="percentage">100</div>
+
+									<input type="range" min="0" max="1" step="0.01" value="1" class="range-slider" id="edit-opacity" data-edit-css="opacity" data-default="1"> <div class="percentage">100</div>
+
 								</li>
 							</ul>
+
 						</li>
-						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
+						<li class="dropdown hide-when-hidden">
+
 							<a href="#"><i class="fa fa-font"></i> Text & Item <i class="fa fa-angle-down"></i></a>
-							<ul class="no-delay full">
-								<li><i class="fa fa-tint"></i> Color</li>
-								<li><i class="fa fa-bold"></i> Style</li>
-								<li><i class="fa fa-align-left"></i> Alignment</li>
+							<ul class="no-delay">
+								<li class="choice">
+
+									<a href="#"><i class="fa fa-tint"></i> Color</a>
+
+								</li>
+								<li class="choice selectable">
+
+									<a href="#" data-edit-css="font-weight" data-value="bold" data-default="normal"><i class="fa fa-bold"></i> Bold</a> |
+									<a href="#" data-edit-css="font-style" data-value="italic" data-default="normal"><i class="fa fa-italic"></i> Italic</a> |
+									<a href="#" data-edit-css="text-decoration-line" data-value="underline" data-default="none"><i class="fa fa-underline"></i> Underline</a>
+
+								</li>
+								<li class="choice">
+
+									<a href="#" data-edit-css="text-align" data-value="left" data-default="right"><i class="fa fa-align-left"></i> Left</a> |
+									<a href="#" data-edit-css="text-align" data-value="center" data-default="left"><i class="fa fa-align-center"></i> Center</a> |
+									<a href="#" data-edit-css="text-align" data-value="justify" data-default="left"><i class="fa fa-align-justify"></i> Justify</a> |
+									<a href="#" data-edit-css="text-align" data-value="right" data-default="left"><i class="fa fa-align-right"></i> Right</a>
+
+								</li>
 							</ul>
 						</li>
 						<li class="dropdown hide-when-hidden" data-tooltip="In Development">

@@ -970,16 +970,19 @@ html, body {
 				text-align: center;
 			}
 
-			&.choice {
-				margin-left: -5px;
+		}
 
-				& > a {
-					border: 1px solid white;
-					padding: 2px 5px;
-					border-radius: 10px;
-				}
+		.choice {
+			//margin-left: -5px;
 
-				& > .active {
+			& > a {
+				border: 1px solid white;
+				padding: 2px 5px;
+				border-radius: 10px;
+				text-align: center;
+				width: auto;
+
+				&.active {
 					background-color: $color;
 					color: white;
 					border-color: white;
@@ -989,6 +992,7 @@ html, body {
 			}
 
 		}
+
 
 	}
 
