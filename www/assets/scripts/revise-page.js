@@ -833,9 +833,15 @@ $(window).on("load", function (e) {
 	    showInitial: true,
 	    showInput: true,
 	    allowEmpty: true,
+		chooseText: "OK",
 	    change : function(color) {
 
 		    $(this).trigger('input');
+
+	    },
+	    move : function(color) {
+
+		    $(this).val( color.toHexString() ).trigger('input');
 
 	    }
 	});

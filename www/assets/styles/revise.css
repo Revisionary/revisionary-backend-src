@@ -645,7 +645,8 @@ html, body {
   border-color: black;
   background-color: white; }
   .sp-container .sp-cancel {
-    color: black !important; }
+    color: black !important;
+    visibility: hidden !important; }
     .sp-container .sp-cancel:hover {
       color: #007acc !important; }
   .sp-container .sp-choose {

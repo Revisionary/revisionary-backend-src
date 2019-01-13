@@ -1180,6 +1180,7 @@ html, body {
 
     .sp-cancel {
 	    color: $color !important;
+	    visibility: hidden !important;
 
 	    &:hover {
 		    color: $color-secondary !important;
