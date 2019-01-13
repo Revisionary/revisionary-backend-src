@@ -654,7 +654,7 @@
 						<li class="dropdown edit-opacity hide-when-hidden">
 
 							<a href="#"><i class="fa fa-low-vision"></i> Opacity <i class="fa fa-angle-down"></i></a>
-							<ul class="full">
+							<ul class="no-delay full">
 								<li>
 
 									<input type="range" min="0" max="1" step="0.01" value="1" class="range-slider" id="edit-opacity" data-edit-css="opacity" data-default="1"> <div class="percentage">100</div>
