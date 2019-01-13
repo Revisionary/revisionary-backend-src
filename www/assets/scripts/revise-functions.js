@@ -1795,6 +1795,10 @@ function openPinWindow(pin_ID, firstTime = false) {
 		var value = thePinElement.css(property);
 
 
+		// Display exception
+		if (property == "display" && value != "none") value = 'block';
+
+
 		// Update the main options
 		options.attr('data-'+property, value);
 
@@ -1806,6 +1810,11 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 		// Inputs
 		options.find('input[data-edit-css="'+ property +'"]').val(value).trigger('change');
+
+
+		// Color Pickers
+		if (property == "color")
+			$('input[type="color"][data-edit-css="'+ property +'"]').spectrum("set", value);
 
 
 	});

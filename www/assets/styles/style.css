@@ -5123,15 +5123,33 @@ input[type='url'],
 input[type='submit'],
 button {
   display: block;
-  padding: 0 20px;
-  border: 8px solid black;
+  padding: 0 10px;
+  border: 2px solid black;
   border-radius: 0;
-  width: 100%;
+  width: auto;
   box-sizing: border-box;
-  height: 80px;
-  margin-bottom: -8px;
-  font-size: 20px;
+  height: 40px;
+  margin-bottom: -2px;
+  font-size: 14px;
   background-color: white; }
+  input[type='text'].large,
+  input[type='email'].large,
+  input[type='password'].large,
+  input[type='url'].large,
+  input[type='submit'].large,
+  button.large {
+    font-size: 20px;
+    height: 80px;
+    border-width: 8px;
+    padding: 0 20px;
+    margin-bottom: -8px; }
+  input[type='text'].full,
+  input[type='email'].full,
+  input[type='password'].full,
+  input[type='url'].full,
+  input[type='submit'].full,
+  button.full {
+    width: 100%; }
 
 .filter-blocks {
   position: relative; }
@@ -5165,16 +5183,24 @@ button {
   display: inline-block;
   width: auto;
   text-transform: uppercase;
-  font-size: 25px;
-  letter-spacing: 3px;
+  font-size: 14px;
+  letter-spacing: normal;
   cursor: pointer;
-  background-image: url("/assets/icons/triangle.svg");
   background-repeat: no-repeat;
   background-position: 100% 100%;
-  padding: 0 40px; }
+  padding: 0 10px; }
   input[type='submit']:hover,
   button:hover {
     color: #007acc; }
+  input[type='submit'].large,
+  button.large {
+    font-size: 25px;
+    letter-spacing: 3px;
+    height: 80px;
+    border-width: 8px;
+    padding: 0 40px;
+    margin-bottom: -8px;
+    background-image: url("/assets/icons/triangle.svg"); }
   input[type='submit'].full,
   button.full {
     width: 100%; }

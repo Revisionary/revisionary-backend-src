@@ -18,16 +18,16 @@
 				<div class="wrap">
 					<div class="col xl-11-12">
 						<input type="hidden" name="nonce" value="<?=$_SESSION['signup_nonce']?>"/>
-						<input type="email" name="email" value="<?=$eMail?>" size="20" placeholder="E-Mail Address…" />
-						<input type="text" name="full_name" value="<?=$fullName?>" size="20" placeholder="First and Last Name…" />
-						<input type="password" name="password" value="" size="20" placeholder="Password…" />
+						<input type="email" class="large full" name="email" value="<?=$eMail?>" size="20" placeholder="E-Mail Address…" />
+						<input type="text" class="large full" name="full_name" value="<?=$fullName?>" size="20" placeholder="First and Last Name…" />
+						<input type="password" class="large full" name="password" value="" size="20" placeholder="Password…" />
 
 						<div class="wrap xl-gutter-8">
 							<div class="col xl-6-12 xl-right">
 								<span class="register-message">Don't hesitate, it's <strong>free!</strong></span>
 							</div>
 							<div class="col xl-6-12">
-								<input type="submit" name="user-submit" value="Register" class="user-submit full" />
+								<input type="submit" name="user-submit" value="Register" class="user-submit large full" />
 							</div>
 						</div>
 
@@ -41,7 +41,7 @@
 			<div class="wrap register-button">
 				<div class="col xl-11-12">
 					<div class="xl-center button-desc">If you are already registered</div>
-				<a href="<?=site_url('login'.( !empty(get('redirect')) ? "?redirect=".urlencode(get('redirect')) : "" ) )?>"><button class="full">LOGIN</button></a>
+				<a href="<?=site_url('login'.( !empty(get('redirect')) ? "?redirect=".urlencode(get('redirect')) : "" ) )?>"><button class="large full">LOGIN</button></a>
 				</div>
 			</div>
 

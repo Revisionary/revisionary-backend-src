@@ -669,7 +669,7 @@
 							<ul class="no-delay">
 								<li class="choice">
 
-									<a href="#"><i class="fa fa-tint"></i> Color</a>
+									<a href="#"><i class="fa fa-tint"></i> Color</a> <input type="color" data-edit-css="color" data-default="initial">
 
 								</li>
 								<li class="choice selectable">

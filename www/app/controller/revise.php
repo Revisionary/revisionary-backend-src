@@ -362,6 +362,7 @@ if (currentUserID() != 1) {
 $additionalCSS = [
 	'vendor/jquery.mCustomScrollbar.css',
 	'vendor/popline-theme/default.css',
+	'vendor/spectrum.css',
 	'revise.css'
 ];
 
@@ -371,6 +372,7 @@ $additionalHeadJS = [
 	'revise-functions.js',
 	'vendor/jquery-ui.min.js',
 	'vendor/diff.js',
+	'vendor/spectrum.js',
 	'vendor/popline/jquery.popline.js',
 	'vendor/popline/plugins/jquery.popline.link.js',
 	//'vendor/popline/plugins/jquery.popline.blockquote.js',

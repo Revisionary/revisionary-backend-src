@@ -736,7 +736,7 @@ $(function() {
 
 	// CSS EDITS
 	var doChangeCSS = {};
-	$('[data-edit-css]').on('click input', function(e) {
+	$('[data-edit-css]').on('click input change', function(e) {
 
 
 		var property = $(this).attr('data-edit-css');
@@ -777,7 +777,8 @@ $(function() {
 			'text-align'			: options.attr('data-text-align'),
 			'text-decoration-line'	: options.attr('data-text-decoration-line'),
 			'font-weight'			: options.attr('data-font-weight'),
-			'font-style'			: options.attr('data-font-style')
+			'font-style'			: options.attr('data-font-style'),
+			'color'					: options.attr('data-color'),
 		}
 
 
@@ -823,6 +824,21 @@ $(window).on("load", function (e) {
 
 	// CONTENT EDITOR PLUGIN
 	$(".edit-content[contenteditable='true']").popline();
+
+
+	// COLOR PICKER PLUGIN
+	$("input[type='color']").spectrum({
+	    //flat: true,
+		preferredFormat: "hex",
+	    showInitial: true,
+	    showInput: true,
+	    allowEmpty: true,
+	    change : function(color) {
+
+		    //$(this).val( color.toHexString() ).attr('data-value', color.toHexString() ).trigger('change');
+
+	    }
+	});
 
 
 });
