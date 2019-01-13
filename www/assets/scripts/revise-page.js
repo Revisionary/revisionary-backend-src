@@ -834,11 +834,6 @@ $(window).on("load", function (e) {
 	    showInput: true,
 	    allowEmpty: true,
 		chooseText: "OK",
-	    change : function(color) {
-
-		    $(this).trigger('input');
-
-	    },
 	    move : function(color) {
 
 		    $(this).val( color.toHexString() ).trigger('input');
