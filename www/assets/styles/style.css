@@ -5127,9 +5127,9 @@ button {
   border: 2px solid black;
   border-radius: 0;
   width: auto;
+  max-width: 100%;
   box-sizing: border-box;
-  height: 40px;
-  margin-bottom: -2px;
+  height: 28px;
   font-size: 14px;
   background-color: white; }
   input[type='text'].large,
@@ -5182,6 +5182,7 @@ input[type='submit'],
 button {
   display: inline-block;
   width: auto;
+  max-width: 100%;
   text-transform: uppercase;
   font-size: 14px;
   letter-spacing: normal;

@@ -1168,6 +1168,38 @@ html, body {
 }
 
 
+.sp-replacer {
+    border: none;
+    background: none;
+}
+
+
+.sp-container {
+    border-color: $color;
+    background-color: white;
+
+    .sp-cancel {
+	    color: $color !important;
+
+	    &:hover {
+		    color: $color-secondary !important;
+	    }
+    }
+
+    .sp-choose {
+	    border: 2px solid $color;
+	    background: none !important;
+	    background-color: white !important;
+	    text-shadow: none !important;
+
+	    &:hover {
+		    border: 2px solid $color;
+		    color: $color-secondary;
+	    }
+    }
+}
+
+
 /* Color */
 .color {
 

@@ -637,6 +637,26 @@ html, body {
     top: auto !important;
     height: auto; }
 
+.sp-replacer {
+  border: none;
+  background: none; }
+
+.sp-container {
+  border-color: black;
+  background-color: white; }
+  .sp-container .sp-cancel {
+    color: black !important; }
+    .sp-container .sp-cancel:hover {
+      color: #007acc !important; }
+  .sp-container .sp-choose {
+    border: 2px solid black;
+    background: none !important;
+    background-color: white !important;
+    text-shadow: none !important; }
+    .sp-container .sp-choose:hover {
+      border: 2px solid black;
+      color: #007acc; }
+
 /* Color */
 .color-primary {
   color: black; }

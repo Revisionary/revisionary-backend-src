@@ -736,14 +736,14 @@ $(function() {
 
 	// CSS EDITS
 	var doChangeCSS = {};
-	$('[data-edit-css]').on('click input change', function(e) {
+	$('[data-edit-css]').on('click input', function(e) {
 
 
 		var property = $(this).attr('data-edit-css');
 		var isActive = $(this).hasClass('active');
 
-		var value = $(this).attr('data-value') || $(this).val();
 		var defaultValue = $(this).attr('data-default');
+		var value = $(this).attr('data-value') || $(this).val() || defaultValue;
 
 
 		value = isActive ? defaultValue : value;
@@ -789,7 +789,7 @@ $(function() {
 			// Skip if display is block
 			if (key == "display" && value == "block") return true;
 
-			cssCode = cssCode + key + ":" + value + "; ";
+			cssCode = cssCode + key + ":" + value + " !important; ";
 
 		});
 
@@ -835,7 +835,7 @@ $(window).on("load", function (e) {
 	    allowEmpty: true,
 	    change : function(color) {
 
-		    //$(this).val( color.toHexString() ).attr('data-value', color.toHexString() ).trigger('change');
+		    $(this).trigger('input');
 
 	    }
 	});

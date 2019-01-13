@@ -59,6 +59,7 @@ foreach ($css as $key => $value) {
 		&& $key != "text-decoration-line"
 		&& $key != "font-weight"
 		&& $key != "font-style"
+		&& $key != "color"
 	) return;
 
 
@@ -83,6 +84,9 @@ foreach ($css as $key => $value) {
 		// Font style rules
 		|| ($key == "font-style" && $value != "italic" && $value != "normal")
 
+		// Color rules
+		|| ($key == "color" && !is_string($value))
+
 	) return;
 
 
@@ -91,7 +95,7 @@ foreach ($css as $key => $value) {
 
 
 	// Add the code
-	$css_code .= "$key: $value; ";
+	$css_code .= "$key: $value !important; ";
 
 
 }
