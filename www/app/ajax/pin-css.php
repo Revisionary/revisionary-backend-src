@@ -67,10 +67,34 @@ foreach ($css as $key => $value) {
 	if (
 
 		// Display rules
-		($key == "display" && $value != "block" && $value != "none")
+		($key == "display" && !is_string($value))
 
 		// Opacity rules
 		|| ($key == "opacity" && (!is_numeric($value) || $value > 1 || $value < 0) )
+
+		// Text Align rules
+		|| ($key == "text-align" && !is_string($value))
+
+		// Text Decoration rules
+		|| ($key == "text-decoration-line" && !is_string($value))
+
+		// Font Weight rules
+		|| ($key == "font-weight" && (!is_numeric($value) && $value != "bold" && $value != "normal") )
+
+		// Font style rules
+		|| ($key == "font-style" && !is_string($value))
+
+		// Color rules
+		|| ($key == "color" && !is_string($value))
+
+	) return;
+
+
+	// Skip other values
+	if (
+
+		// Display rules
+		($key == "display" && $value != "none")
 
 		// Text Align rules
 		|| ($key == "text-align" && $value != "left" && $value != "center" && $value != "justify" && $value != "right")
@@ -87,11 +111,7 @@ foreach ($css as $key => $value) {
 		// Color rules
 		|| ($key == "color" && !is_string($value))
 
-	) return;
-
-
-	// Skip if display is block
-	if ($key == "display" && $value == "block") continue;
+	) continue;
 
 
 	// Add the code

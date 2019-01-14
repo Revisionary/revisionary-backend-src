@@ -1799,6 +1799,13 @@ function openPinWindow(pin_ID, firstTime = false) {
 		if (property == "display" && value != "none") value = 'block';
 
 
+		// Color exception
+		if (property == "color") {
+			value = rgbToHex(value);
+			$('input[type="color"][data-edit-css="'+ property +'"]').spectrum("set", value);
+		}
+
+
 		// Update the main options
 		options.attr('data-'+property, value);
 
@@ -1810,11 +1817,6 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 		// Inputs
 		options.find('input[data-edit-css="'+ property +'"]').val(value).trigger('change');
-
-
-		// Color Pickers
-		if (property == "color")
-			$('input[type="color"][data-edit-css="'+ property +'"]').spectrum("set", value);
 
 
 	});
@@ -2848,6 +2850,17 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 
 // HELPERS:
+function rgbToHex(orig){
+
+	var rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
+
+	return (rgb && rgb.length === 4) ? "#" +
+	("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+	("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+	("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
+
+}
+
 function queryParameter(url, key, value = null) {
 
 
