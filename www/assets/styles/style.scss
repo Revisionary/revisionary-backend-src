@@ -260,6 +260,7 @@ button {
 	input[type="text"] {
 	    display: inline-block;
 	    width: auto;
+		max-width: none;
 	    height: auto;
 	    border: 2px solid;
 	    padding: 2px 5px;
