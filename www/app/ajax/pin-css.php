@@ -18,31 +18,8 @@ if ( !is_numeric($pin_ID) || !is_array($css) ) return;
 
 
 
-/*
-die(json_encode(array(
-  'data' => 'HEYY'
-)));
-*/
-
-
-
-
 // DO THE SECURITY CHECKS !!!
 // a. Current user can edit this pin?
-
-
-
-
-/*
-
-			'display' 			: options.attr('data-display'),
-			'opacity' 			: options.attr('data-opacity'),
-			'text-align'		: options.attr('data-text-align'),
-			'text-decoration'	: options.attr('data-text-decoration'),
-			'font-weight'		: options.attr('data-font-weight'),
-			'font-style'		: options.attr('data-font-style')
-
-*/
 
 
 
@@ -78,14 +55,32 @@ foreach ($css as $key => $value) {
 		// Text Decoration rules
 		|| ($key == "text-decoration-line" && !is_string($value))
 
-		// Font Weight rules
-		|| ($key == "font-weight" && (!is_numeric($value) && $value != "bold" && $value != "normal") )
+		// Font Weight rules ??!!!
+		|| ($key == "font-weight"
+			&& $value != "100"
+			&& $value != "200"
+			&& $value != "300"
+			&& $value != "400"
+			&& $value != "500"
+			&& $value != "600"
+			&& $value != "700"
+			&& $value != "800"
+			&& $value != "900"
+			&& $value != "bold"
+			&& $value != "bolder"
+			&& $value != "light"
+			&& $value != "lighter"
+			&& $value != "normal"
+			&& $value != "unset"
+			&& $value != "inherit"
+			&& $value != "initial"
+		)
 
 		// Font style rules
 		|| ($key == "font-style" && !is_string($value))
 
 		// Color rules
-		|| ($key == "color" && !is_string($value))
+		|| ($key == "color" && (!is_string($value) || substr($value, 0, 1) != "#" || strlen(substr($value, 1)) != 6 || !preg_match('~[0-9]+~', substr($value, 1)) ) )
 
 	) return;
 
@@ -103,7 +98,7 @@ foreach ($css as $key => $value) {
 		|| ($key == "text-decoration-line" && $value != "underline" && $value != "none")
 
 		// Font Weight rules
-		|| ($key == "font-weight" && (!is_numeric($value) && $value != "bold" && $value != "normal") )
+		|| ($key == "font-weight" && $value != "bold" && $value != "normal")
 
 		// Font style rules
 		|| ($key == "font-style" && $value != "italic" && $value != "normal")
