@@ -54,9 +54,7 @@ class Pin {
     	float $pin_x = 50,
     	float $pin_y = 50,
     	int $pin_element_index = null,
-	    string $pin_modification_type = null,
-	    int $pin_user_ID = null,
-	    string $pin_modification = null
+	    string $pin_modification_type = null
     ) {
 	    global $db;
 
@@ -72,15 +70,14 @@ class Pin {
 
 		// Add the pin
 		$pin_ID = $db->insert('pins', array(
-			"user_ID" => $pin_user_ID || currentUserID(),
+			"user_ID" => currentUserID(),
 			"device_ID" => $pin_device_ID,
 			"pin_type" => $pin_type,
 			"pin_private" => $pin_private,
 			"pin_x" => $pin_x,
 			"pin_y" => $pin_y,
 			"pin_element_index" => $pin_element_index,
-			"pin_modification_type" => $pin_modification_type,
-			"pin_modification" => $pin_modification
+			"pin_modification_type" => $pin_modification_type
 		));
 
 		// Update the page modification date
