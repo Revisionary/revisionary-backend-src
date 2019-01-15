@@ -387,7 +387,7 @@ class User {
 		// Send a welcome email
 		Notify::ID($user_ID)->mail(
 			'Welcome to Revisionary App!',
-			"Hi $firstName, <br><br> Thanks for joining us. You can now start revising websites. :)"
+			"Hi $firstName, <br><br> Thanks for joining us. You can now start revising websites. :) <br><br> <a href='".site_url()."' target='_blank'></a>"
 		);
 
 
