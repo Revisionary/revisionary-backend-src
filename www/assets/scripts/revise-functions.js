@@ -744,7 +744,7 @@ function switchPinType(pinType, pinPrivate) {
 
 
 	currentPinType = pinType;
-	currentPinPrivate = pinPrivate;
+	currentPinPrivate = parseInt(pinPrivate);
 
 
 	// Change the activator color and label
@@ -1609,7 +1609,7 @@ function putPin(pinX, pinY) {
 		pin_modification_original: modificationOriginal,
 		pin_modification_type: modificationType,
 		pin_css: null,
-		pin_private: currentPinPrivate,
+		pin_private: parseInt(currentPinPrivate),
 		pin_type: currentCursorType,
 		pin_x: pinX,
 		pin_y: pinY
@@ -2175,7 +2175,7 @@ function convertPin(pin_ID, targetPin) {
 	}
 
 	Pins[pinIndex].pin_type = pinType;
-	Pins[pinIndex].pin_private = pinPrivate;
+	Pins[pinIndex].pin_private = parseInt(pinPrivate);
 
 
 	// Update the pin status
