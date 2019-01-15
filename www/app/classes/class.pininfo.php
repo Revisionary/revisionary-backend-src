@@ -225,6 +225,10 @@ class Pin {
 
 		// Update the pin
 		$db->where('pin_ID', self::$pin_ID);
+
+		// Don't convert the other's pin private status
+		if ($pin_private == "1") $db->where('user_ID', currentUserID());
+
 		$pin_data = array(
 			'pin_type' => $pin_type,
 			'pin_private' => $pin_private,
@@ -237,6 +241,7 @@ class Pin {
 		}
 
 		$pin_updated = $db->update('pins', $pin_data);
+
 
 		// Update the page modification date
 		if ($pin_updated) {

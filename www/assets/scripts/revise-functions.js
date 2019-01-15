@@ -1612,7 +1612,8 @@ function putPin(pinX, pinY) {
 		pin_private: parseInt(currentPinPrivate),
 		pin_type: currentCursorType,
 		pin_x: pinX,
-		pin_y: pinY
+		pin_y: pinY,
+		user_ID: parseInt(user_ID)
 	};
 
 
@@ -1685,10 +1686,8 @@ function openPinWindow(pin_ID, firstTime = false) {
 	console.log('OPEN WINDOW PIN ID', pin_ID, firstTime);
 
 
-/*
 	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-	var pinIndex = Pins.indexOf(pin);
-*/
+	//var pinIndex = Pins.indexOf(pin);
 
 
 	var thePin = pinElement('[data-pin-id="'+pin_ID+'"]');
@@ -1700,6 +1699,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 	var thePinModificationType = thePin.attr('data-pin-modification-type');
 	var thePinModified = thePin.attr('data-revisionary-edited');
 	var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
+	var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
 
 
 	// Previous state of window
@@ -1733,7 +1733,8 @@ function openPinWindow(pin_ID, firstTime = false) {
 		.attr('data-pin-id', pin_ID)
 		.attr('data-revisionary-edited', thePinModified)
 		.attr('data-revisionary-showing-changes', thePinShowingChanges)
-		.attr('data-revisionary-index', theIndex);
+		.attr('data-revisionary-index', theIndex)
+		.attr('data-pin-mine', (thePinMine ? "yes" : "no"));
 
 
 	// Reset the differences fields

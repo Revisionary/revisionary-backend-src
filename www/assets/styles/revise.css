@@ -359,6 +359,9 @@ html, body {
   position: absolute;
   width: 300px;
   box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5); }
+  #pin-window[data-pin-mine="no"] .convert-to-private-live,
+  #pin-window[data-pin-mine="no"] .convert-to-private {
+    display: none; }
   #pin-window.active {
     pointer-events: auto;
     opacity: 1;

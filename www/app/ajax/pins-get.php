@@ -40,7 +40,8 @@ $pins = $db->get('pins pin', null, '
 	pin.pin_modification_original,
 	pin.pin_css,
 	pin.pin_x,
-	pin.pin_y
+	pin.pin_y,
+	pin.user_ID
 ');
 
 $status = $pins ? "Pins received" : "No Pins Found";
