@@ -168,7 +168,7 @@
 
 
 				<?php
-				if ($page['cat_name'] != null) {
+				if (isset($page['cat_name']) && $page['cat_name'] != null) {
 				?>
 				<div class="col categories">
 
