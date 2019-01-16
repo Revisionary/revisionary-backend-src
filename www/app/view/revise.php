@@ -385,6 +385,28 @@
 
 			<a href="#" class="button" data-modal="share" data-type="page" data-id="<?=$page_ID?>" data-object-name="<?=$page['page_name']?>" data-iamowner="<?=$page['user_ID'] == currentUserID() ? "yes" : "no"?>"><i class="fa fa-share-alt"></i> SHARE</a>
 
+			<span class="dropdown">
+				<a href="#" style="margin-left: 10px;"><i class="fa fa-info-circle"></i></a>
+				<ul class="center">
+					<li>
+						<div class="xl-left page-info">
+							<b>Site URL:</b> <a href="<?=$page['page_url']?>" target="_blank" style="letter-spacing: 0;"><i class="fa fa-external-link-alt"></i> <?=$page['page_url']?></a> <br/>
+
+
+							<?php
+							$date_created = timeago($page['page_created'] );
+							$last_updated = timeago($page['page_modified'] );
+
+							echo "<b>Date Created:</b> $date_created<br>";
+							if ($date_created != $last_updated)
+								echo "<b>Last Updated:</b> $last_updated<br>";
+							?>
+						</div>
+
+					</li>
+				</ul>
+			</span>
+
 		</div>
 		<div class="col pins tab-container open">
 

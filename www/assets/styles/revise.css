@@ -169,6 +169,8 @@ html, body {
       #top-bar .share > .tab .shared-members .member-selector {
         position: relative;
         top: -4px; }
+  #top-bar .page-info {
+    padding: 3px; }
 
 #page {
   display: flex;
