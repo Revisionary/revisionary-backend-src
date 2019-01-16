@@ -1248,7 +1248,7 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 		containment: ".iframe-container",
 		iframeFix: true,
 		scroll: false,
-		snap: true,
+		snap: false,
 		snapMode: "outer",
 		snapTolerance: 10,
 		stack: "#pins > pin",
