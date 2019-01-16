@@ -9,6 +9,9 @@ if ( !userloggedIn() ) {
 	die();
 }
 
+// Current user level ID
+$currentUserLevel_ID = getUserInfo()['userLevelID'];
+
 
 // If no project specified or not numeric, go projects page
 if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
@@ -80,6 +83,7 @@ if (
 	&& array_search(currentUserID(), array_column($projectShares, 'share_to')) === false // And, if the project isn't shared to me
 	&& count($allMyPagesList) == 0 // And, if there is no my page in it
 	&& $catFilter != "mine"
+	&& $currentUserLevel_ID != 1
 ) {
 
 	// Redirect to "Projects" page

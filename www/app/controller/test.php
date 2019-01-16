@@ -4,12 +4,12 @@
 //echo Project::ID(6)->getInfo('user_ID');
 
 
-$the_page = Project::ID(6);
+$the_user = User::ID();
 
-print_r($the_page);
+print_r($the_user);
 
-if ( $the_page ) echo "YES";
-else var_dump($the_page);
+if ( $the_user ) echo "YES";
+else var_dump($the_user);
 
 
 

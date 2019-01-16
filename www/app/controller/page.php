@@ -9,6 +9,9 @@ if (!userloggedIn()) {
 	die();
 }
 
+// Current user level ID
+$currentUserLevel_ID = getUserInfo()['userLevelID'];
+
 
 // If no page specified or not numeric, go projects page
 if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
@@ -37,6 +40,14 @@ $page = array_filter($allMyPages, function($pageFound) use ($page_ID) {
     return ($pageFound['page_ID'] == $page_ID);
 });
 $page = end($page);
+
+// If current user is admin
+if ($currentUserLevel_ID == 1) {
+
+	$pageData = Page::ID($page_ID);
+	$page = $pageData ? $pageData->getInfo() : false;
+
+}
 //die_to_print($page);
 
 // Check if page not exists, redirect to the projects page

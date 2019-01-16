@@ -15,6 +15,9 @@ if (!userloggedIn()) {
 	die();
 }
 
+// Current user level ID
+$currentUserLevel_ID = getUserInfo()['userLevelID'];
+
 
 // If no page specified or not numeric, go projects page
 if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
@@ -56,6 +59,14 @@ $page = array_filter($allMyPages, function($pageFound) use ($device) {
     return ($pageFound['page_ID'] == $device['page_ID']);
 });
 $page = end($page);
+
+// If current user is admin
+if ($currentUserLevel_ID == 1) {
+
+	$pageData = Page::ID($page_ID);
+	$page = $pageData ? $pageData->getInfo() : false;
+
+}
 //die_to_print($page);
 
 // Check if page not exists, redirect to the projects page
@@ -143,6 +154,26 @@ $process_ID = "";
 $process_status = "";
 
 
+
+
+
+/*
+die_to_print( $pageData->pageDir, false ); // Folder is exist
+die_to_print( $pageData->pageFile, false ); // HTML is downloaded
+die_to_print( $project_image, false ); // // Project image ready
+die_to_print( $pageData->logDir."/browser.log", false ); // No error on Browser
+die_to_print( $pageData->logDir."/html-filter.log", false ); // No error on HTML filtering
+die_to_print( $pageData->logDir."/css-filter.log" ); // No error on CSS filtering
+*/
+
+
+
+
+
+
+
+
+
 // If already working queue exists !!!
 if (
 	!$forceReInternalize &&
@@ -186,7 +217,6 @@ if (
 
 	file_exists( $pageData->pageDir ) && // Folder is exist
 	file_exists( $pageData->pageFile ) && // HTML is downloaded
-	//file_exists( $device_image ) && // Device image ready
 	file_exists( $project_image ) && // // Project image ready
 	file_exists( $pageData->logDir."/browser.log" ) && // No error on Browser
 	file_exists( $pageData->logDir."/html-filter.log" ) && // No error on HTML filtering

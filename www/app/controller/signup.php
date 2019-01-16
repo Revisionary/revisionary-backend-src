@@ -71,7 +71,7 @@ if ( post('user-submit') == "Register" ) {
 	if( !$nonceError && !$emptyError && !$mailError && !$mailExistError && !$nameError ) {
 
 
-		$user_ID = User::ID()->addNew(
+		$user_ID = User::ID('new')->addNew(
 		    $eMail,
 		    $fullName,
 		    $password

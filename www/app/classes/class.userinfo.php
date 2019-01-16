@@ -5,6 +5,7 @@ class User {
 
 	// The user ID
 	public static $user_ID;
+	public static $userInfo;
 
 
 
@@ -17,16 +18,44 @@ class User {
 
 
 	// ID Setter
-    public static function ID($user_ID = null) { // UPDATE HERE
+    public static function ID($user_ID = null) {
+	    global $db;
+
 
 		if ($user_ID == null)
 			$user_ID = currentUserID();
 
 
-
 	    // Set the user ID
-		self::$user_ID = $user_ID;
-		return new static;
+		if ($user_ID != null && is_numeric($user_ID)) {
+
+
+			// Bring the user level info
+			$db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
+		    $db->where("u.user_ID", $user_ID);
+			$userInfo = $db->getOne("users u");
+
+			if ( $userInfo ) {
+
+				self::$user_ID = $user_ID;
+				self::$userInfo = $userInfo;
+				return new static;
+
+			}
+
+
+		}
+
+
+	    // For the new user
+		if ($user_ID == "new" || $user_ID == 0) {
+
+			self::$user_ID = "new";
+			return new static;
+
+		}
+
+		return false;
 
     }
 
@@ -36,17 +65,14 @@ class User {
 	// GETTERS:
 
     // Get the user info
-    public function getInfo($columns = null, $array = false) {
-	    global $db;
+    public function getInfo($column = null) {
 
 
 		// If email is given
 		if ( !is_numeric(self::$user_ID) ) return false;
 
 
-	    $db->where("user_ID", self::$user_ID);
-
-		return $array ? $db->getOne("users", $columns) : $db->getValue("users", $columns);
+		return $column == null ? self::$userInfo : self::$userInfo[$column];
     }
 
 
@@ -55,7 +81,7 @@ class User {
     public function getData() {
 
 		// Get from DB
-		$userInfo = $this->getInfo(null, true);
+		$userInfo = self::$userInfo;
 		if (is_numeric(self::$user_ID) && !$userInfo) return false;
 
 
@@ -68,7 +94,9 @@ class User {
 			'nameAbbr' => !is_numeric(self::$user_ID) ? '<i class="fa fa-envelope"></i>' : mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
 			'email' => !is_numeric(self::$user_ID) ? 'Not confirmed yet' : $userInfo['user_email'],
 			'userPic' => $userInfo['user_picture'],
-			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.self::$user_ID.'/'.$userInfo['user_picture']) : null
+			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.self::$user_ID.'/'.$userInfo['user_picture']) : null,
+			'userLevelName' => $userInfo['user_level_name'],
+			'userLevelID' => $userInfo['user_level_ID']
 		);
 		$userData['printPicture'] = $userInfo['user_picture'] != "" ? 'style="background-image: url('.$userData['userPicUrl'].');"' : false;
 
@@ -142,7 +170,7 @@ class User {
 
 		// Bring the shared ones
 		$db->join("shares s", "p.".$data_type."_ID = s.shared_object_ID", "LEFT");
-		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".getUserInfo()['email']."')");
+		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
 		$db->joinWhere("shares s", "s.share_type", $data_type);
 
 
@@ -186,7 +214,7 @@ class User {
 			$db->where('(
 				p.user_ID = '.self::$user_ID.'
 				OR s.share_to = '.self::$user_ID.'
-				OR s.share_to = "'.getUserInfo()['email'].'"
+				OR s.share_to = "'.self::$userInfo['user_email'].'"
 				'.$find_in.'
 			)');
 
@@ -207,14 +235,19 @@ class User {
 			$db->joinWhere("shares sp", "sp.share_type", 'project');
 
 
-			$db->where('(
-				p.user_ID = '.self::$user_ID.'
-				OR s.share_to = '.self::$user_ID.'
-				OR s.share_to = "'.getUserInfo()['email'].'"
-				OR pr.user_ID = '.self::$user_ID.'
-				OR sp.share_to = '.self::$user_ID.'
-				OR sp.share_to = "'.getUserInfo()['email'].'"
-			)');
+			// Check access if not admin
+			if (getUserInfo()['userLevelID'] != 1) {
+
+				$db->where('(
+					p.user_ID = '.self::$user_ID.'
+					OR s.share_to = '.self::$user_ID.'
+					OR s.share_to = "'.self::$userInfo['user_email'].'"
+					OR pr.user_ID = '.self::$user_ID.'
+					OR sp.share_to = '.self::$user_ID.'
+					OR sp.share_to = "'.self::$userInfo['user_email'].'"
+				)');
+
+			}
 
 
 			// Exclude the other project pages
