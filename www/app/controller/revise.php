@@ -431,5 +431,5 @@ $additionalBodyJS = [
 
 
 
-$page_title = "Revision Mode";
+$page_title = "Page Opening...";
 require view('revise');
