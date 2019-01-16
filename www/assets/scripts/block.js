@@ -29,7 +29,7 @@ $(function() {
 	// Block Sortables
 	$('.sortable').sortable({
 	    items: '[draggable="true"]',
-	    handle: '.box',
+	    handle: '.box, .handle',
 	    forcePlaceholderSize: true
 	}).bind('sortupdate', function(e, ui) {
 

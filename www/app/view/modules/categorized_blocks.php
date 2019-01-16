@@ -57,7 +57,7 @@
 					data-type="category"
 					draggable="true"
 				>
-					<span class="name-field">
+					<span class="name-field handle">
 						<span class="name"><?=$category['cat_name']?></span>
 						<span class="actions">
 
