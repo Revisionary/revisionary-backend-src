@@ -46,8 +46,8 @@
 						if (
 							$category['cat_name'] == "Uncategorized" ||
 							(
-								$catFilter != "" &&
-								$catFilter != "mine"
+								$catFilter != ""
+								&& $catFilter != "mine"
 							)
 						) echo 'xl-hidden';
 						?>"
@@ -457,7 +457,7 @@ if ($dataType == "page" && $allMyPins) {
 											<span class="share-icons"><?=$isShared ? '<i class="fa fa-share-square-o" data-tooltip="You have shared this '.$dataType.' to someone."></i>' : ""?><?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" data-tooltip="Someone has shared this '.$dataType.' to you."></i> ' : ''?></span> <a href="<?=$block_url?>" class="invert-hover name"><?=$block[$dataType.'_name']?></a>
 
 											<?php
-											if ($block['user_ID'] == currentUserID()) {
+											if ($block['user_ID'] == currentUserID() || getUserInfo()['userLevelID'] == 1) {
 											?>
 											<span class="actions">
 
