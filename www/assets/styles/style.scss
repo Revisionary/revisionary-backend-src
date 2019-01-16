@@ -852,6 +852,12 @@ a {
 		left: 0;
 	}
 
+	&.center-tooltip:hover:after {
+		right: auto;
+		left: 50%;
+	    transform: translateX(-50%);
+	}
+
 }
 
 .light-border picture.profile-picture {

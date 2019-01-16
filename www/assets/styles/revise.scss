@@ -53,6 +53,17 @@ html, body {
 			color: white;
 			border-color: white;
 		}
+
+		&.light {
+
+			&.open,
+			&:hover {
+				color: white;
+				border-color: $color;
+				background-color: $color;
+			}
+
+		}
 	}
 
 	.tab-container {

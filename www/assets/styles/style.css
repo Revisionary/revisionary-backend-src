@@ -5555,6 +5555,10 @@ a {
   [data-tooltip].left-tooltip:hover:after {
     right: auto;
     left: 0; }
+  [data-tooltip].center-tooltip:hover:after {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%); }
 
 .light-border picture.profile-picture {
   border-color: white; }

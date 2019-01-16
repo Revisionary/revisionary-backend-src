@@ -7,6 +7,22 @@ $(function() {
 	});
 
 
+	// Links with confirmation
+	$(document).on('click', 'a[data-confirm]:not([data-action])', function(e) {
+
+		var confirmation = $(this).attr('data-confirm');
+
+		if ( confirmation != "" && confirm(confirmation) ) {
+
+			return true;
+
+		}
+
+		return false;
+		e.preventDefault();
+	});
+
+
 	// Close Modal
 	$('.cancel-button').on('click', function(e) {
 

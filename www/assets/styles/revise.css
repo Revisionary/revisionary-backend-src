@@ -34,6 +34,11 @@ html, body {
     #top-bar .button:hover {
       color: white;
       border-color: white; }
+    #top-bar .button.light.open,
+    #top-bar .button.light:hover {
+      color: white;
+      border-color: black;
+      background-color: black; }
   #top-bar .tab-container.open > .tab {
     transform: translateX(0) !important; }
   #top-bar .tab-container > .tab {
