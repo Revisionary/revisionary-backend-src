@@ -80,7 +80,7 @@ foreach ($css as $key => $value) {
 		|| ($key == "font-style" && !is_string($value))
 
 		// Color rules
-		|| ($key == "color" && (!is_string($value) || substr($value, 0, 1) != "#" || strlen(substr($value, 1)) != 6 || !preg_match('~[0-9]+~', substr($value, 1)) ) )
+		|| ($key == "color" && (!is_string($value) || !preg_match('/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/', $value) ) )
 
 	) return;
 
