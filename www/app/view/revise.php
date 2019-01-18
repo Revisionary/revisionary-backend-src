@@ -403,22 +403,16 @@
 								echo "<b>Last Updated:</b> $last_updated<br>";
 							?>
 
-							<div class="wrap xl-center xl-gutter-8" style="margin: 10px 0;">
-								<div class="col">
+							<div style="text-align: center; margin: 10px 0;">
 
-									<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button light bottom-tooltip center-tooltip" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="If the live site has been changed, the pins you added might not work as expected. Are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
+								<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button light bottom-tooltip center-tooltip" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="If the live site has been changed, the pins you added might not work as expected. Are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
 
-								</div>
-								<div class="col xl-hidden">
+								<!--
+								<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Server Side Rendering"><i class="fa fa-bolt"></i> SSR</a>
+								<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Only comment mode..."><i class="fa fa-file-image"></i> PICTURE MODE</a>
+								-->
 
-									<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Server Side Rendering"><i class="fa fa-bolt"></i> SSR</a>
 
-								</div>
-								<div class="col xl-hidden">
-
-									<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Only comment mode..."><i class="fa fa-file-image"></i> PICTURE MODE</a>
-
-								</div>
 							</div>
 
 						</div>
