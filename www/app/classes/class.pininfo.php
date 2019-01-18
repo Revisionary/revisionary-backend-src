@@ -5,6 +5,7 @@ class Pin {
 
 	// The pin ID
 	public static $pin_ID;
+	public static $pinInfo;
 
 
 
@@ -15,30 +16,53 @@ class Pin {
     }
 
 
+
 	// ID Setter
     public static function ID($pin_ID = null) {
+	    global $db;
+
 
 	    // Set the pin ID
-		if ($pin_ID != null) self::$pin_ID = $pin_ID;
-		return new static;
+		if ($pin_ID != null && is_numeric($pin_ID)) {
+
+
+			// Bring the user level info
+		    $db->where("pin_ID", $pin_ID);
+			$pinInfo = $db->getOne("pins");
+
+			if ( $pinInfo ) {
+
+				self::$pin_ID = $pin_ID;
+				self::$pinInfo = $pinInfo;
+				return new static;
+
+			}
+
+
+		}
+
+
+	    // For the new pin
+		if ($pin_ID == "new" || $pin_ID == 0) {
+
+			self::$pin_ID = "new";
+			return new static;
+
+		}
+
+		return false;
 
     }
-
 
 
 
 	// GETTERS:
 
     // Get pin info
-    public function getInfo($column) {
-	    global $db;
+    public function getInfo($column = null) {
 
-	    $db->where('pin_ID', self::$pin_ID);
-	    $pin = $db->getOne('pins', $column);
-		if ($pin)
-			return $pin[$column];
+		return $column == null ? self::$pinInfo : self::$pinInfo[$column];
 
-	    return false;
     }
 
 
@@ -347,7 +371,74 @@ class Pin {
 			"user_ID" => currentUserID()
 		));
 
+
+		// Notify the users
+		if ($comment_ID) {
+
+			$users = $this->getUsers();
+
+			error_log( print_r($users, true) );
+
+
+		}
+
+
+
+
 		return $comment_ID;
+
+	}
+
+
+	// Get page users
+	public function getUsers() {
+		global $db;
+
+
+		$pin_ID = self::$pin_ID;
+		$device_ID = $this->getInfo('device_ID');
+		$page_ID = Device::ID( $device_ID )->getInfo('page_ID');
+		$pageData = Page::ID( $page_ID );
+		$project_ID = $pageData->getInfo('project_ID');
+		$projectData = Project::ID($project_ID);
+
+
+		$users = array();
+
+
+		// Get the pin user
+		$pin_owner_ID = $this->getInfo('user_ID');
+		$users[] = $pin_owner_ID;
+
+
+		// Get the page owner
+		$pageOwner_ID = $pageData->getInfo('user_ID');
+		$users[] = $pageOwner_ID;
+
+		// Get the shared people of the page
+		$db->where('share_type', 'page');
+		$db->where('shared_object_ID', $page_ID);
+		$db->where("share_to REGEXP '^[0-9]+$'");
+		$shared_IDs = array_column($db->get('shares', null, 'share_to'), 'share_to');
+		$users = array_merge($users, $shared_IDs);
+
+
+		// Get the project owner
+		$projectOwner_ID = $projectData->getInfo('user_ID');
+		$users[] = $projectOwner_ID;
+
+		// Get the shared people of the project
+		$db->where('share_type', 'project');
+		$db->where('shared_object_ID', $project_ID);
+		$db->where("share_to REGEXP '^[0-9]+$'");
+		$shared_IDs = array_column($db->get('shares', null, 'share_to'), 'share_to');
+		$users = array_merge($users, $shared_IDs);
+
+
+		$result = array_unique($users, SORT_REGULAR);
+
+
+		return $result;
 
 	}
 

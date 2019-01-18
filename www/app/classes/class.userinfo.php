@@ -47,10 +47,20 @@ class User {
 		}
 
 
+	    // For the email users
+		if (filter_var($user_ID, FILTER_VALIDATE_EMAIL)) {
+
+			self::$user_ID = $user_ID;
+			return new static;
+
+		}
+
+
 	    // For the new user
 		if ($user_ID == "new" || $user_ID == 0) {
 
 			self::$user_ID = "new";
+			self::$userInfo = false;
 			return new static;
 
 		}
@@ -85,14 +95,31 @@ class User {
 		if (is_numeric(self::$user_ID) && !$userInfo) return false;
 
 
+		// If email user
+		if ( !is_numeric(self::$user_ID) ) return array(
+			'userName' => "",
+			'firstName' => "",
+			'lastName' => "",
+			'fullName' => self::$user_ID,
+			'nameAbbr' => '<i class="fa fa-envelope"></i>',
+			'email' => 'Not confirmed yet',
+			'userPic' => "",
+			'userPicUrl' => null,
+			'printPicture' => "",
+			'userLevelName' => "",
+			'userLevelID' => ""
+		);
+
+
+
 		// Prepare the data
 		$userData = array(
 			'userName' => $userInfo['user_name'],
 			'firstName' => $userInfo['user_first_name'],
 			'lastName' => $userInfo['user_last_name'],
-			'fullName' => !is_numeric(self::$user_ID) ? self::$user_ID : $userInfo['user_first_name']." ".$userInfo['user_last_name'],
-			'nameAbbr' => !is_numeric(self::$user_ID) ? '<i class="fa fa-envelope"></i>' : mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
-			'email' => !is_numeric(self::$user_ID) ? 'Not confirmed yet' : $userInfo['user_email'],
+			'fullName' => $userInfo['user_first_name']." ".$userInfo['user_last_name'],
+			'nameAbbr' => mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
+			'email' => $userInfo['user_email'],
 			'userPic' => $userInfo['user_picture'],
 			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.self::$user_ID.'/'.$userInfo['user_picture']) : null,
 			'userLevelName' => $userInfo['user_level_name'],
