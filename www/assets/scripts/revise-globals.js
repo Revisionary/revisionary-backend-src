@@ -129,6 +129,7 @@ var autoRefreshTimer;
 var autoRefreshInterval = 5000;
 var autoRefreshRequest = null;
 var pinsListOpen = false;
+var pinAnimation, pinAnimationTimeout;
 
 
 // When document is ready, fill the variables

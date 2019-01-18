@@ -6,6 +6,7 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 	// If being force reinternalizing, update the URL
 	var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
 
+
 	if (history.replaceState) {
 	    var newurl = queryParameter(currentUrl, 'redownload', "");
 	    if (newurl != currentUrl) window.history.replaceState({path:newurl},'',newurl);
@@ -916,6 +917,23 @@ function getPins(applyChanges = true, firstRetrieve = false) {
 			if (applyChanges) applyPins(oldPins);
 
 
+			if (firstRetrieve) {
+
+
+				// Get the selected pin to scroll
+				if (window.location.hash) {
+
+					var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
+					console.log('HASHHHH Pin ID', goToPin_ID);
+
+					scrollToPin(goToPin_ID, true);
+
+				}
+
+
+			}
+
+
 		} else {
 
 
@@ -1680,6 +1698,48 @@ function putPin(pinX, pinY) {
 }
 
 
+// Scroll to a pin
+function scrollToPin(pin_ID, openWindow = false) {
+
+
+	var pin = pinElement(pin_ID);
+
+	if (pin.length) {
+
+
+		// Get pin location
+		var pinX =  pin.attr('data-pin-x');
+		var pinY =  pin.attr('data-pin-y');
+
+
+		if (pinAnimation) pinAnimation.stop();
+		if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
+
+		pinAnimationTimeout = setTimeout(function() {
+
+			if (pinAnimation) pinAnimation.stop();
+			pinAnimation = iframeElement('html, body').animate({
+
+				scrollTop: parseInt( pinY ) - ($('.iframe-container').height() / 2) + 22.5
+				//scrollLeft: pinX !!!
+
+			}, 500, 'swing', function() {
+
+				if (openWindow) openPinWindow(pin_ID);
+
+			});
+
+		}, 500);
+
+
+		return true;
+	}
+
+
+	return false;
+}
+
+
 // Open the pin window
 function openPinWindow(pin_ID, firstTime = false) {
 
@@ -1944,6 +2004,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 	// Reveal it
 	pinWindow.addClass('active');
 	pinWindowOpen = true;
+	window.location.hash = "#"+pin_ID;
 
 
 	// If the new pin registered, remove the loading message
@@ -1990,6 +2051,7 @@ function closePinWindow() {
 	// Hide it
 	pinWindow.removeClass('active');
 	pinWindowOpen = false;
+	history.pushState("", document.title, window.location.pathname + window.location.search);
 
 
 	// Add the loading text after loading

@@ -72,7 +72,7 @@ $(function() {
 
 		if (history.pushState) {
 		    var newurl = queryParameter(currentUrl, 'pinmode', (selectedPinType == "live" ? "" : selectedPinType));
-		    newurl = queryParameter(newurl, 'privatepin', selectedPinPrivate);
+		    newurl = queryParameter(newurl, 'privatepin', (selectedPinPrivate == 1 ? "1" : ""));
 		    window.history.pushState({path:newurl},'',newurl);
 		}
 
@@ -551,7 +551,6 @@ $(function() {
 
 
 	// Hovering a pin from the pins list tab
-	var pinAnimation, pinAnimationTimeout;
 	$(document).on('mouseover', '.pins-list > .pin', function(e) {
 
 		var pin_ID = $(this).find('pin').attr('data-pin-id');
@@ -561,24 +560,12 @@ $(function() {
 		var pinX =  pinElement(pin_ID).attr('data-pin-x');
 		var pinY =  pinElement(pin_ID).attr('data-pin-y'); console.log(pinY, ($('.iframe-container').height() / 2), 22.5, parseInt( pinY ) - ($('.iframe-container').height() / 2) - 22.5);
 
-
+		// Outline
 		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
 		outline(iframeElement(element_index), pin_private, pin_type);
 
-		if (pinAnimation) pinAnimation.stop();
-		if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
-		pinAnimationTimeout = setTimeout(function() {
-
-			if (pinAnimation) pinAnimation.stop();
-			pinAnimation = iframeElement('html, body').animate({
-
-				scrollTop: parseInt( pinY ) - ($('.iframe-container').height() / 2) + 22.5
-				//scrollLeft: pinX !!!
-
-			}, 500);
-
-		}, 500);
-
+		// Scroll
+		scrollToPin(pin_ID);
 
 		e.preventDefault();
 	}).on('mouseout', '.pins-list > .pin', function(e) {
