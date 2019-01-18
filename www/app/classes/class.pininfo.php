@@ -377,7 +377,19 @@ class Pin {
 
 			$users = $this->getUsers();
 
-			error_log( print_r($users, true) );
+			foreach ($users as $user_ID) {
+
+
+				Notify::ID( intval($user_ID) )->mail(
+					getUserInfo()['fullName']." posted a comment",
+					getUserInfo()['fullName']."(".getUserInfo()['email'].") wrote: <br>
+					\"$message\" <br><br>
+
+					<b>Page Link:</b> ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
+				);
+
+
+			}
 
 
 		}
@@ -435,10 +447,17 @@ class Pin {
 		$users = array_merge($users, $shared_IDs);
 
 
-		$result = array_unique($users, SORT_REGULAR);
+		// Remove duplicates
+		$users = array_unique($users);
 
 
-		return $result;
+		// Exclude myself
+		if ( ($user_key = array_search(currentUserID(), $users)) !== false ) {
+		    unset($users[$user_key]);
+		}
+
+
+		return $users;
 
 	}
 
