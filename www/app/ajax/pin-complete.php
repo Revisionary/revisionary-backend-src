@@ -22,10 +22,34 @@ if ( !is_numeric($pin_ID) )
 
 
 
-// Complete/Incomplete the pin
-$pin_completed = $complete ? Pin::ID($pin_ID)->complete() : Pin::ID($pin_ID)->inComplete();
+$pinData = Pin::ID($pin_ID);
 
-if ($pin_completed) $status = "Pin ".($complete ? "completed" : "incompleted").": $pin_ID";
+
+
+// Complete/Incomplete the pin
+$pin_completed = $complete ? $pinData->complete() : $pinData->inComplete();
+
+if ($pin_completed) {
+
+	$status = "Pin ".($complete ? "completed" : "incompleted").": $pin_ID";
+
+
+	// Notify the users
+	$users = $pinData->getUsers();
+
+	foreach ($users as $user_ID) {
+
+
+		Notify::ID( intval($user_ID) )->mail(
+			getUserInfo()['fullName']." completed a pin task",
+			getUserInfo()['fullName']."(".getUserInfo()['userName'].") ".($complete ? "completed" : "incompleted")." a pin task: ".site_url('revise/'.$pinData->getInfo('device_ID')."#".$pin_ID)
+		);
+
+
+	}
+
+
+}
 
 
 // CREATE THE RESPONSE

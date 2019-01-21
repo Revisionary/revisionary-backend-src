@@ -382,7 +382,7 @@ class Pin {
 
 				Notify::ID( intval($user_ID) )->mail(
 					getUserInfo()['fullName']." posted a comment",
-					getUserInfo()['fullName']."(".getUserInfo()['email'].") wrote: <br>
+					getUserInfo()['fullName']."(".getUserInfo()['userName'].") wrote: <br>
 					\"$message\" <br><br>
 
 					<b>Page Link:</b> ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
