@@ -1672,6 +1672,7 @@ function putPin(pinX, pinY) {
 		newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
 		pinWindow.attr('data-pin-id', realPinID);
 		Pins[pinsIndex].pin_ID = realPinID;
+		window.location.hash = "#"+realPinID;
 
 
 		// Remove the loading text on pin window
