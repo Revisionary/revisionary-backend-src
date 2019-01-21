@@ -298,21 +298,21 @@ if ($dataType == "page" && $allMyPins) {
 
 		$pageCondition = in_array($value['device_ID'], $device_IDs);
 
-		return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0";
+		return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
 	}));
 	$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $device_IDs) {
 
 		$pageCondition = in_array($value['device_ID'], $device_IDs);
 
-		return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0";
+		return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
 	}));
 	$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $device_IDs) {
 
 		$pageCondition = in_array($value['device_ID'], $device_IDs);
 
-		return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
+		return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
 
 	}));
 

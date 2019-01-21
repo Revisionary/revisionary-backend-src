@@ -104,25 +104,25 @@ if ($allMyPages && $allMyDevices) {
 
 	$device_IDs = array_column($allMyDevices, "device_ID"); //print_r($page_IDs);
 	$db->where('d.device_ID', $device_IDs, 'IN');
-	$allMyPins = $db->get('pins pin', null, "pin.pin_type, pin.pin_private, pin.user_ID, d.device_ID");
-	//var_dump($allMyPins); die();
+	$allMyPins = $db->get('pins pin', null, "pin.pin_type, pin.pin_private, pin.pin_complete, pin.user_ID, d.device_ID");
+	//die_to_print($allMyPins);
 
 
 	if ($allMyPins) {
 
 		$totalLivePinCount = count(array_filter($allMyPins, function($value) {
 
-			return $value['pin_type'] == "live" && $value['pin_private'] == "0";
+			return $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
 		}));
 		$totalStandardPinCount = count(array_filter($allMyPins, function($value) {
 
-			return $value['pin_type'] == "standard" && $value['pin_private'] == "0";
+			return $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
 		}));
 		$totalPrivatePinCount = count(array_filter($allMyPins, function($value) {
 
-			return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID();
+			return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
 
 		}));
 
