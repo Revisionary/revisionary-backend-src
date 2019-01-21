@@ -2055,6 +2055,13 @@ function closePinWindow() {
 	history.pushState("", document.title, window.location.pathname + window.location.search);
 
 
+	// Abort the latest request if not finalized
+	if(commentsGetRequest && commentsGetRequest.readyState != 4) {
+		console.log('Latest comments request aborted');
+		commentsGetRequest.abort();
+	}
+
+
 	// Add the loading text after loading
 	pinWindow.addClass('loading');
 
@@ -2527,7 +2534,10 @@ function toggleCSS(pin_ID) {
 
 
 // DB: Get Comments
-function getComments(pin_ID, commentsWrapper = $('#pin-window .pin-comments')) {
+function getComments(pin_ID, commentsWrapper = null) {
+
+
+	if (commentsWrapper == null) commentsWrapper = $('#pin-window[data-pin-id="'+ pin_ID +'"] .pin-comments');
 
 
 	// Remove dummy comments and add loading indicator
@@ -2539,7 +2549,7 @@ function getComments(pin_ID, commentsWrapper = $('#pin-window .pin-comments')) {
 
 
 	// Send the Ajax request
-    ajax('comments-get',
+    commentsGetRequest = ajax('comments-get',
     {
 
 		'pin_ID'	: pin_ID
@@ -2872,7 +2882,7 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 				'+pinText+' <i class="fa fa-caret-up" aria-hidden="true"></i> \
 				'+ editSummary +' \
 			</a> \
-			<div class="pin-comments"><div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div></div> \
+			<div class="pin-comments" data-pin-id="'+ pin_ID +'"><div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div></div> \
 		</div> \
 	';
 

@@ -130,6 +130,7 @@ var autoRefreshInterval = 5000;
 var autoRefreshRequest = null;
 var pinsListOpen = false;
 var pinAnimation, pinAnimationTimeout;
+var commentsGetRequest = null;
 
 
 // When document is ready, fill the variables

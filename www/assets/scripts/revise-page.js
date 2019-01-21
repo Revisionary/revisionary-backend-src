@@ -36,9 +36,9 @@ $(function() {
 
 		$(this).toggleClass('close');
 
-		var pinComments = $(this).next();
 		var thePin = $(this).prev().children('pin');
 		var pin_ID = thePin.attr('data-pin-id');
+		var pinComments = $(this).next('.pin-comments[data-pin-id="'+ pin_ID +'"]');
 
 
 		if (!$(this).hasClass('close')) {
