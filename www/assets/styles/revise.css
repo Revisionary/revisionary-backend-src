@@ -235,7 +235,9 @@ html, body {
       opacity: 0.4; }
     .pin-comments .comment .comment-inner-wrapper .comment-text {
       font-size: 14px;
-      letter-spacing: 1px; }
+      letter-spacing: 0.5px; }
+      .pin-comments .comment .comment-inner-wrapper .comment-text a:not(.delete-comment) {
+        text-decoration: underline; }
       .pin-comments .comment .comment-inner-wrapper .comment-text .delete-comment {
         opacity: 0;
         line-height: 5px; }
@@ -484,7 +486,9 @@ html, body {
       max-height: 100%; }
   #pin-window .pin-comments {
     max-height: 180px;
-    overflow: scroll; }
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll; }
   #pin-window .comment-actions .comment-input-col {
     width: calc(100% - 30px);
     height: 35px; }

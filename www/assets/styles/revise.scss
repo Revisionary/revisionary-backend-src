@@ -434,8 +434,12 @@ html, body {
 
 		    .comment-text {
 				font-size: 14px;
-				letter-spacing: 1px;
+				letter-spacing: 0.5px;
 
+
+				a:not(.delete-comment) {
+					text-decoration: underline;
+				}
 
 				.delete-comment {
 					opacity: 0;
@@ -819,7 +823,9 @@ html, body {
 
 	.pin-comments {
 		max-height: 180px;
-		overflow: scroll;
+		max-width: 100%;
+		overflow-x: hidden;
+		overflow-y: scroll;
 	}
 
 

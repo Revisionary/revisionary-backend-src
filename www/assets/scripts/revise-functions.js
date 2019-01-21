@@ -2888,6 +2888,10 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 	var printPic = hasPic ? " style='background-image: url(/cache/users/user-"+ comment.user_ID +"/"+ comment.user_picture +");'" : "";
 	var direction = left ? "left" : "right";
 	var itsMe = comment.user_ID == user_ID ? true : false;
+	var linkedComment = Autolinker.link( comment.pin_comment, {
+		truncate: 25,
+	    newWindow: true
+	} );
 
 	return '\
 			<div class="comment wrap xl-flexbox xl-top '+ (hide ? "recurring" : "") +' '+ (sameTime ? "sametime" : "") +'"> \
@@ -2902,7 +2906,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 						<span class="col comment-date">'+timeSince(date)+' ago</span> \
 					</div> \
 					<div class="comment-text xl-'+ direction +'"> \
-						'+comment.pin_comment+' \
+						'+linkedComment+' \
 						'+ (itsMe ? ' <a href="#" class="delete-comment" data-comment-id="'+comment.comment_ID+'" data-tooltip="Delete this comment">&times;</a>' : '') +' \
 					</div> \
 				</div> \

@@ -401,6 +401,7 @@ $additionalHeadJS = [
 	'revise-globals.js',
 	'revise-functions.js',
 	'vendor/jquery-ui.min.js',
+	'vendor/Autolinker.min.js',
 	'vendor/diff.js',
 	'vendor/spectrum.js',
 	'vendor/popline/jquery.popline.js',
