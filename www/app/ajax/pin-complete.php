@@ -41,7 +41,7 @@ if ($pin_completed) {
 
 
 		Notify::ID( intval($user_ID) )->mail(
-			getUserInfo()['fullName']." completed a pin task",
+			getUserInfo()['fullName']." ".($complete ? "completed" : "incompleted")." a pin task",
 			getUserInfo()['fullName']."(".getUserInfo()['userName'].") ".($complete ? "completed" : "incompleted")." a pin task: ".site_url('revise/'.$pinData->getInfo('device_ID')."#".$pin_ID)
 		);
 
