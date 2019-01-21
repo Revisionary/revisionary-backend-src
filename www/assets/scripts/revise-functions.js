@@ -2155,7 +2155,7 @@ function removePin(pin_ID) {
 
 
 // DB: Complete/Incomplete a pin
-function completePin(pin_ID, complete) {
+function completePin(pin_ID, complete, imgData = null) {
 
 
     console.log( (complete ? 'Complete' : 'Incomplete') +' the pin #' + pin_ID + ' on DB!!');
@@ -2181,15 +2181,15 @@ function completePin(pin_ID, complete) {
 	var completePinProcessID = newProcess();
 
     // Update pin from the DB
-	ajax('pin-complete',
-	{
+	ajax('pin-complete', {
+
 		'pin_ID' 	   : pin_ID,
-		'complete'	   : (complete ? 'complete' : 'incomplete')
+		'complete'	   : (complete ? 'complete' : 'incomplete'),
+		'imgData'	   : imgData
 
 	}).done(function(result) {
 
 		console.log(result.data);
-
 
 
 		// Finish the process

@@ -246,11 +246,27 @@ $(function() {
 
 		var pin_ID = pinWindow.attr('data-pin-id');
 		var isComplete = pinWindow.attr('data-pin-complete') == "1" ? true : false;
+		var imgData = null;
+/*
+		var pin = pinElement(pin_ID);
+		var element_index = pin.attr('data-revisionary-index');
 
-		// Toggle Complete it on DB
-		//console.log(pin_ID, !isComplete);
-		completePin(pin_ID, !isComplete);
 
+		// Take screenshot
+		html2canvas( iframeElement(element_index)[0] ).then(canvas => {
+
+			//var imgData = canvas.toDataURL();
+		    //console.log(imgData);
+
+			// Toggle Complete it on DB
+			//console.log(pin_ID, !isComplete);
+			completePin(pin_ID, !isComplete, imgData);
+
+		});
+*/
+
+
+		completePin(pin_ID, !isComplete, imgData);
 		e.preventDefault();
 
 	});
