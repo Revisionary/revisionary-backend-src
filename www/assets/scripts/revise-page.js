@@ -501,6 +501,87 @@ $(function() {
 	});
 
 
+	// CSS EDITS
+	var doChangeCSS = {};
+	$('[data-edit-css]').on('click input', function(e) {
+
+
+		var property = $(this).attr('data-edit-css');
+		var isActive = $(this).hasClass('active');
+
+		var defaultValue = $(this).attr('data-default');
+		var value = $(this).attr('data-value') || $(this).val() || defaultValue;
+
+
+		value = isActive ? defaultValue : value;
+
+
+		var pin_ID = pinWindow.attr('data-pin-id');
+		var elementIndex = pinWindow.attr('data-revisionary-index');
+		var options = pinWindow.find('ul.options');
+
+
+		console.log('EDIT CSS: ', property, value, elementIndex);
+
+
+		// Stop the auto-refresh
+		stopAutoRefresh();
+
+
+		// Disable the active status
+		options.find('a[data-edit-css="'+ property +'"]').removeClass('active');
+		options.find('a[data-edit-css="'+ property +'"][data-value="'+ value +'"]').addClass('active');
+
+
+		// Add the value
+		options.attr('data-' + property, value);
+
+
+		// Prepare the CSS data
+		var css = {
+			'display' 				: options.attr('data-display'),
+			'opacity' 				: options.attr('data-opacity'),
+			'text-align'			: options.attr('data-text-align'),
+			'text-decoration-line'	: options.attr('data-text-decoration-line'),
+			'font-weight'			: options.attr('data-font-weight'),
+			'font-style'			: options.attr('data-font-style'),
+			'color'					: options.attr('data-color'),
+		}
+
+
+		// Prepare the CSS declarations
+		var cssCode = "";
+		$.each( css, function( key, value ) {
+
+			// Skip if display is block
+			if (key == "display" && value == "block") return true;
+
+			cssCode = cssCode + key + ":" + value + " !important; ";
+
+		});
+
+
+		// Instant update the CSS
+		updateCSS(elementIndex, cssCode);
+
+
+		// Remove unsent job
+		if (doChangeCSS[elementIndex]) clearTimeout(doChangeCSS[elementIndex]);
+
+		// Send changes to DB after 1 second
+		doChangeCSS[elementIndex] = setTimeout(function(){
+
+			saveCSS(pin_ID, css);
+
+		}, 1000);
+
+
+		relocatePins(null, null, null, true);
+		e.preventDefault();
+
+	});
+
+
 	// Reset CSS
 	$('.reset-css').click(function(e) {
 
@@ -732,87 +813,6 @@ $(function() {
 		if (cursorActive && !pinDragging) cursor.stop().fadeIn();
 
 
-		e.preventDefault();
-
-	});
-
-
-	// CSS EDITS
-	var doChangeCSS = {};
-	$('[data-edit-css]').on('click input', function(e) {
-
-
-		var property = $(this).attr('data-edit-css');
-		var isActive = $(this).hasClass('active');
-
-		var defaultValue = $(this).attr('data-default');
-		var value = $(this).attr('data-value') || $(this).val() || defaultValue;
-
-
-		value = isActive ? defaultValue : value;
-
-
-		var pin_ID = pinWindow.attr('data-pin-id');
-		var elementIndex = pinWindow.attr('data-revisionary-index');
-		var options = pinWindow.find('ul.options');
-
-
-		console.log('EDIT CSS: ', property, value, elementIndex);
-
-
-		// Stop the auto-refresh
-		stopAutoRefresh();
-
-
-		// Disable the active status
-		options.find('a[data-edit-css="'+ property +'"]').removeClass('active');
-		options.find('a[data-edit-css="'+ property +'"][data-value="'+ value +'"]').addClass('active');
-
-
-		// Add the value
-		options.attr('data-' + property, value);
-
-
-		// Prepare the CSS data
-		var css = {
-			'display' 				: options.attr('data-display'),
-			'opacity' 				: options.attr('data-opacity'),
-			'text-align'			: options.attr('data-text-align'),
-			'text-decoration-line'	: options.attr('data-text-decoration-line'),
-			'font-weight'			: options.attr('data-font-weight'),
-			'font-style'			: options.attr('data-font-style'),
-			'color'					: options.attr('data-color'),
-		}
-
-
-		// Prepare the CSS declarations
-		var cssCode = "";
-		$.each( css, function( key, value ) {
-
-			// Skip if display is block
-			if (key == "display" && value == "block") return true;
-
-			cssCode = cssCode + key + ":" + value + " !important; ";
-
-		});
-
-
-		// Instant update the CSS
-		updateCSS(elementIndex, cssCode);
-
-
-		// Remove unsent job
-		if (doChangeCSS[elementIndex]) clearTimeout(doChangeCSS[elementIndex]);
-
-		// Send changes to DB after 1 second
-		doChangeCSS[elementIndex] = setTimeout(function(){
-
-			saveCSS(pin_ID, css);
-
-		}, 1000);
-
-
-		relocatePins(null, null, null, true);
 		e.preventDefault();
 
 	});

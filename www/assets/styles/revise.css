@@ -371,6 +371,21 @@ html, body {
   #pin-window[data-pin-mine="no"] .convert-to-private-live,
   #pin-window[data-pin-mine="no"] .convert-to-private {
     display: none; }
+  #pin-window[data-revisionary-edited="0"] .content-editor .edited-sign,
+  #pin-window[data-revisionary-edited="0"] .image-editor .edited-sign {
+    display: none; }
+  #pin-window[data-changed="no"] .reset-css,
+  #pin-window[data-changed="no"] .show-original-css {
+    display: none; }
+  #pin-window[data-changed="no"] .visual-editor .edited-sign {
+    display: none; }
+  #pin-window[data-showing-changes="yes"] .show-original-css > .changes {
+    display: none; }
+  #pin-window[data-showing-changes="no"] ul.options > li:not(:first-child) {
+    opacity: 0.2;
+    pointer-events: none; }
+  #pin-window[data-showing-changes="no"] .show-original-css > .original {
+    display: none; }
   #pin-window.active {
     pointer-events: auto;
     opacity: 1;
@@ -402,6 +417,10 @@ html, body {
       content: "\f067"; }
     #pin-window .section-title.collapsed + .section-content {
       display: none; }
+    #pin-window .section-title .edited-sign {
+      color: red;
+      font-size: 5px;
+      transform: translateY(-3px); }
   #pin-window .section-content {
     padding-left: 10px; }
   #pin-window > .top-actions .close-button {
@@ -545,16 +564,6 @@ html, body {
   #pin-window ul.options {
     font-weight: 100;
     letter-spacing: normal; }
-    #pin-window ul.options[data-changed="no"] .reset-css,
-    #pin-window ul.options[data-changed="no"] .show-original-css {
-      display: none; }
-    #pin-window ul.options[data-showing-changes="yes"] .changes {
-      display: none; }
-    #pin-window ul.options[data-showing-changes="no"] > li:not(:first-child) {
-      opacity: 0.2;
-      pointer-events: none; }
-    #pin-window ul.options[data-showing-changes="no"] .original {
-      display: none; }
     #pin-window ul.options[data-display="none"] .hide-when-hidden {
       display: none; }
     #pin-window ul.options a {

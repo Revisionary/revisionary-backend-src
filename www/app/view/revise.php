@@ -470,6 +470,8 @@
 		data-pin-y="30"
 		data-pin-modification-type=""
 		data-revisionary-edited="0"
+		data-changed="no"
+		data-showing-changes="no"
 		data-revisionary-showing-changes="0"
 		data-revisionary-index="0"
 	>
@@ -540,7 +542,11 @@
 		<div class="image-editor">
 
 			<div class="wrap xl-1">
-				<div class="col section-title"><i class="fa fa-image"></i> CONTENT</div>
+				<div class="col section-title">
+
+					<i class="fa fa-image"></i> CONTENT <i class="fa fa-circle edited-sign"></i>
+
+				</div>
 				<div class="col section-content" style="padding-top: 10px;">
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
@@ -595,7 +601,11 @@
 		<div class="content-editor">
 
 			<div class="wrap xl-1">
-				<div class="col section-title"><i class="fa fa-pencil-alt"></i> CONTENT</div>
+				<div class="col section-title">
+
+					<i class="fa fa-pencil-alt"></i> CONTENT <i class="fa fa-circle edited-sign"></i>
+
+				</div>
 				<div class="col section-content" style="padding-top: 10px;">
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap changes">
@@ -661,12 +671,12 @@
 			<div class="wrap xl-1">
 				<div class="col section-title collapsed">
 
-					<i class="fa fa-sliders-h"></i> VIEW OPTIONS
+					<i class="fa fa-sliders-h"></i> VIEW OPTIONS <i class="fa fa-circle edited-sign"></i>
 
 				</div>
 				<div class="col section-content options">
 
-					<ul class="no-bullet options" style="margin-bottom: 0;" data-changed="no" data-showing-changes="yes">
+					<ul class="no-bullet options" style="margin-bottom: 0;">
 						<li class="current-element" style="position: relative; padding-right: 100px;">
 
 							<b>EDIT STYLE FOR:</b> <span class="element-tag">tag</span><span class="element-id">#id</span><span class="element-class">.class</span>

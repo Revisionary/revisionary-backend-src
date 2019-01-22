@@ -1165,24 +1165,6 @@ function applyChanges(showingOriginal = []) {
 }
 
 
-// Update CSS
-function updateCSS(element_index, cssCodes) {
-
-
-	// Mark the old one
-	iframeElement('style[data-index="'+ element_index +'"]').addClass('old');
-
-
-	// Add the new CSS codes
-	iframeElement('body').append('<style data-index="'+ element_index +'">[data-revisionary-index="'+ element_index +'"]{'+ cssCodes +'}</style>');
-
-
-	// Remove the old ones
-	iframeElement('style.old[data-index="'+ element_index +'"]').remove();
-
-}
-
-
 // Revert changes
 function revertChanges(element_indexes = [], pinsList = Pins) {
 
@@ -1885,8 +1867,8 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 	// Changed status
-	options.attr('data-changed', (styleElement.length ? "yes" : "no"));
-	options.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"));
+	pinWindow.attr('data-changed', (styleElement.length ? "yes" : "no"));
+	pinWindow.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"));
 
 
 
@@ -2373,85 +2355,6 @@ function saveChange(pin_ID, modification) {
 }
 
 
-// DB: Save CSS changes
-function saveCSS(pin_ID, css) {
-
-
-    console.log( 'Save CSS for the pin #' + pin_ID + ' on DB!!', css);
-
-
-    // Update from the Pins global
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-	var pinIndex = Pins.indexOf(pin);
-
-	var elementIndex = pin.pin_element_index;
-	var changedElement = iframeElement(elementIndex);
-
-	//var change = modification == "{%null%}" ? null : htmlentities(modification, "ENT_QUOTES");
-
-
-	//console.log('CHANGE:', change);
-
-
-	// Start the process
-	var pinCSSProcessID = newProcess();
-
-	// Update from DB
-    ajax('pin-css', {
-
-		'css' 	 : css,
-		'pin_ID' : pin_ID
-
-	}).done(function(result){
-
-
-		var data = result.data; console.log(data);
-		var cssCode = data.css_code;
-
-
-		// Update the global
-		Pins[pinIndex].pin_css = cssCode; //console.log('FILTERED: ', filtered_css);
-
-
-		// Update the changed status
-		pinWindow.find('ul.options').attr('data-changed', (cssCode != null ? "yes" : "no"));
-
-
-		// Remove the CSS codes if null
-		if (cssCode == null) {
-
-		    // Reopen the pin window
-		    openPinWindow(pin_ID);
-
-		}
-
-
-		// Finish the process
-		endProcess(pinCSSProcessID);
-
-	}).fail(function(fail) {
-
-		console.log('FAILED: ', fail);
-
-	});
-
-
-}
-
-
-// DB: Reset CSS changes
-function resetCSS(pin_ID) {
-
-
-    console.log( 'Reset CSS for the pin #' + pin_ID + ' on DB!!');
-
-
-	// Reset the codes
-    saveCSS(pin_ID, {display: "block"});
-
-}
-
-
 // Toggle content edits
 function toggleChange(pin_ID) {
 
@@ -2503,6 +2406,103 @@ function toggleChange(pin_ID) {
 }
 
 
+// DB: Save CSS changes
+function saveCSS(pin_ID, css) {
+
+
+    console.log( 'Save CSS for the pin #' + pin_ID + ' on DB!!', css);
+
+
+    // Update from the Pins global
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pinIndex = Pins.indexOf(pin);
+
+	var elementIndex = pin.pin_element_index;
+	var changedElement = iframeElement(elementIndex);
+
+	//var change = modification == "{%null%}" ? null : htmlentities(modification, "ENT_QUOTES");
+
+
+	//console.log('CHANGE:', change);
+
+
+	// Start the process
+	var pinCSSProcessID = newProcess();
+
+	// Update from DB
+    ajax('pin-css', {
+
+		'css' 	 : css,
+		'pin_ID' : pin_ID
+
+	}).done(function(result){
+
+
+		var data = result.data; console.log(data);
+		var cssCode = data.css_code;
+
+
+		// Update the global
+		Pins[pinIndex].pin_css = cssCode; //console.log('FILTERED: ', filtered_css);
+
+
+		// Update the changed status
+		pinWindow.attr('data-changed', (cssCode != null ? "yes" : "no"));
+
+
+		// Remove the CSS codes if null
+		if (cssCode == null) {
+
+		    // Reopen the pin window
+		    openPinWindow(pin_ID);
+
+		}
+
+
+		// Finish the process
+		endProcess(pinCSSProcessID);
+
+	}).fail(function(fail) {
+
+		console.log('FAILED: ', fail);
+
+	});
+
+
+}
+
+
+// Update CSS
+function updateCSS(element_index, cssCodes) {
+
+
+	// Mark the old one
+	iframeElement('style[data-index="'+ element_index +'"]').addClass('old');
+
+
+	// Add the new CSS codes
+	iframeElement('body').append('<style data-index="'+ element_index +'">[data-revisionary-index="'+ element_index +'"]{'+ cssCodes +'}</style>');
+
+
+	// Remove the old ones
+	iframeElement('style.old[data-index="'+ element_index +'"]').remove();
+
+}
+
+
+// DB: Reset CSS changes
+function resetCSS(pin_ID) {
+
+
+    console.log( 'Reset CSS for the pin #' + pin_ID + ' on DB!!');
+
+
+	// Reset the codes
+    saveCSS(pin_ID, {display: "block"});
+
+}
+
+
 // Toggle content edits
 function toggleCSS(pin_ID) {
 
@@ -2525,7 +2525,7 @@ function toggleCSS(pin_ID) {
 
 
 		// Toggle the option
-		pinWindow.find('ul.options').attr('data-showing-changes', (isShowingCSS ? "no" : "yes"));
+		pinWindow.attr('data-showing-changes', (isShowingCSS ? "no" : "yes"));
 
 
 	}
