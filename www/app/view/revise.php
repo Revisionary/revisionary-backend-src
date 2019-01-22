@@ -656,7 +656,10 @@
 						</div>
 					</div>
 
-					<div class="wrap xl-1 difference-switch-wrap">
+					<div class="wrap xl-2 difference-switch-wrap" style="padding-left: 10px;">
+						<a href="#" class="col switch reset-content">
+							<span><i class="fa fa-unlink"></i> RESET CHANGES</span>
+						</a>
 						<a href="#" class="col xl-right switch difference-switch">
 							<i class="fa fa-random"></i> <span class="diff-text">SHOW DIFFERENCE</span>
 						</a>

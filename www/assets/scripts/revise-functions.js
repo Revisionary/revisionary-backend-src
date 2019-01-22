@@ -1211,6 +1211,14 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 			var oldHTML = html_entity_decode(pin.pin_modification_original); //console.log('NEW', newHTML);
 			element.html( oldHTML );
 
+			// Update the pin window content if open
+			if ( pinWindowOpen && pinWindow.attr('data-pin-id') == pin.pin_ID ) {
+
+				// Add the changed HTML content
+				pinWindow.find('.content-editor .edit-content.changes').html( oldHTML );
+
+			}
+
 		// If the type is image change
 		} else if ( pin.pin_modification_type == "image" ) {
 
@@ -2332,17 +2340,15 @@ function saveChange(pin_ID, modification) {
 		// Update the status
 		if (modification != "{%null%}") {
 
-			pinElement(pin_ID).attr('data-revisionary-edited', "1");
+			changedElement.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+			pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 			pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-			changedElement.attr('data-revisionary-edited', "1");
-			changedElement.attr('data-revisionary-showing-changes', "1");
 
 		} else {
 
-			pinElement(pin_ID).attr('data-revisionary-edited', "0");
+			changedElement.removeAttr('data-revisionary-showing-changes').removeAttr('data-revisionary-edited');
+			pinElement(pin_ID).attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
 			pinWindow.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
-			changedElement.removeAttr('data-revisionary-showing-changes');
-			changedElement.removeAttr('data-revisionary-edited');
 
 		}
 
@@ -2352,6 +2358,30 @@ function saveChange(pin_ID, modification) {
 
 	});
 
+
+}
+
+
+// DB: Reset Content changes
+function resetContent(pin_ID) {
+
+
+    console.log( 'Reset content changes for the pin #' + pin_ID + ' on DB!!');
+
+
+    // Update from the Pins global
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pinIndex = Pins.indexOf(pin);
+	var element_index = pin.pin_element_index;
+
+
+
+	// Revert the changes
+	revertChanges([element_index]);
+
+
+	// Delete the changes
+    saveChange(pin_ID, "{%null%}");
 
 }
 

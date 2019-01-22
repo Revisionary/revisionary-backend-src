@@ -608,6 +608,28 @@ $(function() {
 	});
 
 
+	// Reset Content
+	$('.reset-content').click(function(e) {
+
+		var pin_ID = pinWindow.attr('data-pin-id');
+		var element_index = parseInt(pinWindow.attr('data-revisionary-index'));
+
+
+		if ( confirm('Are you sure you want to revert your content changes?') ) {
+
+
+			// Reset content on DB
+			resetContent(pin_ID);
+
+
+		}
+
+
+		e.preventDefault();
+
+	});
+
+
 	// Show original CSS toggle
 	$('.show-original-css').click(function(e) {
 
