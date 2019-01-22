@@ -472,6 +472,7 @@
 		data-revisionary-edited="0"
 		data-changed="no"
 		data-showing-changes="no"
+		data-has-comments="no"
 		data-revisionary-showing-changes="0"
 		data-revisionary-index="0"
 	>
@@ -764,7 +765,7 @@
 			<div class="wrap xl-1">
 				<div class="col section-title">
 
-					<i class="fa fa-comment-dots"></i> COMMENTS
+					<i class="fa fa-comment-dots"></i> COMMENTS <i class="fa fa-circle edited-sign"></i>
 
 				</div>
 				<div class="col section-content">

@@ -657,6 +657,19 @@ html, body {
 
 	}
 
+	&[data-has-comments="no"] {
+
+
+		.comments {
+
+		    .edited-sign {
+			    display: none;
+		    }
+
+		}
+
+	}
+
 	&[data-showing-changes="yes"] {
 
 		.show-original-css > .changes {

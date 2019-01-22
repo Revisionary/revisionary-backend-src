@@ -379,6 +379,8 @@ html, body {
     display: none; }
   #pin-window[data-changed="no"] .visual-editor .edited-sign {
     display: none; }
+  #pin-window[data-has-comments="no"] .comments .edited-sign {
+    display: none; }
   #pin-window[data-showing-changes="yes"] .show-original-css > .changes {
     display: none; }
   #pin-window[data-showing-changes="no"] ul.options > li:not(:first-child) {

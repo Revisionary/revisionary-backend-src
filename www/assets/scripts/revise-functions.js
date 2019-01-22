@@ -1869,6 +1869,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 	// Changed status
 	pinWindow.attr('data-changed', (styleElement.length ? "yes" : "no"));
 	pinWindow.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"));
+	pinWindow.attr('data-has-comments', 'no');
 
 
 
@@ -2549,8 +2550,7 @@ function getComments(pin_ID, commentsWrapper = null) {
 
 
 	// Send the Ajax request
-    commentsGetRequest = ajax('comments-get',
-    {
+    commentsGetRequest = ajax('comments-get', {
 
 		'pin_ID'	: pin_ID
 
@@ -2590,8 +2590,13 @@ function getComments(pin_ID, commentsWrapper = null) {
 
 			}
 
-			// Clean it first
-			if ( i == 0 ) commentsWrapper.html('');
+			// Clean it first and mark as has comments
+			if ( i == 0 ) {
+
+				commentsWrapper.html('');
+				pinWindow.attr('data-has-comments', 'yes');
+
+			}
 
 
 			// Append the comments
