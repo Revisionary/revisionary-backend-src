@@ -678,7 +678,8 @@ html, body {
     border: 2px solid black;
     background: none !important;
     background-color: white !important;
-    text-shadow: none !important; }
+    text-shadow: none !important;
+    text-transform: capitalize !important; }
     .sp-container .sp-choose:hover {
       border: 2px solid black;
       color: #007acc; }

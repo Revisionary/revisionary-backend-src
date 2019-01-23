@@ -748,12 +748,16 @@
 								<li>Positions</li>
 							</ul>
 						</li>
-						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
+						<li class="dropdown hide-when-hidden">
 							<a href="#"><i class="fa fa-layer-group"></i> Background <i class="fa fa-angle-down"></i></a>
 							<ul class="no-delay full">
-								<li><i class="fa fa-fill-drip"></i> Color</li>
-								<li><i class="fa fa-image"></i> Image</li>
-								<li><i class="fa fa-crosshairs"></i> Position</li>
+								<li class="choice">
+
+									<a href="#"><i class="fa fa-fill-drip"></i> Color</a> <input type="color" data-edit-css="background-color" data-default="initial">
+
+								</li>
+								<li class="choice" data-tooltip="In Development"><i class="fa fa-image"></i> Image</li>
+								<li class="choice" data-tooltip="In Development"><i class="fa fa-crosshairs"></i> Position</li>
 							</ul>
 						</li>
 					</ul>

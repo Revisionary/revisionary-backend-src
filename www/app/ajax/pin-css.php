@@ -37,6 +37,7 @@ foreach ($css as $key => $value) {
 		&& $key != "font-weight"
 		&& $key != "font-style"
 		&& $key != "color"
+		&& $key != "background-color"
 	) return;
 
 
@@ -82,6 +83,9 @@ foreach ($css as $key => $value) {
 		// Color rules
 		|| ($key == "color" && (!is_string($value) || !preg_match('/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/', $value) ) )
 
+		// BG Color rules
+		|| ($key == "background-color" && (!is_string($value) || !preg_match('/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/', $value) ) )
+
 	) return;
 
 
@@ -105,6 +109,9 @@ foreach ($css as $key => $value) {
 
 		// Color rules
 		|| ($key == "color" && !is_string($value))
+
+		// BG Color rules
+		|| ($key == "background-color" && !is_string($value))
 
 	) continue;
 

@@ -1263,6 +1263,7 @@ html, body {
 	    background: none !important;
 	    background-color: white !important;
 	    text-shadow: none !important;
+	    text-transform: capitalize !important;
 
 	    &:hover {
 		    border: 2px solid $color;

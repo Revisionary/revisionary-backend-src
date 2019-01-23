@@ -546,6 +546,7 @@ $(function() {
 			'font-weight'			: options.attr('data-font-weight'),
 			'font-style'			: options.attr('data-font-style'),
 			'color'					: options.attr('data-color'),
+			'background-color'		: options.attr('data-background-color')
 		}
 
 
@@ -858,7 +859,7 @@ $(window).on("load", function (e) {
 	    showInitial: true,
 	    showInput: true,
 	    allowEmpty: true,
-		chooseText: "OK",
+		chooseText: "Close",
 	    move : function(color) {
 
 		    $(this).val( color.toHexString() ).trigger('input');
