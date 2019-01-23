@@ -742,10 +742,11 @@
 						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
 							<a href="#"><i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i></a>
 							<ul class="no-delay full">
-								<li>Margins</li>
-								<li>Borders</li>
-								<li>Paddings</li>
-								<li>Positions</li>
+								<li><a href="#">Sizes</a></li>
+								<li><a href="#">Paddings</a></li>
+								<li><a href="#">Borders</a></li>
+								<li><a href="#">Margins</a></li>
+								<li><a href="#">Positions</a></li>
 							</ul>
 						</li>
 						<li class="dropdown hide-when-hidden">
@@ -756,8 +757,8 @@
 									<a href="#"><i class="fa fa-fill-drip"></i> Color</a> <input type="color" data-edit-css="background-color" data-default="initial">
 
 								</li>
-								<li class="choice" data-tooltip="In Development"><i class="fa fa-image"></i> Image</li>
-								<li class="choice" data-tooltip="In Development"><i class="fa fa-crosshairs"></i> Position</li>
+								<li class="choice" data-tooltip="In Development"><a href="#"><i class="fa fa-image"></i> Image</a></li>
+								<li class="choice" data-tooltip="In Development"><a href="#"><i class="fa fa-crosshairs"></i> Position</a></li>
 							</ul>
 						</li>
 					</ul>
