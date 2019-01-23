@@ -55,7 +55,7 @@ unset($now, $mins, $sgn, $mins, $hrs, $offset);
 
 
 // DEBUG MODE
-$debug_mode = false;
+$debug_mode = true;
 
 
 // Site Logging

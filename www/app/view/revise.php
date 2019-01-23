@@ -759,7 +759,7 @@
 								</li>
 								<li class="choice">
 
-									<span><i class="fa fa-crosshairs"></i> Position X: <input type="text" class="increaseable" data-edit-css="background-position-x" data-default="initial"/> Position Y: <input type="text" class="increaseable" data-edit-css="background-position-y" data-default="initial"/></span>
+									<span><i class="fa fa-crosshairs"></i> Position X:</span> <input type="text" class="increaseable" data-edit-css="background-position-x" data-default="initial"/> <span>Position Y:</span> <input type="text" class="increaseable" data-edit-css="background-position-y" data-default="initial" style="margin-right: 2px;" />
 
 								</li>
 								<li class="choice" data-tooltip="In Development"><a href="#"><i class="fa fa-image"></i> Image</a></li>
