@@ -372,7 +372,7 @@ die();
 
 
 // Notify the admin
-if (currentUserID() != 1) {
+if (getUserInfo()['email'] != "bilaltas@me.com" && getUserInfo()['email'] != "bill@twelve12.com") {
 
 	Notify::ID(1)->mail(
 		getUserInfo()['fullName']." revising a page now.",
