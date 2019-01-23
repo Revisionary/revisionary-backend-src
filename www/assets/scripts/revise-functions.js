@@ -2046,6 +2046,10 @@ function closePinWindow() {
 	history.pushState("", document.title, window.location.pathname + window.location.search);
 
 
+	// Close the colorpicker
+	$("input[type='color']").spectrum("hide");
+
+
 	// Abort the latest request if not finalized
 	if(commentsGetRequest && commentsGetRequest.readyState != 4) {
 		console.log('Latest comments request aborted');
