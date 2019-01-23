@@ -1853,7 +1853,6 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 		// Color exception
 		if (property == "color" || property == "background-color") {
-			value = value == "rgba(0, 0, 0, 0)" ? value : rgbToHex(value);
 			$('input[type="color"][data-edit-css="'+ property +'"]').spectrum("set", value);
 		}
 

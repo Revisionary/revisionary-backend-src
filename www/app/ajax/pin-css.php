@@ -108,10 +108,10 @@ foreach ($css as $key => $value) {
 		|| ($key == "font-style" && $value != "italic" && $value != "normal")
 
 		// Color rules
-		|| ($key == "color" && !preg_match('/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/', $value))
+		//|| ($key == "color" && !preg_match('/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/', $value))
 
 		// BG Color rules
-		|| ($key == "background-color" && !preg_match('/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/', $value))
+		//|| ($key == "background-color" && !preg_match('/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/', $value))
 
 	) continue;
 

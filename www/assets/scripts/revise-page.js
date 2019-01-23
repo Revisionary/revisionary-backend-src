@@ -854,17 +854,22 @@ $(window).on("load", function (e) {
 
 	// COLOR PICKER PLUGIN
 	$("input[type='color']").spectrum({
-	    //flat: true,
 		preferredFormat: "hex",
 	    showInitial: true,
 	    showInput: true,
+	    showAlpha: true,
 	    allowEmpty: true,
 		chooseText: "Close",
-	    move : function(color) {
+	    move: function(color) {
 
-		    $(this).val( color.toHexString() ).trigger('input');
+		    $(this).val(color.toRgbString()).attr('data-value', color.toRgbString()).trigger('input');
 
 	    }
+	}).on("dragstart.spectrum", function(e, color) {
+
+		console.log('DRAG STARTED', color.toHexString());
+		$(this).val(color.toHexString()).spectrum("set", color.toHexString());
+
 	});
 
 
