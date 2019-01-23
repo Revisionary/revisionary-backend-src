@@ -55,7 +55,7 @@ unset($now, $mins, $sgn, $mins, $hrs, $offset);
 
 
 // DEBUG MODE
-$debug_mode = true;
+$debug_mode = $config['env']['name'] == "local-dev";
 
 
 // Site Logging
