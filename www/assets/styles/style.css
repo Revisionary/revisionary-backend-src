@@ -5150,6 +5150,16 @@ button {
   input[type='submit'].full,
   button.full {
     width: 100%; }
+  input[type='text'].increaseable,
+  input[type='email'].increaseable,
+  input[type='password'].increaseable,
+  input[type='url'].increaseable,
+  input[type='submit'].increaseable,
+  button.increaseable {
+    width: 55px;
+    display: inline-block;
+    text-align: center;
+    padding: 0; }
 
 .filter-blocks {
   position: relative; }
@@ -5468,6 +5478,8 @@ a {
           width: 100%;
           padding: 5px;
           color: inherit; }
+          .dropdown a + ul > li > span.inline {
+            width: auto; }
         .dropdown a + ul > li > a {
           display: inline-block;
           width: 100%;

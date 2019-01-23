@@ -719,7 +719,7 @@
 							<ul class="no-delay">
 								<li class="choice">
 
-									<a href="#"><i class="fa fa-tint"></i> Color</a> <input type="color" data-edit-css="color" data-default="initial">
+									<span class="inline"><i class="fa fa-tint"></i> Color</span> <input type="color" data-edit-css="color" data-default="initial">
 
 								</li>
 								<li class="choice selectable">
@@ -754,11 +754,15 @@
 							<ul class="no-delay full">
 								<li class="choice">
 
-									<a href="#"><i class="fa fa-fill-drip"></i> Color</a> <input type="color" data-edit-css="background-color" data-default="initial">
+									<span class="inline"><i class="fa fa-fill-drip"></i> Color</span> <input type="color" data-edit-css="background-color" data-default="initial">
+
+								</li>
+								<li class="choice">
+
+									<span><i class="fa fa-crosshairs"></i> Position X: <input type="text" class="increaseable" data-edit-css="background-position-x" data-default="initial"/> Position Y: <input type="text" class="increaseable" data-edit-css="background-position-y" data-default="initial"/></span>
 
 								</li>
 								<li class="choice" data-tooltip="In Development"><a href="#"><i class="fa fa-image"></i> Image</a></li>
-								<li class="choice" data-tooltip="In Development"><a href="#"><i class="fa fa-crosshairs"></i> Position</a></li>
 							</ul>
 						</li>
 					</ul>

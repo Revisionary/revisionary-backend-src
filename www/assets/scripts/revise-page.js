@@ -546,7 +546,9 @@ $(function() {
 			'font-weight'			: options.attr('data-font-weight'),
 			'font-style'			: options.attr('data-font-style'),
 			'color'					: options.attr('data-color'),
-			'background-color'		: options.attr('data-background-color')
+			'background-color'		: options.attr('data-background-color'),
+			'background-position-x' : options.attr('data-background-position-x'),
+			'background-position-y'	: options.attr('data-background-position-y')
 		}
 
 

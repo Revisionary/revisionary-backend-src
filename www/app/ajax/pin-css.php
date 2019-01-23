@@ -36,8 +36,10 @@ foreach ($css as $key => $value) {
 		&& $key != "text-decoration-line"
 		&& $key != "font-weight"
 		&& $key != "font-style"
-		&& $key != "color"
-		&& $key != "background-color"
+		&& $key != "color" // !!! Security check
+		&& $key != "background-color" // !!! Security check
+		&& $key != "background-position-x" // !!! Security check
+		&& $key != "background-position-y" // !!! Security check
 	) return;
 
 
