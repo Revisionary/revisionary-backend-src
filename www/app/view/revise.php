@@ -683,7 +683,7 @@
 					<ul class="no-bullet options" style="margin-bottom: 0;">
 						<li class="current-element">
 
-							<b>EDIT STYLE FOR:</b> <span class="element-tag">tag</span><span class="element-id">#id</span><span class="element-class">.class</span>
+							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">tag</span><span class="element-id">#id</span><span class="element-class">.class</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px;">
 								<span class="original"><img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/> SHOW ORIGINAL</span>

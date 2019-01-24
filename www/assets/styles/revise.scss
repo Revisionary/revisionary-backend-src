@@ -1080,10 +1080,13 @@ html, body {
 		.current-element {
 			position: relative;
 			padding-right: 100px;
-			overflow: hidden;
-			display: -webkit-box;
-			-webkit-line-clamp: 2;
-			-webkit-box-orient: vertical;
+
+			.css-selector {
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				-webkit-box-orient: vertical;
+			}
 		}
 
 
