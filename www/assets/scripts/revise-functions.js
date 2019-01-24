@@ -1858,6 +1858,12 @@ function openPinWindow(pin_ID, firstTime = false) {
 		}
 
 
+		// Background Image
+		if (property == "background-image") {
+			value = value.replace('url(','').replace(')','').replace(/\"/gi, "");
+		}
+
+
 		// Update the main options
 		options.attr('data-'+property, value);
 

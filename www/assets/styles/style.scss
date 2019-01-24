@@ -249,6 +249,10 @@ button {
 	    width: 100%;
     }
 
+    &.no-padding {
+	    padding: 0 2px;
+    }
+
     &.increaseable {
 	    width: 55px;
 	    display: inline-block;

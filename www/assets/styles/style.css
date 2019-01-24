@@ -5150,6 +5150,13 @@ button {
   input[type='submit'].full,
   button.full {
     width: 100%; }
+  input[type='text'].no-padding,
+  input[type='email'].no-padding,
+  input[type='password'].no-padding,
+  input[type='url'].no-padding,
+  input[type='submit'].no-padding,
+  button.no-padding {
+    padding: 0 2px; }
   input[type='text'].increaseable,
   input[type='email'].increaseable,
   input[type='password'].increaseable,

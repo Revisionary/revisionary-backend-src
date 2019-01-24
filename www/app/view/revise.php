@@ -739,6 +739,49 @@
 								</li>
 							</ul>
 						</li>
+						<li class="dropdown hide-when-hidden">
+							<a href="#"><i class="fa fa-layer-group"></i> Background <i class="fa fa-angle-down"></i></a>
+							<ul class="no-delay full">
+								<li class="choice">
+
+									<span class="inline"><i class="fa fa-fill-drip"></i> Color:</span>
+									<input type="color" data-edit-css="background-color" data-default="initial">
+
+								</li>
+								<li class="choice">
+
+									<span class="inline"><i class="fa fa-image"></i> Image URL:</span> <input type="url" data-edit-css="background-image" data-default="initial" class="full no-padding" />
+
+								</li>
+								<li class="choice hide-when-no-image">
+
+									<span><i class="fa fa-crosshairs"></i> Position:</span>
+
+									<span class="inline">X:</span> <input type="text" class="increaseable" data-edit-css="background-position-x" data-default="initial"/>
+									<span class="inline">Y:</span> <input type="text" class="increaseable" data-edit-css="background-position-y" data-default="initial" />
+
+								</li>
+								<li class="choice hide-when-no-image">
+
+									<span><i class="fa fa-arrows-alt-v"></i> Size: </span>
+
+									<a href="#" data-edit-css="background-size" data-value="auto" data-default="cover">Auto</a> |
+									<a href="#" data-edit-css="background-size" data-value="cover" data-default="auto">Cover</a> |
+									<a href="#" data-edit-css="background-size" data-value="contain" data-default="auto">Contain</a>
+
+								</li>
+								<li class="choice hide-when-no-image">
+
+									<span><i class="fa fa-redo"></i> Repeat: </span>
+
+									<a href="#" data-edit-css="background-repeat" data-value="no-repeat" data-tooltip="No Repeat" data-default="repeat-x"><i class="fa fa-compress-arrows-alt"></i></a> |
+									<a href="#" data-edit-css="background-repeat" data-value="repeat" data-tooltip="Repeat X and Y" data-default="no-repeat"><i class="fa fa-arrows-alt"></i></a> |
+									<a href="#" data-edit-css="background-repeat" data-value="repeat-x" data-tooltip="Repeat X" data-default="no-repeat"><i class="fa fa-long-arrow-alt-right"></i></a> |
+									<a href="#" data-edit-css="background-repeat" data-value="repeat-y" data-tooltip="Repeat Y" data-default="no-repeat"><i class="fa fa-long-arrow-alt-down"></i></a>
+
+								</li>
+							</ul>
+						</li>
 						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
 							<a href="#"><i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i></a>
 							<ul class="no-delay full">
@@ -747,22 +790,6 @@
 								<li><a href="#">Borders</a></li>
 								<li><a href="#">Margins</a></li>
 								<li><a href="#">Positions</a></li>
-							</ul>
-						</li>
-						<li class="dropdown hide-when-hidden">
-							<a href="#"><i class="fa fa-layer-group"></i> Background <i class="fa fa-angle-down"></i></a>
-							<ul class="no-delay full">
-								<li class="choice">
-
-									<span class="inline"><i class="fa fa-fill-drip"></i> Color</span> <input type="color" data-edit-css="background-color" data-default="initial">
-
-								</li>
-								<li class="choice">
-
-									<span><i class="fa fa-crosshairs"></i> Position X:</span> <input type="text" class="increaseable" data-edit-css="background-position-x" data-default="initial"/> <span>Position Y:</span> <input type="text" class="increaseable" data-edit-css="background-position-y" data-default="initial" style="margin-right: 2px;" />
-
-								</li>
-								<li class="choice" data-tooltip="In Development"><a href="#"><i class="fa fa-image"></i> Image</a></li>
 							</ul>
 						</li>
 					</ul>

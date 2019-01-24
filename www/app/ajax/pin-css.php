@@ -40,6 +40,9 @@ foreach ($css as $key => $value) {
 		&& $key != "background-color" // !!! Security check
 		&& $key != "background-position-x" // !!! Security check
 		&& $key != "background-position-y" // !!! Security check
+		&& $key != "background-image"
+		&& $key != "background-repeat"
+		&& $key != "background-size"
 	) return;
 
 
@@ -88,6 +91,15 @@ foreach ($css as $key => $value) {
 		// BG Color rules
 		|| ($key == "background-color" && !is_string($value))
 
+		// BG Image rules
+		|| ($key == "background-image" && !is_string($value))
+
+		// BG Repeat rules
+		|| ($key == "background-repeat" && !is_string($value))
+
+		// BG Size rules
+		|| ($key == "background-size" && !is_string($value))
+
 	) return;
 
 
@@ -115,7 +127,20 @@ foreach ($css as $key => $value) {
 		// BG Color rules
 		//|| ($key == "background-color" && !preg_match('/#([a-f]|[A-F]|[0-9]){3}(([a-f]|[A-F]|[0-9]){3})?\b/', $value))
 
+		// BG Image rules
+		|| ($key == "background-image" && (!filter_var($value, FILTER_VALIDATE_URL) && $value != "none" ) )
+
+		// BG Repeat rules
+		|| ($key == "background-repeat" && $value != "no-repeat" && $value != "repeat-x" && $value != "repeat-y" && $value != "repeat")
+
+		// BG Repeat rules
+		|| ($key == "background-size" && $value != "auto" && $value != "cover" && $value != "contain")
+
 	) continue;
+
+
+	// BG Image Exception
+	if ($key == "background-image" && $value != "none") $value = "url($value)";
 
 
 	// Add the code

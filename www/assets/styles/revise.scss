@@ -1025,8 +1025,21 @@ html, body {
 
 		}
 
+
+		&[data-background-image="none"] {
+
+			.hide-when-no-image {
+				display: none;
+			}
+
+		}
+
 		a {
 			letter-spacing: inherit;
+		}
+
+		input {
+			margin: 2px;
 		}
 
 		& > li {

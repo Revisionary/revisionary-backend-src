@@ -568,8 +568,12 @@ html, body {
     letter-spacing: normal; }
     #pin-window ul.options[data-display="none"] .hide-when-hidden {
       display: none; }
+    #pin-window ul.options[data-background-image="none"] .hide-when-no-image {
+      display: none; }
     #pin-window ul.options a {
       letter-spacing: inherit; }
+    #pin-window ul.options input {
+      margin: 2px; }
     #pin-window ul.options > li {
       margin-bottom: 5px; }
       #pin-window ul.options > li:last-child {

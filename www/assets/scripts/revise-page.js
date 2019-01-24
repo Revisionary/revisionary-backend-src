@@ -216,11 +216,13 @@ $(function() {
 	// Close pin window
 	$('#pin-window .close-button').click(function(e) {
 
+		var commentWritten = pinWindow.find('.comment-input').val();
+
 		// Send the comment if unsend
-		if($('#pin-window .comment-input').val()) $('#comment-sender').submit();
+		if( commentWritten ) $('#comment-sender').submit();
 
 		// Close the window
-		if (pinWindowOpen) closePinWindow();
+		if (pinWindowOpen) closePinWindow(!commentWritten);
 
 		e.preventDefault();
 
@@ -505,6 +507,11 @@ $(function() {
 	var doChangeCSS = {};
 	$('[data-edit-css]').on('click input', function(e) {
 
+		//console.log('TAG NAME: ', $(this).prop("tagName"), e.type );
+
+		// Prevent saving when clicking any input
+		if ( $(this).prop("tagName") == "INPUT" && e.type == "click" ) return true;
+
 
 		var property = $(this).attr('data-edit-css');
 		var isActive = $(this).hasClass('active');
@@ -548,7 +555,10 @@ $(function() {
 			'color'					: options.attr('data-color'),
 			'background-color'		: options.attr('data-background-color'),
 			'background-position-x' : options.attr('data-background-position-x'),
-			'background-position-y'	: options.attr('data-background-position-y')
+			'background-position-y'	: options.attr('data-background-position-y'),
+			'background-image'		: options.attr('data-background-image'),
+			'background-repeat'		: options.attr('data-background-repeat'),
+			'background-size'		: options.attr('data-background-size')
 		}
 
 
@@ -556,10 +566,17 @@ $(function() {
 		var cssCode = "";
 		$.each( css, function( key, value ) {
 
+
 			// Skip if display is block
-			if (key == "display" && value == "block") return true;
+			if (key == "display" && value != "none") return true;
+
+
+			// Background Image URL
+			if (key == "background-image" && value != "none") value = "url("+ value +")";
+
 
 			cssCode = cssCode + key + ":" + value + " !important; ";
+
 
 		});
 
