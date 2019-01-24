@@ -678,13 +678,16 @@ html, body {
     visibility: hidden !important; }
     .sp-container .sp-cancel:hover {
       color: #007acc !important; }
-  .sp-container .sp-choose {
+  .sp-container .sp-choose,
+  .sp-container .sp-palette-toggle {
     border: 2px solid black;
     background: none !important;
     background-color: white !important;
     text-shadow: none !important;
-    text-transform: capitalize !important; }
-    .sp-container .sp-choose:hover {
+    text-transform: capitalize !important;
+    outline: none !important; }
+    .sp-container .sp-choose:hover,
+    .sp-container .sp-palette-toggle:hover {
       border: 2px solid black;
       color: #007acc; }
 

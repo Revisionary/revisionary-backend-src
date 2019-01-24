@@ -1271,12 +1271,14 @@ html, body {
 	    }
     }
 
-    .sp-choose {
+    .sp-choose,
+    .sp-palette-toggle {
 	    border: 2px solid $color;
 	    background: none !important;
 	    background-color: white !important;
 	    text-shadow: none !important;
 	    text-transform: capitalize !important;
+	    outline: none !important;
 
 	    &:hover {
 		    border: 2px solid $color;

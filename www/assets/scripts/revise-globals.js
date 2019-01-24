@@ -9,6 +9,8 @@ var page_URL;
 var remote_URL;
 var page_ready = false;
 var page_redirected = false;
+var page_colors = {};
+var colorsSorted = [];
 
 // HTML Element Index
 var fileIndexed = false;

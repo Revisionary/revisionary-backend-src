@@ -920,11 +920,15 @@ function getPins(applyChanges = true, firstRetrieve = false) {
 			if (firstRetrieve) {
 
 
+				// Detect colors in the page
+				detectColors();
+
+
 				// Get the selected pin to scroll
 				if (window.location.hash) {
 
 					var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
-					console.log('HASHHHH Pin ID', goToPin_ID);
+					console.log('Going to the Pin #', goToPin_ID);
 
 					scrollToPin(goToPin_ID, true);
 
@@ -943,12 +947,19 @@ function getPins(applyChanges = true, firstRetrieve = false) {
 
 			if (firstRetrieve) {
 
+
+				// Detect colors in the page
+				detectColors();
+
+
 				// Hide the loading overlay
 				$('#loading').fadeOut();
+
 
 				// Page is ready now
 				page_ready = true;
 				$('body').addClass('ready');
+
 
 			}
 
@@ -2854,6 +2865,41 @@ function updatePinsList() {
 
 
 	});
+
+}
+
+
+// Detect colors in the page
+function detectColors() {
+
+
+	console.log('Colors are being detected in the page...');
+
+
+	iframeElement('body *').each(function() {
+
+
+		var color = $(this).css('color');
+		var bgColor = $(this).css('background-color');
+
+
+		var colorCount = parseInt( page_colors[color] ) || 0;
+		page_colors[color] = colorCount + 1;
+
+
+		var bgColorCount = parseInt( page_colors[bgColor] ) || 0;
+		page_colors[bgColor] = bgColorCount + 1;
+
+
+	});
+
+
+	// Order the colors
+	colorsSorted = Object.keys(page_colors).sort(function(a,b){ return page_colors[b]-page_colors[a] })
+	$("input[type='color']").spectrum("option", "palette", colorsSorted);
+
+
+	console.log('Color detection complete.', colorsSorted);
 
 }
 

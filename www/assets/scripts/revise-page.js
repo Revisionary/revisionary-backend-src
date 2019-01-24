@@ -878,12 +878,24 @@ $(window).on("load", function (e) {
 	    showInput: true,
 	    showAlpha: true,
 	    allowEmpty: true,
+
+	    showPalette: true,
+	    showPaletteOnly: true,
+	    togglePaletteOnly: true,
+	    togglePaletteMoreText: 'more',
+	    togglePaletteLessText: 'less',
+
 		chooseText: "Close",
 	    move: function(color) {
 
 		    $(this).val(color.toRgbString()).attr('data-value', color.toRgbString()).trigger('input');
 
-	    }
+	    },
+	    change: function(color) {
+
+		    $(this).trigger('input');
+
+		}
 	}).on("dragstart.spectrum", function(e, color) {
 
 		console.log('DRAG STARTED', color.toHexString());
