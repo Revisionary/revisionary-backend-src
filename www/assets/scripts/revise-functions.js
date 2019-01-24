@@ -2873,7 +2873,7 @@ function updatePinsList() {
 function detectColors() {
 
 
-	console.log('Colors are being detected in the page...');
+	//console.log('Colors are being detected in the page...');
 
 
 	iframeElement('body *').each(function() {
@@ -2899,7 +2899,7 @@ function detectColors() {
 	$("input[type='color']").spectrum("option", "palette", colorsSorted);
 
 
-	console.log('Color detection complete.', colorsSorted);
+	//console.log('Color detection complete.', colorsSorted);
 
 }
 

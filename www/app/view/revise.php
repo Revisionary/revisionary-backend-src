@@ -681,7 +681,7 @@
 				<div class="col section-content options">
 
 					<ul class="no-bullet options" style="margin-bottom: 0;">
-						<li class="current-element" style="position: relative; padding-right: 100px;">
+						<li class="current-element">
 
 							<b>EDIT STYLE FOR:</b> <span class="element-tag">tag</span><span class="element-id">#id</span><span class="element-class">.class</span>
 
