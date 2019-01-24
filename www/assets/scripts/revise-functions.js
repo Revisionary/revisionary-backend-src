@@ -1660,7 +1660,7 @@ function putPin(pinX, pinY) {
 
 		// Update the pin ID
 		newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
-		pinWindow.attr('data-pin-id', realPinID);
+		pinWindow.attr('data-pin-id', realPinID).removeAttr('temporary');
 		Pins[pinsIndex].pin_ID = realPinID;
 		window.location.hash = "#"+realPinID;
 
@@ -1988,6 +1988,11 @@ function openPinWindow(pin_ID, firstTime = false) {
 	}
 
 
+	// Add the temporary attribute at the first time adding pin
+	pinWindow.removeAttr('temporary');
+	if (firstTime) pinWindow.attr('temporary', '');
+
+
 	// If it's first time, remove the "Done" button
 	$('#pin-window .pin-complete').hide();
 	if (!firstTime) $('#pin-window .pin-complete').show();
@@ -2076,6 +2081,7 @@ function closePinWindow(removePinIfEmpty = false) {
 		&& pinWindow.attr('data-revisionary-edited') == "0"
 		&& pinWindow.attr('data-changed') == "no"
 		&& pinWindow.attr('data-has-comments') == "no"
+		&& pinWindow.attr('temporary') != ""
 	) {
 
 		var pin_ID = pinWindow.attr('data-pin-id');
