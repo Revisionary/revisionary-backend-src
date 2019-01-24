@@ -129,7 +129,7 @@ $(function() {
 
 
 			// Start the process
-			var actionID = newProcess();
+			var actionID = newProcess(null, "userCheck");
 
 			ajax('user-check', {
 
@@ -737,7 +737,7 @@ function addshare() {
 
 
 	// Start the process
-	var actionID = newProcess();
+	var actionID = newProcess(null, type+"Share");
 
 	ajax('share', {
 
@@ -805,7 +805,7 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 
 
 	// Start progress bar action
-	var actionID = newProcess();
+	var actionID = newProcess(null, object_type+":"+action);
 
 	// AJAX Send data
 	ajax('data-action', {

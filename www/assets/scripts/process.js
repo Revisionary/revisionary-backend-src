@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 
 // FUNCTION: Start Process
-function newProcess(preventWindowClose = true) { // Add timeout function here !!!
+function newProcess(preventWindowClose = true, processDescription = "") { // Add timeout function here !!!
 
 	var newProcessID = processCount + 1;
 
@@ -39,7 +39,7 @@ function newProcess(preventWindowClose = true) { // Add timeout function here !!
 
 
 	// Add the new process
-	progressBar.append('<div class="progress process" data-process-id="'+ newProcessID +'"></div>');
+	progressBar.append('<div class="progress process" data-process-id="'+ newProcessID +'" data-process-desc="'+ processDescription +'"></div>');
 
 	// The new process
 	var process = $('.process[data-process-id="'+ newProcessID +'"]:not(.done)');

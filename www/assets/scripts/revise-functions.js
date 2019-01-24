@@ -561,7 +561,7 @@ function runTheInspector() {
 
 				// Close the pin window if open and not cursor active and not content editable
 				if ( pinWindowOpen && !iframeElement(focused_element_index).is('[contenteditable]') )
-					closePinWindow();
+					closePinWindow(true);
 
 			}
 
@@ -1339,7 +1339,7 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 
 
 			// Start the process
-			var relocateProcessID = newProcess();
+			var relocateProcessID = newProcess(null, "pinRelocate");
 
 		    $.post(ajax_url, {
 				'type'	  	 : 'pin-relocate',
@@ -1635,7 +1635,7 @@ function putPin(pinX, pinY) {
     //console.log('Add pin to the DB !!!');
 
 	// Start the process
-	var newPinProcessID = newProcess();
+	var newPinProcessID = newProcess(null, "newPinProcess");
 
 	// Add pin to the DB
     ajax('pin-add',
@@ -1785,7 +1785,8 @@ function openPinWindow(pin_ID, firstTime = false) {
 		.attr('data-revisionary-edited', thePinModified)
 		.attr('data-revisionary-showing-changes', thePinShowingChanges)
 		.attr('data-revisionary-index', theIndex)
-		.attr('data-pin-mine', (thePinMine ? "yes" : "no"));
+		.attr('data-pin-mine', (thePinMine ? "yes" : "no"))
+		.attr('data-pin-new', (firstTime ? "yes" : "no"));
 
 
 	// Reset the differences fields
@@ -2030,7 +2031,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 // Close pin window
-function closePinWindow() {
+function closePinWindow(removePinIfEmpty = false) {
 
 
 	if (pinWindowOpen) console.log('PIN WINDOW CLOSING.');
@@ -2068,6 +2069,26 @@ function closePinWindow() {
 	$('#pins > pin').css('opacity', '');
 
 
+	// Delete if no change made
+	if (
+		removePinIfEmpty
+		&& pinWindow.attr('data-pin-new') == "yes"
+		&& pinWindow.attr('data-revisionary-edited') == "0"
+		&& pinWindow.attr('data-changed') == "no"
+		&& pinWindow.attr('data-has-comments') == "no"
+	) {
+
+		var pin_ID = pinWindow.attr('data-pin-id');
+
+		console.log('REMOVE THIS PIN', pin_ID);
+
+
+		// Instant remove the pin
+		removePin(pin_ID, true);
+
+	}
+
+
 	if (cursorWasActive) toggleCursorActive(false, true); // Force Open
 
 
@@ -2087,7 +2108,7 @@ function togglePinWindow(pin_ID) {
 
 
 // DB: Remove a pin
-function removePin(pin_ID) {
+function removePin(pin_ID, instantRemove = false) {
 
 
     // Add pin to the DB
@@ -2095,11 +2116,15 @@ function removePin(pin_ID) {
 
 
     // Add removing message
-    pinWindow.addClass('removing');
+    if (pinWindowOpen) pinWindow.addClass('removing');
+
+
+    // Instant remove from the DOM
+    if (instantRemove) pinElement(pin_ID).remove();
 
 
 	// Start the process
-	var newPinProcessID = newProcess();
+	removePinProcess[pin_ID] = newProcess(null, "removePin"+pin_ID);
 
     ajax('pin-remove',
     {
@@ -2108,15 +2133,15 @@ function removePin(pin_ID) {
 
 	}).done(function(result){
 
-		//console.log(result.data);
+		console.log("DB REMOVED: ", result.data);
 
 
 	    // Remove removing message
-	    pinWindow.removeClass('removing');
+	    if (pinWindowOpen) pinWindow.removeClass('removing');
 
 
 		// Close the pin window
-		closePinWindow();
+		if (pinWindowOpen) closePinWindow();
 
 
 		// Bring the pin info
@@ -2147,7 +2172,7 @@ function removePin(pin_ID) {
 
 
 		// Finish the process
-		endProcess(newPinProcessID);
+		endProcess(removePinProcess[pin_ID]);
 
 
 	});
@@ -2180,7 +2205,7 @@ function completePin(pin_ID, complete, imgData = null) {
 
 
 	// Start the process
-	var completePinProcessID = newProcess();
+	var completePinProcessID = newProcess(null, "pin"+(complete ? 'Complete' : 'Incomplete'));
 
     // Update pin from the DB
 	ajax('pin-complete', {
@@ -2266,7 +2291,7 @@ function convertPin(pin_ID, targetPin) {
 
 
 	// Start the process
-	var convertPinProcessID = newProcess();
+	var convertPinProcessID = newProcess(null, "convertPinProcess");
 
 
 	// Save it on DB
@@ -2321,7 +2346,7 @@ function saveChange(pin_ID, modification) {
 
 
 	// Start the process
-	var modifyPinProcessID = newProcess();
+	var modifyPinProcessID = newProcess(null, "modifyPinProcess");
 
 	// Update from DB
     ajax('pin-modify', {
@@ -2461,7 +2486,7 @@ function saveCSS(pin_ID, css) {
 
 
 	// Start the process
-	var pinCSSProcessID = newProcess();
+	var pinCSSProcessID = newProcess(null, "pinCSSprocess");
 
 	// Update from DB
     ajax('pin-css', {
@@ -2675,8 +2700,12 @@ function sendComment(pin_ID, message) {
 	$('#pin-window #comment-sender input').prop('disabled', true);
 
 
+	// Mark as has comment
+	pinWindow.attr('data-has-comments', 'yes');
+
+
 	// Start the process
-	var newCommentProcessID = newProcess();
+	var newCommentProcessID = newProcess(null, "newPinCommentProcess");
 
     ajax('comment-add',
     {
@@ -2723,7 +2752,7 @@ function deleteComment(pin_ID, comment_ID) {
 
 
 	// Start the process
-	var deleteCommentProcessID = newProcess();
+	var deleteCommentProcessID = newProcess(null, "deleteCommentProcess");
 
     ajax('comment-delete',
     {
