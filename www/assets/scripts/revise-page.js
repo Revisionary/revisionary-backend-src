@@ -556,9 +556,9 @@ $(function() {
 			'background-color'		: options.attr('data-background-color'),
 			'background-position-x' : options.attr('data-background-position-x'),
 			'background-position-y'	: options.attr('data-background-position-y'),
-			'background-image'		: options.attr('data-background-image'),
 			'background-repeat'		: options.attr('data-background-repeat'),
-			'background-size'		: options.attr('data-background-size')
+			'background-size'		: options.attr('data-background-size'),
+			'background-image'		: options.attr('data-background-image')
 		}
 
 
