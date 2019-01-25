@@ -140,7 +140,7 @@ foreach ($css as $key => $value) {
 
 
 	// BG Image Exception
-	if ($key == "background-image" && $value != "none") $value = "url($value)";
+	if ($key == "background-image" && strpos($value, '//') !== false ) $value = "url($value)";
 
 
 	// Add the code

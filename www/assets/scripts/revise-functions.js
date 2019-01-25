@@ -407,7 +407,8 @@ function runTheInspector() {
 				}
 
 
-				// Check the submit buttons: <input type="submit | reset">...
+/*
+				// Check the submit buttons: <input type="submit | reset">... // !!!
 				hoveringButton = false;
 		        if (
 		        	focused_element.prop("tagName") == "INPUT" &&
@@ -423,6 +424,7 @@ function runTheInspector() {
 					//console.log( 'Focused Button Text: ' + focused_element.attr('value') );
 
 				}
+*/
 
 
 
@@ -448,12 +450,12 @@ function runTheInspector() {
 
 
 
-/*
 				// See what am I focusing
+				console.log("###############################");
 				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
-				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable );
-				console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
-*/
+				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable, focused_element_html_editable );
+				//console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
+				console.log("###############################");
 
 
 

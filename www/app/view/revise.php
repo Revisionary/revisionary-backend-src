@@ -750,7 +750,7 @@
 								</li>
 								<li class="choice">
 
-									<span class="inline"><i class="fa fa-image"></i> Image URL:</span> <input type="url" data-edit-css="background-image" data-default="initial" class="full no-padding" />
+									<span class="inline"><i class="fa fa-image"></i> Image URL:</span> <input type="url" data-edit-css="background-image" data-default="none" class="full no-padding" />
 
 								</li>
 								<li class="choice hide-when-no-image">

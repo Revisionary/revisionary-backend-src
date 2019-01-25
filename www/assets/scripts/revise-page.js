@@ -572,7 +572,7 @@ $(function() {
 
 
 			// Background Image URL
-			if (key == "background-image" && value != "none") value = "url("+ value +")";
+			if (key == "background-image" && value.includes("//")) value = "url("+ value +")";
 
 
 			cssCode = cssCode + key + ":" + value + " !important; ";
