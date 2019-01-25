@@ -860,6 +860,25 @@ $(function() {
 	});
 
 
+/*
+	// HASH CHANGE
+	$(window).bind('hashchange', function(e) {
+
+		var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
+
+		if ( !pinWindowOpen || pinWindow.attr('data-pin-id') != goToPin_ID ) {
+
+			var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
+			console.log('Going to the Pin #', goToPin_ID);
+
+			scrollToPin(goToPin_ID, true);
+
+		}
+
+	});
+*/
+
+
 });
 
 

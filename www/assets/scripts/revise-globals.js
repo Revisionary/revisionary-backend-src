@@ -134,6 +134,7 @@ var pinsListOpen = false;
 var pinAnimation, pinAnimationTimeout;
 var commentsGetRequest = null;
 var removePinProcess = [];
+var openPin = null;
 
 
 // When document is ready, fill the variables

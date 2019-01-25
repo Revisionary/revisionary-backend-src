@@ -121,48 +121,114 @@ function runTheInspector() {
 	$('iframe').on('load', function() {
 
 
+		console.log('IFRAME DOCUMENT LOADED!', canAccessIFrame( $(this) ));
+
+
+		// If we have access on this iframe (CORS Check)
+		if ( canAccessIFrame($(this)) ) {
+
+
+			// After coming back to the real page
+			if (page_redirected) {
+
+
+				console.log('LOAD PAGE REOPENED');
+				page_redirected = false;
+
+				setTimeout(function() { // Does not work sometimes, and needs improvement !!!
+
+
+					$('#page').css('opacity', ''); // !!! Remove "Please Wait..." text
+
+
+					iframe.scrollTop(oldScrollOffset_top);
+					iframe.scrollLeft(oldScrollOffset_left);
+					oldScrollOffset_top = oldScrollOffset_left = 0;
+
+
+					console.log('LOAD PAGE REOPEN COMPLETE', page_redirected);
+
+				}, 2000);
+
+
+			}
+
+
+
+			// PINS:
+			// Get latest pins and apply them to the page
+			Pins = [];
+			getPins(true, true, openPin);
+			openPin = null;
+
+
+
+			// REDIRECT DETECTION
+			var documentChild = $(this).prop("contentWindow").document;
+	        var childWindow = $(this).prop("contentWindow");
+
+	        $(documentChild).ready(function() {
+				$(childWindow).on('unload', function() {
+
+
+					console.log('REDIRECTING DETECTED load');
+
+
+					// If pin window open
+					if (pinWindowOpen) {
+
+
+						// Register the open pin
+						openPin = pinWindow.attr('data-pin-id');
+
+
+						// Close the open pin window
+						closePinWindow();
+
+
+					}
+
+
+					// Stop Autorefresh
+					stopAutoRefresh();
+
+
+					$('#page').css('opacity', '0.1'); // !!! Add "Please wait..." text
+
+					oldScrollOffset_top = scrollOffset_top;
+					oldScrollOffset_left = scrollOffset_left;
+
+
+					return;
+
+				});
+	        });
+
+
+		} else {
+
+
+			console.log('*** LOAD REDIRECTING BACK TO...', page_URL);
+
+			//window.frames["the-page"].location = page_URL;
+			$('iframe').attr('src', page_URL);
+
+			page_redirected = true;
+			return;
+
+
+		}
+
+
+
+
+		console.log('Load Complete', canAccessIFrame( $(this) ));
+
+
+
 
 		// Iframe element
 	    iframe = $('iframe').contents();
-
-
-		// REDIRECT DETECTION:
-		// Check if the page redirected to another page
-		if (page_redirected) {
-
-			console.log('PAGE REDIRECTED');
-
-			setTimeout(function() { // Does not work sometimes, and needs improvement !!!
-
-				$('#page').css('opacity', '');
-
-				iframe.scrollTop(oldScrollOffset_top);
-				iframe.scrollLeft(oldScrollOffset_left);
-
-				//console.log('REDIRECTED', page_redirected, oldScrollOffset_top, oldScrollOffset_left);
-
-				oldScrollOffset_top = oldScrollOffset_left = 0;
-
-				page_redirected = false;
-
-			}, 2000);
-
-		}
-
-		if ( !canAccessIFrame( $(this) ) ) {
-
-			console.log('IFRAME UNACCESSIBLE');
-
-			$('#page').css('opacity', '0.1');
-
-			oldScrollOffset_top = scrollOffset_top;
-			oldScrollOffset_left = scrollOffset_left;
-
-			if (!page_redirected) window.frames["the-page"].location = page_URL;
-
-			page_redirected = true; //console.log('REDIRECTED', page_redirected, scrollOffset_top, scrollOffset_left);
-
-		}
 
 
 
@@ -188,13 +254,6 @@ function runTheInspector() {
 			toggleCursorActive(false, true);
 
 		}
-
-
-
-		// PINS:
-		// Get latest pins and apply them to the page
-		Pins = [];
-		getPins(true, true);
 
 
 
@@ -450,12 +509,14 @@ function runTheInspector() {
 
 
 
+/*
 				// See what am I focusing
 				console.log("###############################");
 				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
 				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable, focused_element_html_editable );
 				//console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
 				console.log("###############################");
+*/
 
 
 
@@ -568,7 +629,7 @@ function runTheInspector() {
 			}
 
 
-			// Prevent clicking something
+			// Prevent clicking something !!!! DETECT BROWSING !!!
 			e.preventDefault();
 			return false;
 
@@ -879,7 +940,7 @@ function changePinNumber(pinNumber) {
 
 
 // DB: Get up-to-date pins and changes
-function getPins(applyChanges = true, firstRetrieve = false) {
+function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 
 
 	console.log('GETTING PINS...');
@@ -965,6 +1026,16 @@ function getPins(applyChanges = true, firstRetrieve = false) {
 
 			}
 
+
+		}
+
+
+		// If goToPin entered
+		if (goToPin != null) {
+
+			console.log('AUTO GOOOOOOOOOOOOO!!!!!');
+
+			openPinWindow(goToPin, true);
 
 		}
 
