@@ -138,7 +138,7 @@ function runTheInspector() {
 				setTimeout(function() { // Does not work sometimes, and needs improvement !!!
 
 					// Remove the overlay
-					$('#wait').hide(); // !!! Remove "Please Wait..." text
+					$('#wait').hide();
 
 					// Show the pins
 					$('#pins').css('opacity', '');
@@ -167,14 +167,15 @@ function runTheInspector() {
 
 
 			// REDIRECT DETECTION
-			var documentChild = $(this).prop("contentWindow").document;
-	        var childWindow = $(this).prop("contentWindow");
+			documentChild = $(this).prop("contentWindow").document;
+	        childWindow = $(this).prop("contentWindow");
 
 	        $(documentChild).ready(function() {
 				$(childWindow).on('unload', function() {
 
 
 					console.log('REDIRECTING DETECTED load');
+					console.log('CLICKED URL: load', clickedLink);
 
 
 					// If pin window open
@@ -193,7 +194,7 @@ function runTheInspector() {
 					stopAutoRefresh();
 
 
-					$('#wait').show(); // !!! Add "Please wait..." text
+					$('#wait').show();
 
 					// Show the pins
 					$('#pins').css('opacity', '0');
@@ -211,22 +212,37 @@ function runTheInspector() {
 		} else {
 
 
-			console.log('*** LOAD REDIRECTING BACK TO...', page_URL);
+			if (currentPinType != "browse" || clickedLink == null) {
 
-			//window.frames["the-page"].location = page_URL;
-			$('iframe').attr('src', page_URL);
+				console.log('*** LOAD REDIRECTING BACK TO...', page_URL);
 
-			page_redirected = true;
+				//window.frames["the-page"].location = page_URL;
+				$('iframe').attr('src', page_URL);
+				page_redirected = true;
+
+			}
+
+
+			if ( currentPinType == "browse" && clickedLink != null) {
+
+
+				console.log('ADD MODE, NEW URL: ', clickedLink); // !!!
+
+
+				// Remove the overlay
+				$('#wait').hide();
+
+
+			}
+
+
 			return;
-
-
+æ
 		}
 
 
 
-
 		console.log('Load Complete', canAccessIFrame( $(this) ));
-
 
 
 
@@ -639,6 +655,12 @@ function runTheInspector() {
 				e.preventDefault();
 				return false;
 
+			}
+
+
+			// Record the clicked link
+			if (focused_element.prop("tagName") == "A") {
+				clickedLink = getIframeAbsoluteUrl( focused_element.attr('href') );
 			}
 
 		}).on('scroll', function(e) { // Detect the scroll to re-position pins
@@ -3740,3 +3762,14 @@ function makeID() {
 
 	return text;
 }
+
+var getIframeAbsoluteUrl = (function() {
+	var a;
+
+	return function(url) {
+		if(!a) a = documentChild.createElement('a');
+		a.href = url;
+
+		return a.href;
+	};
+})();

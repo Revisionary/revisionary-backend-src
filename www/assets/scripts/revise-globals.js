@@ -1,5 +1,7 @@
 // GLOBAL VARIABLES
 var iframe;
+var documentChild;
+var childWindow;
 
 // IDs
 var user_ID;
@@ -11,6 +13,7 @@ var page_ready = false;
 var page_redirected = false;
 var page_colors = {};
 var colorsSorted = [];
+var clickedLink = null;
 
 // HTML Element Index
 var fileIndexed = false;
