@@ -509,29 +509,39 @@ html, body {
 	z-index: 2;
 }
 
-#loading > .progress-info {
-    font-size: 10px;
-    line-height: 13px;
+#loading, #wait {
+
+
+	& > .progress-info {
+	    font-size: 10px;
+	    line-height: 13px;
+	}
+
+	& > span.dates {
+		position: absolute;
+	    width: 100%;
+	    bottom: 20px;
+	    left: 20px;
+	    opacity: 0.3;
+	}
+
+	& > span.loading-text {
+		position: absolute;
+	    display: block;
+	    width: 100%;
+	    text-align: center;
+	    top: 50%;
+	    margin-top: -9px;
+	    color: #686868;
+	    font-size: 20px;
+	    letter-spacing: 10px;
+	}
+
+
 }
 
-#loading > span.dates {
-	position: absolute;
-    width: 100%;
-    bottom: 20px;
-    left: 20px;
-    opacity: 0.3;
-}
-
-#loading > span.loading-text {
-	position: absolute;
-    display: block;
-    width: 100%;
-    text-align: center;
-    top: 50%;
-    margin-top: -9px;
-    color: #686868;
-    font-size: 20px;
-    letter-spacing: 10px;
+#wait {
+	opacity: 0.8;
 }
 
 .gps_ring {

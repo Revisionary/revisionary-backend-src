@@ -38,6 +38,14 @@
 	</span>
 </div>
 
+<div id="wait" class="overlay" style="display: none;">
+
+	<span class="loading-text">
+		<div class="gps_ring"></div> <span id="loading-info">PLEASE WAIT...</span>
+	</span>
+
+</div>
+
 <div class="bg-overlay">
 
 	<?php

@@ -137,8 +137,11 @@ function runTheInspector() {
 
 				setTimeout(function() { // Does not work sometimes, and needs improvement !!!
 
+					// Remove the overlay
+					$('#wait').hide(); // !!! Remove "Please Wait..." text
 
-					$('#page').css('opacity', ''); // !!! Remove "Please Wait..." text
+					// Show the pins
+					$('#pins').css('opacity', '');
 
 
 					iframe.scrollTop(oldScrollOffset_top);
@@ -177,14 +180,11 @@ function runTheInspector() {
 					// If pin window open
 					if (pinWindowOpen) {
 
-
 						// Register the open pin
 						openPin = pinWindow.attr('data-pin-id');
 
-
 						// Close the open pin window
 						closePinWindow();
-
 
 					}
 
@@ -193,7 +193,10 @@ function runTheInspector() {
 					stopAutoRefresh();
 
 
-					$('#page').css('opacity', '0.1'); // !!! Add "Please wait..." text
+					$('#wait').show(); // !!! Add "Please wait..." text
+
+					// Show the pins
+					$('#pins').css('opacity', '0');
 
 					oldScrollOffset_top = scrollOffset_top;
 					oldScrollOffset_left = scrollOffset_left;
