@@ -88,13 +88,18 @@ $(function() {
 
 	// Cursor deactivator
 	$('.deactivator').click(function(e) {
+
+
 		toggleCursorActive(true);
+
+
+		currentPinType = "browse";
 
 
 		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
 
 		if (history.pushState) {
-		    var newurl = queryParameter(currentUrl, 'pinmode', 'browse');
+		    var newurl = queryParameter(currentUrl, 'pinmode', currentPinType);
 		    newurl = queryParameter(newurl, 'privatepin', '');
 		    window.history.pushState({path:newurl},'',newurl);
 		}

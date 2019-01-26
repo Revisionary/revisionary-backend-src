@@ -632,9 +632,14 @@ function runTheInspector() {
 			}
 
 
-			// Prevent clicking something !!!! DETECT BROWSING !!!
-			e.preventDefault();
-			return false;
+			// If cursor is active
+			if (cursorActive) {
+
+				// Prevent clicking something
+				e.preventDefault();
+				return false;
+
+			}
 
 		}).on('scroll', function(e) { // Detect the scroll to re-position pins
 
