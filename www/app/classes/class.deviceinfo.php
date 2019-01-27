@@ -108,6 +108,12 @@ class Device {
 
 
 
+	    // If device width and height specified, make the screen ID 11 (custom)
+	    if ($device_width != null && $device_height != null && count($screen_IDs) == 0)
+	    	$screen_IDs = array(11);
+
+
+
 		// START ADDING
 		$first_device_ID = null;
 		$screenCount = 0;

@@ -70,6 +70,13 @@ if ( !isset($first_device) ) {
 }
 
 
+$url_to_redirect = site_url('revise/'.$first_device['device_ID']);
+if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
+if ( get('privatepin') == "1" ) $url_to_redirect = queryArg('privatepin=1', $url_to_redirect);
+if ( get('filter') == "incomplete" || get('filter') == "complete" ) $url_to_redirect = queryArg('filter='.get('filter'), $url_to_redirect);
+if ( get('new') == "page" ) $url_to_redirect = queryArg('new=page', $url_to_redirect);
+
+
 // If nothing goes wrong, open the first device
-header('Location: '.site_url('revise/'.$first_device['device_ID']));
+header('Location: '.$url_to_redirect);
 die();

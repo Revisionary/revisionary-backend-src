@@ -174,8 +174,7 @@ function runTheInspector() {
 				$(childWindow).on('unload', function() {
 
 
-					console.log('REDIRECTING DETECTED load');
-					console.log('CLICKED URL: load', clickedLink);
+					console.log('REDIRECTING DETECTED...');
 
 
 					// If pin window open
@@ -212,28 +211,11 @@ function runTheInspector() {
 		} else {
 
 
-			if (currentPinType != "browse" || clickedLink == null) {
+			console.log('*** LOAD REDIRECTING BACK TO...', page_URL);
 
-				console.log('*** LOAD REDIRECTING BACK TO...', page_URL);
-
-				//window.frames["the-page"].location = page_URL;
-				$('iframe').attr('src', page_URL);
-				page_redirected = true;
-
-			}
-
-
-			if ( currentPinType == "browse" && clickedLink != null) {
-
-
-				console.log('ADD MODE, NEW URL: ', clickedLink); // !!!
-
-
-				// Remove the overlay
-				$('#wait').hide();
-
-
-			}
+			//window.frames["the-page"].location = page_URL;
+			$('iframe').attr('src', page_URL);
+			page_redirected = true;
 
 
 			return;
@@ -648,20 +630,10 @@ function runTheInspector() {
 			}
 
 
-			// If cursor is active
-			if (cursorActive) {
+			// Prevent clicking something
+			e.preventDefault();
+			return false;
 
-				// Prevent clicking something
-				e.preventDefault();
-				return false;
-
-			}
-
-
-			// Record the clicked link
-			if (focused_element.prop("tagName") == "A") {
-				clickedLink = getIframeAbsoluteUrl( focused_element.attr('href') );
-			}
 
 		}).on('scroll', function(e) { // Detect the scroll to re-position pins
 
@@ -761,6 +733,67 @@ function runTheInspector() {
 				document.getElementById("the-page").contentWindow.document.execCommand('insertText', false, plain_text);
 
 			console.log('PASTED: ', plain_text);
+
+
+		}).on('click', 'a', function(e) { // When pasting rich text
+
+
+			var link = $(this).attr('href');
+			var absoluteLink = getIframeAbsoluteUrl( link );
+
+
+			// Record the clicked link
+			if (
+				currentPinType == "browse"
+				&& !link.startsWith('#')
+			) {
+
+
+				// Encoded Link
+				var encodedLink = encodeURIComponent(absoluteLink);
+
+
+				// New page link
+				var newPageLink = "/projects/?add_new=true&pinmode=browse&page_width="+ page_width +"&page_height="+ page_height +"&project_ID=" + project_ID + "&page-url=" + encodedLink;
+
+
+				// If the page has already been downloaded, go revising that page
+				if (
+
+					pages_downloaded[absoluteLink] != null
+
+				) {
+
+					var downloadedPageID = pages_downloaded[absoluteLink];
+					newPageLink = "/page/" + downloadedPageID + "?pinmode=browse";
+
+					console.log('ALREADY DOWNLOADED!!!', newPageLink);
+
+				}
+
+
+				// Remove current page if no pins added
+				var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+				if ( queryParameter(currentUrl, 'new') == "page" && Pins.length == 0 ) {
+
+
+					// Remove the page and then go to the link
+					doAction('remove', 'page', page_ID, 'redirect', newPageLink);
+
+
+				} else {
+
+
+					// Redirect
+					window.location.href = newPageLink;
+
+
+				}
+
+
+				e.preventDefault();
+				return false;
+			}
 
 
 		});
@@ -3167,11 +3200,21 @@ function rgbToHex(orig){
 
 }
 
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
 function queryParameter(url, key, value = null) {
 
 
-	var url = new URL(url);
-	var query_string = url.search;
+	var urlParsed = new URL(url);
+	var query_string = urlParsed.search;
 	var search_params = new URLSearchParams(query_string);
 
 
@@ -3179,11 +3222,11 @@ function queryParameter(url, key, value = null) {
 	else search_params.set(key, value);
 
 
-	if (value == null) return search_params.get(key);
+	if (value == null) return getParameterByName(key, url);
 
 
-	url.search = search_params.toString();
-	var new_url = url.toString();
+	urlParsed.search = search_params.toString();
+	var new_url = urlParsed.toString();
 
 	return new_url;
 }

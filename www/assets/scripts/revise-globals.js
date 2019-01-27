@@ -9,11 +9,13 @@ var device_ID;
 var page_ID;
 var page_URL;
 var remote_URL;
+var page_width = 1440;
+var page_height = 900;
 var page_ready = false;
 var page_redirected = false;
+var pages_downloaded = {};
 var page_colors = {};
 var colorsSorted = [];
-var clickedLink = null;
 
 // HTML Element Index
 var fileIndexed = false;
@@ -146,6 +148,9 @@ $(function() {
 	activator = $('.current-mode');
 	cursorActive = activator.hasClass('active');
 	cursorWasActive = cursorActive;
+
+	page_width = parseInt( $('#the-page').attr('width') );
+	page_height = parseInt( $('#the-page').attr('height') );
 
 	pinWindow = $('#pin-window');
 	pinWindowWidth = pinWindow.outerWidth();

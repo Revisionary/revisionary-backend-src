@@ -841,6 +841,12 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 			} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover") {
 
 
+				// Page redirection
+				if (action == "remove" && firstParameter == "redirect") {
+					window.location.href = secondParameter;
+				}
+
+
 				// Hide the item
 				items.remove();
 

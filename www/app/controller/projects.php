@@ -16,11 +16,21 @@ if (
 	request('add_new') == "true"
 	&& request('page-url') != ""
 	&& request('project_ID') != ""
-	&& (request('project_ID') == "new" || is_numeric(request('project_ID')) )
+	&& ( request('project_ID') == "new" || is_numeric(request('project_ID')) )
 	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
 ) {
 
 	$project_ID = request('project_ID');
+	$page_url = request('page-url');
+	if ( request('pinmode') == "browse" ) $page_url = rawurldecode($page_url);
+
+
+	// URL check
+	if (!filter_var($page_url, FILTER_VALIDATE_URL)) {
+		header('Location: '.site_url("projects?invalidurl")); // If unsuccessful
+		die();
+	}
+
 
 
 	// Add the project
@@ -75,10 +85,14 @@ if (
 	}
 
 
+	// Revising URL
+	$revise_url = site_url('revise/'.$device_ID);
+	if ( request('pinmode') == "browse" ) $revise_url = $revise_url."?pinmode=browse&new=page";
+
 
 	// If successful
 	if ($device_ID)
-		header('Location: '.site_url('revise/'.$device_ID));
+		header('Location: '.$revise_url);
 	else
 		header('Location: '.site_url('projects?adderror'));
 

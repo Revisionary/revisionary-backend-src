@@ -119,7 +119,13 @@ $project_image = cache."/projects/project-$project_ID/project.jpg";
 // Http to Https Redirection
 if ( substr($pageData->remoteUrl, 0, 8) == "https://" && !ssl) {
 
-	header( 'Location: '.site_url('revise/'.$device_ID, true) ); // Force HTTPS
+	$url_to_redirect = site_url('revise/'.$device_ID, true);
+	if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
+	if ( get('privatepin') == "1" ) $url_to_redirect = queryArg('privatepin=1', $url_to_redirect);
+	if ( get('filter') == "incomplete" || get('filter') == "complete" ) $url_to_redirect = queryArg('filter='.get('filter'), $url_to_redirect);
+	if ( get('new') == "page" ) $url_to_redirect = queryArg('new=page', $url_to_redirect);
+
+	header( 'Location: '.$url_to_redirect ); // Force HTTPS
 	die();
 
 }
@@ -127,7 +133,13 @@ if ( substr($pageData->remoteUrl, 0, 8) == "https://" && !ssl) {
 // Https to Http Redirection
 if ( substr($pageData->remoteUrl, 0, 7) == "http://" && ssl) {
 
-	header( 'Location: '.site_url('revise/'.$device_ID, false, true) ); // Force HTTP
+	$url_to_redirect = site_url('revise/'.$device_ID, false, true);
+	if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
+	if ( get('privatepin') == "1" ) $url_to_redirect = queryArg('privatepin=1', $url_to_redirect);
+	if ( get('filter') == "incomplete" || get('filter') == "complete" ) $url_to_redirect = queryArg('filter='.get('filter'), $url_to_redirect);
+	if ( get('new') == "page" ) $url_to_redirect = queryArg('new=page', $url_to_redirect);
+
+	header( 'Location: '.$url_to_redirect ); // Force HTTP
 	die();
 
 }
