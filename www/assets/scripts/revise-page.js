@@ -905,6 +905,25 @@ $(function() {
 	});
 
 
+	// Before closing the window
+	$(window).on('beforeunload', function(e) {
+
+
+		// Remove current page if no pins added
+		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+		if ( currentPinType == "browse" && queryParameter(currentUrl, 'new') == "page" && Pins.length == 0 ) {
+
+
+			// Remove the page and then go to the link
+			doAction('remove', 'page', page_ID);
+
+
+		}
+
+
+	});
+
+
 /*
 	// HASH CHANGE
 	$(window).bind('hashchange', function(e) {

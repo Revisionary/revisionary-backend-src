@@ -171,7 +171,7 @@ function runTheInspector() {
 	        childWindow = $(this).prop("contentWindow");
 
 	        $(documentChild).ready(function() {
-				$(childWindow).on('unload', function() {
+				$(childWindow).on('beforeunload', function() {
 
 
 					console.log('REDIRECTING DETECTED...');
