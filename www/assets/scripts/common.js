@@ -84,7 +84,7 @@ $(function() {
 
 
 	// ADD NEW MODAL: New user
-	$('.new-member + input').keydown(function (e){
+	$('.new-member + input').keydown(function (e) {
 
 		var input = $(this);
 		var type = $(this).attr('data-type');
