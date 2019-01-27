@@ -7,6 +7,46 @@ $(function() {
 	});
 
 
+	// Navigation out of the page
+	$(document).on('click', 'a', function(e) {
+
+
+		var link = $(this).attr('href');
+
+
+		// Record the clicked link
+		if (
+			currentPinType == "browse"
+			&& !link.startsWith('#')
+		) {
+
+
+			// Remove current page if no pins added
+			var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+			if ( queryParameter(currentUrl, 'new') == "page" && Pins.length == 0 ) {
+
+
+				// Remove the page and then go to the link
+				doAction('remove', 'page', page_ID, 'redirect', link);
+
+
+			} else {
+
+
+				// Redirect
+				window.location.href = link;
+
+
+			}
+
+
+			e.preventDefault();
+			return false;
+		}
+
+	});
+
+
 	// Detect cursor moves
 	$(window).mousemove(function(e) {
 
