@@ -842,9 +842,8 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 
 
 				// Page redirection
-				if (action == "remove" && firstParameter == "redirect") {
-					window.location.href = secondParameter;
-				}
+				if (action == "remove" && firstParameter == "redirect")
+					window.open(secondParameter, "_self");
 
 
 				// Hide the item

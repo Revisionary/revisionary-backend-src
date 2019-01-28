@@ -8,41 +8,37 @@ $(function() {
 
 
 	// Navigation out of the page
+	var linkClickedOut = false;
 	$(document).on('click', 'a', function(e) {
 
 
 		var link = $(this).attr('href');
+		var linkAbsolute = $(this).prop('href');
+		var target = $(this).prop('target') == "_blank" ? "_blank" : "_self";
+		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
 
 
-		// Record the clicked link
+		// Remove current page if no pins added
 		if (
 			currentPinType == "browse"
 			&& !link.startsWith('#')
+			&& target == "_self"
+			&& queryParameter(currentUrl, 'new') == "page"
+			&& queryParameter(linkAbsolute, 'new_screen') == null
+			&& Pins.length == 0
 		) {
 
-
-			// Remove current page if no pins added
-			var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
-			if ( queryParameter(currentUrl, 'new') == "page" && Pins.length == 0 ) {
+			linkClickedOut = true;
 
 
-				// Remove the page and then go to the link
-				doAction('remove', 'page', page_ID, 'redirect', link);
-
-
-			} else {
-
-
-				// Redirect
-				window.location.href = link;
-
-
-			}
+			// Remove the page and then go to the link
+			doAction('remove', 'page', page_ID, 'redirect', link);
 
 
 			e.preventDefault();
 			return false;
 		}
+
 
 	});
 
@@ -911,7 +907,8 @@ $(function() {
 
 		// Remove current page if no pins added
 		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
-		if ( currentPinType == "browse" && queryParameter(currentUrl, 'new') == "page" && Pins.length == 0 ) {
+
+		if ( !linkClickedOut && currentPinType == "browse" && queryParameter(currentUrl, 'new') == "page" && Pins.length == 0 ) {
 
 
 			// Remove the page and then go to the link

@@ -758,11 +758,7 @@ function runTheInspector() {
 
 
 				// If the page has already been downloaded, go revising that page
-				if (
-
-					pages_downloaded[absoluteLink] != null
-
-				) {
+				if (pages_downloaded[absoluteLink] != null) {
 
 					var downloadedPageID = pages_downloaded[absoluteLink];
 					newPageLink = "/page/" + downloadedPageID + "?pinmode=browse";
@@ -785,7 +781,7 @@ function runTheInspector() {
 
 
 					// Redirect
-					window.location.href = newPageLink;
+					window.open(newPageLink, "_self");
 
 
 				}
@@ -1014,8 +1010,7 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 
 
 	// Send the Ajax request
-	autoRefreshRequest = ajax('pins-get',
-	{
+	autoRefreshRequest = ajax('pins-get', {
 
 		'device_ID'	: device_ID
 
