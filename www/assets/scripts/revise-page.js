@@ -11,6 +11,8 @@ $(function() {
 	var linkClickedOut = false;
 	$(document).on('click', 'a', function(e) {
 
+		linkClickedOut = true;
+
 
 		var link = $(this).attr('href');
 		var linkAbsolute = $(this).prop('href');
@@ -27,8 +29,6 @@ $(function() {
 			&& queryParameter(linkAbsolute, 'new_screen') == null
 			&& Pins.length == 0
 		) {
-
-			linkClickedOut = true;
 
 
 			// Remove the page and then go to the link
