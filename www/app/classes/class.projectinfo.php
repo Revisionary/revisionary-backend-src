@@ -85,6 +85,40 @@ class Project {
     }
 
 
+	// Get page users
+	public function getUsers() {
+		global $db;
+
+
+		$users = array();
+
+
+		// Get the project owner
+		$users[] = $this->getInfo('user_ID');
+
+		// Get the shared people of the project
+		$db->where('share_type', 'project');
+		$db->where('shared_object_ID', self::$project_ID);
+		$db->where("share_to REGEXP '^[0-9]+$'");
+		$shared_IDs = array_column($db->get('shares', null, 'share_to'), 'share_to');
+		$users = array_merge($users, $shared_IDs);
+
+
+		// Remove duplicates
+		$users = array_unique($users);
+
+
+		// Exclude myself
+		if ( ($user_key = array_search(currentUserID(), $users)) !== false ) {
+		    unset($users[$user_key]);
+		}
+
+
+		return $users;
+
+	}
+
+
 
 
     // ACTIONS

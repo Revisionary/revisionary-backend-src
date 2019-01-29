@@ -255,6 +255,51 @@ class Page {
     }
 
 
+	// Get page users
+	public function getUsers() {
+		global $db;
+
+
+		$page_ID = self::$page_ID;
+		$pageData = Page::ID( $page_ID );
+		$project_ID = $pageData->getInfo('project_ID');
+		$projectData = Project::ID($project_ID);
+
+
+		$users = array();
+
+
+		// Get the page owner
+		$pageOwner_ID = $pageData->getInfo('user_ID');
+		$users[] = $pageOwner_ID;
+
+		// Get the shared people of the page
+		$db->where('share_type', 'page');
+		$db->where('shared_object_ID', $page_ID);
+		$db->where("share_to REGEXP '^[0-9]+$'");
+		$shared_IDs = array_column($db->get('shares', null, 'share_to'), 'share_to');
+		$users = array_merge($users, $shared_IDs);
+
+
+		// Get the project users
+		$users = array_merge($users, $projectData->getUsers());
+
+
+		// Remove duplicates
+		$users = array_unique($users);
+
+
+		// Exclude myself
+		if ( ($user_key = array_search(currentUserID(), $users)) !== false ) {
+		    unset($users[$user_key]);
+		}
+
+
+		return $users;
+
+	}
+
+
 
 
     // ACTIONS

@@ -418,33 +418,12 @@ class Pin {
 		$users = array();
 
 
-		// Get the pin user
-		$pin_owner_ID = $this->getInfo('user_ID');
-		$users[] = $pin_owner_ID;
+		// Get the page users
+		$users = array_merge($users, $pageData->getUsers());
 
 
-		// Get the page owner
-		$pageOwner_ID = $pageData->getInfo('user_ID');
-		$users[] = $pageOwner_ID;
-
-		// Get the shared people of the page
-		$db->where('share_type', 'page');
-		$db->where('shared_object_ID', $page_ID);
-		$db->where("share_to REGEXP '^[0-9]+$'");
-		$shared_IDs = array_column($db->get('shares', null, 'share_to'), 'share_to');
-		$users = array_merge($users, $shared_IDs);
-
-
-		// Get the project owner
-		$projectOwner_ID = $projectData->getInfo('user_ID');
-		$users[] = $projectOwner_ID;
-
-		// Get the shared people of the project
-		$db->where('share_type', 'project');
-		$db->where('shared_object_ID', $project_ID);
-		$db->where("share_to REGEXP '^[0-9]+$'");
-		$shared_IDs = array_column($db->get('shares', null, 'share_to'), 'share_to');
-		$users = array_merge($users, $shared_IDs);
+		// Get the project users
+		$users = array_merge($users, $projectData->getUsers());
 
 
 		// Remove duplicates
