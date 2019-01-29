@@ -163,7 +163,7 @@ class Internalize {
 
 
 		// Screen info
-		$screenInfo = Screen::ID($deviceInfo['screen_ID'])->getInfo(null, true);
+		$screenInfo = Screen::ID($deviceInfo['screen_ID'])->getInfo();
 
 
 		$width = $deviceInfo['device_width'] ? $deviceInfo['device_width'] : $screenInfo['screen_width'];
