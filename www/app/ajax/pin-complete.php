@@ -33,22 +33,6 @@ if ($pin_completed) {
 
 	$status = "Pin ".($complete ? "completed" : "incompleted").": $pin_ID";
 
-
-	// Notify the users
-	$users = $pinData->getUsers();
-
-	foreach ($users as $user_ID) {
-
-
-		Notify::ID( intval($user_ID) )->mail(
-			getUserInfo()['fullName']." ".($complete ? "completed" : "incompleted")." a pin task",
-			getUserInfo()['fullName']."(".getUserInfo()['userName'].") ".($complete ? "completed" : "incompleted")." a pin task: ".site_url('revise/'.$pinData->getInfo('device_ID')."#".$pin_ID)
-		);
-
-
-	}
-
-
 }
 
 

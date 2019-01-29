@@ -233,9 +233,25 @@ class Pin {
 			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
 			$pageData = Page::ID($page_ID);
 			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+		}
 
 
-			// Notify the page owners about the pin completion !!!
+		// Notify the users
+		if ($pin_updated) {
+
+			$users = $this->getUsers();
+
+			foreach ($users as $user_ID) {
+
+
+				Notify::ID( intval($user_ID) )->mail(
+					getUserInfo()['fullName']." completed a pin task on ".$pageData->getInfo('page_name')." page",
+					getUserInfo()['fullName']."(".getUserInfo()['userName'].") completed a pin task on ".$pageData->getInfo('page_name')." page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
+				);
+
+
+			}
+
 
 		}
 
@@ -271,9 +287,25 @@ class Pin {
 			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
 			$pageData = Page::ID($page_ID);
 			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+		}
 
 
-			// Notify the page owners about the pin completion !!!
+		// Notify the users
+		if ($pin_updated) {
+
+			$users = $this->getUsers();
+
+			foreach ($users as $user_ID) {
+
+
+				Notify::ID( intval($user_ID) )->mail(
+					getUserInfo()['fullName']." marked a pin task as not completed on ".$pageData->getInfo('page_name')." page",
+					getUserInfo()['fullName']."(".getUserInfo()['userName'].") marked a pin task as not completed on ".$pageData->getInfo('page_name')." page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
+				);
+
+
+			}
+
 
 		}
 
