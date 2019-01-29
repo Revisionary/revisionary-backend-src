@@ -310,7 +310,7 @@ class Page {
     	int $category_ID = 0, // The category_ID that new page is belong to
     	int $order_number = 0 // The order number
     ) {
-	    global $db;
+	    global $db, $log;
 
 
 
@@ -394,6 +394,10 @@ class Page {
 		}
 
 
+		// Site log
+		if ($page_ID) $log->info("Page #$page_ID Added: $page_name($page_url) | Project #$project_ID | User #".currentUserID());
+
+
 
 		// CATEGORIZE
 		if ($category_ID != "0") {
@@ -432,11 +436,11 @@ class Page {
 	    string $column,
 	    $new_value
     ) {
-	    global $db;
+	    global $db, $log;
 
 
 
-		// More DB Checks of arguments !!! (This user can complete?)
+		// More DB Checks of arguments !!!
 
 
 
@@ -445,13 +449,22 @@ class Page {
 		$page_updated = $db->update('pages', array($column => $new_value));
 
 
+		// Site log
+		if ($page_updated) $log->info("Page #".self::$page_ID." Updated: '$column => $new_value' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+
+
 		return $page_updated;
     }
 
 
     // Archive a page
     public function archive() {
-	    global $db;
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
 
 
 		// Delete the old record
@@ -469,6 +482,10 @@ class Page {
 		));
 
 
+		// Site log
+		if ($archive_ID) $log->info("Page #".self::$page_ID." Archived: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+
+
 		return $archive_ID;
 
     }
@@ -476,7 +493,12 @@ class Page {
 
     // Delete a page
     public function delete() {
-	    global $db;
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
 
 
 		// Delete the old record
@@ -494,6 +516,10 @@ class Page {
 		));
 
 
+		// Site log
+		if ($delete_ID) $log->info("Page #".self::$page_ID." Deleted: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+
+
 		return $delete_ID;
 
     }
@@ -501,7 +527,12 @@ class Page {
 
     // Recover a page
     public function recover() {
-	    global $db;
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
 
 
 		// Remove from archives
@@ -518,14 +549,31 @@ class Page {
 		$del_recovered = $db->delete('deletes');
 
 
-		return !$arc_recovered && !$del_recovered ? false : true;
+
+		if ($arc_recovered && $del_recovered) {
+
+
+			// Site log
+			$log->info("Page #".self::$page_ID." Recovered: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+
+
+			return true;
+		}
+
+
+		return false;
 
     }
 
 
     // Remove a page
     public function remove() {
-	    global $db;
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
 
 
 		// Get the page info
@@ -567,6 +615,10 @@ class Page {
 		if ($iamowner) deleteDirectory( cache."/projects/project-$project_ID/page-".self::$page_ID."/" );
 
 
+		// Site log
+		if ($page_removed) $log->info("Page #".self::$page_ID." Removed: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+
+
 		return $page_removed;
 
     }
@@ -576,17 +628,31 @@ class Page {
     public function rename(
 	    string $text
     ) {
-	    global $db;
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
+
+
+		$current_page_name = $this->getInfo('page_name');
 
 
     	$db->where('page_ID', self::$page_ID);
 		//$db->where('user_ID', currentUserID()); // !!! Only rename my page?
 
-		$updated = $db->update('pages', array(
+		$page_renamed = $db->update('pages', array(
 			'page_name' => $text
 		));
 
-		return $updated;
+
+		// Site log
+		if ($page_renamed) $log->info("Page #".self::$page_ID." Renamed: '$current_page_name => $text' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+
+
+
+		return $page_renamed;
 
     }
 
@@ -595,7 +661,13 @@ class Page {
     public function changeownership(
 	    int $user_ID
     ) {
-		global $db;
+		global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
+
 
 		$old_owner_ID = self::$pageInfo['user_ID'];
 
@@ -614,9 +686,16 @@ class Page {
 
 		$db->where('page_ID', self::$page_ID);
 		$db->where('user_ID', currentUserID());
-		return $db->update('pages', array(
+		$ownership_changed = $db->update('pages', array(
 			'user_ID' => $user_ID
 		));
+
+
+		// Site log
+		if ($ownership_changed) $log->info("Page #".self::$page_ID." Ownership Changed: '$old_owner_ID => $user_ID' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+
+
+		return $ownership_changed;
 
     }
 

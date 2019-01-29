@@ -342,11 +342,15 @@ class Pin {
 
     // Modify a pin
     public function modify($modification) {
-	    global $db;
+	    global $db, $log;
 
 
 
 		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		$pin_type = ucfirst( $this->getInfo('pin_type') );
 
 
 
@@ -357,8 +361,13 @@ class Pin {
 		// Update the page modification date
 		if ($pin_updated) {
 			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+			$pageData = Page::ID($page_ID);
+			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
 		}
+
+
+		// Site log
+		if ($pin_updated) $log->info("$pin_type Pin #".self::$pin_ID." Modified: '$modification' | '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		return $pin_updated;
@@ -368,11 +377,15 @@ class Pin {
 
     // Update CSS
     public function updateCSS($css) {
-	    global $db;
+	    global $db, $log;
 
 
 
 		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		$pin_type = ucfirst( $this->getInfo('pin_type') );
 
 
 
@@ -383,8 +396,13 @@ class Pin {
 		// Update the page modification date
 		if ($pin_updated) {
 			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+			$pageData = Page::ID($page_ID);
+			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
 		}
+
+
+		// Site log
+		if ($pin_updated) $log->info("$pin_type Pin #".self::$pin_ID." CSS Updated: '$css' | '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		return $pin_updated;
@@ -417,11 +435,15 @@ class Pin {
     public function addComment(
     	string $message
 	) {
-	    global $db;
+	    global $db, $log;
 
 
 
 		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		$pin_type = ucfirst( $this->getInfo('pin_type') );
 
 
 
@@ -431,6 +453,14 @@ class Pin {
 			"pin_ID" => self::$pin_ID,
 			"user_ID" => currentUserID()
 		));
+
+
+		// Update the page modification date
+		if ($comment_ID) {
+			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
+			$pageData = Page::ID($page_ID);
+			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+		}
 
 
 		// Notify the users
@@ -455,6 +485,9 @@ class Pin {
 
 		}
 
+
+		// Site log
+		if ($comment_ID) $log->info("$pin_type Pin #".self::$pin_ID." Comment Added: '$message' | '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 
@@ -506,11 +539,15 @@ class Pin {
     public function deleteComment(
     	int $comment_ID
 	) {
-	    global $db;
+	    global $db, $log;
 
 
 
 		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		$pin_type = ucfirst( $this->getInfo('pin_type') );
 
 
 
@@ -519,6 +556,20 @@ class Pin {
 		$db->where('comment_ID', $comment_ID);
 		$db->where('user_ID', currentUserID());
 		$comment_deleted = $db->delete('pin_comments');
+
+
+		// Update the page modification date
+		if ($comment_deleted) {
+			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
+			$pageData = Page::ID($page_ID);
+			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+		}
+
+
+		// Site log
+		if ($comment_deleted) $log->info("$pin_type Pin #".self::$pin_ID." Comment Deleted: Comment #$comment_ID | '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
+
 
 		return $comment_deleted;
 

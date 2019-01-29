@@ -131,7 +131,7 @@ class Project {
     	int $order_number = 0, // The order number
 		string $page_url = ''
     ) {
-	    global $db;
+	    global $db, $log;
 
 
 
@@ -192,6 +192,10 @@ class Project {
 		}
 
 
+		// Site log
+		if ($project_ID) $log->info("Project #$project_ID Added: $project_name($page_url) | User #".currentUserID());
+
+
 
 		// CATEGORIZE
 		if ($category_ID != "0") {
@@ -226,7 +230,12 @@ class Project {
 
     // Archive a project
     public function archive() {
-	    global $db;
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
 
 
 		// Delete the old record
@@ -244,6 +253,10 @@ class Project {
 		));
 
 
+		// Site log
+		if ($archive_ID) $log->info("Project #".self::$project_ID." Archived: '".$this->getInfo('project_name')."' | User #".currentUserID());
+
+
 		return $archive_ID;
 
     }
@@ -251,7 +264,12 @@ class Project {
 
     // Delete a project
     public function delete() {
-	    global $db;
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
 
 
 		// Delete the old record
@@ -269,6 +287,10 @@ class Project {
 		));
 
 
+		// Site log
+		if ($delete_ID) $log->info("Project #".self::$project_ID." Deleted: '".$this->getInfo('project_name')."' | User #".currentUserID());
+
+
 		return $delete_ID;
 
     }
@@ -276,7 +298,12 @@ class Project {
 
     // Recover a project
     public function recover() {
-	    global $db;
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
 
 
 		// Remove from archives
@@ -293,76 +320,97 @@ class Project {
 		$del_recovered = $db->delete('deletes');
 
 
-		return !$arc_recovered && !$del_recovered ? false : true;
+
+		if ($arc_recovered && $del_recovered) {
+
+
+			// Site log
+			$log->info("Project #".self::$project_ID." Recovered: '".$this->getInfo('project_name')."' | User #".currentUserID());
+
+
+			return true;
+		}
+
+
+		return false;
 
     }
 
 
     // Remove a project
     public function remove() {
-	    global $db;
-
-
-			// Get the project owner
-	    	$project_user_ID = $this->getInfo('user_ID');
-	    	$iamowner = $project_user_ID == currentUserID() ? true : false;
+	    global $db, $log;
 
 
 
-			// PAGES REMOVAL
-			$db->where('project_ID', self::$project_ID);
-			if (!$iamowner) $db->where('user_ID', currentUserID());
-			$pages = $db->get('pages');
-
-
-			// Remove all the pages
-			foreach ($pages as $page)
-				Page::ID($page['page_ID'])->remove();
+		// More DB Checks of arguments !!!
 
 
 
-			// CATEGORY REMOVAL
-			$db->where('cat_type', self::$project_ID);
-			if (!$iamowner) $db->where('cat_user_ID', currentUserID());
-			$categories = $db->get('categories');
-
-			// Remove all the categories
-			foreach ($categories as $category)
-				Category::ID($category['cat_ID'])->remove();
+		// Get the project owner
+    	$project_user_ID = $this->getInfo('user_ID');
+    	$iamowner = $project_user_ID == currentUserID() ? true : false;
 
 
 
-			// ARCHIVE & DELETE REMOVAL
-			$this->recover();
+		// PAGES REMOVAL
+		$db->where('project_ID', self::$project_ID);
+		if (!$iamowner) $db->where('user_ID', currentUserID());
+		$pages = $db->get('pages');
+
+
+		// Remove all the pages
+		foreach ($pages as $page)
+			Page::ID($page['page_ID'])->remove();
 
 
 
-			// SORTING REMOVAL
-			$db->where('sort_type', 'project');
-			$db->where('sort_object_ID', self::$project_ID);
-			if (!$iamowner) $db->where('sorter_user_ID', currentUserID());
-			$db->delete('sorting');
+		// CATEGORY REMOVAL
+		$db->where('cat_type', self::$project_ID);
+		if (!$iamowner) $db->where('cat_user_ID', currentUserID());
+		$categories = $db->get('categories');
+
+		// Remove all the categories
+		foreach ($categories as $category)
+			Category::ID($category['cat_ID'])->remove();
 
 
 
-			// SHARE REMOVAL
-			$db->where('share_type', 'project');
-			$db->where('shared_object_ID', self::$project_ID);
-			if (!$iamowner) $db->where('(sharer_user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-			$db->delete('shares');
+		// ARCHIVE & DELETE REMOVAL
+		$this->recover();
+
+
+
+		// SORTING REMOVAL
+		$db->where('sort_type', 'project');
+		$db->where('sort_object_ID', self::$project_ID);
+		if (!$iamowner) $db->where('sorter_user_ID', currentUserID());
+		$db->delete('sorting');
+
+
+
+		// SHARE REMOVAL
+		$db->where('share_type', 'project');
+		$db->where('shared_object_ID', self::$project_ID);
+		if (!$iamowner) $db->where('(sharer_user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+		$db->delete('shares');
 
 
 
 
-			// PROJECT REMOVAL
-			$db->where('project_ID', self::$project_ID);
-			if (!$iamowner) $db->where('user_ID', currentUserID());
-			$project_removed = $db->delete('projects');
+		// PROJECT REMOVAL
+		$db->where('project_ID', self::$project_ID);
+		if (!$iamowner) $db->where('user_ID', currentUserID());
+		$project_removed = $db->delete('projects');
 
 
 
-			// Delete the project folder
-			if ($iamowner) deleteDirectory( cache."/projects/project-".request('id')."/" );
+		// Delete the project folder
+		if ($iamowner) deleteDirectory( cache."/projects/project-".request('id')."/" );
+
+
+		// Site log
+		if ($project_removed) $log->info("Project #".self::$project_ID." Removed: '".$this->getInfo('project_name')."' | User #".currentUserID());
 
 
 		return $project_removed;
@@ -374,17 +422,31 @@ class Project {
     public function rename(
 	    string $text
     ) {
-	    global $db;
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
+
+
+		$current_project_name = $this->getInfo('project_name');
 
 
     	$db->where('project_ID', self::$project_ID);
 		//$db->where('user_ID', currentUserID()); // !!! Only rename my project?
 
-		$updated = $db->update('projects', array(
+		$project_renamed = $db->update('projects', array(
 			'project_name' => $text
 		));
 
-		return $updated;
+
+		// Site log
+		if ($project_renamed) $log->info("Project #".self::$project_ID." Renamed: '$current_project_name => $text' | User #".currentUserID());
+
+
+
+		return $project_renamed;
 
     }
 
@@ -393,7 +455,13 @@ class Project {
     public function changeownership(
 	    int $user_ID
     ) {
-		global $db;
+		global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
+
 
 		$old_owner_ID = self::$projectInfo['user_ID'];
 
@@ -411,10 +479,16 @@ class Project {
 
 		$db->where('project_ID', self::$project_ID);
 		$db->where('user_ID', currentUserID());
-
-		return $db->update('projects', array(
+		$ownership_changed = $db->update('projects', array(
 			'user_ID' => $user_ID
 		));
+
+
+		// Site log
+		if ($ownership_changed) $log->info("Project #".self::$project_ID." Ownership Changed: '$old_owner_ID => $user_ID' | User #".currentUserID());
+
+
+		return $ownership_changed;
 
     }
 
