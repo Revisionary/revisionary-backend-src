@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jan 29, 2019 at 05:12 AM
+-- Generation Time: Jan 29, 2019 at 05:20 AM
 -- Server version: 8.0.13
 -- PHP Version: 7.2.13
 
@@ -310,7 +310,7 @@ INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `use
 (4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', 'matt.png', 0, 2),
 (5, 'cuneyt-tas', 'cuneyttas@hotmail.com.tr', '$2y$10$9bQ9GeucyXhyo3sceXz3TOeeN47qQ6mHr7alDrHPmCCTKVIj8saTG', 'Cüneyt', 'TAŞ', 'joey.png', 0, 2),
 (6, 'bill-tas', 'bill@twelve12.com', '$2y$10$uhegAZj3uGV7VmezVyeulOFvhsdgWPW5XRayDbF1RPPtqbYNNEgai', 'Bill', 'TAS', 'bill.png', 0, 2),
-(7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Test', 'User', NULL, 0, 2),
+(7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, 0, 2),
 (8, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, 0, 2);
 
 -- --------------------------------------------------------
