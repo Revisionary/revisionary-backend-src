@@ -2,7 +2,9 @@
 <?php
 
 
-die_to_print( Pin::ID(289)->getUsers() );
+$parsed_url = urlStandardize("http://goldenage.twelve12.com/services#preventative-care");
+
+die_to_print( $parsed_url );
 
 
 

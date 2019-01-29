@@ -9,6 +9,14 @@ function url($index) {
   return false;
 }
 
+function urlStandardize($url) {
+
+	// Remove hash
+	$url = strtok($url, "#");
+
+	return $url;
+}
+
 function site_url($url = null, $forceSSL = false, $unForceSSL = false) {
   return ($forceSSL ? secure_url : ($unForceSSL ? insecure_url : url)) . '/' . $url;
 }

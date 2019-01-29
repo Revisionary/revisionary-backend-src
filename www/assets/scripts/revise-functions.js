@@ -758,7 +758,7 @@ function runTheInspector() {
 
 
 			var link = $(this).attr('href');
-			var absoluteLink = $(this).prop('href');
+			var absoluteLink = urlStandardize( $(this).prop('href') );
 
 
 			// Record the clicked link
@@ -3271,6 +3271,15 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 
 // HELPERS:
+function urlStandardize(url) {
+
+	// Remove hash
+	url = url.split('#')[0];
+
+
+	return url;
+}
+
 function rgbToHex(orig){
 
 	var rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);

@@ -318,6 +318,18 @@ class Page {
 
 
 
+
+		// URL check
+		if (!filter_var($page_url, FILTER_VALIDATE_URL)) return false;
+		$parsed_url = parseUrl($page_url);
+
+
+
+		// Standardize the URL before saving
+		$page_url = urlStandardize($page_url);
+
+
+
 		// Create a project
 		if ($project_ID == 0) {
 
@@ -335,7 +347,6 @@ class Page {
 
 		// If no name added, try finding page name from URL
 		if ($page_name == '') {
-			$parsed_url = parseUrl($page_url);
 			$parsed_path = pathinfo($parsed_url['path']);
 			$file_name = isset($parsed_path['filename']) ? $parsed_path['filename'] : "";
 			$page_name = ucwords(str_replace('-', ' ', $file_name));
