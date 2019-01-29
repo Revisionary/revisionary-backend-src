@@ -46,7 +46,7 @@ class Category {
 
     // Add a new project category
     public function projectNew() {
-	    global $db;
+	    global $db, $log;
 
 
 
@@ -62,6 +62,8 @@ class Category {
 		));
 
 
+		if ($cat_ID) $log->info("Project Category #$cat_ID Added: Untitled | User #".currentUserID());
+
 
 		// Return the category ID
 		return $cat_ID;
@@ -73,7 +75,7 @@ class Category {
     public function pageNew(
 	    int $project_ID
     ) {
-	    global $db;
+	    global $db, $log;
 
 
 
@@ -89,6 +91,9 @@ class Category {
 		));
 
 
+		if ($cat_ID) $log->info("Page Category #$cat_ID Added: Untitled | Project #$project_ID | User #".currentUserID());
+
+
 		// Return the category ID
 		return $cat_ID;
 
@@ -97,7 +102,7 @@ class Category {
 
 	// Remove a category
 	public function remove() {
-		global $db;
+		global $db, $log;
 
 
 
@@ -118,6 +123,9 @@ class Category {
 		$removed = $db->delete('categories');
 
 
+		if ($removed) $log->info("Category #".self::$category_ID." Removed: User #".currentUserID());
+
+
 		return $removed;
 
 	}
@@ -127,15 +135,24 @@ class Category {
     public function rename(
 	    string $text
     ) {
-	    global $db;
+	    global $db, $log;
 
 
-    	$db->where('cat_ID', self::$category_ID);
+
+	    // DB Checks !!! (Page exists?, Screen exists?, etc.)
+
+
+
+		$db->where('cat_ID', self::$category_ID);
 		//$db->where('user_ID', currentUserID()); // !!! Only rename my category?
 
 		$updated = $db->update('categories', array(
 			'cat_name' => $text
 		));
+
+
+		if ($updated) $log->info("Category #".self::$category_ID." Renamed as: '$text' | User #".currentUserID());
+
 
 		return $updated;
 

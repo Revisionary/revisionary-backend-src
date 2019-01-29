@@ -207,7 +207,7 @@ if (
 	$queue_status = $existing_queue['queue_status'];
 
 
-	$process_status = "DB: ".ucfirst($queue_status)." Queue Found. Page #$page_ID | Device #$device_ID | User: #".currentUserID()." | Process ID: #$queue_PID | Queue ID: #$queue_ID";
+	$process_status = "Page #$page_ID Queue Found: Queue #$queue_ID '".ucfirst($queue_status)."' | Device #$device_ID | Process #$queue_PID | User #".currentUserID();
 
 
 	// Site log
@@ -237,7 +237,7 @@ if (
 ) {
 
 
-	$process_status = "Already downloaded Page #$page_ID | Device #$device_ID is opening for user #".currentUserID().".";
+	$process_status = "Device #$device_ID Opening: Page #$page_ID (Already Downloaded) | User #".currentUserID();
 
 
 	// Site log
@@ -265,7 +265,7 @@ if (
 
 
 		// Site log
-		$log->info("Page #$page_ID | Device #$device_ID screenshot job added to the queue #$queue_ID. Process ID: #".$process_ID." | User: #".currentUserID().".");
+		$log->info("Device #$device_ID Screenshot Taking: Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
 
 
 	}
@@ -303,7 +303,7 @@ if (
 
 
 	// Site log
-	$log->info("Page #$page_ID | Device #$device_ID internalization job added to the queue #$queue_ID. Process ID: #".$process_ID." | User: #".currentUserID().".");
+	$log->info("Device #$device_ID Internalizing: Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
 
 
 }

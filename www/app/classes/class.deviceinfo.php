@@ -101,7 +101,7 @@ class Device {
     	int $device_height = null,
     	bool $fromPage = false
     ) {
-	    global $db;
+	    global $db, $log;
 
 
 
@@ -118,6 +118,8 @@ class Device {
 		// START ADDING
 		$first_device_ID = null;
 		$screenCount = 0;
+		$devices_list = "";
+		$screens_list = "";
 		foreach ($screen_IDs as $screen_ID) { $screenCount++;
 
 			$screen_ID = intval($screen_ID);
@@ -133,11 +135,20 @@ class Device {
 			// Stop it if error occurs
 			if (!$device_ID) return false;
 
+
+			$devices_list .= "$device_ID, ";
+			$screens_list .= "$screen_ID, ";
+
+
 			// Register the first device ID
 			if ($screenCount == 1) $first_device_ID = $device_ID;
 
 
 		}
+		$devices_list = trim($devices_list, ", ");
+		$screens_list = trim($screens_list, ", ");
+
+		if ($first_device_ID) $log->info("Devices #$devices_list Added to: Page #$page_ID | Screens #$screens_list | User #".currentUserID());
 
 
 
@@ -173,7 +184,7 @@ class Device {
 
     // Remove a device
     public function remove() {
-	    global $db;
+	    global $db, $log;
 
 
 	    $page_ID = $this->getInfo('page_ID');
@@ -187,7 +198,12 @@ class Device {
 
 		// Remove the device
 		$db->where('device_ID', self::$device_ID);
-		return $db->delete('devices');
+		$deleted = $db->delete('devices');
+
+		if ($deleted) $log->info("Device #".self::$device_ID." Deleted: Page #$page_ID | Screenshot '$screenshot_file' | User #".currentUserID());
+
+
+		return $deleted;
 
     }
 
