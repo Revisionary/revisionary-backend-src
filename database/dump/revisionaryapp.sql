@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jan 06, 2019 at 09:34 PM
+-- Generation Time: Jan 29, 2019 at 05:12 AM
 -- Server version: 8.0.13
 -- PHP Version: 7.2.13
 
@@ -304,11 +304,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_picture`, `user_has_public_profile`, `user_level_ID`) VALUES
-(1, 'bilaltas', 'bill@twelve12.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Bilal', 'TAS', 'bill.png', 1, 1),
+(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Bilal', 'TAŞ', 'bilal.jpg', 1, 1),
 (2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', 'ike.png', 0, 2),
-(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$thYPVobp2UtoOZUi.mxZ1enGFAIhPdJ.WS1Br.9DPTdwVCh0DCq7e', 'Sara', 'Atalay', 'sara.png', 0, 2),
+(3, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$thYPVobp2UtoOZUi.mxZ1enGFAIhPdJ.WS1Br.9DPTdwVCh0DCq7e', 'Sara', 'Elimsa', 'sara.png', 0, 2),
 (4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', 'matt.png', 0, 2),
-(5, 'cuneyt-tas', 'cuneyttas@hotmail.com.tr', '$2y$10$9bQ9GeucyXhyo3sceXz3TOeeN47qQ6mHr7alDrHPmCCTKVIj8saTG', 'Cüneyt', 'TAŞ', 'joey.png', 0, 2);
+(5, 'cuneyt-tas', 'cuneyttas@hotmail.com.tr', '$2y$10$9bQ9GeucyXhyo3sceXz3TOeeN47qQ6mHr7alDrHPmCCTKVIj8saTG', 'Cüneyt', 'TAŞ', 'joey.png', 0, 2),
+(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$uhegAZj3uGV7VmezVyeulOFvhsdgWPW5XRayDbF1RPPtqbYNNEgai', 'Bill', 'TAS', 'bill.png', 0, 2),
+(7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Test', 'User', NULL, 0, 2),
+(8, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, 0, 2);
 
 -- --------------------------------------------------------
 
