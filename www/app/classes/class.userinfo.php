@@ -416,7 +416,7 @@ class User {
 	    string $user_name = null,
 	    int $user_level_ID = 2
     ) {
-	    global $db;
+	    global $db, $log;
 
 
 		// Parse the full name
@@ -442,6 +442,10 @@ class User {
 			'user_password' => password_hash($user_password, PASSWORD_DEFAULT),
 			'user_level_ID' => $user_level_ID // Free one
 		));
+
+
+		// Site log
+		if ($user_ID) $log->info("User #$user_ID Added: $user_name($user_full_name) | Email: $user_email | User Level ID #$user_level_ID");
 
 
 		// Send a welcome email
@@ -561,7 +565,7 @@ class User {
 	    string $share_type,
 	    int $shared_object_ID
     ) {
-	    global $db;
+	    global $db, $log;
 
 
 	    // Check the ownership
@@ -577,7 +581,16 @@ class User {
 
 		if (!$iamowner && !$iamshared) $db->where('sharer_user_ID', currentUserID());
 
-		return $db->delete('shares');
+
+		$unshared = $db->delete('shares');
+
+
+		// Site log
+		if ($unshared) $log->info("User #".self::$user_ID." Unshared: $share_type #$shared_object_ID | Username '".$this->getInfo('user_name')."' | Email '".$this->getInfo('user_email')."'");
+
+
+
+		return $unshared;
 
     }
 
@@ -588,7 +601,7 @@ class User {
 	    int $shared_object_ID,
 	    int $new_shared_object_ID = null
     ) {
-	    global $db;
+	    global $db, $log;
 
 
 	    // Check the ownership
@@ -625,10 +638,18 @@ class User {
 	    }
 
 
-		return $db->update('shares', array(
+	    $changed = $db->update('shares', array(
 			'share_type' => $new_share_type,
 			'shared_object_ID' => $new_shared_object_ID
 		));
+
+
+		// Site log
+		if ($changed) $log->info("User #".self::$user_ID." Share Access Changed: '$share_type => $new_share_type' | '#$shared_object_ID => #$new_shared_object_ID' | Username '".$this->getInfo('user_name')."' | Email '".$this->getInfo('user_email')."'");
+
+
+
+		return $changed;
 
     }
 
@@ -638,7 +659,7 @@ class User {
 	    string $data_type,
 	    int $object_ID
     ) {
-		global $db;
+		global $db, $log;
 
 
 		// Is object exist
@@ -654,9 +675,16 @@ class User {
 
 
 		// Make me owner
-		if ($deleted) return $object->changeownership(self::$user_ID);
+		$made_owner = false;
+		if ($deleted) $made_owner = $object->changeownership(self::$user_ID);
 
-		return false;
+
+		// Site log
+		if ($made_owner) $log->info("User #".self::$user_ID." has became owner of: ".ucfirst($data_type)." #$object_ID | Username '".$this->getInfo('user_name')."' | Email '".$this->getInfo('user_email')."'");
+
+
+
+		return $made_owner;
     }
 
 

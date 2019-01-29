@@ -215,6 +215,10 @@ if ($share_ID) { // If successful
 	$data['status'] = "added";
 
 
+	// Site log
+	$log->info(ucfirst($type)." #$object_ID shared to: User #$shareTo | Sharer User #".currentUserID());
+
+
 	// Notify the user
 	if ( $type == "page" || $type == "project" ) {
 
