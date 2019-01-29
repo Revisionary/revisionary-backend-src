@@ -228,6 +228,18 @@ class Internalize {
 		// Parse and detect downloaded files
 		foreach($data->downloadedFiles as $file) {
 
+			if (!is_object($file)) {
+
+
+				// Update the queue status
+				$queue->update_status($this->queue_ID, "error", "Downloaded JS file list data type is wrong.");
+				$logger->error("Downloaded JS file list data type is wrong.");
+
+				return false;
+
+			}
+
+
 			$fileData = array(
 				'new_file_name' => $file->newFileName,
 				'url'			=> $file->remoteUrl

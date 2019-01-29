@@ -320,7 +320,7 @@ require('http').createServer(async (req, res) => {
 
 
 						// HTML File
-						if (resourceType == 'document' && htmlCount == 0) {
+						if (resourceType == 'document') {
 
 							htmlCount++;
 							newDir = "";
@@ -427,11 +427,12 @@ require('http').createServer(async (req, res) => {
 				const resourceType = request.resourceType();
 
 
-				var downloadable = downloadableRequests.find(function(req) { return req.remoteUrl == url ? true : false; });
+				var downloadable = downloadableRequests.find(function(req) {return req.remoteUrl == url ? true : false;});
+				var downloadedIndex = downloadableRequests.indexOf(downloadable);
 
-				if ( downloadable && !url.startsWith('data:') && response.ok ) {
 
-					var downloadedIndex = downloadableRequests.indexOf(downloadable);
+				if ( downloadable && !url.startsWith('data:') && response.ok && response.status() != 301 ) {
+
 
 
 					// Get the buffer
@@ -441,21 +442,43 @@ require('http').createServer(async (req, res) => {
 						if (downloadableRequests[downloadedIndex].buffer == null || downloadableRequests[downloadedIndex].buffer.length == 0) {
 
 
-							// Add the buffer
-							downloadableRequests[downloadedIndex].buffer = buffer;
+							if (buffer != null) {
 
 
-							//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
-							console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} ${url}`);
+								// Add the buffer
+								downloadableRequests[downloadedIndex].buffer = buffer;
+
+
+								//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
+								console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} ${url}`);
+
+
+							} else {
+
+								console.error(`📋❌ EMPTY BUFFER: ${response.status()} ${request.resourceType()} ${response.url()}`);
+
+								// Delete from the download list
+								downloadableRequests.splice(downloadedIndex, 1);
+
+							}
 
 
 						}
 
 
 					}, e => {
-						console.error(`📋❌${response.status()} ${response.url()} failed: ${e}`);
+
+						console.error(`📋❌${response.status()} ${request.resourceType()} ${response.url()} failed: ${e}`);
+
+						// Delete from the download list
+						downloadableRequests.splice(downloadedIndex, 1);
+
 					});
 
+
+				} else {
+
+					console.error(`❌ Response not allowed: ${response.status()} ${request.resourceType()} ${response.url()}`);
 
 				}
 
