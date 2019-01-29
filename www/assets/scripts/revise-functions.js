@@ -758,7 +758,7 @@ function runTheInspector() {
 
 
 			var link = $(this).attr('href');
-			var absoluteLink = getIframeAbsoluteUrl( link );
+			var absoluteLink = $(this).prop('href');
 
 
 			// Record the clicked link

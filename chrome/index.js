@@ -480,6 +480,15 @@ require('http').createServer(async (req, res) => {
 
 					console.error(`❌ Response not allowed: ${response.status()} ${request.resourceType()} ${response.url()}`);
 
+					if (downloadable) {
+
+						console.error(`📋❌ Deleted from the list: ${response.status()} ${request.resourceType()} ${response.url()}`, downloadable);
+
+						// Delete from the download list
+						downloadableRequests.splice(downloadedIndex, 1);
+
+					}
+
 				}
 
 
