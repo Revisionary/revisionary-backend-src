@@ -75,7 +75,8 @@ if (
 		$page_ID,
 		is_array(request('screens')) ? request('screens') : array(), // Screen IDs array
 		request('page_width') != "" ? request('page_width') : null,
-		request('page_height') != "" ? request('page_height') : null
+		request('page_height') != "" ? request('page_height') : null,
+		true
 	);
 
 	// Check the result

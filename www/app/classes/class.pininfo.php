@@ -104,6 +104,24 @@ class Pin {
 			"pin_modification_type" => $pin_modification_type
 		));
 
+
+		// Notify the users
+		if ($pin_ID) {
+
+			$users = Pin::ID($pin_ID)->getUsers();
+			foreach ($users as $user_ID) {
+
+				Notify::ID( intval($user_ID) )->mail(
+					getUserInfo()['fullName']." added a new $pin_type pin",
+					getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new $pin_type pin: <br>
+					".site_url("revise/$pin_device_ID#$pin_ID")
+				);
+
+			}
+
+		}
+
+
 		// Update the page modification date
 		if ($pin_ID) {
 			$page_ID = Device::ID($pin_device_ID)->getInfo('page_ID');

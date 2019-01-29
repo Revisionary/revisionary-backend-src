@@ -5,6 +5,7 @@ class Screen {
 
 	// The screen ID
 	public static $screen_ID;
+	public static $screenInfo;
 
 
 
@@ -17,10 +18,37 @@ class Screen {
 
 	// ID Setter
     public static function ID($screen_ID = null) {
+		global $db;
 
-	    // Set the screen ID
-		if ($screen_ID != null) self::$screen_ID = $screen_ID;
-		return new static;
+
+	    // Set the page ID
+		if ($screen_ID != null && is_numeric($screen_ID)) {
+
+			$db->join("screen_categories c", "c.screen_cat_ID = s.screen_cat_ID", "LEFT");
+		    $db->where("s.screen_ID", $screen_ID);
+			$screenInfo = $db->getOne("screens s");
+
+			if ( $screenInfo ) {
+
+				self::$screen_ID = $screen_ID;
+				self::$screenInfo = $screenInfo;
+				return new static;
+
+			}
+
+
+		}
+
+
+	    // For the new screen
+		if ($screen_ID == null || $screen_ID == "new") {
+
+			self::$screen_ID = "new";
+			return new static;
+
+		}
+
+		return false;
 
     }
 
@@ -29,13 +57,10 @@ class Screen {
 	// GETTERS:
 
     // Get a screen info
-    public function getInfo($columns = null, $array = false) {
-	    global $db;
+    public function getInfo($column = null) {
 
-		$db->join("screen_categories c", "c.screen_cat_ID = s.screen_cat_ID", "LEFT");
-	    $db->where("s.screen_ID", self::$screen_ID);
+		return $column == null ? self::$screenInfo : self::$screenInfo[$column];
 
-		return $array ? $db->getOne("screens s", $columns) : $db->getValue("screens s", $columns);
     }
 
 

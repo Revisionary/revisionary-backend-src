@@ -1,15 +1,21 @@
 <pre>
 <?php
 
+
+die_to_print( Pin::ID(289)->getUsers() );
+
+
+
 //echo Project::ID(6)->getInfo('user_ID');
 
-
+/*
 $the_user = User::ID();
 
 print_r($the_user);
 
 if ( $the_user ) echo "YES";
 else var_dump($the_user);
+*/
 
 
 

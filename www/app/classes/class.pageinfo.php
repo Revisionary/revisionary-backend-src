@@ -260,9 +260,7 @@ class Page {
 		global $db;
 
 
-		$page_ID = self::$page_ID;
-		$pageData = Page::ID( $page_ID );
-		$project_ID = $pageData->getInfo('project_ID');
+		$project_ID = $this->getInfo('project_ID');
 		$projectData = Project::ID($project_ID);
 
 
@@ -270,12 +268,11 @@ class Page {
 
 
 		// Get the page owner
-		$pageOwner_ID = $pageData->getInfo('user_ID');
-		$users[] = $pageOwner_ID;
+		$users[] = $this->getInfo('user_ID');
 
 		// Get the shared people of the page
 		$db->where('share_type', 'page');
-		$db->where('shared_object_ID', $page_ID);
+		$db->where('shared_object_ID', self::$page_ID);
 		$db->where("share_to REGEXP '^[0-9]+$'");
 		$shared_IDs = array_column($db->get('shares', null, 'share_to'), 'share_to');
 		$users = array_merge($users, $shared_IDs);
@@ -328,7 +325,8 @@ class Page {
 				$project_name,
 				$project_shares,
 				$project_category_ID,
-				$project_order_number
+				$project_order_number,
+				$page_url
 			);
 
 		}
@@ -371,6 +369,25 @@ class Page {
 					"share_to" => $user_ID,
 					"sharer_user_ID" => currentUserID()
 				));
+
+			}
+
+		}
+
+
+
+		// Notify the users
+		if ($page_ID) {
+
+			$users = Page::ID($page_ID)->getUsers();
+			foreach ($users as $user_ID) {
+
+				Notify::ID( intval($user_ID) )->mail(
+					getUserInfo()['fullName']." added a new page: $page_name",
+					getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new page: $page_name <br>
+					<b>Page URL</b>: $page_url <br><br>
+					".site_url("page/$page_ID")
+				);
 
 			}
 

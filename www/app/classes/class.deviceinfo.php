@@ -98,7 +98,8 @@ class Device {
 	    int $page_ID,
 	    array $screen_IDs = array(4),
     	int $device_width = null,
-    	int $device_height = null
+    	int $device_height = null,
+    	bool $fromPage = false
     ) {
 	    global $db;
 
@@ -137,6 +138,31 @@ class Device {
 
 
 		}
+
+
+
+		// Notify the users
+		if ($first_device_ID && !$fromPage) {
+
+			$screen_ID = intval(reset($screen_IDs));
+			$screenInfo = Screen::ID($screen_ID)->getInfo();
+			$screen_width = $screen_ID == 11 ? $device_width : $screenInfo['screen_width'];
+			$screen_height = $screen_ID == 11 ? $device_height : $screenInfo['screen_height'];
+
+			$pageData = Page::ID($page_ID);
+			$users = $pageData->getUsers();
+			foreach ($users as $user_ID) {
+
+				Notify::ID( intval($user_ID) )->mail(
+					getUserInfo()['fullName']." added a new screen on ".$pageData->getInfo('page_name')." page",
+					getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new screen: ".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.") <br><br>
+					<b>Page URL</b>: ".site_url("revise/$first_device_ID")
+				);
+
+			}
+
+		}
+
 
 
 		// Return the first device ID
