@@ -467,24 +467,27 @@ function runTheInspector() {
 				}
 
 
-/*
 				// Check the submit buttons: <input type="submit | reset">... // !!!
 				hoveringButton = false;
 		        if (
 		        	focused_element.prop("tagName") == "INPUT" &&
 		        	(
+		        		focused_element.attr("type") == "text" ||
+		        		focused_element.attr("type") == "email" ||
+		        		focused_element.attr("type") == "url" ||
+		        		focused_element.attr("type") == "tel" ||
 		        		focused_element.attr("type") == "submit" ||
 		        		focused_element.attr("type") == "reset"
 		        	)
 		        ) {
 
 					hoveringButton = true;
+					hoveringText = true;
 					focused_element_editable = true; // Obviously Image Editable
 					//console.log( '* Button Editable: ' + focused_element.prop("tagName") );
 					//console.log( 'Focused Button Text: ' + focused_element.attr('value') );
 
 				}
-*/
 
 
 
@@ -655,6 +658,22 @@ function runTheInspector() {
 			var pin_ID = pinElement('[data-pin-type="live"][data-revisionary-index="'+elementIndex+'"]').attr('data-pin-id');
 			var changedElement = $(this);
 			var modification = changedElement.html();
+
+
+			// If edited element is a submit or reset input button
+			if (
+	        	changedElement.prop("tagName") == "INPUT" &&
+	        	(
+	        		changedElement.attr("type") == "text" ||
+	        		changedElement.attr("type") == "email" ||
+	        		changedElement.attr("type") == "url" ||
+	        		changedElement.attr("type") == "tel" ||
+	        		changedElement.attr("type") == "submit" ||
+	        		changedElement.attr("type") == "reset"
+	        	)
+	        ) {
+				modification = changedElement.val();
+			}
 
 
 			//console.log('REGISTERED CHANGES', modification);
@@ -1121,6 +1140,7 @@ function updateOriginals(pinsList = [], oldPinsList) {
 		var theOriginal = null;
 		var pin_ID = pin.pin_ID;
 		var oldPin = oldPinsList.find(function(p) { return p.pin_ID == pin_ID ? true : false; });
+		var element = iframeElement(pin.pin_element_index);
 
 
 		// Check from the existing Pins global
@@ -1129,15 +1149,32 @@ function updateOriginals(pinsList = [], oldPinsList) {
 
 
 		// Check if it's an untouched dom
-		else if ( iframeElement(pin.pin_element_index).is(':not([data-revisionary-showing-changes = "1"])') ) {
+		else if ( element.is(':not([data-revisionary-showing-changes = "1"])') ) {
 
 			if (pin.pin_modification_type == "html") {
 
-				theOriginal = htmlentities(iframeElement(pin.pin_element_index).html(), "ENT_QUOTES");
+				theOriginal = htmlentities(element.html(), "ENT_QUOTES");
+
+
+				// If edited element is a submit or reset input button
+				if (
+		        	element.prop("tagName") == "INPUT" &&
+		        	(
+		        		element.attr("type") == "text" ||
+		        		element.attr("type") == "email" ||
+		        		element.attr("type") == "url" ||
+		        		element.attr("type") == "tel" ||
+		        		element.attr("type") == "submit" ||
+		        		element.attr("type") == "reset"
+		        	)
+		        ) {
+					theOriginal = htmlentities( element.val(), "ENT_QUOTES" );
+				}
+
 
 			} else if (pin.pin_modification_type == "image") {
 
-				theOriginal = iframeElement(pin.pin_element_index).attr('src');
+				theOriginal = element.attr('src');
 
 			}
 
@@ -1261,6 +1298,22 @@ function applyChanges(showingOriginal = []) {
 				element.html( newHTML ).attr('contenteditable', (isShowingOriginal ? "false" : "true"));
 
 
+				// If edited element is a submit or reset input button
+				if (
+		        	element.prop("tagName") == "INPUT" &&
+		        	(
+		        		element.attr("type") == "text" ||
+		        		element.attr("type") == "email" ||
+		        		element.attr("type") == "url" ||
+		        		element.attr("type") == "tel" ||
+		        		element.attr("type") == "submit" ||
+		        		element.attr("type") == "reset"
+		        	)
+		        ) {
+					element.val(newHTML);
+				}
+
+
 				//console.log('MODIFICATION DECODED:', newHTML);
 
 
@@ -1351,7 +1404,24 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 
 			// Revert the change
 			var oldHTML = html_entity_decode(pin.pin_modification_original); //console.log('NEW', newHTML);
-			element.html( oldHTML );
+			element.html(oldHTML);
+
+
+			// If edited element is a submit or reset input button
+			if (
+	        	element.prop("tagName") == "INPUT" &&
+	        	(
+	        		element.attr("type") == "text" ||
+	        		element.attr("type") == "email" ||
+	        		element.attr("type") == "url" ||
+	        		element.attr("type") == "tel" ||
+	        		element.attr("type") == "submit" ||
+	        		element.attr("type") == "reset"
+	        	)
+	        ) {
+				element.val(oldHTML);
+			}
+
 
 			// Update the pin window content if open
 			if ( pinWindowOpen && pinWindow.attr('data-pin-id') == pin.pin_ID ) {
@@ -2054,6 +2124,23 @@ function openPinWindow(pin_ID, firstTime = false) {
 			if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') ) {
 
 				originalContent = iframeElement(theIndex).html();
+
+
+				// If edited element is a submit or reset input button
+				if (
+		        	iframeElement(theIndex).prop("tagName") == "INPUT" &&
+		        	(
+		        		iframeElement(theIndex).attr("type") == "text" ||
+		        		iframeElement(theIndex).attr("type") == "email" ||
+		        		iframeElement(theIndex).attr("type") == "url" ||
+		        		iframeElement(theIndex).attr("type") == "tel" ||
+		        		iframeElement(theIndex).attr("type") == "submit" ||
+		        		iframeElement(theIndex).attr("type") == "reset"
+		        	)
+		        ) {
+					originalContent = iframeElement(theIndex).val();
+				}
+
 
 				// Default change editor
 				changedContent = originalContent;

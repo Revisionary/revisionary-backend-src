@@ -421,6 +421,23 @@ $(function() {
 		stopAutoRefresh();
 
 
+		// If edited element is a submit or reset input button
+		if (
+        	changedElement.prop("tagName") == "INPUT" &&
+        	(
+        		changedElement.attr("type") == "text" ||
+        		changedElement.attr("type") == "email" ||
+        		changedElement.attr("type") == "url" ||
+        		changedElement.attr("type") == "tel" ||
+        		changedElement.attr("type") == "submit" ||
+        		changedElement.attr("type") == "reset"
+        	)
+        ) {
+	        modification = $(this).text();
+			changedElement.val(modification);
+		}
+
+
 		// Instant apply the change
 		changedElement.html(modification);
 		changedElement.attr('contenteditable', "true");
