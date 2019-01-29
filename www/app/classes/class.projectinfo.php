@@ -40,9 +40,18 @@ class Project {
 
 
 	    // For the new page
-		if ($project_ID == null) {
+		if ($project_ID == null || $project_ID == "new") {
 
 			self::$project_ID = "new";
+			return new static;
+
+		}
+
+
+	    // Autodetect project ID when adding new
+		if ($project_ID == "autodetect") {
+
+			self::$project_ID = "autodetect";
 			return new static;
 
 		}
@@ -99,6 +108,28 @@ class Project {
 		// Add the domain name as project name if not already entered
 		if ($project_name == "" && $page_url != "")
 			$project_name = ucwords( str_replace('-', ' ', explode('.', parseUrl($page_url)['domain'])[0]) );
+		else
+			$project_name = "Untitled";
+
+
+
+		// Auto detect the existing project_ID if the URL entered
+		if (self::$project_ID == "autodetect") {
+
+			// Page domain
+			$page_domain = parseUrl($page_url)['full_host'];
+
+			$db->where('user_ID', currentUserID());
+			$db->where('page_url', "$page_domain%", 'like');
+			$pages_match = $db->get('pages', null, 'page_url, project_ID');
+			$possible_project_IDs = array_unique(array_column($pages_match, 'project_ID'));
+
+
+			// Make it project id if the result has 1 record
+			if ( count($possible_project_IDs) == 1 ) return reset($possible_project_IDs);
+			//die_to_print( reset($possible_project_IDs) );
+
+		}
 
 
 

@@ -20,7 +20,7 @@
 
 				<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
 				<input type="hidden" name="add_new" value="true"/>
-				<input type="hidden" name="project_ID" value="new"/>
+				<input type="hidden" name="project_ID" value="autodetect"/>
 				<input type="hidden" name="category" value="0"/>
 				<input type="hidden" name="order" value="0"/>
 

@@ -16,7 +16,7 @@ if (
 	request('add_new') == "true"
 	&& request('page-url') != ""
 	&& request('project_ID') != ""
-	&& ( request('project_ID') == "new" || is_numeric(request('project_ID')) )
+	&& ( request('project_ID') == "new" || request('project_ID') == "autodetect" || is_numeric(request('project_ID')) )
 	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
 ) {
 
@@ -34,9 +34,9 @@ if (
 
 
 	// Add the project
-	if ($project_ID == "new") {
+	if ($project_ID == "new" || $project_ID == "autodetect") {
 
-		$project_ID = Project::ID()->addNew(
+		$project_ID = Project::ID($project_ID)->addNew(
 			request('project-name'),
 			is_array(request('project_shares')) ? request('project_shares') : array(),
 			request('category'),
