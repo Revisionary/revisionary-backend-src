@@ -231,12 +231,18 @@ class Internalize {
 			if (!is_object($file)) {
 
 
+
+
+/*
 				// Update the queue status
 				$queue->update_status($this->queue_ID, "error", "Downloaded JS file list data type is wrong.");
-				$logger->error("Downloaded JS file list data type is wrong.");
+				$logger->error("Downloaded JS file list data type is wrong. (".gettype($file).", ".gettype($data->downloadedFiles).", ".print_r($data->downloadedFiles, true).")");
 
 				return false;
+*/
 
+
+				continue;
 			}
 
 
