@@ -224,6 +224,21 @@ require('http').createServer(async (req, res) => {
 					realPageURL = page.url();
 					console.log('🌎 Real Page URL: ', page.url());
 				}
+
+
+				// Delete other documents from the list
+				downloadableRequests = downloadableRequests.filter(function(req, index, arr){
+
+					if (
+						(req.fileType == "document" && req.remoteUrl == realPageURL)
+						|| req.fileType != "document"
+					) return true;
+
+				    return false;
+
+				});
+
+
 				const parsedRealURL = new URL(realPageURL);
 				const ourHost = parsedRealURL.hostname;
 
@@ -494,6 +509,59 @@ require('http').createServer(async (req, res) => {
 
 
 			}); // THE RESPONSES LOOP
+
+
+
+
+
+
+			// ERRORS
+			page.on('error', (error) => {
+
+
+				console.error('🐞 ERROR OCCURED: ', error);
+
+
+
+				// Close the page
+				try {
+
+					if (page && page.close) {
+						console.log('🗑 Tab closing for ' + url);
+						page.removeAllListeners();
+						page.close().then(buffer => {
+
+
+							console.log('🗑✅ Tab closed for ' + url);
+
+
+							if (browser[browser_ID]) {
+
+								console.log('🔌 Closing the browser for ' + url, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
+
+								browser[browser_ID].close();
+								browser[browser_ID] = null;
+								delete browser[browser_ID];
+
+								console.log('🔌✅ Browser closed for ' + url, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
+
+							}
+
+						}, e => {
+							console.error(`❌ Page Closing Failed (URL: ${url}): ${e}`);
+						});
+
+
+					}
+
+				} catch (e) {
+
+					console.log('🐞 Closing error: ' + e);
+
+				}
+
+
+			}); // THE ERRORS LOOP
 
 
 
