@@ -224,12 +224,19 @@ if ($share_ID) { // If successful
 
 
 		$object_link = site_url($type.'/'.$object_ID);
+		$objectData = ucfirst($type)::ID($object_ID);
+		$objectName = $objectData->getInfo($type."_name");
+
+		$projectName = "";
+		if ($type == "page") {
+			$projectName = " (in ".Project::ID( $objectData->getInfo("project_ID") )->getInfo('project_name').")";
+		}
 
 
 		Notify::ID($shareTo)->mail(
-			getUserInfo()['fullName']." shared a ".$type." with you.",
+			getUserInfo()['fullName']." shared the \"$objectName".$projectName."\" $type with you.",
 
-			"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['email'].") shared a ".$type." with you from Revisionary App. Here is the link to access this ".$type.": <br>
+			"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['userName'].") shared the \"$objectName".$projectName."\" $type with you from Revisionary App. Here is the link to access this $type: <br>
 
 <a href='$object_link' target='_blank'>$object_link</a>"
 		);
