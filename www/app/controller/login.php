@@ -68,15 +68,19 @@ if ( post('login-submit') == "Login" ) {
 
 
 			// Notify the admin
-			Notify::ID(1)->mail(
-				"New login by ".$user['user_first_name']." ".$user['user_last_name'],
-				"
-				<b>User Information (Typed: $userName)</b> <br>
-				E-Mail: ".$user['user_email']." <br>
-				Full Name: ".$user['user_first_name']." ".$user['user_last_name']." <br>
-				Username: ".$user['user_name']."
-				"
-			);
+			if (getUserInfo()['email'] != "bilaltas@me.com" && getUserInfo()['email'] != "bill@twelve12.com") {
+
+				Notify::ID(1)->mail(
+					"New login by ".$user['user_first_name']." ".$user['user_last_name'],
+					"
+					<b>User Information (Typed: $userName)</b> <br>
+					E-Mail: ".$user['user_email']." <br>
+					Full Name: ".$user['user_first_name']." ".$user['user_last_name']." <br>
+					Username: ".$user['user_name']."
+					"
+				);
+
+			}
 
 
 			if (post('redirect_to') != "") {
