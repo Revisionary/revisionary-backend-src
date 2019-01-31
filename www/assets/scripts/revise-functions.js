@@ -1773,6 +1773,57 @@ function stopAutoRefresh() {
 }
 
 
+// Take screenshot of an element
+function screenshot(element) {
+
+	var elementColor = element.css('color');
+	var brightness = lightOrDark(elementColor);
+	console.log('Element Color is ' + brightness, elementColor);
+
+
+	// Take screenshot
+	return html2canvas( element[0], {
+		async: false,
+    	allowTaint: true,
+    	backgroundColor: brightness == "light" ? "black" : "white",
+    	scale: 1
+    });
+
+
+}
+
+
+// Get the image URL from canvas
+function imageDataUrl(canvas) {
+
+	try {
+
+
+		// Image Data
+		var dataURL = canvas.toDataURL('image/jpeg', 0.5); console.log(dataURL);
+
+
+		// Data Size Calculation
+		var base64String = dataURL.split(",")[1];
+	    var nonBlob = stringToBytesFaster(base64String).length;
+	    var imageSizeKB = nonBlob/1000; console.log("non blob", imageSizeKB, "KB");
+
+
+		// Size check !!!
+		return dataURL;
+
+
+	} catch (e) {
+
+		//console.error('Screenshot error', e);
+		return "";
+
+	}
+
+
+}
+
+
 // DB: Put a pin to cordinates
 function putPin(pinX, pinY) {
 
@@ -1849,44 +1900,58 @@ function putPin(pinX, pinY) {
 	// Start the process
 	var newPinProcessID = newProcess(null, "newPinProcess");
 
-	// Add pin to the DB
-    ajax('pin-add',
-    {
-		'pin_x' 	 			: pinX,
-		'pin_y' 	 			: pinY,
-		'pin_type' 	 			: currentCursorType,
-		'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
-		'pin_private'			: currentPinPrivate,
-		'pin_element_index' 	: focused_element_index,
-		'pin_device_ID'			: device_ID
 
-	}).done(function(result){
-
-		//console.log(result.data);
-
-		var realPinID = result.data.real_pin_ID;
-		var newPin = pinElement('[data-pin-id="'+ temporaryPinID +'"]');
-
-		//console.log('REAL PIN ID: '+realPinID);
+	// Try taking a screenshot
+	screenshot( iframeElement(focused_element_index) ).then(function(canvas) {
 
 
-		// Update the pin ID
-		newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
-		pinWindow.attr('data-pin-id', realPinID).removeAttr('temporary');
-		Pins[pinsIndex].pin_ID = realPinID;
-		window.location.hash = "#"+realPinID;
+		// Image Data
+		var imgDataURL = imageDataUrl(canvas);
 
 
-		// Remove the loading text on pin window
-		pinWindow.removeClass('loading');
+		// Add pin to the DB
+	    ajax('pin-add',
+	    {
+			'pin_x' 	 			: pinX,
+			'pin_y' 	 			: pinY,
+			'pin_type' 	 			: currentCursorType,
+			'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
+			'pin_private'			: currentPinPrivate,
+			'pin_element_index' 	: focused_element_index,
+			'pin_device_ID'			: device_ID,
+			'imgDataURL'			: imgDataURL
+
+		}).done(function(result){
+
+			console.log(result.data);
+
+			var realPinID = result.data.real_pin_ID;
+			var newPin = pinElement('[data-pin-id="'+ temporaryPinID +'"]');
+
+			//console.log('REAL PIN ID: '+realPinID);
 
 
-		// Make draggable
-		makeDraggable(newPin);
+			// Update the pin ID
+			newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
+			pinWindow.attr('data-pin-id', realPinID).removeAttr('temporary');
+			Pins[pinsIndex].pin_ID = realPinID;
+			window.location.hash = "#"+realPinID;
 
 
-		// Finish the process
-		endProcess(newPinProcessID);
+			// Remove the loading text on pin window
+			pinWindow.removeClass('loading');
+
+
+			// Make draggable
+			makeDraggable(newPin);
+
+
+			// Finish the process
+			endProcess(newPinProcessID);
+
+		});
+
+
 
 	});
 
@@ -2426,21 +2491,23 @@ function removePin(pin_ID, instantRemove = false) {
 function completePin(pin_ID, complete, imgData = null) {
 
 
+
     console.log( (complete ? 'Complete' : 'Incomplete') +' the pin #' + pin_ID + ' on DB!!');
 
 
-	// Update from the Pins global
+
+
 	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
 	var pinIndex = Pins.indexOf(pin);
+	var element_index = pin.pin_element_index;
 
+
+	// Update from the Pins global
 	Pins[pinIndex].pin_complete = complete ? 1 : 0;
 
 
-	// Update the pin status
+	// Update the pin & pin window status
 	pinElement(pin_ID).attr('data-pin-complete', (complete ? '1' : '0'));
-
-
-	// Update the pin window status
 	pinWindow.attr('data-pin-complete', (complete ? '1' : '0'));
 
 
@@ -2448,23 +2515,35 @@ function completePin(pin_ID, complete, imgData = null) {
 	// Start the process
 	var completePinProcessID = newProcess(null, "pin"+(complete ? 'Complete' : 'Incomplete'));
 
-    // Update pin from the DB
-	ajax('pin-complete', {
 
-		'pin_ID' 	   : pin_ID,
-		'complete'	   : (complete ? 'complete' : 'incomplete'),
-		'imgData'	   : imgData
-
-	}).done(function(result) {
-
-		console.log(result.data);
+	// Try taking a screenshot
+	screenshot( iframeElement(element_index) ).then(function(canvas) {
 
 
-		// Finish the process
-		endProcess(completePinProcessID);
+		// Image Data
+		var imgDataURL = imageDataUrl(canvas);
+
+
+	    // Update pin from the DB
+		ajax('pin-complete', {
+
+			'pin_ID' 	   : pin_ID,
+			'complete'	   : (complete ? 'complete' : 'incomplete'),
+			'imgDataURL'   : imgDataURL
+
+		}).done(function(result) {
+
+			console.log("RESULT: ", result.data);
+
+
+			// Finish the process
+			endProcess(completePinProcessID);
+
+		});
+
+
 
 	});
-
 
 }
 
@@ -3271,6 +3350,91 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 
 // HELPERS:
+function lightOrDark(color) {
+
+    // Variables for red, green, blue values
+    var r, g, b, hsp;
+
+    // Check the format of the color, HEX or RGB?
+    if (color.match(/^rgb/)) {
+
+        // If HEX --> store the red, green, blue values in separate variables
+        color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+
+        r = color[1];
+        g = color[2];
+        b = color[3];
+    }
+    else {
+
+        // If RGB --> Convert it to HEX: http://gist.github.com/983661
+        color = +("0x" + color.slice(1).replace(
+        color.length < 5 && /./g, '$&$&'));
+
+        r = color >> 16;
+        g = color >> 8 & 255;
+        b = color & 255;
+    }
+
+    // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+    hsp = Math.sqrt(
+    0.299 * (r * r) +
+    0.587 * (g * g) +
+    0.114 * (b * b)
+    );
+
+    // Using the HSP value, determine whether the color is light or dark
+    if (hsp>127.5) {
+
+        return 'light';
+    }
+    else {
+
+        return 'dark';
+    }
+}
+
+function dataURLtoBlob(dataURL) {
+  //http://mitgux.com/send-canvas-to-server-as-file-using-ajax
+  // Decode the dataURL
+  var binary = atob(dataURL.split(',')[1]);
+  // Create 8-bit unsigned array
+  var array = [];
+  for(var i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+  }
+  // Return our Blob object
+  return new Blob([new Uint8Array(array)], {type: 'image/png'});
+}
+
+function stringToBytesFaster ( str ) {
+    //http://stackoverflow.com/questions/1240408/reading-bytes-from-a-javascript-string
+    var ch, st, re = [], j=0;
+    for (var i = 0; i < str.length; i++ ) {
+        ch = str.charCodeAt(i);
+        if(ch < 127)
+        {
+            re[j++] = ch & 0xFF;
+        }
+        else
+        {
+            st = [];    // clear stack
+            do {
+                st.push( ch & 0xFF );  // push byte to stack
+                ch = ch >> 8;          // shift value down by 1 byte
+            }
+            while ( ch );
+            // add stack contents to result
+            // done because chars have "wrong" endianness
+            st = st.reverse();
+            for(var k=0;k<st.length; ++k)
+                re[j++] = st[k];
+        }
+    }
+    // return an array of bytes
+    return re;
+}
+
 function urlStandardize(url) {
 
 	// Remove hash

@@ -78,7 +78,8 @@ class Pin {
     	float $pin_x = 50,
     	float $pin_y = 50,
     	int $pin_element_index = null,
-	    string $pin_modification_type = null
+	    string $pin_modification_type = null,
+	    string $imgDataUrl = ""
     ) {
 	    global $db, $log;
 
@@ -112,14 +113,23 @@ class Pin {
 			$device_ID = $pinData->getInfo('device_ID');
 			$page_ID = Device::ID( $device_ID )->getInfo('page_ID');
 			$pageData = Page::ID( $page_ID );
+			$project_ID = $pageData->getInfo('project_ID');
+			$projectData = Project::ID( $project_ID );
+
+
+			// Element screenshot
+			$image = "";
+			if ($imgDataUrl != "") {
+				$image = "<img src='$imgDataUrl' style='border: 2px dashed red'><br><br>";
+			}
 
 
 			$users = $pinData->getUsers();
 			foreach ($users as $user_ID) {
 
 				Notify::ID( intval($user_ID) )->mail(
-					getUserInfo()['fullName']." added a new $pin_type pin on ".$pageData->getInfo('page_name')." page",
-					getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new $pin_type pin on ".$pageData->getInfo('page_name')." page: <br>
+					getUserInfo()['fullName']." added a new $pin_type pin on '".$pageData->getInfo('page_name')." (in ".$projectData->getInfo('project_name').")' page",
+					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new $pin_type pin on '".$pageData->getInfo('page_name')." (in ".$projectData->getInfo('project_name').")' page: <br>
 					".site_url("revise/$pin_device_ID#$pin_ID")
 				);
 
@@ -212,7 +222,7 @@ class Pin {
 
 
     // Complete a pin
-    public function complete() {
+    public function complete(string $imgDataUrl = "") {
 	    global $db, $log;
 
 
@@ -222,6 +232,13 @@ class Pin {
 
 
 		$pin_type = ucfirst( $this->getInfo('pin_type') );
+
+
+		// Element screenshot
+		$image = "";
+		if ($imgDataUrl != "") {
+			$image = "<img src='$imgDataUrl' style='border: 2px dashed red'><br><br>";
+		}
 
 
 		// Update the pin
@@ -246,7 +263,7 @@ class Pin {
 
 				Notify::ID( intval($user_ID) )->mail(
 					getUserInfo()['fullName']." completed a pin task on ".$pageData->getInfo('page_name')." page",
-					getUserInfo()['fullName']."(".getUserInfo()['userName'].") completed a pin task on ".$pageData->getInfo('page_name')." page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
+					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") completed a pin task on ".$pageData->getInfo('page_name')." page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
 				);
 
 
@@ -266,7 +283,7 @@ class Pin {
 
 
     // inComplete a pin
-    public function inComplete() {
+    public function inComplete(string $imgDataUrl = "") {
 	    global $db, $log;
 
 
@@ -276,6 +293,13 @@ class Pin {
 
 
 		$pin_type = ucfirst( $this->getInfo('pin_type') );
+
+
+		// Element screenshot
+		$image = "";
+		if ($imgDataUrl != "") {
+			$image = "<img src='$imgDataUrl' style='border: 2px dashed red'><br><br>";
+		}
 
 
 		// Update the pin
@@ -300,7 +324,7 @@ class Pin {
 
 				Notify::ID( intval($user_ID) )->mail(
 					getUserInfo()['fullName']." marked a pin task as not completed on ".$pageData->getInfo('page_name')." page",
-					getUserInfo()['fullName']."(".getUserInfo()['userName'].") marked a pin task as not completed on ".$pageData->getInfo('page_name')." page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
+					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") marked a pin task as not completed on ".$pageData->getInfo('page_name')." page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
 				);
 
 
