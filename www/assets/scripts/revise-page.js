@@ -392,6 +392,7 @@ $(function() {
 	var doChange = {};
 	$(document).on('input', '#pin-window.active .content-editor .edit-content', function(e) {
 
+
 		var pin_ID = pinWindow.attr('data-pin-id');
 		var elementIndex = pinWindow.attr('data-revisionary-index');
 		var modification = $(this).html();

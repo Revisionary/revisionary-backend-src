@@ -3013,7 +3013,16 @@ function getComments(pin_ID, commentsWrapper = null) {
 // DB: Send a comment
 function sendComment(pin_ID, message) {
 
+
+
 	//console.log('Sending this message: ', message);
+
+
+
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pinIndex = Pins.indexOf(pin);
+	var element_index = pin.pin_element_index;
+
 
 
 	// Disable the inputs
@@ -3027,36 +3036,51 @@ function sendComment(pin_ID, message) {
 	// Start the process
 	var newCommentProcessID = newProcess(null, "newPinCommentProcess");
 
-    ajax('comment-add',
-    {
 
-		'pin_ID'	: pin_ID,
-		'message'	: message
-
-	}).done(function(result){
-
-		//console.log(result.data);
+	// Try taking a screenshot
+	screenshot( iframeElement(element_index) ).then(function(canvas) {
 
 
-		// List the comments
-		getComments(pin_ID);
+		// Image Data
+		var imgDataURL = imageDataUrl(canvas);
 
 
-		// Finish the process
-		endProcess(newCommentProcessID);
+	    ajax('comment-add', {
+
+			'pin_ID'	: pin_ID,
+			'message'	: message,
+			'imgDataURL': imgDataURL
+
+		}).done(function(result){
+
+			console.log(result.data);
 
 
-		// Enable the inputs
-		$('#pin-window #comment-sender input').prop('disabled', false);
+			// List the comments
+			getComments(pin_ID);
 
 
-		// Clean the text in the message box and refocus
-		$('#pin-window #comment-sender input.comment-input').val('').focus();
+			// Finish the process
+			endProcess(newCommentProcessID);
 
 
-		//console.log('Message SENT: ', message);
+			// Enable the inputs
+			$('#pin-window #comment-sender input').prop('disabled', false);
+
+
+			// Clean the text in the message box and refocus
+			$('#pin-window #comment-sender input.comment-input').val('').focus();
+
+
+			//console.log('Message SENT: ', message);
+
+		});
+
+
+
 
 	});
+
 
 }
 

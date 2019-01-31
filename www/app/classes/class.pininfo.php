@@ -262,8 +262,8 @@ class Pin {
 
 
 				Notify::ID( intval($user_ID) )->mail(
-					getUserInfo()['fullName']." completed a pin task on ".$pageData->getInfo('page_name')." page",
-					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") completed a pin task on ".$pageData->getInfo('page_name')." page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
+					getUserInfo()['fullName']." completed a pin task on '".$pageData->getInfo('page_name')."' page",
+					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") completed a pin task on '".$pageData->getInfo('page_name')."' page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
 				);
 
 
@@ -323,8 +323,8 @@ class Pin {
 
 
 				Notify::ID( intval($user_ID) )->mail(
-					getUserInfo()['fullName']." marked a pin task as not completed on ".$pageData->getInfo('page_name')." page",
-					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") marked a pin task as not completed on ".$pageData->getInfo('page_name')." page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
+					getUserInfo()['fullName']." marked a pin task as not completed on '".$pageData->getInfo('page_name')."' page",
+					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") marked a pin task as not completed on '".$pageData->getInfo('page_name')."' page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
 				);
 
 
@@ -489,7 +489,8 @@ class Pin {
 
     // Add a new comment
     public function addComment(
-    	string $message
+    	string $message,
+    	string $imgDataUrl = ""
 	) {
 	    global $db, $log;
 
@@ -500,6 +501,13 @@ class Pin {
 
 
 		$pin_type = ucfirst( $this->getInfo('pin_type') );
+
+
+		// Element screenshot
+		$image = "";
+		if ($imgDataUrl != "") {
+			$image = "<img src='$imgDataUrl' style='border: 2px dashed red'><br><br>";
+		}
 
 
 
@@ -528,8 +536,8 @@ class Pin {
 
 
 				Notify::ID( intval($user_ID) )->mail(
-					getUserInfo()['fullName']." posted a comment",
-					getUserInfo()['fullName']."(".getUserInfo()['userName'].") wrote: <br>
+					getUserInfo()['fullName']." posted a comment on '".$pageData->getInfo('page_name')."' page",
+					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") wrote on '".$pageData->getInfo('page_name')."' page: <br>
 					\"$message\" <br><br>
 
 					<b>Page Link:</b> ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
