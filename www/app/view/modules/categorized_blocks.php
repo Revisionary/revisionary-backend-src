@@ -288,7 +288,7 @@
 
 											<?php
 
-$livePinCount = $standardPinCount = $privatePinCount = 0;
+$livePinCount = $standardPinCount = $privatePinCount = $completePinCount = 0;
 
 if ($dataType == "page" && $allMyPins) {
 
@@ -315,6 +315,13 @@ if ($dataType == "page" && $allMyPins) {
 		return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
 
 	}));
+	$completePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $device_IDs) {
+
+		$pageCondition = in_array($value['device_ID'], $device_IDs);
+
+		return $pageCondition && $value['pin_complete'] == "1";
+
+	}));
 
 }
 											?>
@@ -337,6 +344,13 @@ if ($dataType == "page" && $allMyPins) {
 											?>
 											<pin data-pin-type="live" data-pin-private="1"><?=$privatePinCount?>
 												<div class="pin-title">Private</div>
+											</pin>
+											<?php
+											} if ($completePinCount > 0) {
+											?>
+											<pin class="show-number" data-pin-type="live" data-pin-complete="1"><?=$completePinCount?>
+												<!-- <div class="notif-no">3</div> -->
+												<div class="pin-title">Solved</div>
 											</pin>
 											<?php
 											}
@@ -550,6 +564,13 @@ if ($dataType == "page" && $allMyPins) {
 						?>
 						<pin class="mid" data-pin-type="live" data-pin-private="1"><?=$totalPrivatePinCount?>
 							<div class="pin-title dark-color">Private</div>
+						</pin>
+						<?php
+						} if ($totalCompletePinCount > 0) {
+						?>
+						<pin class="mid show-number" data-pin-type="live" data-pin-complete="1"><?=$totalCompletePinCount?>
+							<!-- <div class="notif-no">3</div> -->
+							<div class="pin-title dark-color">Solved</div>
 						</pin>
 						<?php
 						}

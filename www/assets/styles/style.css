@@ -5747,7 +5747,8 @@ pin {
       border-radius: 50%;
       box-sizing: border-box;
       transition: 500ms; }
-    pin[data-pin-complete="1"]:hover:before {
+    pin[data-pin-complete="1"]:hover:before,
+    pin[data-pin-complete="1"].show-number:before {
       opacity: 0; }
   pin.mouse-cursor {
     position: absolute;
@@ -6428,7 +6429,8 @@ footer .footer-links a {
       .blocks > .block .box .overlay .pins {
         padding: 4px !important; }
         .blocks > .block .box .overlay .pins pin {
-          margin: 1px; }
+          margin: 1px;
+          margin-bottom: 12px; }
           .blocks > .block .box .overlay .pins pin .notif-no {
             bottom: auto;
             right: -5px;

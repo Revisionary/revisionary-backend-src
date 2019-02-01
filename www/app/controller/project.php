@@ -95,7 +95,7 @@ if (
 
 
 // COUNT ALL THE PINS
-$totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = 0;
+$totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = $totalCompletePinCount = 0;
 
 $allMyPins = array();
 if ($allMyPages && $allMyDevices) {
@@ -123,6 +123,11 @@ if ($allMyPages && $allMyDevices) {
 		$totalPrivatePinCount = count(array_filter($allMyPins, function($value) {
 
 			return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
+
+		}));
+		$totalCompletePinCount = count(array_filter($allMyPins, function($value) {
+
+			return $value['pin_complete'] == "1";
 
 		}));
 
