@@ -341,7 +341,9 @@ class User {
 					oc.sort_type as cat_sort_type,
 					oc.sort_object_ID as cat_sort_object_ID,
 					oc.sort_number as cat_sort_number,
-					oc.sorter_user_ID as cat_sorter_user_ID
+					oc.sorter_user_ID as cat_sorter_user_ID,
+					s.share_to as share_to,
+					s.sharer_user_ID as sharer_user_ID
 				'
 			);
 
@@ -358,7 +360,9 @@ class User {
 				oc.sort_type as cat_sort_type,
 				oc.sort_object_ID as cat_sort_object_ID,
 				oc.sort_number as cat_sort_number,
-				oc.sorter_user_ID as cat_sorter_user_ID
+				oc.sorter_user_ID as cat_sorter_user_ID,
+				s.share_to as share_to,
+				s.sharer_user_ID as sharer_user_ID
 			'
 		);
 
