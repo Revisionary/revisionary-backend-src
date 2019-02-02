@@ -558,7 +558,8 @@ a {
 		margin-bottom: 0;
 
 
-		&:hover + ul {
+		&:hover + ul,
+		&.open + ul {
 			opacity: 1;
 			transition-delay: 0s !important;
 			visibility: visible;
@@ -578,7 +579,8 @@ a {
 			transition: 0s;
 			transition-delay: 500ms;
 
-			&:hover {
+			&:hover,
+			&.open {
 				opacity: 1;
 				transition-delay: 0s !important;
 				visibility: visible;

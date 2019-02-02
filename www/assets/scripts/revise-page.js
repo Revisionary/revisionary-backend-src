@@ -588,6 +588,21 @@ $(function() {
 
 
 		// Prepare the CSS data
+		var css = {};
+		var properties = options.find('[data-edit-css]');
+		$(properties).each(function(i, propertyElement) { console.log('PROPERTIES: ', propertyElement);
+
+			var propertyName = $(propertyElement).attr('data-edit-css');
+			var propertyDefaultValue = $(propertyElement).attr('data-default');
+			var propertyValue = $(propertyElement).attr('data-value') || $(propertyElement).val() || defaultValue;
+
+			css[propertyName] = options.attr('data-'+propertyName);
+
+		});
+
+
+/*
+		// Prepare the CSS data
 		var css = {
 			'display' 				: options.attr('data-display'),
 			'opacity' 				: options.attr('data-opacity'),
@@ -603,6 +618,7 @@ $(function() {
 			'background-size'		: options.attr('data-background-size'),
 			'background-image'		: options.attr('data-background-image')
 		}
+*/
 
 
 		// Prepare the CSS declarations

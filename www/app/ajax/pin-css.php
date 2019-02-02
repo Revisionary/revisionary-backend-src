@@ -43,6 +43,24 @@ foreach ($css as $key => $value) {
 		&& $key != "background-image"
 		&& $key != "background-repeat"
 		&& $key != "background-size"
+		&& $key != "top"
+		&& $key != "right"
+		&& $key != "bottom"
+		&& $key != "left"
+		&& $key != "margin-top"
+		&& $key != "margin-right"
+		&& $key != "margin-bottom"
+		&& $key != "margin-left"
+		&& $key != "border-top-width"
+		&& $key != "border-right-width"
+		&& $key != "border-bottom-width"
+		&& $key != "border-left-width"
+		&& $key != "padding-top"
+		&& $key != "padding-right"
+		&& $key != "padding-bottom"
+		&& $key != "padding-left"
+		&& $key != "width"
+		&& $key != "height"
 	) return;
 
 
@@ -99,6 +117,34 @@ foreach ($css as $key => $value) {
 
 		// BG Size rules
 		|| ($key == "background-size" && !is_string($value))
+
+		// Position rules
+		|| ($key == "top" && !is_string($value))
+		|| ($key == "right" && !is_string($value))
+		|| ($key == "bottom" && !is_string($value))
+		|| ($key == "left" && !is_string($value))
+
+		// Margin rules
+		|| ($key == "margin-top" && !is_string($value))
+		|| ($key == "margin-right" && !is_string($value))
+		|| ($key == "margin-bottom" && !is_string($value))
+		|| ($key == "margin-left" && !is_string($value))
+
+		// Border rules
+		|| ($key == "border-top-width" && !is_string($value))
+		|| ($key == "border-right-width" && !is_string($value))
+		|| ($key == "border-bottom-width" && !is_string($value))
+		|| ($key == "border-left-width" && !is_string($value))
+
+		// Padding rules
+		|| ($key == "padding-top" && !is_string($value))
+		|| ($key == "padding-right" && !is_string($value))
+		|| ($key == "padding-bottom" && !is_string($value))
+		|| ($key == "padding-left" && !is_string($value))
+
+		// Size rules
+		|| ($key == "width" && !is_string($value))
+		|| ($key == "height" && !is_string($value))
 
 	) return;
 

@@ -5385,7 +5385,8 @@ a {
   .dropdown a {
     cursor: pointer;
     margin-bottom: 0; }
-    .dropdown a:hover + ul {
+    .dropdown a:hover + ul,
+    .dropdown a.open + ul {
       opacity: 1;
       transition-delay: 0s !important;
       visibility: visible; }
@@ -5401,7 +5402,8 @@ a {
       opacity: 0;
       transition: 0s;
       transition-delay: 500ms; }
-      .dropdown a + ul:hover {
+      .dropdown a + ul:hover,
+      .dropdown a + ul.open {
         opacity: 1;
         transition-delay: 0s !important;
         visibility: visible; }

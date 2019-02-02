@@ -802,12 +802,61 @@
 						</li>
 						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
 							<a href="#"><i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i></a>
-							<ul class="no-delay full">
-								<li><a href="#">Sizes</a></li>
-								<li><a href="#">Paddings</a></li>
-								<li><a href="#">Borders</a></li>
-								<li><a href="#">Margins</a></li>
-								<li><a href="#">Positions</a></li>
+							<ul class="no-delay full" style="width: auto;">
+								<li>
+
+									<div class="css-box">
+
+										<div class="layer positions">
+
+											<div class="input top"><input type="text" data-edit-css="top" data-default="initial"/></div>
+											<div class="input right"><input type="text" data-edit-css="right" data-default="initial"/></div>
+											<div class="input bottom"><input type="text" data-edit-css="bottom" data-default="initial"/></div>
+											<div class="input left"><input type="text" data-edit-css="left" data-default="initial"/></div>
+
+
+											<div class="layer margins">
+
+												<div class="input top"><input type="text" data-edit-css="margin-top" data-default="initial"/></div>
+												<div class="input right"><input type="text" data-edit-css="margin-right" data-default="initial"/></div>
+												<div class="input bottom"><input type="text" data-edit-css="margin-bottom" data-default="initial"/></div>
+												<div class="input left"><input type="text" data-edit-css="margin-left" data-default="initial"/></div>
+
+
+												<div class="layer borders">
+
+													<div class="input top"><input type="text" data-edit-css="border-top-width" data-default="initial"/></div>
+													<div class="input right"><input type="text" data-edit-css="border-right-width" data-default="initial"/></div>
+													<div class="input bottom"><input type="text" data-edit-css="border-bottom-width" data-default="initial"/></div>
+													<div class="input left"><input type="text" data-edit-css="border-left-width" data-default="initial"/></div>
+
+
+													<div class="layer paddings">
+
+														<div class="input top"><input type="text" data-edit-css="padding-top" data-default="initial"/></div>
+														<div class="input right"><input type="text" data-edit-css="padding-right" data-default="initial"/></div>
+														<div class="input bottom"><input type="text" data-edit-css="padding-bottom" data-default="initial"/></div>
+														<div class="input left"><input type="text" data-edit-css="padding-left" data-default="initial"/></div>
+
+
+														<div class="layer sizes">
+
+															<input type="text" data-edit-css="width" data-default="initial"/> x
+															<input type="text" data-edit-css="height" data-default="initial"/>
+
+														</div>
+
+													</div>
+
+												</div>
+
+											</div>
+
+										</div>
+
+									</div>
+
+								</li>
 							</ul>
 						</li>
 					</ul>
