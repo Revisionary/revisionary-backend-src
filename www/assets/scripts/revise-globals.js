@@ -17,6 +17,9 @@ var pages_downloaded = {};
 var page_colors = {};
 var colorsSorted = [];
 
+// Notifications
+var Notifications = {};
+
 // HTML Element Index
 var fileIndexed = false;
 var indexCount = 0;

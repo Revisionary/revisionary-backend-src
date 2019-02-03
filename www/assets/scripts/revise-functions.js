@@ -1139,7 +1139,7 @@ function screenshot(element) {
 
 	var elementColor = element.css('color');
 	var brightness = lightOrDark(elementColor);
-	console.log('Element Color is ' + brightness, elementColor);
+	//console.log('Element Color is ' + brightness, elementColor);
 
 
 	// Take screenshot
@@ -1161,13 +1161,13 @@ function imageDataUrl(canvas) {
 
 
 		// Image Data
-		var dataURL = canvas.toDataURL('image/jpeg', 0.5); console.log(dataURL);
+		var dataURL = canvas.toDataURL('image/jpeg', 0.5); //console.log(dataURL);
 
 
 		// Data Size Calculation
 		var base64String = dataURL.split(",")[1];
 	    var nonBlob = stringToBytesFaster(base64String).length;
-	    var imageSizeKB = nonBlob/1000; console.log("non blob", imageSizeKB, "KB");
+	    var imageSizeKB = nonBlob/1000; //console.log("non blob", imageSizeKB, "KB");
 
 
 		// Size check !!!
@@ -3241,6 +3241,77 @@ function deleteComment(pin_ID, comment_ID) {
 		//console.log('Comment #', comment_ID, ' DELETED');
 
 	});
+
+}
+
+
+
+// NOTIFICATIONS:
+function initiateNotification(pin_ID) {
+
+
+	// Find the pin
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	if (typeof pin === 'undefined') return false;
+
+
+	// Add the pin if not exists
+	if (typeof Notifications[pin_ID] === 'undefined') Notifications[pin_ID] = {
+
+		modification : {
+			sent: false,
+			type : pin.pin_modification_type,
+			original : pin.pin_modification_original,
+			change : pin.pin_modification
+		},
+		css : {
+			sent: false,
+			pin.pin_css
+		},
+		screenshot : {
+			original : "",
+			latest : ""
+		},
+		comments : {
+			sent: false,
+			comments : {}
+		}
+
+	};
+	//else return false;
+
+
+/*
+	var theData = {
+		screenshot : {
+			original : "",
+			latest : ""
+		},
+		modification : {
+			type : pin.pin_modification_type,
+			original : pin.pin_modification_original,
+			change : pin.pin_modification
+		},
+		css : pin.pin_css,
+		comments : {}
+	};
+*/
+
+
+	// Take the latest screenshot
+	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+
+		Notifications[pin_ID].screenshot.original = imageDataUrl(canvas);
+
+	});
+
+
+
+	// Add the notification data
+	//Notifications[pin_ID] = theData;
+
+
+	return Notifications[pin_ID];
 
 }
 
