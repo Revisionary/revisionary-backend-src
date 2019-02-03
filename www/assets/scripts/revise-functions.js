@@ -831,6 +831,26 @@ function runTheInspector() {
 }
 
 
+// Update location values
+function updateLocationValues() {
+
+	// Update the values
+	offset = $('#the-page').offset();
+
+	scrollOffset_top = iframe.scrollTop();
+	scrollOffset_left = iframe.scrollLeft();
+
+	scrollX = scrollOffset_left * iframeScale;
+	scrollY = scrollOffset_top * iframeScale;
+
+	pinWindowWidth = pinWindow.outerWidth();
+	pinWindowHeight = pinWindow.outerHeight();
+
+}
+
+
+
+// TABS:
 // Tab Toggler
 function toggleTab(opener, forceClose = false) {
 
@@ -852,6 +872,33 @@ function toggleTab(opener, forceClose = false) {
 }
 
 
+// Update pins list in the Pins tab
+function updatePinsList() {
+
+
+	// Clear the list
+	$('.pins-list').html('<div class="xl-center">No pins added yet.</div>');
+
+
+	$(Pins).each(function(i, pin) {
+
+		if (i == 0) $('.pins-list').html('');
+
+		var pin_number = i + 1;
+
+		// Add the pin to the list
+		$('.pins-list').append(
+			listedPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y, pin.pin_css)
+		);
+
+
+	});
+
+}
+
+
+
+// OUTLINES:
 // Color the element
 function outline(element, private_pin, pin_type = "live") {
 
@@ -878,6 +925,8 @@ function removeOutline() {
 }
 
 
+
+// CURSOR:
 // Switch to a different pin mode
 function switchPinType(pinType, pinPrivate) {
 
@@ -1008,15 +1057,101 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 }
 
 
-// Change the pin number on cursor
-function changePinNumber(pinNumber) {
 
-	cursor.text(pinNumber);
-	currentPinNumber = pinNumber;
+// AUTO REFRESH:
+// Start auto-refresh
+function startAutoRefresh(interval = autoRefreshInterval) {
+
+	console.log('AUTO-REFRESH PINS STARTED');
+
+	autoRefreshTimer = setInterval(function() {
+
+		console.log('Auto checking the pins...');
+
+
+		// Abort the latest request if not finalized
+		if(autoRefreshRequest && autoRefreshRequest.readyState != 4) {
+			console.log('Latest request aborted');
+			autoRefreshRequest.abort();
+		}
+
+
+		// Get the up-to-date pins
+		getPins();
+
+
+	}, interval);
 
 }
 
 
+// Stop auto-refresh
+function stopAutoRefresh() {
+
+	console.log('AUTO-REFRESH PINS STOPPED');
+
+	if (autoRefreshRequest) autoRefreshRequest.abort();
+
+	clearInterval(autoRefreshTimer);
+
+}
+
+
+
+// SCREENSHOTS:
+// Take screenshot of an element
+function screenshot(element) {
+
+	var elementColor = element.css('color');
+	var brightness = lightOrDark(elementColor);
+	console.log('Element Color is ' + brightness, elementColor);
+
+
+	// Take screenshot
+	return html2canvas( element[0], {
+		async: false,
+    	allowTaint: true,
+    	backgroundColor: brightness == "light" ? "black" : "white",
+    	scale: 1
+    });
+
+
+}
+
+
+// Get the image URL from canvas
+function imageDataUrl(canvas) {
+
+	try {
+
+
+		// Image Data
+		var dataURL = canvas.toDataURL('image/jpeg', 0.5); console.log(dataURL);
+
+
+		// Data Size Calculation
+		var base64String = dataURL.split(",")[1];
+	    var nonBlob = stringToBytesFaster(base64String).length;
+	    var imageSizeKB = nonBlob/1000; console.log("non blob", imageSizeKB, "KB");
+
+
+		// Size check !!!
+		return dataURL;
+
+
+	} catch (e) {
+
+		//console.error('Screenshot error', e);
+		return "";
+
+	}
+
+
+}
+
+
+
+// PINS:
 // DB: Get up-to-date pins and changes
 function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 
@@ -1122,704 +1257,6 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 
 
 	});
-
-}
-
-
-// Update originals
-function updateOriginals(pinsList = [], oldPinsList) {
-
-
-	$(pinsList).each(function(i, pin) {
-
-
-		// Skip standard and unmodified pins
-		if ( pin.pin_type != "live" || pin.pin_modification_original != null ) return true;
-
-
-		var theOriginal = null;
-		var pin_ID = pin.pin_ID;
-		var oldPin = oldPinsList.find(function(p) { return p.pin_ID == pin_ID ? true : false; });
-		var element = iframeElement(pin.pin_element_index);
-
-
-		// Check from the existing Pins global
-		if (oldPin && oldPin.pin_modification_original != null)
-			theOriginal = oldPin.pin_modification_original;
-
-
-		// Check if it's an untouched dom
-		else if ( element.is(':not([data-revisionary-showing-changes = "1"])') ) {
-
-			if (pin.pin_modification_type == "html") {
-
-				theOriginal = htmlentities(element.html(), "ENT_QUOTES");
-
-
-				// If edited element is a submit or reset input button
-				if (
-		        	element.prop("tagName") == "INPUT" &&
-		        	(
-		        		element.attr("type") == "text" ||
-		        		element.attr("type") == "email" ||
-		        		element.attr("type") == "url" ||
-		        		element.attr("type") == "tel" ||
-		        		element.attr("type") == "submit" ||
-		        		element.attr("type") == "reset"
-		        	)
-		        ) {
-					theOriginal = htmlentities( element.val(), "ENT_QUOTES" );
-				}
-
-
-			} else if (pin.pin_modification_type == "image") {
-
-				theOriginal = element.attr('src');
-
-			}
-
-		}
-
-
-		pinsList[i].pin_modification_original = theOriginal;
-
-	});
-
-
-	return pinsList;
-
-}
-
-
-// Apply the pins
-function applyPins(oldPins = []) {
-
-
-	console.log('APPLYING PINS...');
-
-
-	// Revert the changes first
-	var showingOriginal = revertChanges([], oldPins); // !!! REVERT THE CSS CHANGES
-
-
-	// Empty the pins
-	$('#pins').html('');
-
-
-	// Add the pins
-	$(Pins).each(function(i, pin) {
-
-		var pin_number = i + 1;
-
-		// Add the pin to the list
-		$('#pins').append(
-			pinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y)
-		);
-
-
-	});
-
-
-	// Update the cursor number with the existing pins
-	currentPinNumber = $('#pins > pin').length + 1;
-	changePinNumber(currentPinNumber);
-
-
-	// Make pins draggable
-	makeDraggable();
-
-
-	// Relocate the pins
-	relocatePins();
-
-
-	// Update the pins list tab
-	updatePinsList();
-
-
-	// Apply changes
-	applyChanges(showingOriginal);
-
-}
-
-
-// Apply changes
-function applyChanges(showingOriginal = []) {
-
-
-	$(Pins).each(function(i, pin) {
-
-
-		// Find the element
-		var element_index = pin.pin_element_index;
-		var element = iframeElement(element_index);
-		var thePin = pinElement(pin.pin_ID);
-
-
-
-		// CSS CODES:
-		if ( pin.pin_css != null ) updateCSS(element_index, pin.pin_css);
-
-
-
-		// MODIFICATIONS:
-		// Skip standard and unmodified pins
-		if ( pin.pin_type != "live" ) return true;
-
-
-		console.log('APPLYING PIN: ', i, pin);
-
-
-		// Is showing changes
-		var isShowingOriginal = showingOriginal.includes(element_index) ? true : false;
-
-
-		// Add the contenteditable attribute to the live elements
-		if (pin.pin_modification_type == "html")
-			element.attr('contenteditable', (isShowingOriginal ? "false" : "true"));
-
-
-		if (pin.pin_modification == null ) return true;
-
-
-		// If it was showing changes
-		if (!isShowingOriginal) {
-
-
-			// If the type is HTML content change
-			if ( pin.pin_modification_type == "html" ) {
-
-
-				//console.log('MODIFICATION ORIG:', pin.pin_modification);
-
-
-				// Apply the change
-				var newHTML = html_entity_decode(pin.pin_modification); //console.log('NEW', newHTML);
-				element.html( newHTML ).attr('contenteditable', (isShowingOriginal ? "false" : "true"));
-
-
-				// If edited element is a submit or reset input button
-				if (
-		        	element.prop("tagName") == "INPUT" &&
-		        	(
-		        		element.attr("type") == "text" ||
-		        		element.attr("type") == "email" ||
-		        		element.attr("type") == "url" ||
-		        		element.attr("type") == "tel" ||
-		        		element.attr("type") == "submit" ||
-		        		element.attr("type") == "reset"
-		        	)
-		        ) {
-					element.val(newHTML);
-				}
-
-
-				//console.log('MODIFICATION DECODED:', newHTML);
-
-
-			// If the type is image change
-			} else if ( pin.pin_modification_type == "image" ) {
-
-
-				// Apply the change
-				var newSrc = pin.pin_modification; //console.log('NEW', newHTML);
-				element.attr('src', newSrc).removeAttr('srcset');
-
-
-			}
-
-		}
-
-
-
-		// Update the element and pin status
-		element.attr('data-revisionary-edited', "1")
-			.attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
-		thePin.attr('data-revisionary-edited', "1")
-			.attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
-
-
-
-	});
-
-
-	autoRefreshRequest = null;
-
-
-	console.log('CHANGES APPLIED');
-
-
-	// Hide the loading overlay
-	$('#loading').fadeOut();
-
-	// Page is ready now
-	page_ready = true;
-	$('body').addClass('ready');
-
-
-}
-
-
-// Revert changes
-function revertChanges(element_indexes = [], pinsList = Pins) {
-
-	if ( element_indexes.length ) console.log('REVERTING CHANGES FOR: ', element_indexes);
-
-
-	var showingOriginal = [];
-	$(pinsList).each(function(i, pin) {
-
-
-		// If specific modifications requested to revert, skip reverting
-		if ( element_indexes.length && !element_indexes.includes(pin.pin_element_index) ) return true;
-
-
-		// Revert the CSS
-		iframeElement('style[data-index="'+ pin.pin_element_index +'"]').remove();
-
-
-		// Skip standard and unmodified pins
-		if ( pin.pin_type != "live" || pin.pin_modification_original == null ) return true;
-
-
-		console.log('REVERTING PIN: ', pin);
-
-
-
-		// Find the element
-		var element_index = pin.pin_element_index;
-		var element = iframeElement(element_index);
-		var thePin = pinElement(pin.pin_ID);
-
-
-		// Is currently showing the edits?
-		var isShowingOriginal = element.is('[data-revisionary-edited="1"][data-revisionary-showing-changes="0"]') ? true : false;
-
-		// Add this element as showingOriginal element, if not currently showing changes
-		if (isShowingOriginal) showingOriginal.push(element_index);
-
-
-		// If the type is HTML content change
-		if ( pin.pin_modification_type == "html" ) {
-
-			// Revert the change
-			var oldHTML = html_entity_decode(pin.pin_modification_original); //console.log('NEW', newHTML);
-			element.html(oldHTML);
-
-
-			// If edited element is a submit or reset input button
-			if (
-	        	element.prop("tagName") == "INPUT" &&
-	        	(
-	        		element.attr("type") == "text" ||
-	        		element.attr("type") == "email" ||
-	        		element.attr("type") == "url" ||
-	        		element.attr("type") == "tel" ||
-	        		element.attr("type") == "submit" ||
-	        		element.attr("type") == "reset"
-	        	)
-	        ) {
-				element.val(oldHTML);
-			}
-
-
-			// Update the pin window content if open
-			if ( pinWindowOpen && pinWindow.attr('data-pin-id') == pin.pin_ID ) {
-
-				// Add the changed HTML content
-				pinWindow.find('.content-editor .edit-content.changes').html( oldHTML );
-
-			}
-
-		// If the type is image change
-		} else if ( pin.pin_modification_type == "image" ) {
-
-			// Revert the change
-			var oldSrc = pin.pin_modification_original; //console.log('NEW', newHTML);
-			element.attr('src', oldSrc);
-
-		}
-
-
-		// Update the element and pin status
-		element
-			.removeAttr('data-revisionary-edited')
-			.removeAttr('data-revisionary-showing-changes')
-			.removeAttr('contenteditable');
-		thePin.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
-
-
-	});
-
-
-	return showingOriginal;
-
-
-}
-
-
-// Activate Pins Drag
-function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
-
-
-
-	// Make pins draggable
-	pin.draggable({
-		containment: ".iframe-container",
-		iframeFix: true,
-		scroll: false,
-		snap: false,
-		snapMode: "outer",
-		snapTolerance: 10,
-		stack: "#pins > pin",
-		cursor: "move",
-		opacity: 0.35,
-		start: function( event, ui ) {
-
-
-			//console.log('STARTED!');
-
-
-		},
-		drag: function( event, ui ) {
-
-
-			//console.log('DRAGGING ', ui.position.top, ui.position.left);
-
-
-			// Stop auto refresh
-			stopAutoRefresh();
-
-
-			// Fixed decimal for DB structure
-			var leftDest = Math.abs(ui.originalPosition.left - ui.position.left);
-			var topDest = Math.abs(ui.originalPosition.top - ui.position.top);
-
-			console.log('DIFF: ', leftDest, topDest);
-
-
-			if (leftDest + topDest > 4) {
-				pinDragging = true;
-
-				console.log('DRAGGING!!!');
-			}
-
-
-
-			// If pin window open, attach it to the pin
-			relocatePins($(this), ui.position.left, ui.position.top, true);
-
-
-		},
-		stop: function( event, ui ) {
-
-
-			//console.log('STOPPED.');
-
-
-			var pinWasDragging = pinDragging;
-			pinDragging = false;
-
-
-			// Get the pin
-			focusedPin = $(this);
-			var pin_ID = focusedPin.attr('data-pin-id');
-
-
-			// Get the final positions
-			var pos_x = ui.position.left;
-			var pos_y = ui.position.top;
-
-
-			//console.log('DROPPED ', pos_x, pos_y);
-
-
-			// Update the pin location attributes
-			relocatePins(focusedPin, pos_x, pos_y);
-
-
-			// Get the updated positions
-			var pinX = parseFloat(focusedPin.attr('data-pin-x')).toFixed(5);
-			var pinY = parseFloat(focusedPin.attr('data-pin-y')).toFixed(5);
-
-
-			console.log('RELOCATING: ', pinX, pinY);
-
-
-		    // Update the pin location on DB
-		    //console.log('Update the new pin location on DB', pinX, pinY);
-
-
-			// Start the process
-			var relocateProcessID = newProcess(null, "pinRelocate");
-
-		    $.post(ajax_url, {
-				'type'	  	 : 'pin-relocate',
-				'pin_ID'	 : pin_ID,
-				'pin_x' 	 : pinX,
-				'pin_y' 	 : pinY
-			}, function(result){
-
-
-				// Update the global 'pins'
-				var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-				var pinIndex = Pins.findIndex(function(element, index, array) { return element == pin; });
-
-				Pins[pinIndex].pin_x = pinX;
-				Pins[pinIndex].pin_y = pinY;
-
-
-
-				// Finish the process
-				endProcess(relocateProcessID);
-
-				//console.log(result.data);
-
-			}, 'json');
-
-
-		}
-	});
-
-
-}
-
-
-// Re-Locate Pins
-function relocatePins(pin_selector = null, x = null, y = null, onlyPinWindow = false) {
-
-
-	// Update the location and size values first
-	updateLocationValues();
-
-
-	if ( pin_selector ) {
-
-
-		pin_ID = pin_selector.attr('data-pin-id');
-
-
-	    var scrolled_pin_x = x > 0 ? x : 0;
-	    var scrolled_pin_y = y > 0 ? y : 0;
-
-	    scrolled_pin_x = x < iframeWidth - 45 ? scrolled_pin_x : iframeWidth - 45;
-	    scrolled_pin_y = y < iframeHeight - 45 ? scrolled_pin_y : iframeHeight - 45;
-
-		pin_selector.css('left', scrolled_pin_x + "px");
-		pin_selector.css('top', scrolled_pin_y + "px");
-
-
-		var realPinX = (scrolled_pin_x / iframeScale) + scrollOffset_left;
-		var realPinY = (scrolled_pin_y / iframeScale) + scrollOffset_top;
-
-
-		// Update the registered pin location
-	    pin_selector.attr('data-pin-x', realPinX);
-		pin_selector.attr('data-pin-y', realPinY );
-
-
-		// Update the registered pin window location as well, only if current pin is moving
-		if ( pin_ID == pinWindow.attr('data-pin-id') ) {
-
-			pinWindow.attr('data-pin-x', realPinX);
-			pinWindow.attr('data-pin-y', realPinY);
-
-		}
-
-
-	} else if (!onlyPinWindow) {
-
-
-	    $('#pins > pin').each(function() {
-
-		    var pin = $(this);
-
-
-		    var pin_x = parseInt(pin.attr('data-pin-x')) * iframeScale;
-		    var pin_y = parseInt(pin.attr('data-pin-y')) * iframeScale;
-
-
-		    var scrolled_pin_x = pin_x - scrollX;
-		    var scrolled_pin_y = pin_y - scrollY;
-
-
-		    pin.css('left', scrolled_pin_x + "px");
-			pin.css('top', scrolled_pin_y + "px");
-
-	    });
-
-
-	}
-
-
-	// Current pin window location
-	var window_x = parseInt(pinWindow.attr('data-pin-x')) * iframeScale;
-	var window_y = parseInt(pinWindow.attr('data-pin-y')) * iframeScale;
-
-
-    var scrolled_window_x = window_x + offset.left - scrollX + 50;
-    var scrolled_window_y = window_y + offset.top - scrollY + 50;
-
-
-	var spaceWidth = offset.left + iframeWidth + offset.left - 15;
-	var spaceHeight = offset.top + iframeHeight + offset.top - 15 - $('#top-bar').height();
-
-
-    var new_scrolled_window_x = scrolled_window_x < spaceWidth - pinWindowWidth ? scrolled_window_x : spaceWidth - pinWindowWidth;
-    var new_scrolled_window_y = scrolled_window_y < spaceHeight - pinWindowHeight ? scrolled_window_y : spaceHeight - pinWindowHeight;
-
-
-	// Change the side of the window
-	if (
-		scrolled_window_x >= spaceWidth - pinWindowWidth &&
-		scrolled_window_y >= spaceHeight - pinWindowHeight
-	) {
-
-		//console.log('OUCH!');
-		new_scrolled_window_x = scrolled_window_x - pinWindowWidth - 55;
-
-	}
-
-
-	// Make the pin window stay after scrolling up
-	if (scrolled_window_y > new_scrolled_window_y + pinWindowHeight) {
-
-		//console.log('GOODBYE!');
-		new_scrolled_window_y = scrolled_window_y - pinWindowHeight;
-
-	}
-
-
-	// Relocate the pin window
-	pinWindow.not('.moved').css('left', new_scrolled_window_x + "px");
-	pinWindow.not('.moved').css('top', new_scrolled_window_y + "px");
-
-}
-
-
-// Update location values
-function updateLocationValues() {
-
-	// Update the values
-	offset = $('#the-page').offset();
-
-	scrollOffset_top = iframe.scrollTop();
-	scrollOffset_left = iframe.scrollLeft();
-
-	scrollX = scrollOffset_left * iframeScale;
-	scrollY = scrollOffset_top * iframeScale;
-
-	pinWindowWidth = pinWindow.outerWidth();
-	pinWindowHeight = pinWindow.outerHeight();
-
-}
-
-
-// Re-Index Pins
-function reindexPins() {
-
-
-    $('#pins > pin').each(function(i) {
-
-	    var pin = $(this);
-
-		pin.text(i+1);
-
-    });
-
-
-    // Update the current pin number on cursor
-    changePinNumber(currentPinNumber - 1);
-
-
-}
-
-
-// Start auto-refresh
-function startAutoRefresh(interval = autoRefreshInterval) {
-
-	console.log('AUTO-REFRESH PINS STARTED');
-
-	autoRefreshTimer = setInterval(function() {
-
-		console.log('Auto checking the pins...');
-
-
-		// Abort the latest request if not finalized
-		if(autoRefreshRequest && autoRefreshRequest.readyState != 4) {
-			console.log('Latest request aborted');
-			autoRefreshRequest.abort();
-		}
-
-
-		// Get the up-to-date pins
-		getPins();
-
-
-	}, interval);
-
-}
-
-
-// Stop auto-refresh
-function stopAutoRefresh() {
-
-	console.log('AUTO-REFRESH PINS STOPPED');
-
-	if (autoRefreshRequest) autoRefreshRequest.abort();
-
-	clearInterval(autoRefreshTimer);
-
-}
-
-
-// Take screenshot of an element
-function screenshot(element) {
-
-	var elementColor = element.css('color');
-	var brightness = lightOrDark(elementColor);
-	console.log('Element Color is ' + brightness, elementColor);
-
-
-	// Take screenshot
-	return html2canvas( element[0], {
-		async: false,
-    	allowTaint: true,
-    	backgroundColor: brightness == "light" ? "black" : "white",
-    	scale: 1
-    });
-
-
-}
-
-
-// Get the image URL from canvas
-function imageDataUrl(canvas) {
-
-	try {
-
-
-		// Image Data
-		var dataURL = canvas.toDataURL('image/jpeg', 0.5); console.log(dataURL);
-
-
-		// Data Size Calculation
-		var base64String = dataURL.split(",")[1];
-	    var nonBlob = stringToBytesFaster(base64String).length;
-	    var imageSizeKB = nonBlob/1000; console.log("non blob", imageSizeKB, "KB");
-
-
-		// Size check !!!
-		return dataURL;
-
-
-	} catch (e) {
-
-		//console.error('Screenshot error', e);
-		return "";
-
-	}
-
 
 }
 
@@ -1966,6 +1403,227 @@ function putPin(pinX, pinY) {
 }
 
 
+// DB: Remove a pin
+function removePin(pin_ID, instantRemove = false) {
+
+
+    // Add pin to the DB
+    console.log('Remove the pin #' + pin_ID + ' from DB!!');
+
+
+    // Add removing message
+    if (pinWindowOpen) pinWindow.addClass('removing');
+
+
+    // Instant remove from the DOM
+    if (instantRemove) pinElement(pin_ID).remove();
+
+
+	// Start the process
+	removePinProcess[pin_ID] = newProcess(null, "removePin"+pin_ID);
+
+    ajax('pin-remove',
+    {
+		'type'	  	: 'pin-remove',
+		'pin_ID'	: pin_ID
+
+	}).done(function(result){
+
+		console.log("DB REMOVED: ", result.data);
+
+
+	    // Remove removing message
+	    if (pinWindowOpen) pinWindow.removeClass('removing');
+
+
+		// Close the pin window
+		if (pinWindowOpen) closePinWindow();
+
+
+		// Bring the pin info
+		var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+		var pinIndex = Pins.indexOf(pin);
+
+		//console.log(modification);
+
+		if (pin) {
+
+			// Revert the changes
+			revertChanges([pin.pin_element_index]);
+
+
+			// Delete from the list
+			Pins.splice(pinIndex, 1);
+
+		}
+
+
+
+		// Remove the pin from DOM
+		pinElement(pin_ID).remove();
+
+
+		// Re-Index the pin counts
+		reindexPins();
+
+
+		// Finish the process
+		endProcess(removePinProcess[pin_ID]);
+
+
+	});
+
+
+}
+
+
+// DB: Complete/Incomplete a pin
+function completePin(pin_ID, complete, imgData = null) {
+
+
+
+    console.log( (complete ? 'Complete' : 'Incomplete') +' the pin #' + pin_ID + ' on DB!!');
+
+
+
+
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pinIndex = Pins.indexOf(pin);
+	var element_index = pin.pin_element_index;
+
+
+	// Update from the Pins global
+	Pins[pinIndex].pin_complete = complete ? 1 : 0;
+
+
+	// Update the pin & pin window status
+	pinElement(pin_ID).attr('data-pin-complete', (complete ? '1' : '0'));
+	pinWindow.attr('data-pin-complete', (complete ? '1' : '0'));
+
+
+
+	// Start the process
+	var completePinProcessID = newProcess(null, "pin"+(complete ? 'Complete' : 'Incomplete'));
+
+
+	// Try taking a screenshot
+	screenshot( iframeElement(element_index) ).then(function(canvas) {
+
+
+		// Image Data
+		var imgDataURL = imageDataUrl(canvas);
+
+
+	    // Update pin from the DB
+		ajax('pin-complete', {
+
+			'pin_ID' 	   : pin_ID,
+			'complete'	   : (complete ? 'complete' : 'incomplete'),
+			'imgDataURL'   : imgDataURL
+
+		}).done(function(result) {
+
+			console.log("RESULT: ", result.data);
+
+
+			// Finish the process
+			endProcess(completePinProcessID);
+
+		});
+
+
+
+	});
+
+}
+
+
+// DB: Convert pin
+function convertPin(pin_ID, targetPin) {
+
+
+	// New values
+	var pinType = targetPin.attr('data-pin-type');
+	var pinPrivate = targetPin.attr('data-pin-private');
+	var pinLabel = targetPin.next().text();
+	var elementIndex = parseInt( pinElement(pin_ID).attr('data-revisionary-index') ); console.log('element-index', elementIndex);
+
+
+	console.log('Convert PIN #'+ pin_ID +' to: ', pinType, 'Private: ' + pinPrivate);
+
+
+	// Update from the Pins global
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pinIndex = Pins.indexOf(pin);
+
+
+	// If the new type is standard, reset the modifications
+	if (pinType == "standard") {
+
+		revertChanges([elementIndex]);
+
+		Pins[pinIndex].pin_modification_type = null;
+		Pins[pinIndex].pin_modification = null;
+		Pins[pinIndex].pin_modification_original = null;
+
+		pinElement(pin_ID).attr('data-pin-modification-type', 'null');
+		pinWindow.attr('data-pin-modification-type', 'null');
+
+		// Remove outlines from iframe
+		removeOutline();
+
+	}
+
+	Pins[pinIndex].pin_type = pinType;
+	Pins[pinIndex].pin_private = parseInt(pinPrivate);
+
+
+	// Update the pin status
+	pinElement(pin_ID)
+		.attr('data-pin-type', pinType)
+		.attr('data-pin-private', pinPrivate);
+
+
+	// Update the pin window status
+	pinWindow.attr('data-pin-type', pinType)
+		.attr('data-pin-type', pinType)
+		.attr('data-pin-private', pinPrivate);
+
+
+	// Update the pin type section label
+	pinWindow.find('pin.chosen-pin').attr('data-pin-type', pinType).attr('data-pin-private', pinPrivate);
+	pinWindow.find('.pin-label').text(pinLabel);
+
+
+	// If it's a live pin, change the element outline color
+	if (pinType == "live") outline( iframeElement(elementIndex), pinPrivate );
+
+
+
+	// Start the process
+	var convertPinProcessID = newProcess(null, "convertPinProcess");
+
+
+	// Save it on DB
+	ajax('pin-convert',
+	{
+		'pin_ID' 	    : pin_ID,
+		'pin_type'		: pinType,
+		'pin_private'   : pinPrivate
+
+	}).done(function(result) {
+
+		console.log(result.data);
+
+
+		// Finish the process
+		endProcess(convertPinProcessID);
+
+	});
+
+}
+
+
 // Scroll to a pin
 function scrollToPin(pin_ID, openWindow = false) {
 
@@ -2008,6 +1666,276 @@ function scrollToPin(pin_ID, openWindow = false) {
 }
 
 
+// Re-Index Pins
+function reindexPins() {
+
+
+    $('#pins > pin').each(function(i) {
+
+	    var pin = $(this);
+
+		pin.text(i+1);
+
+    });
+
+
+    // Update the current pin number on cursor
+    changePinNumber(currentPinNumber - 1);
+
+
+}
+
+
+// Change the pin number on cursor
+function changePinNumber(pinNumber) {
+
+	cursor.text(pinNumber);
+	currentPinNumber = pinNumber;
+
+}
+
+
+// Re-Locate Pins
+function relocatePins(pin_selector = null, x = null, y = null, onlyPinWindow = false) {
+
+
+	// Update the location and size values first
+	updateLocationValues();
+
+
+	if ( pin_selector ) {
+
+
+		pin_ID = pin_selector.attr('data-pin-id');
+
+
+	    var scrolled_pin_x = x > 0 ? x : 0;
+	    var scrolled_pin_y = y > 0 ? y : 0;
+
+	    scrolled_pin_x = x < iframeWidth - 45 ? scrolled_pin_x : iframeWidth - 45;
+	    scrolled_pin_y = y < iframeHeight - 45 ? scrolled_pin_y : iframeHeight - 45;
+
+		pin_selector.css('left', scrolled_pin_x + "px");
+		pin_selector.css('top', scrolled_pin_y + "px");
+
+
+		var realPinX = (scrolled_pin_x / iframeScale) + scrollOffset_left;
+		var realPinY = (scrolled_pin_y / iframeScale) + scrollOffset_top;
+
+
+		// Update the registered pin location
+	    pin_selector.attr('data-pin-x', realPinX);
+		pin_selector.attr('data-pin-y', realPinY );
+
+
+		// Update the registered pin window location as well, only if current pin is moving
+		if ( pin_ID == pinWindow.attr('data-pin-id') ) {
+
+			pinWindow.attr('data-pin-x', realPinX);
+			pinWindow.attr('data-pin-y', realPinY);
+
+		}
+
+
+	} else if (!onlyPinWindow) {
+
+
+	    $('#pins > pin').each(function() {
+
+		    var pin = $(this);
+
+
+		    var pin_x = parseInt(pin.attr('data-pin-x')) * iframeScale;
+		    var pin_y = parseInt(pin.attr('data-pin-y')) * iframeScale;
+
+
+		    var scrolled_pin_x = pin_x - scrollX;
+		    var scrolled_pin_y = pin_y - scrollY;
+
+
+		    pin.css('left', scrolled_pin_x + "px");
+			pin.css('top', scrolled_pin_y + "px");
+
+	    });
+
+
+	}
+
+
+	// Current pin window location
+	var window_x = parseInt(pinWindow.attr('data-pin-x')) * iframeScale;
+	var window_y = parseInt(pinWindow.attr('data-pin-y')) * iframeScale;
+
+
+    var scrolled_window_x = window_x + offset.left - scrollX + 50;
+    var scrolled_window_y = window_y + offset.top - scrollY + 50;
+
+
+	var spaceWidth = offset.left + iframeWidth + offset.left - 15;
+	var spaceHeight = offset.top + iframeHeight + offset.top - 15 - $('#top-bar').height();
+
+
+    var new_scrolled_window_x = scrolled_window_x < spaceWidth - pinWindowWidth ? scrolled_window_x : spaceWidth - pinWindowWidth;
+    var new_scrolled_window_y = scrolled_window_y < spaceHeight - pinWindowHeight ? scrolled_window_y : spaceHeight - pinWindowHeight;
+
+
+	// Change the side of the window
+	if (
+		scrolled_window_x >= spaceWidth - pinWindowWidth &&
+		scrolled_window_y >= spaceHeight - pinWindowHeight
+	) {
+
+		//console.log('OUCH!');
+		new_scrolled_window_x = scrolled_window_x - pinWindowWidth - 55;
+
+	}
+
+
+	// Make the pin window stay after scrolling up
+	if (scrolled_window_y > new_scrolled_window_y + pinWindowHeight) {
+
+		//console.log('GOODBYE!');
+		new_scrolled_window_y = scrolled_window_y - pinWindowHeight;
+
+	}
+
+
+	// Relocate the pin window
+	pinWindow.not('.moved').css('left', new_scrolled_window_x + "px");
+	pinWindow.not('.moved').css('top', new_scrolled_window_y + "px");
+
+}
+
+
+// Activate Pins Drag
+function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
+
+
+
+	// Make pins draggable
+	pin.draggable({
+		containment: ".iframe-container",
+		iframeFix: true,
+		scroll: false,
+		snap: false,
+		snapMode: "outer",
+		snapTolerance: 10,
+		stack: "#pins > pin",
+		cursor: "move",
+		opacity: 0.35,
+		start: function( event, ui ) {
+
+
+			//console.log('STARTED!');
+
+
+		},
+		drag: function( event, ui ) {
+
+
+			//console.log('DRAGGING ', ui.position.top, ui.position.left);
+
+
+			// Stop auto refresh
+			stopAutoRefresh();
+
+
+			// Fixed decimal for DB structure
+			var leftDest = Math.abs(ui.originalPosition.left - ui.position.left);
+			var topDest = Math.abs(ui.originalPosition.top - ui.position.top);
+
+			console.log('DIFF: ', leftDest, topDest);
+
+
+			if (leftDest + topDest > 4) {
+				pinDragging = true;
+
+				console.log('DRAGGING!!!');
+			}
+
+
+
+			// If pin window open, attach it to the pin
+			relocatePins($(this), ui.position.left, ui.position.top, true);
+
+
+		},
+		stop: function( event, ui ) {
+
+
+			//console.log('STOPPED.');
+
+
+			var pinWasDragging = pinDragging;
+			pinDragging = false;
+
+
+			// Get the pin
+			focusedPin = $(this);
+			var pin_ID = focusedPin.attr('data-pin-id');
+
+
+			// Get the final positions
+			var pos_x = ui.position.left;
+			var pos_y = ui.position.top;
+
+
+			//console.log('DROPPED ', pos_x, pos_y);
+
+
+			// Update the pin location attributes
+			relocatePins(focusedPin, pos_x, pos_y);
+
+
+			// Get the updated positions
+			var pinX = parseFloat(focusedPin.attr('data-pin-x')).toFixed(5);
+			var pinY = parseFloat(focusedPin.attr('data-pin-y')).toFixed(5);
+
+
+			console.log('RELOCATING: ', pinX, pinY);
+
+
+		    // Update the pin location on DB
+		    //console.log('Update the new pin location on DB', pinX, pinY);
+
+
+			// Start the process
+			var relocateProcessID = newProcess(null, "pinRelocate");
+
+		    $.post(ajax_url, {
+				'type'	  	 : 'pin-relocate',
+				'pin_ID'	 : pin_ID,
+				'pin_x' 	 : pinX,
+				'pin_y' 	 : pinY
+			}, function(result){
+
+
+				// Update the global 'pins'
+				var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+				var pinIndex = Pins.findIndex(function(element, index, array) { return element == pin; });
+
+				Pins[pinIndex].pin_x = pinX;
+				Pins[pinIndex].pin_y = pinY;
+
+
+
+				// Finish the process
+				endProcess(relocateProcessID);
+
+				//console.log(result.data);
+
+			}, 'json');
+
+
+		}
+	});
+
+
+}
+
+
+
+// PIN WINDOW:
 // Open the pin window
 function openPinWindow(pin_ID, firstTime = false) {
 
@@ -2413,223 +2341,336 @@ function togglePinWindow(pin_ID) {
 }
 
 
-// DB: Remove a pin
-function removePin(pin_ID, instantRemove = false) {
+
+// MODIFICATIONS:
+// Update originals
+function updateOriginals(pinsList = [], oldPinsList) {
 
 
-    // Add pin to the DB
-    console.log('Remove the pin #' + pin_ID + ' from DB!!');
+	$(pinsList).each(function(i, pin) {
 
 
-    // Add removing message
-    if (pinWindowOpen) pinWindow.addClass('removing');
+		// Skip standard and unmodified pins
+		if ( pin.pin_type != "live" || pin.pin_modification_original != null ) return true;
 
 
-    // Instant remove from the DOM
-    if (instantRemove) pinElement(pin_ID).remove();
+		var theOriginal = null;
+		var pin_ID = pin.pin_ID;
+		var oldPin = oldPinsList.find(function(p) { return p.pin_ID == pin_ID ? true : false; });
+		var element = iframeElement(pin.pin_element_index);
 
 
-	// Start the process
-	removePinProcess[pin_ID] = newProcess(null, "removePin"+pin_ID);
-
-    ajax('pin-remove',
-    {
-		'type'	  	: 'pin-remove',
-		'pin_ID'	: pin_ID
-
-	}).done(function(result){
-
-		console.log("DB REMOVED: ", result.data);
+		// Check from the existing Pins global
+		if (oldPin && oldPin.pin_modification_original != null)
+			theOriginal = oldPin.pin_modification_original;
 
 
-	    // Remove removing message
-	    if (pinWindowOpen) pinWindow.removeClass('removing');
+		// Check if it's an untouched dom
+		else if ( element.is(':not([data-revisionary-showing-changes = "1"])') ) {
+
+			if (pin.pin_modification_type == "html") {
+
+				theOriginal = htmlentities(element.html(), "ENT_QUOTES");
 
 
-		// Close the pin window
-		if (pinWindowOpen) closePinWindow();
+				// If edited element is a submit or reset input button
+				if (
+		        	element.prop("tagName") == "INPUT" &&
+		        	(
+		        		element.attr("type") == "text" ||
+		        		element.attr("type") == "email" ||
+		        		element.attr("type") == "url" ||
+		        		element.attr("type") == "tel" ||
+		        		element.attr("type") == "submit" ||
+		        		element.attr("type") == "reset"
+		        	)
+		        ) {
+					theOriginal = htmlentities( element.val(), "ENT_QUOTES" );
+				}
 
 
-		// Bring the pin info
-		var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-		var pinIndex = Pins.indexOf(pin);
+			} else if (pin.pin_modification_type == "image") {
 
-		//console.log(modification);
+				theOriginal = element.attr('src');
 
-		if (pin) {
+			}
 
-			// Revert the changes
-			revertChanges([pin.pin_element_index]);
+		}
 
 
-			// Delete from the list
-			Pins.splice(pinIndex, 1);
+		pinsList[i].pin_modification_original = theOriginal;
+
+	});
+
+
+	return pinsList;
+
+}
+
+
+// Apply the pins
+function applyPins(oldPins = []) {
+
+
+	console.log('APPLYING PINS...');
+
+
+	// Revert the changes first
+	var showingOriginal = revertChanges([], oldPins); // !!! REVERT THE CSS CHANGES
+
+
+	// Empty the pins
+	$('#pins').html('');
+
+
+	// Add the pins
+	$(Pins).each(function(i, pin) {
+
+		var pin_number = i + 1;
+
+		// Add the pin to the list
+		$('#pins').append(
+			pinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y)
+		);
+
+
+	});
+
+
+	// Update the cursor number with the existing pins
+	currentPinNumber = $('#pins > pin').length + 1;
+	changePinNumber(currentPinNumber);
+
+
+	// Make pins draggable
+	makeDraggable();
+
+
+	// Relocate the pins
+	relocatePins();
+
+
+	// Update the pins list tab
+	updatePinsList();
+
+
+	// Apply changes
+	applyChanges(showingOriginal);
+
+}
+
+
+// Apply changes
+function applyChanges(showingOriginal = []) {
+
+
+	$(Pins).each(function(i, pin) {
+
+
+		// Find the element
+		var element_index = pin.pin_element_index;
+		var element = iframeElement(element_index);
+		var thePin = pinElement(pin.pin_ID);
+
+
+
+		// CSS CODES:
+		if ( pin.pin_css != null ) updateCSS(element_index, pin.pin_css);
+
+
+
+		// MODIFICATIONS:
+		// Skip standard and unmodified pins
+		if ( pin.pin_type != "live" ) return true;
+
+
+		console.log('APPLYING PIN: ', i, pin);
+
+
+		// Is showing changes
+		var isShowingOriginal = showingOriginal.includes(element_index) ? true : false;
+
+
+		// Add the contenteditable attribute to the live elements
+		if (pin.pin_modification_type == "html")
+			element.attr('contenteditable', (isShowingOriginal ? "false" : "true"));
+
+
+		if (pin.pin_modification == null ) return true;
+
+
+		// If it was showing changes
+		if (!isShowingOriginal) {
+
+
+			// If the type is HTML content change
+			if ( pin.pin_modification_type == "html" ) {
+
+
+				//console.log('MODIFICATION ORIG:', pin.pin_modification);
+
+
+				// Apply the change
+				var newHTML = html_entity_decode(pin.pin_modification); //console.log('NEW', newHTML);
+				element.html( newHTML ).attr('contenteditable', (isShowingOriginal ? "false" : "true"));
+
+
+				// If edited element is a submit or reset input button
+				if (
+		        	element.prop("tagName") == "INPUT" &&
+		        	(
+		        		element.attr("type") == "text" ||
+		        		element.attr("type") == "email" ||
+		        		element.attr("type") == "url" ||
+		        		element.attr("type") == "tel" ||
+		        		element.attr("type") == "submit" ||
+		        		element.attr("type") == "reset"
+		        	)
+		        ) {
+					element.val(newHTML);
+				}
+
+
+				//console.log('MODIFICATION DECODED:', newHTML);
+
+
+			// If the type is image change
+			} else if ( pin.pin_modification_type == "image" ) {
+
+
+				// Apply the change
+				var newSrc = pin.pin_modification; //console.log('NEW', newHTML);
+				element.attr('src', newSrc).removeAttr('srcset');
+
+
+			}
 
 		}
 
 
 
-		// Remove the pin from DOM
-		pinElement(pin_ID).remove();
+		// Update the element and pin status
+		element.attr('data-revisionary-edited', "1")
+			.attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
+		thePin.attr('data-revisionary-edited', "1")
+			.attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
 
-
-		// Re-Index the pin counts
-		reindexPins();
-
-
-		// Finish the process
-		endProcess(removePinProcess[pin_ID]);
 
 
 	});
+
+
+	autoRefreshRequest = null;
+
+
+	console.log('CHANGES APPLIED');
+
+
+	// Hide the loading overlay
+	$('#loading').fadeOut();
+
+	// Page is ready now
+	page_ready = true;
+	$('body').addClass('ready');
 
 
 }
 
 
-// DB: Complete/Incomplete a pin
-function completePin(pin_ID, complete, imgData = null) {
+// Revert changes
+function revertChanges(element_indexes = [], pinsList = Pins) {
+
+	if ( element_indexes.length ) console.log('REVERTING CHANGES FOR: ', element_indexes);
+
+
+	var showingOriginal = [];
+	$(pinsList).each(function(i, pin) {
+
+
+		// If specific modifications requested to revert, skip reverting
+		if ( element_indexes.length && !element_indexes.includes(pin.pin_element_index) ) return true;
+
+
+		// Revert the CSS
+		iframeElement('style[data-index="'+ pin.pin_element_index +'"]').remove();
+
+
+		// Skip standard and unmodified pins
+		if ( pin.pin_type != "live" || pin.pin_modification_original == null ) return true;
+
+
+		console.log('REVERTING PIN: ', pin);
 
 
 
-    console.log( (complete ? 'Complete' : 'Incomplete') +' the pin #' + pin_ID + ' on DB!!');
+		// Find the element
+		var element_index = pin.pin_element_index;
+		var element = iframeElement(element_index);
+		var thePin = pinElement(pin.pin_ID);
 
 
+		// Is currently showing the edits?
+		var isShowingOriginal = element.is('[data-revisionary-edited="1"][data-revisionary-showing-changes="0"]') ? true : false;
+
+		// Add this element as showingOriginal element, if not currently showing changes
+		if (isShowingOriginal) showingOriginal.push(element_index);
 
 
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-	var pinIndex = Pins.indexOf(pin);
-	var element_index = pin.pin_element_index;
+		// If the type is HTML content change
+		if ( pin.pin_modification_type == "html" ) {
+
+			// Revert the change
+			var oldHTML = html_entity_decode(pin.pin_modification_original); //console.log('NEW', newHTML);
+			element.html(oldHTML);
 
 
-	// Update from the Pins global
-	Pins[pinIndex].pin_complete = complete ? 1 : 0;
+			// If edited element is a submit or reset input button
+			if (
+	        	element.prop("tagName") == "INPUT" &&
+	        	(
+	        		element.attr("type") == "text" ||
+	        		element.attr("type") == "email" ||
+	        		element.attr("type") == "url" ||
+	        		element.attr("type") == "tel" ||
+	        		element.attr("type") == "submit" ||
+	        		element.attr("type") == "reset"
+	        	)
+	        ) {
+				element.val(oldHTML);
+			}
 
 
-	// Update the pin & pin window status
-	pinElement(pin_ID).attr('data-pin-complete', (complete ? '1' : '0'));
-	pinWindow.attr('data-pin-complete', (complete ? '1' : '0'));
+			// Update the pin window content if open
+			if ( pinWindowOpen && pinWindow.attr('data-pin-id') == pin.pin_ID ) {
+
+				// Add the changed HTML content
+				pinWindow.find('.content-editor .edit-content.changes').html( oldHTML );
+
+			}
+
+		// If the type is image change
+		} else if ( pin.pin_modification_type == "image" ) {
+
+			// Revert the change
+			var oldSrc = pin.pin_modification_original; //console.log('NEW', newHTML);
+			element.attr('src', oldSrc);
+
+		}
 
 
-
-	// Start the process
-	var completePinProcessID = newProcess(null, "pin"+(complete ? 'Complete' : 'Incomplete'));
-
-
-	// Try taking a screenshot
-	screenshot( iframeElement(element_index) ).then(function(canvas) {
-
-
-		// Image Data
-		var imgDataURL = imageDataUrl(canvas);
-
-
-	    // Update pin from the DB
-		ajax('pin-complete', {
-
-			'pin_ID' 	   : pin_ID,
-			'complete'	   : (complete ? 'complete' : 'incomplete'),
-			'imgDataURL'   : imgDataURL
-
-		}).done(function(result) {
-
-			console.log("RESULT: ", result.data);
-
-
-			// Finish the process
-			endProcess(completePinProcessID);
-
-		});
-
+		// Update the element and pin status
+		element
+			.removeAttr('data-revisionary-edited')
+			.removeAttr('data-revisionary-showing-changes')
+			.removeAttr('contenteditable');
+		thePin.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
 
 
 	});
 
-}
 
+	return showingOriginal;
 
-// DB: Convert pin
-function convertPin(pin_ID, targetPin) {
-
-
-	// New values
-	var pinType = targetPin.attr('data-pin-type');
-	var pinPrivate = targetPin.attr('data-pin-private');
-	var pinLabel = targetPin.next().text();
-	var elementIndex = parseInt( pinElement(pin_ID).attr('data-revisionary-index') ); console.log('element-index', elementIndex);
-
-
-	console.log('Convert PIN #'+ pin_ID +' to: ', pinType, 'Private: ' + pinPrivate);
-
-
-	// Update from the Pins global
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-	var pinIndex = Pins.indexOf(pin);
-
-
-	// If the new type is standard, reset the modifications
-	if (pinType == "standard") {
-
-		revertChanges([elementIndex]);
-
-		Pins[pinIndex].pin_modification_type = null;
-		Pins[pinIndex].pin_modification = null;
-		Pins[pinIndex].pin_modification_original = null;
-
-		pinElement(pin_ID).attr('data-pin-modification-type', 'null');
-		pinWindow.attr('data-pin-modification-type', 'null');
-
-		// Remove outlines from iframe
-		removeOutline();
-
-	}
-
-	Pins[pinIndex].pin_type = pinType;
-	Pins[pinIndex].pin_private = parseInt(pinPrivate);
-
-
-	// Update the pin status
-	pinElement(pin_ID)
-		.attr('data-pin-type', pinType)
-		.attr('data-pin-private', pinPrivate);
-
-
-	// Update the pin window status
-	pinWindow.attr('data-pin-type', pinType)
-		.attr('data-pin-type', pinType)
-		.attr('data-pin-private', pinPrivate);
-
-
-	// Update the pin type section label
-	pinWindow.find('pin.chosen-pin').attr('data-pin-type', pinType).attr('data-pin-private', pinPrivate);
-	pinWindow.find('.pin-label').text(pinLabel);
-
-
-	// If it's a live pin, change the element outline color
-	if (pinType == "live") outline( iframeElement(elementIndex), pinPrivate );
-
-
-
-	// Start the process
-	var convertPinProcessID = newProcess(null, "convertPinProcess");
-
-
-	// Save it on DB
-	ajax('pin-convert',
-	{
-		'pin_ID' 	    : pin_ID,
-		'pin_type'		: pinType,
-		'pin_private'   : pinPrivate
-
-	}).done(function(result) {
-
-		console.log(result.data);
-
-
-		// Finish the process
-		endProcess(convertPinProcessID);
-
-	});
 
 }
 
@@ -2785,6 +2826,8 @@ function toggleChange(pin_ID) {
 }
 
 
+
+// CSS:
 // DB: Save CSS changes
 function saveCSS(pin_ID, css) {
 
@@ -2912,6 +2955,8 @@ function toggleCSS(pin_ID) {
 }
 
 
+
+// COMMENTS:
 // DB: Get Comments
 function getComments(pin_ID, commentsWrapper = null) {
 
@@ -3132,6 +3177,8 @@ function deleteComment(pin_ID, comment_ID) {
 }
 
 
+
+
 // Remove Image
 function removeImage(pin_ID, element_index) {
 
@@ -3161,31 +3208,6 @@ function removeImage(pin_ID, element_index) {
 
 	// Remove from DB
 	saveChange(pin_ID, "{%null%}");
-
-}
-
-
-// Update pins list in the Pins tab
-function updatePinsList() {
-
-
-	// Clear the list
-	$('.pins-list').html('<div class="xl-center">No pins added yet.</div>');
-
-
-	$(Pins).each(function(i, pin) {
-
-		if (i == 0) $('.pins-list').html('');
-
-		var pin_number = i + 1;
-
-		// Add the pin to the list
-		$('.pins-list').append(
-			listedPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y, pin.pin_css)
-		);
-
-
-	});
 
 }
 
