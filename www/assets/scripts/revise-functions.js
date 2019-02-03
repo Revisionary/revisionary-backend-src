@@ -849,6 +849,41 @@ function updateLocationValues() {
 }
 
 
+// Detect colors in the page
+function detectColors() {
+
+
+	//console.log('Colors are being detected in the page...');
+
+
+	iframeElement('body *').each(function() {
+
+
+		var color = $(this).css('color');
+		var bgColor = $(this).css('background-color');
+
+
+		var colorCount = parseInt( page_colors[color] ) || 0;
+		page_colors[color] = colorCount + 1;
+
+
+		var bgColorCount = parseInt( page_colors[bgColor] ) || 0;
+		page_colors[bgColor] = bgColorCount + 1;
+
+
+	});
+
+
+	// Order the colors
+	colorsSorted = Object.keys(page_colors).sort(function(a,b){ return page_colors[b]-page_colors[a] })
+	$("input[type='color']").spectrum("option", "palette", colorsSorted);
+
+
+	//console.log('Color detection complete.', colorsSorted);
+
+}
+
+
 
 // TABS:
 // Tab Toggler
@@ -2826,6 +2861,39 @@ function toggleChange(pin_ID) {
 }
 
 
+// Remove Image
+function removeImage(pin_ID, element_index) {
+
+	console.log('DELETE THE IMAGE');
+
+
+	// Reset the uploader
+	$('#pin-window .uploader img.new-image').attr('src', '');
+	$('#pin-window .uploader #filePhoto').val('');
+
+
+	// Revert the modification for the image
+	revertChanges([element_index]);
+
+
+    // Update from the Pins global
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pinIndex = Pins.indexOf(pin);
+
+	Pins[pinIndex].pin_modification = null;
+
+
+	// Update the pin and pin window info
+	pinElement(pin_ID).attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
+	pinWindow.attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
+
+
+	// Remove from DB
+	saveChange(pin_ID, "{%null%}");
+
+}
+
+
 
 // CSS:
 // DB: Save CSS changes
@@ -3173,76 +3241,6 @@ function deleteComment(pin_ID, comment_ID) {
 		//console.log('Comment #', comment_ID, ' DELETED');
 
 	});
-
-}
-
-
-
-
-// Remove Image
-function removeImage(pin_ID, element_index) {
-
-	console.log('DELETE THE IMAGE');
-
-
-	// Reset the uploader
-	$('#pin-window .uploader img.new-image').attr('src', '');
-	$('#pin-window .uploader #filePhoto').val('');
-
-
-	// Revert the modification for the image
-	revertChanges([element_index]);
-
-
-    // Update from the Pins global
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-	var pinIndex = Pins.indexOf(pin);
-
-	Pins[pinIndex].pin_modification = null;
-
-
-	// Update the pin and pin window info
-	pinElement(pin_ID).attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
-	pinWindow.attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
-
-
-	// Remove from DB
-	saveChange(pin_ID, "{%null%}");
-
-}
-
-
-// Detect colors in the page
-function detectColors() {
-
-
-	//console.log('Colors are being detected in the page...');
-
-
-	iframeElement('body *').each(function() {
-
-
-		var color = $(this).css('color');
-		var bgColor = $(this).css('background-color');
-
-
-		var colorCount = parseInt( page_colors[color] ) || 0;
-		page_colors[color] = colorCount + 1;
-
-
-		var bgColorCount = parseInt( page_colors[bgColor] ) || 0;
-		page_colors[bgColor] = bgColorCount + 1;
-
-
-	});
-
-
-	// Order the colors
-	colorsSorted = Object.keys(page_colors).sort(function(a,b){ return page_colors[b]-page_colors[a] })
-	$("input[type='color']").spectrum("option", "palette", colorsSorted);
-
-
-	//console.log('Color detection complete.', colorsSorted);
 
 }
 
