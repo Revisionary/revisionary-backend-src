@@ -4104,14 +4104,3 @@ function makeID() {
 
 	return text;
 }
-
-var getIframeAbsoluteUrl = (function() {
-	var a;
-
-	return function(url) {
-		if(!a) a = documentChild.createElement('a');
-		a.href = url;
-
-		return a.href;
-	};
-})();
