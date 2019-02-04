@@ -349,13 +349,15 @@ class Project {
 
 		// Get the project owner
     	$project_user_ID = $this->getInfo('user_ID');
-    	$iamowner = $project_user_ID == currentUserID() ? true : false;
+    	$iamowner = $project_user_ID == currentUserID();
+    	$iamadmin = getUserInfo()['userLevelID'] == 1;
 
 
 
 		// PAGES REMOVAL
 		$db->where('project_ID', self::$project_ID);
-		if (!$iamowner) $db->where('user_ID', currentUserID());
+		if (!$iamowner && !$iamadmin)
+			$db->where('user_ID', currentUserID());
 		$pages = $db->get('pages');
 
 
@@ -367,7 +369,8 @@ class Project {
 
 		// CATEGORY REMOVAL
 		$db->where('cat_type', self::$project_ID);
-		if (!$iamowner) $db->where('cat_user_ID', currentUserID());
+		if (!$iamowner && !$iamadmin)
+			$db->where('cat_user_ID', currentUserID());
 		$categories = $db->get('categories');
 
 		// Remove all the categories
@@ -384,7 +387,8 @@ class Project {
 		// SORTING REMOVAL
 		$db->where('sort_type', 'project');
 		$db->where('sort_object_ID', self::$project_ID);
-		if (!$iamowner) $db->where('sorter_user_ID', currentUserID());
+		if (!$iamowner && !$iamadmin)
+			$db->where('sorter_user_ID', currentUserID());
 		$db->delete('sorting');
 
 
@@ -392,7 +396,8 @@ class Project {
 		// SHARE REMOVAL
 		$db->where('share_type', 'project');
 		$db->where('shared_object_ID', self::$project_ID);
-		if (!$iamowner) $db->where('(sharer_user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+		if (!$iamowner && !$iamadmin)
+			$db->where('(sharer_user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
 		$db->delete('shares');
 
 
@@ -400,13 +405,15 @@ class Project {
 
 		// PROJECT REMOVAL
 		$db->where('project_ID', self::$project_ID);
-		if (!$iamowner) $db->where('user_ID', currentUserID());
+		if (!$iamowner && !$iamadmin)
+			$db->where('user_ID', currentUserID());
 		$project_removed = $db->delete('projects');
 
 
 
 		// Delete the project folder
-		if ($iamowner) deleteDirectory( cache."/projects/project-".request('id')."/" );
+		if ($iamowner || $iamadmin)
+			deleteDirectory( cache."/projects/project-".request('id')."/" );
 
 
 		// Site log

@@ -590,7 +590,8 @@ class Page {
 		// Get the page info
     	$page_user_ID = self::$pageInfo['user_ID'];
     	$project_ID = self::$pageInfo['project_ID'];
-    	$iamowner = $page_user_ID == currentUserID() ? true : false;
+    	$iamowner = $page_user_ID == currentUserID();
+    	$iamadmin = getUserInfo()['userLevelID'] == 1;
 
 
 
@@ -602,7 +603,7 @@ class Page {
 		// SORTING REMOVAL
 		$db->where('sort_type', 'page');
 		$db->where('sort_object_ID', self::$page_ID);
-		if (!$iamowner) $db->where('sorter_user_ID', currentUserID());
+		if (!$iamowner && !$iamadmin) $db->where('sorter_user_ID', currentUserID());
 		$db->delete('sorting');
 
 
@@ -610,20 +611,20 @@ class Page {
 		// SHARE REMOVAL
 		$db->where('share_type', 'page');
 		$db->where('shared_object_ID', self::$page_ID);
-		if (!$iamowner) $db->where('(sharer_user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
+		if (!$iamowner && !$iamadmin) $db->where('(sharer_user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
 		$db->delete('shares');
 
 
 
 		// PAGE REMOVAL
 		$db->where('page_ID', self::$page_ID);
-		if (!$iamowner) $db->where('user_ID', currentUserID());
+		if (!$iamowner && !$iamadmin) $db->where('user_ID', currentUserID());
 		$page_removed = $db->delete('pages');
 
 
 
 		// Delete the page folder
-		if ($iamowner) deleteDirectory( cache."/projects/project-$project_ID/page-".self::$page_ID."/" );
+		if ($iamowner || $iamadmin) deleteDirectory( cache."/projects/project-$project_ID/page-".self::$page_ID."/" );
 
 
 		// Site log

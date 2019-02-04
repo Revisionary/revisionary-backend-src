@@ -77,10 +77,12 @@ $db->where('shared_object_ID', $project_ID);
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 //echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
 
+$projectSharedMe = array_search(currentUserID(), array_column($projectShares, 'share_to')) !== false;
+
 // If project doesn't belong to me and if no page belong to me
 if (
 	$projectInfo['user_ID'] != currentUserID() // If the project isn't belong to me
-	&& array_search(currentUserID(), array_column($projectShares, 'share_to')) === false // And, if the project isn't shared to me
+	&& !$projectSharedMe // And, if the project isn't shared to me
 	&& count($allMyPagesList) == 0 // And, if there is no my page in it
 	&& $catFilter != "mine"
 	&& $currentUserLevel_ID != 1
