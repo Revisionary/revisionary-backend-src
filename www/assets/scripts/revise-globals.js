@@ -19,6 +19,8 @@ var colorsSorted = [];
 
 // Notifications
 var Notifications = {};
+var notificationTime = 3000;
+var notificationTimeout;
 
 // HTML Element Index
 var fileIndexed = false;

@@ -1223,26 +1223,11 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 			console.log('There are some updates...');
 
 
-			// Apply Pins, revert old pins
+			// Apply Pins, revert old pins, loading overlay will be removed after this task
 			if (applyChanges) applyPins(oldPins);
 
 
 			if (firstRetrieve) {
-
-
-				// Detect colors in the page
-				detectColors();
-
-
-				// Get the selected pin to scroll
-				if (window.location.hash) {
-
-					var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
-					console.log('Going to the Pin #', goToPin_ID);
-
-					scrollToPin(goToPin_ID, true);
-
-				}
 
 
 			}
@@ -1258,10 +1243,6 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 			if (firstRetrieve) {
 
 
-				// Detect colors in the page
-				detectColors();
-
-
 				// Hide the loading overlay
 				$('#loading').fadeOut();
 
@@ -1270,6 +1251,27 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 				page_ready = true;
 				$('body').addClass('ready');
 
+
+			}
+
+
+		}
+
+
+		if (firstRetrieve) {
+
+
+			// Detect colors in the page
+			detectColors();
+
+
+			// Get the selected pin to scroll
+			if (window.location.hash) {
+
+				var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
+				console.log('Going to the Pin #', goToPin_ID);
+
+				scrollToPin(goToPin_ID, true);
 
 			}
 
@@ -1476,7 +1478,7 @@ function removePin(pin_ID, instantRemove = false) {
 
 
 		// Bring the pin info
-		var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+		var pin = getPin(pin_ID);
 		var pinIndex = Pins.indexOf(pin);
 
 		//console.log(modification);
@@ -1522,7 +1524,7 @@ function completePin(pin_ID, complete, imgData = null) {
 
 
 
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
 	var element_index = pin.pin_element_index;
 
@@ -1588,7 +1590,7 @@ function convertPin(pin_ID, targetPin) {
 
 
 	// Update from the Pins global
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
 
 
@@ -1663,6 +1665,9 @@ function convertPin(pin_ID, targetPin) {
 function scrollToPin(pin_ID, openWindow = false) {
 
 
+	console.log('SCROLL TO PIN #' + pin_ID);
+
+
 	var pin = pinElement(pin_ID);
 
 	if (pin.length) {
@@ -1681,14 +1686,19 @@ function scrollToPin(pin_ID, openWindow = false) {
 			if (pinAnimation) pinAnimation.stop();
 			pinAnimation = iframeElement('html, body').animate({
 
+
 				scrollTop: parseInt( pinY ) - ($('.iframe-container').height() / 2) + 22.5
 				//scrollLeft: pinX !!!
 
-			}, 500, 'swing', function() {
 
-				if (openWindow) openPinWindow(pin_ID);
+			}, 500, 'swing').promise().then(function() {
+
+
+				if (openWindow)	openPinWindow(pin_ID);
+
 
 			});
+
 
 		}, 500);
 
@@ -1946,8 +1956,8 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 
 
 				// Update the global 'pins'
-				var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-				var pinIndex = Pins.findIndex(function(element, index, array) { return element == pin; });
+				var pin = getPin(pin_ID);
+				var pinIndex = Pins.indexOf(pin);
 
 				Pins[pinIndex].pin_x = pinX;
 				Pins[pinIndex].pin_y = pinY;
@@ -1974,10 +1984,12 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 // Open the pin window
 function openPinWindow(pin_ID, firstTime = false) {
 
+
 	console.log('OPEN WINDOW PIN ID', pin_ID, firstTime);
 
 
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
 	//var pinIndex = Pins.indexOf(pin);
 
 
@@ -2002,7 +2014,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 	// Close the previous window
-	closePinWindow();
+	if (pinWindowOpen) closePinWindow();
 
 
 	// Disable the iframe
@@ -2138,7 +2150,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 		// Get the pin from the Pins global
-		var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+		var pin = getPin(pin_ID);
 
 
 		// TEXT
@@ -2264,7 +2276,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 	// Reveal it
 	pinWindow.addClass('active');
 	pinWindowOpen = true;
-	window.location.hash = "#"+pin_ID;
+	window.location.hash = "#" + pin_ID;
 
 
 	// If the new pin registered, remove the loading message
@@ -2295,11 +2307,21 @@ function openPinWindow(pin_ID, firstTime = false) {
 	// Relocate the window
 	relocatePins();
 
+
+	// Initiate the Notification
+	initiateNotification(pin_ID);
+
+
+	// Stop the latest notification timeout
+	clearTimeout(notificationTimeout);
+	notificationTimeout = null;
+	console.log('Notification send countdown stopped.');
+
 }
 
 
 // Close pin window
-function closePinWindow(removePinIfEmpty = false) {
+function closePinWindow(removePinIfEmpty = false, closeToReopen = false) {
 
 
 	if (pinWindowOpen) console.log('PIN WINDOW CLOSING.');
@@ -2363,6 +2385,10 @@ function closePinWindow(removePinIfEmpty = false) {
 
 	// Enable the iframe
 	//$('#the-page').css('pointer-events', '');
+
+
+	// Send the unsent Notification
+	sendNotifications(pin_ID);
 
 }
 
@@ -2719,7 +2745,7 @@ function saveChange(pin_ID, modification) {
 
 
     // Update from the Pins global
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
 	var elementIndex = pin.pin_element_index;
 	var changedElement = iframeElement(elementIndex);
@@ -2794,7 +2820,7 @@ function resetContent(pin_ID) {
 
 
     // Update from the Pins global
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
 	var element_index = pin.pin_element_index;
 
@@ -2819,7 +2845,7 @@ function toggleChange(pin_ID) {
 
 
     // Get the pin from the Pins global
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = getPin(pin_ID);
 
 
 	// If pin found
@@ -2877,7 +2903,7 @@ function removeImage(pin_ID, element_index) {
 
 
     // Update from the Pins global
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
 
 	Pins[pinIndex].pin_modification = null;
@@ -2904,7 +2930,7 @@ function saveCSS(pin_ID, css) {
 
 
     // Update from the Pins global
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
 
 	var elementIndex = pin.pin_element_index;
@@ -2998,7 +3024,7 @@ function toggleCSS(pin_ID) {
 
 
     // Get the pin from the Pins global
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = getPin(pin_ID);
 
 
 	// If pin and its CSS found
@@ -3132,7 +3158,7 @@ function sendComment(pin_ID, message) {
 
 
 
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
 	var element_index = pin.pin_element_index;
 
@@ -3251,8 +3277,11 @@ function initiateNotification(pin_ID) {
 
 
 	// Find the pin
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
-	if (typeof pin === 'undefined') return false;
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+
+	var element = iframeElement(pin.pin_element_index);
 
 
 	// Add the pin if not exists
@@ -3266,40 +3295,23 @@ function initiateNotification(pin_ID) {
 		},
 		css : {
 			sent: false,
-			pin.pin_css
+			css : pin.pin_css
 		},
 		screenshot : {
 			original : "",
 			latest : ""
 		},
-		comments : {
+		comment : {
 			sent: false,
 			comments : {}
 		}
 
 	};
-	//else return false;
-
-
-/*
-	var theData = {
-		screenshot : {
-			original : "",
-			latest : ""
-		},
-		modification : {
-			type : pin.pin_modification_type,
-			original : pin.pin_modification_original,
-			change : pin.pin_modification
-		},
-		css : pin.pin_css,
-		comments : {}
-	};
-*/
+	else return false;
 
 
 	// Take the latest screenshot
-	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+	screenshot(element).then(function(canvas) {
 
 		Notifications[pin_ID].screenshot.original = imageDataUrl(canvas);
 
@@ -3312,6 +3324,51 @@ function initiateNotification(pin_ID) {
 
 
 	return Notifications[pin_ID];
+
+}
+
+
+// Update screenshot
+function latestScreenshot(pin_ID) {
+
+
+	// Find the pin
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+
+	// Take the latest screenshot
+	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+
+		Notifications[pin_ID].screenshot.latest = imageDataUrl(canvas);
+
+	});
+
+
+	return Notifications[pin_ID].screenshot;
+}
+
+
+// Add to notification
+function addNotification() {
+
+}
+
+
+// Send Notification
+function sendNotifications() {
+
+
+	console.log("All the notifications will be sent in " + (notificationTime / 1000) + " second(s).", Notifications);
+
+
+	notificationTimeout = setTimeout(function() {
+
+
+		console.log("SEND THEM:", Notifications);
+
+
+	}, notificationTime);
 
 }
 
@@ -3350,6 +3407,16 @@ function pinElement(selector, byElementIndex = false) {
 
 	}
 
+}
+
+
+// Get pin from the Pins global
+function getPin(pin_ID) {
+
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	if (typeof pin === 'undefined') return false;
+
+	return pin;
 }
 
 
