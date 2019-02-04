@@ -910,7 +910,7 @@ class Internalize {
 
 					$logger->info('Invalid URL skipped in CSS: '.$url_found);
 
-					return "url('".$url_found."')";
+					return "url(".$url_found.")";
 				}
 
 
@@ -977,7 +977,7 @@ class Internalize {
 
 				$count++;
 
-	            return "url('".$new_url."')";
+	            return "url(".$new_url.")";
 	        },
 	        $css
 	    );
