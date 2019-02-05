@@ -429,6 +429,8 @@ $(function() {
 		// Instant apply the change
 		changedElement.html(modification);
 		changedElement.attr('contenteditable', "true");
+		pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+		pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 
 
 		// Remove unsent job
@@ -602,26 +604,6 @@ $(function() {
 			css[propertyName] = options.attr('data-'+propertyName);
 
 		});
-
-
-/*
-		// Prepare the CSS data
-		var css = {
-			'display' 				: options.attr('data-display'),
-			'opacity' 				: options.attr('data-opacity'),
-			'text-align'			: options.attr('data-text-align'),
-			'text-decoration-line'	: options.attr('data-text-decoration-line'),
-			'font-weight'			: options.attr('data-font-weight'),
-			'font-style'			: options.attr('data-font-style'),
-			'color'					: options.attr('data-color'),
-			'background-color'		: options.attr('data-background-color'),
-			'background-position-x' : options.attr('data-background-position-x'),
-			'background-position-y'	: options.attr('data-background-position-y'),
-			'background-repeat'		: options.attr('data-background-repeat'),
-			'background-size'		: options.attr('data-background-size'),
-			'background-image'		: options.attr('data-background-image')
-		}
-*/
 
 
 		// Prepare the CSS declarations

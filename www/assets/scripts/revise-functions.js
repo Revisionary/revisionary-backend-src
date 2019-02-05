@@ -3003,6 +3003,11 @@ function updateCSS(element_index, cssCodes) {
 	// Remove the old ones
 	iframeElement('style.old[data-index="'+ element_index +'"]').remove();
 
+
+	// Update the changed status
+	pinWindow.attr('data-changed', (cssCodes != null ? "yes" : "no"));
+
+
 }
 
 
