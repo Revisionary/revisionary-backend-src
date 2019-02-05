@@ -206,6 +206,9 @@ $(function() {
 	    iframeWidth = maxWidth * iframeScale;
 		iframeHeight = maxHeight * iframeScale;
 
+		// Update the scale on info section
+		$('.iframe-scale').text( iframeScale.toFixed(1) );
+
 	    $('iframe').css({'-webkit-transform': 'scale(' + iframeScale + ')'});
 	    $('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
 

@@ -421,6 +421,8 @@
 								echo "<b>Last Updated:</b> $last_updated<br>";
 							?>
 
+							<b>Current Frame Scale:</b> <span class="iframe-scale">1.0</span> <br/>
+
 							<div style="text-align: center; margin: 10px 0;">
 
 								<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button light bottom-tooltip center-tooltip" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="If the live site has been changed, the pins you added might not work as expected. Are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
