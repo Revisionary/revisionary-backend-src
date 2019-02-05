@@ -425,7 +425,7 @@
 
 							<div style="text-align: center; margin: 10px 0;">
 
-								<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button light bottom-tooltip center-tooltip" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="If the live site has been changed, the pins you added might not work as expected. Are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
+								<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button light bottom-tooltip center-tooltip" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="All your pins for this page will be removed, are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
 
 								<!--
 								<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Server Side Rendering"><i class="fa fa-bolt"></i> SSR</a>

@@ -346,6 +346,18 @@ $allMyDevices = $devices;
 //die_to_print($allMyDevices);
 
 
+if ($forceReInternalize) {
+
+	$allDeviceIDs = array_column($allMyDevices, 'device_ID');
+	//die_to_print($allDeviceIDs);
+
+	// Remove all the pins for this page
+	$db->where('device_ID', $allDeviceIDs, 'IN');
+	$db->delete('pins');
+
+}
+
+
 
 // FILTERS
 $pin_filter = "all";
