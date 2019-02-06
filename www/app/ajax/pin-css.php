@@ -61,6 +61,8 @@ foreach ($css as $key => $value) {
 		&& $key != "padding-left"
 		&& $key != "width"
 		&& $key != "height"
+		&& $key != "font-size"
+		&& $key != "line-height"
 	) return;
 
 
@@ -100,8 +102,10 @@ foreach ($css as $key => $value) {
 			&& $value != "initial"
 		)
 
-		// Font style rules
+		// Font rules !!!
 		|| ($key == "font-style" && !is_string($value))
+		|| ($key == "font-size" && !is_string($value))
+		|| ($key == "line-height" && !is_string($value))
 
 		// Color rules
 		|| ($key == "color" && !is_string($value))

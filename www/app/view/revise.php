@@ -739,6 +739,12 @@
 							<ul class="no-delay">
 								<li class="choice">
 
+									<span class="inline"><i class="fa fa-font"></i> Size</span> <input type="text" class="increaseable" data-edit-css="font-size" data-default="initial">
+									<span class="inline"><i class="fa fa-text-height"></i> Line</span> <input type="text" class="increaseable" data-edit-css="line-height" data-default="normal">
+
+								</li>
+								<li class="choice">
+
 									<span class="inline"><i class="fa fa-tint"></i> Color</span> <input type="color" data-edit-css="color" data-default="initial">
 
 								</li>
