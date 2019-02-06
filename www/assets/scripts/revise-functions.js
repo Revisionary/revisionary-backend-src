@@ -293,26 +293,26 @@ function runTheInspector() {
 
 
 
+			// FOCUSING:
+		    // Focused Element is the mouse pointed element as default
+	        focused_element = $(e.target);
+
+	        focused_element_index = focused_element.attr('data-revisionary-index');
+	        focused_element_has_index = focused_element_index != null ? true : false;
+		    focused_element_index = focused_element_index != null ? focused_element_index : 0;
+	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+			focused_element_html = focused_element.html();
+	        focused_element_children = focused_element.children();
+	        focused_element_grand_children = focused_element_children.children();
+			focused_element_pin = pinElement(focused_element_index, true);
+			focused_element_live_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
+			focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
+			focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
+
+
+
 			// Work only if cursor is active
 			if (cursorActive && !hoveringPin) {
-
-
-
-				// FOCUSING:
-			    // Focused Element is the mouse pointed element as default
-		        focused_element = $(e.target);
-
-		        focused_element_index = focused_element.attr('data-revisionary-index');
-		        focused_element_has_index = focused_element_index != null ? true : false;
-			    focused_element_index = focused_element_index != null ? focused_element_index : 0;
-		        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
-				focused_element_html = focused_element.html();
-		        focused_element_children = focused_element.children();
-		        focused_element_grand_children = focused_element_children.children();
-				focused_element_pin = pinElement(focused_element_index, true);
-				focused_element_live_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
-				focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-edited]');
-				focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-edited]').length;
 
 
 
@@ -623,9 +623,11 @@ function runTheInspector() {
 
 			} else {
 
+
 				// Close the pin window if open and not cursor active and not content editable
 				if ( pinWindowOpen && !iframeElement(focused_element_index).is('[contenteditable]') )
 					closePinWindow(true);
+
 
 			}
 
@@ -1303,12 +1305,16 @@ function putPin(pinX, pinY) {
 	stopAutoRefresh();
 
 
+	// Variables
+	var element_index = focused_element_index;
+
+
 	// Put it just on the pointer point
 	pinX = parseFloat(pinX - 45/2).toFixed(5);
 	pinY = parseFloat(pinY - 45/2).toFixed(5);
 
 
-	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, focused_element_index);
+	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, element_index);
 
 
 	// Detect modification info
@@ -1317,7 +1323,7 @@ function putPin(pinX, pinY) {
 
 	if (currentCursorType == "live") {
 
-		var editedElement = iframeElement(focused_element_index);
+		var editedElement = iframeElement(element_index);
 
 		// Add edited status to the DOM
 		editedElement
@@ -1336,7 +1342,7 @@ function putPin(pinX, pinY) {
 
 	// Add the temporary pin to the DOM
 	$('#pins').append(
-		pinTemplate(currentPinNumber, temporaryPinID, '0', focused_element_index, null, modificationType, currentPinPrivate, currentCursorType, pinX, pinY, true)
+		pinTemplate(currentPinNumber, temporaryPinID, '0', element_index, null, modificationType, currentPinPrivate, currentCursorType, pinX, pinY, true)
 	);
 
 
@@ -1346,7 +1352,7 @@ function putPin(pinX, pinY) {
 	Pins[pinsIndex] = {
 		pin_ID: temporaryPinID,
 		pin_complete: 0,
-		pin_element_index: parseInt(focused_element_index),
+		pin_element_index: parseInt(element_index),
 		pin_modification: null,
 		pin_modification_original: modificationOriginal,
 		pin_modification_type: modificationType,
@@ -1373,11 +1379,12 @@ function putPin(pinX, pinY) {
 
 
 	// Try taking a screenshot
-	screenshot( iframeElement(focused_element_index) ).then(function(canvas) {
+	//screenshot( iframeElement(element_index) ).then(function(canvas) {
 
 
 		// Image Data
-		var imgDataURL = imageDataUrl(canvas);
+		//var imgDataURL = imageDataUrl(canvas);
+		var imgDataURL = "";
 
 
 		// Add pin to the DB
@@ -1388,7 +1395,7 @@ function putPin(pinX, pinY) {
 			'pin_type' 	 			: currentCursorType,
 			'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
 			'pin_private'			: currentPinPrivate,
-			'pin_element_index' 	: focused_element_index,
+			'pin_element_index' 	: element_index,
 			'pin_device_ID'			: device_ID,
 			'imgDataURL'			: imgDataURL
 
@@ -1424,7 +1431,7 @@ function putPin(pinX, pinY) {
 
 
 
-	});
+	//});
 
 
 	// Re-Locate the pins
