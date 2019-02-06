@@ -2312,6 +2312,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 	relocatePins();
 
 
+/*
 	// Initiate the Notification
 	initiateNotification(pin_ID);
 
@@ -2320,6 +2321,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 	clearTimeout(notificationTimeout);
 	notificationTimeout = null;
 	console.log('Notification send countdown stopped.');
+*/
 
 }
 
@@ -2391,8 +2393,10 @@ function closePinWindow(removePinIfEmpty = false, closeToReopen = false) {
 	//$('#the-page').css('pointer-events', '');
 
 
+/*
 	// Send the unsent Notification
 	sendNotifications(pin_ID);
+*/
 
 }
 
