@@ -330,7 +330,7 @@ if ($dataType == "page" && $allMyPins) {
 											if ($livePinCount > 0) {
 											?>
 											<pin data-pin-type="live"><?=$livePinCount?>
-												<div class="notif-no">3</div>
+												<!-- <div class="notif-no">3</div> -->
 												<div class="pin-title">Live</div>
 											</pin>
 											<?php
@@ -555,7 +555,7 @@ if ($dataType == "page" && $allMyPins) {
 						if ($totalLivePinCount > 0) {
 						?>
 						<pin class="mid" data-pin-type="live"><?=$totalLivePinCount?>
-							<div class="notif-no">3</div>
+							<!-- <div class="notif-no">3</div> -->
 							<div class="pin-title dark-color">Live</div>
 						</pin>
 						<?php
