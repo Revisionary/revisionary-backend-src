@@ -3541,7 +3541,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 						<span class="col comment-date">'+timeSince(date)+' ago</span> \
 					</div> \
 					<div class="comment-text xl-'+ direction +'"> \
-						'+linkedComment+' \
+						'+nl2br(linkedComment)+' \
 						'+ (itsMe ? ' <a href="#" class="delete-comment" data-comment-id="'+comment.comment_ID+'" data-tooltip="Delete this comment">&times;</a>' : '') +' \
 					</div> \
 				</div> \
@@ -4262,4 +4262,12 @@ function makeID() {
 		text += possible.charAt(Math.floor(Math.random() * possible.length));
 
 	return text;
+}
+
+function nl2br(str, is_xhtml) {
+    if (typeof str === 'undefined' || str === null) {
+        return '';
+    }
+    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
