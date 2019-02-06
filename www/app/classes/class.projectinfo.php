@@ -142,8 +142,10 @@ class Project {
 		// Add the domain name as project name if not already entered
 		if ($project_name == "" && $page_url != "")
 			$project_name = ucwords( str_replace('-', ' ', explode('.', parseUrl($page_url)['domain'])[0]) );
-		else
-			$project_name = "Untitled";
+
+
+		// If still empty
+		if ($project_name == "") $project_name = "Untitled";
 
 
 
