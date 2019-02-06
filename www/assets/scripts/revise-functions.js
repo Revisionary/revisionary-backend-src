@@ -2300,7 +2300,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 	// Clean the existing comment in the input
-	$('#pin-window input.comment-input').val('');
+	$('#pin-window .comment-input').val('');
 
 
 
@@ -3226,7 +3226,7 @@ function sendComment(pin_ID, message) {
 
 
 			// Clean the text in the message box and refocus
-			$('#pin-window #comment-sender input.comment-input').val('').focus();
+			$('#pin-window #comment-sender .comment-input').val('').focus();
 
 
 			//console.log('Message SENT: ', message);
@@ -3279,7 +3279,7 @@ function deleteComment(pin_ID, comment_ID) {
 
 
 		// Clean the text in the message box and refocus
-		$('#pin-window #comment-sender input.comment-input').val('').focus();
+		$('#pin-window #comment-sender .comment-input').val('').focus();
 
 
 		//console.log('Comment #', comment_ID, ' DELETED');

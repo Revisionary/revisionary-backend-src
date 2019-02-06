@@ -521,8 +521,10 @@ html, body {
       border: 3px solid black;
       font-size: 14px;
       line-height: 15px;
-      padding: 0 5px;
+      padding: 5px;
       height: 30px;
+      min-height: 30px;
+      max-height: 61px;
       width: 100%; }
   #pin-window > .bottom-actions .action > a {
     font-size: 14px;

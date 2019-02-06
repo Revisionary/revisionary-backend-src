@@ -426,6 +426,7 @@ $additionalHeadJS = [
 	'revise-functions.js',
 	'vendor/jquery-ui.min.js',
 	'vendor/Autolinker.min.js',
+	'vendor/autosize.min.js',
 	'vendor/diff.js',
 	'vendor/spectrum.js',
 	'vendor/html2canvas.min.js',

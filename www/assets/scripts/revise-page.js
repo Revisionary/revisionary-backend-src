@@ -323,7 +323,7 @@ $(function() {
 	$('#comment-sender').submit(function(e) {
 
 		var pin_ID = pinWindow.attr('data-pin-id');
-		var message = $(this).find('input.comment-input').val();
+		var message = $(this).find('.comment-input').val();
 
 		// Add it from DB
 		sendComment(pin_ID, message);
@@ -922,6 +922,28 @@ $(function() {
 
 
 	});
+
+
+	// Resizable textarea
+	autosize($('textarea.resizeable'));
+
+
+/*
+	// Detect Window switches for the correct focusing
+	$(window).on('blur', function(e) {
+
+
+		console.log('BLURRED');
+
+
+	}).on('focus', function(e) {
+
+
+		console.log('FOCUSSED');
+
+
+	});
+*/
 
 
 /*
