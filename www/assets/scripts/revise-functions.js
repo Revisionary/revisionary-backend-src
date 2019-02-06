@@ -3183,7 +3183,7 @@ function sendComment(pin_ID, message) {
 
 
 	// Disable the inputs
-	$('#pin-window #comment-sender input').prop('disabled', true);
+	$('#pin-window #comment-sender input, #pin-window #comment-sender textarea').prop('disabled', true);
 
 
 	// Mark as has comment
@@ -3195,11 +3195,12 @@ function sendComment(pin_ID, message) {
 
 
 	// Try taking a screenshot
-	screenshot( iframeElement(element_index) ).then(function(canvas) {
+	//screenshot( iframeElement(element_index) ).then(function(canvas) {
 
 
 		// Image Data
-		var imgDataURL = imageDataUrl(canvas);
+		//var imgDataURL = imageDataUrl(canvas);
+		var imgDataURL = "";
 
 
 	    ajax('comment-add', {
@@ -3209,6 +3210,7 @@ function sendComment(pin_ID, message) {
 			'imgDataURL': imgDataURL
 
 		}).done(function(result){
+
 
 			console.log(result.data);
 
@@ -3222,11 +3224,12 @@ function sendComment(pin_ID, message) {
 
 
 			// Enable the inputs
-			$('#pin-window #comment-sender input').prop('disabled', false);
+			$('#pin-window #comment-sender input, #pin-window #comment-sender textarea').prop('disabled', false);
 
 
 			// Clean the text in the message box and refocus
 			$('#pin-window #comment-sender .comment-input').val('').focus();
+			autosize.update($('#pin-window #comment-sender .comment-input'));
 
 
 			//console.log('Message SENT: ', message);
@@ -3236,7 +3239,7 @@ function sendComment(pin_ID, message) {
 
 
 
-	});
+	//});
 
 
 }

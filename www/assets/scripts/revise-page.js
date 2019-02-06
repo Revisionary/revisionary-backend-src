@@ -332,6 +332,16 @@ $(function() {
 	});
 
 
+	// Pressing enter / enter + shift on comment input
+	$('.comment-input').keypress(function(e) {
+		if (e.keyCode == 13 && !e.shiftKey) {
+			$(this).parents('form').submit(); //Submit your form here
+			e.preventDefault();
+			return false;
+		}
+	});
+
+
 	// Delete Comment
 	$(document).on('click', '.delete-comment', function(e) {
 
