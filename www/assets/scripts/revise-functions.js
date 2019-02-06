@@ -3169,6 +3169,11 @@ function sendComment(pin_ID, message) {
 
 
 
+	// Write sending
+	var commentsWrapper = $('#pin-window[data-pin-id="'+ pin_ID +'"] .pin-comments');
+	commentsWrapper.html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Sending...</span></div>');
+
+
 	// Disable the inputs
 	$('#pin-window #comment-sender input').prop('disabled', true);
 
