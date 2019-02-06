@@ -746,6 +746,7 @@ $(function() {
 	// Hovering a pin from the pins list tab
 	$(document).on('mouseover', '.pins-list > .pin', function(e) {
 
+
 		var pin_ID = $(this).find('pin').attr('data-pin-id');
 		var pin_type = $(this).find('pin').attr('data-pin-type');
 		var pin_private = $(this).find('pin').attr('data-pin-private');
@@ -760,16 +761,21 @@ $(function() {
 		// Scroll
 		scrollToPin(pin_ID);
 
+
 		e.preventDefault();
+
 	}).on('mouseout', '.pins-list > .pin', function(e) {
 
-		if (pinAnimation) pinAnimation.stop();
+
+		iframeElement('html, body').stop();
 		if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
 
 		$('#pins > pin').css('opacity', '');
 		removeOutline();
 
+
 		e.preventDefault();
+
 	});
 
 

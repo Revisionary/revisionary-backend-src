@@ -1682,13 +1682,12 @@ function scrollToPin(pin_ID, openWindow = false) {
 		var pinY =  pin.attr('data-pin-y');
 
 
-		if (pinAnimation) pinAnimation.stop();
+		iframeElement('html, body').stop();
 		if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
 
 		pinAnimationTimeout = setTimeout(function() {
 
-			if (pinAnimation) pinAnimation.stop();
-			pinAnimation = iframeElement('html, body').animate({
+			pinAnimation = iframeElement('html, body').stop().animate({
 
 
 				scrollTop: parseInt( pinY ) - ($('.iframe-container').height() / 2) + 22.5
