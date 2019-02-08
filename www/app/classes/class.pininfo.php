@@ -633,6 +633,9 @@ class Pin {
 		// Don't send notification if the pin is private
 		if ( $this->getInfo('pin_private') == "1" ) return true;
 
+		// Don't send notification if the current user is not pin owner
+		if ( $this->getInfo('user_ID') != currentUserID() ) return true;
+
 
 		// Pin info
 		$pin_ID = self::$pin_ID;
