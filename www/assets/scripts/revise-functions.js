@@ -2113,6 +2113,8 @@ function openPinWindow(pin_ID, firstTime = false) {
 		var property = $(propertyElement).attr('data-edit-css');
 		var value = thePinElement.css(property);
 
+		if (typeof value === 'undefined') return true;
+
 
 		// Display exception
 		if (property == "display" && value != "none") value = 'block';

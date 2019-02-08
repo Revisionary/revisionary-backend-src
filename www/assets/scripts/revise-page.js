@@ -605,7 +605,7 @@ $(function() {
 		// Prepare the CSS data
 		var css = {};
 		var properties = options.find('[data-edit-css]');
-		$(properties).each(function(i, propertyElement) { console.log('PROPERTIES: ', propertyElement);
+		$(properties).each(function(i, propertyElement) { //console.log('PROPERTIES: ', propertyElement);
 
 			var propertyName = $(propertyElement).attr('data-edit-css');
 			var propertyDefaultValue = $(propertyElement).attr('data-default');

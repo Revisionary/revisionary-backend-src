@@ -631,6 +631,7 @@ class Internalize {
 	    $countElement = 0;
 	    $html = str_replace('data-revisionary-index=', 'rvi=', $html);
 	    $html = str_replace('<body ', '<body data-revisionary-index=0 ', $html);
+	    $html = str_replace('<body>', '<body data-revisionary-index=0>', $html);
 		$html = preg_replace_callback(
 	        '/<body[^<]*?>|(?!^)\G(.*?)(?<tag><(?<tagname>[a-z1-9]+[1-9]?)\s?[^<]*?>)/si',
 	        function ($matches) {
