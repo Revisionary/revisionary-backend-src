@@ -2052,7 +2052,8 @@ function openPinWindow(pin_ID, firstTime = false) {
 		.attr('data-revisionary-showing-changes', thePinShowingChanges)
 		.attr('data-revisionary-index', theIndex)
 		.attr('data-pin-mine', (thePinMine ? "yes" : "no"))
-		.attr('data-pin-new', (firstTime ? "yes" : "no"));
+		.attr('data-pin-new', (firstTime ? "yes" : "no"))
+		.attr('data-new-notification', "no");
 
 
 	// Reset the differences fields
@@ -2399,6 +2400,14 @@ function closePinWindow(removePinIfEmpty = false) {
 	if ( pinWindow.attr('data-pin-new') == "yes" && !pinRemoved ) {
 
 		newPinNotification(pin_ID);
+
+	}
+
+
+	// Notify the users if this was a new pin
+	else if ( pinWindow.attr('data-new-notification') == "comment") {
+
+		newCommentNotification(pin_ID);
 
 	}
 
@@ -3208,6 +3217,10 @@ function sendComment(pin_ID, message) {
 	pinWindow.attr('data-has-comments', 'yes');
 
 
+	// Mark as has new notification
+	if ( pinWindow.attr('data-pin-new') == 'no' ) pinWindow.attr('data-new-notification', 'comment');
+
+
 	// Start the process
 	var newCommentProcessID = newProcess(null, "newPinCommentProcess");
 
@@ -3425,6 +3438,25 @@ function newPinNotification(pin_ID) {
 
 
 	doAction('newNotification', 'pin', pin_ID, pinNumber, beforeScreenshot, afterScreenshot);
+
+}
+
+
+// Send New Comment Notification !!!
+function newCommentNotification(pin_ID) {
+
+	console.log('New comment notification sending for #' + pin_ID);
+
+
+	var pinNumber = getPinNumber(pin_ID);
+	var beforeScreenshot = ""; // !!!
+	var afterScreenshot = ""; // !!!
+
+
+	doAction('newCommentNotification', 'pin', pin_ID, pinNumber, beforeScreenshot, afterScreenshot);
+
+
+	$('#pin-window[data-pin-id="'+ pin_ID +'"]').attr('data-new-notification', 'no');
 
 }
 

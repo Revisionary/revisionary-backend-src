@@ -44,6 +44,7 @@ if (
 		   && $action != "changeshareaccess"
 		   && $action != "makeownerof"
 		   && $action != "newNotification"
+		   && $action != "newCommentNotification"
 		)
 	|| (!is_numeric( $id ) && $id != "new" && $id != 0 && !filter_var($id, FILTER_VALIDATE_EMAIL) )
 ) {

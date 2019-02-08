@@ -509,29 +509,6 @@ class Pin {
 		}
 
 
-		// Notify the users
-		if ($comment_ID && $newPin == "no" && $this->getInfo('pin_private') != "1") {
-
-			$users = $this->getUsers();
-
-			foreach ($users as $user_ID) {
-
-
-				Notify::ID( intval($user_ID) )->mail(
-					getUserInfo()['fullName']." posted a comment on '".$pageData->getInfo('page_name')."' page",
-					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") wrote on '".$pageData->getInfo('page_name')."' page: <br>
-					\"$message\" <br><br>
-
-					<b>Page Link:</b> ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
-				);
-
-
-			}
-
-
-		}
-
-
 		// Site log
 		if ($comment_ID) $log->info("$pin_type Pin #".self::$pin_ID." Comment Added: '$message' | '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
@@ -622,7 +599,7 @@ class Pin {
 	}
 
 
-	// Notify users
+	// New pin notification
 	public function newNotification(
 		int $pin_number,
 		string $before_screenshot,
@@ -635,6 +612,100 @@ class Pin {
 
 		// Don't send notification if the current user is not pin owner
 		if ( $this->getInfo('user_ID') != currentUserID() ) return true;
+
+
+
+
+		// Prepare the message
+		$template = $this->emailTemplate($pin_number, $before_screenshot, $after_screenshot, getUserInfo()['fullName']." added a new ".$this->getInfo('pin_type')." pin", "View Pin");
+		$notificationSubject = $template['subject'];
+		$notificationMessage = $template['message'];
+
+
+
+		// Send it to all related users
+		$users = $this->getUsers();
+		foreach ($users as $user_ID) {
+
+
+			// Web notifications !!!
+			// Coming soon...
+
+
+			// Email notifications
+			Notify::ID( intval($user_ID) )->mail(
+				$notificationSubject,
+				$notificationMessage
+			);
+
+
+		}
+
+
+
+		return true;
+
+	}
+
+
+	// New comment notification
+	public function newCommentNotification(
+		int $pin_number,
+		string $before_screenshot,
+		string $after_screenshot
+	) {
+
+
+		// Don't send notification if the pin is private
+		if ( $this->getInfo('pin_private') == "1" ) return true;
+
+		// Don't send notification if the current user is not pin owner
+		//if ( $this->getInfo('user_ID') != currentUserID() ) return true;
+
+
+
+		// Prepare the message
+		$template = $this->emailTemplate($pin_number, $before_screenshot, $after_screenshot, getUserInfo()['fullName']." wrote a new comment", "View Comments");
+		$notificationSubject = $template['subject'];
+		$notificationMessage = $template['message'];
+
+
+
+		// Send it to all related users
+		$users = $this->getUsers();
+		foreach ($users as $user_ID) {
+
+
+			// Web notifications !!!
+			// Coming soon...
+
+
+			// Email notifications
+			Notify::ID( intval($user_ID) )->mail(
+				$notificationSubject,
+				$notificationMessage
+			);
+
+
+		}
+
+
+
+		return true;
+
+	}
+
+
+
+
+	// TEMPLATES
+	private function emailTemplate(
+		int $pin_number,
+		string $before_screenshot,
+		string $after_screenshot,
+		string $pin_message,
+		string $button_text
+	) {
 
 
 		// Pin info
@@ -696,7 +767,7 @@ class Pin {
 
 
 		// Comments info
-		$comments = $this->comments();
+		$comments = array_reverse( $this->comments() );
 
 		// Print comments if exists
 		$commentsList = "";
@@ -705,7 +776,8 @@ class Pin {
 			$commentsList = "<table>";
 
 			$previous_user_ID = 0;
-			foreach ($comments as $comment) {
+			$comment_count = 0;
+			foreach ($comments as $comment) { $comment_count++;
 
 				$different_user = $previous_user_ID != $comment['user_ID'];
 
@@ -738,17 +810,19 @@ class Pin {
 				$user_pic = $different_user ? $avatar : "";
 
 				$commentsList .= "
-				<tr >
+				<tr>
 					<td width='40'>
+						".($different_user && $comment_count > 1 ? "<br><br>" : "")."
 
 						$user_pic
 
 					</td>";
 					$commentsList .= "
 					<td>
+						".($different_user && $comment_count > 1 ? "<br><br>" : "")."
 
 						$user_full_name
-						".$comment['pin_comment']."
+						".$comment['pin_comment']." <span style='padding-left: 5px; padding-right: 5px; font-size: 10px; line-height: 20px; opacity: 0.4;'>".timeago($comment['comment_modified'])."</span>
 
 					</td>
 				</tr>";
@@ -763,12 +837,8 @@ class Pin {
 
 
 
-		// Prepare the message
-		$notificationSubject = getUserInfo()['fullName']." added a new $pin_type pin on '".$pageData->getInfo('page_name')."[".$projectData->getInfo('project_name')."] page";
-		//$notificationMessage = "$pinShape $notificationSubject: <br>".site_url("revise/$device_ID#$pin_ID");
-		$notificationMessage = "
 
-
+		return [ 'message' => "
 
 		<table width='100%' style='max-width:600px; margin: 20px 0;'>
 
@@ -786,11 +856,23 @@ class Pin {
 				<td width='50'>$pinShape</td>
 				<td>
 
-					".getUserInfo()['fullName']." added a new $pin_type pin. <br>
-					<a href='".site_url("revise/$device_ID#$pin_ID")."'><b>View Pin</b></a>
+					$pin_message. <br>
+					<a href='".site_url("revise/$device_ID#$pin_ID")."'><b>View Comments</b></a>
 
 				</td>
 			</tr>
+
+
+			<tr>
+				<td colspan='2'>
+
+					<br>
+					<h2>Comments <span style='display: inline-block; font-size: 10px; color: white; padding: 0 2px; background-color: red; border-radius: 3px;'>NEW</span></h2>
+					$commentsList
+
+				</td>
+			</tr>
+
 
 			<tr>
 				<td colspan='2'>
@@ -806,44 +888,11 @@ class Pin {
 
 
 				</td>
-
-			<tr>
-				<td colspan='2'>
-
-					<br>
-					<h2>Comments</h2>
-					$commentsList
-
-				</td>
 			</tr>
 		</table>
 
 
-		";
-
-
-
-		// Send it to all related users
-		$users = $this->getUsers();
-		foreach ($users as $user_ID) {
-
-
-			// Web notifications !!!
-			// Coming soon...
-
-
-			// Email notifications
-			Notify::ID( intval($user_ID) )->mail(
-				$notificationSubject,
-				$notificationMessage
-			);
-
-
-		}
-
-
-
-		return true;
+		", 'subject' => "$pin_message on ".$pageData->getInfo('page_name')."[".$projectData->getInfo('project_name')."] page"];
 
 	}
 
