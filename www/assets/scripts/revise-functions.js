@@ -1734,6 +1734,17 @@ function reindexPins() {
 }
 
 
+// Get pin number
+function getPinNumber(pin_ID) {
+
+	var pin = getPin(pin_ID);
+	var pinIndex = Pins.indexOf(pin);
+
+	return pinIndex + 1;
+
+}
+
+
 // Change the pin number on cursor
 function changePinNumber(pinNumber) {
 
@@ -2271,11 +2282,6 @@ function openPinWindow(pin_ID, firstTime = false) {
 	if (firstTime) pinWindow.attr('temporary', '');
 
 
-	// If it's first time, remove the "Done" button
-	$('#pin-window .pin-complete').hide();
-	if (!firstTime) $('#pin-window .pin-complete').show();
-
-
 	// Reveal it
 	pinWindow.addClass('active');
 	pinWindowOpen = true;
@@ -2326,7 +2332,10 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 // Close pin window
-function closePinWindow(removePinIfEmpty = false, closeToReopen = false) {
+function closePinWindow(removePinIfEmpty = false) {
+
+
+	var pin_ID = pinWindow.attr('data-pin-id');
 
 
 	if (pinWindowOpen) console.log('PIN WINDOW CLOSING.');
@@ -2365,6 +2374,7 @@ function closePinWindow(removePinIfEmpty = false, closeToReopen = false) {
 
 
 	// Delete if no change made
+	var pinRemoved = false;
 	if (
 		removePinIfEmpty
 		&& pinWindow.attr('data-pin-new') == "yes"
@@ -2374,13 +2384,19 @@ function closePinWindow(removePinIfEmpty = false, closeToReopen = false) {
 		&& pinWindow.attr('temporary') != ""
 	) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
-
 		console.log('REMOVE THIS PIN', pin_ID);
-
 
 		// Instant remove the pin
 		removePin(pin_ID, true);
+		pinRemoved = true;
+
+	}
+
+
+	// Notify the users if this was a new pin
+	if ( pinWindow.attr('data-pin-new') == "yes" && !pinRemoved ) {
+
+		newPinNotification(pin_ID);
 
 	}
 
@@ -3173,6 +3189,7 @@ function sendComment(pin_ID, message) {
 	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
 	var element_index = pin.pin_element_index;
+	var newPin = pinWindow.attr('data-pin-new');
 
 
 
@@ -3206,6 +3223,7 @@ function sendComment(pin_ID, message) {
 
 			'pin_ID'	: pin_ID,
 			'message'	: message,
+			'newPin'	: newPin,
 			'imgDataURL': imgDataURL
 
 		}).done(function(result){
@@ -3389,6 +3407,22 @@ function sendNotifications() {
 
 
 	}, notificationTime);
+
+}
+
+
+// Send New Pin Notification !!!
+function newPinNotification(pin_ID) {
+
+	console.log('New pin notification sending for #' + pin_ID);
+
+
+	var pinNumber = getPinNumber(pin_ID);
+	var beforeScreenshot = ""; // !!!
+	var afterScreenshot = ""; // !!!
+
+
+	doAction('newNotification', 'pin', pin_ID, pinNumber, beforeScreenshot, afterScreenshot);
 
 }
 

@@ -27,6 +27,7 @@ if (
 	       && $type != "Page"
 	       && $type != "Device"
 	       && $type != "User"
+	       && $type != "Pin"
 	   )
 
 	|| ( // Actions
@@ -42,6 +43,7 @@ if (
 		   && $action != "unshare"
 		   && $action != "changeshareaccess"
 		   && $action != "makeownerof"
+		   && $action != "newNotification"
 		)
 	|| (!is_numeric( $id ) && $id != "new" && $id != 0 && !filter_var($id, FILTER_VALIDATE_EMAIL) )
 ) {
@@ -93,8 +95,10 @@ $data = array(
 	'data-type' => $type,
 	'action' => $action,
 	'id' => $id,
-	'parameter' => $first_parameter,
+
+	'first-parameter' => $first_parameter,
 	'second-parameter' => $second_parameter,
+	'third-parameter' => $third_parameter,
 
 	'nonce' => request('nonce'),
 	'S_nonce' => $_SESSION['js_nonce'],

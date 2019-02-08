@@ -391,6 +391,8 @@ html, body {
     pointer-events: none; }
   #pin-window[data-showing-changes="no"] .show-original-css > .original {
     display: none; }
+  #pin-window[data-pin-new="yes"] .pin-complete {
+    display: none; }
   #pin-window.active {
     pointer-events: auto;
     opacity: 1;

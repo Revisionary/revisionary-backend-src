@@ -816,7 +816,7 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 		'firstParameter'  : firstParameter,
 		'secondParameter' : secondParameter,
 		'thirdParameter'  : thirdParameter,
-		'nonce' : nonce
+		'nonce' 		  : nonce
 	}).done(function(result) {
 
 

@@ -701,6 +701,14 @@ html, body {
 
 	}
 
+	&[data-pin-new="yes"] {
+
+		.pin-complete {
+			display: none;
+		}
+
+	}
+
 	&.active {
 		pointer-events: auto;
 		opacity: 1;

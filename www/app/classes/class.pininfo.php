@@ -116,25 +116,6 @@ class Pin {
 			$project_ID = $pageData->getInfo('project_ID');
 			$projectData = Project::ID( $project_ID );
 
-
-			// Element screenshot
-			$image = "";
-			if ($imgDataUrl != "") {
-				$image = "<img src='$imgDataUrl' style='border: 2px dashed red'><br><br>";
-			}
-
-
-			$users = $pinData->getUsers();
-			foreach ($users as $user_ID) {
-
-				Notify::ID( intval($user_ID) )->mail(
-					getUserInfo()['fullName']." added a new $pin_type pin on '".$pageData->getInfo('page_name')." (in ".$projectData->getInfo('project_name').")' page",
-					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new $pin_type pin on '".$pageData->getInfo('page_name')." (in ".$projectData->getInfo('project_name').")' page: <br>
-					".site_url("revise/$pin_device_ID#$pin_ID")
-				);
-
-			}
-
 		}
 
 
@@ -490,6 +471,7 @@ class Pin {
     // Add a new comment
     public function addComment(
     	string $message,
+    	string $newPin = "no",
     	string $imgDataUrl = ""
 	) {
 	    global $db, $log;
@@ -528,7 +510,7 @@ class Pin {
 
 
 		// Notify the users
-		if ($comment_ID) {
+		if ($comment_ID && $newPin == "no" && $this->getInfo('pin_private') != "1") {
 
 			$users = $this->getUsers();
 
@@ -636,6 +618,229 @@ class Pin {
 
 
 		return $comment_deleted;
+
+	}
+
+
+	// Notify users
+	public function newNotification(
+		int $pin_number,
+		string $before_screenshot,
+		string $after_screenshot
+	) {
+
+
+		// Don't send notification if the pin is private
+		if ( $this->getInfo('pin_private') == "1" ) return true;
+
+
+		// Pin info
+		$pin_ID = self::$pin_ID;
+		$pin_type = $this->getInfo('pin_type');
+
+
+		// Draw the pin
+		$pinShadow = $pin_type == "live" ? "0px 0px 18px 1px #149440" : "0px 0px 10px 1px rgba(255, 255, 255, 0.5)";
+		$pinShape = "
+
+
+			<div style='
+
+				position: relative;
+			    display: inline-block;
+			    border-radius: 50%;
+			    letter-spacing: 0;
+			    text-align: center;
+
+			    background-color: black;
+			    color: white;
+
+			    width: 45px;
+			    height: 45px;
+			    line-height: 45px;
+			    font-size: 14px;
+
+			    box-shadow: $pinShadow;
+
+			'>$pin_number</div>
+
+
+		";
+
+
+		// Page/Project info
+		$device_ID = $this->getInfo('device_ID');
+		$page_ID = Device::ID( $device_ID )->getInfo('page_ID');
+		$pageData = Page::ID( $page_ID );
+		$project_ID = $pageData->getInfo('project_ID');
+		$projectData = Project::ID( $project_ID );
+
+
+		// Element screenshot !!!
+		$beforeImage = "";
+		if ($before_screenshot != "") {
+			$beforeImage = "<img src='$before_screenshot' style='border: 2px dashed red'><br><br>";
+		}
+
+
+		// Modification info
+		$modification_type = $this->getInfo('pin_modification_type');
+		$modification = $this->getInfo('pin_modification');
+
+
+		// CSS changes info
+		$css = $this->getInfo('pin_css');
+
+
+		// Comments info
+		$comments = $this->comments();
+
+		// Print comments if exists
+		$commentsList = "";
+		if ( count($comments) > 0 ) {
+
+			$commentsList = "<table>";
+
+			$previous_user_ID = 0;
+			foreach ($comments as $comment) {
+
+				$different_user = $previous_user_ID != $comment['user_ID'];
+
+				$has_photo = $comment['user_picture'] != null;
+				$avatar = "
+					<div style='
+
+					    display: inline-block;
+					    border: 1px solid black;
+
+					    background-color: white;
+					    color: black;
+
+					    width: 30px;
+					    height: 30px;
+					    line-height: 30px;
+					    font-size: 12px;
+					    letter-spacing: 0;
+					    text-align: center;
+
+					    background-repeat: no-repeat;
+					    background-size: cover;
+					    background-position: 50% 50%;
+					    background-image: ".($has_photo ? "url(".cache_url('users/user-'.$comment['user_ID'].'/'.$comment['user_picture']).")" : "none").";
+
+					'>".($has_photo ? "" : mb_substr($comment['user_first_name'], 0, 1).mb_substr($comment['user_last_name'], 0, 1))."</div>
+				";
+
+				$user_full_name = $different_user ? "<b>".$comment['user_first_name']." ".$comment['user_last_name']."</b><br>" : "";
+				$user_pic = $different_user ? $avatar : "";
+
+				$commentsList .= "
+				<tr >
+					<td width='40'>
+
+						$user_pic
+
+					</td>";
+					$commentsList .= "
+					<td>
+
+						$user_full_name
+						".$comment['pin_comment']."
+
+					</td>
+				</tr>";
+
+				$previous_user_ID = $comment['user_ID'];
+
+			}
+
+			$commentsList .= "</table>";
+
+		}
+
+
+
+		// Prepare the message
+		$notificationSubject = getUserInfo()['fullName']." added a new $pin_type pin on '".$pageData->getInfo('page_name')."[".$projectData->getInfo('project_name')."] page";
+		//$notificationMessage = "$pinShape $notificationSubject: <br>".site_url("revise/$device_ID#$pin_ID");
+		$notificationMessage = "
+
+
+
+		<table width='100%' style='max-width:600px; margin: 20px 0;'>
+
+			<tr>
+				<td colspan='2'>
+
+					<h1>
+						<a href='".site_url("revise/$device_ID#$pin_ID")."' style='text-decoration: none;'>".$projectData->getInfo('project_name')." - ".$pageData->getInfo('page_name')."</a>
+					</h1>
+
+				</td>
+			</tr>
+
+			<tr>
+				<td width='50'>$pinShape</td>
+				<td>
+
+					".getUserInfo()['fullName']." added a new $pin_type pin. <br>
+					<a href='".site_url("revise/$device_ID#$pin_ID")."'><b>View Pin</b></a>
+
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan='2'>
+
+					<br>
+					<h2>Modifications</h2>
+					<ul>
+						".($modification_type == "image" && $modification != null ? "<li>Image updated</li>" : "")."
+						".($modification_type == "html" && $modification != null ? "<li>Some content changes</li>" : "")."
+						".($css != null ? "<li>Some view changes</li>" : "")."
+						".($modification == null && $css == null ? "<li>No changes</li>" : "")."
+					</ul>
+
+
+				</td>
+
+			<tr>
+				<td colspan='2'>
+
+					<br>
+					<h2>Comments</h2>
+					$commentsList
+
+				</td>
+			</tr>
+		</table>
+
+
+		";
+
+
+
+		// Send it to all related users
+		$users = $this->getUsers();
+		foreach ($users as $user_ID) {
+
+
+			// Web notifications !!!
+			// Coming soon...
+
+
+			// Email notifications
+			Notify::ID( intval($user_ID) )->mail(
+				$notificationSubject,
+				$notificationMessage
+			);
+
+
+		}
+
+
+
+		return true;
 
 	}
 
