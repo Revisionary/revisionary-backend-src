@@ -695,7 +695,7 @@ function runTheInspector() {
 
 
 			// If differences tab is open
-			if ( pinWindowOpen && pinWindow(pin_ID).hasClass('show-differences') ) {
+			if ( pinWindow(pin_ID).hasClass('show-differences') ) {
 
 
 				var originalContent = pinWindow(pin_ID).find('.content-editor .edit-content.original').html();
@@ -2443,7 +2443,7 @@ function closePinWindow(removePinIfEmpty = true) {
 // Toggle pin window
 function togglePinWindow(pin_ID) {
 
-	if (pinWindowOpen && pinWindow().attr('data-pin-id') == pin_ID) closePinWindow();
+	if ( isPinWindowOpen(pin_ID) ) closePinWindow();
 	else openPinWindow(pin_ID);
 
 }
@@ -2748,13 +2748,9 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 			}
 
 
-			// Update the pin window content if open
-			if (pinWindowOpen) {
+			// Add the changed HTML content
+			pinWindow(pin.pin_ID).find('.content-editor .edit-content.changes').html( oldHTML );
 
-				// Add the changed HTML content
-				pinWindow(pin.pin_ID).find('.content-editor .edit-content.changes').html( oldHTML );
-
-			}
 
 		// If the type is image change
 		} else if ( pin.pin_modification_type == "image" ) {
