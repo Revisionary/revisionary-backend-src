@@ -9,7 +9,7 @@ $(function() {
 
 	// Navigation out of the page
 	var linkClickedOut = false;
-	$(document).on('click', 'a', function(e) {
+	$(document).on('click', 'a[href]', function(e) {
 
 		linkClickedOut = true;
 

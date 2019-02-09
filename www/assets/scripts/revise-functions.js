@@ -728,11 +728,17 @@ function runTheInspector() {
 		}).on('focus', '[contenteditable="true"][data-revisionary-index]', function(e) { // When clicked an editable text
 
 
+			// Remove all the other focus outlines
+			iframeElement('.revisionary-focused').removeClass('revisionary-focused');
+			removeOutline();
+
+
+			// Outline this focused element
 			outline(focused_element, focused_element_live_pin.attr('data-pin-private'));
 			focused_element.addClass('revisionary-focused');
 
 
-			// Open the new pin window
+			// Open the new pin window if already open
 			if (
 				pinWindowOpen
 				&& focused_element_live_pin != null && focused_element_live_pin.length
@@ -761,7 +767,7 @@ function runTheInspector() {
 			console.log('PASTED: ', plain_text);
 
 
-		}).on('click', 'a', function(e) { // When pasting rich text
+		}).on('click', 'a[href]', function(e) { // When pasting rich text
 
 
 			var link = $(this).attr('href');
@@ -1457,7 +1463,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 // DB: Remove a pin
-function removePin(pin_ID, instantRemove = false) {
+function removePin(pin_ID) {
 
 
     // Add pin to the DB
@@ -1465,11 +1471,36 @@ function removePin(pin_ID, instantRemove = false) {
 
 
     // Add removing message
-    if (pinWindowOpen) pinWindow(pin_ID).addClass('removing');
+    pinWindow(pin_ID).addClass('removing');
 
 
-    // Instant remove from the DOM
-    if (instantRemove) pinElement(pin_ID).remove();
+	// Bring the pin info
+	var pin = getPin(pin_ID);
+	var pinIndex = Pins.indexOf(pin);
+
+	if (pin) {
+
+		// Revert the changes
+		revertChanges([pin.pin_element_index]);
+
+
+		// Delete from the list
+		Pins.splice(pinIndex, 1);
+
+	}
+
+
+	// Close the pin window
+	if ( isPinWindowOpen(pin_ID) ) closePinWindow();
+
+
+	// Remove the pin from DOM
+	pinElement(pin_ID).remove();
+
+
+	// Re-Index the pin counts
+	reindexPins();
+
 
 
 	// Start the process
@@ -1483,41 +1514,6 @@ function removePin(pin_ID, instantRemove = false) {
 	}).done(function(result){
 
 		console.log("DB REMOVED: ", result.data);
-
-
-	    // Remove removing message
-	    if (pinWindowOpen) pinWindow(pin_ID).removeClass('removing');
-
-
-		// Close the pin window
-		if (pinWindowOpen) closePinWindow();
-
-
-		// Bring the pin info
-		var pin = getPin(pin_ID);
-		var pinIndex = Pins.indexOf(pin);
-
-		//console.log(modification);
-
-		if (pin) {
-
-			// Revert the changes
-			revertChanges([pin.pin_element_index]);
-
-
-			// Delete from the list
-			Pins.splice(pinIndex, 1);
-
-		}
-
-
-
-		// Remove the pin from DOM
-		pinElement(pin_ID).remove();
-
-
-		// Re-Index the pin counts
-		reindexPins();
 
 
 		// Finish the process
@@ -2294,6 +2290,10 @@ function openPinWindow(pin_ID, firstTime = false) {
 	if (firstTime) pinWindow().attr('temporary', '');
 
 
+	// Remove the removing text
+	pinWindow().removeClass('removing');
+
+
 	// Reveal it
 	pinWindow().addClass('active');
 	pinWindowOpen = true;
@@ -2344,7 +2344,11 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 // Close pin window
-function closePinWindow(removePinIfEmpty = false) {
+function closePinWindow(removePinIfEmpty = true) {
+
+
+	// Don't close the pin window if it's currently adding a
+	if ( pinWindow().hasClass('loading') ) return false;
 
 
 	var pin_ID = pinWindow().attr('data-pin-id');
@@ -2398,8 +2402,8 @@ function closePinWindow(removePinIfEmpty = false) {
 
 		console.log('REMOVE THIS PIN', pin_ID);
 
-		// Instant remove the pin
-		removePin(pin_ID, true);
+		// Remove the pin
+		removePin(pin_ID);
 		pinRemoved = true;
 
 	}
@@ -3533,7 +3537,7 @@ function getPin(pin_ID) {
 }
 
 
-// Find pin element
+// Get the specific pin's window
 function pinWindow(selector = "", byElementIndex = false) {
 
 
@@ -3550,6 +3554,16 @@ function pinWindow(selector = "", byElementIndex = false) {
 
 	}
 
+
+}
+
+
+// Get the specific pin's window
+function isPinWindowOpen(selector = "", byElementIndex = false) {
+
+	var pin_window = pinWindow(selector, byElementIndex);
+
+	return pin_window.hasClass('active');
 
 }
 
@@ -3723,7 +3737,7 @@ function dataURLtoBlob(dataURL) {
   return new Blob([new Uint8Array(array)], {type: 'image/png'});
 }
 
-function stringToBytesFaster ( str ) {
+function stringToBytesFaster( str ) {
     //http://stackoverflow.com/questions/1240408/reading-bytes-from-a-javascript-string
     var ch, st, re = [], j=0;
     for (var i = 0; i < str.length; i++ ) {
