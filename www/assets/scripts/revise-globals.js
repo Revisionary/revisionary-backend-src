@@ -128,7 +128,7 @@ var iframeWidth = 0;
 var iframeHeight = 0;
 
 // Pin Window
-var	pinWindow;
+//var pinWindow;
 var pinWindowOpen = false;
 var pinWindowWasOpen = false;
 var pinWindowWidth = 350;
@@ -157,9 +157,9 @@ $(function() {
 	page_width = parseInt( $('#the-page').attr('width') );
 	page_height = parseInt( $('#the-page').attr('height') );
 
-	pinWindow = $('#pin-window');
-	pinWindowWidth = pinWindow.outerWidth();
-	pinWindowHeight = pinWindow.outerHeight();
+	//pinWindow = $('#pin-window');
+	pinWindowWidth = pinWindow().outerWidth();
+	pinWindowHeight = pinWindow().outerHeight();
 
 	pinTypeSelector = $('.pin-type-selector');
 	pinTypeSelectorOpen = pinTypeSelector.parent().hasClass('selector-open');

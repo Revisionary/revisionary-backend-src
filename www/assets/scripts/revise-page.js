@@ -260,7 +260,7 @@ $(function() {
 	// Close pin window
 	$('#pin-window .close-button').click(function(e) {
 
-		var commentWritten = pinWindow.find('.comment-input').val();
+		var commentWritten = pinWindow().find('.comment-input').val();
 
 		// Send the comment if unsend
 		if( commentWritten ) $('#comment-sender').submit();
@@ -276,7 +276,7 @@ $(function() {
 	// Remove Pin
 	$('#pin-window .remove-pin').click(function(e) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
+		var pin_ID = pinWindow().attr('data-pin-id');
 
 		// Delete it from DB
 		if ( confirm('Are you sure you want to delete this pin and its modifications and comments?') )
@@ -290,8 +290,8 @@ $(function() {
 	// Complete Pin
 	$('#pin-window .pin-complete > a').click(function(e) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
-		var isComplete = pinWindow.attr('data-pin-complete') == "1" ? true : false;
+		var pin_ID = pinWindow().attr('data-pin-id');
+		var isComplete = pinWindow(pin_ID).attr('data-pin-complete') == "1" ? true : false;
 
 
 		completePin(pin_ID, !isComplete);
@@ -322,7 +322,7 @@ $(function() {
 	// Comment Sender
 	$('#comment-sender').submit(function(e) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
+		var pin_ID = pinWindow().attr('data-pin-id');
 		var message = $(this).find('.comment-input').val();
 
 		// Add it from DB
@@ -345,7 +345,7 @@ $(function() {
 	// Delete Comment
 	$(document).on('click', '.delete-comment', function(e) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
+		var pin_ID = pinWindow().attr('data-pin-id');
 		var comment_ID = $(this).attr('data-comment-id');
 
 		// Delete it from DB if confirmed
@@ -359,7 +359,7 @@ $(function() {
 	// Toggle original content
 	$('.edits-switch').click(function(e) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
+		var pin_ID = pinWindow().attr('data-pin-id');
 
 		toggleChange(pin_ID);
 
@@ -371,19 +371,19 @@ $(function() {
 	// Toggle differences content
 	$('.difference-switch').click(function(e) {
 
-		pinWindow.toggleClass('show-differences');
+		pinWindow().toggleClass('show-differences');
 
-		var diffText = pinWindow.hasClass('show-differences') ? "SHOW CHANGES" : "SHOW DIFFERENCE";
-		var diffIcon = pinWindow.hasClass('show-differences') ? "fa-pencil-alt" : "fa-random";
+		var diffText = pinWindow().hasClass('show-differences') ? "SHOW CHANGES" : "SHOW DIFFERENCE";
+		var diffIcon = pinWindow().hasClass('show-differences') ? "fa-pencil-alt" : "fa-random";
 
-		pinWindow.find('.content-editor span.diff-text').text(diffText);
-		pinWindow.find('.content-editor .difference-switch > i').removeClass('fa-random', 'fa-pencil-alt').addClass(diffIcon);
+		pinWindow().find('.content-editor span.diff-text').text(diffText);
+		pinWindow().find('.content-editor .difference-switch > i').removeClass('fa-random', 'fa-pencil-alt').addClass(diffIcon);
 
 
-		if (pinWindow.hasClass('show-differences')) {
+		if (pinWindow().hasClass('show-differences')) {
 
-			var originalContent = pinWindow.find('.content-editor .edit-content.original').html();
-			var changedContent = pinWindow.find('.content-editor .edit-content.changes').html();
+			var originalContent = pinWindow().find('.content-editor .edit-content.original').html();
+			var changedContent = pinWindow().find('.content-editor .edit-content.changes').html();
 
 
 			// Difference check
@@ -391,7 +391,7 @@ $(function() {
 
 
 			// Add the differences content
-			pinWindow.find('.content-editor .edit-content.differences').html( diffContent );
+			pinWindow().find('.content-editor .edit-content.differences').html( diffContent );
 
 		}
 
@@ -406,8 +406,8 @@ $(function() {
 	$(document).on('input', '#pin-window.active .content-editor .edit-content', function(e) {
 
 
-		var pin_ID = pinWindow.attr('data-pin-id');
-		var elementIndex = pinWindow.attr('data-revisionary-index');
+		var pin_ID = pinWindow().attr('data-pin-id');
+		var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
 		var modification = $(this).html();
 		var changedElement = iframeElement(elementIndex);
 
@@ -440,7 +440,7 @@ $(function() {
 		changedElement.html(modification);
 		changedElement.attr('contenteditable', "true");
 		pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-		pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+		pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 
 
 		// Remove unsent job
@@ -469,8 +469,8 @@ $(function() {
 
 
 
-			var pin_ID = pinWindow.attr('data-pin-id');
-			var elementIndex = pinWindow.attr('data-revisionary-index');
+			var pin_ID = pinWindow().attr('data-pin-id');
+			var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
 			var imageSrc = event.target.result;
 			var changedElement = iframeElement(elementIndex);
 			var changedElementOriginal = changedElement.attr('src');
@@ -488,7 +488,7 @@ $(function() {
 			// Apply the change
 			$('.uploader img').attr('src', imageSrc);
 			changedElement.attr('src', imageSrc).attr('srcset', '').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-			pinWindow.attr('data-revisionary-edited', "1");
+			pinWindow(pin_ID).attr('data-revisionary-edited', "1");
 
 
 
@@ -548,8 +548,8 @@ $(function() {
 	// Remove Image
 	$('.remove-image').click(function(e) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
-		var element_index = parseInt(pinWindow.attr('data-revisionary-index'));
+		var pin_ID = pinWindow().attr('data-pin-id');
+		var element_index = parseInt(pinWindow(pin_ID).attr('data-revisionary-index'));
 
 
 		// Remove the image on this element
@@ -581,9 +581,9 @@ $(function() {
 		value = isActive ? defaultValue : value;
 
 
-		var pin_ID = pinWindow.attr('data-pin-id');
-		var elementIndex = pinWindow.attr('data-revisionary-index');
-		var options = pinWindow.find('ul.options');
+		var pin_ID = pinWindow().attr('data-pin-id');
+		var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
+		var options = pinWindow(pin_ID).find('ul.options');
 
 
 		console.log('EDIT CSS: ', property, value, elementIndex);
@@ -659,8 +659,8 @@ $(function() {
 	// Reset CSS
 	$('.reset-css').click(function(e) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
-		var element_index = parseInt(pinWindow.attr('data-revisionary-index'));
+		var pin_ID = pinWindow().attr('data-pin-id');
+		var element_index = parseInt(pinWindow(pin_ID).attr('data-revisionary-index'));
 
 
 		if ( confirm('Are you sure you want to reset all your view options?') ) {
@@ -685,8 +685,8 @@ $(function() {
 	// Reset Content
 	$('.reset-content').click(function(e) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
-		var element_index = parseInt(pinWindow.attr('data-revisionary-index'));
+		var pin_ID = pinWindow().attr('data-pin-id');
+		var element_index = parseInt(pinWindow(pin_ID).attr('data-revisionary-index'));
 
 
 		if ( confirm('Are you sure you want to revert your content changes?') ) {
@@ -707,7 +707,7 @@ $(function() {
 	// Show original CSS toggle
 	$('.show-original-css').click(function(e) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
+		var pin_ID = pinWindow().attr('data-pin-id');
 
 
 		toggleCSS(pin_ID);
@@ -721,14 +721,14 @@ $(function() {
 	// Convert Pin
 	$('.type-convertor > li > a').click(function(e) {
 
-		var pin_ID = pinWindow.attr('data-pin-id');
-		var element_index = parseInt(pinWindow.attr('data-revisionary-index'));
+		var pin_ID = pinWindow().attr('data-pin-id');
+		var element_index = parseInt(pinWindow(pin_ID).attr('data-revisionary-index'));
 		var targetPin = $(this).children('pin');
 
 
 		// Confirm if converting to standard pin
 		if (
-			pinWindow.attr('data-pin-type') == "live"
+			pinWindow(pin_ID).attr('data-pin-type') == "live"
 			&& targetPin.attr('data-pin-type') == "standard"
 			&& !confirm('Are you sure you want to convert this live pin to a standard comment pin? All your changes will be reverted.')
 		) return false;
@@ -968,7 +968,7 @@ $(function() {
 
 		var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
 
-		if ( !pinWindowOpen || pinWindow.attr('data-pin-id') != goToPin_ID ) {
+		if ( !pinWindowOpen || pinWindow().attr('data-pin-id') != goToPin_ID ) {
 
 			var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
 			console.log('Going to the Pin #', goToPin_ID);

@@ -711,6 +711,7 @@ class Pin {
 		// Pin info
 		$pin_ID = self::$pin_ID;
 		$pin_type = $this->getInfo('pin_type');
+		$pin_complete = $this->getInfo('pin_complete') === 1;
 
 
 		// Draw the pin
@@ -771,12 +772,12 @@ class Pin {
 
 		// Print comments if exists
 		$commentsList = "No comments";
+		$comment_count = 0;
 		if ( count($comments) > 0 ) {
 
 			$commentsList = "<table>";
 
 			$previous_user_ID = 0;
-			$comment_count = 0;
 			foreach ($comments as $comment) { $comment_count++;
 
 				$different_user = $previous_user_ID != $comment['user_ID'];

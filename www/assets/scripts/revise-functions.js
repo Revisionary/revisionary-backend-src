@@ -181,7 +181,7 @@ function runTheInspector() {
 					if (pinWindowOpen) {
 
 						// Register the open pin
-						openPin = pinWindow.attr('data-pin-id');
+						openPin = pinWindow().attr('data-pin-id');
 
 						// Close the open pin window
 						closePinWindow();
@@ -514,14 +514,15 @@ function runTheInspector() {
 
 
 
-/*
 				// See what am I focusing
 				console.log("###############################");
 				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
 				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable, focused_element_html_editable );
 				//console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
+				console.log("HOVERING ON A TEXT?: ", hoveringText );
+				console.log("HOVERING ON AN IMAGE?: ", hoveringImage );
+				console.log("HOVERING ON A BUTTON?: ", hoveringButton );
 				console.log("###############################");
-*/
 
 
 
@@ -687,11 +688,11 @@ function runTheInspector() {
 
 
 			// If differences tab is open
-			if ( pinWindowOpen && pinWindow.hasClass('show-differences') ) {
+			if ( pinWindowOpen && pinWindow(pin_ID).hasClass('show-differences') ) {
 
 
-				var originalContent = pinWindow.find('.content-editor .edit-content.original').html();
-				var changedContent = pinWindow.find('.content-editor .edit-content.changes').html();
+				var originalContent = pinWindow(pin_ID).find('.content-editor .edit-content.original').html();
+				var changedContent = pinWindow(pin_ID).find('.content-editor .edit-content.changes').html();
 
 
 				// Difference check
@@ -699,7 +700,7 @@ function runTheInspector() {
 
 
 				// Add the differences content
-				pinWindow.find('.content-editor .edit-content.differences').html( diffContent );
+				pinWindow(pin_ID).find('.content-editor .edit-content.differences').html( diffContent );
 
 			}
 
@@ -728,7 +729,7 @@ function runTheInspector() {
 			if (
 				pinWindowOpen
 				&& focused_element_live_pin != null && focused_element_live_pin.length
-				&& pinWindow.attr('data-revisionary-index') != focused_element_index
+				&& pinWindow().attr('data-revisionary-index') != focused_element_index
 			)
 				openPinWindow( focused_element_live_pin.attr('data-pin-id') );
 
@@ -842,8 +843,8 @@ function updateLocationValues() {
 	scrollX = scrollOffset_left * iframeScale;
 	scrollY = scrollOffset_top * iframeScale;
 
-	pinWindowWidth = pinWindow.outerWidth();
-	pinWindowHeight = pinWindow.outerHeight();
+	pinWindowWidth = pinWindow().outerWidth();
+	pinWindowHeight = pinWindow().outerHeight();
 
 }
 
@@ -1305,8 +1306,11 @@ function putPin(pinX, pinY) {
 	stopAutoRefresh();
 
 
-	// Variables
+	// Element Info, gather from the focuser
 	var element_index = focused_element_index;
+	var selectedElement = iframeElement(element_index);
+	var cursorType = currentCursorType;
+	var pinPrivate = currentPinPrivate;
 
 
 	// Put it just on the pointer point
@@ -1314,24 +1318,24 @@ function putPin(pinX, pinY) {
 	pinY = parseFloat(pinY - 45/2).toFixed(5);
 
 
-	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, currentCursorType, currentPinPrivate, element_index);
+	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, cursorType, pinPrivate, element_index);
 
 
 	// Detect modification info
 	var modificationType = null;
 	var modificationOriginal = null;
 
-	if (currentCursorType == "live") {
+	if (cursorType == "live") {
 
-		var editedElement = iframeElement(element_index);
 
 		// Add edited status to the DOM
-		editedElement
+		selectedElement
 			.attr('data-revisionary-edited', "0")
 			.attr('contenteditable', "true");
 
-		modificationType = hoveringText ? "html" : "image";
-		modificationOriginal = modificationType == "html" ? htmlentities( editedElement.html(), "ENT_QUOTES") : editedElement.attr('src');
+		modificationType = selectedElement.prop('tagName') == 'IMG' ? "image" : "html";
+		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.attr('src');
+
 
 	}
 
@@ -1342,14 +1346,13 @@ function putPin(pinX, pinY) {
 
 	// Add the temporary pin to the DOM
 	$('#pins').append(
-		pinTemplate(currentPinNumber, temporaryPinID, '0', element_index, null, modificationType, currentPinPrivate, currentCursorType, pinX, pinY, true)
+		pinTemplate(currentPinNumber, temporaryPinID, '0', element_index, null, modificationType, pinPrivate, cursorType, pinX, pinY, true)
 	);
 
 
 
-	// Add it to the pins global
-	var pinsIndex = Pins.length;
-	Pins[pinsIndex] = {
+	// Prepare the new pin info
+	var newPinInfo = {
 		pin_ID: temporaryPinID,
 		pin_complete: 0,
 		pin_element_index: parseInt(element_index),
@@ -1357,12 +1360,17 @@ function putPin(pinX, pinY) {
 		pin_modification_original: modificationOriginal,
 		pin_modification_type: modificationType,
 		pin_css: null,
-		pin_private: parseInt(currentPinPrivate),
-		pin_type: currentCursorType,
+		pin_private: parseInt(pinPrivate),
+		pin_type: cursorType,
 		pin_x: pinX,
 		pin_y: pinY,
 		user_ID: parseInt(user_ID)
 	};
+
+
+	// Add it to the pins global
+	Pins.push(newPinInfo);
+	var pinIndex = Pins.indexOf(newPinInfo);
 
 
 
@@ -1392,9 +1400,9 @@ function putPin(pinX, pinY) {
 	    {
 			'pin_x' 	 			: pinX,
 			'pin_y' 	 			: pinY,
-			'pin_type' 	 			: currentCursorType,
+			'pin_type' 	 			: cursorType,
 			'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
-			'pin_private'			: currentPinPrivate,
+			'pin_private'			: pinPrivate,
 			'pin_element_index' 	: element_index,
 			'pin_device_ID'			: device_ID,
 			'imgDataURL'			: imgDataURL
@@ -1411,13 +1419,13 @@ function putPin(pinX, pinY) {
 
 			// Update the pin ID
 			newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
-			pinWindow.attr('data-pin-id', realPinID).removeAttr('temporary');
-			Pins[pinsIndex].pin_ID = realPinID;
+			pinWindow('[data-pin-id="'+ temporaryPinID +'"]').attr('data-pin-id', realPinID).removeAttr('temporary');
+			Pins[pinIndex].pin_ID = realPinID;
 			window.location.hash = "#"+realPinID;
 
 
 			// Remove the loading text on pin window
-			pinWindow.removeClass('loading');
+			pinWindow(realPinID).removeClass('loading');
 
 
 			// Make draggable
@@ -1453,7 +1461,7 @@ function removePin(pin_ID, instantRemove = false) {
 
 
     // Add removing message
-    if (pinWindowOpen) pinWindow.addClass('removing');
+    if (pinWindowOpen) pinWindow(pin_ID).addClass('removing');
 
 
     // Instant remove from the DOM
@@ -1474,7 +1482,7 @@ function removePin(pin_ID, instantRemove = false) {
 
 
 	    // Remove removing message
-	    if (pinWindowOpen) pinWindow.removeClass('removing');
+	    if (pinWindowOpen) pinWindow(pin_ID).removeClass('removing');
 
 
 		// Close the pin window
@@ -1539,7 +1547,7 @@ function completePin(pin_ID, complete, imgData = null) {
 
 	// Update the pin & pin window status
 	pinElement(pin_ID).attr('data-pin-complete', (complete ? '1' : '0'));
-	pinWindow.attr('data-pin-complete', (complete ? '1' : '0'));
+	pinWindow(pin_ID).attr('data-pin-complete', (complete ? '1' : '0'));
 
 
 
@@ -1608,7 +1616,7 @@ function convertPin(pin_ID, targetPin) {
 		Pins[pinIndex].pin_modification_original = null;
 
 		pinElement(pin_ID).attr('data-pin-modification-type', 'null');
-		pinWindow.attr('data-pin-modification-type', 'null');
+		pinWindow(pin_ID).attr('data-pin-modification-type', 'null');
 
 		// Remove outlines from iframe
 		removeOutline();
@@ -1626,14 +1634,14 @@ function convertPin(pin_ID, targetPin) {
 
 
 	// Update the pin window status
-	pinWindow.attr('data-pin-type', pinType)
+	pinWindow(pin_ID).attr('data-pin-type', pinType)
 		.attr('data-pin-type', pinType)
 		.attr('data-pin-private', pinPrivate);
 
 
 	// Update the pin type section label
-	pinWindow.find('pin.chosen-pin').attr('data-pin-type', pinType).attr('data-pin-private', pinPrivate);
-	pinWindow.find('.pin-label').text(pinLabel);
+	pinWindow(pin_ID).find('pin.chosen-pin').attr('data-pin-type', pinType).attr('data-pin-private', pinPrivate);
+	pinWindow(pin_ID).find('.pin-label').text(pinLabel);
 
 
 	// If it's a live pin, change the element outline color
@@ -1788,12 +1796,8 @@ function relocatePins(pin_selector = null, x = null, y = null, onlyPinWindow = f
 
 
 		// Update the registered pin window location as well, only if current pin is moving
-		if ( pin_ID == pinWindow.attr('data-pin-id') ) {
-
-			pinWindow.attr('data-pin-x', realPinX);
-			pinWindow.attr('data-pin-y', realPinY);
-
-		}
+		pinWindow(pin_ID).attr('data-pin-x', realPinX);
+		pinWindow(pin_ID).attr('data-pin-y', realPinY);
 
 
 	} else if (!onlyPinWindow) {
@@ -1822,8 +1826,8 @@ function relocatePins(pin_selector = null, x = null, y = null, onlyPinWindow = f
 
 
 	// Current pin window location
-	var window_x = parseInt(pinWindow.attr('data-pin-x')) * iframeScale;
-	var window_y = parseInt(pinWindow.attr('data-pin-y')) * iframeScale;
+	var window_x = parseInt(pinWindow().attr('data-pin-x')) * iframeScale;
+	var window_y = parseInt(pinWindow().attr('data-pin-y')) * iframeScale;
 
 
     var scrolled_window_x = window_x + offset.left - scrollX + 50;
@@ -1860,8 +1864,8 @@ function relocatePins(pin_selector = null, x = null, y = null, onlyPinWindow = f
 
 
 	// Relocate the pin window
-	pinWindow.not('.moved').css('left', new_scrolled_window_x + "px");
-	pinWindow.not('.moved').css('top', new_scrolled_window_y + "px");
+	pinWindow().not('.moved').css('left', new_scrolled_window_x + "px");
+	pinWindow().not('.moved').css('top', new_scrolled_window_y + "px");
 
 }
 
@@ -2040,7 +2044,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 	// Add the pin window data !!!
-	pinWindow
+	pinWindow()
 		.attr('data-pin-type', thePinType)
 		.attr('data-pin-private', thePinPrivate)
 		.attr('data-pin-complete', thePinComplete)
@@ -2057,16 +2061,16 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 	// Reset the differences fields
-	pinWindow.removeClass('show-differences');
-	pinWindow.find('span.diff-text').text('SHOW DIFFERENCE');
-	pinWindow.find('.difference-switch > i').removeClass('fa-random', 'fa-pencil-alt').addClass('fa-random');
+	pinWindow().removeClass('show-differences');
+	pinWindow().find('span.diff-text').text('SHOW DIFFERENCE');
+	pinWindow().find('.difference-switch > i').removeClass('fa-random', 'fa-pencil-alt').addClass('fa-random');
 
 
 	// Update the pin type section
-	pinWindow.find('pin.chosen-pin')
+	pinWindow().find('pin.chosen-pin')
 		.attr('data-pin-type', thePinType)
 		.attr('data-pin-private', thePinPrivate);
-	pinWindow.find('.pin-label').text(thePinText);
+	pinWindow().find('.pin-label').text(thePinText);
 
 
 
@@ -2074,7 +2078,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 	var thePinElement = iframeElement(theIndex);
 	var styleElement = iframeElement('style[data-index="'+ theIndex +'"]');
 	var isShowingCSS = styleElement.html() == "" ? false : true;
-	var options = pinWindow.find('ul.options');
+	var options = pinWindow().find('ul.options');
 
 
 
@@ -2150,9 +2154,10 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 	// Changed status
-	pinWindow.attr('data-changed', (styleElement.length ? "yes" : "no"));
-	pinWindow.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"));
-	pinWindow.attr('data-has-comments', 'no');
+	pinWindow()
+		.attr('data-changed', (styleElement.length ? "yes" : "no"))
+		.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"))
+		.attr('data-has-comments', 'no');
 
 
 
@@ -2162,7 +2167,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 		// Update the pin type section
 		thePinText = thePinPrivate == '1' ? 'PRIVATE LIVE' : 'LIVE EDIT';
-		pinWindow.find('.pin-label').text(thePinText);
+		pinWindow().find('.pin-label').text(thePinText);
 
 
 
@@ -2219,15 +2224,15 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 			// Add the original HTML content
-			pinWindow.find('.content-editor .edit-content.original').html( originalContent );
+			pinWindow().find('.content-editor .edit-content.original').html( originalContent );
 
 
 			// Add the changed HTML content
-			pinWindow.find('.content-editor .edit-content.changes').html( changedContent );
+			pinWindow().find('.content-editor .edit-content.changes').html( changedContent );
 
 
 			// Add the differences content
-			//pinWindow.find('.content-editor .edit-content.differences').html( diffContent );
+			//pinWindow().find('.content-editor .edit-content.differences').html( diffContent );
 
 
 		}
@@ -2267,11 +2272,11 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 			// Add the original image
-			pinWindow.find('.image-editor .edit-content.original img.original-image').attr('src', originalImageSrc);
+			pinWindow().find('.image-editor .edit-content.original img.original-image').attr('src', originalImageSrc);
 
 
 			// Add the new image
-			pinWindow.find('.image-editor .edit-content.changes img.new-image').attr('src', changedImageSrc);
+			pinWindow().find('.image-editor .edit-content.changes img.new-image').attr('src', changedImageSrc);
 
 		}
 
@@ -2281,19 +2286,19 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 	// Add the temporary attribute at the first time adding pin
-	pinWindow.removeAttr('temporary');
-	if (firstTime) pinWindow.attr('temporary', '');
+	pinWindow().removeAttr('temporary');
+	if (firstTime) pinWindow().attr('temporary', '');
 
 
 	// Reveal it
-	pinWindow.addClass('active');
+	pinWindow().addClass('active');
 	pinWindowOpen = true;
 	window.location.hash = "#" + pin_ID;
 
 
 	// If the new pin registered, remove the loading message
 	if ( $.isNumeric(pin_ID) )
-		pinWindow.removeClass('loading');
+		pinWindow().removeClass('loading');
 
 
 
@@ -2338,7 +2343,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 function closePinWindow(removePinIfEmpty = false) {
 
 
-	var pin_ID = pinWindow.attr('data-pin-id');
+	var pin_ID = pinWindow().attr('data-pin-id');
 
 
 	if (pinWindowOpen) console.log('PIN WINDOW CLOSING.');
@@ -2348,7 +2353,7 @@ function closePinWindow(removePinIfEmpty = false) {
 	pinWindowWasOpen = pinWindowOpen;
 
 	// Hide it
-	pinWindow.removeClass('active');
+	pinWindow().removeClass('active');
 	pinWindowOpen = false;
 	history.pushState("", document.title, window.location.pathname + window.location.search);
 
@@ -2365,11 +2370,11 @@ function closePinWindow(removePinIfEmpty = false) {
 
 
 	// Add the loading text after loading
-	pinWindow.addClass('loading');
+	pinWindow().addClass('loading');
 
 
 	// Remove the moved class
-	pinWindow.removeClass('moved');
+	pinWindow().removeClass('moved');
 
 
 	// Reset the pin opacity
@@ -2380,11 +2385,11 @@ function closePinWindow(removePinIfEmpty = false) {
 	var pinRemoved = false;
 	if (
 		removePinIfEmpty
-		&& pinWindow.attr('data-pin-new') == "yes"
-		&& pinWindow.attr('data-revisionary-edited') == "0"
-		&& pinWindow.attr('data-changed') == "no"
-		&& pinWindow.attr('data-has-comments') == "no"
-		&& pinWindow.attr('temporary') != ""
+		&& pinWindow(pin_ID).attr('data-pin-new') == "yes"
+		&& pinWindow(pin_ID).attr('data-revisionary-edited') == "0"
+		&& pinWindow(pin_ID).attr('data-changed') == "no"
+		&& pinWindow(pin_ID).attr('data-has-comments') == "no"
+		&& pinWindow(pin_ID).attr('temporary') != ""
 	) {
 
 		console.log('REMOVE THIS PIN', pin_ID);
@@ -2397,7 +2402,7 @@ function closePinWindow(removePinIfEmpty = false) {
 
 
 	// Notify the users if this was a new pin
-	if ( pinWindow.attr('data-pin-new') == "yes" && !pinRemoved ) {
+	if ( pinWindow(pin_ID).attr('data-pin-new') == "yes" && !pinRemoved ) {
 
 		newPinNotification(pin_ID);
 
@@ -2405,7 +2410,7 @@ function closePinWindow(removePinIfEmpty = false) {
 
 
 	// Notify the users if this was a new pin
-	else if ( pinWindow.attr('data-new-notification') == "comment") {
+	else if ( pinWindow(pin_ID).attr('data-new-notification') == "comment") {
 
 		newCommentNotification(pin_ID);
 
@@ -2430,7 +2435,7 @@ function closePinWindow(removePinIfEmpty = false) {
 // Toggle pin window
 function togglePinWindow(pin_ID) {
 
-	if (pinWindowOpen && pinWindow.attr('data-pin-id') == pin_ID) closePinWindow();
+	if (pinWindowOpen && pinWindow().attr('data-pin-id') == pin_ID) closePinWindow();
 	else openPinWindow(pin_ID);
 
 }
@@ -2736,10 +2741,10 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 
 
 			// Update the pin window content if open
-			if ( pinWindowOpen && pinWindow.attr('data-pin-id') == pin.pin_ID ) {
+			if (pinWindowOpen) {
 
 				// Add the changed HTML content
-				pinWindow.find('.content-editor .edit-content.changes').html( oldHTML );
+				pinWindow(pin.pin_ID).find('.content-editor .edit-content.changes').html( oldHTML );
 
 			}
 
@@ -2826,13 +2831,13 @@ function saveChange(pin_ID, modification) {
 
 			changedElement.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 			pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-			pinWindow.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+			pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 
 		} else {
 
 			changedElement.removeAttr('data-revisionary-showing-changes').removeAttr('data-revisionary-edited');
 			pinElement(pin_ID).attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
-			pinWindow.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
+			pinWindow(pin_ID).attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
 
 		}
 
@@ -2875,7 +2880,7 @@ function toggleChange(pin_ID) {
 
 
 	// Check if this is currently showing the changed content
-	var isShowingChanges = pinWindow.attr('data-revisionary-showing-changes') == "1" ? true : false;
+	var isShowingChanges = pinWindow(pin_ID).attr('data-revisionary-showing-changes') == "1" ? true : false;
 
 
     // Get the pin from the Pins global
@@ -2896,7 +2901,7 @@ function toggleChange(pin_ID) {
 				.attr('contenteditable', (isShowingChanges ? "false" : "true"));
 
 			// Update the Pin Window and Pin info
-			pinWindow.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+			pinWindow(pin_ID).attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
 			pinElement(pin_ID).attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
 
 
@@ -2909,7 +2914,7 @@ function toggleChange(pin_ID) {
 				.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1") );
 
 			// Update the Pin Window and Pin info
-			pinWindow.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+			pinWindow(pin_ID).attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
 			pinElement(pin_ID).attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
 
 
@@ -2945,7 +2950,7 @@ function removeImage(pin_ID, element_index) {
 
 	// Update the pin and pin window info
 	pinElement(pin_ID).attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
-	pinWindow.attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
+	pinWindow(pin_ID).attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
 
 
 	// Remove from DB
@@ -2997,7 +3002,7 @@ function saveCSS(pin_ID, css) {
 
 
 		// Update the changed status
-		pinWindow.attr('data-changed', (cssCode != null ? "yes" : "no"));
+		pinWindow(pin_ID).attr('data-changed', (cssCode != null ? "yes" : "no"));
 
 
 		// Remove the CSS codes if null
@@ -3039,7 +3044,7 @@ function updateCSS(element_index, cssCodes) {
 
 
 	// Update the changed status
-	pinWindow.attr('data-changed', (cssCodes != null ? "yes" : "no"));
+	pinWindow(element_index, true).attr('data-changed', (cssCodes != null ? "yes" : "no"));
 
 
 }
@@ -3080,7 +3085,7 @@ function toggleCSS(pin_ID) {
 
 
 		// Toggle the option
-		pinWindow.attr('data-showing-changes', (isShowingCSS ? "no" : "yes"));
+		pinWindow(pin_ID).attr('data-showing-changes', (isShowingCSS ? "no" : "yes"));
 
 
 	}
@@ -3150,7 +3155,7 @@ function getComments(pin_ID, commentsWrapper = null) {
 			if ( i == 0 ) {
 
 				commentsWrapper.html('');
-				pinWindow.attr('data-has-comments', 'yes');
+				pinWindow(pin_ID).attr('data-has-comments', 'yes');
 
 			}
 
@@ -3200,7 +3205,7 @@ function sendComment(pin_ID, message) {
 	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
 	var element_index = pin.pin_element_index;
-	var newPin = pinWindow.attr('data-pin-new');
+	var newPin = pinWindow(pin_ID).attr('data-pin-new');
 
 
 
@@ -3214,11 +3219,11 @@ function sendComment(pin_ID, message) {
 
 
 	// Mark as has comment
-	pinWindow.attr('data-has-comments', 'yes');
+	pinWindow(pin_ID).attr('data-has-comments', 'yes');
 
 
 	// Mark as has new notification
-	if ( pinWindow.attr('data-pin-new') == 'no' ) pinWindow.attr('data-new-notification', 'comment');
+	if ( pinWindow().attr('data-pin-new') == 'no' ) pinWindow(pin_ID).attr('data-new-notification', 'comment');
 
 
 	// Start the process
@@ -3505,6 +3510,27 @@ function getPin(pin_ID) {
 	if (typeof pin === 'undefined') return false;
 
 	return pin;
+}
+
+
+// Find pin element
+function pinWindow(selector = "", byElementIndex = false) {
+
+
+	if ( $.isNumeric(selector) ) {
+
+		if (byElementIndex)
+			return pinWindow('[data-revisionary-index="'+ selector +'"]');
+		else
+			return pinWindow('[data-pin-id="'+ selector +'"]');
+
+	} else {
+
+		return $('#pin-window' + selector);
+
+	}
+
+
 }
 
 
