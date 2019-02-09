@@ -619,7 +619,7 @@ function runTheInspector() {
 				} else {
 
 					// Add a pin and open a pin window
-					if ( !mouseDownOnContentEdit ) putPin(e.pageX, e.pageY);
+					if ( !mouseDownOnContentEdit ) putPin(focused_element_index, e.pageX, e.pageY, currentCursorType, currentPinPrivate);
 
 				}
 
@@ -1301,7 +1301,7 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 
 
 // DB: Put a pin to cordinates
-function putPin(pinX, pinY) {
+function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 	// Stop auto-refresh pins
@@ -1309,10 +1309,7 @@ function putPin(pinX, pinY) {
 
 
 	// Element Info, gather from the focuser
-	var element_index = focused_element_index;
 	var selectedElement = iframeElement(element_index);
-	var cursorType = currentCursorType;
-	var pinPrivate = currentPinPrivate;
 
 
 	// Put it just on the pointer point
@@ -1372,7 +1369,7 @@ function putPin(pinX, pinY) {
 
 	// Add it to the pins global
 	Pins.push(newPinInfo);
-	var pinIndex = Pins.indexOf(newPinInfo);
+	var pinIndex = Pins.indexOf(newPinInfo); //console.error('HEYYYYYYYYYY', pinIndex, Pins);
 
 
 
@@ -1422,7 +1419,7 @@ function putPin(pinX, pinY) {
 			// Update the pin ID
 			newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
 			pinWindow('[data-pin-id="'+ temporaryPinID +'"]').attr('data-pin-id', realPinID).removeAttr('temporary');
-			Pins[pinIndex].pin_ID = realPinID;
+			if (typeof Pins[pinIndex] !== 'undefined') Pins[pinIndex].pin_ID = realPinID;
 			window.location.hash = "#"+realPinID;
 
 
