@@ -685,8 +685,13 @@ function runTheInspector() {
 			stopAutoRefresh();
 
 
+			// Instant apply the change
+			pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+			pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+
 			// Instant apply the change on pin window
-			$('#pin-window.active .content-editor .edit-content.changes').html(modification);
+			pinWindow(pin_ID).find('.content-editor .edit-content.changes').html(modification);
 
 
 			// If differences tab is open
