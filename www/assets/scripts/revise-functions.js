@@ -514,6 +514,7 @@ function runTheInspector() {
 
 
 
+/*
 				// See what am I focusing
 				console.log("###############################");
 				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
@@ -523,6 +524,7 @@ function runTheInspector() {
 				console.log("HOVERING ON AN IMAGE?: ", hoveringImage );
 				console.log("HOVERING ON A BUTTON?: ", hoveringButton );
 				console.log("###############################");
+*/
 
 
 
