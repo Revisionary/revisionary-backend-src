@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html class="no-js">
 	<head>
+
+		<script>
+			document.getElementsByTagName("HTML")[0].classList.remove("no-js");
+		</script>
+
 		<meta charset="utf-8">
 		<title><?=$page_title?></title>
 
