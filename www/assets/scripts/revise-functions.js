@@ -2894,6 +2894,22 @@ function toggleChange(pin_ID) {
 		if (pin.pin_modification_type == "html") {
 
 
+			// If edited element is a submit or reset input button
+			if (
+	        	iframeElement(pin.pin_element_index).prop("tagName") == "INPUT" &&
+	        	(
+	        		iframeElement(pin.pin_element_index).attr("type") == "text" ||
+	        		iframeElement(pin.pin_element_index).attr("type") == "email" ||
+	        		iframeElement(pin.pin_element_index).attr("type") == "url" ||
+	        		iframeElement(pin.pin_element_index).attr("type") == "tel" ||
+	        		iframeElement(pin.pin_element_index).attr("type") == "submit" ||
+	        		iframeElement(pin.pin_element_index).attr("type") == "reset"
+	        	)
+	        ) {
+				iframeElement(pin.pin_element_index).val( html_entity_decode( (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) ) );
+			}
+
+
 			// Change the content on DOM
 			iframeElement(pin.pin_element_index)
 				.html( html_entity_decode( (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) ) )
