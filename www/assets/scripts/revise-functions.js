@@ -2374,7 +2374,7 @@ function closePinWindow(removePinIfEmpty = true) {
 
 	var pin_ID = pinWindow().attr('data-pin-id');
 	var beforeImage = typeof Notifications[pin_ID] === 'undefined' ? "" : Notifications[pin_ID].before;
-	console.log('BEFORE IMAGE WAS: ', beforeImage);
+	//console.log('BEFORE IMAGE WAS: ', beforeImage);
 
 
 	if (pinWindowOpen) console.log('PIN WINDOW CLOSING.');

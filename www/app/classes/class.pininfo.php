@@ -742,6 +742,55 @@ class Pin {
 
 		";
 
+		if ($pin_complete) $pinShape = "
+
+			<style>
+				.pin:hover > div {
+					opacity: 0;
+				}
+			</style>
+
+
+			<div class='pin' style='
+
+				position: relative;
+			    display: inline-block;
+			    border-radius: 50%;
+			    letter-spacing: 0;
+			    text-align: center;
+
+			    background-color: white;
+			    color: black;
+			    border: 1px solid black;
+
+			    width: 45px;
+			    height: 45px;
+			    line-height: 45px;
+			    font-size: 14px;
+
+			    box-shadow: $pinShadow;
+
+			'><div style='
+
+				    font-weight: 900;
+				    font-size: 17px;
+				    display: flex;
+				    justify-content: center;
+				    align-items: center;
+				    position: absolute;
+				    width: inherit;
+				    height: inherit;
+				    text-align: center;
+				    background-color: white;
+				    border-radius: 50%;
+				    box-sizing: border-box;
+				    transition: 500ms;
+
+				'><img src='".asset_url('icons/icon-check.svg')."' alt='Completed' style='max-width: 18px; height: auto;' /></div>$pin_number</div>
+
+
+		";
+
 
 		// Page/Project info
 		$device_ID = $this->getInfo('device_ID');
