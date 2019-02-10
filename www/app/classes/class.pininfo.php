@@ -234,6 +234,7 @@ class Pin {
 		}
 
 
+/*
 		// Notify the users
 		if ($pin_updated) {
 
@@ -252,6 +253,7 @@ class Pin {
 
 
 		}
+*/
 
 
 		// Site log
@@ -666,6 +668,54 @@ class Pin {
 
 		// Prepare the message
 		$template = $this->emailTemplate($pin_number, $before_screenshot, $after_screenshot, getUserInfo()['fullName']." wrote a new comment", "View Comments");
+		$notificationSubject = $template['subject'];
+		$notificationMessage = $template['message'];
+
+
+
+		// Send it to all related users
+		$users = $this->getUsers();
+		foreach ($users as $user_ID) {
+
+
+			// Web notifications !!!
+			// Coming soon...
+
+
+			// Email notifications
+			Notify::ID( intval($user_ID) )->mail(
+				$notificationSubject,
+				$notificationMessage
+			);
+
+
+		}
+
+
+
+		return true;
+
+	}
+
+
+	// Complete notification
+	public function completeNotification(
+		int $pin_number,
+		string $before_screenshot,
+		string $after_screenshot
+	) {
+
+
+		// Don't send notification if the pin is private
+		if ( $this->getInfo('pin_private') == "1" ) return true;
+
+		// Don't send notification if the current user is not pin owner
+		//if ( $this->getInfo('user_ID') != currentUserID() ) return true;
+
+
+
+		// Prepare the message
+		$template = $this->emailTemplate($pin_number, $before_screenshot, $after_screenshot, getUserInfo()['fullName']." completed a pin task", "View Pin");
 		$notificationSubject = $template['subject'];
 		$notificationMessage = $template['message'];
 

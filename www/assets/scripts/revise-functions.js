@@ -1543,7 +1543,6 @@ function completePin(pin_ID, complete, imgData = null) {
 
 
 
-
 	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
 	var element_index = pin.pin_element_index;
@@ -1558,17 +1557,22 @@ function completePin(pin_ID, complete, imgData = null) {
 	pinWindow(pin_ID).attr('data-pin-complete', (complete ? '1' : '0'));
 
 
+	// Mark as completed pin notification
+	pinWindow(pin_ID).attr('data-new-notification', 'complete');
+
+
 
 	// Start the process
 	var completePinProcessID = newProcess(null, "pin"+(complete ? 'Complete' : 'Incomplete'));
 
 
 	// Try taking a screenshot
-	screenshot( iframeElement(element_index) ).then(function(canvas) {
+	//screenshot( iframeElement(element_index) ).then(function(canvas) {
 
 
 		// Image Data
-		var imgDataURL = imageDataUrl(canvas);
+		//var imgDataURL = imageDataUrl(canvas);
+		var imgDataURL = "";
 
 
 	    // Update pin from the DB
@@ -1590,7 +1594,7 @@ function completePin(pin_ID, complete, imgData = null) {
 
 
 
-	});
+	//});
 
 }
 
@@ -2448,6 +2452,14 @@ function closePinWindow(removePinIfEmpty = true) {
 	}
 
 
+	// Notify the users if this was a new pin
+	else if ( pinWindow(pin_ID).attr('data-new-notification') == "complete") {
+
+		completeNotification(pin_ID, beforeImage);
+
+	}
+
+
 	// Delete the before image
 	delete Notifications[pin_ID];
 
@@ -3270,7 +3282,7 @@ function sendComment(pin_ID, message) {
 
 
 	// Mark as has new notification
-	if ( pinWindow().attr('data-pin-new') == 'no' ) pinWindow(pin_ID).attr('data-new-notification', 'comment');
+	pinWindow(pin_ID).attr('data-new-notification', 'comment');
 
 
 	// Start the process
@@ -3503,7 +3515,7 @@ function sendNotifications() {
 }
 
 
-// Send New Pin Notification !!!
+// Send New Pin Notification
 function newPinNotification(pin_ID, beforeImage) {
 
 
@@ -3524,7 +3536,7 @@ function newPinNotification(pin_ID, beforeImage) {
 }
 
 
-// Send New Comment Notification !!!
+// Send New Comment Notification
 function newCommentNotification(pin_ID, beforeImage) {
 
 
@@ -3543,7 +3555,31 @@ function newCommentNotification(pin_ID, beforeImage) {
 	});
 
 
-	$('#pin-window[data-pin-id="'+ pin_ID +'"]').attr('data-new-notification', 'no');
+	pinWindow(pin_ID).attr('data-new-notification', 'no');
+
+}
+
+
+// Complete Notification
+function completeNotification(pin_ID, beforeImage) {
+
+
+	console.log('New complete notification sending for #' + pin_ID);
+
+
+	var pin = getPin(pin_ID);
+	var pinNumber = getPinNumber(pin_ID);
+
+
+	// Take the latest screenshot
+	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+
+		doAction('completeNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+
+	});
+
+
+	pinWindow(pin_ID).attr('data-new-notification', 'no');
 
 }
 
