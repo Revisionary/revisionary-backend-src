@@ -2006,339 +2006,349 @@ function openPinWindow(pin_ID, firstTime = false) {
 	console.log('OPEN WINDOW PIN ID', pin_ID, firstTime);
 
 
-	var pin = getPin(pin_ID);
-	if (!pin) return false;
-	//var pinIndex = Pins.indexOf(pin);
+	try {
 
 
-	var thePin = pinElement('[data-pin-id="'+pin_ID+'"]');
-	var thePinType = thePin.attr('data-pin-type');
-	var thePinPrivate = thePin.attr('data-pin-private');
-	var thePinComplete = thePin.attr('data-pin-complete');
-	var theIndex = thePin.attr('data-revisionary-index');
-	var thePinText = thePinPrivate == '1' ? 'PRIVATE VIEW' : 'ONLY VIEW';
-	var thePinModificationType = thePin.attr('data-pin-modification-type');
-	var thePinModified = thePin.attr('data-revisionary-edited');
-	var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
-	var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
+		var pin = getPin(pin_ID);
+		if (!pin) return false;
+		//var pinIndex = Pins.indexOf(pin);
 
 
-	// Previous state of window
-	pinWindowWasOpen = pinWindowOpen;
+		var thePin = pinElement('[data-pin-id="'+pin_ID+'"]');
+		var thePinType = thePin.attr('data-pin-type');
+		var thePinPrivate = thePin.attr('data-pin-private');
+		var thePinComplete = thePin.attr('data-pin-complete');
+		var theIndex = thePin.attr('data-revisionary-index');
+		var theElement = iframeElement(theIndex);
+		var thePinText = thePinPrivate == '1' ? 'PRIVATE VIEW' : 'ONLY VIEW';
+		var thePinModificationType = thePin.attr('data-pin-modification-type');
+		var thePinModified = thePin.attr('data-revisionary-edited');
+		var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
+		var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
 
 
-	// Previous state of cursor
-	if (!pinWindowWasOpen) cursorWasActive = cursorActive;
+		// Previous state of window
+		pinWindowWasOpen = pinWindowOpen;
 
 
-	// Close the previous window
-	if (pinWindowOpen) closePinWindow();
+		// Previous state of cursor
+		if (!pinWindowWasOpen) cursorWasActive = cursorActive;
 
 
-	// Disable the iframe
-	//$('#the-page').css('pointer-events', 'none');
+		// Close the previous window
+		if (pinWindowOpen) closePinWindow();
 
 
-	// Disable the inspector
-	toggleCursorActive(true); // Force deactivate
+		// Disable the iframe
+		//$('#the-page').css('pointer-events', 'none');
 
 
-	// Add the pin window data !!!
-	pinWindow()
-		.attr('data-pin-type', thePinType)
-		.attr('data-pin-private', thePinPrivate)
-		.attr('data-pin-complete', thePinComplete)
-		.attr('data-pin-x', thePin.attr('data-pin-x'))
-		.attr('data-pin-y', thePin.attr('data-pin-y'))
-		.attr('data-pin-modification-type', thePinModificationType)
-		.attr('data-pin-id', pin_ID)
-		.attr('data-revisionary-edited', thePinModified)
-		.attr('data-revisionary-showing-changes', thePinShowingChanges)
-		.attr('data-revisionary-index', theIndex)
-		.attr('data-pin-mine', (thePinMine ? "yes" : "no"))
-		.attr('data-pin-new', (firstTime ? "yes" : "no"))
-		.attr('data-new-notification', "no");
+		// Disable the inspector
+		toggleCursorActive(true); // Force deactivate
 
 
-	// Reset the differences fields
-	pinWindow().removeClass('show-differences');
-	pinWindow().find('span.diff-text').text('SHOW DIFFERENCE');
-	pinWindow().find('.difference-switch > i').removeClass('fa-random', 'fa-pencil-alt').addClass('fa-random');
+		// Add the pin window data !!!
+		pinWindow()
+			.attr('data-pin-type', thePinType)
+			.attr('data-pin-private', thePinPrivate)
+			.attr('data-pin-complete', thePinComplete)
+			.attr('data-pin-x', thePin.attr('data-pin-x'))
+			.attr('data-pin-y', thePin.attr('data-pin-y'))
+			.attr('data-pin-modification-type', thePinModificationType)
+			.attr('data-pin-id', pin_ID)
+			.attr('data-revisionary-edited', thePinModified)
+			.attr('data-revisionary-showing-changes', thePinShowingChanges)
+			.attr('data-revisionary-index', theIndex)
+			.attr('data-pin-mine', (thePinMine ? "yes" : "no"))
+			.attr('data-pin-new', (firstTime ? "yes" : "no"))
+			.attr('data-new-notification', "no");
 
 
-	// Update the pin type section
-	pinWindow().find('pin.chosen-pin')
-		.attr('data-pin-type', thePinType)
-		.attr('data-pin-private', thePinPrivate);
-	pinWindow().find('.pin-label').text(thePinText);
-
-
-
-	// CSS OPTIONS:
-	var thePinElement = iframeElement(theIndex);
-	var styleElement = iframeElement('style[data-index="'+ theIndex +'"]');
-	var isShowingCSS = styleElement.html() == "" ? false : true;
-	var options = pinWindow().find('ul.options');
-
-
-
-	// Update the current element section
-	$('.element-tag, .element-id, .element-class').text('');
-
-	// Tag Name
-	var tagName = thePinElement.prop("tagName");
-	$('.element-tag').text(tagName);
-
-	// Classes
-	var classes = "";
-	var classList = thePinElement.attr('class');
-	if (classList != null) {
-
-		$.each(classList.split(/\s+/), function(index, className) {
-
-			classes = classes + "."+className;
-
-		});
-		$('.element-class').text(classes);
-
-	}
-
-	// ID Name
-	var idName = thePinElement.attr("id");
-	if (idName != null) $('.element-id').text('#'+idName);
-
-
-
-	// Update the CSS properties
-	var properties = options.find('[data-edit-css]');
-	$(properties).each(function(i, propertyElement) {
-
-
-		// Get the property name and values
-		var property = $(propertyElement).attr('data-edit-css');
-		var value = thePinElement.css(property);
-
-		if (typeof value === 'undefined') return true;
-
-
-		// Display exception
-		if (property == "display" && value != "none") value = 'block';
-
-
-		// Color exception
-		if (property == "color" || property == "background-color") {
-			$('input[type="color"][data-edit-css="'+ property +'"]').spectrum("set", value);
-		}
-
-
-		// Background Image
-		if (property == "background-image") {
-			value = value.replace('url(','').replace(')','').replace(/\"/gi, "");
-		}
-
-
-		// Update the main options
-		options.attr('data-'+property, value);
-
-
-		// Update the choices
-		options.find('a[data-edit-css="'+ property +'"]').removeClass('active');
-		options.find('a[data-edit-css="'+ property +'"][data-value="'+ value +'"]').addClass('active');
-
-
-		// Inputs
-		options.find('input[data-edit-css="'+ property +'"]').val(value).trigger('change');
-
-
-	});
-
-
-	// Changed status
-	pinWindow()
-		.attr('data-changed', (styleElement.length ? "yes" : "no"))
-		.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"))
-		.attr('data-has-comments', 'no');
-
-
-
-	// If on 'Live' mode
-	if (thePinType == 'live') {
+		// Reset the differences fields
+		pinWindow().removeClass('show-differences');
+		pinWindow().find('span.diff-text').text('SHOW DIFFERENCE');
+		pinWindow().find('.difference-switch > i').removeClass('fa-random', 'fa-pencil-alt').addClass('fa-random');
 
 
 		// Update the pin type section
-		thePinText = thePinPrivate == '1' ? 'PRIVATE LIVE' : 'LIVE EDIT';
+		pinWindow().find('pin.chosen-pin')
+			.attr('data-pin-type', thePinType)
+			.attr('data-pin-private', thePinPrivate);
 		pinWindow().find('.pin-label').text(thePinText);
 
 
 
-		// Get the pin from the Pins global
-		var pin = getPin(pin_ID);
+		// CSS OPTIONS:
+		var styleElement = iframeElement('style[data-index="'+ theIndex +'"]');
+		var isShowingCSS = styleElement.html() == "" ? false : true;
+		var options = pinWindow().find('ul.options');
 
 
-		// TEXT
-		if ( thePinModificationType == "html" ) {
 
-			var originalContent = "";
-			var changedContent = "";
+		// Update the current element section
+		$('.element-tag, .element-id, .element-class').text('');
+
+		// Tag Name
+		var tagName = theElement.prop("tagName");
+		$('.element-tag').text(tagName);
+
+		// Classes
+		var classes = "";
+		var classList = theElement.attr('class');
+		if (classList != null) {
+
+			$.each(classList.split(/\s+/), function(index, className) {
+
+				classes = classes + "."+className;
+
+			});
+			$('.element-class').text(classes);
+
+		}
+
+		// ID Name
+		var idName = theElement.attr("id");
+		if (idName != null) $('.element-id').text('#'+idName);
 
 
-			// If it's untouched DOM
-			if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') ) {
 
-				originalContent = iframeElement(theIndex).html();
+		// Update the CSS properties
+		var properties = options.find('[data-edit-css]');
+		$(properties).each(function(i, propertyElement) {
 
 
-				// If edited element is a submit or reset input button
-				if (
-		        	iframeElement(theIndex).prop("tagName") == "INPUT" &&
-		        	(
-		        		iframeElement(theIndex).attr("type") == "text" ||
-		        		iframeElement(theIndex).attr("type") == "email" ||
-		        		iframeElement(theIndex).attr("type") == "url" ||
-		        		iframeElement(theIndex).attr("type") == "tel" ||
-		        		iframeElement(theIndex).attr("type") == "submit" ||
-		        		iframeElement(theIndex).attr("type") == "reset"
-		        	)
-		        ) {
-					originalContent = iframeElement(theIndex).val();
+			// Get the property name and values
+			var property = $(propertyElement).attr('data-edit-css');
+			var value = theElement.css(property);
+
+			if (typeof value === 'undefined') return true;
+
+
+			// Display exception
+			if (property == "display" && value != "none") value = 'block';
+
+
+			// Color exception
+			if (property == "color" || property == "background-color") {
+				$('input[type="color"][data-edit-css="'+ property +'"]').spectrum("set", value);
+			}
+
+
+			// Background Image
+			if (property == "background-image") {
+				value = value.replace('url(','').replace(')','').replace(/\"/gi, "");
+			}
+
+
+			// Update the main options
+			options.attr('data-'+property, value);
+
+
+			// Update the choices
+			options.find('a[data-edit-css="'+ property +'"]').removeClass('active');
+			options.find('a[data-edit-css="'+ property +'"][data-value="'+ value +'"]').addClass('active');
+
+
+			// Inputs
+			options.find('input[data-edit-css="'+ property +'"]').val(value).trigger('change');
+
+
+		});
+
+
+		// Changed status
+		pinWindow()
+			.attr('data-changed', (styleElement.length ? "yes" : "no"))
+			.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"))
+			.attr('data-has-comments', 'no');
+
+
+
+		// If on 'Live' mode
+		if (thePinType == 'live') {
+
+
+			// Update the pin type section
+			thePinText = thePinPrivate == '1' ? 'PRIVATE LIVE' : 'LIVE EDIT';
+			pinWindow().find('.pin-label').text(thePinText);
+
+
+
+			// Get the pin from the Pins global
+			var pin = getPin(pin_ID);
+
+
+			// TEXT
+			if ( thePinModificationType == "html" ) {
+
+				var originalContent = "";
+				var changedContent = "";
+
+
+				// If it's untouched DOM
+				if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') ) {
+
+					originalContent = iframeElement(theIndex).html();
+
+
+					// If edited element is a submit or reset input button
+					if (
+			        	iframeElement(theIndex).prop("tagName") == "INPUT" &&
+			        	(
+			        		iframeElement(theIndex).attr("type") == "text" ||
+			        		iframeElement(theIndex).attr("type") == "email" ||
+			        		iframeElement(theIndex).attr("type") == "url" ||
+			        		iframeElement(theIndex).attr("type") == "tel" ||
+			        		iframeElement(theIndex).attr("type") == "submit" ||
+			        		iframeElement(theIndex).attr("type") == "reset"
+			        	)
+			        ) {
+						originalContent = iframeElement(theIndex).val();
+					}
+
+
+					// Default change editor
+					changedContent = originalContent;
 				}
 
 
-				// Default change editor
-				changedContent = originalContent;
+				// Add the original HTML content to the window
+				else if (pin && pin.pin_modification_original != null)
+					originalContent = html_entity_decode(pin.pin_modification_original);
+
+
+				// Get the changed content
+				if (pin && pin.pin_modification != null)
+					changedContent = html_entity_decode(pin.pin_modification);
+
+
+				// Difference check
+				//var diffContent = diffCheck(originalContent, changedContent)
+
+
+				// Add the original HTML content
+				pinWindow().find('.content-editor .edit-content.original').html( originalContent );
+
+
+				// Add the changed HTML content
+				pinWindow().find('.content-editor .edit-content.changes').html( changedContent );
+
+
+				// Add the differences content
+				//pinWindow().find('.content-editor .edit-content.differences').html( diffContent );
+
+
 			}
 
 
-			// Add the original HTML content to the window
-			else if (pin && pin.pin_modification_original != null)
-				originalContent = html_entity_decode(pin.pin_modification_original);
+			// IMAGE
+			if ( thePinModificationType == "image" ) {
+
+				var originalImageSrc = "";
+				var changedImageSrc = "";
 
 
-			// Get the changed content
-			if (pin && pin.pin_modification != null)
-				changedContent = html_entity_decode(pin.pin_modification);
+				// If it's untouched DOM
+				if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') ) {
+
+					originalImageSrc = iframeElement(theIndex).attr('src');
+
+					// Default image preview
+					changedImageSrc = "";
+				}
 
 
-			// Difference check
-			//var diffContent = diffCheck(originalContent, changedContent)
+				// Add the original image URL
+				else if (pin && pin.pin_modification_original != null)
+					originalImageSrc = pin.pin_modification_original;
 
 
-			// Add the original HTML content
-			pinWindow().find('.content-editor .edit-content.original').html( originalContent );
+				// Update it the image is a relative path
+				if (originalImageSrc.indexOf('http://') !== 0 && originalImageSrc.indexOf('https://') !== 0)
+					originalImageSrc = remote_URL + originalImageSrc;
 
 
-			// Add the changed HTML content
-			pinWindow().find('.content-editor .edit-content.changes').html( changedContent );
+				// Get the new image
+				if (pin && pin.pin_modification != null)
+					changedImageSrc = pin.pin_modification;
 
 
-			// Add the differences content
-			//pinWindow().find('.content-editor .edit-content.differences').html( diffContent );
+
+				// Add the original image
+				pinWindow().find('.image-editor .edit-content.original img.original-image').attr('src', originalImageSrc);
+
+
+				// Add the new image
+				pinWindow().find('.image-editor .edit-content.changes img.new-image').attr('src', changedImageSrc);
+
+			}
+
 
 
 		}
 
 
-		// IMAGE
-		if ( thePinModificationType == "image" ) {
-
-			var originalImageSrc = "";
-			var changedImageSrc = "";
+		// Add the temporary attribute at the first time adding pin
+		pinWindow().removeAttr('temporary');
+		if (firstTime) pinWindow().attr('temporary', '');
 
 
-			// If it's untouched DOM
-			if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') ) {
-
-				originalImageSrc = iframeElement(theIndex).attr('src');
-
-				// Default image preview
-				changedImageSrc = "";
-			}
+		// Remove the removing text
+		pinWindow().removeClass('removing');
 
 
-			// Add the original image URL
-			else if (pin && pin.pin_modification_original != null)
-				originalImageSrc = pin.pin_modification_original;
+		// Reveal it
+		pinWindow().addClass('active');
+		pinWindowOpen = true;
+		window.location.hash = "#" + pin_ID;
 
 
-			// Update it the image is a relative path
-			if (originalImageSrc.indexOf('http://') !== 0 && originalImageSrc.indexOf('https://') !== 0)
-				originalImageSrc = remote_URL + originalImageSrc;
-
-
-			// Get the new image
-			if (pin && pin.pin_modification != null)
-				changedImageSrc = pin.pin_modification;
+		// If the new pin registered, remove the loading message
+		if ( $.isNumeric(pin_ID) )
+			pinWindow().removeClass('loading');
 
 
 
-			// Add the original image
-			pinWindow().find('.image-editor .edit-content.original img.original-image').attr('src', originalImageSrc);
+		// COMMENTS
+		// If new pin added
+		if (firstTime)
+			$('.pin-comments').html('<div class="xl-center">Add your comment:</div>'); // Write a message
+
+		// If this is an already registered pin
+		else
+			getComments(pin_ID); // Bring the comments
 
 
-			// Add the new image
-			pinWindow().find('.image-editor .edit-content.changes img.new-image').attr('src', changedImageSrc);
-
-		}
+		// Clean the existing comment in the input
+		$('#pin-window .comment-input').val('');
 
 
+
+		// Show the pin
+		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
+
+
+		// Relocate the window
+		relocatePins();
+
+
+	/*
+		// Initiate the Notification
+		initiateNotification(pin_ID);
+
+
+		// Stop the latest notification timeout
+		clearTimeout(notificationTimeout);
+		notificationTimeout = null;
+		console.log('Notification send countdown stopped.');
+	*/
+
+
+	} catch (e) {
+
+		console.log('PIN WINDOW OPENING ERROR: ', e);
 
 	}
-
-
-	// Add the temporary attribute at the first time adding pin
-	pinWindow().removeAttr('temporary');
-	if (firstTime) pinWindow().attr('temporary', '');
-
-
-	// Remove the removing text
-	pinWindow().removeClass('removing');
-
-
-	// Reveal it
-	pinWindow().addClass('active');
-	pinWindowOpen = true;
-	window.location.hash = "#" + pin_ID;
-
-
-	// If the new pin registered, remove the loading message
-	if ( $.isNumeric(pin_ID) )
-		pinWindow().removeClass('loading');
-
-
-
-	// COMMENTS
-	// If new pin added
-	if (firstTime)
-		$('.pin-comments').html('<div class="xl-center">Add your comment:</div>'); // Write a message
-
-	// If this is an already registered pin
-	else
-		getComments(pin_ID); // Bring the comments
-
-
-	// Clean the existing comment in the input
-	$('#pin-window .comment-input').val('');
-
-
-
-	// Show the pin
-	$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
-
-
-	// Relocate the window
-	relocatePins();
-
-
-/*
-	// Initiate the Notification
-	initiateNotification(pin_ID);
-
-
-	// Stop the latest notification timeout
-	clearTimeout(notificationTimeout);
-	notificationTimeout = null;
-	console.log('Notification send countdown stopped.');
-*/
 
 }
 
