@@ -2173,11 +2173,6 @@ function openPinWindow(pin_ID, firstTime = false) {
 			pinWindow().find('.pin-label').text(thePinText);
 
 
-
-			// Get the pin from the Pins global
-			var pin = getPin(pin_ID);
-
-
 			// TEXT
 			if ( thePinModificationType == "html" ) {
 
@@ -2222,10 +2217,6 @@ function openPinWindow(pin_ID, firstTime = false) {
 					changedContent = html_entity_decode(pin.pin_modification);
 
 
-				// Difference check
-				//var diffContent = diffCheck(originalContent, changedContent)
-
-
 				// Add the original HTML content
 				pinWindow().find('.content-editor .edit-content.original').html( originalContent );
 
@@ -2234,15 +2225,11 @@ function openPinWindow(pin_ID, firstTime = false) {
 				pinWindow().find('.content-editor .edit-content.changes').html( changedContent );
 
 
-				// Add the differences content
-				//pinWindow().find('.content-editor .edit-content.differences').html( diffContent );
-
-
 			}
 
 
 			// IMAGE
-			if ( thePinModificationType == "image" ) {
+			if ( thePinModificationType == "image" && theElement.prop('tagName') == "IMG" ) {
 
 				var originalImageSrc = "";
 				var changedImageSrc = "";
