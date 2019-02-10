@@ -751,11 +751,44 @@ class Pin {
 		$projectData = Project::ID( $project_ID );
 
 
-		// Element screenshot !!!
-		$beforeImage = "";
-		if ($before_screenshot != "") {
-			$beforeImage = "<img src='$before_screenshot' style='border: 2px dashed red'><br><br>";
+		// After element screenshot
+		$afterImage = $afterTitle = "";
+		if ($after_screenshot != "") {
+			$afterTitle = "<h3 style='margin-bottom: 5px'>After</h3>";
+			$afterImage = "<img src='$after_screenshot' style='border: 2px dashed red; max-width: 100%;'><br><br>";
 		}
+
+
+		// Before element screenshot
+		$beforeImage = $beforeTitle = "";
+		if ($before_screenshot != "") {
+			$beforeTitle = "<h3 style='margin-bottom: 5px'>Before</h3>";
+			$beforeImage = "<img src='$before_screenshot' style='border: 2px dashed red; max-width: 100%;'><br><br>";
+		}
+
+		if ($before_screenshot == $after_screenshot) {
+
+			$beforeTitle = $beforeImage = "";
+			$afterTitle = "<h3 style='margin-bottom: 5px'>Screenshot</h3>";
+
+		}
+
+		$screenshots = "
+
+			<tr>
+				<td colspan='2'>
+
+					<br>
+					$afterTitle
+					$afterImage
+
+					$beforeTitle
+					$beforeImage
+
+				</td>
+			</tr>
+
+		";
 
 
 		// Modification info
@@ -890,6 +923,9 @@ class Pin {
 
 				</td>
 			</tr>
+
+			$screenshots
+
 		</table>
 
 

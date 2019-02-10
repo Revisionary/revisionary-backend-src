@@ -1445,6 +1445,10 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 			// Finish the process
 			endProcess(newPinProcessID);
 
+
+			// Take "Before" screenshot
+			beforeScreenshot(realPinID);
+
 		});
 
 
@@ -1496,6 +1500,10 @@ function removePin(pin_ID) {
 
 	// Remove the pin from DOM
 	pinElement(pin_ID).remove();
+
+
+	// Remove the notification
+	delete Notifications[pin_ID];
 
 
 	// Re-Index the pin counts
@@ -2343,6 +2351,10 @@ function openPinWindow(pin_ID, firstTime = false) {
 	*/
 
 
+		// Add the before screenshot
+		if (!firstTime) beforeScreenshot(pin_ID);
+
+
 	} catch (e) {
 
 		console.log('PIN WINDOW OPENING ERROR: ', e);
@@ -2361,6 +2373,8 @@ function closePinWindow(removePinIfEmpty = true) {
 
 
 	var pin_ID = pinWindow().attr('data-pin-id');
+	var beforeImage = typeof Notifications[pin_ID] === 'undefined' ? "" : Notifications[pin_ID].before;
+	console.log('BEFORE IMAGE WAS: ', beforeImage);
 
 
 	if (pinWindowOpen) console.log('PIN WINDOW CLOSING.');
@@ -2421,7 +2435,7 @@ function closePinWindow(removePinIfEmpty = true) {
 	// Notify the users if this was a new pin
 	if ( pinWindow(pin_ID).attr('data-pin-new') == "yes" && !pinRemoved ) {
 
-		newPinNotification(pin_ID);
+		newPinNotification(pin_ID, beforeImage);
 
 	}
 
@@ -2429,9 +2443,13 @@ function closePinWindow(removePinIfEmpty = true) {
 	// Notify the users if this was a new pin
 	else if ( pinWindow(pin_ID).attr('data-new-notification') == "comment") {
 
-		newCommentNotification(pin_ID);
+		newCommentNotification(pin_ID, beforeImage);
 
 	}
+
+
+	// Delete the before image
+	delete Notifications[pin_ID];
 
 
 	if (cursorWasActive) toggleCursorActive(false, true); // Force Open
@@ -3415,8 +3433,33 @@ function initiateNotification(pin_ID) {
 }
 
 
+// Add "Before" screenshot
+function beforeScreenshot(pin_ID) {
+
+
+	// Find the pin
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+
+	// If not defined
+	if (typeof Notifications[pin_ID] === 'undefined') Notifications[pin_ID] = { before : "" };
+
+
+	// Take the latest screenshot
+	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+
+		Notifications[pin_ID].before = imageDataUrl(canvas);
+
+	});
+
+
+	//return Notifications[pin_ID];
+}
+
+
 // Update screenshot
-function latestScreenshot(pin_ID) {
+function finalScreenshot(pin_ID) {
 
 
 	// Find the pin
@@ -3461,33 +3504,43 @@ function sendNotifications() {
 
 
 // Send New Pin Notification !!!
-function newPinNotification(pin_ID) {
+function newPinNotification(pin_ID, beforeImage) {
+
 
 	console.log('New pin notification sending for #' + pin_ID);
 
 
+	var pin = getPin(pin_ID);
 	var pinNumber = getPinNumber(pin_ID);
-	var beforeScreenshot = ""; // !!!
-	var afterScreenshot = ""; // !!!
 
 
-	doAction('newNotification', 'pin', pin_ID, pinNumber, beforeScreenshot, afterScreenshot);
+	// Take the latest screenshot
+	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+
+		doAction('newNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+
+	});
 
 }
 
 
 // Send New Comment Notification !!!
-function newCommentNotification(pin_ID) {
+function newCommentNotification(pin_ID, beforeImage) {
+
 
 	console.log('New comment notification sending for #' + pin_ID);
 
 
+	var pin = getPin(pin_ID);
 	var pinNumber = getPinNumber(pin_ID);
-	var beforeScreenshot = ""; // !!!
-	var afterScreenshot = ""; // !!!
 
 
-	doAction('newCommentNotification', 'pin', pin_ID, pinNumber, beforeScreenshot, afterScreenshot);
+	// Take the latest screenshot
+	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+
+		doAction('newCommentNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+
+	});
 
 
 	$('#pin-window[data-pin-id="'+ pin_ID +'"]').attr('data-new-notification', 'no');
