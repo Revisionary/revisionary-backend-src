@@ -2275,6 +2275,18 @@ function openPinWindow(pin_ID, firstTime = false) {
 		}
 
 
+		// Live pin error check
+		if (
+			(thePinModificationType == "image" && theElement.prop('tagName') != "IMG") ||
+			(thePinModificationType == "html" && theElement.prop('tagName') == "IMG")
+		) {
+
+			// Act like a standard pin (Hide content changers)
+			pinWindow().attr('data-pin-type', 'standard');
+
+		}
+
+
 		// Add the temporary attribute at the first time adding pin
 		pinWindow().removeAttr('temporary');
 		if (firstTime) pinWindow().attr('temporary', '');
