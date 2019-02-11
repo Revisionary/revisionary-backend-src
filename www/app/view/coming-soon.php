@@ -93,10 +93,10 @@ require view('static/header_html');
 
 			<div class="wrap xl-center container">
 				<div class="col xl-1-3">
-					<input type="email" name="email" placeholder="Please enter your email address.." required/>
+					<input type="email" name="email" class="large full" placeholder="Please enter your email address.." required/>
 				</div>
 				<div class="col">
-					<input type="submit" value="Notify Me!" style="margin-left: -10px;"/>
+					<input type="submit" value="Notify Me!" class="large full" style="margin-left: -10px;"/>
 				</div>
 			</div><br/>
 
