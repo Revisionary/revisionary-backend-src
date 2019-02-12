@@ -808,7 +808,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class="main-option dropdown hide-when-hidden" data-tooltip="In Development">
+						<li class="main-option dropdown hide-when-hidden" data-tooltip="Experimental">
 							<a href="#"><i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i></a>
 							<ul class="no-delay full" style="width: auto;">
 								<li>
