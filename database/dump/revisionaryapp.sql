@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jan 29, 2019 at 05:20 AM
--- Server version: 8.0.13
--- PHP Version: 7.2.13
+-- Generation Time: Feb 12, 2019 at 05:01 AM
+-- Server version: 8.0.15
+-- PHP Version: 7.2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -128,7 +128,7 @@ CREATE TABLE `pins` (
   `pin_modification_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pin_modification` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `pin_modification_original` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `pin_css` longtext COLLATE utf8mb4_unicode_ci,
+  `pin_css` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `device_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -304,7 +304,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_picture`, `user_has_public_profile`, `user_level_ID`) VALUES
-(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Bilal', 'TAŞ', 'bilal.jpg', 1, 1),
+(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Bilal', 'TAŞ', 'bilal.png', 1, 1),
 (2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', 'ike.png', 0, 2),
 (3, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$thYPVobp2UtoOZUi.mxZ1enGFAIhPdJ.WS1Br.9DPTdwVCh0DCq7e', 'Sara', 'Elimsa', 'sara.png', 0, 2),
 (4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', 'matt.png', 0, 2),
@@ -588,94 +588,94 @@ ALTER TABLE `user_levels`
 -- Constraints for table `archives`
 --
 ALTER TABLE `archives`
-  ADD CONSTRAINT `archives_ibfk_1` FOREIGN KEY (`archiver_user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `archives_ibfk_1` FOREIGN KEY (`archiver_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `categories`
 --
 ALTER TABLE `categories`
-  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`cat_user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`cat_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `deletes`
 --
 ALTER TABLE `deletes`
-  ADD CONSTRAINT `deletes_ibfk_1` FOREIGN KEY (`deleter_user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `deletes_ibfk_1` FOREIGN KEY (`deleter_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `devices`
 --
 ALTER TABLE `devices`
-  ADD CONSTRAINT `devices_ibfk_1` FOREIGN KEY (`page_ID`) REFERENCES `pages` (`page_id`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`screen_ID`) REFERENCES `screens` (`screen_id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `devices_ibfk_1` FOREIGN KEY (`page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`screen_ID`) REFERENCES `screens` (`screen_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `pages`
 --
 ALTER TABLE `pages`
-  ADD CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `page_cat_connect`
 --
 ALTER TABLE `page_cat_connect`
-  ADD CONSTRAINT `page_cat_connect_ibfk_1` FOREIGN KEY (`page_cat_connect_user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `page_cat_connect_ibfk_2` FOREIGN KEY (`page_cat_ID`) REFERENCES `categories` (`cat_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `page_cat_connect_ibfk_3` FOREIGN KEY (`page_cat_page_ID`) REFERENCES `pages` (`page_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `page_cat_connect_ibfk_1` FOREIGN KEY (`page_cat_connect_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `page_cat_connect_ibfk_2` FOREIGN KEY (`page_cat_ID`) REFERENCES `categories` (`cat_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `page_cat_connect_ibfk_3` FOREIGN KEY (`page_cat_page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `pins`
 --
 ALTER TABLE `pins`
-  ADD CONSTRAINT `pins_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pins_ibfk_2` FOREIGN KEY (`device_ID`) REFERENCES `devices` (`device_id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `pins_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pins_ibfk_2` FOREIGN KEY (`device_ID`) REFERENCES `devices` (`device_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `pin_comments`
 --
 ALTER TABLE `pin_comments`
-  ADD CONSTRAINT `pin_comments_ibfk_1` FOREIGN KEY (`pin_ID`) REFERENCES `pins` (`pin_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pin_comments_ibfk_2` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `pin_comments_ibfk_1` FOREIGN KEY (`pin_ID`) REFERENCES `pins` (`pin_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pin_comments_ibfk_2` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `projects`
 --
 ALTER TABLE `projects`
-  ADD CONSTRAINT `projects_ibfk_3` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `projects_ibfk_3` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  ADD CONSTRAINT `project_cat_connect_ibfk_1` FOREIGN KEY (`project_cat_connect_user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `project_cat_connect_ibfk_2` FOREIGN KEY (`project_cat_project_ID`) REFERENCES `projects` (`project_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `project_cat_connect_ibfk_3` FOREIGN KEY (`project_cat_ID`) REFERENCES `categories` (`cat_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `project_cat_connect_ibfk_1` FOREIGN KEY (`project_cat_connect_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_cat_connect_ibfk_2` FOREIGN KEY (`project_cat_project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `project_cat_connect_ibfk_3` FOREIGN KEY (`project_cat_ID`) REFERENCES `categories` (`cat_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `screens`
 --
 ALTER TABLE `screens`
-  ADD CONSTRAINT `screens_ibfk_1` FOREIGN KEY (`screen_cat_ID`) REFERENCES `screen_categories` (`screen_cat_id`),
-  ADD CONSTRAINT `screens_ibfk_2` FOREIGN KEY (`screen_user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `screens_ibfk_1` FOREIGN KEY (`screen_cat_ID`) REFERENCES `screen_categories` (`screen_cat_ID`),
+  ADD CONSTRAINT `screens_ibfk_2` FOREIGN KEY (`screen_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `shares`
 --
 ALTER TABLE `shares`
-  ADD CONSTRAINT `shares_ibfk_1` FOREIGN KEY (`sharer_user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `shares_ibfk_1` FOREIGN KEY (`sharer_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `sorting`
 --
 ALTER TABLE `sorting`
-  ADD CONSTRAINT `sorting_ibfk_1` FOREIGN KEY (`sorter_user_ID`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `sorting_ibfk_1` FOREIGN KEY (`sorter_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `fk_user_level` FOREIGN KEY (`user_level_ID`) REFERENCES `user_levels` (`user_level_id`);
+  ADD CONSTRAINT `fk_user_level` FOREIGN KEY (`user_level_ID`) REFERENCES `user_levels` (`user_level_ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
