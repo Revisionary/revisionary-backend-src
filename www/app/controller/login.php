@@ -83,6 +83,10 @@ if ( post('login-submit') == "Login" ) {
 			}
 
 
+			// Site Log
+			$log->info("User #".currentUserID()." Logged In: ".getUserInfo()['userName']."(".getUserInfo()['fullName'].") | Typed: $userName | Email: ".getUserInfo()['email']." | User Level ID #".getUserInfo()['userLevelID']."");
+
+
 			if (post('redirect_to') != "") {
 				header("Location: ".htmlspecialchars_decode(post('redirect_to'))); // !!! Check security
 				die();
