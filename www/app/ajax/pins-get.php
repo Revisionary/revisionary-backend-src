@@ -9,12 +9,12 @@ $status = "initiated";
 
 // Get the pin info
 $device_ID = request('device_ID');
+$currentUserID = currentUserID();
 
 
 // Are they numbers?
 if ( !is_numeric($device_ID) )
 	return;
-
 
 
 // DO THE SECURITY CHECKS !!!
@@ -26,7 +26,7 @@ if ( !is_numeric($device_ID) )
 $db->where('device_ID', $device_ID);
 
 // Hide private pins to other people
-$db->where ("(user_ID = ".currentUserID()." or (user_ID != ".currentUserID()." and pin_private = 0))");
+$db->where ("(user_ID = ".$currentUserID." or (user_ID != ".$currentUserID." and pin_private = 0))");
 
 // Get the pin data
 $pins = $db->get('pins pin', null, '
@@ -47,9 +47,14 @@ $pins = $db->get('pins pin', null, '
 $status = $pins ? "Pins received" : "No Pins Found";
 
 
+
+// If not logged in
+if ( !userloggedIn() ) $status = "not-logged-in";
+
+
+
 // CREATE THE RESPONSE
-$data = array();
-$data['data'] = array(
+$data = array(
 
 	'status' => $status,
 	'nonce' => request('nonce'),
@@ -58,7 +63,7 @@ $data['data'] = array(
 
 );
 
-echo json_encode(array(
+die(json_encode(array(
   'data' => $data,
   'pins' => $pins
-));
+)));

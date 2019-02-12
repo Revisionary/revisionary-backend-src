@@ -1219,6 +1219,13 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 	}).done(function( result ) {
 
 
+		var data = result.data; console.log('RESPONSE: ', data);
+
+
+		// If not logged in, refresh this page to go to the login page
+		if (data.status == "not-logged-in") location.reload();
+
+
 		// Update the global pins list
 		Pins = updateOriginals(result.pins, oldPins);
 
