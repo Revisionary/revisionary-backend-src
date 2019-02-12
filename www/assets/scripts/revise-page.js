@@ -571,6 +571,11 @@ $(function() {
 		if ( $(this).prop("tagName") == "INPUT" && e.type == "click" ) return true;
 
 
+		// Mark as changed
+		$(this).attr('data-changed', 'yes');
+		$(this).parents('.main-option').addClass('changed');
+
+
 		var property = $(this).attr('data-edit-css');
 		var isActive = $(this).hasClass('active');
 
@@ -604,7 +609,7 @@ $(function() {
 
 		// Prepare the CSS data
 		var css = {};
-		var properties = options.find('[data-edit-css]');
+		var properties = options.find('[data-edit-css][data-changed="yes"]');
 		$(properties).each(function(i, propertyElement) { //console.log('PROPERTIES: ', propertyElement);
 
 			var propertyName = $(propertyElement).attr('data-edit-css');

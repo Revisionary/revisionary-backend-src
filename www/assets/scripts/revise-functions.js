@@ -2130,6 +2130,9 @@ function openPinWindow(pin_ID, firstTime = false) {
 		if (idName != null) $('.element-id').text('#'+idName);
 
 
+		// Remove changed marks
+		options.find('.main-option').removeClass('changed');
+
 
 		// Update the CSS properties
 		var properties = options.find('[data-edit-css]');
@@ -2171,6 +2174,11 @@ function openPinWindow(pin_ID, firstTime = false) {
 			// Inputs
 			options.find('input[data-edit-css="'+ property +'"]').val(value).trigger('change');
 
+
+			// Check for the changed status
+			var editedSign = '<i class="fa fa-circle edited-sign particular"></i>';
+			if ( pin.pin_css != null && pin.pin_css.includes(property + ": " + value) )
+				$(propertyElement).attr('data-changed', 'yes').parents('.main-option').addClass('changed');
 
 		});
 

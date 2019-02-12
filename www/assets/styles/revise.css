@@ -581,6 +581,21 @@ html, body {
       letter-spacing: inherit; }
     #pin-window ul.options input {
       margin: 2px; }
+    #pin-window ul.options .main-option.changed::before {
+      position: absolute;
+      content: "\f111";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      color: red;
+      font-size: 5px;
+      top: 50%;
+      right: 100%;
+      transform: translateY(-50%); }
+    #pin-window ul.options .main-option.sub.changed::before {
+      right: 0;
+      top: 4px; }
+    #pin-window ul.options .main-option.changed:not(div) {
+      position: relative; }
     #pin-window ul.options > li {
       margin-bottom: 5px; }
       #pin-window ul.options > li:last-child {

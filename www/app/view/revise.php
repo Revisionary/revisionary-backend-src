@@ -695,7 +695,7 @@
 			<div class="wrap xl-1">
 				<div class="col section-title collapsed">
 
-					<i class="fa fa-sliders-h"></i> VIEW OPTIONS <i class="fa fa-circle edited-sign"></i>
+					<i class="fa fa-sliders-h"></i> STYLE OPTIONS <i class="fa fa-circle edited-sign"></i>
 
 				</div>
 				<div class="col section-content options">
@@ -715,13 +715,13 @@
 							</a>
 
 						</li>
-						<li class="choice">
+						<li class="main-option choice">
 
 							<a href="#" data-edit-css="display" data-value="block" data-default="none" class="active"><i class="fa fa-eye"></i> Show</a> |
 							<a href="#" data-edit-css="display" data-value="none" data-default="block"><i class="fa fa-eye-slash"></i> Hide</a>
 
 						</li>
-						<li class="dropdown edit-opacity hide-when-hidden">
+						<li class="main-option dropdown edit-opacity hide-when-hidden">
 
 							<a href="#"><i class="fa fa-low-vision"></i> Opacity <i class="fa fa-angle-down"></i></a>
 							<ul class="no-delay full">
@@ -733,29 +733,29 @@
 							</ul>
 
 						</li>
-						<li class="dropdown hide-when-hidden">
+						<li class="main-option dropdown hide-when-hidden">
 
 							<a href="#"><i class="fa fa-font"></i> Text & Item <i class="fa fa-angle-down"></i></a>
 							<ul class="no-delay">
 								<li class="choice">
 
-									<span class="inline"><i class="fa fa-font"></i> Size</span> <input type="text" class="increaseable" data-edit-css="font-size" data-default="initial">
-									<span class="inline"><i class="fa fa-text-height"></i> Line</span> <input type="text" class="increaseable" data-edit-css="line-height" data-default="normal">
+									<label class="main-option sub"><span class="inline"><i class="fa fa-font"></i> Size</span> <input type="text" class="increaseable" data-edit-css="font-size" data-default="initial"></label>
+									<label class="main-option sub"><span class="inline"><i class="fa fa-text-height"></i> Line</span> <input type="text" class="increaseable" data-edit-css="line-height" data-default="normal"></label>
 
 								</li>
-								<li class="choice">
+								<li class="main-option sub choice">
 
 									<span class="inline"><i class="fa fa-tint"></i> Color</span> <input type="color" data-edit-css="color" data-default="initial">
 
 								</li>
-								<li class="choice selectable">
+								<li class="main-option sub choice selectable">
 
 									<a href="#" data-edit-css="font-weight" data-value="bold" data-default="normal"><i class="fa fa-bold"></i> Bold</a> |
 									<a href="#" data-edit-css="font-style" data-value="italic" data-default="normal"><i class="fa fa-italic"></i> Italic</a> |
 									<a href="#" data-edit-css="text-decoration-line" data-value="underline" data-default="none"><i class="fa fa-underline"></i> Underline</a>
 
 								</li>
-								<li class="choice">
+								<li class="main-option sub choice">
 
 									<a href="#" data-edit-css="text-align" data-value="left" data-default="right"><i class="fa fa-align-left"></i> Left</a> |
 									<a href="#" data-edit-css="text-align" data-value="center" data-default="left"><i class="fa fa-align-center"></i> Center</a> |
@@ -765,21 +765,21 @@
 								</li>
 							</ul>
 						</li>
-						<li class="dropdown hide-when-hidden">
+						<li class="main-option dropdown hide-when-hidden">
 							<a href="#"><i class="fa fa-layer-group"></i> Background <i class="fa fa-angle-down"></i></a>
 							<ul class="no-delay full">
-								<li class="choice">
+								<li class="main-option sub choice">
 
 									<span class="inline"><i class="fa fa-fill-drip"></i> Color:</span>
 									<input type="color" data-edit-css="background-color" data-default="initial">
 
 								</li>
-								<li class="choice">
+								<li class="main-option sub choice">
 
 									<span class="inline"><i class="fa fa-image"></i> Image URL:</span> <input type="url" data-edit-css="background-image" data-default="none" class="full no-padding" />
 
 								</li>
-								<li class="choice hide-when-no-image">
+								<li class="main-option sub choice hide-when-no-image">
 
 									<span><i class="fa fa-crosshairs"></i> Position:</span>
 
@@ -787,7 +787,7 @@
 									<span class="inline">Y:</span> <input type="text" class="increaseable" data-edit-css="background-position-y" data-default="initial" />
 
 								</li>
-								<li class="choice hide-when-no-image">
+								<li class="main-option sub choice hide-when-no-image">
 
 									<span><i class="fa fa-arrows-alt-v"></i> Size: </span>
 
@@ -796,7 +796,7 @@
 									<a href="#" data-edit-css="background-size" data-value="contain" data-default="auto">Contain</a>
 
 								</li>
-								<li class="choice hide-when-no-image">
+								<li class="main-option sub choice hide-when-no-image">
 
 									<span><i class="fa fa-redo"></i> Repeat: </span>
 
@@ -808,7 +808,7 @@
 								</li>
 							</ul>
 						</li>
-						<li class="dropdown hide-when-hidden" data-tooltip="In Development">
+						<li class="main-option dropdown hide-when-hidden" data-tooltip="In Development">
 							<a href="#"><i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i></a>
 							<ul class="no-delay full" style="width: auto;">
 								<li>
@@ -817,34 +817,34 @@
 
 										<div class="layer positions">
 
-											<div class="input top"><input type="text" data-edit-css="top" data-default="initial"/></div>
-											<div class="input right"><input type="text" data-edit-css="right" data-default="initial"/></div>
-											<div class="input bottom"><input type="text" data-edit-css="bottom" data-default="initial"/></div>
-											<div class="input left"><input type="text" data-edit-css="left" data-default="initial"/></div>
+											<div class="main-option sub input top"><input type="text" data-edit-css="top" data-default="initial"/></div>
+											<div class="main-option sub input right"><input type="text" data-edit-css="right" data-default="initial"/></div>
+											<div class="main-option sub input bottom"><input type="text" data-edit-css="bottom" data-default="initial"/></div>
+											<div class="main-option sub input left"><input type="text" data-edit-css="left" data-default="initial"/></div>
 
 
 											<div class="layer margins">
 
-												<div class="input top"><input type="text" data-edit-css="margin-top" data-default="initial"/></div>
-												<div class="input right"><input type="text" data-edit-css="margin-right" data-default="initial"/></div>
-												<div class="input bottom"><input type="text" data-edit-css="margin-bottom" data-default="initial"/></div>
-												<div class="input left"><input type="text" data-edit-css="margin-left" data-default="initial"/></div>
+												<div class="main-option sub input top"><input type="text" data-edit-css="margin-top" data-default="initial"/></div>
+												<div class="main-option sub input right"><input type="text" data-edit-css="margin-right" data-default="initial"/></div>
+												<div class="main-option sub input bottom"><input type="text" data-edit-css="margin-bottom" data-default="initial"/></div>
+												<div class="main-option sub input left"><input type="text" data-edit-css="margin-left" data-default="initial"/></div>
 
 
 												<div class="layer borders">
 
-													<div class="input top"><input type="text" data-edit-css="border-top-width" data-default="initial"/></div>
-													<div class="input right"><input type="text" data-edit-css="border-right-width" data-default="initial"/></div>
-													<div class="input bottom"><input type="text" data-edit-css="border-bottom-width" data-default="initial"/></div>
-													<div class="input left"><input type="text" data-edit-css="border-left-width" data-default="initial"/></div>
+													<div class="main-option sub input top"><input type="text" data-edit-css="border-top-width" data-default="initial"/></div>
+													<div class="main-option sub input right"><input type="text" data-edit-css="border-right-width" data-default="initial"/></div>
+													<div class="main-option sub input bottom"><input type="text" data-edit-css="border-bottom-width" data-default="initial"/></div>
+													<div class="main-option sub input left"><input type="text" data-edit-css="border-left-width" data-default="initial"/></div>
 
 
 													<div class="layer paddings">
 
-														<div class="input top"><input type="text" data-edit-css="padding-top" data-default="initial"/></div>
-														<div class="input right"><input type="text" data-edit-css="padding-right" data-default="initial"/></div>
-														<div class="input bottom"><input type="text" data-edit-css="padding-bottom" data-default="initial"/></div>
-														<div class="input left"><input type="text" data-edit-css="padding-left" data-default="initial"/></div>
+														<div class="main-option sub input top"><input type="text" data-edit-css="padding-top" data-default="initial"/></div>
+														<div class="main-option sub input right"><input type="text" data-edit-css="padding-right" data-default="initial"/></div>
+														<div class="main-option sub input bottom"><input type="text" data-edit-css="padding-bottom" data-default="initial"/></div>
+														<div class="main-option sub input left"><input type="text" data-edit-css="padding-left" data-default="initial"/></div>
 
 
 														<div class="layer sizes">
