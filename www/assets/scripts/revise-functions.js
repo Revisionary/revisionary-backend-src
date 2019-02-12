@@ -3698,7 +3698,7 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 
 	var editSummary = "";
 	if (pin_modification == null && pin_css == null) editSummary = '<br /><i class="edit-summary">-No change yet.-</i>';
-	if (pin_css != null) editSummary = '<br /><i class="edit-summary">-Some visual changes has been made.-</i>';
+	if (pin_css != null) editSummary = '<br /><i class="edit-summary">-Some visual changes have been made.-</i>';
 	if (pin_modification == "") editSummary = '<br /><i class="edit-summary">-Content deleted.-</i>';
 	if (pin_modification_type == "html" && pin_modification != null && pin_modification != "") {
 		var text_no_html = cleanHTML(html_entity_decode(pin_modification));
