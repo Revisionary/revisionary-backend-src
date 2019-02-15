@@ -2,7 +2,7 @@ version: "3.2"
 services:
     www:
         build: .
-        container_name: php-apache
+        container_name: revisionary_php-apache
         restart: on-failure
         env_file:
             - ./.env
@@ -22,7 +22,7 @@ services:
             - default
     db:
         image: mysql:8
-        container_name: mysql
+        container_name: revisionary_mysql
         restart: on-failure
         command: [
             '--default_authentication_plugin=mysql_native_password',
@@ -43,7 +43,7 @@ services:
             - default
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin
+        container_name: revisionary_phpmyadmin
         depends_on:
             - db
         ports:
@@ -54,7 +54,7 @@ services:
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     composer:
         image: composer/composer
-        container_name: composer
+        container_name: revisionary_composer
         working_dir: /var/www/html
         command: install --ignore-platform-reqs
         restart: "no"
@@ -65,7 +65,7 @@ services:
         user: www-data
         cap_add:
             - SYS_ADMIN
-        container_name: chrome
+        container_name: revisionary_chrome
         working_dir: /app
         restart: on-failure
         ports:
