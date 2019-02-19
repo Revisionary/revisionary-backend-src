@@ -8,9 +8,12 @@ $(function() {
 
 
 	// Links with confirmation
-	$(document).on('click', 'a[data-confirm]:not([data-action])', function(e) {
+	$(document).on('click', 'a[data-confirm]:not([data-action])', function(e) { console.log('Clicked');
 
 		var confirmation = $(this).attr('data-confirm');
+
+		// Redownload exception
+		if ( $(this).hasClass('redownload') && Pins.length == 0 ) return true;
 
 		if ( confirmation != "" && confirm(confirmation) ) {
 
