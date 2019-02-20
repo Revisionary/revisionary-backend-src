@@ -8,7 +8,6 @@ class Notify {
 
 
 
-
 	// SETTERS:
 	public function __construct() {
 
@@ -36,7 +35,7 @@ class Notify {
 
     // ACTIONS:
 
-    // Email
+    // Email notifications
     public function mail(
 	    string $subject,
 	    string $notification
@@ -81,6 +80,17 @@ class Notify {
 			urlencode($subject),
 			urlencode($notification)
 		);
+
+    }
+
+
+
+    // Web notifications
+    public function web() {
+
+
+	    // Send web notification to user(s)
+
 
     }
 
