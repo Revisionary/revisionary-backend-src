@@ -1,29 +1,42 @@
 #!/bin/bash
 
 
-# COPY THE .env.local FILE IF EXISTS
-if [[ -f .env.local ]] && [[ ! -f .env ]]; then
+ACTION=ask
 
-	cp .env.local .env
+
+
+# Create an .env file and start installation
+if [[ ! -f .env ]]; then
+
+	read -ep "Which environment are you installing on? (local | remote): " ENV
+	if [[ $ENV == remote ]]; then
+
+		cp .env.remote .env
+
+	else
+
+		cp .env.local .env
+
+	fi
+
+	ACTION=install
 
 fi
+
 
 
 # Get data from .env file
-if [[ -f .env ]]; then
+source .env
 
-	source .env
 
-else
 
-	echo "There is no '.env' file. Please create one."
-	exit
+if [[ $ACTION == ask ]]; then
+
+	read -ep "Which do you want to do? (install | rebuild | remove-files | prune-docker | reset-all): " ACTION
 
 fi
 
 
-
-read -ep "Which do you want to do? (install | rebuild | remove-files | prune-docker | reset-all): " ACTION
 
 if [[ $ACTION == install ]]; then
 
