@@ -318,7 +318,6 @@ class Page {
 
 
 
-
 		// URL check
 		if (!filter_var($page_url, FILTER_VALIDATE_URL)) return false;
 		$parsed_url = parseUrl($page_url);
@@ -359,11 +358,18 @@ class Page {
 
 
 
+		// If Category ID is zero, make it null
+		if ($category_ID == 0) $category_ID = null;
+
+
+
 		// Add the page
 		$page_ID = $db->insert('pages', array(
 			"page_url" => $page_url,
-			"project_ID" => $project_ID,
 			"page_name" => $page_name,
+			"project_ID" => $project_ID,
+			"order_number" => $order_number,
+			"cat_ID" => $category_ID,
 			"user_ID" => currentUserID()
 		));
 
@@ -409,33 +415,6 @@ class Page {
 		if ($page_ID) $log->info("Page #$page_ID Added: $page_name($page_url) | Project #$project_ID | User #".currentUserID());
 
 
-
-		// CATEGORIZE
-		if ($category_ID != "0") {
-
-			$cat_ID = $db->insert('page_cat_connect', array(
-				"page_cat_page_ID" => $page_ID,
-				"page_cat_ID" => $category_ID,
-				"page_cat_connect_user_ID" => currentUserID()
-			));
-
-		}
-
-
-
-		// ORDER
-		if ($order_number != "0") {
-
-			$sort_ID = $db->insert('sorting', array(
-				"sort_type" => 'page',
-				"sort_object_ID" => $page_ID,
-				"sort_number" => $order_number,
-				"sorter_user_ID" => currentUserID()
-			));
-
-		}
-
-
 		return $page_ID;
 
 	}
@@ -478,26 +457,14 @@ class Page {
 
 
 
-		// Delete the old record
-		$db->where('archive_type', 'page');
-		$db->where('archived_object_ID', self::$page_ID);
-		$db->where('archiver_user_ID', currentUserID());
-		$db->delete('archives');
-
-
-		// Add the new record
-		$archive_ID = $db->insert('archives', array(
-			"archive_type" => 'page',
-			"archived_object_ID" => self::$page_ID,
-			"archiver_user_ID" => currentUserID()
-		));
+		$archived = $this->edit("page_archived", 1);
 
 
 		// Site log
-		if ($archive_ID) $log->info("Page #".self::$page_ID." Archived: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+		if ($archived) $log->info("Page #".self::$page_ID." Archived: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
 
 
-		return $archive_ID;
+		return $archived;
 
     }
 
@@ -512,26 +479,14 @@ class Page {
 
 
 
-		// Delete the old record
-		$db->where('delete_type', 'page');
-		$db->where('deleted_object_ID', self::$page_ID);
-		$db->where('deleter_user_ID', currentUserID());
-		$db->delete('deletes');
-
-
-		// Add the new record
-		$delete_ID = $db->insert('deletes', array(
-			"delete_type" => 'page',
-			"deleted_object_ID" => self::$page_ID,
-			"deleter_user_ID" => currentUserID()
-		));
+		$deleted = $this->edit("page_deleted", 1);
 
 
 		// Site log
-		if ($delete_ID) $log->info("Page #".self::$page_ID." Deleted: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+		if ($deleted) $log->info("Page #".self::$page_ID." Deleted: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
 
 
-		return $delete_ID;
+		return $deleted;
 
     }
 
@@ -547,17 +502,11 @@ class Page {
 
 
 		// Remove from archives
-		$db->where('archive_type', 'page');
-		$db->where('archived_object_ID', self::$page_ID);
-		$db->where('archiver_user_ID', currentUserID());
-		$arc_recovered = $db->delete('archives');
+		$arc_recovered = $this->edit("page_archived", 0);
 
 
 		// Remove from deletes
-		$db->where('delete_type', 'page');
-		$db->where('deleted_object_ID', self::$page_ID);
-		$db->where('deleter_user_ID', currentUserID());
-		$del_recovered = $db->delete('deletes');
+		$del_recovered = $this->edit("page_deleted", 0);
 
 
 
@@ -583,28 +532,24 @@ class Page {
 
 
 
-		// More DB Checks of arguments !!!
+		// More DB Checks of arguments !!! (Do I have access to this page?!)
 
 
 
 		// Get the page info
     	$page_user_ID = self::$pageInfo['user_ID'];
     	$project_ID = self::$pageInfo['project_ID'];
-    	$iamowner = $page_user_ID == currentUserID();
+    	$projectData = Project::ID($project_ID);
+
+
     	$iamadmin = getUserInfo()['userLevelID'] == 1;
+    	$iamowner = $page_user_ID == currentUserID();
+    	$iamprojectowner = $projectData->getInfo('user_ID') == currentUserID();
+    	//$iamshared = false;
 
 
+    	//if (!$iamadmin && !$iamowner && !$iamprojectowner) return false; // !!!
 
-		// ARCHIVE & DELETE REMOVAL
-		$this->recover();
-
-
-
-		// SORTING REMOVAL
-		$db->where('sort_type', 'page');
-		$db->where('sort_object_ID', self::$page_ID);
-		if (!$iamowner && !$iamadmin) $db->where('sorter_user_ID', currentUserID());
-		$db->delete('sorting');
 
 
 
@@ -618,13 +563,12 @@ class Page {
 
 		// PAGE REMOVAL
 		$db->where('page_ID', self::$page_ID);
-		if (!$iamowner && !$iamadmin) $db->where('user_ID', currentUserID());
 		$page_removed = $db->delete('pages');
 
 
 
 		// Delete the page folder
-		if ($iamowner || $iamadmin) deleteDirectory( cache."/projects/project-$project_ID/page-".self::$page_ID."/" );
+		deleteDirectory( cache."/projects/project-$project_ID/page-".self::$page_ID."/" );
 
 
 		// Site log

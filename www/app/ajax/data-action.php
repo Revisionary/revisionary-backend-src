@@ -22,12 +22,13 @@ $third_parameter = request('thirdParameter');
 // Security Check !!!
 if (
 	   ( // Types
-	       $type != "Category"
-	       && $type != "Project"
+	       $type != "Project"
 	       && $type != "Page"
 	       && $type != "Device"
 	       && $type != "User"
 	       && $type != "Pin"
+	       && $type != "Projectcategory"
+	       && $type != "Pagecategory"
 	   )
 
 	|| ( // Actions

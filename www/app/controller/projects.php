@@ -34,7 +34,10 @@ if (
 
 
 	// Add the project
+	$new_project = false;
 	if ($project_ID == "new" || $project_ID == "autodetect") {
+
+		$new_project = true;
 
 		$project_ID = Project::ID($project_ID)->addNew(
 			request('project-name'),
@@ -59,7 +62,9 @@ if (
 		$project_ID,
 		request('page-url'),
 		request('page-name'),
-		is_array(request('page_shares')) ? request('page_shares') : array()
+		is_array(request('page_shares')) ? request('page_shares') : array(),
+		$new_project ? 0 : request('category'),
+		$new_project ? 0 : request('order')
 	);
 
 	// Check the result
@@ -146,6 +151,7 @@ $catFilter = isset($_url[1]) ? $_url[1] : '';
 // PROJECTS DATA MODEL
 $dataType = "project";
 $allMyProjectsList = User::ID()->getMy("projects", $catFilter, $order);
+//die_to_print($allMyProjectsList);
 $theCategorizedData = categorize($allMyProjectsList, $dataType);
 //die_to_print($theCategorizedData);
 

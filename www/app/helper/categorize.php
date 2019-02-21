@@ -58,8 +58,8 @@ function categorize($objects, $dataType, $prepared = false) {
 
 		if ( $object['cat_ID'] == null ) $object['cat_ID'] = 0;
 		if ( $object['cat_name'] == null ) $object['cat_name'] = 'Uncategorized';
-		if ( $object['cat_type'] == null ) $object['cat_type'] = $dataType;
-		if ( $object['cat_sort_number'] == null ) $object['cat_sort_number'] = 0;
+		if ( $object['cat_order_number'] == null ) $object['cat_order_number'] = 0;
+		if ( $object['user_ID'] == null ) $object['user_ID'] = 0;
 
 
 		if ( !isset($theData[$object['cat_ID']]['theData']) ) {
@@ -67,13 +67,8 @@ function categorize($objects, $dataType, $prepared = false) {
 			$theData[$object['cat_ID']] = array(
 				'cat_ID' => $object['cat_ID'],
 				'cat_name' => $object['cat_name'],
-				'cat_type' => $object['cat_type'],
-				'cat_user_ID' => $object['cat_user_ID'],
-				'sort_ID' => $object['cat_sort_ID'],
-				'sort_type' => $object['cat_sort_type'],
-				'sort_object_ID' => $object['cat_sort_object_ID'],
-				'sort_number' => $object['cat_sort_number'],
-				'sorter_user_ID' => $object['cat_sorter_user_ID'],
+				'cat_order_number' => $object['cat_order_number'],
+				'sorter_user_ID' => $object['user_ID'],
 				'theData' => array(),
 			);
 

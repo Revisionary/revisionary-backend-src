@@ -138,36 +138,36 @@ class User {
 		global $db;
 
 
-		// Exclude other category types
-		$db->where('cat_type', ($type == "page" ? $project_ID : $type));
-
 		// Exclude other users
-		$db->where('cat_user_ID', self::$user_ID);
+		if ($type == "project") {
 
+			$db->where('cat.user_ID', currentUserID());
 
-		// Bring the order info
-		$db->join("sorting oc", "cat.cat_ID = oc.sort_object_ID", "LEFT");
-		$db->joinWhere("sorting oc", "oc.sort_type", "category");
-		$db->joinWhere("sorting oc", "oc.sorter_user_ID", self::$user_ID);
+		}
+
+		if ($type == "page") {
+
+			$db->where('cat.project_ID', $project_ID);
+
+		}
 
 
 		// Default order
-		if ($order == "") $db->orderBy("oc.sort_number", "asc");
+		if ($order == "") $db->orderBy("cat.cat_order_number", "asc");
 
 
 		// Order Categories
-		if ($order == "name") $db->orderBy("cat_name", "asc");
-		if ($order == "date") $db->orderBy("cat_name", "asc");
+		if ($order == "name" || $order == "date") $db->orderBy("cat.cat_name", "asc");
 
 
-		$categories = $db->get('categories cat', null, '');
+		$categories = $db->get($type."s_categories cat", null, '');
 
 
 		// Add the uncategorized item
 		array_unshift($categories , array(
 			'cat_ID' => 0,
 			'cat_name' => 'Uncategorized',
-			'sort_number' => 0,
+			'cat_order_number' => 0,
 			'theData' => array()
 		));
 
@@ -201,31 +201,29 @@ class User {
 		$db->joinWhere("shares s", "s.share_type", $data_type);
 
 
-		// Bring the category connection
-		$db->join($data_type."_cat_connect cat_connect", "p.".$data_type."_ID = cat_connect.".$data_type."_cat_".$data_type."_ID", "LEFT");
-		$db->joinWhere($data_type."_cat_connect cat_connect", "cat_connect.".$data_type."_cat_connect_user_ID", self::$user_ID);
 
-
-		// Bring the category info
-		$db->join("categories cat", "cat_connect.".$data_type."_cat_ID = cat.cat_ID", "LEFT");
-		$db->joinWhere("categories cat", "cat.cat_user_ID", self::$user_ID);
-
-
-		// Bring the archive info
-		$db->join("archives arc", "arc.archived_object_ID = p.".$data_type."_ID", "LEFT");
-		$db->joinWhere("archives arc", "arc.archiver_user_ID", self::$user_ID);
-		$db->joinWhere("archives arc", "arc.archive_type", $data_type);
-
-
-		// Bring the delete info
-		$db->join("deletes del", "del.deleted_object_ID = p.".$data_type."_ID", "LEFT");
-		$db->joinWhere("deletes del", "del.deleter_user_ID", self::$user_ID);
-		$db->joinWhere("deletes del", "del.delete_type", $data_type);
 
 
 
 		// PROJECT EXCEPTIONS
 		if ($data_type == "project") {
+
+
+
+			// Bring the category connection
+			$db->join("project_cat_connect cat_connect", "p.project_ID = cat_connect.project_ID", "LEFT");
+
+
+			// Bring the category info
+			$db->join("projects_categories cat", "cat_connect.cat_ID = cat.cat_ID", "LEFT");
+			$db->joinWhere("projects_categories cat", "cat.user_ID", self::$user_ID);
+
+
+
+			// Bring the order info
+			$db->join("projects_order o", "o.project_ID = p.project_ID", "LEFT");
+			$db->joinWhere("projects_order o", "o.user_ID", currentUserID());
+
 
 
 			// If shared pages exist
@@ -251,6 +249,11 @@ class User {
 
 		// PAGE EXCEPTIONS
 		if ($data_type == "page") {
+
+
+			// Bring the category info
+			$db->join("pages_categories cat", "cat.cat_ID = p.cat_ID", "LEFT");
+			//$db->joinWhere("pages_categories cat", "cat.project_ID", "pr.project_ID");
 
 
 			// Bring the project info
@@ -296,27 +299,15 @@ class User {
 		if (!$deletes_archives) {
 
 			// Exclude deleted and archived
-			$db->where('del.deleted_object_ID IS '.($catFilter == "deleted" ? 'NOT' : '').' NULL');
+			$db->where("p.".$data_type."_deleted", ($catFilter == "deleted" ? 1 : 0));
 			if ($catFilter != "deleted")
-				$db->where('arc.archived_object_ID IS '.($catFilter == "archived" ? 'NOT' : '').' NULL');
+				$db->where("p.".$data_type."_archived", ($catFilter == "archived" ? 1 : 0));
 
 		}
 
 
-		// Bring the category order info
-		$db->join("sorting oc", "cat.cat_ID = oc.sort_object_ID", "LEFT");
-		$db->joinWhere("sorting oc", "oc.sort_type", "category");
-		$db->joinWhere("sorting oc", "oc.sorter_user_ID", self::$user_ID);
-
-
-		// Bring the order info
-		$db->join("sorting o", "p.".$data_type."_ID = o.sort_object_ID", "LEFT");
-		$db->joinWhere("sorting o", "o.sort_type", $data_type);
-		$db->joinWhere("sorting o", "o.sorter_user_ID", self::$user_ID);
-
-
 		// Default Sorting
-		if ($order == "") $db->orderBy("o.sort_number", "asc");
+		if ($order == "") $db->orderBy("order_number", "asc");
 		if ($order == "") $db->orderBy("s.share_ID", "desc");
 		$db->orderBy("cat.cat_name", "asc");
 		$db->orderBy("p.".$data_type."_name", "asc");
@@ -337,11 +328,7 @@ class User {
 				'
 					*,
 					p.user_ID as user_ID,
-					oc.sort_ID as cat_sort_ID,
-					oc.sort_type as cat_sort_type,
-					oc.sort_object_ID as cat_sort_object_ID,
-					oc.sort_number as cat_sort_number,
-					oc.sorter_user_ID as cat_sorter_user_ID,
+					p.'.$data_type.'_ID as '.$data_type.'_ID,
 					s.share_to as share_to,
 					s.sharer_user_ID as sharer_user_ID
 				'
@@ -356,11 +343,7 @@ class User {
 			'
 				*,
 				p.user_ID as user_ID,
-				oc.sort_ID as cat_sort_ID,
-				oc.sort_type as cat_sort_type,
-				oc.sort_object_ID as cat_sort_object_ID,
-				oc.sort_number as cat_sort_number,
-				oc.sorter_user_ID as cat_sorter_user_ID,
+				p.'.$data_type.'_ID as '.$data_type.'_ID,
 				s.share_to as share_to,
 				s.sharer_user_ID as sharer_user_ID
 			'
@@ -488,10 +471,13 @@ class User {
 		$status = "initated";
 		foreach($orderData as $data) {
 
+
+
 			// Security Check !!! Needs more: ID, Cat ID check from DB. Order number check?
 			if (
 				(
-					$data['type'] != "category" &&
+					$data['type'] != "projectcategory" &&
+					$data['type'] != "pagecategory" &&
 					$data['type'] != "project" &&
 					$data['type'] != "page"
 				) ||
@@ -503,8 +489,11 @@ class User {
 			}
 
 
+
 			// Pass on category 0
-			if ($data['type'] == "category" && intval($data['ID']) == 0) continue;
+			if ($data['type'] == "projectcategory" && intval($data['ID']) == 0) continue;
+			if ($data['type'] == "pagecategory" && intval($data['ID']) == 0) continue;
+
 
 
 
@@ -512,54 +501,93 @@ class User {
 
 
 
-			// Delete the old record
-			$db->where('sort_type', $data['type']);
-			$db->where('sort_object_ID', $data['ID']);
-			$db->where('sorter_user_ID', currentUserID());
-			$db->delete('sorting');
+
+			if ($data['type'] == "project") {
 
 
-			// Add the new record
-			$dbData = Array (
-				"sort_type" => $data['type'],
-				"sort_object_ID" => $data['ID'],
-				"sort_number" => $data['order'],
-				"sorter_user_ID" => currentUserID()
-			);
-			$sort_ID = $db->insert('sorting', $dbData);
 
-			if ($sort_ID) {
-				$status = "ordering-successful";
+				// ORDERING:
+
+				// Delete the old record
+				$db->where('project_ID', $data['ID']);
+				$db->where('user_ID', currentUserID());
+				$db->delete('projects_order');
 
 
-				if ($data['type'] == "page" || $data['type'] == "project") {
+				// Add the new record
+				$ordered = $db->insert('projects_order', array(
+					"order_number" => $data['order'],
+					"project_ID" => $data['ID'],
+					"user_ID" => currentUserID()
+				));
+				if ($ordered) $status = "ordering-successful";
 
-					// Delete the old record
-					$db->where($data['type'].'_cat_'.$data['type'].'_ID', $data['ID']);
-					$db->where($data['type'].'_cat_connect_user_ID', currentUserID());
-					$db->delete($data['type'].'_cat_connect');
+
+
+				// CATEGORIZING:
+
+				// Delete the old connection
+				$db->where('project_ID', $data['ID']);
+				$db->where('user_ID', currentUserID());
+				$db->delete('project_cat_connect');
+
+
+				if ($data['catID'] != 0) {
 
 
 					// Add the new record
-					$id_connect = $db->insert($data['type'].'_cat_connect', array(
-						$data['type']."_cat_".$data['type']."_ID" => $data['ID'],
-						$data['type']."_cat_ID" => $data['catID'],
-						$data['type']."_cat_connect_user_ID" => currentUserID()
+					$categorized = $db->insert('project_cat_connect', array(
+						"cat_ID" => $data['catID'],
+						"project_ID" => $data['ID'],
+						"user_ID" => currentUserID()
 					));
-					if ($id_connect) $status = "category-successful";
+					if ($categorized) $status = "categorizing-successful";
 
 
 				}
+
+
 
 			}
 
 
 
 
+			if ($data['type'] == "page") {
+
+
+
+				// ORDERING:
+				$ordered = Page::ID($data['ID'])->edit('order_number', $data['order']);
+				if ($ordered) $status = "ordering-successful";
+
+
+
+				// CATEGORIZING
+				$categorized = Page::ID($data['ID'])->edit('cat_ID', ($data['catID'] == 0 ? null : $data['catID']));
+				if ($categorized) $status = "categorizing-successful";
+
+
+
+			}
+
+
+			// CATEGORY ORDER
+			if ($data['type'] == "projectcategory" || $data['type'] == "pagecategory") {
+
+
+				$cat_ordered = $data['type']::ID($data['ID'])->reorder($data['order']);
+				if ($cat_ordered) $status = "cat-ordering-successful";
+
+
+			}
+
+
+
 		} // Loop
 
 
-		return $status == "ordering-successful" || $status == "category-successful";
+		return $status == "ordering-successful" || $status == "categorizing-successful" || $status == "cat-ordering-successful";
 
     }
 

@@ -38,18 +38,18 @@
 						if ($catLink['cat_ID'] == 0) continue;
 
 
-						echo '<a class="item '.($catFilter == permalink($catLink['cat_name']) ? "selected" : "").'" href="'.site_url( $url_prefix.'/'.permalink($catLink['cat_name']) ).'" data-type="category" data-id="'.$catLink['cat_ID'].'"><span class="name">'.$catLink['cat_name'].'</span></a>';
+						echo '<a class="item '.($catFilter == permalink($catLink['cat_name']) ? "selected" : "").'" href="'.site_url( $url_prefix.'/'.permalink($catLink['cat_name']) ).'" data-type="'.$dataType.'category" data-id="'.$catLink['cat_ID'].'"><span class="name">'.$catLink['cat_name'].'</span></a>';
 
 					}
 
 
-					$action_url = 'ajax?type=data-action&data-type=category&id=new&nonce='.$_SESSION['js_nonce'];
+					$action_url = 'ajax?type=data-action&data-type='.$dataType.'category&id=new&nonce='.$_SESSION['js_nonce'];
 
 					if ($dataType == "page")
 						$action_url .= '&firstParameter='.$project_ID;
 
 				?>
-					<a href="<?=site_url($action_url.'&action='.$dataType.'New')?>" class="action" data-actionn="<?=$dataType?>New" data-tooltip="Add New Category"><span style="font-family: Arial; font-weight: bold;"><i class="fa fa-plus"></i></span></a>
+					<a href="<?=site_url($action_url.'&action=addNew')?>" class="action" data-actionn="addNew" data-tooltip="Add New Category"><span style="font-family: Arial; font-weight: bold;"><i class="fa fa-plus"></i></span></a>
 
 				</div>
 

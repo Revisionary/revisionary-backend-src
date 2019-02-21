@@ -203,9 +203,9 @@ class Project {
 		if ($category_ID != "0") {
 
 			$cat_ID = $db->insert('project_cat_connect', array(
-				"project_cat_project_ID" => $project_ID,
-				"project_cat_ID" => $category_ID,
-				"project_cat_connect_user_ID" => currentUserID()
+				"cat_ID" => $category_ID,
+				"project_ID" => $project_ID,
+				"user_ID" => currentUserID()
 			));
 
 		}
@@ -215,11 +215,10 @@ class Project {
 		// ORDER
 		if ($order_number != "0") {
 
-			$sort_ID = $db->insert('sorting', array(
-				"sort_type" => 'project',
-				"sort_object_ID" => $project_ID,
-				"sort_number" => $order_number,
-				"sorter_user_ID" => currentUserID()
+			$order_ID = $db->insert('projects_order', array(
+				"order_number" => $order_number,
+				"project_ID" => $project_ID,
+				"user_ID" => currentUserID()
 			));
 
 		}
@@ -228,6 +227,44 @@ class Project {
 		return $project_ID;
 
 	}
+
+
+
+    // Edit a project
+    public function edit(
+	    string $column,
+	    $new_value
+    ) {
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
+
+
+		// Get the project owner
+    	$project_user_ID = $this->getInfo('user_ID');
+    	$iamowner = $project_user_ID == currentUserID();
+    	$iamadmin = getUserInfo()['userLevelID'] == 1;
+
+
+    	// Return if not admin or owner
+    	if (!$iamadmin && !$iamowner) return false;
+
+
+
+		// Update the page
+		$db->where('project_ID', self::$project_ID);
+		$project_updated = $db->update('projects', array($column => $new_value));
+
+
+		// Site log
+		if ($project_updated) $log->info("Project #".self::$project_ID." Updated: '$column => $new_value' | User #".currentUserID());
+
+
+		return $project_updated;
+    }
 
 
     // Archive a project
@@ -240,26 +277,25 @@ class Project {
 
 
 
-		// Delete the old record
-		$db->where('archive_type', 'project');
-		$db->where('archived_object_ID', self::$project_ID);
-		$db->where('archiver_user_ID', currentUserID());
-		$db->delete('archives');
+		// Get the project owner
+    	$project_user_ID = $this->getInfo('user_ID');
+    	$iamowner = $project_user_ID == currentUserID();
+    	$iamadmin = getUserInfo()['userLevelID'] == 1;
 
 
-		// Add the new record
-		$archive_ID = $db->insert('archives', array(
-			"archive_type" => 'project',
-			"archived_object_ID" => self::$project_ID,
-			"archiver_user_ID" => currentUserID()
-		));
+    	// Return if not admin or owner
+    	if (!$iamadmin && !$iamowner) return false;
+
+
+
+		$archived = $this->edit("project_archived", 1);
 
 
 		// Site log
-		if ($archive_ID) $log->info("Project #".self::$project_ID." Archived: '".$this->getInfo('project_name')."' | User #".currentUserID());
+		if ($archived) $log->info("Project #".self::$project_ID." Archived: '".$this->getInfo('project_name')."' | User #".currentUserID());
 
 
-		return $archive_ID;
+		return $archived;
 
     }
 
@@ -274,26 +310,25 @@ class Project {
 
 
 
-		// Delete the old record
-		$db->where('delete_type', 'project');
-		$db->where('deleted_object_ID', self::$project_ID);
-		$db->where('deleter_user_ID', currentUserID());
-		$db->delete('deletes');
+		// Get the project owner
+    	$project_user_ID = $this->getInfo('user_ID');
+    	$iamowner = $project_user_ID == currentUserID();
+    	$iamadmin = getUserInfo()['userLevelID'] == 1;
 
 
-		// Add the new record
-		$delete_ID = $db->insert('deletes', array(
-			"delete_type" => 'project',
-			"deleted_object_ID" => self::$project_ID,
-			"deleter_user_ID" => currentUserID()
-		));
+    	// Return if not admin or owner
+    	if (!$iamadmin && !$iamowner) return false;
+
+
+
+		$deleted = $this->edit("project_deleted", 1);
 
 
 		// Site log
-		if ($delete_ID) $log->info("Project #".self::$project_ID." Deleted: '".$this->getInfo('project_name')."' | User #".currentUserID());
+		if ($deleted) $log->info("Project #".self::$project_ID." Deleted: '".$this->getInfo('project_name')."' | User #".currentUserID());
 
 
-		return $delete_ID;
+		return $deleted;
 
     }
 
@@ -308,18 +343,23 @@ class Project {
 
 
 
+		// Get the project owner
+    	$project_user_ID = $this->getInfo('user_ID');
+    	$iamowner = $project_user_ID == currentUserID();
+    	$iamadmin = getUserInfo()['userLevelID'] == 1;
+
+
+    	// Return if not admin or owner
+    	if (!$iamadmin && !$iamowner) return false;
+
+
+
 		// Remove from archives
-		$db->where('archive_type', 'project');
-		$db->where('archived_object_ID', self::$project_ID);
-		$db->where('archiver_user_ID', currentUserID());
-		$arc_recovered = $db->delete('archives');
+		$arc_recovered = $this->edit("project_archived", 0);
 
 
 		// Remove from deletes
-		$db->where('delete_type', 'project');
-		$db->where('deleted_object_ID', self::$project_ID);
-		$db->where('deleter_user_ID', currentUserID());
-		$del_recovered = $db->delete('deletes');
+		$del_recovered = $this->edit("project_deleted", 0);
 
 
 
@@ -355,43 +395,9 @@ class Project {
     	$iamadmin = getUserInfo()['userLevelID'] == 1;
 
 
+    	// Return if not admin or owner
+    	if (!$iamadmin && !$iamowner) return false;
 
-		// PAGES REMOVAL
-		$db->where('project_ID', self::$project_ID);
-		if (!$iamowner && !$iamadmin)
-			$db->where('user_ID', currentUserID());
-		$pages = $db->get('pages');
-
-
-		// Remove all the pages
-		foreach ($pages as $page)
-			Page::ID($page['page_ID'])->remove();
-
-
-
-		// CATEGORY REMOVAL
-		$db->where('cat_type', self::$project_ID);
-		if (!$iamowner && !$iamadmin)
-			$db->where('cat_user_ID', currentUserID());
-		$categories = $db->get('categories');
-
-		// Remove all the categories
-		foreach ($categories as $category)
-			Category::ID($category['cat_ID'])->remove();
-
-
-
-		// ARCHIVE & DELETE REMOVAL
-		$this->recover();
-
-
-
-		// SORTING REMOVAL
-		$db->where('sort_type', 'project');
-		$db->where('sort_object_ID', self::$project_ID);
-		if (!$iamowner && !$iamadmin)
-			$db->where('sorter_user_ID', currentUserID());
-		$db->delete('sorting');
 
 
 
@@ -407,15 +413,12 @@ class Project {
 
 		// PROJECT REMOVAL
 		$db->where('project_ID', self::$project_ID);
-		if (!$iamowner && !$iamadmin)
-			$db->where('user_ID', currentUserID());
 		$project_removed = $db->delete('projects');
 
 
 
 		// Delete the project folder
-		if ($iamowner || $iamadmin)
-			deleteDirectory( cache."/projects/project-".request('id')."/" );
+		deleteDirectory( cache."/projects/project-".request('id')."/" );
 
 
 		// Site log

@@ -183,9 +183,10 @@ function updateOrderNumbers() {
 
 	blocks.each(function(index) {
 
-		$(this).attr('data-order', index);
+		// Skip the uncategorized
+		if ( $(this).attr('data-id') == 0 ) return true;
 
-		//$(this).prevUntil( $('.cat-separator'), ".block" ).attr('data-order', 'Test' + index);
+		$(this).attr('data-order', index);
 
 		newOrder.push({
             'type' : $(this).attr('data-type'),

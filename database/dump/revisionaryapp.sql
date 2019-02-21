@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 12, 2019 at 05:01 AM
+-- Generation Time: Feb 21, 2019 at 11:07 AM
 -- Server version: 8.0.15
 -- PHP Version: 7.2.14
 
@@ -21,45 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `revisionaryapp`
 --
-
--- --------------------------------------------------------
-
---
--- Table structure for table `archives`
---
-
-CREATE TABLE `archives` (
-  `archive_ID` bigint(20) NOT NULL,
-  `archive_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `archived_object_ID` bigint(20) NOT NULL,
-  `archiver_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `categories`
---
-
-CREATE TABLE `categories` (
-  `cat_ID` bigint(20) NOT NULL,
-  `cat_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cat_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cat_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `deletes`
---
-
-CREATE TABLE `deletes` (
-  `delete_ID` bigint(20) NOT NULL,
-  `delete_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `deleted_object_ID` bigint(20) NOT NULL,
-  `deleter_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -92,6 +53,10 @@ CREATE TABLE `pages` (
   `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `page_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `page_internalized` int(20) NOT NULL DEFAULT '0',
+  `page_archived` tinyint(1) NOT NULL DEFAULT '0',
+  `page_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `order_number` bigint(20) NOT NULL DEFAULT '0',
+  `cat_ID` bigint(20) DEFAULT NULL,
   `project_ID` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -99,14 +64,14 @@ CREATE TABLE `pages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `page_cat_connect`
+-- Table structure for table `pages_categories`
 --
 
-CREATE TABLE `page_cat_connect` (
-  `page_cat_connect_ID` bigint(20) NOT NULL,
-  `page_cat_page_ID` bigint(20) NOT NULL,
-  `page_cat_ID` bigint(20) NOT NULL,
-  `page_cat_connect_user_ID` bigint(20) NOT NULL
+CREATE TABLE `pages_categories` (
+  `cat_ID` bigint(20) NOT NULL,
+  `cat_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Category',
+  `cat_order_number` bigint(20) NOT NULL DEFAULT '0',
+  `project_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -158,8 +123,36 @@ CREATE TABLE `projects` (
   `project_ID` bigint(20) NOT NULL,
   `project_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `project_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `project_archived` tinyint(1) NOT NULL DEFAULT '0',
+  `project_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `projects_categories`
+--
+
+CREATE TABLE `projects_categories` (
+  `cat_ID` bigint(20) NOT NULL,
+  `cat_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Category',
+  `cat_order_number` bigint(20) NOT NULL DEFAULT '0',
+  `user_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `projects_order`
+--
+
+CREATE TABLE `projects_order` (
+  `order_ID` bigint(20) NOT NULL,
+  `order_number` bigint(20) NOT NULL DEFAULT '0',
+  `project_ID` bigint(20) NOT NULL,
+  `user_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -169,10 +162,10 @@ CREATE TABLE `projects` (
 
 CREATE TABLE `project_cat_connect` (
   `project_cat_connect_ID` bigint(20) NOT NULL,
-  `project_cat_project_ID` bigint(20) NOT NULL,
-  `project_cat_ID` bigint(20) NOT NULL,
-  `project_cat_connect_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `cat_ID` bigint(20) NOT NULL,
+  `project_ID` bigint(20) NOT NULL,
+  `user_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -269,20 +262,6 @@ CREATE TABLE `shares` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `sorting`
---
-
-CREATE TABLE `sorting` (
-  `sort_ID` bigint(20) NOT NULL,
-  `sort_type` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sort_object_ID` bigint(20) NOT NULL,
-  `sort_number` bigint(20) NOT NULL DEFAULT '0',
-  `sorter_user_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -297,7 +276,7 @@ CREATE TABLE `users` (
   `user_has_public_profile` tinyint(1) NOT NULL DEFAULT '0',
   `user_registered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_level_ID` smallint(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
 
 --
 -- Dumping data for table `users`
@@ -306,12 +285,15 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_picture`, `user_has_public_profile`, `user_level_ID`) VALUES
 (1, 'bilaltas', 'bilaltas@me.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Bilal', 'TAŞ', 'bilal.png', 1, 1),
 (2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', 'ike.png', 0, 2),
-(3, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$thYPVobp2UtoOZUi.mxZ1enGFAIhPdJ.WS1Br.9DPTdwVCh0DCq7e', 'Sara', 'Elimsa', 'sara.png', 0, 2),
+(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', 'sara.png', 0, 2),
 (4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', 'matt.png', 0, 2),
 (5, 'cuneyt-tas', 'cuneyttas@hotmail.com.tr', '$2y$10$9bQ9GeucyXhyo3sceXz3TOeeN47qQ6mHr7alDrHPmCCTKVIj8saTG', 'Cüneyt', 'TAŞ', 'joey.png', 0, 2),
 (6, 'bill-tas', 'bill@twelve12.com', '$2y$10$uhegAZj3uGV7VmezVyeulOFvhsdgWPW5XRayDbF1RPPtqbYNNEgai', 'Bill', 'TAS', 'bill.png', 0, 2),
 (7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, 0, 2),
-(8, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, 0, 2);
+(8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', 'sara.png', 0, 2),
+(9, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, 0, 2),
+(10, 'dmytro', 'dmytro@twelve12.com', '$2y$10$8VMtSAljW23s3XH2PnSBv.VC/45somrdJ68V.DFcKEimw0WRpi83C', 'Dmytro', 'Korol', NULL, 0, 2),
+(11, 'dmytro-korol', 'korol.dmitry@gmail.com', '$2y$10$uIAeohwy2hJpWIbGsFTwcuRPGpLOCT7HADfv6jKo50YjIekJPoT9W', 'Dmytro', 'Korol', NULL, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -348,27 +330,6 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 --
 
 --
--- Indexes for table `archives`
---
-ALTER TABLE `archives`
-  ADD PRIMARY KEY (`archive_ID`),
-  ADD KEY `archives_ibfk_1` (`archiver_user_ID`);
-
---
--- Indexes for table `categories`
---
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`cat_ID`),
-  ADD KEY `categories_ibfk_1` (`cat_user_ID`);
-
---
--- Indexes for table `deletes`
---
-ALTER TABLE `deletes`
-  ADD PRIMARY KEY (`delete_ID`),
-  ADD KEY `deletes_ibfk_1` (`deleter_user_ID`);
-
---
 -- Indexes for table `devices`
 --
 ALTER TABLE `devices`
@@ -382,16 +343,15 @@ ALTER TABLE `devices`
 ALTER TABLE `pages`
   ADD PRIMARY KEY (`page_ID`),
   ADD KEY `user_ID` (`user_ID`) USING BTREE,
-  ADD KEY `project_ID` (`project_ID`) USING BTREE;
+  ADD KEY `project_ID` (`project_ID`) USING BTREE,
+  ADD KEY `cat_ID` (`cat_ID`);
 
 --
--- Indexes for table `page_cat_connect`
+-- Indexes for table `pages_categories`
 --
-ALTER TABLE `page_cat_connect`
-  ADD PRIMARY KEY (`page_cat_connect_ID`),
-  ADD KEY `page_cat_connect_ibfk_1` (`page_cat_connect_user_ID`),
-  ADD KEY `page_cat_connect_ibfk_2` (`page_cat_ID`),
-  ADD KEY `page_cat_connect_ibfk_3` (`page_cat_page_ID`);
+ALTER TABLE `pages_categories`
+  ADD PRIMARY KEY (`cat_ID`),
+  ADD KEY `project_ID` (`project_ID`);
 
 --
 -- Indexes for table `pins`
@@ -417,13 +377,28 @@ ALTER TABLE `projects`
   ADD KEY `projects_ibfk_3` (`user_ID`);
 
 --
+-- Indexes for table `projects_categories`
+--
+ALTER TABLE `projects_categories`
+  ADD PRIMARY KEY (`cat_ID`),
+  ADD KEY `user_ID` (`user_ID`);
+
+--
+-- Indexes for table `projects_order`
+--
+ALTER TABLE `projects_order`
+  ADD PRIMARY KEY (`order_ID`),
+  ADD KEY `sorting_ibfk_1` (`user_ID`),
+  ADD KEY `project_ID` (`project_ID`);
+
+--
 -- Indexes for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
   ADD PRIMARY KEY (`project_cat_connect_ID`),
-  ADD KEY `project_cat_connect_ibfk_3` (`project_cat_ID`),
-  ADD KEY `project_cat_connect_ibfk_1` (`project_cat_connect_user_ID`),
-  ADD KEY `project_cat_connect_ibfk_2` (`project_cat_project_ID`);
+  ADD KEY `cat_ID` (`cat_ID`),
+  ADD KEY `project_ID` (`project_ID`),
+  ADD KEY `user_ID` (`user_ID`);
 
 --
 -- Indexes for table `queues`
@@ -453,13 +428,6 @@ ALTER TABLE `shares`
   ADD KEY `shares_ibfk_1` (`sharer_user_ID`);
 
 --
--- Indexes for table `sorting`
---
-ALTER TABLE `sorting`
-  ADD PRIMARY KEY (`sort_ID`),
-  ADD KEY `sorting_ibfk_1` (`sorter_user_ID`);
-
---
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -479,24 +447,6 @@ ALTER TABLE `user_levels`
 --
 
 --
--- AUTO_INCREMENT for table `archives`
---
-ALTER TABLE `archives`
-  MODIFY `archive_ID` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `categories`
---
-ALTER TABLE `categories`
-  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `deletes`
---
-ALTER TABLE `deletes`
-  MODIFY `delete_ID` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `devices`
 --
 ALTER TABLE `devices`
@@ -509,10 +459,10 @@ ALTER TABLE `pages`
   MODIFY `page_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `page_cat_connect`
+-- AUTO_INCREMENT for table `pages_categories`
 --
-ALTER TABLE `page_cat_connect`
-  MODIFY `page_cat_connect_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `pages_categories`
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pins`
@@ -531,6 +481,18 @@ ALTER TABLE `pin_comments`
 --
 ALTER TABLE `projects`
   MODIFY `project_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `projects_categories`
+--
+ALTER TABLE `projects_categories`
+  MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `projects_order`
+--
+ALTER TABLE `projects_order`
+  MODIFY `order_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `project_cat_connect`
@@ -563,12 +525,6 @@ ALTER TABLE `shares`
   MODIFY `share_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `sorting`
---
-ALTER TABLE `sorting`
-  MODIFY `sort_ID` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -585,24 +541,6 @@ ALTER TABLE `user_levels`
 --
 
 --
--- Constraints for table `archives`
---
-ALTER TABLE `archives`
-  ADD CONSTRAINT `archives_ibfk_1` FOREIGN KEY (`archiver_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
-
---
--- Constraints for table `categories`
---
-ALTER TABLE `categories`
-  ADD CONSTRAINT `categories_ibfk_1` FOREIGN KEY (`cat_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
-
---
--- Constraints for table `deletes`
---
-ALTER TABLE `deletes`
-  ADD CONSTRAINT `deletes_ibfk_1` FOREIGN KEY (`deleter_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
-
---
 -- Constraints for table `devices`
 --
 ALTER TABLE `devices`
@@ -614,15 +552,14 @@ ALTER TABLE `devices`
 --
 ALTER TABLE `pages`
   ADD CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `pages_ibfk_2` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pages_ibfk_3` FOREIGN KEY (`cat_ID`) REFERENCES `pages_categories` (`cat_ID`) ON DELETE SET NULL;
 
 --
--- Constraints for table `page_cat_connect`
+-- Constraints for table `pages_categories`
 --
-ALTER TABLE `page_cat_connect`
-  ADD CONSTRAINT `page_cat_connect_ibfk_1` FOREIGN KEY (`page_cat_connect_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `page_cat_connect_ibfk_2` FOREIGN KEY (`page_cat_ID`) REFERENCES `categories` (`cat_ID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `page_cat_connect_ibfk_3` FOREIGN KEY (`page_cat_page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE;
+ALTER TABLE `pages_categories`
+  ADD CONSTRAINT `pages_categories_ibfk_1` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `pins`
@@ -645,12 +582,25 @@ ALTER TABLE `projects`
   ADD CONSTRAINT `projects_ibfk_3` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `projects_categories`
+--
+ALTER TABLE `projects_categories`
+  ADD CONSTRAINT `projects_categories_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `projects_order`
+--
+ALTER TABLE `projects_order`
+  ADD CONSTRAINT `projects_order_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `projects_order_ibfk_2` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
 -- Constraints for table `project_cat_connect`
 --
 ALTER TABLE `project_cat_connect`
-  ADD CONSTRAINT `project_cat_connect_ibfk_1` FOREIGN KEY (`project_cat_connect_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `project_cat_connect_ibfk_2` FOREIGN KEY (`project_cat_project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `project_cat_connect_ibfk_3` FOREIGN KEY (`project_cat_ID`) REFERENCES `categories` (`cat_ID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `project_cat_connect_ibfk_1` FOREIGN KEY (`cat_ID`) REFERENCES `projects_categories` (`cat_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `project_cat_connect_ibfk_2` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `project_cat_connect_ibfk_3` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `screens`
@@ -664,12 +614,6 @@ ALTER TABLE `screens`
 --
 ALTER TABLE `shares`
   ADD CONSTRAINT `shares_ibfk_1` FOREIGN KEY (`sharer_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
-
---
--- Constraints for table `sorting`
---
-ALTER TABLE `sorting`
-  ADD CONSTRAINT `sorting_ibfk_1` FOREIGN KEY (`sorter_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `users`

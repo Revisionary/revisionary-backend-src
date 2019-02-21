@@ -37,7 +37,7 @@
 
 
 				// Category action URL
-				$action_url = 'ajax?type=data-action&data-type=category&nonce='.$_SESSION['js_nonce'].'&id='.$category['cat_ID'];
+				$action_url = 'ajax?type=data-action&data-type='.$dataType.'category&nonce='.$_SESSION['js_nonce'].'&id='.$category['cat_ID'];
 			?>
 				<!-- Category Bar -->
 				<div
@@ -51,10 +51,10 @@
 							)
 						) echo 'xl-hidden';
 						?>"
-					data-order="<?=$category['sort_number']?>"
+					data-order="<?=$category['cat_order_number']?>"
 					data-id="<?=$category['cat_ID']?>"
 					data-cat-id="<?=$category['cat_ID']?>"
-					data-type="category"
+					data-type="<?=$dataType?>category"
 					draggable="true"
 				>
 					<span class="name-field handle">
@@ -81,8 +81,6 @@
 				// THE BLOCK LOOP
 				if ( isset($theCategorizedData[$category_ID]) ) {
 					foreach ($theCategorizedData[$category_ID]['theData'] as $block) {
-
-
 
 
 						if ($dataType == "project") {
@@ -142,25 +140,34 @@
 							// Archive/Delete Filters
 							if (
 								$catFilter == "" &&
-								($block['delete_ID'] != null || $block['archive_ID'] != null)
+								($block['page_deleted'] == 1 || $block['page_archived'] == 1)
 							) continue;
 
 
 							// Delete Filters
 							if (
 								$catFilter == "deleted" &&
-								$block['delete_ID'] == null
+								$block['page_deleted'] == 0
 							) continue;
 
 
 							// Archive Filters
 							if (
 								$catFilter == "archived" &&
-								$block['archive_ID'] == null
+								$block['page_archived'] == 0
 							) continue;
 
 
 						}
+
+
+
+						// Is directly shared to me
+						$blockSharedMe = $block['share_to'] == currentUserID();
+
+						// Is mine
+						$blockIsMine = $block['user_ID'] == currentUserID();
+
 
 
 						// Image style bg code
@@ -168,7 +175,7 @@
 
 					?>
 
-							<div class="item col block" data-order="<?=$block['sort_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block[$dataType.'_cat_ID']?>" data-type="<?=$dataType?>" draggable="true">
+							<div class="item col block" data-order="<?=$block['order_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>" data-type="<?=$dataType?>" draggable="true">
 
 
 								<div class="box xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
@@ -444,18 +451,28 @@ if ($dataType == "page" && $allMyPins) {
 
 												$action_url = 'ajax?type=data-action&data-type='.$dataType.'&nonce='.$_SESSION['js_nonce'].'&id='.$block[$dataType.'_ID'];
 
+											if (
+												($dataType == "project" && $blockIsMine)
+												|| $dataType == "page"
+												|| getUserInfo()['userLevelID'] == 1
+											) {
 
 												if ($catFilter == "archived" || $catFilter == "deleted") {
 											?>
-											<a href="<?=site_url($action_url.'&action=recover')?>" data-action="recover" data-confirm="Are you sure you want to recover this <?=$dataType?>?" data-tooltip="Recover"><i class="fa fa-reply"></i></a>
+<a href="<?=site_url($action_url.'&action=recover')?>" data-action="recover" data-confirm="Are you sure you want to recover this <?=$dataType?>?" data-tooltip="Recover"><i class="fa fa-reply"></i></a>
 											<?php
 												} else {
 											?>
-											<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-confirm="Are you sure you want to archive this <?=$dataType?>?" data-tooltip="Archive"><i class="fa fa-archive"></i></a>
+<a href="<?=site_url($action_url.'&action=archive')?>" data-action="archive" data-confirm="Are you sure you want to archive this <?=$dataType?>?" data-tooltip="Archive"><i class="fa fa-archive"></i></a>
 											<?php
 												}
 											?>
-											<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-confirm="<?=$catFilter == "deleted" ? 'Are you sure you want to completely remove this '.$dataType.'? Keep in mind that no one will be able to access this '.$dataType.' anymore!' : 'Are you sure you want to delete this '.$dataType.'?' ?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash"></i></a>
+<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-confirm="<?=$catFilter == "deleted" ? 'Are you sure you want to completely remove this '.$dataType.'? Keep in mind that no one will be able to access this '.$dataType.' anymore!' : 'Are you sure you want to delete this '.$dataType.'?' ?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash"></i></a>
+										<?php
+											}
+										?>
+
+
 
 
 										</div>
@@ -522,7 +539,7 @@ if ($dataType == "page" && $allMyPins) {
 
 						<div class="box xl-center">
 
-							<a href="#" class="wrap xl-flexbox xl-middle xl-center" data-modal="add-new" data-type="<?=$dataType?>" data-id="<?=$dataType == "project" ? "new" : $block['project_ID']?>">
+							<a href="#" class="wrap xl-flexbox xl-middle xl-center" data-modal="add-new" data-type="<?=$dataType?>" data-id="<?=$dataType == "project" ? "new" : $project_ID?>">
 								<div class="col">
 									New <?=ucfirst($dataType)?>
 									<div class="plus-icon">+</div>

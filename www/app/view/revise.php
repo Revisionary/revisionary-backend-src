@@ -177,7 +177,7 @@
 							<?php
 							}
 							?>
-							<li><a href="#" data-modal="add-new" data-type="project" data-id="new"><i class="fa fa-plus"></i> Add New Project</a></li>
+							<li><a href="#" data-modal="add-new" data-type="project" data-id="new"><i class="fa fa-plus"></i> <b>Add New Project</b></a></li>
 						</ul>
 					</span>
 					<sep><i class="fa fa-chevron-right"></i></sep>
@@ -265,7 +265,7 @@
 							?>
 							<li>
 
-								<a href="#" data-modal="add-new" data-object-name="<?=$projectInfo['project_name']?>" data-type="page" data-id="<?=$projectInfo['project_ID']?>"><i class="fa fa-plus"></i> Add New Page</a>
+								<a href="#" data-modal="add-new" data-object-name="<?=$projectInfo['project_name']?>" data-type="page" data-id="<?=$projectInfo['project_ID']?>"><i class="fa fa-plus"></i> <b>Add New Page</b></a>
 
 							</li>
 						</ul>
@@ -321,7 +321,7 @@
 						}
 						?>
 							<li>
-								<a href="#" class="add-screen"><i class="fa fa-plus"></i> Add New Screen</a>
+								<a href="#" class="add-screen"><i class="fa fa-plus"></i> <b>Add New Screen</b></a>
 								<ul class="xl-left screen-adder">
 									<?php
 									foreach ($screen_data as $screen_cat) {
