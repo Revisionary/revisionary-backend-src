@@ -1,10 +1,19 @@
 var screenWidth = $(window).width();
 var screenHeight = $(window).height();
 
+
+var autoRefreshTimer;
+var autoRefreshInterval = 10000;
+var autoRefreshRequest = null;
+
 $(function() {
 
 	// Add the new project/page buttons
 	addNewPageButtons();
+
+
+	// Start auto checking notifications
+	startNotificationAutoRefresh();
 
 
 	// Block Sizes
@@ -121,10 +130,25 @@ $(function() {
 
 
 	// Notifications
-	$('.notification-opener').click(function() {
+	$('.notification-opener').click(function(e) {
 
 		$(this).toggleClass('open');
 
+		e.preventDefault();
+	});
+
+
+	// Refresh Notifications
+	$(document).on('click', '.refresh-notifications', function(e) {
+
+
+		if ( $(this).hasClass('.notification-opener') && ! $(this).hasClass('open') ) return false;
+
+
+		getNotifications(true);
+
+
+		e.preventDefault();
 	});
 
 
@@ -206,5 +230,42 @@ function updateOrderNumbers() {
 	});
 
 	return newOrder;
+
+}
+
+// Start auto-refresh notifications
+function startNotificationAutoRefresh() {
+
+	console.log('AUTO-REFRESH NOTIFICATIONS STARTED');
+
+	autoRefreshTimer = setInterval(function() {
+
+		console.log('Auto checking the notifications...');
+
+
+		// Abort the latest request if not finalized
+		if(autoRefreshRequest && autoRefreshRequest.readyState != 4) {
+			console.log('Latest request aborted');
+			autoRefreshRequest.abort();
+		}
+
+
+		// Get the up-to-date pins
+		getNewNotificationCount();
+
+
+	}, autoRefreshInterval);
+
+}
+
+
+// Stop auto-refresh
+function stopNotificationAutoRefresh() {
+
+	console.log('AUTO-REFRESH NOTIFICATIONS STOPPED');
+
+	if (autoRefreshRequest) autoRefreshRequest.abort();
+
+	clearInterval(autoRefreshTimer);
 
 }

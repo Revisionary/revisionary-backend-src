@@ -5400,6 +5400,21 @@ a {
     text-align: center; }
     .notifications > li:last-child {
       border-bottom: none; }
+    .notifications > li.new {
+      position: relative; }
+      .notifications > li.new::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 2px;
+        display: block;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background-color: red;
+        transform: translateY(-50%); }
+    .notifications > li a {
+      color: #007acc; }
     .notifications > li .image {
       width: 25px; }
       .notifications > li .image picture {

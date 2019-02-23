@@ -45,10 +45,7 @@
 				<?php
 				} else {
 
-					// Get notifications
-					$notifications = User::ID()->getNotifications();
-					$newNotifications = array_filter($notifications, function($value) { return $value['notification_read'] == 0; });
-					$notificationsCount = count($newNotifications);
+					$notification_count = Notification::ID()->getCount();
 
 				?>
 				<nav id="main-navigation">
@@ -58,49 +55,14 @@
 
 
 
-							<a href="#" class="notification-opener" data-tooltip="<?=$notificationsCount == 0 ? "No new notifications" : "$notificationsCount New Notifications"?>">
+							<a href="#" class="notification-opener refresh-notifications">
 
 								<i class="fa fa-bell"></i>
-								<div class="notif-no <?=$notificationsCount == 0 ? "hide" : ""?>"><?=$notificationsCount?></div>
+								<div class="notif-no <?=$notification_count == 0 ? "hide" : ""?>"><?=$notification_count?></div>
 
 							</a>
 							<ul class="notifications xl-left">
 
-								<?php
-
-								if (count($notifications) == 0) {
-
-									echo "<li>There's nothing to mention now.</li>";
-
-								}
-
-
-								foreach ($notifications as $notification) {
-
-									$sender_ID = $notification['sender_user_ID'];
-									$senderInfo = getUserInfo($sender_ID);
-								?>
-									<li class="new">
-
-										<div class="wrap xl-table xl-middle">
-											<div class="col image">
-
-												<picture class="profile-picture" <?=$senderInfo['printPicture']?>> 																							<span class="has-pic"><?=$senderInfo['nameAbbr']?></span>
-												</picture>
-
-											</div>
-											<div class="col content">
-
-												<?=$senderInfo['fullName']?> <?=$notification['notification']?><br/>
-												<div class="date"><?= timeago($notification['notification_time'])?></div>
-
-											</div>
-										</div>
-
-									</li>
-								<?php
-								}
-								?>
 							</ul>
 
 

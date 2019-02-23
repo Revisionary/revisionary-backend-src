@@ -184,6 +184,7 @@ class User {
 
 		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
 		$db->where('con.user_ID', self::$user_ID);
+		$db->orderBy("notification_time", "DESC");
 		$notifications = $db->get("notifications n");
 
 

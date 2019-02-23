@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 23, 2019 at 03:03 AM
+-- Generation Time: Feb 23, 2019 at 10:52 PM
 -- Server version: 8.0.15
 -- PHP Version: 7.2.14
 
@@ -47,6 +47,7 @@ CREATE TABLE `devices` (
 CREATE TABLE `notifications` (
   `notification_ID` bigint(20) NOT NULL,
   `notification` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notification_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `object_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `object_ID` bigint(20) NOT NULL,
   `sender_user_ID` bigint(20) NOT NULL

@@ -229,13 +229,13 @@ if ($share_ID) { // If successful
 
 		$projectName = "";
 		if ($type == "page") {
-			$projectName = " (in ".Project::ID( $objectData->getInfo("project_ID") )->getInfo('project_name').")";
+			$projectName = " [".Project::ID( $objectData->getInfo("project_ID") )->getInfo('project_name')."]";
 		}
 
 
 		// Web notification
 		if ( is_integer($shareTo) )
-			Notify::ID($shareTo)->web("shared the \"$objectName".$projectName."\" $type with you.", $type, $object_ID);
+			Notify::ID($shareTo)->web("shared a <b>$type</b> with you: <a href='$object_link'><b>$objectName</b>".$projectName."</a>", $type, $object_ID);
 
 
 		// Email notification

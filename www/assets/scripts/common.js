@@ -904,6 +904,145 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 }
 
 
+// Get notifications
+function getNotifications(markAsRead = false) {
+
+
+	console.log('Getting notifications...');
+
+
+	$('.notifications').addClass('loading').html('<li><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Notifications are loading...</span></li>');
+
+
+
+	ajax('notifications-get', {
+
+		'nonce'	: nonce
+
+	}).done(function(result) {
+
+
+		console.log('RESULT: ', result);
+		var notificationsHTML = result.notifications;
+		var newCount = result.newcount;
+
+
+		// Apply to DOM
+		$('.notifications').html(notificationsHTML).removeClass('loading');
+
+
+		// Update the count
+		$('.notification-opener .notif-no').text(newCount);
+		if (newCount == 0) $('.notification-opener .notif-no').addClass('hide');
+		else $('.notification-opener .notif-no').removeClass('hide');
+
+
+		// Mark all as read
+		if (markAsRead && $('.notifications > li.new').length) {
+
+
+			// After 1 seconds, mark all read
+			setTimeout(function() {
+
+				if ( $('.notification-opener').hasClass("open") ) readNotifications();
+
+			}, 1000);
+
+
+		}
+
+
+	}).fail(function(e) {
+
+		console.log('ERROR: ', e);
+
+	});
+
+	return true;
+
+}
+
+
+function readNotifications() {
+
+
+	ajax('notifications-read', {
+
+		'nonce'	: nonce
+
+	}).done(function(result) {
+
+
+		console.log('RESULT: ', result);
+
+
+		// Delete the new dots
+		$('.notifications > li').removeClass('new');
+
+
+		// Update the count
+		$('.notification-opener .notif-no').text(0).addClass('hide');
+
+
+	}).fail(function(e) {
+
+		console.log('ERROR: ', e);
+
+	});
+
+	return true;
+
+
+}
+
+
+function getNewNotificationCount() {
+
+
+	ajax('notifications-get-count', {
+
+		'nonce'	: nonce
+
+	}).done(function(result) {
+
+
+		console.log('RESULT: ', result);
+
+		var newCount = result.newcount;
+
+
+		// Update the count
+		$('.notification-opener .notif-no').text(newCount);
+		if (newCount == 0) $('.notification-opener .notif-no').addClass('hide');
+		else $('.notification-opener .notif-no').removeClass('hide');
+
+
+		// Add the "Load new notifications" button
+		var newButton = '<a href="#" class="refresh-notifications">'+ newCount +' New Notification'+ (newCount > 1 ? "s" : "") +'</a>';
+		if (newCount > 0) {
+
+
+			if ( !$('.notifications > li.refresh-notifications').length )
+				$('.notifications').prepend('<li class="refresh-notifications"></li>');
+
+			$('.notifications > li.refresh-notifications').html(newButton);
+
+
+		}
+
+
+	}).fail(function(e) {
+
+		console.log('ERROR: ', e);
+
+	});
+
+	return true;
+
+
+}
+
+
 
 
 // MODALS:

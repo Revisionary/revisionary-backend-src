@@ -2,15 +2,14 @@
 <?php
 
 $i = 0;
-while ($i < 10) { $i++;
+while ($i < 5) { $i++;
 
-	Notify::ID(1)->web("send test notification $i", "pin", 1);
+	Notify::ID(6)->web("sent test notification $i", "pin", 1);
+	sleep(2);
 
 }
 
-
 $parsed_url = User::ID()->getNotifications();
-
 die_to_print( $parsed_url );
 
 

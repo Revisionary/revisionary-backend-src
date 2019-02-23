@@ -563,7 +563,7 @@ a {
     max-height: 50vh;
     overflow: hidden;
     overflow-y: scroll;
-    //border-bottom: 5px solid $color;
+
 
     .open + & {
 	    display: block;
@@ -578,6 +578,28 @@ a {
 
 		&:last-child {
 			border-bottom: none;
+		}
+
+		&.new {
+			position: relative;
+
+			&::before {
+			    content: "";
+			    position: absolute;
+			    top: 50%;
+			    left: 2px;
+			    display: block;
+			    width: 4px;
+			    height: 4px;
+			    border-radius: 50%;
+			    background-color: red;
+			    transform: translateY(-50%);
+			}
+
+		}
+
+		a {
+			color: $color-secondary;
 		}
 
 		.image {
