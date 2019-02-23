@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 21, 2019 at 11:07 AM
+-- Generation Time: Feb 23, 2019 at 03:03 AM
 -- Server version: 8.0.15
 -- PHP Version: 7.2.14
 
@@ -37,6 +37,33 @@ CREATE TABLE `devices` (
   `page_ID` bigint(20) NOT NULL,
   `screen_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `notification_ID` bigint(20) NOT NULL,
+  `notification` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `object_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `object_ID` bigint(20) NOT NULL,
+  `sender_user_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notification_user_connection`
+--
+
+CREATE TABLE `notification_user_connection` (
+  `notification_connection_ID` bigint(20) NOT NULL,
+  `notification_ID` bigint(20) NOT NULL,
+  `user_ID` bigint(20) NOT NULL,
+  `notification_read` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -338,6 +365,21 @@ ALTER TABLE `devices`
   ADD KEY `devices_ibfk_2` (`screen_ID`);
 
 --
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`notification_ID`),
+  ADD KEY `sender_user_ID` (`sender_user_ID`);
+
+--
+-- Indexes for table `notification_user_connection`
+--
+ALTER TABLE `notification_user_connection`
+  ADD PRIMARY KEY (`notification_connection_ID`),
+  ADD KEY `notification_ID` (`notification_ID`),
+  ADD KEY `user_ID` (`user_ID`);
+
+--
 -- Indexes for table `pages`
 --
 ALTER TABLE `pages`
@@ -453,6 +495,18 @@ ALTER TABLE `devices`
   MODIFY `device_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `notification_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `notification_user_connection`
+--
+ALTER TABLE `notification_user_connection`
+  MODIFY `notification_connection_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
@@ -546,6 +600,19 @@ ALTER TABLE `user_levels`
 ALTER TABLE `devices`
   ADD CONSTRAINT `devices_ibfk_1` FOREIGN KEY (`page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
   ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`screen_ID`) REFERENCES `screens` (`screen_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`sender_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `notification_user_connection`
+--
+ALTER TABLE `notification_user_connection`
+  ADD CONSTRAINT `notification_user_connection_ibfk_1` FOREIGN KEY (`notification_ID`) REFERENCES `notifications` (`notification_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `notification_user_connection_ibfk_2` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `pages`

@@ -7,12 +7,6 @@ use PHPMailer\PHPMailer\Exception;
 class Mail {
 
 
-	// The user ID
-	public static $user_ID;
-
-
-
-
 	// SETTERS:
 	public function __construct() {
 

@@ -18,11 +18,15 @@ class Notify {
 	// ID Setter
     public static function ID($user_ID = null) {
 
-		if ($user_ID == null)
+
+		// If no user set
+		if ($user_ID === null)
 			$user_ID = currentUserID();
 
+
+		// If multiple user set
 		if ( is_array($user_ID) )
-			$user_ID = array_unique($user_ID);
+			$user_ID = array_filter(array_unique($user_ID));
 
 
 	    // Set the user ID
@@ -86,10 +90,64 @@ class Notify {
 
 
     // Web notifications
-    public function web() {
+    public function web(
+	    string $notification,
+	    string $object_type,
+	    int $object_ID
+    ) {
+	    global $db;
 
 
-	    // Send web notification to user(s)
+	    // Do not send web notifications to emails
+	    if ( is_string(self::$user_ID) ) return false;
+	    if ( is_array(self::$user_ID) && count(self::$user_ID) == 0 ) return false;
+
+
+
+
+		// ADD THE NOTIFICATION
+		$notification_ID = $db->insert('notifications', array(
+			"notification" => $notification,
+			"object_type" => $object_type,
+			"object_ID" => $object_ID,
+			"sender_user_ID" => currentUserID()
+		));
+
+
+
+		// ADD THE CONNECTIONS:
+
+		// If multiple user set
+		if ( is_array(self::$user_ID) ) {
+
+
+			foreach (self::$user_ID as $user_ID) {
+
+				if ( is_string($user_ID) )
+					$user_ID = intval($user_ID);
+
+
+				// Add the connection
+				$connection_ID = $db->insert('notification_user_connection', array(
+					"notification_ID" => $notification_ID,
+					"user_ID" => $user_ID
+				));
+
+			}
+
+
+		// If only one user set
+		} else {
+
+
+			// Add the connection
+			$connection_ID = $db->insert('notification_user_connection', array(
+				"notification_ID" => $notification_ID,
+				"user_ID" => self::$user_ID
+			));
+
+
+		}
 
 
     }

@@ -2433,8 +2433,13 @@ function closePinWindow(removePinIfEmpty = true) {
 
 	// Delete if no change made
 	var pinRemoved = false;
+
+	// Removed by clicking "Remove" button
+	if ( pinWindow(pin_ID).hasClass('removing') ) pinRemoved = true;
+
 	if (
 		removePinIfEmpty
+		&& !pinRemoved
 		&& pinWindow(pin_ID).attr('data-pin-new') == "yes"
 		&& pinWindow(pin_ID).attr('data-revisionary-edited') == "0"
 		&& pinWindow(pin_ID).attr('data-changed') == "no"

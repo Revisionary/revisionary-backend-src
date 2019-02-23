@@ -397,16 +397,12 @@ class Page {
 		if ($page_ID) {
 
 			$users = Page::ID($page_ID)->getUsers();
-			foreach ($users as $user_ID) {
-
-				Notify::ID( intval($user_ID) )->mail(
-					getUserInfo()['fullName']." added a new page: $page_name",
-					getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new page: $page_name <br>
-					<b>Page URL</b>: $page_url <br><br>
-					".site_url("page/$page_ID")
-				);
-
-			}
+			Notify::ID($users)->mail(
+				getUserInfo()['fullName']." added a new page: $page_name",
+				getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new page: $page_name <br>
+				<b>Page URL</b>: $page_url <br><br>
+				".site_url("page/$page_ID")
+			);
 
 		}
 

@@ -162,15 +162,11 @@ class Device {
 
 			$pageData = Page::ID($page_ID);
 			$users = $pageData->getUsers();
-			foreach ($users as $user_ID) {
-
-				Notify::ID( intval($user_ID) )->mail(
-					getUserInfo()['fullName']." added a new screen on ".$pageData->getInfo('page_name')." page",
-					getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new screen: ".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.") <br><br>
-					<b>Page URL</b>: ".site_url("revise/$first_device_ID")
-				);
-
-			}
+			Notify::ID($users)->mail(
+				getUserInfo()['fullName']." added a new screen on ".$pageData->getInfo('page_name')." page",
+				getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new screen: ".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.") <br><br>
+				<b>Page URL</b>: ".site_url("revise/$first_device_ID")
+			);
 
 		}
 

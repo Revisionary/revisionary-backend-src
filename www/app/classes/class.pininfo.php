@@ -239,17 +239,10 @@ class Pin {
 		if ($pin_updated) {
 
 			$users = $this->getUsers();
-
-			foreach ($users as $user_ID) {
-
-
-				Notify::ID( intval($user_ID) )->mail(
-					getUserInfo()['fullName']." completed a pin task on '".$pageData->getInfo('page_name')."' page",
-					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") completed a pin task on '".$pageData->getInfo('page_name')."' page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
-				);
-
-
-			}
+			Notify::ID($users)->mail(
+				getUserInfo()['fullName']." completed a pin task on '".$pageData->getInfo('page_name')."' page",
+				"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") completed a pin task on '".$pageData->getInfo('page_name')."' page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
+			);
 
 
 		}
@@ -301,17 +294,10 @@ class Pin {
 		if ($pin_updated) {
 
 			$users = $this->getUsers();
-
-			foreach ($users as $user_ID) {
-
-
-				Notify::ID( intval($user_ID) )->mail(
-					getUserInfo()['fullName']." marked a pin task as not completed on '".$pageData->getInfo('page_name')."' page",
-					"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") marked a pin task as not completed on '".$pageData->getInfo('page_name')."' page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
-				);
-
-
-			}
+			Notify::ID($users)->mail(
+				getUserInfo()['fullName']." marked a pin task as not completed on '".$pageData->getInfo('page_name')."' page",
+				"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") marked a pin task as not completed on '".$pageData->getInfo('page_name')."' page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
+			);
 
 
 		}
@@ -627,21 +613,10 @@ class Pin {
 
 		// Send it to all related users
 		$users = $this->getUsers();
-		foreach ($users as $user_ID) {
-
-
-			// Web notifications !!!
-			// Coming soon...
-
-
-			// Email notifications
-			Notify::ID( intval($user_ID) )->mail(
-				$notificationSubject,
-				$notificationMessage
-			);
-
-
-		}
+		Notify::ID($users)->mail(
+			$notificationSubject,
+			$notificationMessage
+		);
 
 
 
@@ -675,21 +650,11 @@ class Pin {
 
 		// Send it to all related users
 		$users = $this->getUsers();
-		foreach ($users as $user_ID) {
+		Notify::ID($users)->mail(
+			$notificationSubject,
+			$notificationMessage
+		);
 
-
-			// Web notifications !!!
-			// Coming soon...
-
-
-			// Email notifications
-			Notify::ID( intval($user_ID) )->mail(
-				$notificationSubject,
-				$notificationMessage
-			);
-
-
-		}
 
 
 
@@ -723,21 +688,10 @@ class Pin {
 
 		// Send it to all related users
 		$users = $this->getUsers();
-		foreach ($users as $user_ID) {
-
-
-			// Web notifications !!!
-			// Coming soon...
-
-
-			// Email notifications
-			Notify::ID( intval($user_ID) )->mail(
-				$notificationSubject,
-				$notificationMessage
-			);
-
-
-		}
+		Notify::ID($users)->mail(
+			$notificationSubject,
+			$notificationMessage
+		);
 
 
 
