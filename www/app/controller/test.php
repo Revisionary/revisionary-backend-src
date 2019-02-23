@@ -1,8 +1,15 @@
 <pre>
 <?php
 
+$i = 0;
+while ($i < 10) { $i++;
 
-$parsed_url = urlStandardize("http://goldenage.twelve12.com/services#preventative-care");
+	Notify::ID(1)->web("send test notification $i", "pin", 1);
+
+}
+
+
+$parsed_url = User::ID()->getNotifications();
 
 die_to_print( $parsed_url );
 

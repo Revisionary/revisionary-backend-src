@@ -120,6 +120,14 @@ $(function() {
 	}).resize();
 
 
+	// Notifications
+	$('.notification-opener').click(function() {
+
+		$(this).toggleClass('open');
+
+	});
+
+
 
 	$('.filter-blocks i').click(function() {
 

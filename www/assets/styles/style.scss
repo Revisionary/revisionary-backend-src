@@ -417,13 +417,13 @@ textarea {
 
 nav#main-navigation {
 
-	ul {
+	& > ul {
 		list-style: none;
 
-		li {
+		& > li {
 			display: inline-block;
 
-			a {
+			& > a {
 				font-size: 14px;
 				color: $color;
 				letter-spacing: 3px;
@@ -533,18 +533,95 @@ a {
 	letter-spacing: 3px;
 }
 
-.notifications {
-    background-color: white;
-    border: 1px solid;
-    display: block;
-    padding: 15px 20px;
-    text-align: center;
-    font-size: 12px;
-    line-height: 15px;
+.notifications-wrapper {
+	position: relative;
+
+	.notification-opener {
+		font-size: 20px !important;
+		position: relative;
+
+		&.open {
+			color: $color-secondary !important;
+		}
+
+	}
 }
 
+.notifications {
+	display: none;
+    background-color: white;
+    border: 1px solid;
+    padding: 0;
+    list-style-type: none;
+    border-radius: 10px;
+
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 100%;
+    min-width: 220px;
+    max-height: 50vh;
+    overflow: hidden;
+    overflow-y: scroll;
+    //border-bottom: 5px solid $color;
+
+    .open + & {
+	    display: block;
+    }
+
+    & > li {
+	    border-bottom: 1px solid $color;
+		padding: 5px 10px;
+    	font-size: 12px;
+	    line-height: 15px;
+	    text-align: center;
+
+		&:last-child {
+			border-bottom: none;
+		}
+
+		.image {
+			width: 25px;
+
+			picture {
+				margin: 0 !important;
+			}
+
+		}
+
+		.content {
+			padding-left: 5px;
+	    	font-size: 12px;
+		    line-height: 15px;
+		}
+
+		.date {
+		    font-size: 10px;
+		    line-height: 14px;
+		    opacity: 0.4;
+		}
+
+    }
+}
+
+/*
 .user-menu {
 	min-width: 200px;
+}
+*/
+
+ul.user-header-menu {
+	padding: 0;
+	margin: 0;
+
+	& > li {
+		margin: 0 10px;
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+	}
 }
 
 
@@ -957,8 +1034,8 @@ picture.profile-picture {
 		height: 40px;
 		border-width: 1px;
 	    margin-left: 20px;
-	    margin-right: 10px;
-		margin-bottom: -15px;
+	    margin-right: 0px;
+		margin-bottom: -12px;
 
 		span {
 			line-height: 40px;
@@ -987,6 +1064,10 @@ picture.profile-picture {
     -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
 	-moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
 	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
+
+	&.hide {
+		display: none;
+	}
 }
 
 .big .notif-no {
@@ -1709,6 +1790,11 @@ input.share-email {
 				padding-left: 80px;
 			}
 
+		}
+
+		input[name="page-name"],
+		input[name="project-name"] {
+			max-width: 50%;
 		}
 
 	}

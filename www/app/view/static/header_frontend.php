@@ -44,30 +44,82 @@
 
 				<?php
 				} else {
+
+					// Get notifications
+					$notifications = User::ID()->getNotifications();
+					$newNotifications = array_filter($notifications, function($value) { return $value['notification_read'] == 0; });
+					$notificationsCount = count($newNotifications);
+
 				?>
 				<nav id="main-navigation">
 					<ul class="user-header-menu">
 						<li class="menu-item"><a href="<?=site_url('upgrade')?>">UPGRADE</a></li>
+						<li class="menu-item notifications-wrapper">
+
+
+
+							<a href="#" class="notification-opener" data-tooltip="<?=$notificationsCount == 0 ? "No new notifications" : "$notificationsCount New Notifications"?>">
+
+								<i class="fa fa-bell"></i>
+								<div class="notif-no <?=$notificationsCount == 0 ? "hide" : ""?>"><?=$notificationsCount?></div>
+
+							</a>
+							<ul class="notifications xl-left">
+
+								<?php
+
+								if (count($notifications) == 0) {
+
+									echo "<li>There's nothing to mention now.</li>";
+
+								}
+
+
+								foreach ($notifications as $notification) {
+
+									$sender_ID = $notification['sender_user_ID'];
+									$senderInfo = getUserInfo($sender_ID);
+								?>
+									<li class="new">
+
+										<div class="wrap xl-table xl-middle">
+											<div class="col image">
+
+												<picture class="profile-picture" <?=$senderInfo['printPicture']?>> 																							<span class="has-pic"><?=$senderInfo['nameAbbr']?></span>
+												</picture>
+
+											</div>
+											<div class="col content">
+
+												<?=$senderInfo['fullName']?> <?=$notification['notification']?><br/>
+												<div class="date"><?= timeago($notification['notification_time'])?></div>
+
+											</div>
+										</div>
+
+									</li>
+								<?php
+								}
+								?>
+							</ul>
+
+
+
+						</li>
 					</ul>
 				</nav><!-- #main-navigation -->
 
 
 				<div class="dropdown">
-					<a href="#" class="invert-hover user-link bullet">
+					<a href="<?=site_url('projects')?>" class="invert-hover user-link bullet">
 						<picture class="profile-picture big" <?=getUserInfo()['printPicture']?>>
 							<span <?=getUserInfo()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserInfo()['nameAbbr']?></span>
-							<div class="notif-no">3</div>
 						</picture> <?=getUserInfo()['fullName']?>
 					</a>
-					<ul class="right user-menu">
-						<li class="notifications">
-							There's nothing to mention now.<br/>
-							Your notifications will be here.
-						</li>
-						<li><a href="<?=site_url('projects')?>">Projects</a></li>
-						<li><a href="<?=site_url('profile/'.getUserInfo()['userName'])?>">Profile</a></li>
-						<li><a href="<?=site_url('account')?>">Account</a></li>
-						<li><a href="<?=site_url('logout')?>">Logout</a></li>
+					<ul class="right user-menu xl-left">
+						<li><a href="<?=site_url('projects')?>"><i class="fa fa-th"></i> All Projects</a></li>
+						<li><a href="<?=site_url('account')?>"><i class="fa fa-user-cog"></i> My Account</a></li>
+						<li><a href="<?=site_url('logout')?>"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
 					</ul>
 				</div>
 

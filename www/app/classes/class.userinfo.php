@@ -177,6 +177,21 @@ class User {
 
 
 
+    // Get notifications
+    public function getNotifications() {
+		global $db;
+
+
+		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
+		$db->where('con.user_ID', self::$user_ID);
+		$notifications = $db->get("notifications n");
+
+
+	    return $notifications;
+    }
+
+
+
 	// Bring data that's mine or shared to me
     public function getMy($data_type = "projects", $catFilter = "", $order = "", $project_ID = null, $object_ID = null, $deletes_archives = false) {
 		global $db, $mySharedPages;
@@ -184,6 +199,7 @@ class User {
 
 		// Correct the data type
 		$data_type = substr($data_type, 0, -1);
+
 
 
 		// Bring the shared projects
@@ -195,12 +211,14 @@ class User {
 		}
 
 
-		// Bring the shared ones
-		$db->join("shares s", "p.".$data_type."_ID = s.shared_object_ID", "LEFT");
-		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
-		$db->joinWhere("shares s", "s.share_type", $data_type);
+		if ($data_type == "project" || $data_type == "page") {
 
+			// Bring the shared ones
+			$db->join("shares s", "p.".$data_type."_ID = s.shared_object_ID", "LEFT");
+			$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
+			$db->joinWhere("shares s", "s.share_type", $data_type);
 
+		}
 
 
 
