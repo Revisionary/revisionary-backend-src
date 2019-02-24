@@ -88,13 +88,19 @@ if (!$object) {
 	)));
 }
 $objectInfo = $object->getInfo();
-$iamowner = $objectInfo['user_ID'] == currentUserID();
+
+
 
 // Do I access this object?
-if ( !$iamowner ) {
+if ( ! User::ID()->canAccess($object_ID, $type) ) {
 
-	// Is this object shared to me? !!!
-	// ...
+	$data['status'] = "no-access";
+
+
+	// CREATE THE ERROR RESPONSE
+	die(json_encode(array(
+	  'data' => $data
+	)));
 
 }
 

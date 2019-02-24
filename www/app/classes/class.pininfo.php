@@ -66,6 +66,26 @@ class Pin {
     }
 
 
+	// Get page users
+	public function getUsers($include_me = false) {
+		global $db;
+
+
+		$pin_ID = self::$pin_ID;
+		$device_ID = $this->getInfo('device_ID');
+		$page_ID = Device::ID( $device_ID )->getInfo('page_ID');
+		$pageData = Page::ID( $page_ID );
+
+
+		// Get the page users
+		$users = $pageData->getUsers($include_me);
+
+
+		return $users;
+
+	}
+
+
 
 
     // ACTIONS
@@ -503,45 +523,6 @@ class Pin {
 
 
 		return $comment_ID;
-
-	}
-
-
-	// Get page users
-	public function getUsers() {
-		global $db;
-
-
-		$pin_ID = self::$pin_ID;
-		$device_ID = $this->getInfo('device_ID');
-		$page_ID = Device::ID( $device_ID )->getInfo('page_ID');
-		$pageData = Page::ID( $page_ID );
-		$project_ID = $pageData->getInfo('project_ID');
-		$projectData = Project::ID($project_ID);
-
-
-		$users = array();
-
-
-		// Get the page users
-		$users = array_merge($users, $pageData->getUsers());
-
-
-		// Get the project users
-		$users = array_merge($users, $projectData->getUsers());
-
-
-		// Remove duplicates
-		$users = array_unique($users);
-
-
-		// Exclude myself
-		if ( ($user_key = array_search(currentUserID(), $users)) !== false ) {
-		    unset($users[$user_key]);
-		}
-
-
-		return $users;
 
 	}
 

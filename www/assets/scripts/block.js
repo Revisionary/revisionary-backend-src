@@ -2,9 +2,11 @@ var screenWidth = $(window).width();
 var screenHeight = $(window).height();
 
 
+// Notification Auto-Refresh
 var autoRefreshTimer;
 var autoRefreshInterval = 10000;
 var autoRefreshRequest = null;
+
 
 $(function() {
 

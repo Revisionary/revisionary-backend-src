@@ -14,6 +14,7 @@ if ( !userloggedIn() ) $status = "not-logged-in";
 
 
 $count = Notification::ID()->getCount();
+if ($count) $status = "success";
 
 
 

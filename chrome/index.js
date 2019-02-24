@@ -307,6 +307,7 @@ require('http').createServer(async (req, res) => {
 						|| requestHost == "fonts.gstatic.com"
 						|| requestHost == "stats.wp.com"
 						|| requestHost == "s0.wp.com"
+						|| requestHost == "bid.g.doubleclick.net"
 					)
 				) {
 					console.log(`❌🌪 ${method} ${resourceType} ${shortURL}`);
@@ -335,7 +336,7 @@ require('http').createServer(async (req, res) => {
 
 
 						// HTML File
-						if (resourceType == 'document') {
+						if (resourceType == 'document' && ourHost == requestHost) {
 
 							htmlCount++;
 							newDir = "";

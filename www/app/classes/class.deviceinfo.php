@@ -90,6 +90,24 @@ class Device {
     }
 
 
+	// Get page users
+	public function getUsers($include_me = false) {
+		global $db;
+
+
+		$page_ID = $this->getInfo('page_ID');
+		$pageData = Page::ID( $page_ID );
+
+
+		// Get the page users
+		$users = $pageData->getUsers($include_me);
+
+
+		return $users;
+
+	}
+
+
 
     // ACTIONS:
 
@@ -165,7 +183,7 @@ class Device {
 			Notify::ID($users)->mail(
 				getUserInfo()['fullName']." added a new screen on ".$pageData->getInfo('page_name')." page",
 				getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new screen: ".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.") <br><br>
-				<b>Page URL</b>: ".site_url("revise/$first_device_ID")
+				<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
 			);
 
 		}

@@ -14,6 +14,7 @@ if ( !userloggedIn() ) $status = "not-logged-in";
 
 
 $notifications = Notification::ID()->getHTML();
+if ($notifications) $status = "success";
 
 
 

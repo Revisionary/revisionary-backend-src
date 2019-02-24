@@ -1,16 +1,30 @@
 <pre>
 <?php
 
-$i = 0;
-while ($i < 5) { $i++;
 
+//var_dump( User::ID()->canAccess(33, "pin") );
+
+//exit;
+
+$i = 0;
+while ($i < 10) { $i++;
+
+
+	var_dump( User::ID($i)->canAccess(33, "pin") );
+
+/*
 	Notify::ID(6)->web("sent test notification $i", "pin", 1);
 	sleep(2);
+*/
 
 }
 
+exit;
+
+/*
 $parsed_url = User::ID()->getNotifications();
 die_to_print( $parsed_url );
+*/
 
 
 

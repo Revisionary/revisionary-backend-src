@@ -256,7 +256,7 @@ class Page {
 
 
 	// Get page users
-	public function getUsers() {
+	public function getUsers($include_me = false) {
 		global $db;
 
 
@@ -287,7 +287,7 @@ class Page {
 
 
 		// Exclude myself
-		if ( ($user_key = array_search(currentUserID(), $users)) !== false ) {
+		if ( !$include_me && ($user_key = array_search(currentUserID(), $users)) !== false ) {
 		    unset($users[$user_key]);
 		}
 
@@ -375,40 +375,66 @@ class Page {
 
 
 
-		// SHARE - Use share API later !!!
-		if ( count($page_shares) > 0 ) {
+		// If page added !!! Add project name here !!!
+		if ($page_ID) {
 
-			foreach ($page_shares as $user_ID) {
 
-				$share_ID = $db->insert('shares', array(
-					"share_type" => 'page',
-					"shared_object_ID" => $page_ID,
-					"share_to" => $user_ID,
-					"sharer_user_ID" => currentUserID()
-				));
+
+			$page_link = site_url('page/'.$page_ID);
+			$project_name = " [".Project::ID($project_ID)->getInfo('project_name')."]";
+
+
+
+			// Notify the users
+			$users = Page::ID($page_ID)->getUsers();
+			Notify::ID($users)->mail(
+				getUserInfo()['fullName']." added a new page: $page_name[$project_name]",
+				getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new page: $page_name[$project_name] <br>
+				<b>Page URL</b>: $page_url <br><br>
+				<a href='$page_link' target='_blank'>$page_link</a>"
+			);
+
+
+
+			// SHARE - Use share API later !!!
+			if ( count($page_shares) > 0 ) {
+
+				foreach ($page_shares as $user_ID) {
+
+
+					// Don't add the user to the shares if already shared
+					if ( in_array($user_ID, $users) ) continue;
+
+
+					// Share
+					$share_ID = $db->insert('shares', array(
+						"share_type" => 'page',
+						"shared_object_ID" => $page_ID,
+						"share_to" => $user_ID,
+						"sharer_user_ID" => currentUserID()
+					));
+
+
+					// Email notification
+					Notify::ID($user_ID)->mail(
+						getUserInfo()['fullName']." shared the \"$page_name[$project_name]\" page with you.",
+
+						"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['userName'].") shared the \"$page_name[$project_name]\" page with you from Revisionary App. Here is the link to access this page: <br>
+						<a href='$page_link' target='_blank'>$page_link</a>"
+					);
+
+				}
 
 			}
 
-		}
 
 
+			// Site log
+			$log->info("Page #$page_ID Added: $page_name($page_url) | Project #$project_ID | Project Name: '$project_name' | User #".currentUserID());
 
-		// Notify the users
-		if ($page_ID) {
 
-			$users = Page::ID($page_ID)->getUsers();
-			Notify::ID($users)->mail(
-				getUserInfo()['fullName']." added a new page: $page_name",
-				getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new page: $page_name <br>
-				<b>Page URL</b>: $page_url <br><br>
-				".site_url("page/$page_ID")
-			);
 
 		}
-
-
-		// Site log
-		if ($page_ID) $log->info("Page #$page_ID Added: $page_name($page_url) | Project #$project_ID | User #".currentUserID());
 
 
 		return $page_ID;

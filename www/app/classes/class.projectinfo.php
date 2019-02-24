@@ -86,7 +86,7 @@ class Project {
 
 
 	// Get page users
-	public function getUsers() {
+	public function getUsers($include_me = false) {
 		global $db;
 
 
@@ -109,7 +109,7 @@ class Project {
 
 
 		// Exclude myself
-		if ( ($user_key = array_search(currentUserID(), $users)) !== false ) {
+		if ( !$include_me && ($user_key = array_search(currentUserID(), $users)) !== false ) {
 		    unset($users[$user_key]);
 		}
 
@@ -177,49 +177,80 @@ class Project {
 
 
 
-		// SHARE - Use share API later !!!
-		if ( count($project_shares) > 0 ) {
+		// If the project added
+		if ($project_ID) {
 
-			foreach ($project_shares as $user_ID) {
 
-				$share_ID = $db->insert('shares', array(
-					"share_type" => 'project',
-					"shared_object_ID" => $project_ID,
-					"share_to" => $user_ID,
-					"sharer_user_ID" => currentUserID()
+
+			// Get the already shared users
+			$users = $this->getUsers();
+
+
+
+			// SHARE - Use share API later !!!
+			if ( count($project_shares) > 0 ) {
+
+				foreach ($project_shares as $user_ID) {
+
+
+					// Don't add the user to the shares if already shared
+					if ( in_array($user_ID, $users) ) continue;
+
+
+					// Share
+					$share_ID = $db->insert('shares', array(
+						"share_type" => 'project',
+						"shared_object_ID" => $project_ID,
+						"share_to" => $user_ID,
+						"sharer_user_ID" => currentUserID()
+					));
+
+
+					// Email notification
+					Notify::ID($user_ID)->mail(
+						getUserInfo()['fullName']." shared the \"$project_name\" project with you.",
+
+						"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['userName'].") shared the \"$project_name\" project with you from Revisionary App. Here is the link to access this project: <br>
+
+						<a href='".site_url('project/'.$project_ID)."' target='_blank'>".site_url('project/'.$project_ID)."</a>"
+					);
+
+				}
+
+			}
+
+
+
+			// Site log
+			$log->info("Project #$project_ID Added: $project_name($page_url) | User #".currentUserID());
+
+
+
+			// CATEGORIZE
+			if ($category_ID != "0") {
+
+				$cat_ID = $db->insert('project_cat_connect', array(
+					"cat_ID" => $category_ID,
+					"project_ID" => $project_ID,
+					"user_ID" => currentUserID()
 				));
 
 			}
 
-		}
 
 
-		// Site log
-		if ($project_ID) $log->info("Project #$project_ID Added: $project_name($page_url) | User #".currentUserID());
+			// ORDER
+			if ($order_number != "0") {
+
+				$order_ID = $db->insert('projects_order', array(
+					"order_number" => $order_number,
+					"project_ID" => $project_ID,
+					"user_ID" => currentUserID()
+				));
+
+			}
 
 
-
-		// CATEGORIZE
-		if ($category_ID != "0") {
-
-			$cat_ID = $db->insert('project_cat_connect', array(
-				"cat_ID" => $category_ID,
-				"project_ID" => $project_ID,
-				"user_ID" => currentUserID()
-			));
-
-		}
-
-
-
-		// ORDER
-		if ($order_number != "0") {
-
-			$order_ID = $db->insert('projects_order', array(
-				"order_number" => $order_number,
-				"project_ID" => $project_ID,
-				"user_ID" => currentUserID()
-			));
 
 		}
 

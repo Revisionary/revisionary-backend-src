@@ -411,6 +411,52 @@ class User {
 
 
 
+    // Can access?
+    public function canAccess(
+	    int $object_ID,
+	    string $object_type
+    ) {
+
+
+	    // Check the object types
+	    if (
+		    $object_type != "project"
+		    && $object_type != "page"
+		    && $object_type != "device"
+		    && $object_type != "pin"
+	    ) return false;
+
+
+
+	    // Capitalize for the class names
+	    $object_type = ucfirst($object_type);
+
+
+
+		if (class_exists($object_type)) {
+
+			$typeApi = $object_type::ID($object_ID);
+
+			if (method_exists($typeApi, 'getUsers') && $typeApi) {
+
+
+				// Do the action
+				$users = $typeApi->getUsers(true);
+
+
+			} else return false;
+
+		} else return false;
+
+
+
+	    // Check whether or not user can access
+	    return in_array(self::$user_ID, $users);
+
+    }
+
+
+
 
     // ACTIONS:
 
