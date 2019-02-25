@@ -38,6 +38,7 @@
 		<script>
 			var ajax_url = '<?=site_url('ajax')?>';
 			var nonce = '<?=$_SESSION["js_nonce"]?>';
+			var loggedIn = <?=userloggedIn() ? "true" : "false"?>;
 			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
 		</script>
 

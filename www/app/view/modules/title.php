@@ -69,6 +69,7 @@
 
 			if ($title == "projects") {
 
+/*
 			?>
 			<a href="<?=site_url(getUserInfo()['userName'])?>">
 				<i class="fa fa-link"></i> https://revisionaryapp.com/<?=getUserInfo()['userName']?>
@@ -77,6 +78,7 @@
 				<i class="fa fa-globe-americas"></i> <i class="fa fa-caret-down"></i>
 			</a>
 			<?php
+*/
 
 			} else {
 

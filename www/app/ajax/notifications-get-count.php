@@ -9,7 +9,18 @@ $status = "initiated";
 
 
 // If not logged in
-if ( !userloggedIn() ) $status = "not-logged-in";
+if ( !userloggedIn() ) {
+
+	$status = "not-logged-in";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
+}
 
 
 

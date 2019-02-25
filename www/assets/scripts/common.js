@@ -1082,6 +1082,8 @@ function getNewNotificationCount() {
 // Start auto-refresh notifications
 function startNotificationAutoRefresh() {
 
+	if (!loggedIn) return false;
+
 	console.log('AUTO-REFRESH NOTIFICATIONS STARTED');
 
 	notificationAutoRefreshTimer = setInterval(function() {
