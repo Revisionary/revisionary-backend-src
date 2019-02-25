@@ -1,3 +1,9 @@
+// Notification Auto-Refresh
+var notificationAutoRefreshTimer;
+var notificationAutoRefreshInterval = 10000;
+var notificationAutoRefreshRequest = null;
+
+
 $(function() {
 
 
@@ -592,6 +598,34 @@ $(function() {
 
 	});
 
+
+	// Notifications
+	$('.notification-opener').click(function(e) {
+
+		$(this).toggleClass('open');
+
+		e.preventDefault();
+	});
+
+
+	// Refresh Notifications
+	$(document).on('click', '.refresh-notifications', function(e) {
+
+
+		if ( $(this).hasClass('.notification-opener') && ! $(this).hasClass('open') ) return false;
+
+
+		getNotifications(true);
+
+
+		e.preventDefault();
+	});
+
+
+	// Start auto checking notifications
+	startNotificationAutoRefresh();
+
+
 });
 
 
@@ -963,6 +997,7 @@ function getNotifications(markAsRead = false) {
 }
 
 
+// Mark "read" all notifications
 function readNotifications() {
 
 
@@ -996,6 +1031,7 @@ function readNotifications() {
 }
 
 
+// Get notification count
 function getNewNotificationCount() {
 
 
@@ -1039,6 +1075,44 @@ function getNewNotificationCount() {
 
 	return true;
 
+
+}
+
+
+// Start auto-refresh notifications
+function startNotificationAutoRefresh() {
+
+	console.log('AUTO-REFRESH NOTIFICATIONS STARTED');
+
+	notificationAutoRefreshTimer = setInterval(function() {
+
+		console.log('Auto checking the notifications...');
+
+
+		// Abort the latest request if not finalized
+		if(notificationAutoRefreshRequest && notificationAutoRefreshRequest.readyState != 4) {
+			console.log('Latest request aborted');
+			notificationAutoRefreshRequest.abort();
+		}
+
+
+		// Get the up-to-date pins
+		getNewNotificationCount();
+
+
+	}, notificationAutoRefreshInterval);
+
+}
+
+
+// Stop auto-refresh
+function stopNotificationAutoRefresh() {
+
+	console.log('AUTO-REFRESH NOTIFICATIONS STOPPED');
+
+	if (notificationAutoRefreshRequest) notificationAutoRefreshRequest.abort();
+
+	clearInterval(notificationAutoRefreshTimer);
 
 }
 

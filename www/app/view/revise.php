@@ -442,6 +442,23 @@
 			</span>
 
 		</div>
+		<div class="col notifications-wrapper">
+
+			<?php
+				$notification_count = Notification::ID()->getCount();
+			?>
+
+			<a href="#" class="button notification-opener refresh-notifications">
+
+				<i class="fa fa-bell"></i>
+				<div class="notif-no <?=$notification_count == 0 ? "hide" : ""?>"><?=$notification_count?></div>
+
+			</a>
+			<ul class="notifications xl-left">
+
+			</ul>
+
+		</div>
 		<div class="col pins tab-container open">
 
 			<a href="#" class="button opener open">PINS <i class="fa fa-list-ul"></i></a>

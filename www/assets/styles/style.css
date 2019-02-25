@@ -5370,7 +5370,6 @@ a {
 .notifications-wrapper {
   position: relative; }
   .notifications-wrapper .notification-opener {
-    font-size: 20px !important;
     position: relative; }
     .notifications-wrapper .notification-opener.open {
       color: #007acc !important; }
@@ -5378,7 +5377,7 @@ a {
 .notifications {
   display: none;
   background-color: white;
-  border: 1px solid;
+  border: 1px solid black;
   padding: 0;
   list-style-type: none;
   border-radius: 10px;
@@ -5397,7 +5396,8 @@ a {
     padding: 5px 10px;
     font-size: 12px;
     line-height: 15px;
-    text-align: center; }
+    text-align: center;
+    color: black; }
     .notifications > li:last-child {
       border-bottom: none; }
     .notifications > li.new {
@@ -5414,7 +5414,7 @@ a {
         background-color: red;
         transform: translateY(-50%); }
     .notifications > li a {
-      color: #007acc; }
+      color: #007acc !important; }
     .notifications > li .image {
       width: 25px; }
       .notifications > li .image picture {

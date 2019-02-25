@@ -18,16 +18,9 @@ if ($allRead) $status = "success";
 
 
 
-
 // CREATE THE RESPONSE
-$data = array(
-
+die(json_encode(array(
 	'status' => $status,
 	'nonce' => request('nonce')
 	//'S_nonce' => $_SESSION['pin_nonce'],
-
-);
-
-die(json_encode(array(
-  'data' => $data
 )));

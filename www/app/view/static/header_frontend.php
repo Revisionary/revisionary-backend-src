@@ -55,7 +55,7 @@
 
 
 
-							<a href="#" class="notification-opener refresh-notifications">
+							<a href="#" class="notification-opener refresh-notifications" style="font-size: 20px;">
 
 								<i class="fa fa-bell"></i>
 								<div class="notif-no <?=$notification_count == 0 ? "hide" : ""?>"><?=$notification_count?></div>

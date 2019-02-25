@@ -14,21 +14,14 @@ if ( !userloggedIn() ) $status = "not-logged-in";
 
 
 $count = Notification::ID()->getCount();
-if ($count) $status = "success";
-
+$status = $count > 0 ? "new-notifications" : "no-new";
 
 
 
 // CREATE THE RESPONSE
-$data = array(
-
+die(json_encode(array(
 	'status' => $status,
+	'newcount' => $count,
 	'nonce' => request('nonce')
 	//'S_nonce' => $_SESSION['pin_nonce'],
-
-);
-
-die(json_encode(array(
-  'data' => $data,
-  'newcount' => $count
 )));
