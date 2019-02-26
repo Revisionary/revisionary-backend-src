@@ -189,7 +189,7 @@
 											?>
 
 											<!-- Owner -->
-											<a href="<?=site_url($block_user['userName'])?>"
+											<picture class="profile-picture" <?=$block_user['printPicture']?>
 												data-tooltip="<?=$block_user['fullName']?>"
 												data-mstatus="owner"
 												data-fullname="<?=$block_user['fullName']?>"
@@ -199,10 +199,8 @@
 												data-userid="<?=$block_user_ID?>"
 												data-unremoveable="unremoveable"
 											>
-												<picture class="profile-picture" <?=$block_user['printPicture']?>>
-													<span <?=$block_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$block_user['nameAbbr']?></span>
-												</picture>
-											</a>
+												<span <?=$block_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$block_user['nameAbbr']?></span>
+											</picture>
 
 
 											<?php
@@ -240,7 +238,7 @@
 														$shared_user = getUserInfo($shared_user_ID);
 												?>
 
-											<a href="<?=site_url($shared_user['userName'])?>"
+											<picture class="profile-picture" <?=$shared_user['printPicture']?>
 												data-tooltip="<?=$shared_user['fullName']?>"
 												data-mstatus="user"
 												data-fullname="<?=$shared_user['fullName']?>"
@@ -250,16 +248,16 @@
 												data-userid="<?=$shared_user_ID?>"
 												data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 											>
-												<picture class="profile-picture" <?=$shared_user['printPicture']?>>
-													<span <?=$shared_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$shared_user['nameAbbr']?></span>
-												</picture>
-											</a>
+												<span <?=$shared_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$shared_user['nameAbbr']?></span>
+											</picture>
+
 												<?php
 
 													} else {
 
 												?>
-											<a href="#"
+
+											<picture class="profile-picture email"
 												data-tooltip="<?=$shared_user_ID?>"
 												data-mstatus="email"
 												data-fullname=""
@@ -269,10 +267,8 @@
 												data-userid="<?=$shared_user_ID?>"
 												data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 											>
-												<picture class="profile-picture email">
-													<i class="fa fa-envelope"></i>
-												</picture>
-											</a>
+												<i class="fa fa-envelope"></i>
+											</picture>
 
 												<?php
 

@@ -8,3 +8,5 @@ The new live feedback tool for live websites. You can change any website as you 
 * $ git clone https://github.com/bilaltas/revisionary.git && cd revisionary
 * $ sudo bash start
 * Type 'local' or 'remote' and hit enter.
+
+Note: Don't forget to update SMTP credentials and rebuild the site.

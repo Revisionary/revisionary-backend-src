@@ -5665,34 +5665,23 @@ figure.profile-picture {
     display: none; }
 
 picture.profile-picture {
-  width: 20px;
-  height: 20px;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 0;
+  font-size: 12px;
+  line-height: 25px;
+  font-weight: normal;
+  text-align: center;
+  text-transform: uppercase;
+  width: 25px;
+  height: 25px;
+  margin: 0 2px;
   border: 2px solid black;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-size: cover;
   border-radius: 50%;
-  position: relative; }
-  picture.profile-picture.email i {
-    font-size: 10px;
-    position: relative;
-    top: -6px;
-    left: 4px; }
-  picture.profile-picture span {
-    font-weight: normal;
-    font-size: 15px;
-    line-height: 20px;
-    text-align: center;
-    text-transform: uppercase;
-    width: 100%;
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: 0; }
-    picture.profile-picture span.has-pic {
-      display: none; }
+  box-sizing: border-box; }
+  picture.profile-picture span.has-pic {
+    display: none; }
   picture.profile-picture.square {
     border-radius: 0;
     border-width: 2px; }
@@ -5702,9 +5691,8 @@ picture.profile-picture {
     border-width: 1px;
     margin-left: 20px;
     margin-right: 0px;
-    margin-bottom: -12px; }
-    picture.profile-picture.big span {
-      line-height: 40px; }
+    margin-bottom: -12px;
+    display: inline-block; }
 
 .notif-no {
   font-size: 8px;
@@ -6470,16 +6458,13 @@ footer .footer-links a {
       min-height: inherit; }
       .blocks > .block .box .overlay * {
         color: white; }
-      .blocks > .block .box .overlay .people a {
-        display: inline-block;
-        line-height: 21px; }
-        .blocks > .block .box .overlay .people a picture {
-          margin: 0;
-          width: 18px;
-          height: 18px;
-          border-color: white; }
-          .blocks > .block .box .overlay .people a picture > span {
-            font-size: 10px; }
+      .blocks > .block .box .overlay .people > * {
+        margin: 0;
+        width: 20px;
+        height: 20px;
+        line-height: 17px;
+        font-size: 10px;
+        border-color: white; }
       .blocks > .block .box .overlay .pages {
         display: inline-block;
         position: relative; }

@@ -63,7 +63,7 @@
 			</ul>
 		</div>
 
-		<div class="under-main-title <?=$title == "projects" ? "public-link" : ""?>" <?=$title == "projects" ? "data-tooltip='Coming Soon...'" : ""?>>
+		<div class="wrap xl-center xl-flexbox xl-middle xl-gutter-8 under-main-title <?=$title == "projects" ? "public-link" : ""?>" <?=$title == "projects" ? "data-tooltip='Coming Soon...'" : ""?>>
 
 			<?php
 
@@ -84,104 +84,104 @@
 
 			?>
 
-			<a class="member-selector" href="#" data-modal="share" data-type="project" data-id="<?=$project_ID?>" data-object-name="<?=$projectInfo['project_name']?>" data-iamowner="<?=$projectInfo['user_ID'] == currentUserID() ? "yes" : "no"?>" data-tooltip="Share this project">
-				<i class="fa fa-share-alt"></i>
-			</a>
+			<div class="col">
 
-			<span class="people" data-type="project" data-id="<?=$project_ID?>">
+				<a href="#" data-modal="share" data-type="project" data-id="<?=$project_ID?>" data-object-name="<?=$projectInfo['project_name']?>" data-iamowner="<?=$projectInfo['user_ID'] == currentUserID() ? "yes" : "no"?>" data-tooltip="Share this project">
+					<i class="fa fa-share-alt"></i>
+				</a>
 
-				<?php
-				$project_user_ID = $projectInfo['user_ID'];
-				$project_user = getUserInfo($project_user_ID);
-				?>
+			</div>
+			<div class="col" data-type="project" data-id="<?=$project_ID?>">
 
-				<!-- Owner -->
-				<a href="<?=site_url($project_user['userName'])?>"
-					data-tooltip="<?=$project_user['fullName']?>"
-					data-mstatus="owner"
-					data-fullname="<?=$project_user['fullName']?>"
-					data-nameabbr="<?=$project_user['nameAbbr']?>"
-					data-email="<?=$project_user['email']?>"
-					data-avatar="<?=$project_user['userPicUrl']?>"
-					data-userid="<?=$project_user_ID?>"
-					data-unremoveable="unremoveable"
-				>
-					<picture class="profile-picture" <?=$project_user['printPicture']?>>
+				<div class="wrap xl-flexbox">
+
+					<?php
+					$project_user_ID = $projectInfo['user_ID'];
+					$project_user = getUserInfo($project_user_ID);
+					?>
+
+					<!-- Owner -->
+					<picture class="col profile-picture" <?=$project_user['printPicture']?>
+						data-tooltip="<?=$project_user['fullName']?>"
+						data-mstatus="owner"
+						data-fullname="<?=$project_user['fullName']?>"
+						data-nameabbr="<?=$project_user['nameAbbr']?>"
+						data-email="<?=$project_user['email']?>"
+						data-avatar="<?=$project_user['userPicUrl']?>"
+						data-userid="<?=$project_user_ID?>"
+						data-unremoveable="unremoveable"
+					>
 						<span <?=$project_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$project_user['nameAbbr']?></span>
 					</picture>
-				</a>
 
-
-				<?php
-				foreach ($projectShares as $share) {
-
-					// Don't show the shared people who I didn't share to and whom shared by a person I didn't share with. :O
-					if (
-						$project_user_ID == currentUserID() &&
-						$share['sharer_user_ID'] != currentUserID()
-					) {
-
-						$projectSharedToSharer = array_search($share['sharer_user_ID'], array_column($projectShares, 'share_to'));
-						if ( $projectSharedToSharer === false ) continue;
-
-					}
-
-				?>
 
 					<?php
-						$shared_user_ID = $share['share_to'];
+					foreach ($projectShares as $share) {
 
-						if ( is_numeric($share['share_to']) ) {
-							$shared_user = getUserInfo($shared_user_ID);
-					?>
+						// Don't show the shared people who I didn't share to and whom shared by a person I didn't share with. :O
+						if (
+							$project_user_ID == currentUserID() &&
+							$share['sharer_user_ID'] != currentUserID()
+						) {
 
-				<a href="<?=site_url($shared_user['userName'])?>"
-					data-tooltip="<?=$shared_user['fullName']?>"
-					data-mstatus="user"
-					data-fullname="<?=$shared_user['fullName']?>"
-					data-nameabbr="<?=$shared_user['nameAbbr']?>"
-					data-email="<?=$shared_user['email']?>"
-					data-avatar="<?=$shared_user['userPicUrl']?>"
-					data-userid="<?=$shared_user_ID?>"
-					data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
-				>
-					<picture class="profile-picture" <?=$shared_user['printPicture']?>>
-                        <span <?=$shared_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$shared_user['nameAbbr']?></span>
-					</picture>
-				</a>
-					<?php
-
-						} else {
-
-					?>
-				<a href="#"
-					data-tooltip="<?=$shared_user_ID?>"
-					data-mstatus="email"
-					data-fullname=""
-					data-nameabbr=""
-					data-email="<?=$shared_user_ID?>"
-					data-avatar=""
-					data-userid="<?=$shared_user_ID?>"
-					data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
-				>
-					<picture class="profile-picture email">
-						<i class="fa fa-envelope"></i>
-					</picture>
-				</a>
-
-					<?php
+							$projectSharedToSharer = array_search($share['sharer_user_ID'], array_column($projectShares, 'share_to'));
+							if ( $projectSharedToSharer === false ) continue;
 
 						}
 
 					?>
 
+						<?php
+							$shared_user_ID = $share['share_to'];
 
-				<?php
-				}
-				?>
+							if ( is_numeric($share['share_to']) ) {
+								$shared_user = getUserInfo($shared_user_ID);
+						?>
+
+					<picture class="col profile-picture" <?=$shared_user['printPicture']?>
+						data-tooltip="<?=$shared_user['fullName']?>"
+						data-mstatus="user"
+						data-fullname="<?=$shared_user['fullName']?>"
+						data-nameabbr="<?=$shared_user['nameAbbr']?>"
+						data-email="<?=$shared_user['email']?>"
+						data-avatar="<?=$shared_user['userPicUrl']?>"
+						data-userid="<?=$shared_user_ID?>"
+						data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
+					>
+	                    <span <?=$shared_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$shared_user['nameAbbr']?></span>
+					</picture>
+						<?php
+
+							} else {
+
+						?>
+					<picture class="col profile-picture email"
+						data-tooltip="<?=$shared_user_ID?>"
+						data-mstatus="email"
+						data-fullname=""
+						data-nameabbr=""
+						data-email="<?=$shared_user_ID?>"
+						data-avatar=""
+						data-userid="<?=$shared_user_ID?>"
+						data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
+					>
+						<i class="fa fa-envelope"></i>
+					</picture>
+
+						<?php
+
+							}
+
+						?>
 
 
-			</span>
+					<?php
+					}
+					?>
+
+				</div>
+
+			</div>
 
 			<?php
 

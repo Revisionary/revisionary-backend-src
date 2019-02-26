@@ -1007,44 +1007,30 @@ figure.profile-picture {
 }
 
 picture.profile-picture {
-	width: 20px;
-    height: 20px;
-    margin-left: 0;
-    margin-right: 0;
-    margin-bottom: 0;
+    font-size: 12px;
+    line-height: 25px;
+	font-weight: normal;
+	text-align: center;
+	text-transform: uppercase;
+
+    width: 25px;
+    height: 25px;
+    margin: 0 2px;
     border: 2px solid $color;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background-size: cover;
     border-radius: 50%;
-    position: relative;
+    box-sizing: border-box;
+
 
     &.email {
 
-
-	    i {
-			font-size: 10px;
-			position: relative;
-			top: -6px;
-			left: 4px;
-	    }
-
     }
 
-    span {
-		font-weight: normal;
-	    font-size: 15px;
-	    line-height: 20px;
-	    text-align: center;
-	    text-transform: uppercase;
-	    width: 100%;
-	    display: inline-block;
-	    position: absolute;
-	    top: 0;
-	    left: 0;
-
-	    &.has-pic {
-		    display: none;
-	    }
+    span.has-pic {
+		display: none;
     }
 
 	&.square {
@@ -1059,10 +1045,7 @@ picture.profile-picture {
 	    margin-left: 20px;
 	    margin-right: 0px;
 		margin-bottom: -12px;
-
-		span {
-			line-height: 40px;
-		}
+		display: inline-block;
 	}
 }
 
@@ -2231,21 +2214,16 @@ footer {
 			    }
 
 			    .people {
-					a {
-						display: inline-block;
-						line-height: 21px;
 
-						picture {
-							margin: 0;
-							width: 18px;
-							height: 18px;
-							border-color: white;
-
-							& > span {
-								font-size: 10px;
-							}
-						}
+					& > * {
+						margin: 0;
+						width: 20px;
+						height: 20px;
+						line-height: 17px;
+						font-size: 10px;
+						border-color: white;
 					}
+
 			    }
 
 			    .pages {
