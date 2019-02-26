@@ -178,17 +178,20 @@ class User {
 
 
     // Get notifications
-    public function getNotifications() {
+    public function getNotifications($offset = 0, $limit = 10) {
 		global $db;
 
 
 		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
 		$db->where('con.user_ID', self::$user_ID);
 		$db->orderBy("notification_time", "DESC");
-		$notifications = $db->get("notifications n");
+		$notifications = $db->withTotalCount()->get("notifications n", array($offset, $limit));
 
 
-	    return $notifications;
+	    return array(
+		    'notifications' => $notifications,
+		    'totalCount' => $db->totalCount
+	    );
     }
 
 

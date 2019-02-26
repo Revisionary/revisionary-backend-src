@@ -7,7 +7,6 @@ $status = "initiated";
 // if ( request("nonce") !== $_SESSION["pin_nonce"] ) return;
 
 
-
 // If not logged in
 if ( !userloggedIn() ) {
 
@@ -23,8 +22,11 @@ if ( !userloggedIn() ) {
 }
 
 
+$offset = 0; // !!!
 
-$notifications = Notification::ID()->getHTML();
+
+
+$notifications = Notification::ID()->getHTML($offset);
 if ($notifications) $status = "success";
 
 
@@ -32,8 +34,7 @@ if ($notifications) $status = "success";
 // CREATE THE RESPONSE
 die(json_encode(array(
 	'status' => $status,
-	'notifications' => $notifications['html'],
-	'newcount' => $notifications['count'],
+	'notifications' => $notifications,
 	'nonce' => request('nonce')
 	//'S_nonce' => $_SESSION['pin_nonce'],
 )));

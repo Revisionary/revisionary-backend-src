@@ -958,17 +958,10 @@ function getNotifications(markAsRead = false) {
 
 		console.log('RESULT: ', result);
 		var notificationsHTML = result.notifications;
-		var newCount = result.newcount;
 
 
 		// Apply to DOM
 		$('.notifications').html(notificationsHTML).removeClass('loading');
-
-
-		// Update the count
-		$('.notification-opener .notif-no').text(newCount);
-		if (newCount == 0) $('.notification-opener .notif-no').addClass('hide');
-		else $('.notification-opener .notif-no').removeClass('hide');
 
 
 		// Mark all as read
@@ -1001,8 +994,23 @@ function getNotifications(markAsRead = false) {
 function readNotifications() {
 
 
+	var IDsToRead = [];
+
+
+	// Select all the notifications that's shown now
+	$('.notifications > li.new[data-type="notification"]').each(function() {
+
+		var notification_ID = $(this).attr('data-id');
+
+		IDsToRead.push(notification_ID);
+
+	});
+
+
+	// Send data
 	ajax('notifications-read', {
 
+		'notification_IDs' : IDsToRead,
 		'nonce'	: nonce
 
 	}).done(function(result) {
@@ -1015,8 +1023,12 @@ function readNotifications() {
 		$('.notifications > li').removeClass('new');
 
 
+		var currentNotifNumber = parseInt( $('.notification-opener .notif-no').text() );
+		var newNotifNumber = currentNotifNumber - IDsToRead.length;
+
+
 		// Update the count
-		$('.notification-opener .notif-no').text(0).addClass('hide');
+		$('.notification-opener .notif-no').text(newNotifNumber).addClass( newNotifNumber == 0 ? "hide" : "" );
 
 
 	}).fail(function(e) {

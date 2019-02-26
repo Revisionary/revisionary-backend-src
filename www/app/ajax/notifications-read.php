@@ -23,8 +23,23 @@ if ( !userloggedIn() ) {
 }
 
 
+// If ID's not array
+if ( !is_array(request('notification_IDs')) ) {
 
-$allRead = Notification::ID()->readAll();
+	$status = "list-problem";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
+}
+
+
+
+$allRead = Notification::ID( request('notification_IDs') )->readAll();
 if ($allRead) $status = "success";
 
 

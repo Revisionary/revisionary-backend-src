@@ -41,6 +41,15 @@ class Notification {
 		}
 
 
+	    // List of notifications
+		if ( is_array($notification_ID) && count($notification_ID) > 0) {
+
+			self::$notification_ID = $notification_ID;
+			return new static;
+
+		}
+
+
 	    // For the new pin
 		if ($notification_ID == "new" || $notification_ID == 0) {
 
@@ -70,7 +79,7 @@ class Notification {
     // ACTIONS
 
     // Get the notifications HTML
-    public function getHTML() {
+    public function getHTML($offset = 0) {
 	    global $db;
 
 
@@ -80,9 +89,11 @@ class Notification {
 
 
 		// Get notifications
-		$notifications = User::ID()->getNotifications();
+		$notificationData = User::ID()->getNotifications($offset);
+		$notifications = $notificationData['notifications'];
 		$newNotifications = array_filter($notifications, function($value) { return $value['notification_read'] == 0; });
-		$notificationsCount = count($newNotifications);
+		$newNotificationsCount = count($newNotifications);
+		$totalNotifications = $notificationData['totalCount'];
 
 
 		// If there is no notifications
@@ -103,7 +114,7 @@ class Notification {
 
 			$notificationHTML .= '
 
-			<li class="'.($notificationNew ? "new" : "").'">
+			<li class="'.($notificationNew ? "new" : "").'" data-type="notification" data-id="'.$notification['notification_ID'].'">
 
 				<div class="wrap xl-table xl-middle">
 					<div class="col image">
@@ -127,10 +138,7 @@ class Notification {
 		}
 
 
-		return array(
-			'count' => $notificationsCount,
-			'html' => $notificationHTML
-		);
+		return $notificationHTML;
 
     }
 
@@ -157,6 +165,8 @@ class Notification {
 		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
 		$db->where('con.user_ID', currentUserID());
 		$db->where('con.notification_read', 0);
+
+		if ( is_array(self::$notification_ID) ) $db->where('n.notification_ID', self::$notification_ID, "IN");
 
 		$allRead = $db->update("notifications n", array(
 			"notification_read" => 1

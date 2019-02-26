@@ -1,21 +1,22 @@
 <pre>
 <?php
 
+$notifications = User::ID()->getNotifications();
 
-//var_dump( User::ID()->canAccess(33, "pin") );
+die_to_print($db->totalCount);
 
-//exit;
+var_dump( $notifications );
+
+exit;
 
 $i = 0;
 while ($i < 10) { $i++;
 
 
-	var_dump( User::ID($i)->canAccess(33, "pin") );
+	//var_dump( User::ID($i)->canAccess(33, "pin") );
 
-/*
 	Notify::ID(6)->web("sent test notification $i", "pin", 1);
 	sleep(2);
-*/
 
 }
 
