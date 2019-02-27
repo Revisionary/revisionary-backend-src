@@ -140,8 +140,20 @@ class Project {
 
 
 		// Add the domain name as project name if not already entered
-		if ($project_name == "" && $page_url != "")
-			$project_name = ucwords( str_replace('-', ' ', explode('.', parseUrl($page_url)['domain'])[0]) );
+		if ($project_name == "" && $page_url != "") {
+
+			$parsedURL = parseUrl($page_url);
+
+			$project_name = ucwords( str_replace('-', ' ', explode('.', $parsedURL['domain'])[0]) );
+
+			if ( $parsedURL['subdomain'] != "" && $parsedURL['subdomain'] != "www" && $project_name != "" ) {
+
+				$project_name = ucfirst($parsedURL['subdomain'])." $project_name";
+
+			}
+
+		}
+
 
 
 		// If still empty
