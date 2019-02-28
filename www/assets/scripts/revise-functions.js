@@ -1492,7 +1492,7 @@ function removePin(pin_ID) {
 	if (pin) {
 
 		// Revert the changes
-		revertChanges([pin.pin_element_index]);
+		revertChanges([], [pin]);
 
 
 		// Delete from the list
@@ -1628,7 +1628,7 @@ function convertPin(pin_ID, targetPin) {
 	// If the new type is standard, reset the modifications
 	if (pinType == "standard") {
 
-		revertChanges([elementIndex]);
+		revertChanges([], [pin]);
 
 		Pins[pinIndex].pin_modification_type = null;
 		Pins[pinIndex].pin_modification = null;
@@ -2643,7 +2643,7 @@ function applyChanges(showingOriginal = []) {
 
 
 		// CSS CODES:
-		if ( pin.pin_css != null ) updateCSS(pin.pin_ID, element_index, pin.pin_css);
+		if ( pin.pin_css != null ) updateCSS(pin.pin_ID, pin.pin_css);
 
 
 
@@ -2760,7 +2760,7 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 
 
 		// Revert the CSS
-		iframeElement('style[data-index="'+ pin.pin_element_index +'"]').remove();
+		revertCSS(pin.pin_ID);
 
 
 		// Skip standard and unmodified pins
@@ -2924,13 +2924,12 @@ function resetContent(pin_ID) {
 
     // Update from the Pins global
 	var pin = getPin(pin_ID);
-	var pinIndex = Pins.indexOf(pin);
 	var element_index = pin.pin_element_index;
 
 
 
 	// Revert the changes
-	revertChanges([element_index]);
+	revertChanges([], [pin]);
 
 
 	// Delete the changes
@@ -3018,7 +3017,7 @@ function removeImage(pin_ID, element_index) {
 
 
 	// Revert the modification for the image
-	revertChanges([element_index]);
+	revertChanges([], [pin]);
 
 
     // Update from the Pins global
@@ -3108,23 +3107,26 @@ function saveCSS(pin_ID, css) {
 
 
 // Update CSS
-function updateCSS(pin_ID, element_index, cssCodes) {
+function updateCSS(pin_ID, cssCodes) {
+
+
+	var pin = getPin(pin_ID);
 
 
 	// Mark the old one
-	iframeElement('style[data-index="'+ element_index +'"]').addClass('old');
+	iframeElement('style[data-index="'+ pin.pin_element_index +'"]').addClass('old');
 
 
 	// Add the new CSS codes
-	iframeElement('body').append('<style data-index="'+ element_index +'" data-pin-id="'+ pin_ID +'">[data-revisionary-index="'+ element_index +'"]{'+ cssCodes +'}</style>');
+	iframeElement('body').append('<style data-index="'+ pin.pin_element_index +'" data-pin-id="'+ pin_ID +'">[data-revisionary-index="'+ pin.pin_element_index +'"]{'+ cssCodes +'}</style>');
 
 
 	// Remove the old ones
-	iframeElement('style.old[data-index="'+ element_index +'"]').remove();
+	iframeElement('style.old[data-index="'+ pin.pin_element_index +'"]').remove();
 
 
 	// Update the changed status
-	pinWindow(element_index, true).attr('data-changed', (cssCodes != null ? "yes" : "no"));
+	pinWindow(pin.pin_element_index, true).attr('data-changed', (cssCodes != null ? "yes" : "no"));
 
 
 }
@@ -3169,6 +3171,18 @@ function toggleCSS(pin_ID) {
 
 
 	}
+
+}
+
+
+// Revert CSS
+function revertCSS(pin_ID) {
+
+	console.log('REMOVING CSS FOR: #', pin_ID);
+
+	var pin = getPin(pin_ID);
+
+	return iframeElement('style[data-index="'+ pin.pin_element_index +'"][data-pin-id="'+ pin.pin_ID +'"]').remove();
 
 }
 
