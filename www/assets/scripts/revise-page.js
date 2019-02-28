@@ -831,7 +831,7 @@ $(function() {
 
 
 		// Hide the cursor
-		cursor.stop().fadeOut();
+		toggleCursorActive(true, false, false);
 
 
 		// Clear all outlines
@@ -917,7 +917,7 @@ $(function() {
 
 
 		// Show the cursor
-		if (cursorActive && !pinDragging) cursor.stop().fadeIn();
+		if (cursorActive && !pinDragging) toggleCursorActive(false, true, false);
 
 
 		e.preventDefault();

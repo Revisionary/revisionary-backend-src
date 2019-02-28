@@ -1033,11 +1033,11 @@ function switchCursorType(cursorType, pinPrivate = currentPinPrivate, existing =
 
 
 // Toggle Inspect Mode
-function toggleCursorActive(forceClose = false, forceOpen = false) {
+function toggleCursorActive(forceClose = false, forceOpen = false, pinWindow = true) {
 
 
-	cursor.stop();
-	var cursorVisible = cursor.is(":visible");
+	//cursor.stop();
+	var cursorVisible = cursor.hasClass("active");
 
 
 	// Remove outlines from iframe
@@ -1059,7 +1059,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 		$('.pin-mode .dropdown > ul').hide();
 
 		// Hide the cursor
-		if (cursorVisible) cursor.fadeOut();
+		if (cursorVisible) cursor.removeClass('active');
 
 		// Show the original cursor
 		iframeElement('#revisionary-cursor').remove();
@@ -1083,7 +1083,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 		// Show the cursor
-		if (!cursorVisible && !pinWindowOpen) cursor.fadeIn();
+		if (!cursorVisible && !pinWindowOpen) cursor.addClass('active');
 
 		// Hide the original cursor
 		if ( !iframeElement('#revisionary-cursor').length )
@@ -1100,7 +1100,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 	// Close the open pin window
-	if (pinWindowOpen) closePinWindow();
+	if (pinWindowOpen && pinWindow) closePinWindow();
 
 }
 
@@ -1515,6 +1515,10 @@ function removePin(pin_ID) {
 
 	// Re-Index the pin counts
 	reindexPins();
+
+
+	// Unhover
+	hoveringPin = false;
 
 
 

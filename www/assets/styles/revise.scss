@@ -562,19 +562,6 @@ html, body {
 }
 
 
-/* Mouse Cursor */
-.mouse-cursor {
-	user-select: none !important;
-	pointer-events: none !important;
-	border: 0.5px solid;
-
-	&.existing {
-		background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAALElEQVQYV2NkwAJEptr7MqKLgwTfZB/cjCIBEwQphksgC8Il0AXBEtgEQRIAbs0VPBlQrL8AAAAASUVORK5CYII=);
-		background-color: #fff;
-	}
-}
-
-
 /* Pins */
 #pins {
 	position: absolute;

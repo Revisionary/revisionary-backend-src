@@ -5812,12 +5812,20 @@ pin {
       opacity: 0; }
   pin.mouse-cursor {
     position: absolute;
-    transition: none;
-    cursor: none;
-    pointer-events: none;
+    cursor: none !important;
+    pointer-events: none !important;
+    border: 0.5px solid;
     border-top-left-radius: 0;
     color: black;
-    background-color: white; }
+    background-color: white;
+    user-select: none !important;
+    transition: opacity 500ms;
+    opacity: 0; }
+    pin.mouse-cursor.active {
+      opacity: 1; }
+    pin.mouse-cursor.existing {
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAALElEQVQYV2NkwAJEptr7MqKLgwTfZB/cjCIBEwQphksgC8Il0AXBEtgEQRIAbs0VPBlQrL8AAAAASUVORK5CYII=);
+      background-color: #fff; }
 
 .dark-color {
   color: black; }
