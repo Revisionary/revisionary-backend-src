@@ -2643,7 +2643,7 @@ function applyChanges(showingOriginal = []) {
 
 
 		// CSS CODES:
-		if ( pin.pin_css != null ) updateCSS(element_index, pin.pin_css);
+		if ( pin.pin_css != null ) updateCSS(pin.pin_ID, element_index, pin.pin_css);
 
 
 
@@ -3108,7 +3108,7 @@ function saveCSS(pin_ID, css) {
 
 
 // Update CSS
-function updateCSS(element_index, cssCodes) {
+function updateCSS(pin_ID, element_index, cssCodes) {
 
 
 	// Mark the old one
@@ -3116,7 +3116,7 @@ function updateCSS(element_index, cssCodes) {
 
 
 	// Add the new CSS codes
-	iframeElement('body').append('<style data-index="'+ element_index +'">[data-revisionary-index="'+ element_index +'"]{'+ cssCodes +'}</style>');
+	iframeElement('body').append('<style data-index="'+ element_index +'" data-pin-id="'+ pin_ID +'">[data-revisionary-index="'+ element_index +'"]{'+ cssCodes +'}</style>');
 
 
 	// Remove the old ones

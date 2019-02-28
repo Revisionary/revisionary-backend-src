@@ -641,7 +641,7 @@ $(function() {
 
 
 		// Instant update the CSS
-		updateCSS(elementIndex, cssCode);
+		updateCSS(pin_ID, elementIndex, cssCode);
 
 
 		// Remove unsent job
