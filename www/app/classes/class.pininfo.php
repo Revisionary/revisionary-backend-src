@@ -800,7 +800,7 @@ class Pin {
 			$beforeImage = "<img src='$before_screenshot' style='border: 2px dashed red; max-width: 100%;'><br><br>";
 		}
 
-		if ($before_screenshot == $after_screenshot) {
+		if ($before_screenshot == $after_screenshot || ($before_screenshot == "" && $after_screenshot != "") ) {
 
 			$beforeTitle = $beforeImage = "";
 			$afterTitle = "<h3 style='margin-bottom: 5px'>Screenshot</h3>";

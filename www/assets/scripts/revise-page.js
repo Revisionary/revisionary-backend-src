@@ -831,7 +831,7 @@ $(function() {
 
 
 		// Hide the cursor
-		toggleCursorActive(true, false, false);
+		cursor.removeClass('active');
 
 
 		// Clear all outlines
@@ -911,13 +911,16 @@ $(function() {
 
 		//console.log('MOUSE OUT FROM PIN!', pinDragging);
 
+
 		hoveringPin = false;
 
+
+		// Clear all outlines
 		removeOutline();
 
 
 		// Show the cursor
-		if (cursorActive && !pinDragging) toggleCursorActive(false, true, false);
+		if (cursorActive && !pinDragging) cursor.addClass('active');
 
 
 		e.preventDefault();

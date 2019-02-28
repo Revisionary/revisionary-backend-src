@@ -1033,7 +1033,7 @@ function switchCursorType(cursorType, pinPrivate = currentPinPrivate, existing =
 
 
 // Toggle Inspect Mode
-function toggleCursorActive(forceClose = false, forceOpen = false, pinWindow = true) {
+function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 	//cursor.stop();
@@ -1100,7 +1100,13 @@ function toggleCursorActive(forceClose = false, forceOpen = false, pinWindow = t
 
 
 	// Close the open pin window
-	if (pinWindowOpen && pinWindow) closePinWindow();
+	if (pinWindowOpen) closePinWindow();
+
+}
+
+
+// Hide cursor
+function hideCursor() {
 
 }
 
