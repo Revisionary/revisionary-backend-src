@@ -2157,9 +2157,8 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 			// Background Image
-			if (property == "background-image") {
+			if (property == "background-image")
 				value = value.replace('url(','').replace(')','').replace(/\"/gi, "");
-			}
 
 
 			// Update the main options
@@ -2177,7 +2176,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 			// Check for the changed status
 			var editedSign = '<i class="fa fa-circle edited-sign particular"></i>';
-			if ( pin.pin_css != null && pin.pin_css.includes(property + ": " + value) )
+			if ( pin.pin_css != null && (pin.pin_css.includes(property + ": " + value) || pin.pin_css.includes(property + ": url(" + value + ")")) )
 				$(propertyElement).attr('data-changed', 'yes').parents('.main-option').addClass('changed');
 
 		});
