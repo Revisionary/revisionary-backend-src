@@ -2044,6 +2044,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 		var thePinModified = thePin.attr('data-revisionary-edited');
 		var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
 		var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
+		var pinCSS = getCSS(theIndex);
 
 
 		// Previous state of window
@@ -2176,7 +2177,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 			// Check for the changed status
 			var editedSign = '<i class="fa fa-circle edited-sign particular"></i>';
-			if ( pin.pin_css != null && (pin.pin_css.includes(property + ": " + value) || pin.pin_css.includes(property + ": url(" + value + ")")) )
+			if ( pinCSS.includes(property + ":" + value) || pinCSS.includes(property + ":url(" + value + ")") )
 				$(propertyElement).attr('data-changed', 'yes').parents('.main-option').addClass('changed');
 
 		});
@@ -3167,6 +3168,14 @@ function toggleCSS(pin_ID) {
 
 
 	}
+
+}
+
+
+// Get CSS
+function getCSS(element_index) {
+
+	return iframeElement('style[data-index="'+ element_index +'"]').text();
 
 }
 

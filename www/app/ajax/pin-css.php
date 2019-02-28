@@ -194,7 +194,7 @@ foreach ($css as $key => $value) {
 
 
 	// Add the code
-	$css_code .= "$key: $value !important; ";
+	$css_code .= "$key:$value !important; ";
 
 
 }
