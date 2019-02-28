@@ -2133,6 +2133,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 		// Remove changed marks
 		options.find('.main-option').removeClass('changed');
+		options.find('[data-edit-css][data-changed]').removeAttr('data-changed');
 
 
 		// Update the CSS properties
