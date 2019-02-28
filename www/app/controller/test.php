@@ -1,12 +1,18 @@
 <pre>
 <?php
 
-$notifications = User::ID()->getNotifications();
 
+
+var_dump( checkAvailableUserName('bill-tas') );
+
+exit;
+
+
+
+$notifications = User::ID()->getNotifications();
 die_to_print($db->totalCount);
 
 var_dump( $notifications );
-
 exit;
 
 $i = 0;

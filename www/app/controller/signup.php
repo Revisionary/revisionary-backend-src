@@ -33,6 +33,7 @@ if ( post('user-submit') == "Register" ) {
 	$eMail = post('email');
 	$fullName = post('full_name');
 	$password = post('password');
+	$user_name = permalink($fullName);
 
 
 	// Check if any empty field
@@ -51,9 +52,7 @@ if ( post('user-submit') == "Register" ) {
 
 	// Check if e-mail already exists
 	if (!$nonceError && !$emptyError && !$mailError) {
-		$db->where("user_email", $eMail);
-		$user = $db->getOne("users", "user_ID");
-		if ($user) {
+		if ( !checkAvailableEmail($eMail) ) {
 			$mailExistError = true;
 			$errors[] = "This e-mail address is already registered, please login or <a href='#'>reset</a> your password.";
 		}
@@ -71,10 +70,21 @@ if ( post('user-submit') == "Register" ) {
 	if( !$nonceError && !$emptyError && !$mailError && !$mailExistError && !$nameError ) {
 
 
+		// Username check !!! Performance issue?
+		$i = 0;
+		while( !checkAvailableUserName($user_name) ) { $i++;
+
+			// Clean the existing numbers
+			$user_name = explode('_', $user_name)[0]."_".$i;
+
+		}
+
+
 		$user_ID = User::ID('new')->addNew(
 		    $eMail,
 		    $fullName,
-		    $password
+		    $password,
+		    $user_name
 		);
 
 		if ($user_ID) {

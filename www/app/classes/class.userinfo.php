@@ -178,7 +178,7 @@ class User {
 
 
     // Get notifications
-    public function getNotifications($offset = 0, $limit = 10) {
+    public function getNotifications($offset = 0, $limit = 15) {
 		global $db;
 
 
@@ -499,27 +499,33 @@ class User {
 		));
 
 
-		// Site log
-		if ($user_ID) $log->info("User #$user_ID Added: $user_name($user_full_name) | Email: $user_email | User Level ID #$user_level_ID");
+		// If successful
+		if ($user_ID) {
 
 
-		// Send a welcome email
-		Notify::ID($user_ID)->mail(
-			'Welcome to Revisionary App!',
-			"Hi $firstName, <br><br> Thanks for joining us. You can now start revising websites. :) <br><br> <a href='".site_url()."' target='_blank'></a>"
-		);
+			// Site log
+			$log->info("User #$user_ID Added: $user_name($user_full_name) | Email: $user_email | User Level ID #$user_level_ID");
 
 
-		// Notify the admin
-		Notify::ID(1)->mail(
-			"New user registration by $user_full_name",
-			"
-			<b>User Information</b> <br>
-			E-Mail: $user_email <br>
-			Full Name: $user_full_name <br>
-			Username: $user_name
-			"
-		);
+			// Send a welcome email
+			Notify::ID($user_ID)->mail(
+				'Welcome to Revisionary App!',
+				"Hi $firstName, <br><br> Thanks for joining us. You can now start revising websites. :) <br><br> <a href='".site_url()."' target='_blank'></a>"
+			);
+
+
+			// Notify the admin
+			Notify::ID(1)->mail(
+				"New user registration by $user_full_name",
+				"
+				<b>User Information</b> <br>
+				E-Mail: $user_email <br>
+				Full Name: $user_full_name <br>
+				Username: $user_name
+				"
+			);
+
+		}
 
 
 		// Return the user ID

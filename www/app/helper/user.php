@@ -23,3 +23,21 @@ function getUserInfo($user_ID = 0) {
 
 	return $Users[$user_ID];
 }
+
+function checkAvailableEmail($user_email) {
+	global $db;
+
+	$db->where("user_email", $user_email);
+	$user = $db->getOne("users", "user_ID");
+
+	return $user ? false : true;
+}
+
+function checkAvailableUserName($user_name) {
+	global $db;
+
+	$db->where("user_name", $user_name);
+	$user = $db->getOne("users", "user_ID");
+
+	return $user ? false : true;
+}
