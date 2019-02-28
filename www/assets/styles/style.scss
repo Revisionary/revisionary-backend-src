@@ -1009,6 +1009,7 @@ figure.profile-picture {
 picture.profile-picture {
     font-size: 12px;
     line-height: 25px;
+    letter-spacing: 1px;
 	font-weight: normal;
 	text-align: center;
 	text-transform: uppercase;
@@ -1029,8 +1030,15 @@ picture.profile-picture {
 
     }
 
-    span.has-pic {
-		display: none;
+    & > span {
+	    font-size: inherit;
+	    font-weight: inherit;
+	    line-height: inherit;
+
+	    &.has-pic {
+			opacity: 0;
+	    }
+
     }
 
 	&.square {
@@ -1041,11 +1049,12 @@ picture.profile-picture {
 	&.big {
 		width: 40px;
 		height: 40px;
-		border-width: 1px;
+		font-size: 15px;
+		line-height: 40px;
+		border-width: 2px;
 	    margin-left: 20px;
 	    margin-right: 0px;
-		margin-bottom: -12px;
-		display: inline-block;
+	    transform: translateY(-3px);
 	}
 }
 

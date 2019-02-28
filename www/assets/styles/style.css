@@ -5667,6 +5667,7 @@ figure.profile-picture {
 picture.profile-picture {
   font-size: 12px;
   line-height: 25px;
+  letter-spacing: 1px;
   font-weight: normal;
   text-align: center;
   text-transform: uppercase;
@@ -5680,19 +5681,24 @@ picture.profile-picture {
   background-size: cover;
   border-radius: 50%;
   box-sizing: border-box; }
-  picture.profile-picture span.has-pic {
-    display: none; }
+  picture.profile-picture > span {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit; }
+    picture.profile-picture > span.has-pic {
+      opacity: 0; }
   picture.profile-picture.square {
     border-radius: 0;
     border-width: 2px; }
   picture.profile-picture.big {
     width: 40px;
     height: 40px;
-    border-width: 1px;
+    font-size: 15px;
+    line-height: 40px;
+    border-width: 2px;
     margin-left: 20px;
     margin-right: 0px;
-    margin-bottom: -12px;
-    display: inline-block; }
+    transform: translateY(-3px); }
 
 .notif-no {
   font-size: 8px;
