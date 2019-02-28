@@ -2476,7 +2476,7 @@ function closePinWindow(removePinIfEmpty = true) {
 	// Notify the users if this was a new pin
 	else if ( pinWindow(pin_ID).attr('data-new-notification') == "complete") {
 
-		completeNotification(pin_ID, beforeImage);
+		completeNotification(pin_ID, "");
 
 	}
 
@@ -3504,7 +3504,7 @@ function beforeScreenshot(pin_ID) {
 	// Take the latest screenshot
 	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
 
-		Notifications[pin_ID].before = imageDataUrl(canvas);
+		if (typeof Notifications[pin_ID] !== 'undefined') Notifications[pin_ID].before = imageDataUrl(canvas);
 
 	});
 
