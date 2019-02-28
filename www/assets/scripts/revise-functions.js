@@ -2044,7 +2044,6 @@ function openPinWindow(pin_ID, firstTime = false) {
 		var thePinModified = thePin.attr('data-revisionary-edited');
 		var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
 		var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
-		var pinCSS = getCSS(theIndex);
 
 
 		// Previous state of window
@@ -2099,7 +2098,8 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 		// CSS OPTIONS:
-		var styleElement = iframeElement('style[data-index="'+ theIndex +'"]');
+		var styleElement = iframeElement('style[data-pin-id="'+ pin_ID +'"]');
+		var pinCSS = styleElement.text();
 		var isShowingCSS = styleElement.html() == "" ? false : true;
 		var options = pinWindow().find('ul.options');
 
@@ -3114,7 +3114,7 @@ function updateCSS(pin_ID, cssCodes) {
 
 
 	// Mark the old one
-	iframeElement('style[data-index="'+ pin.pin_element_index +'"]').addClass('old');
+	iframeElement('style[data-pin-id="'+ pin_ID +'"]').addClass('old');
 
 
 	// Add the new CSS codes
@@ -3122,7 +3122,7 @@ function updateCSS(pin_ID, cssCodes) {
 
 
 	// Remove the old ones
-	iframeElement('style.old[data-index="'+ pin.pin_element_index +'"]').remove();
+	iframeElement('style.old[data-pin-id="'+ pin_ID +'"]').remove();
 
 
 	// Update the changed status
@@ -3158,7 +3158,7 @@ function toggleCSS(pin_ID) {
 
 
 		var elementIndex = pin.pin_element_index;
-		var styleElement = iframeElement('style[data-index="'+ elementIndex +'"]');
+		var styleElement = iframeElement('style[data-pin-id="'+ pin_ID +'"]');
 		var isShowingCSS = styleElement.html() == "" ? false : true;
 
 
@@ -3182,15 +3182,15 @@ function revertCSS(pin_ID) {
 
 	var pin = getPin(pin_ID);
 
-	return iframeElement('style[data-index="'+ pin.pin_element_index +'"][data-pin-id="'+ pin.pin_ID +'"]').remove();
+	return iframeElement('style[data-pin-id="'+ pin.pin_ID +'"]').remove();
 
 }
 
 
 // Get CSS
-function getCSS(element_index) {
+function getCSS(pin_ID) {
 
-	return iframeElement('style[data-index="'+ element_index +'"]').text();
+	return iframeElement('style[data-pin-id="'+ pin_ID +'"]').text();
 
 }
 

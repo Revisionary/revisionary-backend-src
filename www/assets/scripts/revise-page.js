@@ -676,7 +676,7 @@ $(function() {
 
 
 			// Remove the styles
-			iframeElement('style[data-index="'+ element_index +'"]').remove();
+			iframeElement('style[data-pin-id="'+ pin_ID +'"]').remove();
 
 
 		}
