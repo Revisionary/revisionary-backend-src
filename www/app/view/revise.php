@@ -454,9 +454,9 @@
 				<div class="notif-no <?=$notification_count == 0 ? "hide" : ""?>"><?=$notification_count?></div>
 
 			</a>
-			<ul class="notifications xl-left">
-
-			</ul>
+			<div class="notifications">
+				<?php //echo Notification::ID()->getHTML(); ?>
+			</div>
 
 		</div>
 		<div class="col pins tab-container open">

@@ -5391,6 +5391,7 @@ a {
     display: block; }
   .notifications > ul {
     padding: 0;
+    margin: 0;
     list-style-type: none; }
     .notifications > ul > li {
       border-bottom: 1px solid black;
