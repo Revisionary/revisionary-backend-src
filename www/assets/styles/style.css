@@ -6518,7 +6518,8 @@ footer .footer-links a {
   .blocks > .block .date {
     font-size: 10px;
     line-height: 22px;
-    color: #4A4A4A; }
+    color: #4A4A4A;
+    white-space: nowrap; }
   .blocks > .block .box-name a {
     font-size: 14px;
     line-height: 17px;
