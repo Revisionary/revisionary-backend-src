@@ -15,8 +15,8 @@
 ?>
 
 
-<div class="wrap xl-flexbox xl-middle xl-3">
-	<div class="col xl-left">
+<div class="wrap xl-flexbox xl-middle">
+	<div class="col xl-3-12 xl-left">
 		<?php
 		if ($title == "pages" || ($title == "projects" && ($catFilter == "archived" || $catFilter == "deleted"))) {
 
@@ -33,7 +33,7 @@
 
 	</div>
 
-	<div class="col xl-center title">
+	<div class="col xl-6-12 xl-center title">
 
 		<div class="dropdown" style="display: inline-block;">
 			<a href="<?=site_url($url_prefix)?>" class="dropdown-opener">
@@ -192,7 +192,7 @@
 
 	</div>
 
-	<div class="col xl-right" data-tooltip="In development...">
+	<div class="col xl-3-12 xl-right" data-tooltip="In development...">
 
 		<b>Usage:</b> 8 MB of 25 MB (Basic Account)
 
