@@ -712,7 +712,7 @@
 			<div class="wrap xl-1">
 				<div class="col section-title collapsed">
 
-					<i class="fa fa-sliders-h"></i> STYLE OPTIONS <i class="fa fa-circle edited-sign"></i>
+					<i class="fa fa-sliders-h"></i> STYLE <i class="fa fa-circle edited-sign"></i>
 
 				</div>
 				<div class="col section-content options">
