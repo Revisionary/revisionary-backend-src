@@ -945,7 +945,7 @@ function getNotifications(markAsRead = false) {
 	console.log('Getting notifications...');
 
 
-	$('.notifications').addClass('loading').html('<li><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Notifications are loading...</span></li>');
+	$('.notifications').addClass('loading').html('<ul><li><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Notifications are loading...</span></li></ul>');
 
 
 
@@ -965,7 +965,7 @@ function getNotifications(markAsRead = false) {
 
 
 		// Mark all as read
-		if (markAsRead && $('.notifications > li.new').length) {
+		if (markAsRead && $('.notifications > ul > li.new').length) {
 
 
 			// After 1 seconds, mark all read
@@ -998,7 +998,7 @@ function readNotifications() {
 
 
 	// Select all the notifications that's shown now
-	$('.notifications > li.new[data-type="notification"]').each(function() {
+	$('.notifications > ul > li.new[data-type="notification"]').each(function() {
 
 		var notification_ID = $(this).attr('data-id');
 
@@ -1020,7 +1020,7 @@ function readNotifications() {
 
 
 		// Delete the new dots
-		$('.notifications > li').removeClass('new');
+		$('.notifications > ul > li').removeClass('new');
 
 
 		var currentNotifNumber = parseInt( $('.notification-opener .notif-no').text() );
@@ -1070,10 +1070,10 @@ function getNewNotificationCount() {
 		if (newCount > 0) {
 
 
-			if ( !$('.notifications > li.refresh-notifications').length )
-				$('.notifications').prepend('<li class="refresh-notifications"></li>');
+			if ( !$('.notifications > ul > li.refresh-notifications').length )
+				$('.notifications > ul:first-child').prepend('<li class="refresh-notifications"></li>');
 
-			$('.notifications > li.refresh-notifications').html(newButton);
+			$('.notifications > ul > li.refresh-notifications').html(newButton);
 
 
 		}

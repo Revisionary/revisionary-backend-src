@@ -84,7 +84,13 @@ class Notification {
 
 
 
-		$notificationHTML = "";
+		$notificationHTML = "<ul>";
+
+
+
+
+		// Get only new notifications
+		$newNotifications = User::ID()->getNewNotifications();
 
 
 
@@ -99,7 +105,7 @@ class Notification {
 		// If there is no notifications
 		if (count($notifications) == 0) {
 
-			$notificationHTML = "<li>There's nothing to mention now. <br/>Your notifications will be here.</li>";
+			$notificationHTML .= "<li>There's nothing to mention now. <br/>Your notifications will be here.</li>";
 
 		}
 
@@ -136,6 +142,8 @@ class Notification {
 			';
 
 		}
+
+		$notificationHTML .= "</ul>";
 
 
 		return $notificationHTML;

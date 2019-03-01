@@ -196,6 +196,26 @@ class User {
 
 
 
+    // Get new notifications
+    public function getNewNotifications() {
+		global $db;
+
+
+		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
+		$db->where('con.user_ID', self::$user_ID);
+		$db->where('con.notification_read', 0);
+		$db->orderBy("notification_time", "DESC");
+		$notifications = $db->withTotalCount()->get("notifications n");
+
+
+	    return array(
+		    'notifications' => $notifications,
+		    'totalCount' => $db->totalCount
+	    );
+    }
+
+
+
 	// Bring data that's mine or shared to me
     public function getMy($data_type = "projects", $catFilter = "", $order = "", $project_ID = null, $object_ID = null, $deletes_archives = false) {
 		global $db, $mySharedPages;

@@ -5378,8 +5378,6 @@ a {
   display: none;
   background-color: white;
   border: 1px solid black;
-  padding: 0;
-  list-style-type: none;
   border-radius: 10px;
   position: absolute;
   z-index: 2;
@@ -5391,42 +5389,45 @@ a {
   overflow-y: scroll; }
   .open + .notifications {
     display: block; }
-  .notifications > li {
-    border-bottom: 1px solid black;
-    padding: 5px 10px;
-    font-size: 12px;
-    line-height: 15px;
-    text-align: center;
-    color: black; }
-    .notifications > li:last-child {
-      border-bottom: none; }
-    .notifications > li.new {
-      position: relative; }
-      .notifications > li.new::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 2px;
-        display: block;
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background-color: red;
-        transform: translateY(-50%); }
-    .notifications > li a {
-      color: #007acc !important; }
-    .notifications > li .image {
-      width: 25px; }
-      .notifications > li .image picture {
-        margin: 0 !important; }
-    .notifications > li .content {
-      padding-left: 5px;
+  .notifications > ul {
+    padding: 0;
+    list-style-type: none; }
+    .notifications > ul > li {
+      border-bottom: 1px solid black;
+      padding: 5px 10px;
       font-size: 12px;
-      line-height: 15px; }
-    .notifications > li .date {
-      font-size: 10px;
-      line-height: 14px;
-      opacity: 0.4; }
+      line-height: 15px;
+      text-align: center;
+      color: black; }
+      .notifications > ul > li:last-child {
+        border-bottom: none; }
+      .notifications > ul > li.new {
+        position: relative; }
+        .notifications > ul > li.new::before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 2px;
+          display: block;
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background-color: red;
+          transform: translateY(-50%); }
+      .notifications > ul > li a {
+        color: #007acc !important; }
+      .notifications > ul > li .image {
+        width: 25px; }
+        .notifications > ul > li .image picture {
+          margin: 0 !important; }
+      .notifications > ul > li .content {
+        padding-left: 5px;
+        font-size: 12px;
+        line-height: 15px; }
+      .notifications > ul > li .date {
+        font-size: 10px;
+        line-height: 14px;
+        opacity: 0.4; }
 
 /*
 .user-menu {
