@@ -55,14 +55,14 @@
 
 
 
-							<a href="#" class="notification-opener refresh-notifications open" style="font-size: 20px;">
+							<a href="#" class="notification-opener refresh-notifications" style="font-size: 20px;">
 
 								<i class="fa fa-bell"></i>
 								<div class="notif-no <?=$notification_count == 0 ? "hide" : ""?>"><?=$notification_count?></div>
 
 							</a>
 							<div class="notifications">
-								<?=Notification::ID()->getHTML()?>
+								<?php //echo Notification::ID()->getHTML(); ?>
 							</div>
 
 
