@@ -722,12 +722,12 @@
 
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">tag</span><span class="element-id">#id</span><span class="element-class">.class</span></span>
 
-							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px;">
+							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
 								<span class="original"><img src="<?=asset_url('icons/edits-switch-off.svg')?>" alt=""/> SHOW ORIGINAL</span>
 								<span class="changes"><img src="<?=asset_url('icons/edits-switch-on.svg')?>" alt=""/> SHOW CHANGES</span>
 							</a>
 
-							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px;">
+							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
 								<span><i class="fa fa-unlink"></i>RESET CHANGES</span>
 							</a>
 

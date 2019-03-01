@@ -2141,6 +2141,13 @@ function openPinWindow(pin_ID, firstTime = false) {
 		if (idName != null) $('.element-id').text('#'+idName);
 
 
+		// Changed status
+		pinWindow()
+			.attr('data-changed', (styleElement.length ? "yes" : "no"))
+			.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"))
+			.attr('data-has-comments', 'no');
+
+
 		// Remove changed marks
 		options.find('.main-option').removeClass('changed');
 		options.find('[data-edit-css][data-changed]').removeAttr('data-changed');
@@ -2192,13 +2199,6 @@ function openPinWindow(pin_ID, firstTime = false) {
 				$(propertyElement).attr('data-changed', 'yes').parents('.main-option').addClass('changed');
 
 		});
-
-
-		// Changed status
-		pinWindow()
-			.attr('data-changed', (styleElement.length ? "yes" : "no"))
-			.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"))
-			.attr('data-has-comments', 'no');
 
 
 
@@ -3094,11 +3094,11 @@ function saveCSS(pin_ID, css) {
 		pinWindow(pin_ID).attr('data-changed', (cssCode != null ? "yes" : "no"));
 
 
-		// Remove the CSS codes if null
+		// Remove changed marks if null
 		if (cssCode == null) {
 
-		    // Reopen the pin window
-		    openPinWindow(pin_ID);
+			pinWindow(pin_ID).find('ul.options .main-option').removeClass('changed');
+			pinWindow(pin_ID).find('ul.options [data-edit-css][data-changed]').removeAttr('data-changed');
 
 		}
 
