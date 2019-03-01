@@ -50,7 +50,9 @@ var easy_html_elements = [
 	"H3",
 	"H4",
 	"H5",
-	"H6"
+	"H6",
+	"TH",
+	"TD"
 ];
 var easy_with_br = easy_html_elements;
 easy_with_br.push("BR");
