@@ -935,7 +935,7 @@ class Pin {
 				<td colspan='2'>
 
 					<br>
-					<h2>Comments ".($comment_count > 0 ? "<span style='display: inline-block; font-size: 10px; color: white; padding: 0 2px; background-color: red; border-radius: 3px;'>NEW</span>" : "")."</h2>
+					<h2>Comments ".($comment_count > 0 && 2 == 3 ? "<span style='display: inline-block; font-size: 10px; color: white; padding: 0 2px; background-color: red; border-radius: 3px;'>NEW</span>" : "")."</h2>
 					$commentsList
 
 				</td>
