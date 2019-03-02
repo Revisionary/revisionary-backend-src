@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Feb 23, 2019 at 10:52 PM
+-- Generation Time: Mar 02, 2019 at 12:53 PM
 -- Server version: 8.0.15
 -- PHP Version: 7.2.14
 
@@ -46,9 +46,10 @@ CREATE TABLE `devices` (
 
 CREATE TABLE `notifications` (
   `notification_ID` bigint(20) NOT NULL,
-  `notification` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notification_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'text',
+  `notification` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `notification_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `object_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `object_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `object_ID` bigint(20) NOT NULL,
   `sender_user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -315,7 +316,7 @@ INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `use
 (2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', 'ike.png', 0, 2),
 (3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', 'sara.png', 0, 2),
 (4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', 'matt.png', 0, 2),
-(5, 'cuneyt-tas', 'cuneyttas@hotmail.com.tr', '$2y$10$9bQ9GeucyXhyo3sceXz3TOeeN47qQ6mHr7alDrHPmCCTKVIj8saTG', 'Cüneyt', 'TAŞ', 'joey.png', 0, 2),
+(5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', 'joey.png', 0, 2),
 (6, 'bill-tas', 'bill@twelve12.com', '$2y$10$uhegAZj3uGV7VmezVyeulOFvhsdgWPW5XRayDbF1RPPtqbYNNEgai', 'Bill', 'TAS', 'bill.png', 0, 2),
 (7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, 0, 2),
 (8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', 'sara.png', 0, 2),
