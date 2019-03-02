@@ -622,6 +622,20 @@ $(function() {
 	});
 
 
+	// Load More Notifications
+	$(document).on('click', '.more-notifications > a', function(e) {
+
+
+		var offset = $(this).attr('data-offset');
+
+
+		moreNotifications(offset);
+
+
+		e.preventDefault();
+	});
+
+
 	// Start auto checking notifications
 	startNotificationAutoRefresh();
 
@@ -945,12 +959,13 @@ function getNotifications(markAsRead = false) {
 	console.log('Getting notifications...');
 
 
-	$('.notifications').addClass('loading').html('<ul><li><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Notifications are loading...</span></li></ul>');
+	$('.notifications > ul').addClass('loading').html('<li><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Notifications are loading...</span></li>');
 
 
 
 	ajax('notifications-get', {
 
+		'offset' : 0,
 		'nonce'	: nonce
 
 	}).done(function(result) {
@@ -961,7 +976,7 @@ function getNotifications(markAsRead = false) {
 
 
 		// Apply to DOM
-		$('.notifications').html(notificationsHTML).removeClass('loading');
+		$('.notifications > ul').html(notificationsHTML).removeClass('loading');
 
 
 		// Mark all as read
@@ -990,6 +1005,50 @@ function getNotifications(markAsRead = false) {
 }
 
 
+// Get more notifications
+function moreNotifications(offset = 0) {
+
+
+	console.log('Loading more notifications...');
+
+
+	$('.notifications .more-notifications').html('<i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Notifications are loading...</span>');
+
+
+	ajax('notifications-get', {
+
+		'offset' : parseInt(offset),
+		'nonce'	: nonce
+
+	}).done(function(result) {
+
+
+		console.log('RESULT: ', result);
+		var notificationsHTML = result.notifications;
+
+
+		// Remove the loading text
+		$('.notifications .more-notifications').remove();
+
+
+		// Apply to DOM
+		$('.notifications > ul').append(notificationsHTML);
+
+
+
+	}).fail(function(e) {
+
+
+		$('.notifications .more-notifications').html('Notifications couldn\'t be loaded.');
+		console.log('ERROR: ', e);
+
+	});
+
+	return true;
+
+}
+
+
 // Mark "read" all notifications
 function readNotifications() {
 
@@ -1005,6 +1064,10 @@ function readNotifications() {
 		IDsToRead.push(notification_ID);
 
 	});
+
+
+	// Don't send if no new notifications
+	if (IDsToRead.length == 0) return true;
 
 
 	// Send data

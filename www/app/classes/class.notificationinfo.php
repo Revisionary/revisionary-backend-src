@@ -84,28 +84,36 @@ class Notification {
 
 
 
-		$notificationHTML = "<ul>";
-
+		//$notificationHTML = "<ul>";
+		$notificationHTML = "";
 
 
 
 		// Get only new notifications
-		$newNotifications = User::ID()->getNewNotifications();
+		$newNotifications = User::ID()->getNewNotifications()['notifications'];
+		$newNotificationsCount = count($newNotifications);
 
-
-
-		// Get notifications
+		// All notifications
 		$notificationData = User::ID()->getNotifications($offset);
 		$notifications = $notificationData['notifications'];
-		$newNotifications = array_filter($notifications, function($value) { return $value['notification_read'] == 0; });
-		$newNotificationsCount = count($newNotifications);
 		$totalNotifications = $notificationData['totalCount'];
 
 
+
+		// Merge all the notifications
+		$notifications = array_unique(array_merge($newNotifications, $notifications), SORT_REGULAR);
+		$notificationsCount = count($notifications);
+
+
+
 		// If there is no notifications
-		if (count($notifications) == 0) {
+		if ($notificationsCount == 0) {
 
 			$notificationHTML .= "<li>There's nothing to mention now. <br/>Your notifications will be here.</li>";
+
+		} else {
+
+			//$notificationHTML .= "<li style='background-color: black; color: white;'>Notifications</li>";
 
 		}
 
@@ -130,10 +138,25 @@ class Notification {
 
 					</div>
 					<div class="col content">
+			';
 
-						'.$senderInfo['fullName'].' '.$notification['notification'].'<br/>
-						<div class="date">'.timeago($notification['notification_time']).'</div>
 
+			// NOTIFICATION TYPES
+			if ($notification['notification_type'] == "text") {
+
+
+				// Notification Content
+				$notificationHTML .= '
+							'.$senderInfo['fullName'].' '.$notification['notification'].'<br/>
+							<div class="date">'.timeago($notification['notification_time']).'</div>
+				';
+
+
+			}
+
+
+
+			$notificationHTML .= '
 					</div>
 				</div>
 
@@ -143,7 +166,14 @@ class Notification {
 
 		}
 
-		$notificationHTML .= "</ul>";
+
+		// Load more link
+		if ( ($offset + $notificationsCount) < $totalNotifications ) {
+			$notificationHTML .= '<li class="more-notifications"><a href="#" data-offset="'.($offset + $notificationsCount).'">Load older notifications <i class="fa fa-level-down-alt"></i></a></li>';
+		}
+
+
+		//$notificationHTML .= "</ul>";
 
 
 		return $notificationHTML;

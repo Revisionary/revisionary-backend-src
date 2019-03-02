@@ -178,7 +178,7 @@ class User {
 
 
     // Get notifications
-    public function getNotifications($offset = 0, $limit = 15) {
+    public function getNotifications($offset = 0, $limit = 10) {
 		global $db;
 
 

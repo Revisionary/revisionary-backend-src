@@ -455,7 +455,7 @@
 
 			</a>
 			<div class="notifications">
-				<?php //echo Notification::ID()->getHTML(); ?>
+				<ul></ul>
 			</div>
 
 		</div>

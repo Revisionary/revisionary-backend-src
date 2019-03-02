@@ -22,7 +22,22 @@ if ( !userloggedIn() ) {
 }
 
 
-$offset = 0; // !!!
+$offset = request("offset");
+
+
+// Offset numerical?
+if ( !is_numeric($offset) || $offset < 0 ) {
+
+	$status = "wrong-offset";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
+}
 
 
 
