@@ -515,6 +515,7 @@ class User {
 			'user_first_name' => $firstName,
 			'user_last_name' => $lastName,
 			'user_password' => password_hash($user_password, PASSWORD_DEFAULT),
+			'user_IP' => get_client_ip(),
 			'user_level_ID' => $user_level_ID // Free one
 		));
 
