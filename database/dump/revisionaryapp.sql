@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 02, 2019 at 12:53 PM
+-- Generation Time: Mar 03, 2019 at 08:40 PM
 -- Server version: 8.0.15
 -- PHP Version: 7.2.14
 
@@ -46,7 +46,7 @@ CREATE TABLE `devices` (
 
 CREATE TABLE `notifications` (
   `notification_ID` bigint(20) NOT NULL,
-  `notification_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'text',
+  `notification_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'text',
   `notification` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `notification_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `object_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -101,6 +101,20 @@ CREATE TABLE `pages_categories` (
   `cat_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Category',
   `cat_order_number` bigint(20) NOT NULL DEFAULT '0',
   `project_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `password_reset`
+--
+
+CREATE TABLE `password_reset` (
+  `pass_reset_ID` bigint(20) NOT NULL,
+  `pass_reset_token` char(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pass_reset_expires` bigint(20) NOT NULL,
+  `user_ID` bigint(20) NOT NULL,
+  `pass_reset_IP` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -304,6 +318,7 @@ CREATE TABLE `users` (
   `user_picture` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_has_public_profile` tinyint(1) NOT NULL DEFAULT '0',
   `user_registered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user_IP` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1',
   `user_level_ID` smallint(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
 
@@ -311,18 +326,18 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_picture`, `user_has_public_profile`, `user_level_ID`) VALUES
-(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Bilal', 'TAŞ', 'bilal.png', 1, 1),
-(2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', 'ike.png', 0, 2),
-(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', 'sara.png', 0, 2),
-(4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', 'matt.png', 0, 2),
-(5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', 'joey.png', 0, 2),
-(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$uhegAZj3uGV7VmezVyeulOFvhsdgWPW5XRayDbF1RPPtqbYNNEgai', 'Bill', 'TAS', 'bill.png', 0, 2),
-(7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, 0, 2),
-(8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', 'sara.png', 0, 2),
-(9, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, 0, 2),
-(10, 'dmytro', 'dmytro@twelve12.com', '$2y$10$8VMtSAljW23s3XH2PnSBv.VC/45somrdJ68V.DFcKEimw0WRpi83C', 'Dmytro', 'Korol', NULL, 0, 2),
-(11, 'dmytro-korol', 'korol.dmitry@gmail.com', '$2y$10$uIAeohwy2hJpWIbGsFTwcuRPGpLOCT7HADfv6jKo50YjIekJPoT9W', 'Dmytro', 'Korol', NULL, 0, 2);
+INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_picture`, `user_has_public_profile`, `user_IP`, `user_level_ID`) VALUES
+(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$FlJ0PwBy6.5m8MXqIDMv5u.CsTW9w7bEgmlzLUCG9il6ZaN6KMmVC', 'Bilal', 'TAŞ', 'bilal.png', 1, '127.0.0.1', 1),
+(2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', 'ike.png', 0, '127.0.0.1', 2),
+(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', 'sara.png', 0, '127.0.0.1', 2),
+(4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', 'matt.png', 0, '127.0.0.1', 2),
+(5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', 'joey.png', 0, '127.0.0.1', 2),
+(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$uhegAZj3uGV7VmezVyeulOFvhsdgWPW5XRayDbF1RPPtqbYNNEgai', 'Bill', 'TAS', 'bill.png', 0, '127.0.0.1', 2),
+(7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, 0, '127.0.0.1', 2),
+(8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', 'sara.png', 0, '127.0.0.1', 2),
+(9, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, 0, '127.0.0.1', 2),
+(10, 'dmytro', 'dmytro@twelve12.com', '$2y$10$8VMtSAljW23s3XH2PnSBv.VC/45somrdJ68V.DFcKEimw0WRpi83C', 'Dmytro', 'Korol', NULL, 0, '127.0.0.1', 2),
+(11, 'dmytro-korol', 'korol.dmitry@gmail.com', '$2y$10$uIAeohwy2hJpWIbGsFTwcuRPGpLOCT7HADfv6jKo50YjIekJPoT9W', 'Dmytro', 'Korol', NULL, 0, '127.0.0.1', 2);
 
 -- --------------------------------------------------------
 
@@ -396,6 +411,13 @@ ALTER TABLE `pages`
 ALTER TABLE `pages_categories`
   ADD PRIMARY KEY (`cat_ID`),
   ADD KEY `project_ID` (`project_ID`);
+
+--
+-- Indexes for table `password_reset`
+--
+ALTER TABLE `password_reset`
+  ADD PRIMARY KEY (`pass_reset_ID`),
+  ADD KEY `user_ID` (`user_ID`);
 
 --
 -- Indexes for table `pins`
@@ -521,6 +543,12 @@ ALTER TABLE `pages_categories`
   MODIFY `cat_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `password_reset`
+--
+ALTER TABLE `password_reset`
+  MODIFY `pass_reset_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `pins`
 --
 ALTER TABLE `pins`
@@ -629,6 +657,12 @@ ALTER TABLE `pages`
 --
 ALTER TABLE `pages_categories`
   ADD CONSTRAINT `pages_categories_ibfk_1` FOREIGN KEY (`project_ID`) REFERENCES `projects` (`project_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+--
+-- Constraints for table `password_reset`
+--
+ALTER TABLE `password_reset`
+  ADD CONSTRAINT `password_reset_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `pins`
