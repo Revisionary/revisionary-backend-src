@@ -54,7 +54,7 @@ if ( post('user-submit') == "Register" ) {
 	if (!$nonceError && !$emptyError && !$mailError) {
 		if ( !checkAvailableEmail($eMail) ) {
 			$mailExistError = true;
-			$errors[] = "This e-mail address is already registered, please login or <a href='#'>reset</a> your password.";
+			$errors[] = "This e-mail address is already registered, please login or <a href='".site_url('lost-password')."'>reset</a> your password.";
 		}
 	}
 
@@ -64,6 +64,9 @@ if ( post('user-submit') == "Register" ) {
 		$nameError = true;
 		$errors[] = "Only letters and white space allowed on your name";
 	}
+
+
+	// Password check !!!
 
 
 	// If no error
