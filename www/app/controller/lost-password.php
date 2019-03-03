@@ -13,7 +13,7 @@ if (userloggedIn()) {
 
 }
 
-$email = "";
+$userName = "";
 $errors = [];
 
 // If submitted
@@ -27,7 +27,6 @@ if ( post('lost-password-submit') == "Login" ) {
 */
 
 
-/*
 	$userName = post('username');
 	$password = post('password');
 
@@ -54,58 +53,39 @@ if ( post('lost-password-submit') == "Login" ) {
 		$user = $db->getOne("users");
 
 		if ($user === null) {
-			$errors[] = "Your username or password is wrong.";
-		}
-
-		// Password check
-		elseif ($user && !password_verify($password, $user["user_password"])) {
-			$errors[] = "Your username or password is wrong";
+			$errors[] = "We couldn't find your account here. Would you like to <a href='".site_url("signup")."'>signup</a>?.";
 		}
 
 		// If no error above
 		else {
 
-			$_SESSION['user_ID'] = $user["user_ID"];
+			$userInfo = $user;
+			$user_ID = $userInfo["user_ID"];
 
 
-			// Notify the admin
-			if (getUserInfo()['email'] != "bilaltas@me.com" && getUserInfo()['email'] != "bill@twelve12.com") {
+			// Send email !!!
+			Notify::ID($user_ID)->mail(
+				"Your password reset request",
+				"Hi ".getUserInfo($user_ID)['fullName'].", <br><br>
 
-				Notify::ID(1)->mail(
-					"New login by ".$user['user_first_name']." ".$user['user_last_name'],
-					"
-					<b>User Information (Typed: $userName)</b> <br>
-					E-Mail: ".$user['user_email']." <br>
-					Full Name: ".$user['user_first_name']." ".$user['user_last_name']." <br>
-					Username: ".$user['user_name']."
-					"
-				);
-
-			}
+				Here is the link that you can reset your password: <br>
+				...
+				"
+			);
 
 
 			// Site Log
-			$log->info("User #".currentUserID()." Logged In: ".getUserInfo()['userName']."(".getUserInfo()['fullName'].") | Typed: $userName | Email: ".getUserInfo()['email']." | User Level ID #".getUserInfo()['userLevelID']."");
+			$log->info("User #$user_ID Lost Password: ".$userInfo["user_name"]."(".getUserInfo($user_ID)['fullName'].") | Typed: $userName | Email: ".$userInfo["user_email"]." | User Level ID #".$userInfo["user_level_ID"]."");
 
 
-			if (post('redirect_to') != "") {
-				header("Location: ".htmlspecialchars_decode(post('redirect_to'))); // !!! Check security
-				die();
-			}
-
-			header("Location: ".site_url('projects'));
+			header("Location: ".site_url('lost-password?sent')); // !!!
 			die();
 
 		}
 
 	}
-*/
 
 }
-
-// Generate new nonce for form
-$_SESSION["login_nonce"] = uniqid(mt_rand(), true);
-
 
 
 $page_title = "Lost Password - Revisionary App";

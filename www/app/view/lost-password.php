@@ -18,7 +18,7 @@
 				<div class="wrap">
 					<div class="col xl-11-12">
 						<input type="hidden" name="nonce" value="<?=$_SESSION['login_nonce']?>"/>
-						<input type="email" class="large full" name="email" value="<?=$email?>" size="20" id="user_login" placeholder="Usename or E-Mail Address…" />
+						<input type="email" class="large full" name="email" value="<?=$userName?>" size="20" id="user_login" placeholder="Usename or E-Mail Address…" />
 
 						<div class="wrap">
 							<div class="col xl-3-12">
