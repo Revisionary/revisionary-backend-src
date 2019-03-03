@@ -5,9 +5,25 @@
 	<div class="light-side">
 
 		<div class="side-content">
+
+			<?php
+
+			if ( isset($_GET['sent']) ) {
+
+				echo "We've sent you a password reset link that you can set a new password. Please check your inbox. The link will expire in one hour.";
+
+			} elseif ( isset($_GET['error']) ) {
+
+				echo "We had some trouble resetting your password. <br><b>Please try again later.</b>";
+
+			} else {
+
+			?>
+
 			<h2>LOST PASSWORD</h2>
 
 			<?php
+
 				foreach ($errors as $error)
 					echo $error."<br>";
 
@@ -33,13 +49,12 @@
 				</div>
 			</form><br/>
 
+			<?php
 
-			<div class="wrap register-button xl-hidden">
-				<div class="col xl-11-12">
-					<div class="xl-center button-desc">If you aren't registered yet</div>
-					<a href="<?=site_url('signup'.( !empty(get('redirect')) ? "?redirect=".urlencode(get('redirect')) : "" ) )?>"><button class="large full">REGISTER FOR FREE</button></a>
-				</div>
-			</div>
+			}
+
+			?>
+
 
 		</div>
 
