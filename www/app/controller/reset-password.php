@@ -1,5 +1,6 @@
 <?php
 
+
 // If already logged in, go projects page
 if (userloggedIn()) {
 
@@ -14,33 +15,38 @@ if (userloggedIn()) {
 }
 
 
+
 // Check for tokens
 $email = get('email');
 $token = get('token');
 
 
-$userName = "";
-$errors = [];
 
-
-
+// Token and email type check
 if ( false === ctype_xdigit( $token ) || !filter_var($email, FILTER_VALIDATE_EMAIL) ) {
 
-	die('Error');
+	die('There was an error processing your request. Error Code: 001');
 
 }
+
+
+
+// Reset errors
+$nonceError = $emptyError = $confirmationError = $userError = $tokenError = $validationError = $dbError = false;
+$errors = [];
+
 
 
 // If submitted
 if ( post('reset-password-submit') == "Update Password" ) {
 
-	die('YESS');
-
 
 /*
 	// Check the nonce
-	if ( post("nonce") !== $_SESSION["login_nonce"] )
+	if ( post("nonce") !== $_SESSION["login_nonce"] ) {
+		$nonceError = true;
 		$errors[] = "Please try again";
+	}
 */
 
 
@@ -49,123 +55,157 @@ if ( post('reset-password-submit') == "Update Password" ) {
 
 
 	// Check if any empty field
-	if ( empty($password1) || empty($password2) )
+	if ( !$nonceError && (empty($password1) || empty($password2)) ) {
+		$emptyError = true;
 		$errors[] = "Please don't leave the field blank";
+	}
+
 
 
 	// Confirmation check
-	elseif ($password1 != $password2) {
+	if (!$nonceError && !$emptyError && $password1 != $password2) {
+		$confirmationError = true;
 		$errors[] = "Passwords don't match. Please re-enter:";
+	}
+
+
+
+	// User check
+	if (!$nonceError && !$emptyError && !$confirmationError) {
+
+
+		// Get the user
+		$db->where("user_email", $email);
+		$user = $db->getOne("users");
+
+
+		// User info
+		$userInfo = $user;
+		$user_ID = $userInfo["user_ID"];
+
+
+		if ($user === null) {
+			$userError = true;
+			$errors[] = "We couldn't find your account here. Would you like to <a href='".site_url("signup")."'><b>signup</b></a>?";
+		}
+
+
+	}
+
+
+
+	// Token check
+	if (!$nonceError && !$emptyError && !$confirmationError && !$userError) {
+
+
+		// Get tokens
+		$db->where( "user_ID = $user_ID AND pass_reset_expires >= ".time() );
+		$result = $db->getOne("password_reset");
+
+
+		// Find the
+		if ( $result === false ) {
+			$tokenError = true;
+		    $errors[] = "There was an error processing your request. Error Code: 002";
+		}
+
+
+	}
+
+
+
+	// Validate token
+	if (!$nonceError && !$emptyError && !$confirmationError && !$userError && !$tokenError) {
+
+
+		$auth_token = $result['pass_reset_token'];
+		$calc = hash('sha256', hex2bin($token));
+
+
+		if ( !hash_equals($calc, $auth_token) )  {
+			$validationError = true;
+		    $errors[] = "There was an error processing your request. Error Code: 003";
+		}
+
+
+	}
+
 
 
 	// If no error above
 	if ($errors == []) {
 
-		// Username check
-		$db->where("user_email", $userName);
-		$user = $db->getOne("users");
 
-		if ($user === null) {
-
-			$errors[] = "We couldn't find your account here. Would you like to <a href='".site_url("signup")."'><b>signup</b></a>?";
-
-		}
+		// Update password
+		$db->where('user_ID', $user_ID);
+		$update_password = $db->update('users', array(
+			'user_password' => password_hash($password1, PASSWORD_DEFAULT)
+		));
 
 
-		// If no error above
-		else {
+		// Delete any existing tokens for this user
+		$db->where('user_ID', $user_ID);
+		$db->delete('password_reset');
 
 
-			// User info
-			$userInfo = $user;
-			$user_ID = $userInfo["user_ID"];
+		// If successful
+		if ($update_password) {
 
 
-
-			// Get tokens
-			$db->where( "user_ID = $user_ID AND expires >= ".time() );
-			$results = $db->get("password_reset");
+			// Signout
+			//session_destroy();
 
 
-			// Find the
-			if ( empty( $results ) ) {
-			    return array('status'=>0,'message'=>'There was an error processing your request. Error Code: 002');
-			}
+			// Sign in again
+			$_SESSION['user_ID'] = $user_ID;
 
 
+			// Send email
+			Notify::ID($user_ID)->mail(
+				"Your password changed!",
+				"Hi ".getUserInfo($user_ID)['fullName'].", <br><br>
+
+				Your password has been changed now. If you haven't done this action, please contact us at info@revisionaryapp.com <br><br>
+
+				Thank you, <br>
+				Revisionary App Team
+				"
+			);
 
 
+			// Site Log
+			$log->info("User #$user_ID Changed Password: ".$userInfo["user_name"]."(".getUserInfo($user_ID)['fullName'].") | Email: ".$userInfo["user_email"]." | User Level ID #".$userInfo["user_level_ID"]."");
 
 
+			// Notify admin
+			Notify::ID(1)->mail(
+				"Password Changed for ".$userInfo['user_first_name']." ".$userInfo['user_last_name'],
+				"
+				<b>User Information</b> <br>
+				E-Mail: ".$userInfo['user_email']." <br>
+				Full Name: ".$userInfo['user_first_name']." ".$userInfo['user_last_name']." <br>
+				Username: ".$userInfo['user_name']."
+				"
+			);
 
 
-
-
-
-			// Create tokens
-			$selector = bin2hex(random_bytes(8));
-			$token = random_bytes(32);
-
-
-			// Prepare the URL
-			$url = site_url('reset-password?email='.$user['user_email'].'&token='.bin2hex($token));
-
-
-			// Token expiration
-			$expires = new DateTime('NOW');
-			$expires->add(new DateInterval('PT01H')); // 1 hour
-
-
-			// Delete any existing tokens for this user
-			$db->where('user_ID', $user_ID);
-			$db->delete('password_reset');
-
-
-			// Insert reset token into database
-			$insert = $db->insert('password_reset', array(
-		        'pass_reset_token'	 => hash('sha256', $token),
-		        'pass_reset_expires' => $expires->format('U'),
-		        'user_ID'			 => $user_ID,
-		        'pass_reset_IP'		 => get_client_ip()
-			));
-
-
-
-			// If successful
-			if ($insert) {
-
-
-				// Send email
-				Notify::ID($user_ID)->mail(
-					"Your password reset request",
-					"Hi ".getUserInfo($user_ID)['fullName'].", <br><br>
-
-					Here is the link that you can reset your password: <br>
-					<a href='$url' target='_blank'>$url</a>
-					"
-				);
-
-
-				// Site Log
-				$log->info("User #$user_ID Lost Password: ".$userInfo["user_name"]."(".getUserInfo($user_ID)['fullName'].") | Typed: $userName | Email: ".$userInfo["user_email"]." | User Level ID #".$userInfo["user_level_ID"]."");
-
-
-				// Redirect to message
-				header("Location: ".site_url('lost-password?sent'));
-				die();
-
-			}
-
-
-			// If not successful
-			header("Location: ".site_url('lost-password?error'));
+			// Redirect to message
+			header("Location: ".site_url('projects?password-changed'));
 			die();
 
 		}
 
+		// If not inserted
+		$dbError = true;
+		$errors[] = "Password reset failed: ".$db->getLastError();
+
 	}
 
 }
+
+
+// Generate new nonce for form
+$_SESSION["login_nonce"] = uniqid(mt_rand(), true);
 
 
 $page_title = "Reset Password - Revisionary App";

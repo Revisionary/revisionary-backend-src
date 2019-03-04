@@ -22,6 +22,7 @@ $errors = [];
 // If submitted
 if ( post('user-submit') == "Register" ) {
 
+
 /*
 	if ( post("nonce") !== $_SESSION["signup_nonce"] ) {
 		$nonceError = true;
@@ -33,7 +34,7 @@ if ( post('user-submit') == "Register" ) {
 	$eMail = post('email');
 	$fullName = post('full_name');
 	$password = post('password');
-	$user_name = permalink($fullName);
+	$user_name = str_replace('_', ' ', permalink($fullName));
 
 
 	// Check if any empty field
@@ -69,8 +70,8 @@ if ( post('user-submit') == "Register" ) {
 	// Password check !!!
 
 
-	// If no error
-	if( !$nonceError && !$emptyError && !$mailError && !$mailExistError && !$nameError ) {
+	// If no errors
+	if( $errors == [] ) {
 
 
 		// Username check !!! Performance issue?
@@ -83,6 +84,7 @@ if ( post('user-submit') == "Register" ) {
 		}
 
 
+		// Add the user
 		$user_ID = User::ID('new')->addNew(
 		    $eMail,
 		    $fullName,
@@ -90,7 +92,10 @@ if ( post('user-submit') == "Register" ) {
 		    $user_name
 		);
 
+
+		// If successful
 		if ($user_ID) {
+
 
 			// Create the session
 			$_SESSION['user_ID'] = $user_ID;

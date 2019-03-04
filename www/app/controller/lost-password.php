@@ -114,6 +114,18 @@ if ( post('lost-password-submit') == "Send Reset Link" ) {
 				$log->info("User #$user_ID Lost Password: ".$userInfo["user_name"]."(".getUserInfo($user_ID)['fullName'].") | Typed: $userName | Email: ".$userInfo["user_email"]." | User Level ID #".$userInfo["user_level_ID"]."");
 
 
+				// Notify admin
+				Notify::ID(1)->mail(
+					"Lost Password Request for ".$userInfo['user_first_name']." ".$userInfo['user_last_name'],
+					"
+					<b>User Information</b> <br>
+					E-Mail: ".$userInfo['user_email']." <br>
+					Full Name: ".$userInfo['user_first_name']." ".$userInfo['user_last_name']." <br>
+					Username: ".$userInfo['user_name']."
+					"
+				);
+
+
 				// Redirect to message
 				header("Location: ".site_url('lost-password?sent'));
 				die();
@@ -130,6 +142,10 @@ if ( post('lost-password-submit') == "Send Reset Link" ) {
 	}
 
 }
+
+
+// Generate new nonce for form
+$_SESSION["login_nonce"] = uniqid(mt_rand(), true);
 
 
 $page_title = "Lost Password - Revisionary App";
