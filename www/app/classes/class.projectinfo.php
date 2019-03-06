@@ -466,7 +466,7 @@ class Project {
 
 
 		// Delete the project folder
-		deleteDirectory( cache."/projects/project-".request('id')."/" );
+		deleteDirectory( cache."/projects/project-".self::$project_ID."/" );
 
 
 
