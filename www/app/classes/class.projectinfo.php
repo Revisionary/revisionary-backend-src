@@ -469,6 +469,14 @@ class Project {
 		deleteDirectory( cache."/projects/project-".request('id')."/" );
 
 
+
+		// Delete the notifications if exists
+		$db->where('object_type', 'project');
+		$db->where('object_ID', self::$project_ID);
+		$db->delete('notifications');
+
+
+
 		// Site log
 		if ($project_removed) $log->info("Project #".self::$project_ID." Removed: '".$this->getInfo('project_name')."' | User #".currentUserID());
 

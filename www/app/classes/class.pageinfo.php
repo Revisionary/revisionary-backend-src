@@ -375,7 +375,7 @@ class Page {
 
 
 
-		// If page added !!! Add project name here !!!
+		// If page added
 		if ($page_ID) {
 
 
@@ -596,6 +596,14 @@ class Page {
 
 		// Delete the page folder
 		deleteDirectory( cache."/projects/project-$project_ID/page-".self::$page_ID."/" );
+
+
+
+		// Delete the notifications if exists
+		$db->where('object_type', 'page');
+		$db->where('object_ID', self::$page_ID);
+		$db->delete('notifications');
+
 
 
 		// Site log
