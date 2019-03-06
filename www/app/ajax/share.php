@@ -241,7 +241,7 @@ if ($share_ID) { // If successful
 
 		// Web notification
 		if ( is_integer($shareTo) )
-			Notify::ID($shareTo)->web("shared a <b>$type</b> with you: <a href='$object_link'><b>$objectName</b>".$projectName."</a>", $type, $object_ID);
+			Notify::ID($shareTo)->web("share", $type, $object_ID);
 
 
 		// Email notification

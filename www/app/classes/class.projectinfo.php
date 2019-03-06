@@ -218,6 +218,11 @@ class Project {
 					));
 
 
+					// Web notification
+					if ( is_integer($user_ID) )
+						Notify::ID($user_ID)->web("share", "project", $project_ID);
+
+
 					// Email notification
 					Notify::ID($user_ID)->mail(
 						getUserInfo()['fullName']." shared the \"$project_name\" project with you.",

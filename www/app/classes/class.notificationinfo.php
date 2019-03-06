@@ -123,7 +123,16 @@ class Notification {
 
 			$sender_ID = $notification['sender_user_ID'];
 			$senderInfo = getUserInfo($sender_ID);
+			$sender_full_name = $senderInfo['fullName'];
 			$notificationNew = $notification['notification_read'] == 0;
+
+
+			// Object Info
+			$object_ID = $notification['object_ID'];
+			$object_type = $notification['object_type'];
+			$object_data = ucfirst($object_type)::ID($object_ID);
+			$object_name = $object_data->getInfo($object_type.'_name');
+			$object_link = site_url("$object_type/$object_ID");
 
 
 			$notificationHTML .= '
@@ -145,11 +154,34 @@ class Notification {
 			if ($notification['notification_type'] == "text") {
 
 
+
 				// Notification Content
-				$notificationHTML .= '
-							'.$senderInfo['fullName'].' '.$notification['notification'].'<br/>
-							<div class="date">'.timeago($notification['notification_time']).'</div>
-				';
+				$notificationHTML .= "
+							$sender_full_name ".$notification['notification']."<br/>
+							<div class='date'>".timeago($notification['notification_time'])."</div>
+				";
+
+
+
+			} elseif ($notification['notification_type'] == "share") {
+
+				$project_name = "";
+				if ($object_type == "page") {
+
+					$project_ID = $object_data->getInfo('project_ID');
+					$project_name = " [".Project::ID($project_ID)->getInfo('project_name')."]";
+
+				}
+
+
+				// Notification Content
+				$notificationHTML .= "
+							$sender_full_name shared a <b>$object_type</b> with you:
+							<a href='$object_link'><b>$object_name</b>$project_name</a><br/>
+
+							<div class='date'>".timeago($notification['notification_time'])."</div>
+				";
+
 
 
 			}

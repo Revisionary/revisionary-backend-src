@@ -415,6 +415,11 @@ class Page {
 					));
 
 
+					// Web notification
+					if ( is_integer($user_ID) )
+						Notify::ID($user_ID)->web("share", "page", $page_ID);
+
+
 					// Email notification
 					Notify::ID($user_ID)->mail(
 						getUserInfo()['fullName']." shared the \"$page_name[$project_name]\" page with you.",

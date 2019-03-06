@@ -91,9 +91,10 @@ class Notify {
 
     // Web notifications
     public function web(
-	    string $notification,
+	    string $notification_type = "text",
 	    string $object_type,
-	    int $object_ID
+	    int $object_ID,
+	    string $notification = null
     ) {
 	    global $db;
 
@@ -107,6 +108,7 @@ class Notify {
 
 		// ADD THE NOTIFICATION
 		$notification_ID = $db->insert('notifications', array(
+			"notification_type" => $notification_type,
 			"notification" => $notification,
 			"object_type" => $object_type,
 			"object_ID" => $object_ID,
