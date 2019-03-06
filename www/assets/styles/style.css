@@ -6168,7 +6168,6 @@ input.share-email.error {
     line-height: 16px; }
     .popup-window .people a.new-member {
       position: relative;
-      top: -5px;
       right: -5px; }
   .popup-window ul.selected-screens {
     list-style: none;

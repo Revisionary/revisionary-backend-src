@@ -101,16 +101,14 @@ $(function() {
 		var emailList = $('.shares.email.'+type);
 		var lists = $('.shares.'+type);
 
-		function userTemplate_html(user_ID, userLink, userPhoto, userName, type, deletable = true) {
+		function userTemplate_html(user_ID, userPhoto, userName, type, deletable = true) {
 
 			return '\
 				<li class="'+ (!deletable ? 'undeletable' : '') +'" data-to="'+ user_ID +'">\
 					'+ (deletable ? '<input type="hidden" name="'+type+'_shares[]" value="' + user_ID + '"/>' : '') +'\
-					<a href="' + userLink + '">\
-						<picture class="profile-picture" ' + userPhoto + '>\
-							'+userName+'\
-						</picture>\
-					</a>\
+					<picture class="profile-picture" ' + userPhoto + '>\
+						'+userName+'\
+					</picture>\
 					<a href="#" class="remove-share" data-type="'+type+'" data-value="'+user_ID+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 				</li>\
 			';
@@ -160,7 +158,7 @@ $(function() {
 
 						// Add if not already exists
 						if ( data.status == "found" )
-							userList.append( userTemplate_html(data.user_ID, data.user_link, data.user_photo, data.user_name, type) );
+							userList.append( userTemplate_html(data.user_ID, data.user_photo, data.user_name, type) );
 
 						if ( data.status == "not-found" )
 							emailList.append( emailTemplate_html(input.val(), type) );
@@ -746,7 +744,7 @@ function updateShares() {
 
 			// Add to the people
 			$('.people[data-type="'+ user.type +'"][data-id="'+ user.object_ID +'"]').append(
-				memberTemplateSmall(user.mStatus, user.email, user.fullName, user.nameabbr, user.userImageUrl, user.user_ID)
+				boxMemberTemplate(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID)
 			);
 
 
@@ -1216,47 +1214,22 @@ function closeModal(modalElement) {
 
 
 // TEMPLATES
-function memberTemplate(mStatus, email, fullName, nameabbr, userImageUrl, user_ID, unremoveable, objectID) {
+function boxMemberTemplate(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, unremoveable) {
 
 	var hasPic = 'class="has-pic"';
 	var printPic = 'style="background-image: url('+userImageUrl+');"';
 	var ownerBadge = '';
 
 	if (mStatus != 'email' ) email = '('+email+')';
-	if (mStatus == 'email' ) nameabbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
+	if (mStatus == 'email' ) nameAbbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
 	if (mStatus == 'email' ) user_ID = email;
 	if (mStatus == 'owner' ) ownerBadge = '<span class="owner-badge">Owner</span>';
-	if (userImageUrl == "") hasPic = printPic = "";
+	if (userImageUrl == "" || userImageUrl == null) hasPic = printPic = "";
 
 	return '\
-		<li class="inline-guys member '+mStatus+' '+unremoveable+'">\
-			<picture class="profile-picture big" '+printPic+'>\
-				<span '+hasPic+'>'+nameabbr+'</span>\
-			</picture>\
-			<div>\
-				<span class="full-name">'+fullName+'</span>\
-				<span class="email">'+email+'</span>\
-				'+ownerBadge+'\
-			</div>\
-			<a href="#" class="remove remove-member" data-userid="'+user_ID+'" data-id="'+objectID+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
-		</li>\
-	';
-
-}
-
-function memberTemplateSmall(mStatus, email, fullName, nameabbr, userImageUrl, user_ID, unremoveable) {
-
-	var hasPic = 'class="has-pic"';
-	var printPic = 'style="background-image: url('+userImageUrl+');"';
-
-	if (userImageUrl == "") hasPic = printPic = "";
-
-	return '\
-		<a href="#" data-tooltip="'+(mStatus == 'email' ? email : fullName)+'" data-mstatus="'+mStatus+'" data-fullname="'+fullName+'" data-nameabbr="'+nameabbr+'" data-email="'+email+'" data-avatar="'+userImageUrl+'" data-userid="'+user_ID+'" data-unremoveable="'+unremoveable+'">\
-			<picture class="profile-picture" '+printPic+'>\
-				<span '+hasPic+'>'+(mStatus == 'email' ? '<i class="fa fa-envelope" aria-hidden="true"></i>' : nameabbr)+'</span>\
-			</picture>\
-		</a>\
+		<picture class="profile-picture" '+printPic+' data-tooltip="'+fullName+'" data-type="user" data-id="'+user_ID+'">\
+			<span '+hasPic+'>'+nameAbbr+'</span>\
+		</picture>\
 	';
 
 }
@@ -1271,9 +1244,7 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 	var shareText = "This " + dataType;
 	if (mStatus == "owner") shareText = dataType + " Owner";
 	if (mStatus == "projectowner") shareText = "Project Owner";
-	if (mStatus == "project") {
-		shareText = "Whole Project";
-	}
+	if (mStatus == "project") shareText = "Whole Project";
 
 
 	return '\

@@ -191,12 +191,8 @@
 											<!-- Owner -->
 											<picture class="profile-picture" <?=$block_user['printPicture']?>
 												data-tooltip="<?=$block_user['fullName']?>"
-												data-mstatus="owner"
-												data-fullname="<?=$block_user['fullName']?>"
-												data-nameabbr="<?=$block_user['nameAbbr']?>"
-												data-email="<?=$block_user['email']?>"
-												data-avatar="<?=$block_user['userPicUrl']?>"
-												data-userid="<?=$block_user_ID?>"
+												data-type="user"
+												data-id="<?=$block_user_ID?>"
 												data-unremoveable="unremoveable"
 											>
 												<span <?=$block_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$block_user['nameAbbr']?></span>
@@ -240,12 +236,8 @@
 
 											<picture class="profile-picture" <?=$shared_user['printPicture']?>
 												data-tooltip="<?=$shared_user['fullName']?>"
-												data-mstatus="user"
-												data-fullname="<?=$shared_user['fullName']?>"
-												data-nameabbr="<?=$shared_user['nameAbbr']?>"
-												data-email="<?=$shared_user['email']?>"
-												data-avatar="<?=$shared_user['userPicUrl']?>"
-												data-userid="<?=$shared_user_ID?>"
+												data-type="user"
+												data-id="<?=$shared_user_ID?>"
 												data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 											>
 												<span <?=$shared_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$shared_user['nameAbbr']?></span>
@@ -259,12 +251,8 @@
 
 											<picture class="profile-picture email"
 												data-tooltip="<?=$shared_user_ID?>"
-												data-mstatus="email"
-												data-fullname=""
-												data-nameabbr=""
-												data-email="<?=$shared_user_ID?>"
-												data-avatar=""
-												data-userid="<?=$shared_user_ID?>"
+												data-type="user"
+												data-id="<?=$shared_user_ID?>"
 												data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 											>
 												<i class="fa fa-envelope"></i>

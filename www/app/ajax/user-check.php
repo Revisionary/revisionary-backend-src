@@ -54,7 +54,6 @@ if ( $user !== null ) {
 		'status' => 'found',
 		'share_to' => $user['user_ID'],
 		'user_ID' => $user['user_ID'],
-		'user_link' => site_url('profile/'.getUserInfo($user['user_ID'])['userName']),
 		'user_photo' => getUserInfo($user['user_ID'])['printPicture'],
 		'user_name' => '<span '.(getUserInfo($user['user_ID'])['userPic'] != "" ? "class='has-pic'" : "").'>'.(getUserInfo($user['user_ID'])['nameAbbr']).'</span>',
 	);
