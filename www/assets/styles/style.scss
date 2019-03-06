@@ -1722,11 +1722,6 @@ input.share-email {
 	.people a {
 		display: inline-block;
 		line-height: 16px;
-
-		&.new-member {
-			position: relative;
-		    right: -5px;
-		}
 	}
 
 	ul.selected-screens {
@@ -2216,9 +2211,7 @@ footer {
 				}
 
 				.plus-icon {
-					font-family: Arial;
-					font-size: 90px;
-					line-height: 80px;
+					font-size: 55px;
 				}
 
 			}

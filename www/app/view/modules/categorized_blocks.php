@@ -526,7 +526,7 @@ if ($dataType == "page" && $allMyPins) {
 							<a href="#" class="wrap xl-flexbox xl-middle xl-center" data-modal="add-new" data-type="<?=$dataType?>" data-id="<?=$dataType == "project" ? "new" : $project_ID?>">
 								<div class="col">
 									New <?=ucfirst($dataType)?>
-									<div class="plus-icon">+</div>
+									<div class="plus-icon"><i class="fa fa-plus"></i></div>
 								</div>
 							</a>
 

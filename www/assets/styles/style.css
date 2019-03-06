@@ -6166,9 +6166,6 @@ input.share-email.error {
   .popup-window .people a {
     display: inline-block;
     line-height: 16px; }
-    .popup-window .people a.new-member {
-      position: relative;
-      right: -5px; }
   .popup-window ul.selected-screens {
     list-style: none;
     margin-top: 0; }
@@ -6459,9 +6456,7 @@ footer .footer-links a {
       color: #007acc; }
     .blocks > .block.add-new-block .box a .plus-icon,
     .blocks > .block.add-new-template .box a .plus-icon {
-      font-family: Arial;
-      font-size: 90px;
-      line-height: 80px; }
+      font-size: 55px; }
   .blocks > .block .box {
     border: 3px solid;
     border-radius: 10px;

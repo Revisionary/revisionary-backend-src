@@ -134,7 +134,7 @@
 						<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." tabindex="3" />
 
 
-						<h3><i class="fa fa-share-alt xl-hidden"></i> Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Users who can access this project with all the pages in it." aria-hidden="true"></i></h3>
+						<h3><i class="fa fa-share-alt"></i> Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Users who can access this project with all the pages in it." aria-hidden="true"></i></h3>
 						<div class="people">
 
 
