@@ -4,13 +4,7 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 
 
 	// If being force reinternalizing, update the URL
-	var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
-
-
-	if (history.replaceState) {
-	    var newurl = queryParameter(currentUrl, 'redownload', "");
-	    if (newurl != currentUrl) window.history.replaceState({path:newurl},'',newurl);
-	}
+	removeQueryArgFromCurrentUrl('redownload');
 
 
 	// Get the up-to-date pins
@@ -3930,37 +3924,6 @@ function rgbToHex(orig){
 	("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
 	("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
 
-}
-
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-
-function queryParameter(url, key, value = null) {
-
-
-	var urlParsed = new URL(url);
-	var query_string = urlParsed.search;
-	var search_params = new URLSearchParams(query_string);
-
-
-	if (value == "") search_params.delete(key);
-	else search_params.set(key, value);
-
-
-	if (value == null) return getParameterByName(key, url);
-
-
-	urlParsed.search = search_params.toString();
-	var new_url = urlParsed.toString();
-
-	return new_url;
 }
 
 function diffCheck(originalContent, changedContent) {

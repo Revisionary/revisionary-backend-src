@@ -6562,6 +6562,31 @@ footer .footer-links a {
 .wrap, .col {
   transition: 500ms; }
 
+.alerts {
+  position: absolute;
+  z-index: 5;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%); }
+  .alerts > .alert {
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    font-weight: 100;
+    padding: 10px 40px 10px 20px;
+    margin-bottom: 5px;
+    position: relative; }
+    .alerts > .alert > .close {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white; }
+      .alerts > .alert > .close:hover {
+        opacity: 0.8; }
+    .alerts > .alert.error {
+      background-color: #670000; }
+
 /**
  * 14.0 - Media Queries
  */

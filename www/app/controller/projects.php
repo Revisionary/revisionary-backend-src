@@ -97,11 +97,7 @@ if (
 
 
 	// If successful
-	if ($device_ID)
-		header('Location: '.$revise_url);
-	else
-		header('Location: '.site_url('projects?adderror'));
-
+	header('Location: '.$revise_url);
 	die();
 
 }

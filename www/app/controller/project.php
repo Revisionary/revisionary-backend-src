@@ -90,7 +90,7 @@ if (
 ) {
 
 	// Redirect to "Projects" page
-	header('Location: '.site_url('projects'));
+	header('Location: '.site_url('projects?noaccess'));
 	die();
 
 }

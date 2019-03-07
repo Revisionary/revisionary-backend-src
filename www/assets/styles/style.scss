@@ -2402,12 +2402,43 @@ footer {
 }
 
 
+.alerts {
+	position: absolute;
+	z-index: 5;
+	top: 5px;
+	left: 50%;
+	transform: translateX(-50%);
+
+	& > .alert {
+		background-color: $color;
+		color: white;
+		font-size: 12px;
+		font-weight: 100;
+		padding: 10px 40px 10px 20px;
+		margin-bottom: 5px;
+		position: relative;
+
+		& > .close {
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: white;
+
+			&:hover {
+				opacity: 0.8;
+			}
+		}
+
+		&.error {
+		    background-color: #670000;
+		}
+	}
+
+}
 
 
 
-
-
-//} /* END OF #page */
 
 
 /**

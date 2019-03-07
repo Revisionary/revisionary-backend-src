@@ -638,6 +638,22 @@ $(function() {
 	startNotificationAutoRefresh();
 
 
+	// Alert auto removal
+    setTimeout(function() {
+
+		dismissAlert( $('.alerts > .alert.success') );
+
+	}, 4000);
+
+
+	// Dismiss an alert
+	$(document).on('click', '.alert > .close', function() {
+
+		dismissAlert( $(this).parent() );
+
+	});
+
+
 });
 
 
@@ -893,6 +909,10 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 				// Page redirection
 				if (action == "remove" && firstParameter == "redirect")
 					window.open(secondParameter, "_self");
+
+
+				// If we're in the blocks
+				if ( $('.blocks').length ) addNewPageButtons();
 
 
 				// Hide the item
@@ -1192,6 +1212,16 @@ function stopNotificationAutoRefresh() {
 }
 
 
+// Dismiss alerts
+function dismissAlert(selector) {
+
+    selector.fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+
+}
+
+
 
 
 // MODALS:
@@ -1280,6 +1310,24 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 
 
 // HELPERS:
+function currentUrl() {
+
+	return window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+
+}
+
+function removeQueryArgFromCurrentUrl(arg) {
+
+
+	// If being force reinternalizing, update the URL
+	if (history.replaceState) {
+	    var newurl = queryParameter(currentUrl(), arg, "");
+	    if (newurl != currentUrl()) window.history.replaceState({path:newurl},'',newurl);
+	}
+
+
+}
+
 function cleanHTML(s, allowBRs = false) {
 
 	if (allowBRs) {
@@ -1301,6 +1349,27 @@ function getParameterByName(name, url) {
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function queryParameter(url, key, value = null) {
+
+
+	var urlParsed = new URL(url);
+	var query_string = urlParsed.search;
+	var search_params = new URLSearchParams(query_string);
+
+
+	if (value == "") search_params.delete(key);
+	else search_params.set(key, value);
+
+
+	if (value == null) return getParameterByName(key, url);
+
+
+	urlParsed.search = search_params.toString();
+	var new_url = urlParsed.toString();
+
+	return new_url;
 }
 
 function timeSince(date) {

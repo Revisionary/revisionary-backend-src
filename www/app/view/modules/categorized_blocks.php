@@ -1,6 +1,133 @@
 <?php require view('static/header_html'); ?>
 <?php require view('static/header_frontend'); ?>
 
+	<div class="alerts">
+
+		<?php if ( isset($_GET['noaccess']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('noaccess');</script>
+			Looks like you don't have access to this project.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['invalidurl']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invalidurl');</script>
+			The URL you entered is invalid.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['addprojecterror']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('addprojecterror');</script>
+			Your project couldn't be added.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['addpageerror']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('addpageerror');</script>
+			Your page couldn't be added.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['adddeviceerror']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('adddeviceerror');</script>
+			Your device couldn't be added.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['invalid']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invalid');</script>
+			We couldn't find the project you are looking for.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['projectdoesntexist']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('projectdoesntexist');</script>
+			The project you are looking for has been removed.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['invaliddevice']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invaliddevice');</script>
+			We couldn't find the device you are looking for.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['devicedoesntexist']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('devicedoesntexist');</script>
+			The device you are looking for has been removed.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['pagedoesntexist']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('pagedoesntexist');</script>
+			The page you are looking for has been removed.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['invalidpage']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invalidpage');</script>
+			We couldn't find the page you are looking for.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+
+
+
+
+		<?php } elseif ( isset($_GET['status']) && $_GET['status'] == "successful" ) { ?>
+
+		<div class="alert success"> <script>removeQueryArgFromCurrentUrl('status');</script>
+			New category successfully added.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['password-changed']) ) { ?>
+
+		<div class="alert success"> <script>removeQueryArgFromCurrentUrl('password-changed');</script>
+			Your password successfully changed.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } ?>
+
+
+<!--
+		<div class="alert">
+			Looks like you don't have access to this page.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+		<div class="alert">
+			Looks like you don't have access to this page.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+-->
+	</div>
+
 	<div id="content" class="wrap xl-1 container">
 		<div class="col">
 
