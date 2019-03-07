@@ -674,8 +674,7 @@ $(window).on("load", function (e) {
 // NEW PAGE/PROJECT CLONES
 function addNewPageButtons() {
 
-	var page_type = "Page";
-	if ( $('h1').text() == "PROJECTS" ) page_type = "Project";
+	console.log('New page/project buttons adding...');
 
 	var box_html = $('<div>').append( $('.add-new-template').clone().removeClass('add-new-template').addClass('add-new-block') ).html();
 
@@ -911,15 +910,12 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 					window.open(secondParameter, "_self");
 
 
-				// If we're in the blocks
-				if ( $('.blocks').length ) addNewPageButtons();
-
-
 				// Hide the item
 				items.remove();
 
+
 				// Update the add new blocks
-				if ( object_type == "category" ) addNewPageButtons();
+				if ( object_type == "projectcategory" || object_type == "pagecategory" ) addNewPageButtons();
 
 
 			} else if (action == "changeshareaccess" || action == "unshare" || action == "makeownerof") {
