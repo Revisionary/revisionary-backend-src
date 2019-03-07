@@ -1248,22 +1248,22 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 
 
 	return '\
-		<li class="wrap xl-flexbox xl-middle xl-between member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-second-parameter="'+ object_ID +'" data-third-parameter="'+ page_ID +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
-			<div class="col">\
+		<li class="wrap xl-flexbox xl-middle member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-second-parameter="'+ object_ID +'" data-third-parameter="'+ page_ID +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
+			<div class="col xl-8-12">\
 				<div class="wrap xl-flexbox xl-middle xl-gutter-8">\
-					<div class="col">\
+					<div class="col xl-2-12">\
 						<figure class="profile-picture '+ hasPic +'" '+ printPicture +'>\
 							<span class="abbr">'+ nameAbbr +'</span>\
 						</figure>\
 					</div>\
-					<div class="col">\
+					<div class="col xl-10-12">\
 						<span class="full-name">'+ fullName +'</span>\
 						<span class="email">('+ email +')</span>\
 						<span class="owner-badge">ME</span>\
 					</div>\
 				</div>\
 			</div>\
-			<div class="col text-uppercase dropdown access">\
+			<div class="col xl-4-12 text-uppercase dropdown access">\
 				<a href="#">'+ shareText +' <i class="fa fa-caret-down change-access"></i></a>\
 				<ul class="no-delay right selectable change-access">\
 					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +' hide-if-me"><a href="#" data-action="changeshareaccess">THIS '+dataType+'</a></li>\

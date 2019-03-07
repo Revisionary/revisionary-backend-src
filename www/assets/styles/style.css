@@ -6229,6 +6229,8 @@ input.share-email.error {
       display: none; }
     .members > .member[data-itsme="yes"] .change-access {
       display: inline-block; }
+    .members > .member .email {
+      white-space: nowrap; }
     .members > .member .remove {
       position: absolute;
       right: 0;
