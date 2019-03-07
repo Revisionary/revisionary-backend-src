@@ -190,7 +190,7 @@ $additionalCSS = [
 $additionalHeadJS = [
 	'process.js',
 	'vendor/jquery.mCustomScrollbar.concat.min.js',
-	'vendor/jquery.sortable.min.js',
+	'vendor/jquery-sortable.js',
 	'common.js',
 	'block.js'
 ];

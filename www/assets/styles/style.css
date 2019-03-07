@@ -6409,157 +6409,174 @@ footer .footer-links a {
 /**
  *  Blocks
  */
-.blocks > .cat-separator {
-  border-bottom: 1px solid;
-  padding: 0 !important;
-  margin-left: 15px;
-  opacity: 0.5;
-  margin-bottom: 10px; }
-  .blocks > .cat-separator:hover .actions {
-    opacity: 1; }
-
-.blocks .name-field .share-icons i {
-  font-size: 10px; }
-  .blocks .name-field .share-icons i:nth-child(2) {
-    margin-left: 1px; }
-
-.blocks .name-field .actions {
-  opacity: 0;
-  transition: 700ms; }
-  .blocks .name-field .actions input.edit-name {
-    display: none;
-    width: auto;
-    max-width: 100%;
-    font-size: 14px;
-    font-weight: inherit;
-    line-height: inherit;
-    height: auto;
-    border-width: 1px;
-    padding: 0 5px;
-    margin-left: -5px; }
-
-.blocks .name-field.editing .name {
-  display: none; }
-
-.blocks .name-field.editing .actions {
-  opacity: 1 !important; }
-  .blocks .name-field.editing .actions input.edit-name {
-    display: inline-block;
-    font-size: 16px;
-    line-height: 18.4px;
-    max-width: 75%; }
-
-.blocks > .block {
-  margin-bottom: 50px; }
-  .blocks > .block.add-new-block .box a,
-  .blocks > .block.add-new-template .box a {
-    min-height: inherit;
-    letter-spacing: normal; }
-    .blocks > .block.add-new-block .box a:hover .plus-icon,
-    .blocks > .block.add-new-template .box a:hover .plus-icon {
-      color: #007acc; }
-    .blocks > .block.add-new-block .box a .plus-icon,
-    .blocks > .block.add-new-template .box a .plus-icon {
-      font-size: 55px; }
-  .blocks > .block .box {
-    border: 3px solid;
+ol.categories {
+  padding: 0; }
+  ol.categories > li.category {
+    border: 1px dashed white;
     border-radius: 10px;
-    min-height: 250px;
-    background-size: cover; }
-    .blocks > .block .box .overlay {
+    min-height: 280px;
+    margin-bottom: 20px;
+    padding: 10px; }
+    ol.categories > li.category:not(#uncategorized):hover {
+      border-color: #c7c7c7; }
+    ol.categories > li.category .cat-separator {
+      border-bottom: 1px solid;
+      padding: 0 !important;
+      opacity: 0.5;
+      margin-bottom: 10px; }
+      ol.categories > li.category .cat-separator:hover .actions {
+        opacity: 1; }
+    ol.categories > li.category .name-field .share-icons i {
+      font-size: 10px; }
+      ol.categories > li.category .name-field .share-icons i:nth-child(2) {
+        margin-left: 1px; }
+    ol.categories > li.category .name-field .actions {
       opacity: 0;
-      background-color: rgba(0, 0, 0, 0.45);
-      min-height: inherit; }
-      .blocks > .block .box .overlay * {
-        color: white; }
-      .blocks > .block .box .overlay .people > * {
-        margin: 0;
-        width: 20px;
-        height: 20px;
-        line-height: 17px;
-        font-size: 10px;
-        border-color: white; }
-      .blocks > .block .box .overlay .pages {
+      transition: 700ms; }
+      ol.categories > li.category .name-field .actions input.edit-name {
+        display: none;
+        width: auto;
+        max-width: 100%;
+        font-size: 14px;
+        font-weight: inherit;
+        line-height: inherit;
+        height: auto;
+        border-width: 1px;
+        padding: 0 5px;
+        margin-left: -5px; }
+    ol.categories > li.category .name-field.editing .name {
+      display: none; }
+    ol.categories > li.category .name-field.editing .actions {
+      opacity: 1 !important; }
+      ol.categories > li.category .name-field.editing .actions input.edit-name {
         display: inline-block;
-        position: relative; }
-        .blocks > .block .box .overlay .pages .page-count {
-          position: absolute;
-          top: 30px;
-          font-size: 15px;
-          line-height: 16px;
+        font-size: 16px;
+        line-height: 18.4px;
+        max-width: 75%; }
+    ol.categories > li.category > ol.blocks > .block {
+      margin-bottom: 50px; }
+      ol.categories > li.category > ol.blocks > .block.add-new-block .box a {
+        min-height: inherit;
+        letter-spacing: normal;
+        text-transform: capitalize; }
+        ol.categories > li.category > ol.blocks > .block.add-new-block .box a:hover .plus-icon {
+          color: #007acc; }
+        ol.categories > li.category > ol.blocks > .block.add-new-block .box a .plus-icon {
+          font-size: 55px; }
+      ol.categories > li.category > ol.blocks > .block .box {
+        border: 3px solid;
+        border-radius: 10px;
+        min-height: 250px;
+        background-size: cover; }
+        ol.categories > li.category > ol.blocks > .block .box .overlay {
+          opacity: 0;
+          background-color: rgba(0, 0, 0, 0.45);
+          min-height: inherit; }
+          ol.categories > li.category > ol.blocks > .block .box .overlay * {
+            color: white; }
+          ol.categories > li.category > ol.blocks > .block .box .overlay .people > * {
+            margin: 0;
+            width: 20px;
+            height: 20px;
+            line-height: 17px;
+            font-size: 10px;
+            border-color: white; }
+          ol.categories > li.category > ol.blocks > .block .box .overlay .pages {
+            display: inline-block;
+            position: relative; }
+            ol.categories > li.category > ol.blocks > .block .box .overlay .pages .page-count {
+              position: absolute;
+              top: 30px;
+              font-size: 15px;
+              line-height: 16px;
+              display: block;
+              width: 100%;
+              padding-right: 20px;
+              box-sizing: border-box; }
+          ol.categories > li.category > ol.blocks > .block .box .overlay .modes a {
+            font-size: 30px;
+            padding: 0 2px; }
+          ol.categories > li.category > ol.blocks > .block .box .overlay .pins {
+            padding: 4px !important; }
+            ol.categories > li.category > ol.blocks > .block .box .overlay .pins pin {
+              margin: 1px;
+              margin-bottom: 12px; }
+              ol.categories > li.category > ol.blocks > .block .box .overlay .pins pin .notif-no {
+                bottom: auto;
+                right: -5px;
+                top: -5px; }
+          ol.categories > li.category > ol.blocks > .block .box .overlay .screens > .device-wrap a > i {
+            font-size: 30px; }
+          ol.categories > li.category > ol.blocks > .block .box .overlay > div:not(.people):not(.pages) {
+            padding: 0 2px; }
+            ol.categories > li.category > ol.blocks > .block .box .overlay > div:not(.people):not(.pages) > a {
+              opacity: 0.65; }
+              ol.categories > li.category > ol.blocks > .block .box .overlay > div:not(.people):not(.pages) > a:hover {
+                opacity: 1; }
+        ol.categories > li.category > ol.blocks > .block .box:hover .overlay,
+        ol.categories > li.category > ol.blocks > .block .box.no-thumb .overlay {
+          opacity: 1; }
+      ol.categories > li.category > ol.blocks > .block .date {
+        font-size: 10px;
+        line-height: 22px;
+        color: #4A4A4A;
+        white-space: nowrap; }
+      ol.categories > li.category > ol.blocks > .block .box-name a {
+        font-size: 14px;
+        line-height: 17px;
+        letter-spacing: normal; }
+      ol.categories > li.category > ol.blocks > .block .box-name .actions {
+        opacity: 0;
+        transition: 700ms; }
+      ol.categories > li.category > ol.blocks > .block .box-name:hover .actions {
+        opacity: 1; }
+      ol.categories > li.category > ol.blocks > .block input.edit-name {
+        width: 90% !important; }
+    ol.categories > li.category > ol.blocks .device-wrap {
+      position: relative; }
+      ol.categories > li.category > ol.blocks .device-wrap .device-link {
+        display: inline-block; }
+      ol.categories > li.category > ol.blocks .device-wrap .remove-device {
+        position: absolute;
+        top: -22px;
+        right: -10px;
+        display: none; }
+        ol.categories > li.category > ol.blocks .device-wrap .remove-device > i {
           display: block;
-          width: 100%;
-          padding-right: 20px;
-          box-sizing: border-box; }
-      .blocks > .block .box .overlay .modes a {
-        font-size: 30px;
-        padding: 0 2px; }
-      .blocks > .block .box .overlay .pins {
-        padding: 4px !important; }
-        .blocks > .block .box .overlay .pins pin {
-          margin: 1px;
-          margin-bottom: 12px; }
-          .blocks > .block .box .overlay .pins pin .notif-no {
-            bottom: auto;
-            right: -5px;
-            top: -5px; }
-      .blocks > .block .box .overlay .screens > .device-wrap a > i {
-        font-size: 30px; }
-      .blocks > .block .box .overlay > div:not(.people):not(.pages) {
-        padding: 0 2px; }
-        .blocks > .block .box .overlay > div:not(.people):not(.pages) > a {
-          opacity: 0.65; }
-          .blocks > .block .box .overlay > div:not(.people):not(.pages) > a:hover {
-            opacity: 1; }
-    .blocks > .block .box:hover .overlay,
-    .blocks > .block .box.no-thumb .overlay {
-      opacity: 1; }
-  .blocks > .block .date {
-    font-size: 10px;
-    line-height: 22px;
-    color: #4A4A4A;
-    white-space: nowrap; }
-  .blocks > .block .box-name a {
-    font-size: 14px;
-    line-height: 17px;
-    letter-spacing: normal; }
-  .blocks > .block .box-name .actions {
-    opacity: 0;
-    transition: 700ms; }
-  .blocks > .block .box-name:hover .actions {
-    opacity: 1; }
-  .blocks > .block input.edit-name {
-    width: 90% !important; }
+          font-size: 15px !important;
+          width: 15px;
+          height: 15px; }
+      ol.categories > li.category > ol.blocks .device-wrap:hover .remove-device {
+        display: block; }
 
-.blocks .device-wrap {
-  position: relative; }
-  .blocks .device-wrap .device-link {
-    display: inline-block; }
-  .blocks .device-wrap .remove-device {
-    position: absolute;
-    top: -22px;
-    right: -10px;
-    display: none; }
-    .blocks .device-wrap .remove-device > i {
-      display: block;
-      font-size: 15px !important;
-      width: 15px;
-      height: 15px; }
-  .blocks .device-wrap:hover .remove-device {
-    display: block; }
-
-.sortable .sortable-placeholder {
-  border: 5px dashed;
-  min-height: 1px;
-  font-size: 1rem;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box; }
-
-.sortable .box, .sortable .cat-separator {
+.cat-sortable .cat-handle {
   cursor: move; }
 
-.wrap, .col {
+.cat-sortable .sortable-placeholder {
+  border: 2px dashed;
+  box-sizing: border-box;
+  min-height: 300px;
+  margin-bottom: 20px;
+  width: 100%; }
+
+.object-sortable .object-handle {
+  cursor: move; }
+
+.object-sortable .sortable-placeholder {
+  border: 5px dashed;
+  min-height: 250px;
+  min-width: 16.66667%;
+  box-sizing: border-box; }
+
+body.dragging, body.dragging * {
+  cursor: move !important; }
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000; }
+
+.wrap, .col:not(.dragged) {
   transition: 500ms; }
 
 .alerts {

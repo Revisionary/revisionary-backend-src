@@ -2127,215 +2127,28 @@ footer {
  *  Blocks
  */
 
-.blocks {
+ol.categories {
+	padding: 0;
 
 
-	& > .cat-separator {
-	    border-bottom: 1px solid;
-	    padding: 0 !important;
-	    margin-left: 15px;
-	    opacity: 0.5;
-	    margin-bottom: 10px;
+	& > li.category {
+		//background-color: gray;
+		border: 1px dashed white;
+		border-radius: 10px;
+		min-height: 280px;
+		margin-bottom: 20px;
+		padding: 10px;
 
-	    &:hover .actions {
-		    opacity: 1;
-	    }
-
-	}
-
-	.name-field {
-
-		.share-icons {
-
-			i {
-				font-size: 10px;
-
-				&:nth-child(2) {
-					margin-left: 1px;
-				}
-			}
+		&:not(#uncategorized):hover {
+			border-color: #c7c7c7;
 		}
 
-		.actions {
-		    opacity: 0;
-		    transition: 700ms;
 
-			input.edit-name {
-				display: none;
-				width: auto;
-				max-width: 100%;
-				font-size: 14px;
-			    font-weight: inherit;
-			    line-height: inherit;
-			    height: auto;
-			    border-width: 1px;
-				padding: 0 5px;
-				margin-left: -5px;
-			}
-
-	    }
-
-
-		&.editing {
-
-		    .name {
-			    display: none;
-		    }
-
-		    .actions {
-				opacity: 1 !important;
-
-			    input.edit-name {
-				    display: inline-block;
-				    font-size: 16px;
-				    line-height: 18.4px;
-				    max-width: 75%;
-			    }
-
-			}
-
-	    }
-
-	}
-
-	& > .block {
-		margin-bottom: 50px;
-
-		&.add-new-block,
-		&.add-new-template {
-
-			.box a {
-				min-height: inherit;
-				letter-spacing: normal;
-
-				&:hover .plus-icon {
-					color: $color-secondary;
-				}
-
-				.plus-icon {
-					font-size: 55px;
-				}
-
-			}
-
-		}
-
-		.box {
-		    border: 3px solid;
-		    border-radius: 10px;
-		    min-height: 250px;
-		    background-size: cover;
-
-
-		    .overlay {
-			    opacity: 0;
-			    background-color: rgba(0, 0, 0, 0.45);
-			    min-height: inherit;
-
-			    & * {
-				    color: white;
-			    }
-
-			    .people {
-
-					& > * {
-						margin: 0;
-						width: 20px;
-						height: 20px;
-						line-height: 17px;
-						font-size: 10px;
-						border-color: white;
-					}
-
-			    }
-
-			    .pages {
-				    display: inline-block;
-				    position: relative;
-
-				    .page-count {
-						position: absolute;
-					    top: 30px;
-					    font-size: 15px;
-					    line-height: 16px;
-					    display: block;
-					    width: 100%;
-					    padding-right: 20px;
-					    box-sizing: border-box;
-					}
-
-			    }
-
-			    .modes {
-
-				    a {
-					    font-size: 30px;
-				        padding: 0 2px;
-				    }
-
-			    }
-
-			    .pins {
-					padding: 4px !important;
-
-					pin {
-						margin: 1px;
-						margin-bottom: 12px;
-
-						.notif-no {
-							bottom: auto;
-							right: -5px;
-							top: -5px;
-						}
-					}
-				}
-
-				.screens > .device-wrap {
-
-					a > i {
-						font-size: 30px;
-					}
-
-				}
-
-				& > div:not(.people):not(.pages) {
-				    padding: 0 2px;
-
-					& > a {
-						opacity: 0.65;
-
-						&:hover {
-						    opacity: 1;
-					    }
-					}
-				}
-		    }
-
-		    &:hover .overlay,
-		    &.no-thumb .overlay {
-			    opacity: 1;
-		    }
-		}
-
-		.date {
-			font-size: 10px;
-			line-height: 22px;
-			color: $color-light;
-			white-space: nowrap;
-		}
-
-		.box-name {
-
-			a {
-				font-size: 14px;
-				line-height: 17px;
-				letter-spacing: normal;
-			}
-
-		    .actions {
-			    opacity: 0;
-			    transition: 700ms;
-		    }
+		.cat-separator {
+		    border-bottom: 1px solid;
+		    padding: 0 !important;
+		    opacity: 0.5;
+		    margin-bottom: 10px;
 
 		    &:hover .actions {
 			    opacity: 1;
@@ -2343,61 +2156,311 @@ footer {
 
 		}
 
-		input.edit-name {
-			width: 90% !important;
+
+		.name-field {
+
+			.share-icons {
+
+				i {
+					font-size: 10px;
+
+					&:nth-child(2) {
+						margin-left: 1px;
+					}
+				}
+			}
+
+			.actions {
+			    opacity: 0;
+			    transition: 700ms;
+
+				input.edit-name {
+					display: none;
+					width: auto;
+					max-width: 100%;
+					font-size: 14px;
+				    font-weight: inherit;
+				    line-height: inherit;
+				    height: auto;
+				    border-width: 1px;
+					padding: 0 5px;
+					margin-left: -5px;
+				}
+
+		    }
+
+
+			&.editing {
+
+			    .name {
+				    display: none;
+			    }
+
+			    .actions {
+					opacity: 1 !important;
+
+				    input.edit-name {
+					    display: inline-block;
+					    font-size: 16px;
+					    line-height: 18.4px;
+					    max-width: 75%;
+				    }
+
+				}
+
+		    }
+
 		}
-	}
 
-	.device-wrap {
-		position: relative;
 
-		.device-link {
-			display: inline-block;
-		}
+		& > ol.blocks {
 
-		.remove-device {
-			position: absolute;
-			top: -22px;
-			right: -10px;
-			display: none;
 
-			& > i {
-				display: block;
-				font-size: 15px !important;
-				width: 15px;
-				height: 15px;
+			& > .block {
+				margin-bottom: 50px;
+
+				&.add-new-block {
+
+					.box a {
+						min-height: inherit;
+						letter-spacing: normal;
+						text-transform: capitalize;
+
+						&:hover .plus-icon {
+							color: $color-secondary;
+						}
+
+						.plus-icon {
+							font-size: 55px;
+						}
+
+					}
+
+				}
+
+				.box {
+				    border: 3px solid;
+				    border-radius: 10px;
+				    min-height: 250px;
+				    background-size: cover;
+
+
+				    .overlay {
+					    opacity: 0;
+					    background-color: rgba(0, 0, 0, 0.45);
+					    min-height: inherit;
+
+					    & * {
+						    color: white;
+					    }
+
+					    .people {
+
+							& > * {
+								margin: 0;
+								width: 20px;
+								height: 20px;
+								line-height: 17px;
+								font-size: 10px;
+								border-color: white;
+							}
+
+					    }
+
+					    .pages {
+						    display: inline-block;
+						    position: relative;
+
+						    .page-count {
+								position: absolute;
+							    top: 30px;
+							    font-size: 15px;
+							    line-height: 16px;
+							    display: block;
+							    width: 100%;
+							    padding-right: 20px;
+							    box-sizing: border-box;
+							}
+
+					    }
+
+					    .modes {
+
+						    a {
+							    font-size: 30px;
+						        padding: 0 2px;
+						    }
+
+					    }
+
+					    .pins {
+							padding: 4px !important;
+
+							pin {
+								margin: 1px;
+								margin-bottom: 12px;
+
+								.notif-no {
+									bottom: auto;
+									right: -5px;
+									top: -5px;
+								}
+							}
+						}
+
+						.screens > .device-wrap {
+
+							a > i {
+								font-size: 30px;
+							}
+
+						}
+
+						& > div:not(.people):not(.pages) {
+						    padding: 0 2px;
+
+							& > a {
+								opacity: 0.65;
+
+								&:hover {
+								    opacity: 1;
+							    }
+							}
+						}
+				    }
+
+				    &:hover .overlay,
+				    &.no-thumb .overlay {
+					    opacity: 1;
+				    }
+				}
+
+				.date {
+					font-size: 10px;
+					line-height: 22px;
+					color: $color-light;
+					white-space: nowrap;
+				}
+
+				.box-name {
+
+					a {
+						font-size: 14px;
+						line-height: 17px;
+						letter-spacing: normal;
+					}
+
+				    .actions {
+					    opacity: 0;
+					    transition: 700ms;
+				    }
+
+				    &:hover .actions {
+					    opacity: 1;
+				    }
+
+				}
+
+				input.edit-name {
+					width: 90% !important;
+				}
+			}
+
+
+			.device-wrap {
+				position: relative;
+
+				.device-link {
+					display: inline-block;
+				}
+
+				.remove-device {
+					position: absolute;
+					top: -22px;
+					right: -10px;
+					display: none;
+
+					& > i {
+						display: block;
+						font-size: 15px !important;
+						width: 15px;
+						height: 15px;
+					}
+
+				}
+
+				&:hover .remove-device {
+					display: block;
+				}
 			}
 
 		}
 
-		&:hover .remove-device {
-			display: block;
-		}
+
 	}
 
 
 }
 
 
-.sortable {
+
+
+.cat-sortable {
+
+	.cat-handle {
+		cursor: move;
+	}
+
+	.sortable-placeholder {
+		border: 2px dashed;
+	    box-sizing: border-box;
+		min-height: 300px;
+		margin-bottom: 20px;
+		width: 100%;
+	}
+}
+
+.object-sortable {
+
+
+	.object-handle {
+		cursor: move;
+	}
 
 	.sortable-placeholder {
 		border: 5px dashed;
-		min-height: 1px;
-	    font-size: 1rem;
-	    -webkit-box-sizing: border-box;
-	    -moz-box-sizing: border-box;
+		min-height: 250px;
+		min-width: 16.66667%;
 	    box-sizing: border-box;
-	}
-
-	.box, .cat-separator {
-	    cursor: move;
 	}
 
 }
 
 
-.wrap, .col {
+
+
+
+
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+
+
+
+
+
+
+
+
+
+
+.wrap, .col:not(.dragged) {
 	transition: 500ms;
 }
 

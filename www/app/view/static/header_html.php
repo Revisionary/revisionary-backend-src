@@ -40,6 +40,7 @@
 			var nonce = '<?=$_SESSION["js_nonce"]?>';
 			var loggedIn = <?=userloggedIn() ? "true" : "false"?>;
 			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
+			<?=isset($dataType) && $dataType == "page" && isset($project_ID) ? "var project_ID = '".$project_ID."';" : ""?>
 		</script>
 
 		<?php

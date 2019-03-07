@@ -179,7 +179,7 @@ $additionalCSS = [
 
 $additionalHeadJS = [
 	'process.js',
-	'vendor/jquery.sortable.min.js',
+	'vendor/jquery-sortable.js',
 	'common.js',
 	'block.js'
 ];

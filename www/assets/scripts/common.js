@@ -671,28 +671,6 @@ $(window).on("load", function (e) {
 });
 
 
-// NEW PAGE/PROJECT CLONES
-function addNewPageButtons() {
-
-	console.log('New page/project buttons adding...');
-
-	var box_html = $('<div>').append( $('.add-new-template').clone().removeClass('add-new-template').addClass('add-new-block') ).html();
-
-	$('.add-new-block').remove();
-
-	$('.cat-separator').each(function() {
-
-		if ( $(this).prev().hasClass('block') || ($(this).prev().hasClass('cat-separator') && !$(this).prev().hasClass('xl-hidden')) ) {
-
-			$(this).prev().after(box_html);
-
-		}
-
-	});
-
-}
-
-
 // Update shares
 function updateShares() {
 

@@ -28,8 +28,9 @@ $(function() {
 
 
 	// Block Sortables
+/*
 	$('.sortable').sortable({
-	    items: '[draggable="true"]',
+	    itemSelector: '[draggable="true"]',
 	    handle: '.box, .handle',
 	    forcePlaceholderSize: true
 	}).bind('sortupdate', function(e, ui) {
@@ -40,9 +41,11 @@ $(function() {
 
 
 	});
+*/
 
 
 	// Drag Detector
+/*
 	$('.sortable [draggable="true"]').bind('dragstart', function( event ) {
 
 
@@ -64,6 +67,86 @@ $(function() {
 
 
     });
+*/
+
+
+
+
+
+	$(".cat-sortable").sortable({
+		group: 'categories',
+		handle: '.cat-handle',
+		itemSelector: "li:not(#uncategorized)",
+		vertical: true,
+		distance: 20,
+		nested: false,
+		exclude: '.cat-separator',
+		placeholder: "<li class='col sortable-placeholder'></li>",
+		isValidTarget: function ($item, container) {
+
+			console.log($item, container);
+
+			return true
+		}
+	});
+
+
+
+	$('.object-sortable').sortable({
+		group: 'objects',
+		handle: '.object-handle:not(.pages)',
+		itemSelector: "li:not(.add-new-template)",
+		vertical: false,
+		distance: 20,
+		nested: false,
+	    placeholder: "<li class='col'><div class='sortable-placeholder'></div></li>",
+	    onDragStart: function ($item, container, _super, event) {
+
+
+			$item.css({
+				height: $item.outerHeight(),
+				width: $item.outerWidth()
+			})
+			$item.addClass(container.group.options.draggedClass)
+			$("body").addClass(container.group.options.bodyClass)
+
+
+
+			// Remove all add new boxes
+			$('.add-new-block').css('opacity', '0').css('width', '0').css('padding', '0');
+
+			// Remove all the screen navigations
+			$('.screens .dropdown > ul').hide();
+
+
+		},
+		onDrop: function ($item, container, _super, event) {
+
+
+			$item.removeClass(container.group.options.draggedClass).removeAttr("style")
+			$("body").removeClass(container.group.options.bodyClass)
+
+
+
+
+
+			// Re-add them
+	    	addNewPageButtons();
+
+			// Show all the screen navigations
+			$('.screens .dropdown > ul').show();
+
+
+		}
+	});
+
+
+
+
+
+
+
+
 
 
 	// Rename Inputs
@@ -197,5 +280,49 @@ function updateOrderNumbers() {
 	});
 
 	return newOrder;
+
+}
+
+
+// New page/project clones
+function addNewPageButtons() {
+
+	console.log('New page/project buttons adding...');
+
+	var cat_project_ID = 'new';
+	if (dataType == 'page') cat_project_ID = project_ID;
+
+
+	// Remove the all boxes
+	$('.add-new-block').remove();
+
+
+	// Add the box to each category
+	$('.category').each(function() {
+
+		$(this).find('ol.blocks').append( newBlockTemplate(cat_project_ID) );
+
+	});
+
+}
+
+
+// TEMPLATES:
+
+// New project/page buttons
+function newBlockTemplate(cat_project_ID = "new") {
+
+
+	return '\
+<li class="col block add-new-block">\
+	<div class="box xl-center">\
+		<a href="#" class="wrap xl-flexbox xl-middle xl-center" data-modal="add-new" data-type="'+ dataType +'" data-id="'+cat_project_ID+'">\
+			<div class="col">\
+				New '+ dataType +'\
+				<div class="plus-icon"><i class="fa fa-plus"></i></div>\
+			</div>\
+		</a>\
+	</div>\
+</li>';
 
 }

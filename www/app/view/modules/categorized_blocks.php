@@ -114,18 +114,6 @@
 		<?php } ?>
 
 
-<!--
-		<div class="alert">
-			Looks like you don't have access to this page.
-
-			<a href="#" class="close"><i class="fa fa-times"></i></a>
-		</div>
-		<div class="alert">
-			Looks like you don't have access to this page.
-
-			<a href="#" class="close"><i class="fa fa-times"></i></a>
-		</div>
--->
 	</div>
 
 	<div id="content" class="wrap xl-1 container">
@@ -141,7 +129,7 @@
 
 
 			<!-- Blocks -->
-			<div class="wrap dpl-xl-gutter-30 blocks xl-6 <?=$order == "" ? "sortable" : ""?>">
+			<ol class="wrap categories <?=$order == "" ? "cat-sortable" : ""?>">
 
 			<?php
 
@@ -166,37 +154,42 @@
 				// Category action URL
 				$action_url = 'ajax?type=data-action&data-type='.$dataType.'category&nonce='.$_SESSION['js_nonce'].'&id='.$category['cat_ID'];
 			?>
-				<!-- Category Bar -->
-				<div
-					id="<?=permalink($category['cat_name'])?>"
-					class="item col xl-1-1 cat-separator <?php
-						if (
-							$category['cat_name'] == "Uncategorized" ||
-							(
-								$catFilter != ""
-								&& $catFilter != "mine"
-							)
-						) echo 'xl-hidden';
-						?>"
-					data-order="<?=$category['cat_order_number']?>"
-					data-id="<?=$category['cat_ID']?>"
-					data-cat-id="<?=$category['cat_ID']?>"
-					data-type="<?=$dataType?>category"
-					draggable="true"
-				>
-					<span class="name-field handle">
-						<span class="name"><?=$category['cat_name']?></span>
-						<span class="actions">
 
-							<input class="edit-name" type="text" value="<?=$category['cat_name']?>"/>
-							<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil"></i></a>
 
-							<a href="<?=site_url($action_url.'&action=remove')?>" data-action="remove"><i class="fa fa-trash"></i></a>
+				<li id="<?=permalink($category['cat_name'])?>" class="col xl-1-1 category">
 
+
+					<div class="item cat-separator <?php
+							if (
+								$category['cat_name'] == "Uncategorized" ||
+								(
+									$catFilter != ""
+									&& $catFilter != "mine"
+								)
+							) echo 'xl-hidden';
+							?>"
+						data-order="<?=$category['cat_order_number']?>"
+						data-id="<?=$category['cat_ID']?>"
+						data-cat-id="<?=$category['cat_ID']?>"
+						data-type="<?=$dataType?>category"
+						<?=$category['cat_name'] != "Uncategorized" ? 'draggable="true"' : ''?>
+					>
+						<span class="name-field">
+							<span class="name cat-handle"><?=$category['cat_name']?></span>
+							<span class="actions">
+
+								<input class="edit-name" type="text" value="<?=$category['cat_name']?>"/>
+								<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil"></i></a>
+
+								<a href="<?=site_url($action_url.'&action=remove')?>" data-action="remove"><i class="fa fa-trash"></i></a>
+
+							</span>
 						</span>
-					</span>
 
-				</div>
+					</div>
+
+
+					<ol class="wrap dpl-xl-gutter-30 blocks xl-6 object-sortable">
 
 			<?php
 
@@ -302,10 +295,10 @@
 
 					?>
 
-							<div class="item col block" data-order="<?=$block['order_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>" data-type="<?=$dataType?>" draggable="true">
+							<li class="item col block" data-order="<?=$block['order_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>" data-type="<?=$dataType?>">
 
 
-								<div class="box xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
+								<div class="box object-handle xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
 
 									<div class="wrap overlay xl-flexbox xl-top xl-between xl-5 members">
 										<div class="col xl-4-12 xl-left xl-top people" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>">
@@ -627,47 +620,67 @@ if ($dataType == "page" && $allMyPins) {
 									</div>
 								</div>
 
-							</div>
 
-					<?php
+							</li>
+
+				<?php
 
 						$data_count++;
 
 					} // END OF THE BLOCK LOOP
 				} // If defined
 
+				?>
+
+
+
+
+
+						<?php
+						if ($catFilter != "shared" && $catFilter != "deleted" && $catFilter != "archived" && 2 == 4) {
+						?>
+
+							<!-- Add New Block -->
+							<li class="col block add-new-template">
+
+								<div class="box xl-center">
+
+									<a href="#" class="wrap xl-flexbox xl-middle xl-center" data-modal="add-new" data-type="<?=$dataType?>" data-id="<?=$dataType == "project" ? "new" : $project_ID?>">
+										<div class="col">
+											New <?=ucfirst($dataType)?>
+											<div class="plus-icon"><i class="fa fa-plus"></i></div>
+										</div>
+									</a>
+
+								</div>
+
+							</li>
+							<!-- /Add New Block -->
+
+						<?php
+						}
+						?>
+
+
+
+
+
+
+
+
+					</ol><!-- .wrap -->
+				</li><!-- .category -->
+
+
+			<?php
 
 			} // END OF THE CATEGORY LOOP
 
-			if ($data_count == 0) echo "<div class='col xl-1-1 xl-center' style='margin-bottom: 60px;'>No ".$dataType."s found here</div>";
+			if ($data_count == 0) echo "<li class='col xl-1-1 xl-center' style='margin-bottom: 60px;'>No ".$dataType."s found here</li>";
 
-
-			if ($catFilter != "shared" && $catFilter != "deleted" && $catFilter != "archived") {
-				?>
-
-					<!-- Add New Block -->
-					<div class="col block add-new-template">
-
-						<div class="box xl-center">
-
-							<a href="#" class="wrap xl-flexbox xl-middle xl-center" data-modal="add-new" data-type="<?=$dataType?>" data-id="<?=$dataType == "project" ? "new" : $project_ID?>">
-								<div class="col">
-									New <?=ucfirst($dataType)?>
-									<div class="plus-icon"><i class="fa fa-plus"></i></div>
-								</div>
-							</a>
-
-						</div>
-
-					</div>
-					<!-- /Add New Block -->
-
-			<?php
-			}
 			?>
 
-			</div> <!-- .blocks -->
-
+			</ol> <!-- .blocks -->
 
 
 			<?php
