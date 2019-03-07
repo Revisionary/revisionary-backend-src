@@ -1248,7 +1248,7 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 
 
 	return '\
-		<li class="wrap xl-flexbox xl-middle member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-second-parameter="'+ object_ID +'" data-third-parameter="'+ page_ID +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
+		<li class="wrap xl-flexbox xl-middle xl-gutter-16 member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-second-parameter="'+ object_ID +'" data-third-parameter="'+ page_ID +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
 			<div class="col xl-8-12">\
 				<div class="wrap xl-flexbox xl-middle xl-gutter-8">\
 					<div class="col xl-2-12">\
