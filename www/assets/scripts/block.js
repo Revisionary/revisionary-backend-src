@@ -72,7 +72,7 @@ $(function() {
 
 
 
-
+	// Category Sortable
 	$(".cat-sortable").sortable({
 		group: 'categories',
 		handle: '.cat-handle',
@@ -81,17 +81,11 @@ $(function() {
 		distance: 20,
 		nested: false,
 		exclude: '.cat-separator',
-		placeholder: "<li class='col sortable-placeholder'></li>",
-		isValidTarget: function ($item, container) {
-
-			console.log($item, container);
-
-			return true
-		}
+		placeholder: "<li class='col sortable-placeholder'></li>"
 	});
 
 
-
+	// Project/Page sortable
 	$('.object-sortable').sortable({
 		group: 'objects',
 		handle: '.object-handle:not(.pages)',
@@ -128,8 +122,6 @@ $(function() {
 
 
 
-
-
 			// Re-add them
 	    	addNewPageButtons();
 
@@ -139,12 +131,6 @@ $(function() {
 
 		}
 	});
-
-
-
-
-
-
 
 
 

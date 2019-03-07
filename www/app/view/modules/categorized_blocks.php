@@ -129,7 +129,7 @@
 
 
 			<!-- Blocks -->
-			<ol class="wrap categories <?=$order == "" ? "cat-sortable" : ""?>">
+			<ol class="wrap categories <?=$order == "" ? "cat-sortable" : ""?>" data-filter="<?=$catFilter?>">
 
 			<?php
 
@@ -173,7 +173,7 @@
 					<div class="cat-separator <?php
 						if (
 							$category['cat_name'] == "Uncategorized" ||
-							( $catFilter != "" && $catFilter != "mine" )
+							( $catFilter != "" && $catFilter != "mine" && $catFilter != "shared" )
 						) echo 'xl-hidden';
 						?>"
 					>
@@ -633,6 +633,25 @@ if ($dataType == "page" && $allMyPins) {
 					} // END OF THE BLOCK LOOP
 				} // If defined
 
+
+				// If no entry
+				if (count($theCategorizedData[$category_ID]['theData']) == 0) {
+
+					$add_new_link = "";
+					if (
+						$catFilter != "archived"
+						&& $catFilter != "deleted"
+						&& $catFilter != "shared"
+					) $add_new_link = "<a href='#' data-modal='add-new' data-type='$dataType' data-id='".($dataType == "page" ? $project_ID : "new")."'><b><u>Add one?</u></b></a>";
+
+
+					echo "<li class='col xl-1-1 xl-center' style='margin-bottom: 60px;'>
+						No ".$dataType."s added here yet. $add_new_link
+					</li>";
+
+				}
+
+
 				?>
 
 
@@ -643,10 +662,6 @@ if ($dataType == "page" && $allMyPins) {
 			<?php
 
 			} // END OF THE CATEGORY LOOP
-
-
-			// If no entry
-			if ($data_count == 0) echo "<li class='col xl-1-1 xl-center' style='margin-bottom: 60px;'>No ".$dataType."s found here</li>";
 
 			?>
 

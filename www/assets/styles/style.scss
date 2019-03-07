@@ -2131,15 +2131,26 @@ ol.categories {
 	padding: 0;
 
 
+	&[data-filter="shared"],
+	&[data-filter="archived"],
+	&[data-filter="deleted"] {
+
+		.add-new-block {
+			display: none;
+		}
+
+	}
+
+
 	& > li.category {
-		//background-color: gray;
 		border: 1px dashed white;
 		border-radius: 10px;
 		min-height: 280px;
 		margin-bottom: 20px;
 		padding: 10px;
 
-		&:not(#uncategorized):hover {
+		&:not(#uncategorized):hover,
+		&.dragged {
 			border-color: #c7c7c7;
 		}
 
@@ -2442,13 +2453,13 @@ ol.categories {
 
 
 body.dragging, body.dragging * {
-  cursor: move !important;
+	cursor: move !important;
 }
 
 .dragged {
-  position: absolute;
-  opacity: 0.5;
-  z-index: 2000;
+	position: absolute;
+	opacity: 0.5;
+	z-index: 2000;
 }
 
 

@@ -470,12 +470,12 @@ $(function() {
 
 			// Update the current category name
 			modal.find('.to').html('');
-			if (catName != "Uncategorized" && thisBlock.length)
+			if (catName != "Uncategorized" && catName != "")
 				modal.find('.to').html("To <b>"+ catName +"</b> Section");
 
 
 			// Print the project name
-			if (!thisBlock.length && modalName == "add-new" && dataType == "page")
+			if (!thisBlock.length && catName == "" && dataType == "page")
 				modal.find('.to').html("To <b>"+ objectName +"</b> Project");
 
 

@@ -6411,13 +6411,18 @@ footer .footer-links a {
  */
 ol.categories {
   padding: 0; }
+  ol.categories[data-filter="shared"] .add-new-block,
+  ol.categories[data-filter="archived"] .add-new-block,
+  ol.categories[data-filter="deleted"] .add-new-block {
+    display: none; }
   ol.categories > li.category {
     border: 1px dashed white;
     border-radius: 10px;
     min-height: 280px;
     margin-bottom: 20px;
     padding: 10px; }
-    ol.categories > li.category:not(#uncategorized):hover {
+    ol.categories > li.category:not(#uncategorized):hover,
+    ol.categories > li.category.dragged {
       border-color: #c7c7c7; }
     ol.categories > li.category .cat-separator {
       border-bottom: 1px solid;
