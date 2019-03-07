@@ -202,6 +202,7 @@
 
 
 					// THE BLOCK LOOP
+					$object_count = 0;
 					if ( isset($theCategorizedData[$category_ID]) ) {
 						foreach ($theCategorizedData[$category_ID]['theData'] as $block) {
 
@@ -629,13 +630,14 @@ if ($dataType == "page" && $allMyPins) {
 				<?php
 
 						$data_count++;
+						$object_count++;
 
 					} // END OF THE BLOCK LOOP
 				} // If defined
 
 
 				// If no entry
-				if (count($theCategorizedData[$category_ID]['theData']) == 0) {
+				if ($object_count == 0) {
 
 					$add_new_link = "";
 					if (

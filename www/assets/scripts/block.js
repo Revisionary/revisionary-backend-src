@@ -298,17 +298,16 @@ function addNewPageButtons() {
 // New project/page buttons
 function newBlockTemplate(cat_project_ID = "new") {
 
-
 	return '\
-<li class="col block add-new-block">\
-	<div class="box xl-center">\
-		<a href="#" class="wrap xl-flexbox xl-middle xl-center" data-modal="add-new" data-type="'+ dataType +'" data-id="'+cat_project_ID+'">\
-			<div class="col">\
-				New '+ dataType +'\
-				<div class="plus-icon"><i class="fa fa-plus"></i></div>\
-			</div>\
-		</a>\
-	</div>\
-</li>';
+	<li class="col block add-new-block">\
+		<div class="box xl-center">\
+			<a href="#" class="wrap xl-flexbox xl-middle xl-center" data-modal="add-new" data-type="'+ dataType +'" data-id="'+cat_project_ID+'">\
+				<div class="col">\
+					New '+ dataType +'\
+					<div class="plus-icon"><i class="fa fa-plus"></i></div>\
+				</div>\
+			</a>\
+		</div>\
+	</li>';
 
 }

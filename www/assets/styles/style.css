@@ -5853,8 +5853,30 @@ header {
 .toolbar {
   margin-bottom: 35px; }
 
-.title .dropdown > ul {
-  min-width: 220px; }
+.title {
+  white-space: nowrap; }
+  .title .name-field.editing h1 {
+    display: inline; }
+  .title h1 {
+    white-space: normal;
+    position: relative; }
+    .title h1 input.edit-name {
+      font-size: inherit !important;
+      line-height: inherit !important;
+      letter-spacing: inherit !important;
+      height: 84px !important; }
+    .title h1 .project-renamer {
+      position: absolute;
+      left: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: 500ms;
+      opacity: 0;
+      font-size: 20px; }
+    .title h1:hover .project-renamer {
+      opacity: 1; }
+  .title .dropdown > ul {
+    min-width: 220px; }
 
 .under-main-title {
   margin-bottom: 10px; }
@@ -6431,33 +6453,6 @@ ol.categories {
       margin-bottom: 10px; }
       ol.categories > li.category .cat-separator:hover .actions {
         opacity: 1; }
-    ol.categories > li.category .name-field .share-icons i {
-      font-size: 10px; }
-      ol.categories > li.category .name-field .share-icons i:nth-child(2) {
-        margin-left: 1px; }
-    ol.categories > li.category .name-field .actions {
-      opacity: 0;
-      transition: 700ms; }
-      ol.categories > li.category .name-field .actions input.edit-name {
-        display: none;
-        width: auto;
-        max-width: 100%;
-        font-size: 14px;
-        font-weight: inherit;
-        line-height: inherit;
-        height: auto;
-        border-width: 1px;
-        padding: 0 5px;
-        margin-left: -5px; }
-    ol.categories > li.category .name-field.editing .name {
-      display: none; }
-    ol.categories > li.category .name-field.editing .actions {
-      opacity: 1 !important; }
-      ol.categories > li.category .name-field.editing .actions input.edit-name {
-        display: inline-block;
-        font-size: 16px;
-        line-height: 18.4px;
-        max-width: 75%; }
     ol.categories > li.category > ol.blocks > .block {
       margin-bottom: 50px; }
       ol.categories > li.category > ol.blocks > .block.add-new-block .box a {
@@ -6530,11 +6525,6 @@ ol.categories {
         font-size: 14px;
         line-height: 17px;
         letter-spacing: normal; }
-      ol.categories > li.category > ol.blocks > .block .box-name .actions {
-        opacity: 0;
-        transition: 700ms; }
-      ol.categories > li.category > ol.blocks > .block .box-name:hover .actions {
-        opacity: 1; }
       ol.categories > li.category > ol.blocks > .block input.edit-name {
         width: 90% !important; }
     ol.categories > li.category > ol.blocks .device-wrap {
@@ -6572,6 +6562,41 @@ ol.categories {
   min-height: 250px;
   min-width: 16.66667%;
   box-sizing: border-box; }
+
+/* Name fields to rename */
+.name-field .share-icons i {
+  font-size: 10px; }
+  .name-field .share-icons i:nth-child(2) {
+    margin-left: 1px; }
+
+.name-field .actions {
+  opacity: 0;
+  transition: 700ms; }
+  .name-field .actions input.edit-name {
+    display: none;
+    width: auto;
+    max-width: 100%;
+    font-size: 14px;
+    font-weight: inherit;
+    line-height: inherit;
+    height: auto;
+    border-width: 1px;
+    padding: 0 5px;
+    margin-left: -5px; }
+
+.name-field:hover .actions {
+  opacity: 1; }
+
+.name-field.editing .name {
+  display: none; }
+
+.name-field.editing .actions {
+  opacity: 1 !important; }
+  .name-field.editing .actions input.edit-name {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 18.4px;
+    max-width: 75%; }
 
 body.dragging, body.dragging * {
   cursor: move !important; }

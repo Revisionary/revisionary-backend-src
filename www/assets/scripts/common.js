@@ -8,7 +8,7 @@ $(function() {
 
 
 	// Prevent clicking '#' links
-	$(document).on('click', 'a[href="#"]', function(e) {
+	$(document).on('click', 'a[href="#"], .name-field.editing', function(e) {
 		e.preventDefault();
 	});
 
@@ -360,7 +360,7 @@ $(function() {
 
 
 		// Item details
-		var item = $(this).parents('.item');
+		var item = $(this).parents('.item').first();
 		var object_ID = item.attr('data-id') || null;
 		var object_type = item.attr('data-type') || null;
 		var firstParameter = item.attr('data-parameter') || null;
@@ -381,6 +381,8 @@ $(function() {
 			firstParameter = input.val();
 
 			parent_item.toggleClass('editing');
+
+			input.focus();
 
 			// If the same text
 			if ( input.val() == input.attr('value') ) {

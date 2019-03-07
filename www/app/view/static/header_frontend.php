@@ -80,7 +80,7 @@
 					</a>
 					<ul class="right user-menu xl-left">
 						<li><a href="<?=site_url('projects')?>"><i class="fa fa-th"></i> All Projects</a></li>
-						<li><a href="<?=site_url('account')?>"><i class="fa fa-user-cog"></i> My Account</a></li>
+						<li><a href="<?=site_url('account')?>" data-tooltip="In development..."><i class="fa fa-user-cog"></i> My Account</a></li>
 						<li><a href="<?=site_url('logout')?>"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
 					</ul>
 				</div>

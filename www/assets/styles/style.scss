@@ -1280,6 +1280,44 @@ header {
 }
 
 .title {
+	white-space: nowrap;
+
+	.name-field.editing h1 {
+		display: inline;
+	}
+
+
+	h1 {
+		white-space: normal;
+		position: relative;
+
+		input.edit-name {
+			font-size: inherit !important;
+			line-height: inherit !important;
+			letter-spacing: inherit !important;
+			height: 84px !important;
+		}
+
+
+		.project-renamer {
+			position: absolute;
+			left: -40px;
+			top: 50%;
+			transform: translateY(-50%);
+			transition: 500ms;
+			opacity: 0;
+			font-size: 20px;
+
+		}
+
+		&:hover {
+
+			.project-renamer {
+				opacity: 1;
+			}
+
+		}
+	}
 
 	.dropdown > ul {
 		min-width: 220px;
@@ -2168,62 +2206,6 @@ ol.categories {
 		}
 
 
-		.name-field {
-
-			.share-icons {
-
-				i {
-					font-size: 10px;
-
-					&:nth-child(2) {
-						margin-left: 1px;
-					}
-				}
-			}
-
-			.actions {
-			    opacity: 0;
-			    transition: 700ms;
-
-				input.edit-name {
-					display: none;
-					width: auto;
-					max-width: 100%;
-					font-size: 14px;
-				    font-weight: inherit;
-				    line-height: inherit;
-				    height: auto;
-				    border-width: 1px;
-					padding: 0 5px;
-					margin-left: -5px;
-				}
-
-		    }
-
-
-			&.editing {
-
-			    .name {
-				    display: none;
-			    }
-
-			    .actions {
-					opacity: 1 !important;
-
-				    input.edit-name {
-					    display: inline-block;
-					    font-size: 16px;
-					    line-height: 18.4px;
-					    max-width: 75%;
-				    }
-
-				}
-
-		    }
-
-		}
-
-
 		& > ol.blocks {
 
 
@@ -2361,15 +2343,6 @@ ol.categories {
 						letter-spacing: normal;
 					}
 
-				    .actions {
-					    opacity: 0;
-					    transition: 700ms;
-				    }
-
-				    &:hover .actions {
-					    opacity: 1;
-				    }
-
 				}
 
 				input.edit-name {
@@ -2447,6 +2420,70 @@ ol.categories {
 
 }
 
+
+
+
+
+/* Name fields to rename */
+.name-field {
+
+	.share-icons {
+
+		i {
+			font-size: 10px;
+
+			&:nth-child(2) {
+				margin-left: 1px;
+			}
+		}
+	}
+
+	.actions {
+	    opacity: 0;
+	    transition: 700ms;
+
+		input.edit-name {
+			display: none;
+			width: auto;
+			max-width: 100%;
+			font-size: 14px;
+		    font-weight: inherit;
+		    line-height: inherit;
+		    height: auto;
+		    border-width: 1px;
+			padding: 0 5px;
+			margin-left: -5px;
+		}
+
+    }
+
+
+    &:hover .actions {
+	    opacity: 1;
+    }
+
+
+	&.editing {
+
+	    .name {
+		    display: none;
+	    }
+
+	    .actions {
+			opacity: 1 !important;
+
+		    input.edit-name {
+			    display: inline-block;
+			    font-size: 16px;
+			    line-height: 18.4px;
+			    max-width: 75%;
+		    }
+
+		}
+
+    }
+
+}
 
 
 
