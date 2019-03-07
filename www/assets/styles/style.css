@@ -6230,7 +6230,9 @@ input.share-email.error {
     .members > .member[data-itsme="yes"] .change-access {
       display: inline-block; }
     .members > .member .email {
-      white-space: nowrap; }
+      white-space: nowrap;
+      color: gray;
+      font-weight: 100; }
     .members > .member .remove {
       position: absolute;
       right: 0;
