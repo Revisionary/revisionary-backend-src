@@ -149,28 +149,33 @@
 				) continue;
 
 
+
+				// Don't show categories if in the Archives or Deletes
+				if (
+					$category['cat_name'] != "Uncategorized" &&
+					( $catFilter == "archived" || $catFilter == "deleted" )
+				) continue;
+
+
 				// Category action URL
 				$action_url = 'ajax?type=data-action&data-type='.$dataType.'category&nonce='.$_SESSION['js_nonce'].'&id='.$category['cat_ID'];
 			?>
 
 
-				<li id="<?=permalink($category['cat_name'])?>" class="col xl-1-1 category">
+				<li id="<?=permalink($category['cat_name'])?>"
+					class="col xl-1-1 category item"
+					data-type="<?=$dataType?>category"
+					data-id="<?=$category['cat_ID']?>"
+					data-order="<?=$category['cat_order_number']?>"
+				>
 
 
-					<div class="item cat-separator <?php
-							if (
-								$category['cat_name'] == "Uncategorized" ||
-								(
-									$catFilter != ""
-									&& $catFilter != "mine"
-								)
-							) echo 'xl-hidden';
-							?>"
-						data-order="<?=$category['cat_order_number']?>"
-						data-id="<?=$category['cat_ID']?>"
-						data-cat-id="<?=$category['cat_ID']?>"
-						data-type="<?=$dataType?>category"
-						<?=$category['cat_name'] != "Uncategorized" ? 'draggable="true"' : ''?>
+					<div class="cat-separator <?php
+						if (
+							$category['cat_name'] == "Uncategorized" ||
+							( $catFilter != "" && $catFilter != "mine" )
+						) echo 'xl-hidden';
+						?>"
 					>
 						<span class="name-field">
 							<span class="name cat-handle"><?=$category['cat_name']?></span>
@@ -293,7 +298,7 @@
 
 					?>
 
-						<li class="item col block" data-order="<?=$block['order_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>" data-type="<?=$dataType?>">
+						<li class="col block item" data-order="<?=$block['order_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>" data-type="<?=$dataType?>">
 
 
 							<div class="box object-handle xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">

@@ -1,7 +1,7 @@
 <?php
 
 function categorize($objects, $dataType, $prepared = false) {
-	global $thePreparedData, $devices;
+	global $thePreparedData, $devices, $catFilter;
 
 
 	// Bring the devices data for pages
@@ -54,11 +54,16 @@ function categorize($objects, $dataType, $prepared = false) {
 	$theData = [];
 	foreach ($thePreparedData as $object) {
 
-		//echo "object: ";print_r($object);
+		// Don't categorize if in Archives or Deletes pages
+		if ( $object['cat_ID'] == null || $catFilter == "archived" || $catFilter == "deleted" ) $object['cat_ID'] = 0;
 
-		if ( $object['cat_ID'] == null ) $object['cat_ID'] = 0;
+		// If not owned by a category, add it to Uncategorized
 		if ( $object['cat_name'] == null ) $object['cat_name'] = 'Uncategorized';
+
+		// Default order number
 		if ( $object['cat_order_number'] == null ) $object['cat_order_number'] = 0;
+
+		// Default user ID ? !!!
 		if ( $object['user_ID'] == null ) $object['user_ID'] = 0;
 
 

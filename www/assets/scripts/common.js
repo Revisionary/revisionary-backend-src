@@ -463,9 +463,9 @@ $(function() {
 			modal.find('input[name="project_ID"]').attr('value', object_ID);
 
 			var thisBlock = $(this).parents('.block');
-			var catID = thisBlock.prevAll('.cat-separator:first').attr('data-cat-id') || 0;
-			var catName = thisBlock.prevAll('.cat-separator:first').find('.name').text();
-			var orderNumber = thisBlock.prev('.block').attr('data-order') || 0;
+			var catID = $(this).parents('.category').attr('data-id') || 0;
+			var catName = $(this).parents('.category').find('.cat-separator .name').text();
+			var orderNumber = $(this).parents('.category').attr('data-order') || 0;
 
 
 			// Update the current category name
@@ -889,11 +889,26 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 
 
 				// Hide the item
-				items.remove();
+				if ( object_type != "projectcategory" && object_type != "pagecategory" )
+					items.remove();
 
 
-				// Update the add new blocks
-				if ( object_type == "projectcategory" || object_type == "pagecategory" ) addNewPageButtons();
+				// If action on categories
+				if ( object_type == "projectcategory" || object_type == "pagecategory" ) {
+
+
+					// Move the blocks to the Uncategorized section
+					items.find('.block').attr('data-cat-id', 0).appendTo('.category[data-id="0"] .blocks');
+
+
+					// Hide the item
+					items.remove();
+
+
+					// Update the add new blocks
+					addNewPageButtons();
+
+				}
 
 
 			} else if (action == "changeshareaccess" || action == "unshare" || action == "makeownerof") {
