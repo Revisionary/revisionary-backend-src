@@ -385,8 +385,15 @@ class Page {
 
 
 
-			// Notify the users
+			// Get the users to notify
 			$users = Page::ID($page_ID)->getUsers();
+
+
+			// Web notification
+			Notify::ID($users)->web("new", "page", $page_ID);
+
+
+			// Email notification
 			Notify::ID($users)->mail(
 				getUserInfo()['fullName']." added a new page: ".$page_name."[".$project_name."]",
 				getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new page: ".$page_name."[".$project_name."] <br>

@@ -125,13 +125,14 @@ class Notification {
 			$senderInfo = getUserInfo($sender_ID);
 			$sender_full_name = $senderInfo['fullName'];
 			$notificationNew = $notification['notification_read'] == 0;
+			$notificationContent = $notification['notification'];
 
 
 			// Object Info
 			$object_ID = $notification['object_ID'];
 			$object_type = $notification['object_type'];
 			$object_data = ucfirst($object_type)::ID($object_ID);
-			$object_name = $object_data->getInfo($object_type.'_name');
+			$object_name = $object_type != "device" ? $object_data->getInfo($object_type.'_name') : "";
 			$object_link = site_url("$object_type/$object_ID");
 
 
@@ -142,7 +143,7 @@ class Notification {
 				<div class="wrap xl-table xl-middle">
 					<div class="col image">
 
-						<picture class="profile-picture" '.$senderInfo['printPicture'].'> 																										<span class="has-pic">'.$senderInfo['nameAbbr'].'</span>
+						<picture class="profile-picture" '.$senderInfo['printPicture'].'> 																			<span class="has-pic">'.$senderInfo['nameAbbr'].'</span>
 						</picture>
 
 					</div>
@@ -165,6 +166,8 @@ class Notification {
 
 			} elseif ($notification['notification_type'] == "share") {
 
+
+
 				$project_name = "";
 				if ($object_type == "page") {
 
@@ -176,11 +179,63 @@ class Notification {
 
 				// Notification Content
 				$notificationHTML .= "
-							$sender_full_name shared a <b>$object_type</b> with you:
-							<a href='$object_link'><b>$object_name</b>$project_name</a><br/>
 
-							<div class='date'>".timeago($notification['notification_time'])."</div>
+					$sender_full_name shared a <b>$object_type</b> with you: <br>
+					<a href='$object_link'><b>$object_name</b>$project_name</a><br/>
+
+					<div class='date'>".timeago($notification['notification_time'])."</div>
+
 				";
+
+
+
+			} elseif ($notification['notification_type'] == "new") {
+
+
+
+
+				if ($object_type == "page") {
+
+
+					$project_ID = $object_data->getInfo('project_ID');
+					$project_name = Project::ID($project_ID)->getInfo('project_name');
+
+
+					// Notification Content
+					$notificationHTML .= "
+
+						$sender_full_name added a <b>new page</b>: <br>
+						<a href='$object_link'><b>$object_name</b> [$project_name]</a><br/>
+
+						<div class='date'>".timeago($notification['notification_time'])."</div>
+
+					";
+
+
+				}
+
+
+
+
+				if ($object_type == "device") {
+
+
+					$page_ID = $object_data->getInfo('page_ID');
+					$page_name = Page::ID($page_ID)->getInfo('page_name');
+
+
+					// Notification Content
+					$notificationHTML .= "
+
+						$sender_full_name added a <b>new screen</b>: <br>
+						<a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>$page_name</b></a> page<br/>
+
+						<div class='date'>".timeago($notification['notification_time'])."</div>
+
+					";
+
+
+				}
 
 
 

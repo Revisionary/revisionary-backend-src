@@ -246,31 +246,30 @@ class Pin {
 		$db->where('pin_ID', self::$pin_ID);
 		$pin_updated = $db->update('pins', array('pin_complete' => 1));
 
-		// Update the page modification date
+		// If successful
 		if ($pin_updated) {
+
+
+			// Update the page modification date
 			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
 			$pageData = Page::ID($page_ID);
 			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
-		}
+
+
+			// Site log
+			$log->info("$pin_type Pin #".self::$pin_ID." Completed: '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 /*
-		// Notify the users
-		if ($pin_updated) {
-
+			// Notify the users
 			$users = $this->getUsers();
 			Notify::ID($users)->mail(
 				getUserInfo()['fullName']." completed a pin task on '".$pageData->getInfo('page_name')."' page",
 				"$image".getUserInfo()['fullName']."(".getUserInfo()['userName'].") completed a pin task on '".$pageData->getInfo('page_name')."' page: ".site_url('revise/'.$this->getInfo('device_ID')."#".self::$pin_ID)
 			);
-
-
-		}
 */
 
-
-		// Site log
-		if ($pin_updated) $log->info("$pin_type Pin #".self::$pin_ID." Completed: '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+		}
 
 
 		return $pin_updated;

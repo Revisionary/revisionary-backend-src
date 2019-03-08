@@ -178,8 +178,20 @@ class Device {
 			$screen_width = $screen_ID == 11 ? $device_width : $screenInfo['screen_width'];
 			$screen_height = $screen_ID == 11 ? $device_height : $screenInfo['screen_height'];
 
+
+
+			// Get the users to notify
 			$pageData = Page::ID($page_ID);
 			$users = $pageData->getUsers();
+
+
+
+			// Web notification
+			Notify::ID($users)->web("new", "device", $first_device_ID, "".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.")");
+
+
+
+			// Email notification
 			Notify::ID($users)->mail(
 				getUserInfo()['fullName']." added a new screen on ".$pageData->getInfo('page_name')." page",
 				getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new screen: ".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.") <br><br>
@@ -213,6 +225,13 @@ class Device {
 		// Remove the device
 		$db->where('device_ID', self::$device_ID);
 		$deleted = $db->delete('devices');
+
+
+		// Delete the notifications if exists
+		$db->where('object_type', 'device');
+		$db->where('object_ID', self::$device_ID);
+		$db->delete('notifications');
+
 
 		if ($deleted) $log->info("Device #".self::$device_ID." Deleted: Page #$page_ID | Screenshot '$screenshot_file' | User #".currentUserID());
 

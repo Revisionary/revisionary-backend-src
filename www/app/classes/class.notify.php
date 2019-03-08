@@ -125,8 +125,8 @@ class Notify {
 
 			foreach (self::$user_ID as $user_ID) {
 
-				if ( is_string($user_ID) )
-					$user_ID = intval($user_ID);
+				// Pass the non-user IDs like emails
+				if ( !is_numeric($user_ID) ) $user_ID = intval($user_ID);
 
 
 				// Add the connection
