@@ -5869,8 +5869,7 @@ header {
     .title h1 .project-renamer {
       position: absolute;
       left: -40px;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 0;
       transition: 500ms;
       opacity: 0;
       font-size: 20px; }
