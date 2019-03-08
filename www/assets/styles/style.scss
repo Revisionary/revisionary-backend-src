@@ -2457,6 +2457,14 @@ ol.categories {
 			margin-left: -5px;
 		}
 
+		i {
+
+			&:hover {
+				color: $color-secondary;
+			}
+
+		}
+
     }
 
 

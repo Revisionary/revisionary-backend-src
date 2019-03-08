@@ -6585,6 +6585,8 @@ ol.categories {
     border-width: 1px;
     padding: 0 5px;
     margin-left: -5px; }
+  .name-field .actions i:hover {
+    color: #007acc; }
 
 .name-field:hover .actions {
   opacity: 1; }
