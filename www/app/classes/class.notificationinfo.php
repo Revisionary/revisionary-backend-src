@@ -180,8 +180,8 @@ class Notification {
 				// Notification Content
 				$notificationHTML .= "
 
-					$sender_full_name shared a <b>$object_type</b> with you: <br>
-					<a href='$object_link'><b>$object_name</b>$project_name</a><br/>
+					$sender_full_name shared a <b>$object_type</b> with you:
+					<span><a href='$object_link'><b>$object_name</b>$project_name</a></span><br/>
 
 					<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -204,8 +204,8 @@ class Notification {
 					// Notification Content
 					$notificationHTML .= "
 
-						$sender_full_name added a <b>new page</b>: <br>
-						<a href='$object_link'><b>$object_name</b> [$project_name]</a><br/>
+						$sender_full_name added a <b>new page</b>:
+						<span><a href='$object_link'><b>$object_name</b> [$project_name]</a></span><br/>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -227,8 +227,8 @@ class Notification {
 					// Notification Content
 					$notificationHTML .= "
 
-						$sender_full_name added a <b>new screen</b>: <br>
-						<a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>$page_name</b></a> page<br/>
+						$sender_full_name added a <b>new screen</b>:
+						<span><a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>$page_name</b></a> page</span><br/>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 

@@ -5425,6 +5425,8 @@ a {
         padding-left: 5px;
         font-size: 12px;
         line-height: 15px; }
+        .notifications > ul > li .content span {
+          display: inline-block; }
       .notifications > ul > li .date {
         font-size: 10px;
         line-height: 14px;
