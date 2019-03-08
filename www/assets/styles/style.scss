@@ -2467,8 +2467,13 @@ ol.categories {
 
 	&.editing {
 
-	    .name {
+	    .name,
+	    .fa-caret-down {
 		    display: none;
+	    }
+
+	    .project-renamer {
+		    opacity: 1;
 	    }
 
 	    .actions {

@@ -6589,8 +6589,12 @@ ol.categories {
 .name-field:hover .actions {
   opacity: 1; }
 
-.name-field.editing .name {
+.name-field.editing .name,
+.name-field.editing .fa-caret-down {
   display: none; }
+
+.name-field.editing .project-renamer {
+  opacity: 1; }
 
 .name-field.editing .actions {
   opacity: 1 !important; }
