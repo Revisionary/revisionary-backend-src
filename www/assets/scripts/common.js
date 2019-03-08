@@ -376,13 +376,15 @@ $(function() {
 		// When renaming
 		if (action == "rename") {
 
-			var parent_item = item.find('.name-field');
-			var input = item.find('input.edit-name');
+			var parent_item = item.find('.name-field').first();
+			var input = item.find('input.edit-name').first();
 			firstParameter = input.val();
 
 			parent_item.toggleClass('editing');
 
 			input.focus();
+
+			//item.find('.dropdown > ul').hide();
 
 			// If the same text
 			if ( input.val() == input.attr('value') ) {
@@ -878,8 +880,8 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 			if (action == "rename") {
 
 
-				items.find('input.edit-name').attr('value', firstParameter );
-				items.find('.name').text( firstParameter );
+				items.find('input.edit-name[data-type="'+object_type+'"][data-id="'+object_ID+'"]').attr('value', firstParameter );
+				items.find('.name[data-type="'+object_type+'"][data-id="'+object_ID+'"]').text( firstParameter );
 
 
 			} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover") {

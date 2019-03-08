@@ -77,11 +77,29 @@ $(function() {
 		group: 'categories',
 		handle: '.cat-handle',
 		itemSelector: "li:not(#uncategorized)",
+		exclude: '.cat-separator, .empty-cat',
 		vertical: true,
 		distance: 20,
 		nested: false,
-		exclude: '.cat-separator',
-		placeholder: "<li class='col sortable-placeholder'></li>"
+		placeholder: "<li class='col sortable-placeholder'></li>",
+		onDrop: function ($item, container, _super, event) {
+
+
+			$item.removeClass(container.group.options.draggedClass).removeAttr("style")
+			$("body").removeClass(container.group.options.bodyClass)
+
+
+
+			// Show all the screen navigations
+			$('.screens .dropdown > ul').show();
+
+
+
+		    // Update the order
+		    doAction('reorder', 'user', 0, updateOrderNumbers());
+
+
+		}
 	});
 
 
@@ -90,6 +108,7 @@ $(function() {
 		group: 'objects',
 		handle: '.object-handle:not(.pages)',
 		itemSelector: "li:not(.add-new-template)",
+		exclude: '.cat-separator, .empty-cat',
 		vertical: false,
 		distance: 20,
 		nested: false,
@@ -108,6 +127,8 @@ $(function() {
 
 			// Remove all add new boxes
 			$('.add-new-block').css('opacity', '0').css('width', '0').css('padding', '0');
+			$('.empty-cat').remove();
+
 
 			// Remove all the screen navigations
 			$('.screens .dropdown > ul').hide();
@@ -127,6 +148,11 @@ $(function() {
 
 			// Show all the screen navigations
 			$('.screens .dropdown > ul').show();
+
+
+
+		    // Update the order
+		    doAction('reorder', 'user', 0, updateOrderNumbers());
 
 
 		}
@@ -233,28 +259,43 @@ $(function() {
 // Update order numbers
 function updateOrderNumbers() {
 
-	var categories = $('.blocks > .cat-separator');
 
-	categories.each(function(index) {
+	var newOrder = [];
+
+
+	$('.categories > .category').each(function(index) {
 
 		var catID = $(this).attr('data-id');
 
-		$(this).nextAll( ".block:not(.cat-separator):not(.add-new-block):not(.add-new-template)" ).attr('data-cat-id', catID);
+		// Update the block category IDs
+		$(this).find(".blocks > .block" ).attr('data-cat-id', catID);
 
+
+		// Update the category order
+		$(this).attr('data-order', index);
+
+
+		newOrder.push({
+            'type' : $(this).attr('data-type'),
+            'ID' :  $(this).attr('data-id'),
+            'catID' : catID,
+            'order' : index
+        });
 
 	});
 
 
 
-	var newOrder = [];
-	var blocks = $('.blocks > .col:not(.add-new-block):not(.add-new-template)');
+	$('.blocks > .block:not(.add-new-block)').each(function(index) {
 
-	blocks.each(function(index) {
 
 		// Skip the uncategorized
 		if ( $(this).attr('data-id') == 0 ) return true;
 
+
+		// Update the block order
 		$(this).attr('data-order', index);
+
 
 		newOrder.push({
             'type' : $(this).attr('data-type'),

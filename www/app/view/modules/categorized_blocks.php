@@ -178,10 +178,10 @@
 						?>"
 					>
 						<span class="name-field">
-							<span class="name cat-handle"><?=$category['cat_name']?></span>
+							<span class="name cat-handle" data-type="<?=$dataType?>category" data-id="<?=$category['cat_ID']?>"><?=$category['cat_name']?></span>
 							<span class="actions">
 
-								<input class="edit-name" type="text" value="<?=$category['cat_name']?>"/>
+								<input class="edit-name" type="text" value="<?=$category['cat_name']?>" data-type="<?=$dataType?>category" data-id="<?=$category['cat_ID']?>"/>
 								<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil"></i></a>
 
 								<a href="<?=site_url($action_url.'&action=remove')?>" data-action="remove"><i class="fa fa-trash"></i></a>
@@ -299,7 +299,7 @@
 
 					?>
 
-						<li class="col block item" data-order="<?=$block['order_number']?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>" data-type="<?=$dataType?>">
+						<li class="col block item" data-order="<?=$block['order_number']?>" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>">
 
 
 							<div class="box object-handle xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
@@ -593,7 +593,7 @@ if ($dataType == "page" && $allMyPins) {
 
 
 									<span class="name-field">
-										<span class="share-icons"><?=$isShared ? '<i class="fa fa-share-square-o" data-tooltip="You have shared this '.$dataType.' to someone."></i>' : ""?><?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" data-tooltip="Someone has shared this '.$dataType.' to you."></i> ' : ''?></span> <a href="<?=$block_url?>" class="invert-hover name"><?=$block[$dataType.'_name']?></a>
+										<span class="share-icons"><?=$isShared ? '<i class="fa fa-share-square-o" data-tooltip="You have shared this '.$dataType.' to someone."></i>' : ""?><?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" data-tooltip="Someone has shared this '.$dataType.' to you."></i> ' : ''?></span> <a href="<?=$block_url?>" class="invert-hover name" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>"><?=$block[$dataType.'_name']?></a>
 
 										<?php
 										if (
@@ -605,7 +605,7 @@ if ($dataType == "page" && $allMyPins) {
 										?>
 										<span class="actions">
 
-											<input class="edit-name item" type="text" value="<?=$block[$dataType.'_name']?>" />
+											<input class="edit-name item" type="text" value="<?=$block[$dataType.'_name']?>" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" />
 											<a href="<?=site_url($action_url.'&action=rename')?>" data-action="rename"><i class="fa fa-pencil"></i></a>
 
 										</span>
@@ -647,7 +647,7 @@ if ($dataType == "page" && $allMyPins) {
 					) $add_new_link = "<a href='#' data-modal='add-new' data-type='$dataType' data-id='".($dataType == "page" ? $project_ID : "new")."'><b><u>Add one?</u></b></a>";
 
 
-					echo "<li class='col xl-1-1 xl-center' style='margin-bottom: 60px;'>
+					echo "<li class='col xl-1-1 xl-center empty-cat' style='margin-bottom: 60px;'>
 						No ".$dataType."s added here yet. $add_new_link
 					</li>";
 

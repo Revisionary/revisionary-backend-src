@@ -5449,7 +5449,7 @@ ul.user-header-menu {
   .dropdown a {
     cursor: pointer;
     margin-bottom: 0; }
-    .dropdown a:hover + ul,
+    .dropdown a:not(.editing):hover + ul,
     .dropdown a.open + ul {
       opacity: 1;
       transition-delay: 0s !important;

@@ -37,14 +37,14 @@
 		<div class="dropdown" style="display: inline-block;">
 			<a href="<?=site_url($url_prefix)?>" class="dropdown-opener <?=$title == "pages" ? 'name-field' : ''?>">
 				<h1 class="bullet bigger-bullet <?=$title == "pages" ? 'project-title' : ''?>" <?=$title == "pages" ? 'data-id="'.$project_ID.'"' : ''?>>
-					<span class="name"><?=$title == "pages" ? $projectInfo['project_name'] : strtoupper($title)?></span>
+					<span class="name" <?=isset($project_ID) ? "data-id='$project_ID' data-type='project'" : ""?>><?=$title == "pages" ? $projectInfo['project_name'] : strtoupper($title)?></span>
 
 					<?php
 						if ($dataType == "page") {
 					?>
 					<span class="actions">
-						<input class="edit-name" type="text" value="<?=$projectInfo['project_name']?>"/>
-						<span class="project-renamer" data-action="rename" data-id="<?=$project_ID?>"><i class="fa fa-pencil"></i></span>
+						<input class="edit-name" type="text" value="<?=$projectInfo['project_name']?>" data-type="project" data-id="<?=$project_ID?>"/>
+						<span class="project-renamer" data-action="rename" data-type="project" data-id="<?=$project_ID?>"><i class="fa fa-pencil"></i></span>
 					</span>
 					<?php
 						}
