@@ -5857,11 +5857,10 @@ header {
 
 .title {
   white-space: nowrap; }
-  .title .name-field.editing h1 {
-    display: inline; }
   .title h1 {
     white-space: normal;
-    position: relative; }
+    position: relative;
+    display: inline; }
     .title h1 input.edit-name {
       font-size: inherit !important;
       line-height: inherit !important;

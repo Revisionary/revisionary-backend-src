@@ -1286,14 +1286,11 @@ header {
 .title {
 	white-space: nowrap;
 
-	.name-field.editing h1 {
-		display: inline;
-	}
-
 
 	h1 {
 		white-space: normal;
 		position: relative;
+		display: inline;
 
 		input.edit-name {
 			font-size: inherit !important;
