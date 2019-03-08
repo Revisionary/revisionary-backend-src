@@ -50,7 +50,7 @@
 				?>
 				<nav id="main-navigation">
 					<ul class="user-header-menu">
-						<li class="menu-item"><a href="<?=site_url('upgrade')?>">UPGRADE</a></li>
+						<li class="menu-item"><a href="<?=site_url('upgrade')?>" data-tooltip="In development...">UPGRADE</a></li>
 						<li class="menu-item notifications-wrapper">
 
 

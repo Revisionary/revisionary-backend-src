@@ -155,7 +155,7 @@ $theCategorizedData = categorize($allMyProjectsList, $dataType);
 
 // MY PAGES AND COUNTS
 $allMyPages = $mySharedPages;
-$pageCount = array_column($allMyPages, 'project_ID');
+$pageCount = array_column($allMyPages, 'project_ID', 'page_ID');
 $pageCounts = array_count_values($pageCount);
 //die_to_print($allMyPages);
 
