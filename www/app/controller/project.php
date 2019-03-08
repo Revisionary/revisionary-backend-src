@@ -53,7 +53,7 @@ $catFilter = isset($_url[2]) ? $_url[2] : '';
 // PAGES DATA MODEL
 $dataType = "page";
 $allMyPagesList = User::ID()->getMy("pages", $catFilter, $order, $project_ID, null, true);
-die_to_print($allMyPagesList);
+//die_to_print($allMyPagesList);
 $theCategorizedData = categorize($allMyPagesList, $dataType);
 //die_to_print($theCategorizedData);
 
