@@ -27,51 +27,6 @@ $(function() {
 	});
 
 
-	// Block Sortables
-/*
-	$('.sortable').sortable({
-	    itemSelector: '[draggable="true"]',
-	    handle: '.box, .handle',
-	    forcePlaceholderSize: true
-	}).bind('sortupdate', function(e, ui) {
-
-
-	    // Update the order
-	    doAction('reorder', 'user', 0, updateOrderNumbers());
-
-
-	});
-*/
-
-
-	// Drag Detector
-/*
-	$('.sortable [draggable="true"]').bind('dragstart', function( event ) {
-
-
-		// Remove all add new boxes
-		$('.add-new-block').css('opacity', '0').css('width', '0').css('padding', '0');
-
-		// Remove all the screen navigations
-		$('.screens .dropdown > ul').hide();
-
-
-	}).bind('dragend', function( event ){
-
-
-		// Re-add them
-    	addNewPageButtons();
-
-		// Show all the screen navigations
-		$('.screens .dropdown > ul').show();
-
-
-    });
-*/
-
-
-
-
 	// Category Sortable
 	$(".cat-sortable").sortable({
 		group: 'categories',
@@ -233,7 +188,7 @@ $(function() {
 
 		} else {
 
-			$('.block').show();
+			$('.category, .block').show();
 			$('.filter-blocks input').val("");
 
 		}
@@ -242,15 +197,26 @@ $(function() {
 
 
 	$('.filter-blocks input').keyup(function(){
+
     	var selectSize = $(this).val().toLowerCase();
+
         if (selectSize != "") filter(selectSize);
-        else $('.block').show();
+        else $('.category, .block').show();
+
     });
     function filter(e) {
         var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
-        $('.block').hide().filter(function () {
+
+        $('.category').hide();
+
+        $('.block').hide().filter(function() {
             return regex.test( $(this).find('.box-name .name').text().toLowerCase() )
-        }).show();
+        }).each(function() {
+
+	        $(this).show();
+	        $(this).parents('.category').show();
+
+        });
     }
 
 });
