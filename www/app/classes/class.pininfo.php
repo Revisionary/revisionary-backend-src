@@ -136,18 +136,20 @@ class Pin {
 			$project_ID = $pageData->getInfo('project_ID');
 			$projectData = Project::ID( $project_ID );
 
-		}
 
-
-		// Update the page modification date
-		if ($pin_ID) {
+			// Update the page modification date
 			$page_ID = Device::ID($pin_device_ID)->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
+
+
+			// Site log
+			$log->info(ucfirst($pin_type)." Pin #$pin_ID Added to: '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #$device_ID | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
+
 		}
 
 
-		// Site log
-		if ($pin_ID) $log->info(ucfirst($pin_type)." Pin #$pin_ID Added to: '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #$device_ID | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
 
 
 		return $pin_ID;
@@ -576,6 +578,7 @@ class Pin {
 		string $before_screenshot,
 		string $after_screenshot
 	) {
+		global $db;
 
 
 		// Don't send notification if the pin is private
@@ -596,11 +599,24 @@ class Pin {
 
 		// Send it to all related users
 		$users = $this->getUsers();
+
+
+		// Delete old notifications related to this pin
+		$db->where('object_type', 'pin');
+		$db->where('object_ID', self::$pin_ID);
+		$db->delete('notifications');
+
+
+
+		// Web notification
+		Notify::ID($users)->web("new", "pin", self::$pin_ID, $pin_number);
+
+
+		// Email notification
 		Notify::ID($users)->mail(
 			$notificationSubject,
 			$notificationMessage
 		);
-
 
 
 		return true;

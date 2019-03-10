@@ -213,71 +213,17 @@ class Notification {
 
 
 
-			} elseif ($notification['notification_type'] == "new") {
-
-
-
-
-				if ($object_type == "page") {
-
-
-					$project_ID = $object_data->getInfo('project_ID');
-					$project_name = Project::ID($project_ID)->getInfo('project_name');
-
-
-					// Notification Content
-					$notificationHTML .= "
-
-						$sender_full_name added a <b>new page</b>:
-						<span><a href='$object_link'><b>$object_name</b> [$project_name]</a></span><br/>
-
-						<div class='date'>".timeago($notification['notification_time'])."</div>
-
-					";
-
-
-				}
-
-
-
-
-				if ($object_type == "device") {
-
-
-					$page_ID = $object_data->getInfo('page_ID');
-					$page_data = Page::ID($page_ID);
-					$page_name = $page_data->getInfo('page_name');
-					$project_ID = $page_data->getInfo('project_ID');
-					$project_name = Project::ID($project_ID)->getInfo('project_name');
-
-
-
-					// Notification Content
-					$notificationHTML .= "
-
-						$sender_full_name added a <b>new screen</b>:
-						<span><a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a></span><br/>
-
-						<div class='date'>".timeago($notification['notification_time'])."</div>
-
-					";
-
-
-				}
-
-
-
 			} elseif ($object_type == "pin") {
 
 
 				$pin_type = $object_data->getInfo('pin_type');
+				$pin_complete = $object_data->getInfo('pin_complete');
 				$device_ID = $object_data->getInfo('device_ID');
 				$page_ID = Device::ID($device_ID)->getInfo('page_ID');
 				$page_data = Page::ID($page_ID);
 				$page_name = $page_data->getInfo('page_name');
 				$project_ID = $page_data->getInfo('project_ID');
 				$project_name = Project::ID($project_ID)->getInfo('project_name');
-
 
 				$object_link = site_url("revise/$device_ID#$object_ID");
 
@@ -341,7 +287,86 @@ class Notification {
 					";
 
 
+				} elseif ($notification['notification_type'] == "new") { // New Pin
+
+
+					// Notification Content
+					$notificationHTML .= "
+
+						$sender_full_name added a new <b>$pin_type pin</b>:
+						<span class='wrap xl-table xl-middle'>
+							<span class='col'>
+								<a href='$object_link' data-go-pin='$object_ID'><pin class='small' data-pin-complete='$pin_complete' data-pin-type='$pin_type'>$notificationContent</pin></a>
+							</span>
+							<span class='col' style='padding-left: 4px;'>
+								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
+							</span>
+						</span><br/>
+						<span>
+							More info
+						</span><br/>
+
+						<div class='date'>".timeago($notification['notification_time'])."</div>
+
+					";
+
+
 				}
+
+
+
+			} elseif ($notification['notification_type'] == "new") {
+
+
+
+
+				if ($object_type == "page") {
+
+
+					$project_ID = $object_data->getInfo('project_ID');
+					$project_name = Project::ID($project_ID)->getInfo('project_name');
+
+
+					// Notification Content
+					$notificationHTML .= "
+
+						$sender_full_name added a <b>new page</b>:
+						<span><a href='$object_link'><b>$object_name</b> [$project_name]</a></span><br/>
+
+						<div class='date'>".timeago($notification['notification_time'])."</div>
+
+					";
+
+
+				}
+
+
+
+
+				if ($object_type == "device") {
+
+
+					$page_ID = $object_data->getInfo('page_ID');
+					$page_data = Page::ID($page_ID);
+					$page_name = $page_data->getInfo('page_name');
+					$project_ID = $page_data->getInfo('project_ID');
+					$project_name = Project::ID($project_ID)->getInfo('project_name');
+
+
+
+					// Notification Content
+					$notificationHTML .= "
+
+						$sender_full_name added a <b>new screen</b>:
+						<span><a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a></span><br/>
+
+						<div class='date'>".timeago($notification['notification_time'])."</div>
+
+					";
+
+
+				}
+
 
 
 			}

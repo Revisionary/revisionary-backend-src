@@ -968,6 +968,7 @@ function getNotifications(markAsRead = false) {
 
 
 	console.log('Getting notifications...');
+	stopNotificationAutoRefresh();
 
 
 	$('.notifications > ul').addClass('loading').html('<li><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Notifications are loading...</span></li>');
@@ -1005,9 +1006,14 @@ function getNotifications(markAsRead = false) {
 		}
 
 
+		// Restart the auto refresher
+		startNotificationAutoRefresh();
+
+
 	}).fail(function(e) {
 
 		console.log('ERROR: ', e);
+		startNotificationAutoRefresh();
 
 	});
 
