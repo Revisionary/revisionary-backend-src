@@ -1569,7 +1569,7 @@ function completePin(pin_ID, complete, imgData = null) {
 
 
 	// Mark as completed pin notification
-	pinWindow(pin_ID).attr('data-new-notification', 'complete');
+	pinWindow(pin_ID).attr('data-new-notification', (complete ? 'complete' : 'incomplete'));
 
 
 
@@ -2471,7 +2471,7 @@ function closePinWindow(removePinIfEmpty = true) {
 	}
 
 
-	// Notify the users if this was a new pin
+	// Notify the users if new comment added
 	else if ( pinWindow(pin_ID).attr('data-new-notification') == "comment") {
 
 		newCommentNotification(pin_ID, beforeImage);
@@ -2479,10 +2479,18 @@ function closePinWindow(removePinIfEmpty = true) {
 	}
 
 
-	// Notify the users if this was a new pin
+	// Notify the users if this was completed
 	else if ( pinWindow(pin_ID).attr('data-new-notification') == "complete") {
 
 		completeNotification(pin_ID, "");
+
+	}
+
+
+	// Notify the users if this was incompleted
+	else if ( pinWindow(pin_ID).attr('data-new-notification') == "incomplete") {
+
+		inCompleteNotification(pin_ID, "");
 
 	}
 
@@ -3624,6 +3632,30 @@ function completeNotification(pin_ID, beforeImage) {
 	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
 
 		doAction('completeNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+
+	});
+
+
+	pinWindow(pin_ID).attr('data-new-notification', 'no');
+
+}
+
+
+// Incomplete Notification
+function inCompleteNotification(pin_ID, beforeImage) {
+
+
+	console.log('New incomplete notification sending for #' + pin_ID);
+
+
+	var pin = getPin(pin_ID);
+	var pinNumber = getPinNumber(pin_ID);
+
+
+	// Take the latest screenshot
+	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+
+		doAction('inCompleteNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
 
 	});
 

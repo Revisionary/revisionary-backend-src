@@ -205,6 +205,15 @@ class Pin {
 		$db->where('pin_ID', self::$pin_ID);
 		$pin_deleted = $db->delete('pins');
 
+
+
+		// Delete the notifications if exists
+		$db->where('object_type', 'pin');
+		$db->where('object_ID', self::$pin_ID);
+		$db->delete('notifications');
+
+
+
 		// Update the page modification date
 		if ($pin_deleted) {
 			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
@@ -685,6 +694,50 @@ class Pin {
 
 		// Web notification
 		Notify::ID($users)->web("complete", "pin", self::$pin_ID, $pin_number);
+
+
+		// Email notification
+		Notify::ID($users)->mail(
+			$notificationSubject,
+			$notificationMessage
+		);
+
+
+
+		return true;
+
+	}
+
+
+	// Incomplete notification
+	public function inCompleteNotification(
+		int $pin_number,
+		string $before_screenshot,
+		string $after_screenshot
+	) {
+
+
+		// Don't send notification if the pin is private
+		if ( $this->getInfo('pin_private') == "1" ) return true;
+
+		// Don't send notification if the current user is not pin owner
+		//if ( $this->getInfo('user_ID') != currentUserID() ) return true;
+
+
+
+		// Prepare the message
+		$template = $this->emailTemplate($pin_number, $before_screenshot, $after_screenshot, getUserInfo()['fullName']." marked a pin task as incomplete", "View Pin");
+		$notificationSubject = $template['subject'];
+		$notificationMessage = $template['message'];
+
+
+
+		// Send it to all related users
+		$users = $this->getUsers();
+
+
+		// Web notification
+		Notify::ID($users)->web("incomplete", "pin", self::$pin_ID, $pin_number);
 
 
 		// Email notification
