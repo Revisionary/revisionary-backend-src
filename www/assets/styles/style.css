@@ -5410,8 +5410,8 @@ a {
           top: 50%;
           left: 2px;
           display: block;
-          width: 4px;
-          height: 4px;
+          width: 5px;
+          height: 5px;
           border-radius: 50%;
           background-color: red;
           transform: translateY(-50%); }
@@ -5426,7 +5426,11 @@ a {
         font-size: 12px;
         line-height: 15px; }
         .notifications > ul > li .content span {
-          display: inline-block; }
+          display: inline-block;
+          font-size: 12px;
+          line-height: 15px; }
+          .notifications > ul > li .content span pin[data-pin-complete="1"]:hover:before {
+            opacity: 1 !important; }
       .notifications > ul > li .date {
         font-size: 10px;
         line-height: 14px;
@@ -5753,6 +5757,8 @@ pin {
     font-size: 7px;
     line-height: 16px;
     opacity: 0.8; }
+  pin.small[data-pin-complete="1"]:before {
+    font-size: 12px; }
   pin.mid {
     width: 35px;
     height: 35px;

@@ -1094,7 +1094,7 @@ function readNotifications() {
 
 
 		// Delete the new dots
-		$('.notifications > ul > li').removeClass('new');
+		//$('.notifications > ul > li').removeClass('new');
 
 
 		var currentNotifNumber = parseInt( $('.notification-opener .notif-no').text() );

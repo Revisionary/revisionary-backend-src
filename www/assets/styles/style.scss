@@ -594,8 +594,8 @@ a {
 				    top: 50%;
 				    left: 2px;
 				    display: block;
-				    width: 4px;
-				    height: 4px;
+				    width: 5px;
+				    height: 5px;
 				    border-radius: 50%;
 				    background-color: red;
 				    transform: translateY(-50%);
@@ -623,6 +623,12 @@ a {
 
 			    span {
 				    display: inline-block;
+				    font-size: 12px;
+					line-height: 15px;
+
+					pin[data-pin-complete="1"]:hover:before {
+						opacity: 1 !important;
+					}
 			    }
 			}
 
@@ -1131,6 +1137,18 @@ pin {
 	    font-size: 7px;
 	    line-height: 16px;
 	    opacity: 0.8;
+	}
+
+	&.small {
+
+		&[data-pin-complete="1"] {
+
+			&:before {
+				font-size: 12px;
+			}
+
+		}
+
 	}
 
 	&.mid {

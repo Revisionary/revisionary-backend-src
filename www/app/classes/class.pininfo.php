@@ -668,6 +668,13 @@ class Pin {
 
 		// Send it to all related users
 		$users = $this->getUsers();
+
+
+		// Web notification
+		Notify::ID($users)->web("complete", "pin", self::$pin_ID);
+
+
+		// Email notification
 		Notify::ID($users)->mail(
 			$notificationSubject,
 			$notificationMessage

@@ -132,7 +132,7 @@ class Notification {
 			$object_ID = $notification['object_ID'];
 			$object_type = $notification['object_type'];
 			$object_data = ucfirst($object_type)::ID($object_ID);
-			$object_name = $object_type != "device" ? $object_data->getInfo($object_type.'_name') : "";
+			$object_name = $object_type != "device" && $object_type != "pin" ? $object_data->getInfo($object_type.'_name') : "";
 			$object_link = site_url("$object_type/$object_ID");
 
 
@@ -221,14 +221,18 @@ class Notification {
 
 
 					$page_ID = $object_data->getInfo('page_ID');
-					$page_name = Page::ID($page_ID)->getInfo('page_name');
+					$page_data = Page::ID($page_ID);
+					$page_name = $page_data->getInfo('page_name');
+					$project_ID = $page_data->getInfo('project_ID');
+					$project_name = Project::ID($project_ID)->getInfo('project_name');
+
 
 
 					// Notification Content
 					$notificationHTML .= "
 
 						$sender_full_name added a <b>new screen</b>:
-						<span><a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>$page_name</b></a> page</span><br/>
+						<span><a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a></span><br/>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -237,6 +241,39 @@ class Notification {
 
 				}
 
+
+
+			} elseif ($notification['notification_type'] == "complete") {
+
+
+				$pin_type = $object_data->getInfo('pin_type');
+				$device_ID = $object_data->getInfo('device_ID');
+				$page_ID = Device::ID($device_ID)->getInfo('page_ID');
+				$page_data = Page::ID($page_ID);
+				$page_name = $page_data->getInfo('page_name');
+				$project_ID = $page_data->getInfo('project_ID');
+				$project_name = Project::ID($project_ID)->getInfo('project_name');
+
+
+				$object_link = site_url("revise/$device_ID");
+
+
+				// Notification Content
+				$notificationHTML .= "
+
+					$sender_full_name completed a <b>$pin_type pin</b>:
+					<span class='wrap xl-table xl-middle'>
+						<span class='col'>
+							<a href='$object_link'><pin class='small' data-pin-complete='1' data-pin-type='$pin_type'></pin></a>
+						</span>
+						<span class='col' style='padding-left: 4px;'>
+							in <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a>
+						</span>
+					</span><br/>
+
+					<div class='date'>".timeago($notification['notification_time'])."</div>
+
+				";
 
 
 			}
