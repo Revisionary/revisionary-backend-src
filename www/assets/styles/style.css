@@ -5429,8 +5429,6 @@ a {
           display: inline-block;
           font-size: 12px;
           line-height: 15px; }
-          .notifications > ul > li .content span pin[data-pin-complete="1"]:hover:before {
-            opacity: 1 !important; }
           .notifications > ul > li .content span .comment {
             color: black;
             letter-spacing: 0;
