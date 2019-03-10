@@ -189,6 +189,30 @@ class Notification {
 
 
 
+			} elseif ($notification['notification_type'] == "unshare") {
+
+
+
+				$project_name = "";
+				if ($object_type == "page") {
+
+					$project_ID = $object_data->getInfo('project_ID');
+					$project_name = " [".Project::ID($project_ID)->getInfo('project_name')."]";
+
+				}
+
+
+				// Notification Content
+				$notificationHTML .= "
+
+					$sender_full_name unshared the <span><b>$object_name".$project_name."</b> $object_type</span> from you.</span><br/>
+
+					<div class='date'>".timeago($notification['notification_time'])."</div>
+
+				";
+
+
+
 			} elseif ($notification['notification_type'] == "new") {
 
 
