@@ -37,7 +37,7 @@ class User {
 
 			if ( $userInfo ) {
 
-				self::$user_ID = $user_ID;
+				self::$user_ID = intval($user_ID);
 				self::$userInfo = $userInfo;
 				return new static;
 
@@ -700,7 +700,9 @@ class User {
 
 
 	    // Check the ownership
-	    $object_user_ID = ucfirst($share_type)::ID($shared_object_ID)->getInfo('user_ID');
+	    $objectData = ucfirst($share_type)::ID($shared_object_ID);
+	    $object_user_ID = $objectData->getInfo('user_ID');
+	    $objectName = $objectData->getInfo($share_type.'_name');
 	    $iamowner = $object_user_ID == currentUserID();
 	    $iamshared = self::$user_ID == currentUserID();
 
@@ -717,7 +719,25 @@ class User {
 
 
 		// Site log
-		if ($unshared) $log->info("User #".self::$user_ID." Unshared: $share_type #$shared_object_ID | Username '".$this->getInfo('user_name')."' | Email '".$this->getInfo('user_email')."'");
+		if ($unshared) {
+
+
+			// Notify User via web notification
+			if ( is_integer(self::$user_ID) )
+				Notify::ID(self::$user_ID)->web("unshare", $share_type, $shared_object_ID);
+
+
+			// Notify User via email notification
+			Notify::ID(self::$user_ID)->mail(
+				getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you.",
+
+				"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['userName'].") unshared the \"$objectName\" $share_type from you on Revisionary App."
+			);
+
+
+			$log->info("User #".self::$user_ID." Unshared: $share_type #$shared_object_ID | Username '".$this->getInfo('user_name')."' | Email '".$this->getInfo('user_email')."'");
+
+		}
 
 
 
