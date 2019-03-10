@@ -905,6 +905,9 @@ class Pin {
 
 				$different_user = $previous_user_ID != $comment['user_ID'];
 
+				$date = new DateTime($comment['comment_modified']);
+				$dateFormatted = $date->format('g:i A - F j, Y');
+
 				$has_photo = $comment['user_picture'] != null;
 				$avatar = "
 					<div style='
@@ -935,18 +938,18 @@ class Pin {
 
 				$commentsList .= "
 				<tr>
-					<td width='40'>
+					<td width='40' valign='top'>
 						".($different_user && $comment_count > 1 ? "<br><br>" : "")."
 
 						$user_pic
 
 					</td>";
 					$commentsList .= "
-					<td>
+					<td valign='top'>
 						".($different_user && $comment_count > 1 ? "<br><br>" : "")."
 
 						$user_full_name
-						".$comment['pin_comment']." <span style='padding-left: 5px; padding-right: 5px; font-size: 10px; line-height: 20px; opacity: 0.4;'>".timeago($comment['comment_modified'])."</span>
+						".$comment['pin_comment']." <span style='display: inline-block; padding-right: 5px; font-size: 10px; line-height: 20px; opacity: 0.4; margin-bottom: 10px;'>".$dateFormatted."</span>
 
 					</td>
 				</tr>";

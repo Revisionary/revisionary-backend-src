@@ -2,7 +2,11 @@
 <?php
 
 
+$date = new DateTime('2019-03-10 21:22:36');
+echo $date->format('g:i A - F j, Y');
+exit;
 
+/*
 var_dump( checkAvailableUserName('bill-tas') );
 
 exit;
@@ -27,6 +31,7 @@ while ($i < 10) { $i++;
 }
 
 exit;
+*/
 
 /*
 $parsed_url = User::ID()->getNotifications();
