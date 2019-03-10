@@ -1697,13 +1697,15 @@ function convertPin(pin_ID, targetPin) {
 
 
 // Scroll to a pin
-function scrollToPin(pin_ID, openWindow = false) {
+function scrollToPin(pin_ID, openWindow = false, noDelay = false) {
 
 
 	console.log('SCROLL TO PIN #' + pin_ID);
 
-
+	var delay = noDelay ? 0 : 500;
 	var pin = pinElement(pin_ID);
+
+
 
 	if (pin.length) {
 
@@ -1725,7 +1727,7 @@ function scrollToPin(pin_ID, openWindow = false) {
 				//scrollLeft: pinX !!!
 
 
-			}, 500, 'swing').promise().then(function() {
+			}, delay, 'swing').promise().then(function() {
 
 
 				if (openWindow)	openPinWindow(pin_ID);
@@ -1734,7 +1736,7 @@ function scrollToPin(pin_ID, openWindow = false) {
 			});
 
 
-		}, 500);
+		}, delay);
 
 
 		return true;

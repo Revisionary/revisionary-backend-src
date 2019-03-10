@@ -243,7 +243,7 @@ class Notification {
 
 
 
-			} elseif ($notification['notification_type'] == "complete") {
+			} elseif ($object_type == "pin") {
 
 
 				$pin_type = $object_data->getInfo('pin_type');
@@ -255,25 +255,48 @@ class Notification {
 				$project_name = Project::ID($project_ID)->getInfo('project_name');
 
 
-				$object_link = site_url("revise/$device_ID");
+				$object_link = site_url("revise/$device_ID#$object_ID");
 
 
-				// Notification Content
-				$notificationHTML .= "
 
-					$sender_full_name completed a <b>$pin_type pin</b>:
-					<span class='wrap xl-table xl-middle'>
-						<span class='col'>
-							<a href='$object_link'><pin class='small' data-pin-complete='1' data-pin-type='$pin_type'></pin></a>
-						</span>
-						<span class='col' style='padding-left: 4px;'>
-							in <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a>
-						</span>
-					</span><br/>
+				if ($notification['notification_type'] == "complete") {
 
-					<div class='date'>".timeago($notification['notification_time'])."</div>
 
-				";
+					// Notification Content
+					$notificationHTML .= "
+
+						$sender_full_name completed a <b>$pin_type pin</b>:
+						<span class='wrap xl-table xl-middle'>
+							<span class='col'>
+								<a href='$object_link' data-go-pin='$object_ID'><pin class='small' data-pin-complete='1' data-pin-type='$pin_type'>$notificationContent</pin></a>
+							</span>
+							<span class='col' style='padding-left: 4px;'>
+								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
+							</span>
+						</span><br/>
+
+						<div class='date'>".timeago($notification['notification_time'])."</div>
+
+					";
+
+
+				} elseif ($notification['notification_type'] == "comment") {
+
+
+					// Notification Content
+					$notificationHTML .= "
+
+						$sender_full_name wrote on a <a href='$object_link' data-go-pin='$object_ID'>$pin_type pin</a>:
+						<span class='wrap xl-table xl-middle'>
+							<a href='$object_link' data-go-pin='$object_ID'><span class='comment'>$notificationContent</span></a>
+						</span><br/>
+
+						<div class='date'>".timeago($notification['notification_time'])."</div>
+
+					";
+
+
+				}
 
 
 			}

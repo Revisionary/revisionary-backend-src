@@ -952,6 +952,16 @@ $(function() {
 	autosize($('textarea.resizeable'));
 
 
+	$(document).on('click', '[data-go-pin]', function(e) {
+
+		var pin_ID = parseInt( $(this).attr('data-go-pin') );
+		scrollToPin(pin_ID, true, true);
+
+		e.preventDefault();
+
+	});
+
+
 /*
 	// Detect Window switches for the correct focusing
 	$(window).on('blur', function(e) {

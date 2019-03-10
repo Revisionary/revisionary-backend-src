@@ -510,9 +510,19 @@ class Pin {
 
 		// Update the page modification date
 		if ($comment_ID) {
+
 			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
 			$pageData = Page::ID($page_ID);
 			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+
+
+			// Send it to all related users
+			$users = $this->getUsers();
+
+
+			// Web notification
+			Notify::ID($users)->web("comment", "pin", self::$pin_ID, substr($message, 0, 70));
+
 		}
 
 
@@ -630,6 +640,9 @@ class Pin {
 
 		// Send it to all related users
 		$users = $this->getUsers();
+
+
+		// Email notification
 		Notify::ID($users)->mail(
 			$notificationSubject,
 			$notificationMessage
@@ -671,7 +684,7 @@ class Pin {
 
 
 		// Web notification
-		Notify::ID($users)->web("complete", "pin", self::$pin_ID);
+		Notify::ID($users)->web("complete", "pin", self::$pin_ID, $pin_number);
 
 
 		// Email notification
@@ -941,7 +954,7 @@ class Pin {
 				<td colspan='2'>
 
 					<br>
-					<h2>Comments ".($comment_count > 0 && 2 == 3 ? "<span style='display: inline-block; font-size: 10px; color: white; padding: 0 2px; background-color: red; border-radius: 3px;'>NEW</span>" : "")."</h2>
+					<h2>Comments ".($comment_count > 0 && $button_text == "View Comments" ? "<span style='display: inline-block; font-size: 10px; color: white; padding: 0 2px; background-color: red; border-radius: 3px;'>NEW</span>" : "")."</h2>
 					$commentsList
 
 				</td>
