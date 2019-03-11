@@ -685,11 +685,15 @@ html, body {
         font-size: 10px;
         position: absolute;
         top: 0;
-        left: 0;
+        left: 2px;
         pointer-events: none; }
       #pin-window .css-box .layer > .input {
         position: absolute;
         width: 35px; }
+        #pin-window .css-box .layer > .input > span {
+          font-size: 10px;
+          text-align: center;
+          display: block; }
         #pin-window .css-box .layer > .input > input {
           display: block; }
         #pin-window .css-box .layer > .input.top {
@@ -700,6 +704,18 @@ html, body {
           top: 50%;
           transform: translateY(-50%);
           right: 2px; }
+          #pin-window .css-box .layer > .input.right.bottom {
+            bottom: 2px;
+            transform: translateY(0);
+            transform: translateX(0);
+            top: auto;
+            left: auto; }
+          #pin-window .css-box .layer > .input.right.top {
+            top: 2px;
+            transform: translateY(0);
+            transform: translateX(0);
+            bottom: auto;
+            left: auto; }
         #pin-window .css-box .layer > .input.bottom {
           left: 50%;
           transform: translateX(-50%);
@@ -708,6 +724,18 @@ html, body {
           top: 50%;
           transform: translateY(-50%);
           left: 2px; }
+          #pin-window .css-box .layer > .input.left.bottom {
+            bottom: 2px;
+            transform: translateY(0);
+            transform: translateX(0);
+            top: auto;
+            right: auto; }
+          #pin-window .css-box .layer > .input.left.top {
+            top: 15px;
+            transform: translateY(0);
+            transform: translateX(0);
+            bottom: auto;
+            right: auto; }
     #pin-window .css-box > .positions:before {
       content: "Position"; }
     #pin-window .css-box > .positions > .margins {
