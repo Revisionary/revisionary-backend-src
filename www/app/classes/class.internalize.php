@@ -446,6 +446,10 @@ class Internalize {
 				// Find in downloads
 		        $css_resource_key = array_search($new_url, array_column($this->downloadedCSS, 'url'));
 
+				// Check without hash
+				if ($css_resource_key === false)
+					$css_resource_key = array_search(parseUrl($new_url)['full_path'], array_column($this->downloadedCSS, 'url'));
+
 
 		        // If file is from the remote url, and already downloaded
 		        if (
@@ -538,6 +542,10 @@ class Internalize {
 
 				// Find in downloads
 		        $js_resource_key = array_search($new_url, array_column($this->downloadedJS, 'url'));
+
+				// Check without hash
+				if ($js_resource_key === false)
+					$js_resource_key = array_search(parseUrl($new_url)['full_path'], array_column($this->downloadedJS, 'url'));
 
 
 		        // If file is from the remote url, and already downloaded
@@ -932,10 +940,17 @@ class Internalize {
 		        // Find CSS in downloads
 		        $css_resource_key = array_search($absolute_url, array_column($this->downloadedCSS, 'url'));
 
+		        // Check without hash
+				if ($css_resource_key === false)
+					$css_resource_key = array_search(parseUrl($absolute_url)['full_path'], array_column($this->downloadedCSS, 'url'));
+
 
 		        // Find Font in downloads
 		        $font_resource_key = array_search($absolute_url, array_column($this->downloadedFonts, 'url'));
 
+				// Check without hash
+				if ($font_resource_key === false)
+					$font_resource_key = array_search(parseUrl($absolute_url)['full_path'], array_column($this->downloadedFonts, 'url'));
 
 
 				if (

@@ -3,13 +3,18 @@
 
 
 
+die_to_print( parseUrl("http://lori.twelve12.co/wp-content/plugins/goodlayers-core/plugins/combine/fontawesome/fontawesome-webfont.eot#1552307384")['full_path'] );
+
+
 /*
 var_dump( Page::ID(6)->getUsers(true) );
 exit;
 */
 
+/*
 var_dump( User::ID()->canAccess(23, "device") );
 exit;
+*/
 
 
 /*
