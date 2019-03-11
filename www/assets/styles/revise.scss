@@ -1336,13 +1336,16 @@ html, body {
 					    left: auto;
 
 					    &.middle {
-						    top: -2px;
 						    right: 50px;
 						    width: auto;
 
-						    .sp-preview {
-							    height: 14px;
-						    }
+						    .sp-replacer {
+							    margin-top: -6px;
+
+							    .sp-preview {
+								    height: 14px;
+							    }
+							}
 					    }
 					}
 				}
@@ -1372,6 +1375,16 @@ html, body {
 					    transform: translateX(0);
 					    bottom: auto;
 					    right: auto;
+
+					    &.middle {
+						    top: 2px;
+						    left: 55px;
+						    width: auto;
+
+						    .sp-preview {
+							    height: 14px;
+						    }
+					    }
 					}
 				}
 			}

@@ -717,11 +717,12 @@ html, body {
             bottom: auto;
             left: auto; }
             #pin-window .css-box .layer > .input.right.top.middle {
-              top: -2px;
               right: 50px;
               width: auto; }
-              #pin-window .css-box .layer > .input.right.top.middle .sp-preview {
-                height: 14px; }
+              #pin-window .css-box .layer > .input.right.top.middle .sp-replacer {
+                margin-top: -6px; }
+                #pin-window .css-box .layer > .input.right.top.middle .sp-replacer .sp-preview {
+                  height: 14px; }
         #pin-window .css-box .layer > .input.bottom {
           left: 50%;
           transform: translateX(-50%);
@@ -742,6 +743,12 @@ html, body {
             transform: translateX(0);
             bottom: auto;
             right: auto; }
+            #pin-window .css-box .layer > .input.left.top.middle {
+              top: 2px;
+              left: 55px;
+              width: auto; }
+              #pin-window .css-box .layer > .input.left.top.middle .sp-preview {
+                height: 14px; }
     #pin-window .css-box > .positions:before {
       content: "Position"; }
     #pin-window .css-box > .positions > .margins {

@@ -857,6 +857,7 @@
 
 
 
+<div class="main-option sub input top left middle"><input type="text" data-edit-css="border-style" data-default="initial"></div>
 <div class="main-option sub input top right middle"><input type="color" data-edit-css="border-color" data-default="initial"></div>
 
 <div class="main-option sub input top left"><input type="text" data-edit-css="border-top-left-radius" data-default="initial"/><span>Radius</span></div>
