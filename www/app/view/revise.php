@@ -827,7 +827,7 @@
 						</li>
 						<li class="main-option dropdown hide-when-hidden" data-tooltip="Experimental">
 							<a href="#"><i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i></a>
-							<ul class="no-delay full open" style="width: auto;">
+							<ul class="no-delay full" style="width: auto;">
 								<li>
 
 									<div class="css-box">
@@ -855,6 +855,9 @@
 <div class="main-option sub input bottom"><input type="text" data-edit-css="border-bottom-width" data-default="initial"/></div>
 <div class="main-option sub input left"><input type="text" data-edit-css="border-left-width" data-default="initial"/></div>
 
+
+
+<div class="main-option sub input top right middle"><input type="color" data-edit-css="border-color" data-default="initial"></div>
 
 <div class="main-option sub input top left"><input type="text" data-edit-css="border-top-left-radius" data-default="initial"/><span>Radius</span></div>
 <div class="main-option sub input top right"><input type="text" data-edit-css="border-top-right-radius" data-default="initial"/><span>Radius</span></div>

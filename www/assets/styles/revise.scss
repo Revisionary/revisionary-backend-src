@@ -1334,6 +1334,16 @@ html, body {
 					    transform: translateX(0);
 					    bottom: auto;
 					    left: auto;
+
+					    &.middle {
+						    top: -2px;
+						    right: 50px;
+						    width: auto;
+
+						    .sp-preview {
+							    height: 14px;
+						    }
+					    }
 					}
 				}
 

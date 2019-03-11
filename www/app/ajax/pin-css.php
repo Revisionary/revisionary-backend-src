@@ -51,6 +51,7 @@ foreach ($css as $key => $value) {
 		&& $key != "margin-right"
 		&& $key != "margin-bottom"
 		&& $key != "margin-left"
+		&& $key != "border-color"
 		&& $key != "border-top-width"
 		&& $key != "border-right-width"
 		&& $key != "border-bottom-width"

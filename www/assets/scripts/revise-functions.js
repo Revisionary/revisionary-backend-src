@@ -2166,7 +2166,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 			// Color exception
-			if (property == "color" || property == "background-color") {
+			if ( property.includes("color") ) {
 				$('input[type="color"][data-edit-css="'+ property +'"]').spectrum("set", value);
 			}
 

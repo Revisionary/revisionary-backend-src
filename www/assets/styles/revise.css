@@ -716,6 +716,12 @@ html, body {
             transform: translateX(0);
             bottom: auto;
             left: auto; }
+            #pin-window .css-box .layer > .input.right.top.middle {
+              top: -2px;
+              right: 50px;
+              width: auto; }
+              #pin-window .css-box .layer > .input.right.top.middle .sp-preview {
+                height: 14px; }
         #pin-window .css-box .layer > .input.bottom {
           left: 50%;
           transform: translateX(-50%);
