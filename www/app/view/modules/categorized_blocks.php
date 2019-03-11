@@ -54,7 +54,7 @@
 		<?php } elseif ( isset($_GET['projectdoesntexist']) ) { ?>
 
 		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('projectdoesntexist');</script>
-			The project you are looking for has been removed.
+			You don't have access to this project.
 
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
@@ -70,7 +70,7 @@
 		<?php } elseif ( isset($_GET['devicedoesntexist']) ) { ?>
 
 		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('devicedoesntexist');</script>
-			The device you are looking for has been removed.
+			You don't have access to this device.
 
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
@@ -78,7 +78,7 @@
 		<?php } elseif ( isset($_GET['pagedoesntexist']) ) { ?>
 
 		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('pagedoesntexist');</script>
-			The page you are looking for has been removed.
+			You don't have access to this page.
 
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>

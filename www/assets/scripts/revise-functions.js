@@ -1223,7 +1223,7 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 
 
 		// If not logged in, refresh this page to go to the login page
-		if (data.status == "not-logged-in") location.reload();
+		if (data.status == "not-logged-in" || data.status == "no-access") location.reload();
 
 
 		// Update the global pins list

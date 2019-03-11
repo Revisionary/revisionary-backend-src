@@ -2,9 +2,21 @@
 <?php
 
 
+
+/*
+var_dump( Page::ID(6)->getUsers(true) );
+exit;
+*/
+
+var_dump( User::ID()->canAccess(23, "device") );
+exit;
+
+
+/*
 $date = new DateTime('2019-03-10 21:22:36');
 echo $date->format('g:i A - F j, Y');
 exit;
+*/
 
 /*
 var_dump( checkAvailableUserName('bill-tas') );

@@ -279,7 +279,7 @@ class Page {
 
 
 		// Get the project users
-		$users = array_merge($users, $projectData->getUsers());
+		$users = array_merge($users, $projectData->getUsers($include_me));
 
 
 		// Remove duplicates
