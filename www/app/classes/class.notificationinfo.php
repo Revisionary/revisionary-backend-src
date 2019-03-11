@@ -83,10 +83,7 @@ class Notification {
 	    global $db;
 
 
-
-		//$notificationHTML = "<ul>";
 		$notificationHTML = "";
-
 
 
 		// Get only new notifications
@@ -99,11 +96,9 @@ class Notification {
 		$totalNotifications = $notificationData['totalCount'];
 
 
-
 		// Merge all the notifications
 		$notifications = array_unique(array_merge($newNotifications, $notifications), SORT_REGULAR);
 		$notificationsCount = count($notifications);
-
 
 
 		// If there is no notifications
@@ -289,6 +284,21 @@ class Notification {
 
 				} elseif ($notification['notification_type'] == "new") { // New Pin
 
+					$content = "";
+					$style = "";
+					$comment = "";
+
+					if ( !empty($object_data->getInfo('pin_modification')) )
+						$content = "<li><a href='$object_link' data-go-pin='$object_ID'> Content</a></li>";
+
+					if ( !empty($object_data->getInfo('pin_css')) )
+						$style = "<li><a href='$object_link' data-go-pin='$object_ID'> Style</a></li>";
+
+
+					$comments = $object_data->comments();
+					if ( count($comments) > 0 )
+						$comment = "<li><a href='$object_link' data-go-pin='$object_ID'> Comment</a></li>";
+
 
 					// Notification Content
 					$notificationHTML .= "
@@ -299,11 +309,13 @@ class Notification {
 								<a href='$object_link' data-go-pin='$object_ID'><pin class='small' data-pin-complete='$pin_complete' data-pin-type='$pin_type'>$notificationContent</pin></a>
 							</span>
 							<span class='col' style='padding-left: 4px;'>
-								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
+								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a><br>
+								<ul>
+									$content
+									$style
+									$comment
+								</ul>
 							</span>
-						</span><br/>
-						<span>
-							More info
 						</span><br/>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
@@ -388,9 +400,6 @@ class Notification {
 		if ( ($offset + $notificationsCount) < $totalNotifications ) {
 			$notificationHTML .= '<li class="more-notifications"><a href="#" data-offset="'.($offset + $notificationsCount).'">Load older notifications <i class="fa fa-level-down-alt"></i></a></li>';
 		}
-
-
-		//$notificationHTML .= "</ul>";
 
 
 		return $notificationHTML;

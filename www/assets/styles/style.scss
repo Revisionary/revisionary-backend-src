@@ -626,10 +626,6 @@ a {
 				    font-size: 12px;
 					line-height: 15px;
 
-					pin[data-pin-complete="1"]:hover:before {
-						//opacity: 1 !important;
-					}
-
 					.comment {
 						color: $color;
 						letter-spacing: 0;
@@ -644,6 +640,31 @@ a {
 					    &::before, &::after {
 						    content: '"';
 					    }
+					}
+
+					ul {
+						padding-left: 0px;
+						list-style-type: none;
+
+						& > li {
+							opacity: 0.5;
+							display: inline-block;
+							margin-right: 8px;
+
+							& > a {
+								color: $color !important;
+							    font-size: 10px !important;
+							    letter-spacing: 0 !important;
+
+								&::before {
+									content: "\2022";
+								}
+
+							    &:hover {
+								    color: $color-secondary !important;
+							    }
+							}
+						}
 					}
 			    }
 			}

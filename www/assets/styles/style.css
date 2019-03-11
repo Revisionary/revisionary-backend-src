@@ -5441,6 +5441,21 @@ a {
             -webkit-box-orient: vertical; }
             .notifications > ul > li .content span .comment::before, .notifications > ul > li .content span .comment::after {
               content: '"'; }
+          .notifications > ul > li .content span ul {
+            padding-left: 0px;
+            list-style-type: none; }
+            .notifications > ul > li .content span ul > li {
+              opacity: 0.5;
+              display: inline-block;
+              margin-right: 8px; }
+              .notifications > ul > li .content span ul > li > a {
+                color: black !important;
+                font-size: 10px !important;
+                letter-spacing: 0 !important; }
+                .notifications > ul > li .content span ul > li > a::before {
+                  content: "\2022"; }
+                .notifications > ul > li .content span ul > li > a:hover {
+                  color: #007acc !important; }
       .notifications > ul > li .date {
         font-size: 10px;
         line-height: 14px;
