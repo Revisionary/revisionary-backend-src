@@ -629,6 +629,11 @@ html, body {
 	    .content-editor,
 	    .image-editor {
 
+		    .new-image {
+			    opacity: 0.3;
+		        border: 1px dotted red;
+		    }
+
 		    .edited-sign {
 			    display: none;
 		    }

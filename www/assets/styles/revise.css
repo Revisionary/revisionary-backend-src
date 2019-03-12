@@ -365,6 +365,10 @@ html, body {
   #pin-window[data-pin-mine="no"] .convert-to-private-live,
   #pin-window[data-pin-mine="no"] .convert-to-private {
     display: none; }
+  #pin-window[data-revisionary-edited="0"] .content-editor .new-image,
+  #pin-window[data-revisionary-edited="0"] .image-editor .new-image {
+    opacity: 0.3;
+    border: 1px dotted red; }
   #pin-window[data-revisionary-edited="0"] .content-editor .edited-sign,
   #pin-window[data-revisionary-edited="0"] .image-editor .edited-sign {
     display: none; }

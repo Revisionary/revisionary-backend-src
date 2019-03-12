@@ -2275,7 +2275,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 					originalImageSrc = iframeElement(theIndex).attr('src');
 
 					// Default image preview
-					changedImageSrc = "";
+					changedImageSrc = originalImageSrc;
 				}
 
 
@@ -2284,7 +2284,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 					originalImageSrc = pin.pin_modification_original;
 
 
-				// Update it the image is a relative path
+				// Update if the image is a relative path
 				if (originalImageSrc.indexOf('http://') !== 0 && originalImageSrc.indexOf('https://') !== 0)
 					originalImageSrc = remote_URL + originalImageSrc;
 
@@ -2822,7 +2822,7 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 			}
 
 
-			// Add the changed HTML content
+			// Add the original HTML content
 			pinWindow(pin.pin_ID).find('.content-editor .edit-content.changes').html( oldHTML );
 
 
@@ -2832,6 +2832,10 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 			// Revert the change
 			var oldSrc = pin.pin_modification_original; //console.log('NEW', newHTML);
 			element.attr('src', oldSrc);
+
+
+			// Add the original HTML content
+			pinWindow(pin.pin_ID).find('.image-editor .edit-content.changes .new-image').attr('src', oldSrc);
 
 		}
 
@@ -3025,6 +3029,10 @@ function removeImage(pin_ID, element_index) {
 	console.log('DELETE THE IMAGE');
 
 
+	var pin = getPin(pin_ID);
+	var pinIndex = Pins.indexOf(pin);
+
+
 	// Reset the uploader
 	$('#pin-window .uploader img.new-image').attr('src', '');
 	$('#pin-window .uploader #filePhoto').val('');
@@ -3035,9 +3043,6 @@ function removeImage(pin_ID, element_index) {
 
 
     // Update from the Pins global
-	var pin = getPin(pin_ID);
-	var pinIndex = Pins.indexOf(pin);
-
 	Pins[pinIndex].pin_modification = null;
 
 
