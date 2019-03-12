@@ -1,4 +1,3 @@
-			<!-- Toolbar -->
 			<div class="toolbar wrap xl-flexbox xl-middle">
 				<div class="col xl-3-12 xl-left">
 
