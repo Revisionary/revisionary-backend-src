@@ -118,6 +118,11 @@ class Notification {
 
 			$sender_ID = $notification['sender_user_ID'];
 			$senderInfo = getUserInfo($sender_ID);
+
+			// Skip if the user not found
+			if (!$senderInfo) continue;
+
+
 			$sender_full_name = $senderInfo['fullName'];
 			$notificationNew = $notification['notification_read'] == 0;
 			$notificationContent = $notification['notification'];
@@ -127,6 +132,11 @@ class Notification {
 			$object_ID = $notification['object_ID'];
 			$object_type = $notification['object_type'];
 			$object_data = ucfirst($object_type)::ID($object_ID);
+
+			// Skip if the object not found
+			if (!$object_data) continue;
+
+
 			$object_name = $object_type != "device" && $object_type != "pin" ? $object_data->getInfo($object_type.'_name') : "";
 			$object_link = site_url("$object_type/$object_ID");
 
@@ -138,7 +148,7 @@ class Notification {
 				<div class="wrap xl-table xl-middle">
 					<div class="col image">
 
-						<picture class="profile-picture" '.$senderInfo['printPicture'].'> 																			<span class="has-pic">'.$senderInfo['nameAbbr'].'</span>
+						<picture class="profile-picture" '.$senderInfo['printPicture'].'> 																			<span '.($senderInfo['userPic'] != "" ? "class='has-pic'" : "").'>'.$senderInfo['nameAbbr'].'</span>
 						</picture>
 
 					</div>
