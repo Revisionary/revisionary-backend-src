@@ -144,18 +144,18 @@
 
 			<!-- Filter Bar -->
 			<div class="toolbar wrap xl-flexbox xl-middle">
-			<div class="col xl-3-12 xl-left">
+				<div class="col xl-3-12 xl-left">
 
-				<a href="<?=site_url('projects')?>" class="invert-hover" style="letter-spacing: 2.5px;"><i class="fa fa-arrow-left"></i> PROJECTS</a>
+					<a href="<?=site_url('projects')?>" class="invert-hover" style="letter-spacing: 2.5px;"><i class="fa fa-arrow-left"></i> PROJECTS</a>
 
-			</div>
+				</div>
 
 				<div class="col xl-6-12 xl-center filter invert-hover">
 
-					<a class="selected" href="#">Profile</a>
-					<a class="" href="#">Password</a>
-					<a class="" href="#">Email</a>
-					<a class="" href="#">Billing</a>
+					<a class="<?=$subpage == "profile" || !$subpage ? "selected" : ""?>" href="<?=site_url("account")?>">Profile</a>
+					<a class="<?=$subpage == "password" ? "selected" : ""?>" href="<?=site_url("account/password")?>">Password</a>
+					<a class="<?=$subpage == "email" ? "selected" : ""?>" href="<?=site_url("account/email")?>">Email</a>
+					<a class="<?=$subpage == "billing" ? "selected" : ""?>" href="<?=site_url("account/billing")?>">Billing</a>
 
 				</div>
 
@@ -167,6 +167,25 @@
 
 
 			<!-- Blocks -->
+			<div class="wrap xl-center">
+				<div class="col xl-9-12">
+
+
+					<div class="wrap">
+						<div class="col xl-3-12 xl-center">
+
+							<picture class="profile-picture big" <?=getUserInfo()['printPicture']?>>
+								<span <?=getUserInfo()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserInfo()['nameAbbr']?></span>
+							</picture>
+
+
+
+						</div>
+					</div>
+
+
+				</div>
+			</div>
 
 
 

@@ -1,5 +1,8 @@
 <?php
 
+$subpage = isset($_url[1]) ? $_url[1] : false;
+
+
 // Additional Scripts and Styles
 $additionalCSS = [
 	'vendor/jquery.mCustomScrollbar.css'
