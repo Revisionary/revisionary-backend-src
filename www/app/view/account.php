@@ -153,9 +153,9 @@
 				<div class="col xl-6-12 xl-center filter invert-hover">
 
 					<a class="<?=$subpage == "profile" || !$subpage ? "selected" : ""?>" href="<?=site_url("account")?>">Profile</a>
-					<a class="<?=$subpage == "password" ? "selected" : ""?>" href="<?=site_url("account/password")?>">Password</a>
-					<a class="<?=$subpage == "email" ? "selected" : ""?>" href="<?=site_url("account/email")?>">Email</a>
-					<a class="<?=$subpage == "billing" ? "selected" : ""?>" href="<?=site_url("account/billing")?>">Billing</a>
+					<a class="<?=$subpage == "password" ? "selected" : ""?>" href="<?=site_url("account/password")?>" data-tooltip="In development...">Password</a>
+					<a class="<?=$subpage == "email" ? "selected" : ""?>" href="<?=site_url("account/email")?>" data-tooltip="In development...">Email</a>
+					<a class="<?=$subpage == "billing" ? "selected" : ""?>" href="<?=site_url("account/billing")?>" data-tooltip="In development...">Billing</a>
 
 				</div>
 
@@ -168,20 +168,65 @@
 
 			<!-- Blocks -->
 			<div class="wrap xl-center">
-				<div class="col xl-9-12">
+				<div class="col xl-6-12">
 
 
-					<div class="wrap">
+				<?php if ($subpage == "profile" || !$subpage) { ?>
+
+
+					<div class="wrap xl-table xl-gutter-24">
 						<div class="col xl-3-12 xl-center">
 
-							<picture class="profile-picture big" <?=getUserInfo()['printPicture']?>>
+							<picture class="profile-picture larger" <?=getUserInfo()['printPicture']?>>
 								<span <?=getUserInfo()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserInfo()['nameAbbr']?></span>
 							</picture>
 
+						</div>
+						<div class="col" data-tooltip="In development...">
+
+
+							<label class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12">Name</span>
+								<span class="col"><input class="full" type="text" value="<?=getUserInfo()['fullName']?>" placeholder="Your full name"/></span>
+							</label><br/>
+
+
+							<label class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12">Email</span>
+								<span class="col"><input class="full" type="email" value="<?=getUserInfo()['email']?>" placeholder="Your email"/></span>
+							</label><br/>
+
+
+							<label class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12">Job Title</span>
+								<span class="col"><input class="full" type="text" value="" placeholder="Your job title"/></span>
+							</label><br/>
+
+
+							<label class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12">Department</span>
+								<span class="col"><input class="full" type="text" value="" placeholder="Your department"/></span>
+							</label><br/>
+
+
+							<label class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12">Company</span>
+								<span class="col"><input class="full" type="text" value="" placeholder="Your company name"/></span>
+							</label><br/>
+
+
+							<div class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12"></span>
+								<span class="col"><input class="invert" type="submit" value="Update"/></span>
+							</div><br/>
 
 
 						</div>
 					</div>
+
+
+				<?php } ?>
+
 
 
 				</div>

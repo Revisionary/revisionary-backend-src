@@ -259,6 +259,21 @@ button {
 	    text-align: center;
 	    padding: 0;
     }
+
+    &.invert {
+	    color: white;
+	    background-color: $color;
+
+	    &:hover {
+		    background-color: white;
+		    color: $color;
+	    }
+    }
+
+	&:focus {
+		outline: none;
+		box-shadow: 0px 0px 5px 1px $color-secondary;
+	}
 }
 
 .filter-blocks {
@@ -1104,10 +1119,15 @@ picture.profile-picture {
 		height: 40px;
 		font-size: 15px;
 		line-height: 40px;
-		border-width: 2px;
 	    margin-left: 20px;
 	    margin-right: 0px;
 	    transform: translateY(-3px);
+	}
+
+	&.larger {
+		margin: 0;
+		width: 100px;
+		height: 100px;
 	}
 }
 
@@ -2186,11 +2206,6 @@ footer {
 	    letter-spacing: 3px;
 		background-color: white;
 		box-sizing: border-box;
-		outline: none;
-
-		&:focus {
-			box-shadow: 0px 0px 5px 1px $color-secondary;
-		}
 	}
 
 	input[type="submit"] {
