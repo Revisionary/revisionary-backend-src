@@ -2760,7 +2760,7 @@ function applyChanges(showingOriginal = []) {
 
 
 // Revert changes
-function revertChanges(element_indexes = [], pinsList = Pins) {
+function revertChanges(element_indexes = [], pinsList = Pins, CSSrevert = true) {
 
 	if ( element_indexes.length ) console.log('REVERTING CHANGES FOR: ', element_indexes);
 
@@ -2774,7 +2774,7 @@ function revertChanges(element_indexes = [], pinsList = Pins) {
 
 
 		// Revert the CSS
-		revertCSS(pin.pin_ID);
+		if (CSSrevert) revertCSS(pin.pin_ID);
 
 
 		// Skip standard and unmodified pins
@@ -3039,7 +3039,7 @@ function removeImage(pin_ID, element_index) {
 
 
 	// Revert the modification for the image
-	revertChanges([], [pin]);
+	revertChanges([], [pin], false);
 
 
     // Update from the Pins global
