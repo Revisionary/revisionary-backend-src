@@ -2947,7 +2947,7 @@ function resetContent(pin_ID) {
 
 
 	// Revert the changes
-	revertChanges([], [pin]);
+	revertChanges([], [pin], false);
 
 
 	// Delete the changes
