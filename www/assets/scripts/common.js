@@ -659,6 +659,134 @@ $(function() {
 	});
 
 
+
+	// Avatar Upload
+	// Uploader
+	$('.avatar-upload').change(function() {
+
+		var maxSize = $(this).attr('data-max-size');
+
+
+	    var reader = new FileReader();
+	    reader.onload = function(event) {
+
+
+			// Temp data URL
+			var imageSrc = event.target.result;
+
+
+			// Apply the change
+			//$('.profile-picture[data-type="user"][data-id="current"]').attr('style', 'background-image: url('+imageSrc+');');
+			$('.profile-picture[data-type="user"][data-id="current"]').addClass('loading');
+
+
+			// Submit data
+			$('#avatar-form').submit();
+
+
+	    }
+
+
+		// If a file selected
+        if ( $(this).get(0).files.length ) {
+
+
+
+            var fileSize = $(this).get(0).files[0].size; // in bytes
+            if (fileSize > maxSize) {
+
+                alert('File size is more than ' + formatBytes(maxSize));
+                return false;
+
+            } else {
+
+                console.log('File size is correct - '+formatBytes(fileSize)+', no more than '+formatBytes(maxSize));
+	        	reader.readAsDataURL($(this).get(0).files[0]);
+
+            }
+
+
+		// If no file selected
+        } else {
+
+		    console.log('NO FILE');
+            return false;
+        }
+
+
+	});
+
+
+	$('#avatar-form').submit(function(e) {
+
+	    var formObj = $(this);
+	    var formURL = formObj.attr("action");
+
+	    if(window.FormData !== undefined) {  // for HTML5 browsers
+
+			var formData = {};
+			formData['type'] = "avatar-upload";
+	        formData['data'] = new FormData(this);
+
+	        $.ajax({
+	            url: ajax_url+'?type=avatar-upload',
+	            type: 'POST',
+	            data:  new FormData(this),
+	            mimeType: "multipart/form-data",
+	            contentType: false,
+	            cache: false,
+	            processData: false,
+				dataType: 'json',
+	            success: function(data, textStatus, jqXHR) {
+
+					console.log('SUCCESS!!', data, textStatus, jqXHR);
+
+					// Update the image
+					$('.profile-picture[data-type="user"][data-id="current"]').attr('style', 'background-image: url('+ data.new_url +');');
+					$('.profile-picture[data-type="user"][data-id="current"]').removeClass('loading');
+
+	            },
+	            error: function(jqXHR, textStatus, errorThrown) {
+
+		            console.log('FAILED!!', errorThrown);
+
+		            $('.profile-picture[data-type="user"][data-id="current"]').removeClass('loading');
+
+	            }
+			});
+			e.preventDefault();
+
+	   } else { //for olden browsers
+
+
+	        //generate a random id
+	        var iframeId = 'unique' + (new Date().getTime());
+
+	        //create an empty iframe
+	        var iframe = $('<iframe src="javascript:false;" name="'+iframeId+'" />');
+
+	        //hide it
+	        iframe.hide();
+
+	        //set form target to iframe
+	        formObj.attr('target',iframeId);
+
+	        //Add iframe to body
+	        iframe.appendTo('body');
+	        iframe.load(function(e) {
+
+	            var doc = getDoc(iframe[0]);
+	            var docRoot = doc.body ? doc.body : doc.documentElement;
+	            var data = docRoot.innerHTML;
+	            //data is returned from server.
+
+	        });
+
+	    }
+
+	});
+
+
 });
 
 
@@ -1368,6 +1496,15 @@ function queryParameter(url, key, value = null) {
 	var new_url = urlParsed.toString();
 
 	return new_url;
+}
+
+function formatBytes(bytes, decimals) {
+   if(bytes == 0) return '0 Bytes';
+   var k = 1024,
+       dm = decimals <= 0 ? 0 : decimals || 2,
+       sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+       i = Math.floor(Math.log(bytes) / Math.log(k));
+   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
 function timeSince(date) {

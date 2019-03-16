@@ -558,6 +558,33 @@ class User {
     }
 
 
+
+    // Edit a page
+    public function edit(
+	    string $column,
+	    $new_value
+    ) {
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
+
+
+		// Update the page
+		$db->where('user_ID', self::$user_ID);
+		$user_updated = $db->update('users', array($column => $new_value));
+
+
+		// Site log
+		if ($user_updated) $log->info("User #".self::$user_ID." Updated: '$column => $new_value'");
+
+
+		return $user_updated;
+    }
+
+
     // Reorder
     public function reorder(
 	    array $orderData

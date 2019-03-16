@@ -5792,10 +5792,12 @@ ul.user-header-menu {
     opacity: 0.5; }
   .profile-picture.avatar-changer.loading::after {
     opacity: 0.7;
-    content: "Loading...";
+    content: "Saving..";
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: normal;
     font-size: 15px; }
+  .profile-picture.avatar-changer.loading input {
+    display: none; }
 
 .notif-no {
   font-size: 8px;

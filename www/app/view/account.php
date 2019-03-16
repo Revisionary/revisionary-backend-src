@@ -175,12 +175,13 @@
 					<div class="wrap xl-table xl-gutter-24">
 						<div class="col xl-3-12 xl-center">
 
-							<picture class="profile-picture larger avatar-changer" <?=$userInfo['printPicture']?>>
-								<span><?=$userInfo['nameAbbr']?></span>
-								<input type="file" name="image" id="filePhoto" data-max-size="3145728">
-							</picture>
+							<form id="avatar-form" action="" method="POST" enctype="multipart/form-data">
+								<picture class="profile-picture larger avatar-changer" <?=$userInfo['printPicture']?> data-type="user" data-id="current">
+									<span><?=$userInfo['nameAbbr']?></span>
+									<input type="file" name="image" class="avatar-upload" id="filePhoto" data-max-size="3145728">
+								</picture>
+							</form>
 
-							<br/>
 							<br/>
 
 							<div class="level-wrapper" data-tooltip="Current Plan allows maximum X MB of files (from Y Projects, Z Pages, T Live Pins)">

@@ -75,7 +75,7 @@
 
 				<div class="dropdown">
 					<a href="<?=site_url('projects')?>" class="invert-hover user-link bullet">
-						<picture class="profile-picture big header-user" <?=getUserInfo()['printPicture']?>>
+						<picture class="profile-picture big header-user" <?=getUserInfo()['printPicture']?> data-type="user" data-id="current">
 							<span><?=getUserInfo()['nameAbbr']?></span>
 						</picture> <?=getUserInfo()['fullName']?>
 					</a>
