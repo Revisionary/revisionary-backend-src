@@ -204,7 +204,7 @@
 
 	<div class="col xl-3-12 xl-right" data-tooltip="In development...">
 
-		<b>Usage:</b> 8 MB of 25 MB (Basic Account)
+		<b>Usage:</b> 8 MB of 25 MB (<?=getUserInfo()['userLevelName']?> Account)
 
 	</div>
 </div>

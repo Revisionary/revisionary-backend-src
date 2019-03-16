@@ -2,6 +2,8 @@
 
 $subpage = isset($_url[1]) ? $_url[1] : false;
 
+$userInfo = getUserInfo();
+
 
 // Additional Scripts and Styles
 $additionalCSS = [

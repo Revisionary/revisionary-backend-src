@@ -177,9 +177,20 @@
 					<div class="wrap xl-table xl-gutter-24">
 						<div class="col xl-3-12 xl-center">
 
-							<picture class="profile-picture larger" <?=getUserInfo()['printPicture']?>>
-								<span <?=getUserInfo()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserInfo()['nameAbbr']?></span>
+							<picture class="profile-picture larger avatar-changer" <?=$userInfo['printPicture']?>>
+								<span <?=$userInfo['userPic'] != "" ? "class='has-pic'" : ""?>><?=$userInfo['nameAbbr']?></span>
+								<input type="file" name="image" id="filePhoto" data-max-size="3145728">
 							</picture>
+
+							<br/>
+							<br/>
+
+							<div class="level-wrapper" data-tooltip="Current Plan allows maximum X MB of files (from Y Projects, Z Pages, T Live Pins)">
+								<div class="user-level tooltip">
+									<?=$userInfo['userLevelName']?>
+								</div>
+								<a href="<?=site_url('upgrade')?>">Upgrade to PRO</a>
+							</div>
 
 						</div>
 						<div class="col" data-tooltip="In development...">
@@ -187,13 +198,13 @@
 
 							<label class="wrap xl-table xl-middle xl-gutter-8">
 								<span class="col xl-3-12">Name</span>
-								<span class="col"><input class="full" type="text" value="<?=getUserInfo()['fullName']?>" placeholder="Your full name"/></span>
+								<span class="col"><input class="full" type="text" value="<?=$userInfo['fullName']?>" placeholder="Your full name"/></span>
 							</label><br/>
 
 
 							<label class="wrap xl-table xl-middle xl-gutter-8">
 								<span class="col xl-3-12">Email</span>
-								<span class="col"><input class="full" type="email" value="<?=getUserInfo()['email']?>" placeholder="Your email"/></span>
+								<span class="col"><input class="full" type="email" value="<?=$userInfo['email']?>" placeholder="Your email"/></span>
 							</label><br/>
 
 
