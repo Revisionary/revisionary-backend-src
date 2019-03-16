@@ -1246,7 +1246,6 @@ function closeModal(modalElement) {
 // TEMPLATES
 function boxMemberTemplate(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, unremoveable) {
 
-	var hasPic = 'class="has-pic"';
 	var printPic = 'style="background-image: url('+userImageUrl+');"';
 	var ownerBadge = '';
 
@@ -1254,11 +1253,11 @@ function boxMemberTemplate(mStatus, email, fullName, nameAbbr, userImageUrl, use
 	if (mStatus == 'email' ) nameAbbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
 	if (mStatus == 'email' ) user_ID = email;
 	if (mStatus == 'owner' ) ownerBadge = '<span class="owner-badge">Owner</span>';
-	if (userImageUrl == "" || userImageUrl == null) hasPic = printPic = "";
+	if (userImageUrl == "" || userImageUrl == null) printPic = "";
 
 	return '\
 		<picture class="profile-picture" '+printPic+' data-tooltip="'+fullName+'" data-type="user" data-id="'+user_ID+'">\
-			<span '+hasPic+'>'+nameAbbr+'</span>\
+			<span>'+nameAbbr+'</span>\
 		</picture>\
 	';
 
@@ -1268,8 +1267,7 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 
 	console.log(email, dataType);
 
-	var hasPic = userImageUrl != null ? "has-pic" : "";
-	var printPicture = hasPic == "has-pic" ? "style='background-image: url("+ userImageUrl +")'" : "";
+	var printPicture = userImageUrl != null ? "style='background-image: url("+ userImageUrl +")'" : "";
 
 	var shareText = "This " + dataType;
 	if (mStatus == "owner") shareText = dataType + " Owner";
@@ -1282,9 +1280,9 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 			<div class="col xl-8-12">\
 				<div class="wrap xl-flexbox xl-middle xl-gutter-8">\
 					<div class="col xl-2-12">\
-						<figure class="profile-picture '+ hasPic +'" '+ printPicture +'>\
+						<picture class="profile-picture big" '+ printPicture +'>\
 							<span class="abbr">'+ nameAbbr +'</span>\
-						</figure>\
+						</picture>\
 					</div>\
 					<div class="col xl-10-12">\
 						<span class="full-name">'+ fullName +'</span>\

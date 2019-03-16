@@ -141,7 +141,7 @@ if ( $user !== null ) {
 		'user_link' => site_url('profile/'.getUserInfo($user['user_ID'])['userName']),
 		'user_photo' => getUserInfo($user['user_ID'])['printPicture'],
 		'user_avatar' => getUserInfo($user['user_ID'])['userPicUrl'],
-		'user_name' => '<span '.(getUserInfo($user['user_ID'])['userPic'] != "" ? "class='has-pic'" : "").'>'.(getUserInfo($user['user_ID'])['nameAbbr']).'</span>',
+		'user_name' => '<span>'.(getUserInfo($user['user_ID'])['nameAbbr']).'</span>',
 	);
 
 

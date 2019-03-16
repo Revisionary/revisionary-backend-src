@@ -121,11 +121,11 @@ class User {
 			'nameAbbr' => mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
 			'email' => $userInfo['user_email'],
 			'userPic' => $userInfo['user_picture'],
-			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.self::$user_ID.'/'.$userInfo['user_picture']) : null,
+			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.self::$user_ID.'/'.$userInfo['user_picture']) : get_gravatar($userInfo['user_email'], 250),
 			'userLevelName' => $userInfo['user_level_name'],
 			'userLevelID' => $userInfo['user_level_ID']
 		);
-		$userData['printPicture'] = $userInfo['user_picture'] != "" ? 'style="background-image: url('.$userData['userPicUrl'].');"' : false;
+		$userData['printPicture'] = 'style="background-image: url('.$userData['userPicUrl'].');"';
 
 
 		return $userData;

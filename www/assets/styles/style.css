@@ -5220,6 +5220,7 @@ button {
       opacity: 1;
       right: calc(100% + 8px); }
 
+/* !!! - Duplicate */
 input[type='submit'],
 button {
   display: inline-block;
@@ -5235,6 +5236,15 @@ button {
   input[type='submit']:hover,
   button:hover {
     color: #007acc; }
+  input[type='submit'].small,
+  button.small {
+    border-width: 2px;
+    font-size: 20px;
+    line-height: 35px;
+    height: auto;
+    background: none;
+    padding: 0 25px;
+    min-width: 130px; }
   input[type='submit'].large,
   button.large {
     font-size: 25px;
@@ -5244,9 +5254,13 @@ button {
     padding: 0 40px;
     margin-bottom: -8px;
     background-image: url("/assets/icons/triangle.svg"); }
-  input[type='submit'].full,
-  button.full {
-    width: 100%; }
+  input[type='submit'].dark,
+  button.dark {
+    background-color: black;
+    color: white; }
+    input[type='submit'].dark:hover,
+    button.dark:hover {
+      background-color: #007acc; }
 
 textarea {
   display: block;
@@ -5496,11 +5510,6 @@ a {
         line-height: 14px;
         opacity: 0.4; }
 
-/*
-.user-menu {
-	min-width: 200px;
-}
-*/
 ul.user-header-menu {
   padding: 0;
   margin: 0; }
@@ -5711,28 +5720,7 @@ ul.user-header-menu {
     left: 50%;
     transform: translateX(-50%); }
 
-.light-border picture.profile-picture {
-  border-color: white; }
-
-figure.profile-picture {
-  width: 40px;
-  height: 40px;
-  background-size: cover;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 2px solid black; }
-  figure.profile-picture > .abbr {
-    font-weight: normal;
-    font-size: 15px;
-    line-height: 20px;
-    text-transform: uppercase; }
-  figure.profile-picture.has-pic > .abbr {
-    display: none; }
-
-picture.profile-picture {
+.profile-picture {
   font-size: 12px;
   line-height: 25px;
   letter-spacing: 1px;
@@ -5750,29 +5738,39 @@ picture.profile-picture {
   background-size: cover;
   border-radius: 50%;
   box-sizing: border-box; }
-  picture.profile-picture > span {
+  .profile-picture::before {
+    content: "";
+    display: block;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: inherit;
+    background-size: inherit;
+    background-position: inherit; }
+  .profile-picture > span {
     font-size: inherit;
     font-weight: inherit;
     line-height: inherit; }
-    picture.profile-picture > span.has-pic {
-      opacity: 0; }
-  picture.profile-picture.square {
+  .profile-picture.header-user {
+    margin-left: 20px; }
+  .profile-picture.square {
     border-radius: 0;
     border-width: 2px; }
-  picture.profile-picture.big {
+  .profile-picture.big {
     width: 40px;
     height: 40px;
     font-size: 15px;
     line-height: 40px;
-    margin-left: 20px;
-    margin-right: 0px;
     transform: translateY(-3px); }
-  picture.profile-picture.larger {
+  .profile-picture.larger {
     margin: 0;
     width: 100px;
     height: 100px;
     font-size: 30px; }
-  picture.profile-picture.avatar-changer::before {
+  .profile-picture.avatar-changer::after {
     color: white;
     content: "\f030";
     font-family: 'Font Awesome 5 Free';
@@ -5790,8 +5788,14 @@ picture.profile-picture {
     background-color: black;
     opacity: 0;
     transition: 200ms; }
-  picture.profile-picture.avatar-changer:hover:before {
+  .profile-picture.avatar-changer:hover:after {
     opacity: 0.5; }
+  .profile-picture.avatar-changer.loading::after {
+    opacity: 0.7;
+    content: "Loading...";
+    font-family: 'Roboto Condensed', sans-serif;
+    font-weight: normal;
+    font-size: 15px; }
 
 .notif-no {
   font-size: 8px;
@@ -5813,11 +5817,10 @@ picture.profile-picture {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5); }
   .notif-no.hide {
     display: none; }
-
-.big .notif-no {
-  font-size: 10px;
-  bottom: 0;
-  right: 0; }
+  .big .notif-no {
+    font-size: 10px;
+    bottom: 0;
+    right: 0; }
 
 pin {
   position: relative;
@@ -6354,21 +6357,6 @@ input.share-email.error {
       color: #d6d6d6; }
       .members > .member .remove:hover {
         color: black; }
-
-button.small {
-  border-width: 2px;
-  font-size: 20px;
-  line-height: 35px;
-  height: auto;
-  background: none;
-  padding: 0 25px;
-  min-width: 130px; }
-
-button.dark {
-  background-color: black;
-  color: white; }
-  button.dark:hover {
-    background-color: #007acc; }
 
 /* Progress Bar */
 .progress-bar {

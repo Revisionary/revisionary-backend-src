@@ -55,7 +55,7 @@ if ( $user !== null ) {
 		'share_to' => $user['user_ID'],
 		'user_ID' => $user['user_ID'],
 		'user_photo' => getUserInfo($user['user_ID'])['printPicture'],
-		'user_name' => '<span '.(getUserInfo($user['user_ID'])['userPic'] != "" ? "class='has-pic'" : "").'>'.(getUserInfo($user['user_ID'])['nameAbbr']).'</span>',
+		'user_name' => '<span>'.(getUserInfo($user['user_ID'])['nameAbbr']).'</span>',
 	);
 
 

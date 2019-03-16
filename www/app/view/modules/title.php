@@ -121,7 +121,7 @@
 						data-userid="<?=$project_user_ID?>"
 						data-unremoveable="unremoveable"
 					>
-						<span <?=$project_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$project_user['nameAbbr']?></span>
+						<span><?=$project_user['nameAbbr']?></span>
 					</picture>
 
 
@@ -158,7 +158,7 @@
 						data-userid="<?=$shared_user_ID?>"
 						data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 					>
-	                    <span <?=$shared_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$shared_user['nameAbbr']?></span>
+	                    <span><?=$shared_user['nameAbbr']?></span>
 					</picture>
 						<?php
 

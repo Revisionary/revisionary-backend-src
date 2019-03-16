@@ -3826,8 +3826,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 
 	var date = new Date(comment.comment_modified);
 	var picture = comment.user_picture;
-	var hasPic = picture == null ? false : true;
-	var printPic = hasPic ? " style='background-image: url(/cache/users/user-"+ comment.user_ID +"/"+ comment.user_picture +");'" : "";
+	var printPic = picture != null ? " style='background-image: url(/cache/users/user-"+ comment.user_ID +"/"+ comment.user_picture +");'" : "";
 	var direction = left ? "left" : "right";
 	var itsMe = comment.user_ID == user_ID ? true : false;
 	var linkedComment = Autolinker.link( comment.pin_comment, {
@@ -3839,7 +3838,7 @@ function commentTemplate(comment, left = true, hide = false, sameTime = false) {
 			<div class="comment wrap xl-flexbox xl-top '+ (hide ? "recurring" : "") +' '+ (sameTime ? "sametime" : "") +'"> \
 				<a class="col xl-2-12 xl-'+ direction +' xl-'+ (left ? "first" : "last") +' profile-image" href="#"> \
 					<picture class="profile-picture big square" '+ printPic +'> \
-						<span class="'+ (hasPic ? "has-pic" : "") +'">'+ comment.user_first_name.charAt(0) + comment.user_last_name.charAt(0) +'</span> \
+						<span>'+ comment.user_first_name.charAt(0) + comment.user_last_name.charAt(0) +'</span> \
 					</picture> \
 				</a> \
 				<div class="col xl-10-12 comment-inner-wrapper"> \

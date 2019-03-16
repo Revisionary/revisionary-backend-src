@@ -319,7 +319,7 @@
 											data-id="<?=$block_user_ID?>"
 											data-unremoveable="unremoveable"
 										>
-											<span <?=$block_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$block_user['nameAbbr']?></span>
+											<span><?=$block_user['nameAbbr']?></span>
 										</picture>
 
 
@@ -365,7 +365,7 @@
 											data-id="<?=$shared_user_ID?>"
 											data-unremoveable="<?=$share['sharer_user_ID'] == currentUserID() ? "" : "unremoveable"?>"
 										>
-											<span <?=$shared_user['userPic'] != "" ? "class='has-pic'" : ""?>><?=$shared_user['nameAbbr']?></span>
+											<span><?=$shared_user['nameAbbr']?></span>
 										</picture>
 
 											<?php

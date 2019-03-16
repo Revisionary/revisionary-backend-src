@@ -124,7 +124,7 @@
 			<div class="wrap xl-flexbox xl-middle">
 				<div class="col xl-3-12 xl-left">
 
-
+					<a href="<?=site_url('projects')?>" class="invert-hover" style="letter-spacing: 2.5px;"><i class="fa fa-arrow-left"></i> PROJECTS</a>
 
 				</div>
 
@@ -136,7 +136,7 @@
 
 				<div class="col xl-3-12 xl-right" data-tooltip="In development...">
 
-					<b>Usage:</b> 8 MB of 25 MB (Basic Account)
+					<b>Usage:</b> 8 MB of 25 MB (<?=$userInfo['userLevelName']?> Account)
 
 				</div>
 			</div>
@@ -145,8 +145,6 @@
 			<!-- Filter Bar -->
 			<div class="toolbar wrap xl-flexbox xl-middle">
 				<div class="col xl-3-12 xl-left">
-
-					<a href="<?=site_url('projects')?>" class="invert-hover" style="letter-spacing: 2.5px;"><i class="fa fa-arrow-left"></i> PROJECTS</a>
 
 				</div>
 
@@ -178,7 +176,7 @@
 						<div class="col xl-3-12 xl-center">
 
 							<picture class="profile-picture larger avatar-changer" <?=$userInfo['printPicture']?>>
-								<span <?=$userInfo['userPic'] != "" ? "class='has-pic'" : ""?>><?=$userInfo['nameAbbr']?></span>
+								<span><?=$userInfo['nameAbbr']?></span>
 								<input type="file" name="image" id="filePhoto" data-max-size="3145728">
 							</picture>
 

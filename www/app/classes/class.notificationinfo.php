@@ -148,7 +148,7 @@ class Notification {
 				<div class="wrap xl-table xl-middle">
 					<div class="col image">
 
-						<picture class="profile-picture" '.$senderInfo['printPicture'].'> 																			<span '.($senderInfo['userPic'] != "" ? "class='has-pic'" : "").'>'.$senderInfo['nameAbbr'].'</span>
+						<picture class="profile-picture" '.$senderInfo['printPicture'].'> 																			<span>'.$senderInfo['nameAbbr'].'</span>
 						</picture>
 
 					</div>

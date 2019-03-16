@@ -102,7 +102,7 @@
 
 						<!-- Owner -->
 						<picture data-tooltip="Owner: <?=getUserInfo()['fullName']?>" class="profile-picture" <?=getUserInfo()['printPicture']?>>
-							<span <?=getUserInfo()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserInfo()['nameAbbr']?></span>
+							<span><?=getUserInfo()['nameAbbr']?></span>
 						</picture>
 
 						<ul class="shares page user">
@@ -140,7 +140,7 @@
 
 							<!-- Owner -->
 							<picture data-tooltip="Owner: <?=getUserInfo()['fullName']?>" class="profile-picture" <?=getUserInfo()['printPicture']?>>
-								<span <?=getUserInfo()['userPic'] != "" ? "class='has-pic'" : ""?>><?=getUserInfo()['nameAbbr']?></span>
+								<span><?=getUserInfo()['nameAbbr']?></span>
 							</picture>
 
 							<ul class="shares project user">
