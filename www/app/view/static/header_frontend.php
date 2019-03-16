@@ -45,7 +45,8 @@
 				<?php
 				} else {
 
-					$notification_count = Notification::ID()->getCount();
+					//$notification_count = Notification::ID()->getCount();
+					$notification_count = 0;
 
 				?>
 				<nav id="main-navigation">

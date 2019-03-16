@@ -639,6 +639,7 @@ $(function() {
 
 
 	// Start auto checking notifications
+	getNewNotificationCount();
 	startNotificationAutoRefresh();
 
 
@@ -1190,7 +1191,7 @@ function startNotificationAutoRefresh() {
 		}
 
 
-		// Get the up-to-date pins
+		// Get the notification count
 		getNewNotificationCount();
 
 

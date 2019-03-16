@@ -445,7 +445,8 @@
 		<div class="col notifications-wrapper">
 
 			<?php
-				$notification_count = Notification::ID()->getCount();
+				//$notification_count = Notification::ID()->getCount();
+				$notification_count = 0;
 			?>
 
 			<a href="#" class="button notification-opener refresh-notifications">

@@ -325,15 +325,16 @@
 
 										<?php
 
+										// Is shared to someone
+										$isShared = false;
+
+/*
 										// SHARES QUERY
 										$db->where('share_type', $dataType); // Exlude other types
 										$db->where('shared_object_ID', $block[$dataType.'_ID']); // Is this block?
 
 										// Get the data
 										$blockShares = $db->get('shares', null, "share_to, sharer_user_ID");
-
-										// Is shared to someone
-										$isShared = false;
 
 
 										foreach ($blockShares as $share) {
@@ -396,6 +397,7 @@
 												$isShared = true;
 
 										}
+*/
 										?>
 
 									</div>
