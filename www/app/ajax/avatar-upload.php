@@ -88,6 +88,12 @@ if ( !in_array($image_extension, array('jpeg', 'jpg', 'png')) ) {
 
 
 
+// Create user directory if not exist
+if (!file_exists($directory)) {
+	mkdir($directory);
+}
+
+
 
 // Move the file
 if(move_uploaded_file($temporary, $image_path)) {
@@ -96,7 +102,7 @@ if(move_uploaded_file($temporary, $image_path)) {
 	// Delete the old one
 	$old_image_name = $userInfo['userPic'];
 	$old_image = $directory.$old_image_name;
-	if ( file_exists($old_image) ) unlink($old_image);
+	if ( $old_image_name != null && file_exists($old_image) ) unlink($old_image);
 
 
 	// Update on DB
