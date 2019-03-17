@@ -1,8 +1,14 @@
 <?php
 
 $subpage = isset($_url[1]) ? $_url[1] : false;
+$user_ID = getUserInfo()['userLevelID'] == 1 && isset($_GET['user']) && is_numeric($_GET['user']) ? intval($_GET['user']) : currentUserID();
+$userInfo = getUserInfo($user_ID);
 
-$userInfo = getUserInfo();
+
+// If user not exist
+if (!$userInfo) {
+	die('User Not Found.');
+}
 
 
 // Additional Scripts and Styles

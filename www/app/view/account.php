@@ -176,7 +176,7 @@
 						<div class="col xl-3-12 xl-center">
 
 							<form id="avatar-form" action="" method="POST" enctype="multipart/form-data">
-								<picture class="profile-picture larger avatar-changer" <?=$userInfo['printPicture']?> data-type="user" data-id="current">
+								<picture class="profile-picture larger avatar-changer" <?=$userInfo['printPicture']?> data-type="user" data-id="<?=$user_ID?>">
 									<span><?=$userInfo['nameAbbr']?></span>
 									<input type="file" name="image" class="avatar-upload" id="filePhoto" data-max-size="3145728">
 								</picture>

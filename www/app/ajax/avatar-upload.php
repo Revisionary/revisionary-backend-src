@@ -23,7 +23,7 @@ if ( !userloggedIn() ) {
 }
 
 
-$user_ID = currentUserID();
+$user_ID = getUserInfo()['userLevelID'] == 1 && is_numeric(get('user_ID')) ? intval(get('user_ID')) : currentUserID();
 $userInfo = getUserInfo($user_ID);
 
 
@@ -114,6 +114,7 @@ if(move_uploaded_file($temporary, $image_path)) {
 
 die(json_encode(array(
 	'status' => $status,
+	'user_ID' => $user_ID,
 	'new_url' => cache_url("/users/user-$user_ID/$image_name"),
 	'files' => $_FILES
 )));

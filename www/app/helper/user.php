@@ -17,7 +17,9 @@ function getUserInfo($user_ID = 0) {
 
 	// If not exist in the global, pull data from DB
 	if ( !isset($Users[$user_ID]) ) {
-		$Users[$user_ID] = User::ID($user_ID)->getData();
+
+		$userData = User::ID($user_ID);
+		$Users[$user_ID] = $userData ? $userData->getData() : false;
 	}
 
 

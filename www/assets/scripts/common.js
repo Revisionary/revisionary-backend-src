@@ -721,15 +721,12 @@ $(function() {
 
 	    var formObj = $(this);
 	    var formURL = formObj.attr("action");
+	    var userID = formObj.find('.avatar-changer').attr('data-id');
 
 	    if(window.FormData !== undefined) {  // for HTML5 browsers
 
-			var formData = {};
-			formData['type'] = "avatar-upload";
-	        formData['data'] = new FormData(this);
-
 	        $.ajax({
-	            url: ajax_url+'?type=avatar-upload',
+	            url: ajax_url+'?type=avatar-upload&user_ID='+userID,
 	            type: 'POST',
 	            data:  new FormData(this),
 	            mimeType: "multipart/form-data",
@@ -742,15 +739,15 @@ $(function() {
 					console.log('SUCCESS!!', data, textStatus, jqXHR);
 
 					// Update the image
-					$('.profile-picture[data-type="user"][data-id="current"]').attr('style', 'background-image: url('+ data.new_url +');');
-					$('.profile-picture[data-type="user"][data-id="current"]').removeClass('loading');
+					$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').attr('style', 'background-image: url('+ data.new_url +');');
+					$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').removeClass('loading');
 
 	            },
 	            error: function(jqXHR, textStatus, errorThrown) {
 
 		            console.log('FAILED!!', errorThrown);
 
-		            $('.profile-picture[data-type="user"][data-id="current"]').removeClass('loading');
+		            $('.profile-picture[data-type="user"][data-id="'+ userID +'"]').removeClass('loading');
 
 	            }
 			});
