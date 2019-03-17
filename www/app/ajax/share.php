@@ -138,7 +138,6 @@ if ( $user !== null ) {
 		'user_ID' => $user['user_ID'],
 		'user_fullname' => getUserInfo($user['user_ID'])['fullName'],
 		'user_nameabbr' => getUserInfo($user['user_ID'])['nameAbbr'],
-		'user_link' => site_url('profile/'.getUserInfo($user['user_ID'])['userName']),
 		'user_photo' => getUserInfo($user['user_ID'])['printPicture'],
 		'user_avatar' => getUserInfo($user['user_ID'])['userPicUrl'],
 		'user_name' => '<span>'.(getUserInfo($user['user_ID'])['nameAbbr']).'</span>',
@@ -248,7 +247,8 @@ if ($share_ID) { // If successful
 		Notify::ID($shareTo)->mail(
 			getUserInfo()['fullName']." shared the \"$objectName".$projectName."\" $type with you.",
 
-			"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['userName'].") shared the \"$objectName".$projectName."\" $type with you from Revisionary App. Here is the link to access this $type: <br>
+			"Hello, ".
+			getUserInfo()['fullName']." shared the \"$objectName".$projectName."\" $type with you from Revisionary App. Here is the link to access this $type: <br>
 
 <a href='$object_link' target='_blank'>$object_link</a>"
 		);

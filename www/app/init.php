@@ -38,14 +38,15 @@ $offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
 
 
 // Connect to DB
-$db = new MysqliDb (Array (
-                'host' 		=> $config['db']['host'],
-                'username' 	=> $config['db']['user'],
-                'password' 	=> $config['db']['pass'],
-                'db'		=> $config['db']['name'],
-                'port' => 3306,
-                'prefix' => '',
-                'charset' => 'utf8mb4'));
+$db = new MysqliDb(array(
+	'host' 		=> $config['db']['host'],
+	'username' 	=> $config['db']['user'],
+	'password' 	=> $config['db']['pass'],
+	'db'		=> $config['db']['name'],
+	'port' => 3306,
+	'prefix' => '',
+	'charset' => 'utf8mb4'
+));
 
 $db->rawQuery("SET time_zone='$offset';");
 

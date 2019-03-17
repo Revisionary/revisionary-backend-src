@@ -396,7 +396,7 @@ class Page {
 			// Email notification
 			Notify::ID($users)->mail(
 				getUserInfo()['fullName']." added a new page: ".$page_name."[".$project_name."]",
-				getUserInfo()['fullName']."(".getUserInfo()['userName'].") added a new page: ".$page_name."[".$project_name."] <br>
+				getUserInfo()['fullName']." added a new page: ".$page_name."[".$project_name."] <br>
 				<b>Page URL</b>: $page_url <br><br>
 				<a href='$page_link' target='_blank'>$page_link</a>"
 			);
@@ -431,7 +431,8 @@ class Page {
 					Notify::ID($user_ID)->mail(
 						getUserInfo()['fullName']." shared the \"$page_name[$project_name]\" page with you.",
 
-						"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['userName'].") shared the \"$page_name[$project_name]\" page with you from Revisionary App. Here is the link to access this page: <br>
+						"Hello, ".
+						getUserInfo()['fullName']." shared the \"$page_name[$project_name]\" page with you from Revisionary App. Here is the link to access this page: <br>
 						<a href='$page_link' target='_blank'>$page_link</a>"
 					);
 

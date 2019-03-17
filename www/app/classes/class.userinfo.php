@@ -758,7 +758,8 @@ class User {
 			Notify::ID(self::$user_ID)->mail(
 				getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you.",
 
-				"Hello, ".getUserInfo()['fullName']."(".getUserInfo()['userName'].") unshared the \"$objectName\" $share_type from you on Revisionary App."
+				"Hello, ".
+				getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you on Revisionary App."
 			);
 
 
