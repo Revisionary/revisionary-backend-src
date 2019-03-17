@@ -313,17 +313,17 @@ function runTheInspector() {
 				// REFOCUS WORKS:
 				// Re-focus if only child element has no child and has content: <p><b focused>Lorem ipsum</b></p>
 				if (
-					focused_element_text == "" && // Focused element has no content
-					focused_element_children.length == 1 && // Has only one child
-					focused_element_grand_children.length == 0 && // No grand child
-					focused_element_children.first().text().trim() != "" // Grand child should have content
+					focused_element_text == "" // Focused element has no content
+					&& focused_element_children.length == 1 // Has only one child
+					&& focused_element_grand_children.length == 0 // No grand child
+					&& focused_element_children.first().text().trim() != "" // Grand child should have content
 				) {
 
 					// Re-focus to the child element
 					focused_element = focused_element_children.first();
 
 
-					//console.log('REFOCUS - Only child element has no child and has content: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
+					//console.log('REFOCUS - Only child element has no child and has content: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
 
 				}
 
@@ -335,7 +335,7 @@ function runTheInspector() {
 					focused_element = focused_element_edited_parents.first();
 
 
-					//console.log('REFOCUS - Already edited closest parent: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class'));
+					//console.log('REFOCUS - Already edited closest parent: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
 
 				}
 
@@ -361,30 +361,32 @@ function runTheInspector() {
 		        focused_element_html_editable = false;
 
 
+				// Directly editable:
 				// Check element text editable: <p>Lorem ipsum dolor sit amet...
 		        if (
-			        easy_html_elements.indexOf( focused_element.prop("tagName") ) != -1 && // In easy HTML elements?
-		        	focused_element_text.trim() != "" && // If not empty
-		        	focused_element.html() != "&nbsp;" && // If really not empty
-		        	focused_element_children.length == 0 // If doesn't have any child
+			        easy_html_elements.indexOf( focused_element.prop('tagName').toUpperCase() ) != -1 // In easy HTML elements?
+		        	&& focused_element_text.trim() != "" // If not empty
+		        	&& focused_element.html() != "&nbsp;"  // If really not empty
+		        	&& focused_element_children.length == 0 // If doesn't have any child
 		        ) {
 
 					hoveringText = true;
 					focused_element_editable = true; // Obviously Text Editable
 					focused_element_html_editable = true;
-					//console.log( '* Obviously Text Editable: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+					//console.log( '* Obviously Text Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 					//console.log( 'Focused Element Text: ' + focused_element_text );
 
 				}
 
 
+				// Image editable:
 				// Check element image editable: <img src="#">...
 				hoveringImage = false;
-		        if ( focused_element.prop("tagName") == "IMG" ) {
+		        if ( focused_element.prop('tagName').toUpperCase() == "IMG" ) {
 
 					hoveringImage = true;
 					focused_element_editable = true; // Obviously Image Editable
-					//console.log( '* Obviously Image Editable: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+					//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 					//console.log( 'Focused Element Image: ' + focused_element.attr('src') );
 
 				}
@@ -392,10 +394,10 @@ function runTheInspector() {
 
 				// Check if element has children but doesn't have grand children: <p>Lorem ipsum <a href="#">dolor</a> sit amet...
 				if (
-					focused_element_children.length > 0 && // Has child
-					focused_element_grand_children.length == 0 && // No grand child
-					focused_element_text.trim() != "" && // And, also have to have text
-					focused_element.html() != "&nbsp;" // And, also have to have text
+					focused_element_children.length > 0 // Has child
+					&& focused_element_grand_children.length == 0 // No grand child
+					&& focused_element_text.trim() != "" // And, also have to have text
+					&& focused_element.html() != "&nbsp;" // And, also have to have text
 				) {
 
 
@@ -404,7 +406,7 @@ function runTheInspector() {
 					focused_element_children.each(function() {
 
 						// In easy HTML elements?
-						if (easy_with_br.indexOf( $(this).prop("tagName") ) != -1 ) hardToEdit = false;
+						if ( easy_with_br.indexOf( $(this).prop('tagName').toUpperCase() ) != -1 ) hardToEdit = false;
 
 					});
 
@@ -413,7 +415,7 @@ function runTheInspector() {
 						hoveringText = true;
 						focused_element_editable = true;
 						focused_element_html_editable = true;
-						//console.log( '* Text Editable (No Grand Child): ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+						//console.log( '* Text Editable (No Grand Child): ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 						//console.log( 'Focused Element Text: ' + focused_element_text );
 
 					}
@@ -423,10 +425,10 @@ function runTheInspector() {
 
 				// Chech if element has only one grand child and it doesn't have any child: <p>Lorem ipsum <a href="#"><strong>dolor</strong></a> sit amet...
 				if (
-					focused_element_children.length > 0 && // Has child
-					focused_element_grand_children.length > 0 && // Has grand child
-					focused_element_text.trim() != "" && // And, also have to have text
-					focused_element.html() != "&nbsp;" // And, also have to have text
+					focused_element_children.length > 0 // Has child
+					&& focused_element_grand_children.length > 0 // Has grand child
+					&& focused_element_text.trim() != "" // And, also have to have text
+					&& focused_element.html() != "&nbsp;" // And, also have to have text
 				) {
 
 
@@ -439,9 +441,9 @@ function runTheInspector() {
 
 
 						if (
-							easy_with_br.indexOf( child.prop("tagName") ) != -1 && // Child is easy to edit
-							grandChildren.length == 1 && // Grand child has no more than 1 child
-							easy_with_br.indexOf( grandChildren.first().prop("tagName") ) != -1 // And that guy is easy to edit as well
+							easy_with_br.indexOf( child.prop('tagName').toUpperCase() ) != -1 // Child is easy to edit
+							&& grandChildren.length == 1 // Grand child has no more than 1 child !!! ???
+							&& easy_with_br.indexOf( grandChildren.first().prop('tagName').toUpperCase() ) != -1 // And that guy is easy to edit as well
 						)
 
 							easyToEdit = true;
@@ -453,7 +455,7 @@ function runTheInspector() {
 						hoveringText = true;
 						focused_element_editable = true;
 						focused_element_html_editable = true;
-						//console.log( '* Text Editable (One Grand Child): ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+						//console.log( '* Text Editable (One Grand Child): ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 						//console.log( 'Focused Element Text: ' + focused_element_text );
 
 					}
@@ -465,21 +467,21 @@ function runTheInspector() {
 				// Check the submit buttons: <input type="submit | reset">... // !!!
 				hoveringButton = false;
 		        if (
-		        	focused_element.prop("tagName") == "INPUT" &&
+		        	focused_element.prop('tagName').toUpperCase() == "INPUT" &&
 		        	(
-		        		focused_element.attr("type") == "text" ||
-		        		focused_element.attr("type") == "email" ||
-		        		focused_element.attr("type") == "url" ||
-		        		focused_element.attr("type") == "tel" ||
-		        		focused_element.attr("type") == "submit" ||
-		        		focused_element.attr("type") == "reset"
+		        		focused_element.attr("type") == "text"
+		        		|| focused_element.attr("type") == "email"
+		        		|| focused_element.attr("type") == "url"
+		        		|| focused_element.attr("type") == "tel"
+		        		|| focused_element.attr("type") == "submit"
+		        		|| focused_element.attr("type") == "reset"
 		        	)
 		        ) {
 
 					hoveringButton = true;
 					hoveringText = true;
 					focused_element_editable = true; // Obviously Image Editable
-					//console.log( '* Button Editable: ' + focused_element.prop("tagName") );
+					//console.log( '* Button Editable: ' + focused_element.prop('tagName').toUpperCase() );
 					//console.log( 'Focused Button Text: ' + focused_element.attr('value') );
 
 				}
@@ -492,7 +494,7 @@ function runTheInspector() {
 
 					focused_element_editable = false;
 					focused_element_html_editable = false;
-					//console.log( '* Element editable but NO INDEX: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+					//console.log( '* Element editable but NO INDEX: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 
 				}
 
@@ -502,7 +504,7 @@ function runTheInspector() {
 
 					focused_element_editable = false;
 					focused_element_html_editable = false;
-					//console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element.prop("tagName") + '.' + focused_element.attr('class') );
+					//console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 
 				}
 
@@ -511,7 +513,7 @@ function runTheInspector() {
 /*
 				// See what am I focusing
 				console.log("###############################");
-				console.log("CURRENT FOCUSED: ", focused_element.prop("tagName"), focused_element_index );
+				console.log("CURRENT FOCUSED: ", focused_element.prop('tagName').toUpperCase(), focused_element_index );
 				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable, focused_element_html_editable );
 				//console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
 				console.log("HOVERING ON A TEXT?: ", hoveringText );
@@ -658,7 +660,7 @@ function runTheInspector() {
 
 			// If edited element is a submit or reset input button
 			if (
-	        	changedElement.prop("tagName") == "INPUT" &&
+	        	changedElement.prop('tagName').toUpperCase() == "INPUT" &&
 	        	(
 	        		changedElement.attr("type") == "text" ||
 	        		changedElement.attr("type") == "email" ||
@@ -1350,7 +1352,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 			.attr('data-revisionary-edited', "0")
 			.attr('contenteditable', "true");
 
-		modificationType = selectedElement.prop('tagName') == 'IMG' ? "image" : "html";
+		modificationType = selectedElement.prop('tagName').toUpperCase() == 'IMG' ? "image" : "html";
 		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.attr('src');
 
 
@@ -2115,7 +2117,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 		$('.element-tag, .element-id, .element-class').text('');
 
 		// Tag Name
-		var tagName = theElement.prop("tagName");
+		var tagName = theElement.prop('tagName').toUpperCase();
 		$('.element-tag').text(tagName);
 
 		// Classes
@@ -2222,7 +2224,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 					// If edited element is a submit or reset input button
 					if (
-			        	iframeElement(theIndex).prop("tagName") == "INPUT" &&
+			        	iframeElement(theIndex).prop('tagName').toUpperCase() == "INPUT" &&
 			        	(
 			        		iframeElement(theIndex).attr("type") == "text" ||
 			        		iframeElement(theIndex).attr("type") == "email" ||
@@ -2263,7 +2265,7 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 
 			// IMAGE
-			if ( thePinModificationType == "image" && theElement.prop('tagName') == "IMG" ) {
+			if ( thePinModificationType == "image" && theElement.prop('tagName').toUpperCase() == "IMG" ) {
 
 				var originalImageSrc = "";
 				var changedImageSrc = "";
@@ -2311,8 +2313,8 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 		// Live pin error check
 		if (
-			(thePinModificationType == "image" && theElement.prop('tagName') != "IMG") ||
-			(thePinModificationType == "html" && theElement.prop('tagName') == "IMG")
+			(thePinModificationType == "image" && theElement.prop('tagName').toUpperCase() != "IMG") ||
+			(thePinModificationType == "html" && theElement.prop('tagName').toUpperCase() == "IMG")
 		) {
 
 			// Act like a standard pin (Hide content changers)
@@ -2557,7 +2559,7 @@ function updateOriginals(pinsList = [], oldPinsList) {
 
 				// If edited element is a submit or reset input button
 				if (
-		        	element.prop("tagName") == "INPUT" &&
+		        	element.prop('tagName').toUpperCase() == "INPUT" &&
 		        	(
 		        		element.attr("type") == "text" ||
 		        		element.attr("type") == "email" ||
@@ -2699,7 +2701,7 @@ function applyChanges(showingOriginal = []) {
 
 				// If edited element is a submit or reset input button
 				if (
-		        	element.prop("tagName") == "INPUT" &&
+		        	element.prop('tagName').toUpperCase() == "INPUT" &&
 		        	(
 		        		element.attr("type") == "text" ||
 		        		element.attr("type") == "email" ||
@@ -2808,7 +2810,7 @@ function revertChanges(element_indexes = [], pinsList = Pins, CSSrevert = true) 
 
 			// If edited element is a submit or reset input button
 			if (
-	        	element.prop("tagName") == "INPUT" &&
+	        	element.prop('tagName').toUpperCase() == "INPUT" &&
 	        	(
 	        		element.attr("type") == "text" ||
 	        		element.attr("type") == "email" ||
@@ -2977,7 +2979,7 @@ function toggleChange(pin_ID) {
 
 			// If edited element is a submit or reset input button
 			if (
-	        	iframeElement(pin.pin_element_index).prop("tagName") == "INPUT" &&
+	        	iframeElement(pin.pin_element_index).prop('tagName').toUpperCase() == "INPUT" &&
 	        	(
 	        		iframeElement(pin.pin_element_index).attr("type") == "text" ||
 	        		iframeElement(pin.pin_element_index).attr("type") == "email" ||

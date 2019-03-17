@@ -57,6 +57,8 @@ var easy_html_elements = [
 var easy_with_br = easy_html_elements;
 easy_with_br.push("BR");
 easy_with_br.push("IMG");
+easy_with_br.push("SVG");
+easy_with_br.push("PATH");
 
 // Focus Variables
 var focused_element,

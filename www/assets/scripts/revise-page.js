@@ -421,7 +421,7 @@ $(function() {
 
 		// If edited element is a submit or reset input button
 		if (
-        	changedElement.prop("tagName") == "INPUT" &&
+        	changedElement.prop('tagName').toUpperCase().toUpperCase() == "INPUT" &&
         	(
         		changedElement.attr("type") == "text" ||
         		changedElement.attr("type") == "email" ||
@@ -565,10 +565,10 @@ $(function() {
 	var doChangeCSS = {};
 	$('[data-edit-css]').on('click input', function(e) {
 
-		//console.log('TAG NAME: ', $(this).prop("tagName"), e.type );
+		//console.log('TAG NAME: ', $(this).prop('tagName').toUpperCase().toUpperCase(), e.type );
 
 		// Prevent saving when clicking any input
-		if ( $(this).prop("tagName") == "INPUT" && e.type == "click" ) return true;
+		if ( $(this).prop('tagName').toUpperCase().toUpperCase() == "INPUT" && e.type == "click" ) return true;
 
 
 		// Mark as changed
