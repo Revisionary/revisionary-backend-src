@@ -664,6 +664,8 @@ $(function() {
 	// Uploader
 	$('.avatar-upload').change(function() {
 
+
+	    var userID = $('.avatar-changer').attr('data-id');
 		var maxSize = $(this).attr('data-max-size');
 
 
@@ -676,8 +678,8 @@ $(function() {
 
 
 			// Apply the change
-			//$('.profile-picture[data-type="user"][data-id="current"]').attr('style', 'background-image: url('+imageSrc+');');
-			$('.profile-picture[data-type="user"][data-id="current"]').addClass('loading');
+			$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').attr('style', 'background-image: url('+imageSrc+');');
+			$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').addClass('loading');
 
 
 			// Submit data
