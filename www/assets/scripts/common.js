@@ -736,6 +736,51 @@ $(function() {
 	            cache: false,
 	            processData: false,
 				dataType: 'json',
+                xhr: function() {
+
+
+                    var jqXHR = null;
+                    if ( window.ActiveXObject ) {
+
+                        jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+
+                    } else {
+
+                        jqXHR = new window.XMLHttpRequest();
+
+                    }
+
+
+                    // Upload progress
+                    jqXHR.upload.addEventListener( "progress", function ( evt ) {
+
+                        if ( evt.lengthComputable ) {
+
+                            var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+                            //Do something with upload progress
+                            console.log( 'Uploaded percent', percentComplete );
+
+                        }
+
+                    }, false );
+
+
+                    // Download progress
+                    jqXHR.addEventListener( "progress", function ( evt ) {
+
+                        if ( evt.lengthComputable ) {
+
+                            var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+                            //Do something with download progress
+                            console.log( 'Downloaded percent', percentComplete );
+
+                        }
+
+                    }, false );
+
+
+                    return jqXHR;
+                },
 	            success: function(data, textStatus, jqXHR) {
 
 					console.log('SUCCESS!!', data, textStatus, jqXHR);

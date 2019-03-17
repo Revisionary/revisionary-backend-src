@@ -184,7 +184,7 @@
 
 							<br/>
 
-							<div class="level-wrapper" data-tooltip="Current Plan allows maximum X MB of files (from Y Projects, Z Pages, T Live Pins)">
+							<div class="level-wrapper" data-tooltip="In Development... Current Plan allows maximum X MB of files (from Y Projects, Z Pages, T Live Pins)">
 								<div class="user-level tooltip">
 									<?=$userInfo['userLevelName']?>
 								</div>
