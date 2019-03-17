@@ -202,12 +202,6 @@
 
 
 							<label class="wrap xl-table xl-middle xl-gutter-8">
-								<span class="col xl-3-12">User Name</span>
-								<span class="col"><input class="full" type="text" value="<?=$userInfo['userName']?>" placeholder="Your username"/></span>
-							</label><br/>
-
-
-							<label class="wrap xl-table xl-middle xl-gutter-8">
 								<span class="col xl-3-12">Job Title</span>
 								<span class="col"><input class="full" type="text" value="" placeholder="Your job title"/></span>
 							</label><br/>
