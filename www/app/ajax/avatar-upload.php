@@ -115,6 +115,6 @@ if(move_uploaded_file($temporary, $image_path)) {
 die(json_encode(array(
 	'status' => $status,
 	'user_ID' => $user_ID,
-	'new_url' => cache_url("/users/user-$user_ID/$image_name"),
+	'new_url' => cache_url("users/user-$user_ID/$image_name"),
 	'files' => $_FILES
 )));
