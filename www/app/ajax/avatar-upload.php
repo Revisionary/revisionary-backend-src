@@ -47,6 +47,22 @@ if (
 }
 
 
+
+// Size check
+if ($_FILES['image']['size'] > 3145728) {
+
+	$status = "large-file";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
+}
+
+
 // File info
 $directory = cache."/users/user-$user_ID/";
 $image = $_FILES['image']['name'];
