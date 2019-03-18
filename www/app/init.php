@@ -92,7 +92,7 @@ $Users = array();
 // Get the current user info
 if ( userloggedIn() ) {
 
-	$current_user_data = User::ID()->getData();
+	$current_user_data = User::ID()->getInfo();
 	if ($current_user_data) {
 
 		$Users[currentUserID()] = $current_user_data;

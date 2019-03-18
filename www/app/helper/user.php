@@ -11,19 +11,58 @@ function currentUserID() {
 function getUserInfo($user_ID = 0) {
 	global $Users;
 
+
 	// Get the User ID
 	$user_ID = !$user_ID ? currentUserID() : $user_ID;
 
 
-	// If not exist in the global, pull data from DB
-	if ( !isset($Users[$user_ID]) ) {
 
-		$userData = User::ID($user_ID);
-		$Users[$user_ID] = $userData ? $userData->getData() : false;
-	}
+	// If email user
+	if ( filter_var($user_ID, FILTER_VALIDATE_EMAIL) ) return
+		array(
+			'userName' => "",
+			'firstName' => "",
+			'lastName' => "",
+			'fullName' => $user_ID,
+			'nameAbbr' => '<i class="fa fa-envelope"></i>',
+			'email' => 'Not confirmed yet',
+			'userPic' => "",
+			'userPicUrl' => null,
+			'printPicture' => "",
+			'userLevelName' => "",
+			'userLevelID' => ""
+		);
 
 
-	return $Users[$user_ID];
+	// If not numeric
+	if ( !is_numeric($user_ID) ) return false;
+
+
+	// Get user information
+	$userInfo = isset($Users[$user_ID]) ? $Users[$user_ID] : User::ID($user_ID)->getInfo();
+
+
+	// If user not exist
+	if ( !$userInfo ) return false;
+
+
+	// The extended user data
+	$extendedUserInfo = array(
+		'userName' => $userInfo['user_name'],
+		'firstName' => $userInfo['user_first_name'],
+		'lastName' => $userInfo['user_last_name'],
+		'fullName' => $userInfo['user_first_name']." ".$userInfo['user_last_name'],
+		'nameAbbr' => mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
+		'email' => $userInfo['user_email'],
+		'userPic' => $userInfo['user_picture'],
+		'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.$user_ID.'/'.$userInfo['user_picture']) : get_gravatar($userInfo['user_email'], 250),
+		'userLevelName' => $userInfo['user_level_name'],
+		'userLevelID' => $userInfo['user_level_ID']
+	);
+	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';
+
+
+	return $extendedUserInfo;
 }
 
 function checkAvailableEmail($user_email) {

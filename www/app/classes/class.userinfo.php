@@ -19,29 +19,36 @@ class User {
 
 	// ID Setter
     public static function ID($user_ID = null) {
-	    global $db;
+	    global $db, $Users;
 
 
 		if ($user_ID == null)
 			$user_ID = currentUserID();
 
 
+
 	    // Set the user ID
 		if ($user_ID != null && is_numeric($user_ID)) {
 
 
-			// Bring the user level info
-			$db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
-		    $db->where("u.user_ID", $user_ID);
-			$userInfo = $db->getOne("users u");
+			// If not exist in the global, pull data from DB
+			if ( !isset($Users[intval($user_ID)]) ) {
 
-			if ( $userInfo ) {
 
-				self::$user_ID = intval($user_ID);
-				self::$userInfo = $userInfo;
-				return new static;
+				// Bring the user level info
+				$db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
+			    $db->where("u.user_ID", $user_ID);
+				$userInfo = $db->getOne("users u");
+
+				$Users[$user_ID] = $userInfo ? $userInfo : false;
+
 
 			}
+
+
+			self::$user_ID = intval($user_ID);
+			self::$userInfo = $Users[$user_ID];
+			return new static;
 
 
 		}
@@ -83,52 +90,6 @@ class User {
 
 
 		return $column == null ? self::$userInfo : self::$userInfo[$column];
-    }
-
-
-
-    // Get the user data
-    public function getData() {
-
-		// Get from DB
-		$userInfo = self::$userInfo;
-		if (is_numeric(self::$user_ID) && !$userInfo) return false;
-
-
-		// If email user
-		if ( !is_numeric(self::$user_ID) ) return array(
-			'userName' => "",
-			'firstName' => "",
-			'lastName' => "",
-			'fullName' => self::$user_ID,
-			'nameAbbr' => '<i class="fa fa-envelope"></i>',
-			'email' => 'Not confirmed yet',
-			'userPic' => "",
-			'userPicUrl' => null,
-			'printPicture' => "",
-			'userLevelName' => "",
-			'userLevelID' => ""
-		);
-
-
-
-		// Prepare the data
-		$userData = array(
-			'userName' => $userInfo['user_name'],
-			'firstName' => $userInfo['user_first_name'],
-			'lastName' => $userInfo['user_last_name'],
-			'fullName' => $userInfo['user_first_name']." ".$userInfo['user_last_name'],
-			'nameAbbr' => mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
-			'email' => $userInfo['user_email'],
-			'userPic' => $userInfo['user_picture'],
-			'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.self::$user_ID.'/'.$userInfo['user_picture']) : get_gravatar($userInfo['user_email'], 250),
-			'userLevelName' => $userInfo['user_level_name'],
-			'userLevelID' => $userInfo['user_level_ID']
-		);
-		$userData['printPicture'] = 'style="background-image: url('.$userData['userPicUrl'].');"';
-
-
-		return $userData;
     }
 
 
