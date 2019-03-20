@@ -8,7 +8,7 @@ function currentUserID() {
 	return userloggedIn() ? $_SESSION['user_ID'] : 0;
 }
 
-function getUserInfo($user_ID = 0) {
+function getUserInfo($user_ID = 0, $fromDB = false) {
 	global $Users;
 
 
@@ -44,6 +44,10 @@ function getUserInfo($user_ID = 0) {
 
 	// If user not exist
 	if ( !$userInfo ) return false;
+
+
+	// Serve the info directly from DB
+	if ($fromDB) return $userInfo;
 
 
 	// The extended user data

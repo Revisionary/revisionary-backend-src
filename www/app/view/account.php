@@ -197,25 +197,25 @@
 
 							<label class="wrap xl-table xl-middle xl-gutter-8">
 								<span class="col xl-3-12">Name</span>
-								<span class="col"><input class="full" type="text" value="<?=$userInfo['fullName']?>" placeholder="Your full name"/></span>
+								<span class="col"><input class="full" type="text" name="user_full_name" value="<?=$userInfo['fullName']?>" placeholder="Your full name"/></span>
 							</label><br/>
 
 
 							<label class="wrap xl-table xl-middle xl-gutter-8">
 								<span class="col xl-3-12">Job Title</span>
-								<span class="col"><input class="full" type="text" value="" placeholder="Your job title"/></span>
+								<span class="col"><input class="full" type="text" name="user_job_title" value="<?=$userInfoDB['user_job_title']?>" placeholder="Your job title"/></span>
 							</label><br/>
 
 
 							<label class="wrap xl-table xl-middle xl-gutter-8">
 								<span class="col xl-3-12">Department</span>
-								<span class="col"><input class="full" type="text" value="" placeholder="Your department"/></span>
+								<span class="col"><input class="full" type="text" name="user_department" value="<?=$userInfoDB['user_department']?>" placeholder="Your department"/></span>
 							</label><br/>
 
 
 							<label class="wrap xl-table xl-middle xl-gutter-8">
 								<span class="col xl-3-12">Company</span>
-								<span class="col"><input class="full" type="text" value="" placeholder="Your company name"/></span>
+								<span class="col"><input class="full" type="text" name="user_company" value="<?=$userInfoDB['user_company']?>" placeholder="Your company name"/></span>
 							</label><br/>
 
 

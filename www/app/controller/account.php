@@ -11,6 +11,10 @@ if (!$userInfo) {
 }
 
 
+// User info from DB
+$userInfoDB = $Users[$user_ID];
+
+
 // Additional Scripts and Styles
 $additionalCSS = [
 	'vendor/jquery.mCustomScrollbar.css'
