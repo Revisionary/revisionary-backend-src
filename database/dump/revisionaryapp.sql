@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 03, 2019 at 08:40 PM
+-- Generation Time: Mar 20, 2019 at 12:02 PM
 -- Server version: 8.0.15
 -- PHP Version: 7.2.14
 
@@ -46,7 +46,7 @@ CREATE TABLE `devices` (
 
 CREATE TABLE `notifications` (
   `notification_ID` bigint(20) NOT NULL,
-  `notification_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'text',
+  `notification_type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'text',
   `notification` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `notification_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `object_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -111,10 +111,10 @@ CREATE TABLE `pages_categories` (
 
 CREATE TABLE `password_reset` (
   `pass_reset_ID` bigint(20) NOT NULL,
-  `pass_reset_token` char(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pass_reset_token` char(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `pass_reset_expires` bigint(20) NOT NULL,
   `user_ID` bigint(20) NOT NULL,
-  `pass_reset_IP` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1'
+  `pass_reset_IP` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -332,12 +332,15 @@ INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `use
 (3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', 'sara.png', 0, '127.0.0.1', 2),
 (4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', 'matt.png', 0, '127.0.0.1', 2),
 (5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', 'joey.png', 0, '127.0.0.1', 2),
-(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$uhegAZj3uGV7VmezVyeulOFvhsdgWPW5XRayDbF1RPPtqbYNNEgai', 'Bill', 'TAS', 'bill.png', 0, '127.0.0.1', 2),
+(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$ddJdu.Hg/UmbzBX7R6nT3O.5xzKyu0Inf6sP4mM3qnLjsnRLoBQW2', 'Bill', 'TAS', 'aer4bnthql.png', 0, '127.0.0.1', 2),
 (7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, 0, '127.0.0.1', 2),
 (8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', 'sara.png', 0, '127.0.0.1', 2),
 (9, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, 0, '127.0.0.1', 2),
 (10, 'dmytro', 'dmytro@twelve12.com', '$2y$10$8VMtSAljW23s3XH2PnSBv.VC/45somrdJ68V.DFcKEimw0WRpi83C', 'Dmytro', 'Korol', NULL, 0, '127.0.0.1', 2),
-(11, 'dmytro-korol', 'korol.dmitry@gmail.com', '$2y$10$uIAeohwy2hJpWIbGsFTwcuRPGpLOCT7HADfv6jKo50YjIekJPoT9W', 'Dmytro', 'Korol', NULL, 0, '127.0.0.1', 2);
+(11, 'dmytro-korol', 'korol.dmitry@gmail.com', '$2y$10$uIAeohwy2hJpWIbGsFTwcuRPGpLOCT7HADfv6jKo50YjIekJPoT9W', 'Dmytro', 'Korol', NULL, 0, '127.0.0.1', 2),
+(12, 'salih-onder', 'irtibat@dijitem.com', '$2y$10$jEJa3JTjFQq.e3p2WWC1Y.TG6EoO1x0zHG0rmo3wx8/3rRxdqQYbi', 'Salih', 'ÖNDER', NULL, 0, '176.43.81.234', 2),
+(13, 'abraham', 'abraham@twelve12.com', '$2y$10$7TfH8RKyKfSrXe8BNMDpjuALoIjYjktxBAEDW42LDXwck3H/qUWwi', 'Abraham', 'Kiziltepe', 'avr11tcshd.jpg', 0, '5.177.182.139', 2),
+(14, 'jeremy-king', 'jeremy@twelve12.com', '$2y$10$3cKu7TvcsGrzWgj8VJUoPucdfRCqGjGQVdpbo/XeeL86UT5IqczqK', 'Jeremy', 'King', NULL, 0, '98.186.237.146', 2);
 
 -- --------------------------------------------------------
 
@@ -365,7 +368,7 @@ CREATE TABLE `user_levels` (
 
 INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_description`, `user_level_max_project`, `user_level_max_page`, `user_level_max_live_pin`, `user_level_max_standard_pin`, `user_level_max_client`, `user_level_max_load`, `user_level_price`, `user_level_color`) VALUES
 (1, 'Admin', 'Admin Description', 99999, 99999, 99999, 99999, 99999, 99999, 99999, 'black'),
-(2, 'Free', 'Free users', 3, 6, 30, 99999, 0, 30, 0, 'black'),
+(2, 'Basic', 'Free for all users', 3, 6, 30, 99999, 0, 30, 0, 'black'),
 (3, 'Plus', 'Plus description', 12, 24, 99999, 99999, 3, 120, 9.99, 'green'),
 (4, 'Enterprise', 'Enterprise description.', 99999, 99999, 99999, 99999, 99999, 2048, 19.99, 'gold');
 
