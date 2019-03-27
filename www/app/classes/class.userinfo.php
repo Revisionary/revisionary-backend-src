@@ -435,7 +435,7 @@ class User {
 
 
 	    // Check whether or not user can access
-	    return in_array(self::$user_ID, $users);
+	    return in_array(self::$user_ID, $users) || getUserInfo()['userLevelID'] == 1;
 
     }
 
