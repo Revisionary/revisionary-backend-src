@@ -6,9 +6,7 @@ $userInfo = getUserInfo($user_ID);
 
 
 // If user not exist
-if (!$userInfo) {
-	die('User Not Found.');
-}
+if (!$userInfo) die('User Not Found.');
 
 
 // User info from DB
