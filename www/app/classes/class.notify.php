@@ -29,6 +29,11 @@ class Notify {
 			$user_ID = array_filter(array_unique($user_ID));
 
 
+		// If the ID is numerical
+		if ( is_numeric($user_ID) )
+			$user_ID = intval($user_ID);
+
+
 	    // Set the user ID
 		self::$user_ID = $user_ID;
 		return new static;
@@ -68,10 +73,14 @@ class Notify {
 			// ID written as a string email
 			$recipients = self::$user_ID;
 
-		} else {
+		} elseif ( is_integer(self::$user_ID) ) {
 
 			// Bring the user info
 			$recipients = getUserInfo(self::$user_ID)['email'];
+
+		} else {
+
+			error_log('Undefined type of user ID.');
 
 		}
 
