@@ -3513,6 +3513,10 @@ function initiateNotification(pin_ID) {
 function beforeScreenshot(pin_ID) {
 
 
+	// Removed temporarily !!!
+	return "";
+
+
 	// Find the pin
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
@@ -3522,12 +3526,16 @@ function beforeScreenshot(pin_ID) {
 	if (typeof Notifications[pin_ID] === 'undefined') Notifications[pin_ID] = { before : "" };
 
 
+/*
+	// Removed temporarily !!!
+
 	// Take the latest screenshot
 	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
 
 		if (typeof Notifications[pin_ID] !== 'undefined') Notifications[pin_ID].before = imageDataUrl(canvas);
 
 	});
+*/
 
 
 	//return Notifications[pin_ID];
@@ -3538,17 +3546,29 @@ function beforeScreenshot(pin_ID) {
 function finalScreenshot(pin_ID) {
 
 
+	// Removed temporarily !!!
+	return "";
+
+
 	// Find the pin
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
 
 
+	// If not defined
+	if (typeof Notifications[pin_ID].latest === 'undefined') Notifications[pin_ID].latest = "";
+
+
+/*
+	// Removed temporarily !!!
+
 	// Take the latest screenshot
 	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
 
-		Notifications[pin_ID].screenshot.latest = imageDataUrl(canvas);
+		if (typeof Notifications[pin_ID] !== 'undefined') Notifications[pin_ID].screenshot.latest = imageDataUrl(canvas);
 
 	});
+*/
 
 
 	return Notifications[pin_ID].screenshot;
@@ -3591,11 +3611,12 @@ function newPinNotification(pin_ID, beforeImage) {
 
 
 	// Take the latest screenshot
-	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+	//screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
 
-		doAction('newNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+		//doAction('newNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+		doAction('newNotification', 'pin', pin_ID, pinNumber, "", "");
 
-	});
+	//});
 
 }
 
@@ -3612,11 +3633,12 @@ function newCommentNotification(pin_ID, beforeImage) {
 
 
 	// Take the latest screenshot
-	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+	//screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
 
-		doAction('newCommentNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+		//doAction('newCommentNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+		doAction('newCommentNotification', 'pin', pin_ID, pinNumber, "", "");
 
-	});
+	//});
 
 
 	pinWindow(pin_ID).attr('data-new-notification', 'no');
@@ -3636,11 +3658,12 @@ function completeNotification(pin_ID, beforeImage) {
 
 
 	// Take the latest screenshot
-	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+	//screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
 
-		doAction('completeNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+		//doAction('completeNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+		doAction('completeNotification', 'pin', pin_ID, pinNumber, "", "";
 
-	});
+	//});
 
 
 	pinWindow(pin_ID).attr('data-new-notification', 'no');
@@ -3660,11 +3683,12 @@ function inCompleteNotification(pin_ID, beforeImage) {
 
 
 	// Take the latest screenshot
-	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
+	//screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
 
-		doAction('inCompleteNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+		//doAction('inCompleteNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
+		doAction('inCompleteNotification', 'pin', pin_ID, pinNumber, "", "");
 
-	});
+	//});
 
 
 	pinWindow(pin_ID).attr('data-new-notification', 'no');
