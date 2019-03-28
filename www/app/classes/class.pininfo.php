@@ -896,6 +896,8 @@ class Pin {
 
 		";
 
+		$screenshots = ""; // Removed temporarily !!!
+
 
 		// Modification info
 		$modification_type = $this->getInfo('pin_modification_type');
