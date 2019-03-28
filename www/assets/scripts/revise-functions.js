@@ -3661,7 +3661,7 @@ function completeNotification(pin_ID, beforeImage) {
 	//screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
 
 		//doAction('completeNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
-		doAction('completeNotification', 'pin', pin_ID, pinNumber, "", "";
+		doAction('completeNotification', 'pin', pin_ID, pinNumber, "", "");
 
 	//});
 
