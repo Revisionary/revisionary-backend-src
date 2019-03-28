@@ -395,8 +395,8 @@ class Page {
 
 			// Email notification
 			Notify::ID($users)->mail(
-				getUserInfo()['fullName']." added a new page: ".$page_name."[".$project_name."]",
-				getUserInfo()['fullName']." added a new page: ".$page_name."[".$project_name."] <br>
+				getUserInfo()['fullName']." added a new page: ".$page_name.$project_name,
+				getUserInfo()['fullName']." added a new page: ".$page_name.$project_name." <br>
 				<b>Page URL</b>: $page_url <br><br>
 				<a href='$page_link' target='_blank'>$page_link</a>"
 			);
@@ -429,10 +429,10 @@ class Page {
 
 					// Email notification
 					Notify::ID($user_ID)->mail(
-						getUserInfo()['fullName']." shared the \"$page_name[$project_name]\" page with you.",
+						getUserInfo()['fullName']." shared the \"$page_name"."$project_name\" page with you.",
 
 						"Hello, ".
-						getUserInfo()['fullName']." shared the \"$page_name[$project_name]\" page with you from Revisionary App. Here is the link to access this page: <br>
+						getUserInfo()['fullName']." shared the \"$page_name"."$project_name\" page with you from Revisionary App. Here is the link to access this page: <br>
 						<a href='$page_link' target='_blank'>$page_link</a>"
 					);
 
@@ -443,7 +443,7 @@ class Page {
 
 
 			// Site log
-			$log->info("Page #$page_ID Added: $page_name($page_url) | Project #$project_ID | Project Name: '$project_name' | User #".currentUserID());
+			$log->info("Page #$page_ID Added: $page_name($page_url) | Project #$project_ID | Project Name:$project_name | User #".currentUserID());
 
 
 
@@ -615,7 +615,7 @@ class Page {
 
 
 		// Site log
-		if ($page_removed) $log->info("Page #".self::$page_ID." Removed: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+		if ($page_removed) $log->info("Page #".self::$page_ID." Removed: '".$this->getInfo('page_name')."' | Project Name: ".$projectData->getInfo('project_name')." | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
 
 
 		return $page_removed;
