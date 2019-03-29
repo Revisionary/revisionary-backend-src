@@ -3,90 +3,26 @@
 
 	<div class="alerts">
 
-		<?php if ( isset($_GET['noaccess']) ) { ?>
+		<?php if ( isset($_GET['error']) && $_GET['error'] == "name" ) { ?>
 
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('noaccess');</script>
-			Looks like you don't have access to this project.
-
-			<a href="#" class="close"><i class="fa fa-times"></i></a>
-		</div>
-
-		<?php } elseif ( isset($_GET['invalidurl']) ) { ?>
-
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invalidurl');</script>
-			The URL you entered is invalid.
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('error');</script>
+			Please enter your full name.
 
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
 
-		<?php } elseif ( isset($_GET['addprojecterror']) ) { ?>
+		<?php } elseif ( isset($_GET['error']) && $_GET['error'] == "unknown" ) { ?>
 
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('addprojecterror');</script>
-			Your project couldn't be added.
-
-			<a href="#" class="close"><i class="fa fa-times"></i></a>
-		</div>
-
-		<?php } elseif ( isset($_GET['addpageerror']) ) { ?>
-
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('addpageerror');</script>
-			Your page couldn't be added.
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('error');</script>
+			Sorry, your information couldn't be updated.
 
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
 
-		<?php } elseif ( isset($_GET['adddeviceerror']) ) { ?>
+		<?php } elseif ( isset($_GET['error']) && $_GET['error'] == "invalidname" ) { ?>
 
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('adddeviceerror');</script>
-			Your device couldn't be added.
-
-			<a href="#" class="close"><i class="fa fa-times"></i></a>
-		</div>
-
-		<?php } elseif ( isset($_GET['invalid']) ) { ?>
-
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invalid');</script>
-			We couldn't find the project you are looking for.
-
-			<a href="#" class="close"><i class="fa fa-times"></i></a>
-		</div>
-
-		<?php } elseif ( isset($_GET['projectdoesntexist']) ) { ?>
-
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('projectdoesntexist');</script>
-			You don't have access to this project.
-
-			<a href="#" class="close"><i class="fa fa-times"></i></a>
-		</div>
-
-		<?php } elseif ( isset($_GET['invaliddevice']) ) { ?>
-
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invaliddevice');</script>
-			We couldn't find the device you are looking for.
-
-			<a href="#" class="close"><i class="fa fa-times"></i></a>
-		</div>
-
-		<?php } elseif ( isset($_GET['devicedoesntexist']) ) { ?>
-
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('devicedoesntexist');</script>
-			You don't have access to this device.
-
-			<a href="#" class="close"><i class="fa fa-times"></i></a>
-		</div>
-
-		<?php } elseif ( isset($_GET['pagedoesntexist']) ) { ?>
-
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('pagedoesntexist');</script>
-			You don't have access to this page.
-
-			<a href="#" class="close"><i class="fa fa-times"></i></a>
-		</div>
-
-		<?php } elseif ( isset($_GET['invalidpage']) ) { ?>
-
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invalidpage');</script>
-			We couldn't find the page you are looking for.
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('error');</script>
+			Only letters and white space allowed on your name.
 
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
@@ -95,10 +31,10 @@
 
 
 
-		<?php } elseif ( isset($_GET['status']) && $_GET['status'] == "successful" ) { ?>
+		<?php } elseif ( isset($_GET['successful']) ) { ?>
 
-		<div class="alert success"> <script>removeQueryArgFromCurrentUrl('status');</script>
-			New category successfully added.
+		<div class="alert success"> <script>removeQueryArgFromCurrentUrl('successful');</script>
+			Your information has been updated.
 
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
@@ -192,7 +128,7 @@
 							</div>
 
 						</div>
-						<div class="col" data-tooltip="In development...">
+						<form method="post" action="" class="col">
 
 
 							<label class="wrap xl-table xl-middle xl-gutter-8">
@@ -221,11 +157,11 @@
 
 							<div class="wrap xl-table xl-middle xl-gutter-8">
 								<span class="col xl-3-12"></span>
-								<span class="col"><input class="invert" type="submit" value="Update"/></span>
+								<span class="col"><input class="invert" type="submit" name="update-submit" value="Update"/></span>
 							</div><br/>
 
 
-						</div>
+						</form>
 					</div>
 
 
