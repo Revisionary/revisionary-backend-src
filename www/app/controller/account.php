@@ -67,6 +67,56 @@ if ( post('update-submit') == "Update" ) {
 	header('Location: '.current_url("successful", "error"));
 	die();
 
+
+} elseif ( post('password-submit') == "Update" ) {
+
+
+	// Empty fields check
+	if ( empty(post('current_password')) || empty(post('new_password')) || empty(post('new_password_confirmation')) ) {
+
+		header('Location: '.current_url("error=fieldsempty", "successful"));
+		die();
+
+	}
+
+
+	// Current password check
+	if (!password_verify( post('current_password') , $userInfoDB["user_password"]) ) {
+
+		header('Location: '.current_url("error=password", "successful"));
+		die();
+
+	}
+
+
+	// Password confirmation check
+	if ( post('new_password') != post('new_password_confirmation') ) {
+
+		header('Location: '.current_url("error=passconfirm", "successful"));
+		die();
+
+	}
+
+
+	// Update on DB
+	$db->where('user_ID', $user_ID);
+	$updated = $db->update('users', array(
+		'user_password' => password_hash(post('new_password'), PASSWORD_DEFAULT)
+	));
+
+	if (!$updated) {
+
+		header('Location: '.current_url("error=unknown", "successful"));
+		die();
+
+	}
+
+
+
+	header('Location: '.current_url("successful", "error"));
+	die();
+
+
 }
 
 

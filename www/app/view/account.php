@@ -27,6 +27,30 @@
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
 
+		<?php } elseif ( isset($_GET['error']) && $_GET['error'] == "password" ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('error');</script>
+			Your current password is not correct.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['error']) && $_GET['error'] == "passconfirm" ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('error');</script>
+			Password confirmation is not same with the new password you entered.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['error']) && $_GET['error'] == "fieldsempty" ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('error');</script>
+			Please don't leave fields empty.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
 
 
 
@@ -158,6 +182,44 @@
 							<div class="wrap xl-table xl-middle xl-gutter-8">
 								<span class="col xl-3-12"></span>
 								<span class="col"><input class="invert" type="submit" name="update-submit" value="Update"/></span>
+							</div><br/>
+
+
+						</form>
+					</div>
+
+				<?php } elseif ($subpage == "password") { ?>
+
+
+					<div class="wrap xl-table xl-gutter-24">
+						<div class="col xl-3-12 xl-center">
+
+						</div>
+						<form method="post" action="" class="col">
+
+
+							<label class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12">Current Password</span>
+								<span class="col"><input class="full" type="password" name="current_password" placeholder="Enter your current password"/></span>
+							</label><br/>
+
+
+							<label class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12">New Password</span>
+								<span class="col"><input class="full" type="password" name="new_password" placeholder="Enter your new password"/></span>
+							</label><br/>
+
+
+							<label class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12">New Password Confirmation</span>
+								<span class="col"><input class="full" type="password" name="new_password_confirmation" placeholder="Retype your new password"/></span>
+							</label><br/>
+
+
+
+							<div class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12"></span>
+								<span class="col"><input class="invert" type="submit" name="password-submit" value="Update"/></span>
 							</div><br/>
 
 
