@@ -111,7 +111,7 @@
 				<div class="col xl-6-12 xl-center filter invert-hover">
 
 					<a class="<?=$subpage == "profile" || !$subpage ? "selected" : ""?>" href="<?=site_url("account")?>">Profile</a>
-					<a class="<?=$subpage == "password" ? "selected" : ""?>" href="<?=site_url("account/password")?>" data-tooltip="In development...">Password</a>
+					<a class="<?=$subpage == "password" ? "selected" : ""?>" href="<?=site_url("account/password")?>">Password</a>
 					<a class="<?=$subpage == "email" ? "selected" : ""?>" href="<?=site_url("account/email")?>" data-tooltip="In development...">Email</a>
 					<a class="<?=$subpage == "billing" ? "selected" : ""?>" href="<?=site_url("account/billing")?>" data-tooltip="In development...">Billing</a>
 
