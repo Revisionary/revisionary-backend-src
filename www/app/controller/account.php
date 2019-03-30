@@ -192,24 +192,44 @@ if ( post('update-submit') == "Update" ) {
 
 
 		// Site log
-		//$log->info("User #$user_ID updated email: $user_name($user_full_name) | Email: $user_email | User Level ID #$user_level_ID");
+		$log->info("User #$user_ID Updated Email: ".$userInfo['userName']."(".$userInfo['fullName'].") | Old Email: ".$userInfo['email']." | New Email: ".post('user_email')." | User Level ID #".$userInfo['userLevelID']);
 
 
-/*
-		// Send a welcome email
-		Notify::ID($user_ID)->mail(
-			'Welcome to Revisionary App!',
-			"Hi $firstName, <br><br>
+		// Send email
+		Notify::ID($userInfo['email'])->mail(
+			"Your email has been changed!",
+			"Hi ".$userInfo['fullName'].", <br><br>
 
-			Thanks for joining us. You can now start revising websites. :) <br><br>
+			Your email address has been changed now. <br>
+			Your new email address: ".post('user_email')." <br><br>
 
-			<a href='".site_url()."' target='_blank'>".site_url()."</a>"
+			If you haven't done this action, please contact us at info@revisionaryapp.com <br><br>
+
+			Thank you, <br>
+			Revisionary App Team
+			"
+		);
+
+
+		// Send email
+		Notify::ID(post('user_email'))->mail(
+			"Your email has been changed!",
+			"Hi ".$userInfo['fullName'].", <br><br>
+
+			Your email address has been changed now. <br>
+			Your new email address: ".post('user_email')." (Old Email: ".$userInfo['email'].") <br><br>
+
+			If you haven't done this action, please contact us at info@revisionaryapp.com <br><br>
+
+			Thank you, <br>
+			Revisionary App Team
+			"
 		);
 
 
 		// Notify the admin
 		Notify::ID(1)->mail(
-			"User changed email ".$userInfo['fullName'],
+			"User changed email address ".$userInfo['fullName'],
 			"
 			<b>User Information</b> <br>
 			Old Email: ".$userInfo['email']." <br>
@@ -218,7 +238,6 @@ if ( post('update-submit') == "Update" ) {
 			Username: ".$userInfo['userName']."
 			"
 		);
-*/
 
 	}
 
