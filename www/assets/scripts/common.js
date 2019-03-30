@@ -1054,7 +1054,7 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 
 
 				items.find('input.edit-name[data-type="'+object_type+'"][data-id="'+object_ID+'"]').attr('value', firstParameter );
-				items.find('.name[data-type="'+object_type+'"][data-id="'+object_ID+'"]').text( firstParameter );
+				items.find('.name[data-type="'+object_type+'"][data-id="'+object_ID+'"], .name').text( firstParameter );
 
 
 			} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover") {
