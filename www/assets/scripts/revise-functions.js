@@ -232,6 +232,7 @@ function runTheInspector() {
 		<style> \
 			/* Auto-height edited images */ \
 			img[data-revisionary-showing-changes="1"] { height: auto !important; } \
+			iframe { pointer-events: none !important; } \
 		</style> \
 		');
 
