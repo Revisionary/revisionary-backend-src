@@ -30,7 +30,8 @@ function getUserInfo($user_ID = 0, $fromDB = false) {
 			'userPicUrl' => null,
 			'printPicture' => "",
 			'userLevelName' => "",
-			'userLevelID' => ""
+			'userLevelID' => "",
+			'emailNotifications' => ""
 		);
 
 
@@ -61,7 +62,8 @@ function getUserInfo($user_ID = 0, $fromDB = false) {
 		'userPic' => $userInfo['user_picture'],
 		'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.$user_ID.'/'.$userInfo['user_picture']) : get_gravatar($userInfo['user_email'], 250),
 		'userLevelName' => $userInfo['user_level_name'],
-		'userLevelID' => $userInfo['user_level_ID']
+		'userLevelID' => $userInfo['user_level_ID'],
+		'emailNotifications' => $userInfo['user_email_notifications']
 	);
 	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';
 

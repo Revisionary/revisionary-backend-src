@@ -47,11 +47,12 @@ class Notify {
     // Email notifications
     public function mail(
 	    string $subject,
-	    string $notification
+	    string $notification,
+	    bool $important = false
     ) {
 	    global $config;
 
-	    if ($config['env']['name'] != "remote-dev") return true;
+	    //if ($config['env']['name'] != "remote-dev") return true;
 
 
 
@@ -64,7 +65,10 @@ class Notify {
 					$user_ID = intval($user_ID);
 
 				// Bring the user info
-				$recipients .= getUserInfo($user_ID)['email'].",";
+				$userInfo = getUserInfo($user_ID);
+
+				// Add the list if needs to be send
+				if ($important || $userInfo['emailNotifications']) $recipients .= $userInfo['email'].",";
 
 			}
 
@@ -76,7 +80,8 @@ class Notify {
 		} elseif ( is_integer(self::$user_ID) ) {
 
 			// Bring the user info
-			$recipients = getUserInfo(self::$user_ID)['email'];
+			$userInfo = getUserInfo(self::$user_ID);
+			if ($important || $userInfo['emailNotifications']) $recipients = $userInfo['email'];
 
 		} else {
 

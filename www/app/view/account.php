@@ -35,6 +35,14 @@
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
 
+		<?php } elseif ( isset($_GET['error']) && $_GET['error'] == "email" ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('error');</script>
+			Email address you entered is being used by another account.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
 		<?php } elseif ( isset($_GET['error']) && $_GET['error'] == "passconfirm" ) { ?>
 
 		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('error');</script>

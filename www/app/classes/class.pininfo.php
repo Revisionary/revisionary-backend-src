@@ -909,6 +909,7 @@ class Pin {
 
 
 		// Comments info
+		$commentsHTML = "";
 		$comments = array_reverse( $this->comments() );
 
 		// Print comments if exists
@@ -967,7 +968,7 @@ class Pin {
 						".($different_user && $comment_count > 1 ? "<br><br>" : "")."
 
 						$user_full_name
-						".$comment['pin_comment']." <span style='display: inline-block; padding-right: 5px; font-size: 10px; line-height: 20px; opacity: 0.4; margin-bottom: 10px;'>".$dateFormatted."</span>
+						".$comment['pin_comment']." <span style='display: inline-block; padding-right: 5px; font-size: 10px; line-height: normal; opacity: 0.4; margin-bottom: 10px;'>".$dateFormatted."</span>
 
 					</td>
 				</tr>";
@@ -977,6 +978,20 @@ class Pin {
 			}
 
 			$commentsList .= "</table>";
+
+
+
+			// Print HTML
+			$commentsHTML = "
+			<tr>
+				<td colspan='2'>
+
+					<br>
+					<h2>Comments ".($comment_count > 0 && $button_text == "View Comments" ? "<span style='display: inline-block; font-size: 10px; color: white; padding: 0 2px; background-color: red; border-radius: 3px;'>NEW</span>" : "")."</h2>
+					$commentsList
+
+				</td>
+			</tr>";
 
 		}
 
@@ -1007,17 +1022,7 @@ class Pin {
 				</td>
 			</tr>
 
-
-			<tr>
-				<td colspan='2'>
-
-					<br>
-					<h2>Comments ".($comment_count > 0 && $button_text == "View Comments" ? "<span style='display: inline-block; font-size: 10px; color: white; padding: 0 2px; background-color: red; border-radius: 3px;'>NEW</span>" : "")."</h2>
-					$commentsList
-
-				</td>
-			</tr>
-
+			$commentsHTML
 
 			<tr>
 				<td colspan='2'>

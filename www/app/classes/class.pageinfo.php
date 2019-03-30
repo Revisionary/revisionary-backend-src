@@ -433,7 +433,8 @@ class Page {
 
 						"Hello, ".
 						getUserInfo()['fullName']." shared the \"$page_name"."$project_name\" page with you from Revisionary App. Here is the link to access this page: <br>
-						<a href='$page_link' target='_blank'>$page_link</a>"
+						<a href='$page_link' target='_blank'>$page_link</a>",
+						true // Important
 					);
 
 				}

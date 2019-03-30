@@ -496,7 +496,8 @@ class User {
 
 				Thanks for joining us. You can now start revising websites. :) <br><br>
 
-				<a href='".site_url()."' target='_blank'>".site_url()."</a>"
+				<a href='".site_url()."' target='_blank'>".site_url()."</a>",
+				true // Important
 			);
 
 
@@ -720,7 +721,8 @@ class User {
 				getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you.",
 
 				"Hello, ".
-				getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you on Revisionary App."
+				getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you on Revisionary App.",
+				true // Important
 			);
 
 

@@ -206,8 +206,8 @@ if ( post('update-submit') == "Update" ) {
 			If you haven't done this action, please contact us at info@revisionaryapp.com <br><br>
 
 			Thank you, <br>
-			Revisionary App Team
-			"
+			Revisionary App Team",
+			true // Important
 		);
 
 
@@ -222,8 +222,8 @@ if ( post('update-submit') == "Update" ) {
 			If you haven't done this action, please contact us at info@revisionaryapp.com <br><br>
 
 			Thank you, <br>
-			Revisionary App Team
-			"
+			Revisionary App Team",
+			true // Important
 		);
 
 

@@ -250,7 +250,8 @@ if ($share_ID) { // If successful
 			"Hello, ".
 			getUserInfo()['fullName']." shared the \"$objectName".$projectName."\" $type with you from Revisionary App. Here is the link to access this $type: <br>
 
-<a href='$object_link' target='_blank'>$object_link</a>"
+<a href='$object_link' target='_blank'>$object_link</a>",
+			true // Important
 		);
 
 

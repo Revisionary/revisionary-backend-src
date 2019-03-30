@@ -105,8 +105,8 @@ if ( post('lost-password-submit') == "Send Reset Link" ) {
 					"Hi ".getUserInfo($user_ID)['fullName'].", <br><br>
 
 					Here is the link that you can reset your password: <br>
-					<a href='$url' target='_blank'>$url</a>
-					"
+					<a href='$url' target='_blank'>$url</a>",
+					true // Important
 				);
 
 

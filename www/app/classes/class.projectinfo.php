@@ -230,7 +230,8 @@ class Project {
 						"Hello, ".
 						getUserInfo()['fullName']." shared the \"$project_name\" project with you from Revisionary App. Here is the link to access this project: <br>
 
-						<a href='".site_url('project/'.$project_ID)."' target='_blank'>".site_url('project/'.$project_ID)."</a>"
+						<a href='".site_url('project/'.$project_ID)."' target='_blank'>".site_url('project/'.$project_ID)."</a>",
+						true // Important
 					);
 
 				}
