@@ -81,7 +81,7 @@ if ( post('update-submit') == "Update" ) {
 
 
 	// Current password check
-	if (!password_verify( post('current_password') , $userInfoDB["user_password"]) ) {
+	if ( !password_verify( post('current_password') , $userInfoDB["user_password"]) ) {
 
 		header('Location: '.current_url("error=password", "successful"));
 		die();
@@ -116,6 +116,117 @@ if ( post('update-submit') == "Update" ) {
 	header('Location: '.current_url("successful", "error"));
 	die();
 
+
+} elseif ( post('email-submit') == "Update" ) {
+
+
+	// Empty field check
+	if ( empty(post('user_email')) ) {
+
+		header('Location: '.current_url("error=fieldsempty", "successful"));
+		die();
+
+	}
+
+
+	// Email validate
+	if ( !filter_var(post('user_email'), FILTER_VALIDATE_EMAIL) ) {
+
+		header('Location: '.current_url("error=invalidemail", "successful"));
+		die();
+
+	}
+
+
+	// Email difference
+	if ( $userInfo['email'] != post('user_email') ) {
+
+
+		// Check current password empty
+		if ( empty(post('current_password')) ) {
+
+			header('Location: '.current_url("error=password", "successful"));
+			die();
+
+		}
+
+
+		// Check current password
+		if ( !password_verify( post('current_password') , $userInfoDB["user_password"]) ) {
+
+			header('Location: '.current_url("error=password", "successful"));
+			die();
+
+		}
+
+
+		// Check email available
+		if ( !checkAvailableEmail(post('user_email')) ) {
+
+			header('Location: '.current_url("error=email", "successful"));
+			die();
+
+		}
+
+
+	}
+
+
+	// Update on DB
+	$db->where('user_ID', $user_ID);
+	$updated = $db->update('users', array(
+		'user_email' => post('user_email'),
+		'user_email_notifications' => post('user_email_notifications') == "yes" ? 1 : 0
+	));
+
+	if (!$updated) {
+
+		header('Location: '.current_url("error=unknown", "successful"));
+		die();
+
+	}
+
+
+	// Email notification
+	if ( $userInfo['email'] != post('user_email') ) {
+
+
+		// Site log
+		//$log->info("User #$user_ID updated email: $user_name($user_full_name) | Email: $user_email | User Level ID #$user_level_ID");
+
+
+/*
+		// Send a welcome email
+		Notify::ID($user_ID)->mail(
+			'Welcome to Revisionary App!',
+			"Hi $firstName, <br><br>
+
+			Thanks for joining us. You can now start revising websites. :) <br><br>
+
+			<a href='".site_url()."' target='_blank'>".site_url()."</a>"
+		);
+
+
+		// Notify the admin
+		Notify::ID(1)->mail(
+			"User changed email ".$userInfo['fullName'],
+			"
+			<b>User Information</b> <br>
+			Old Email: ".$userInfo['email']." <br>
+			New E-Mail: ".post('user_email')." <br>
+			Full Name: ".$userInfo['fullName']." <br>
+			Username: ".$userInfo['userName']."
+			"
+		);
+*/
+
+	}
+
+
+
+
+	header('Location: '.current_url("successful", "error"));
+	die();
 
 }
 

@@ -2652,6 +2652,7 @@ body.dragging, body.dragging * {
 		padding: 10px 40px 10px 20px;
 		margin-bottom: 5px;
 		position: relative;
+	    border-radius: 3px;
 
 		& > .close {
 			position: absolute;

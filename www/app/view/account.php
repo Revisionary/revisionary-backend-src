@@ -112,7 +112,7 @@
 
 					<a class="<?=$subpage == "profile" || !$subpage ? "selected" : ""?>" href="<?=site_url("account")?>">Profile</a>
 					<a class="<?=$subpage == "password" ? "selected" : ""?>" href="<?=site_url("account/password")?>">Password</a>
-					<a class="<?=$subpage == "email" ? "selected" : ""?>" href="<?=site_url("account/email")?>" data-tooltip="In development...">Email</a>
+					<a class="<?=$subpage == "email" ? "selected" : ""?>" href="<?=site_url("account/email")?>">Email</a>
 					<a class="<?=$subpage == "billing" ? "selected" : ""?>" href="<?=site_url("account/billing")?>" data-tooltip="In development...">Billing</a>
 
 				</div>
@@ -132,7 +132,7 @@
 				<?php if ($subpage == "profile" || !$subpage) { ?>
 
 
-					<div class="wrap xl-table xl-gutter-24">
+					<div class="wrap xl-table xl-gutter-24" id="profile-settings">
 						<div class="col xl-3-12 xl-center">
 
 							<form id="avatar-form" action="" method="POST" enctype="multipart/form-data">
@@ -191,7 +191,7 @@
 				<?php } elseif ($subpage == "password") { ?>
 
 
-					<div class="wrap xl-table xl-gutter-24">
+					<div class="wrap xl-table xl-gutter-24" id="password-settings">
 						<div class="col xl-3-12 xl-center">
 
 						</div>
@@ -220,6 +220,67 @@
 							<div class="wrap xl-table xl-middle xl-gutter-8">
 								<span class="col xl-3-12"></span>
 								<span class="col"><input class="invert" type="submit" name="password-submit" value="Update"/></span>
+							</div><br/>
+
+
+						</form>
+					</div>
+
+				<?php } elseif ($subpage == "email") { ?>
+
+
+					<div class="wrap xl-table xl-gutter-24" id="email-settings">
+						<div class="col xl-3-12 xl-center">
+
+						</div>
+						<form method="post" action="" class="col">
+
+
+							<label class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12">Email Address</span>
+								<span class="col"><input class="full" type="email" name="user_email" value="<?=$userInfo['email']?>" placeholder="Enter your new password"/></span>
+							</label><br/>
+
+
+							<script>
+								$(function() {
+
+									var emailInput = $('input[name="user_email"]');
+									var registeredVal = emailInput.val();
+
+									emailInput.on('keyup', function() {
+
+										var newVal = emailInput.val();
+
+										if (registeredVal != newVal)
+											$('.current-password').fadeIn();
+										else
+											$('.current-password').fadeOut();
+
+									});
+
+								});
+							</script>
+
+
+							<div class="current-password xl-hidden">
+								<label class="wrap xl-table xl-middle xl-gutter-8">
+									<span class="col xl-3-12">Current Password</span>
+									<span class="col"><input class="full" type="password" name="current_password" placeholder="Enter your current password"/></span>
+								</label><br/>
+							</div>
+
+
+							<label class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12">Email Notifications</span>
+								<span class="col"><input class="full" type="checkbox" name="user_email_notifications" value="yes" <?=$userInfoDB['user_email_notifications'] ? "checked" : ""?>/> Yes, I want to receive email notifications.</span>
+							</label><br/>
+
+
+
+							<div class="wrap xl-table xl-middle xl-gutter-8">
+								<span class="col xl-3-12"></span>
+								<span class="col"><input class="invert" type="submit" name="email-submit" value="Update"/></span>
 							</div><br/>
 
 
