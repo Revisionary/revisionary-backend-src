@@ -1272,13 +1272,8 @@ function readNotifications() {
 		console.log('RESULT: ', result);
 
 
-		// Delete the new dots
-		//$('.notifications > ul > li').removeClass('new');
-
-
 		var currentNotifNumber = parseInt( $('.notification-opener .notif-no').text() );
-		//var newNotifNumber = currentNotifNumber - IDsToRead.length;
-		var newNotifNumber = 0;
+		var newNotifNumber = currentNotifNumber - IDsToRead.length;
 
 
 		// Update the count

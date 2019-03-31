@@ -116,16 +116,24 @@ class Notification {
 		// List the notifications
 		foreach ($notifications as $notification) {
 
+
+			$notificationNew = $notification['notification_read'] == 0;
+			$notificationContent = $notification['notification'];
+
+
 			$sender_ID = $notification['sender_user_ID'];
 			$senderInfo = getUserInfo($sender_ID);
 
 			// Skip if the user not found
-			if (!$senderInfo) continue;
+			if (!$senderInfo) {
+
+				$notificationHTML .= '<li class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+
+				continue;
+			}
 
 
 			$sender_full_name = $senderInfo['fullName'];
-			$notificationNew = $notification['notification_read'] == 0;
-			$notificationContent = $notification['notification'];
 
 
 			// Object Info
@@ -136,8 +144,10 @@ class Notification {
 			// Skip if the object not found
 			if (!$object_data) {
 
-				// Delete this notification
-				Notification::ID( $notification['notification_ID'] )->remove();
+				// Delete this notification !!! ???
+				// Notification::ID( $notification['notification_ID'] )->remove();
+
+				$notificationHTML .= '<li class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
 
 				continue;
 			}
@@ -149,7 +159,10 @@ class Notification {
 
 			$notificationHTML .= '
 
-			<li class="'.($notificationNew ? "new" : "").'" data-type="notification" data-id="'.$notification['notification_ID'].'">
+			<li class="'.($notificationNew ? "new" : "").'" data-type="notification" data-id="'.$notification['notification_ID'].'">';
+
+
+			$notificationHTML .= '
 
 				<div class="wrap xl-table xl-middle">
 					<div class="col image">
