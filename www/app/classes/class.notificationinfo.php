@@ -22,7 +22,7 @@ class Notification {
 	    global $db;
 
 
-	    // Set the pin ID
+	    // Set the notification ID
 		if ($notification_ID != null && is_numeric($notification_ID)) {
 
 
@@ -50,7 +50,7 @@ class Notification {
 		}
 
 
-	    // For the new pin
+	    // For the new notification
 		if ($notification_ID == "new" || $notification_ID == 0) {
 
 			self::$notification_ID = "new";
@@ -134,7 +134,13 @@ class Notification {
 			$object_data = ucfirst($object_type)::ID($object_ID);
 
 			// Skip if the object not found
-			if (!$object_data) continue;
+			if (!$object_data) {
+
+				// Delete this notification
+				Notification::ID( $notification['notification_ID'] )->remove();
+
+				continue;
+			}
 
 
 			$object_name = $object_type != "device" && $object_type != "pin" ? $object_data->getInfo($object_type.'_name') : "";
@@ -449,6 +455,56 @@ class Notification {
 		return $allRead;
 
     }
+
+
+	// Remove a notification
+	public function remove() {
+		global $db, $log;
+
+
+
+	    // DB Checks !!!
+
+
+
+		// Single Notification
+	    if ( is_integer(self::$notification_ID) || is_numeric(self::$notification_ID) ) {
+
+
+			// Remove the notification
+			$db->where('notification_ID', intval(self::$notification_ID));
+			$removed = $db->delete('notifications');
+
+			if ($removed) $log->info("Notification #".self::$notification_ID." Removed: User #".currentUserID());
+
+
+			return $removed;
+
+		}
+
+
+		if ( is_array(self::$notification_ID) && count(self::$notification_ID) > 0) {
+
+
+			foreach (self::$notification_ID as $notification_ID) {
+
+
+				// Remove the notification
+				$db->where('notification_ID', self::$notification_ID);
+				$removed = $db->delete('notifications');
+
+				if ($removed) $log->info("Notification #".self::$notification_ID." Removed: User #".currentUserID());
+
+			}
+
+
+			return $removed;
+		}
+
+
+		return false;
+
+	}
 
 
 

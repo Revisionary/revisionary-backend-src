@@ -1277,7 +1277,8 @@ function readNotifications() {
 
 
 		var currentNotifNumber = parseInt( $('.notification-opener .notif-no').text() );
-		var newNotifNumber = currentNotifNumber - IDsToRead.length;
+		//var newNotifNumber = currentNotifNumber - IDsToRead.length;
+		var newNotifNumber = 0;
 
 
 		// Update the count

@@ -52,7 +52,7 @@ class Notify {
     ) {
 	    global $config;
 
-	    //if ($config['env']['name'] != "remote-dev") return true;
+	    if ($config['env']['name'] != "remote-dev") return true;
 
 
 
