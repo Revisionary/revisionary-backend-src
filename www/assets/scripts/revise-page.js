@@ -966,7 +966,7 @@ $(function() {
     $(document).keydown(function(e) {
 
 
-		if (e.shiftKey && !pinWindowOpen) {
+		if (e.shiftKey && !pinWindowOpen && currentPinType != "browse") {
 
 			shifted = true;
 			console.log('SHIFTED');
