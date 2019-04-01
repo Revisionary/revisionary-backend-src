@@ -99,6 +99,7 @@ var currentPinType = "live";
 var currentPinPrivate = 0;
 var currentPinLabel = pinModes.live;
 var currentPinTypeWas;
+var shifted = false;
 
 var currentPinNumber = 1;
 

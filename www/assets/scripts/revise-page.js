@@ -966,8 +966,9 @@ $(function() {
     $(document).keydown(function(e) {
 
 
-		if (e.shiftKey) {
+		if (e.shiftKey && !pinWindowOpen) {
 
+			shifted = true;
 			console.log('SHIFTED');
 
 			currentPinTypeWas = currentPinType;
@@ -981,10 +982,16 @@ $(function() {
 
     $(document).keyup(function(e) {
 
-		console.log('UNSHIFTED');
 
-		currentPinType = currentPinTypeWas;
-		toggleCursorActive(false, true); // Force Open
+		if (shifted && !pinWindowOpen) {
+
+			shifted = false;
+			console.log('UNSHIFTED');
+
+			currentPinType = currentPinTypeWas;
+			toggleCursorActive(false, true); // Force Open
+
+		}
 
     });
 
