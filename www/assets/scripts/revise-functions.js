@@ -645,6 +645,27 @@ function runTheInspector() {
 		    // Re-Locate the pins
 		    relocatePins();
 
+		}).on('keydown', function(e) { // Detect the scroll to re-position pins
+
+
+			if (e.shiftKey) {
+
+				console.log('SHIFTED');
+
+				currentPinTypeWas = currentPinType;
+				toggleCursorActive(true); // Force close
+				currentPinType = "browse";
+
+			}
+
+
+		}).on('keyup', function(e) { // Detect the scroll to re-position pins
+
+			console.log('UNSHIFTED');
+
+			currentPinType = currentPinTypeWas;
+			toggleCursorActive(false, true); // Force Open
+
 		});
 
 

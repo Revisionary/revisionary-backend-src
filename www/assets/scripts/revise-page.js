@@ -962,6 +962,33 @@ $(function() {
 	});
 
 
+	// Shift key toggle browse mode
+    $(document).keydown(function(e) {
+
+
+		if (e.shiftKey) {
+
+			console.log('SHIFTED');
+
+			currentPinTypeWas = currentPinType;
+			toggleCursorActive(true); // Force close
+			currentPinType = "browse";
+
+		}
+
+
+    });
+
+    $(document).keyup(function(e) {
+
+		console.log('UNSHIFTED');
+
+		currentPinType = currentPinTypeWas;
+		toggleCursorActive(false, true); // Force Open
+
+    });
+
+
 /*
 	// Detect Window switches for the correct focusing
 	$(window).on('blur', function(e) {
