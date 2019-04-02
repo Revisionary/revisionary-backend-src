@@ -2645,6 +2645,7 @@ function applyPins(oldPins = []) {
 		);
 
 
+		// Stick pin to element
 		stickPin(pin.pin_ID);
 
 	});
@@ -2689,8 +2690,11 @@ function stickPin(pin_ID) {
 		var elementOffset = iframeElement(element_index).offset(); console.log('REGISTERED', elementOffset);
 		elementOriginalPositions[element_index] = elementOffset;
 
+		//pinElement(pin_ID).css('transform', 'translate('+ (elementOffset.left * iframeScale) +'px)');
+
 	}, 1000);
 
+/*
 	iframeElement(element_index).onPositionChanged(function(asd, elementOffset) {
 
 		if ( typeof elementOriginalPositions[element_index] !== 'undefined' ) {
@@ -2704,6 +2708,7 @@ function stickPin(pin_ID) {
 		}
 
 	});
+*/
 
 
 }
