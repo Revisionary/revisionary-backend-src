@@ -1469,6 +1469,10 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 			pinWindow(realPinID).removeClass('loading');
 
 
+			// Stick the pin
+			stickPin(realPinID);
+
+
 			// Make draggable
 			makeDraggable(newPin);
 
@@ -2633,6 +2637,7 @@ function applyPins(oldPins = []) {
 	$(Pins).each(function(i, pin) {
 
 		var pin_number = i + 1;
+		var elementIndex = parseInt(pin.pin_element_index);
 
 		// Add the pin to the list
 		$('#pins').append(
@@ -2640,7 +2645,11 @@ function applyPins(oldPins = []) {
 		);
 
 
+		stickPin(pin.pin_ID);
+
 	});
+
+	console.log('ORIIIIIG', elementOriginalPositions);
 
 
 	// Update the cursor number with the existing pins
@@ -2662,6 +2671,40 @@ function applyPins(oldPins = []) {
 
 	// Apply changes
 	applyChanges(showingOriginal);
+
+}
+
+
+// Stick pin
+function stickPin(pin_ID) {
+
+	var pin = getPin(pin_ID);
+	var pinIndex = Pins.indexOf(pin);
+	var element_index = pin.pin_element_index;
+
+
+
+	setTimeout(function() {
+
+		var elementOffset = iframeElement(element_index).offset(); console.log('REGISTERED', elementOffset);
+		elementOriginalPositions[element_index] = elementOffset;
+
+	}, 1000);
+
+	iframeElement(element_index).onPositionChanged(function(asd, elementOffset) {
+
+		if ( typeof elementOriginalPositions[element_index] !== 'undefined' ) {
+
+			var originalElementOffset = elementOriginalPositions[element_index];
+			var offsetDiffLeft = elementOffset.left - originalElementOffset.left;
+			var offsetDiffTop = elementOffset.top - originalElementOffset.top;
+
+			pinElement(pin_ID).css('transform', 'translate('+ (offsetDiffLeft * iframeScale) +'px, '+ (offsetDiffTop * iframeScale) +'px)');
+
+		}
+
+	});
+
 
 }
 
@@ -4585,3 +4628,45 @@ function nl2br(str, is_xhtml) {
     var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
+
+jQuery.fn.onPositionChanged = function (trigger, millis) {
+    if (millis == null) millis = 100;
+    var o = $(this[0]); // our jquery object
+    if (o.length < 1) return o;
+    var lastPos = null;
+    var lastOff = null;
+    var lastWidth = null;
+    var lastOffWidth = null;
+    setInterval(function () {
+        if (o == null || o.length < 1) return o; // abort if element is non existend eny more
+        if (lastPos == null) lastPos = o.position();
+        if (lastOff == null) lastOff = o.offset();
+        if (lastWidth == null) lastWidth = o.width();
+        if (lastOffWidth == null) lastOffWidth = o[0].offsetWidth;
+        var newPos = o.position();
+        var newOff = o.offset();
+        var newWidth = o.width();
+        var newOffWidth = o[0].offsetWidth;
+        if (lastPos.top != newPos.top || lastPos.left != newPos.left) {
+            $(this).trigger('onPositionChanged', { lastPos: lastPos, newPos: newPos });
+            if (typeof (trigger) == "function") trigger(lastPos, newPos);
+            lastPos = o.position();
+        }
+        if (lastOff.top != newOff.top || lastOff.left != newOff.left) {
+            $(this).trigger('onPositionChanged', { lastOff: lastOff, newOff: newOff});
+            if (typeof (trigger) == "function") trigger(lastOff, newOff);
+            lastOff= o.offset();
+        }
+        if (lastWidth != newWidth) {
+            $(this).trigger('onPositionChanged', { lastWidth: lastWidth, newWidth: newWidth});
+            if (typeof (trigger) == "function") trigger(lastWidth, newWidth);
+            lastWidth= o.width();
+        }
+        if (lastOffWidth != newOffWidth) {
+            $(this).trigger('onPositionChanged', { lastOffWidth: lastOffWidth, newOffWidth: newOffWidth});
+            if (typeof (trigger) == "function") trigger(lastOffWidth, newOffWidth);
+            lastWidth= o.width();
+        }
+    }, millis);
+    return o;
+};

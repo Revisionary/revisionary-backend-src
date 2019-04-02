@@ -22,6 +22,12 @@ var Notifications = {};
 var notificationTime = 3000;
 var notificationTimeout;
 
+
+
+var elementOriginalPositions = {};
+
+
+
 // HTML Element Index
 var fileIndexed = false;
 var indexCount = 0;

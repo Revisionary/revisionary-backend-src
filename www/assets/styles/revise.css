@@ -333,7 +333,7 @@ html, body {
     cursor: pointer;
     left: 0;
     top: 0;
-    transition: opacity 1000ms; }
+    transition: opacity 1000ms, transform 200ms; }
     #pins > pin:hover {
       opacity: 0.5; }
 
