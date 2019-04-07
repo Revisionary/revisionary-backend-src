@@ -158,6 +158,7 @@ html, body {
 
 			.pin {
 				margin-bottom: 15px;
+				position: static !important;
 
 				&:hover pin:before {
 					opacity: 0;

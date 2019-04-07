@@ -642,14 +642,15 @@ function runTheInspector() {
 			//console.log('SCROLLIIIIIIIING');
 
 
-		    // Re-Locate the pins
+		    // Re-Locate all the pins
 		    relocatePins();
 
 		}).on('keydown', function(e) { // Detect the scroll to re-position pins
 
 
-			if (e.shiftKey) {
+			if (e.shiftKey && !pinWindowOpen && currentPinType != "browse") {
 
+				shifted = true;
 				console.log('SHIFTED');
 
 				currentPinTypeWas = currentPinType;
@@ -661,10 +662,17 @@ function runTheInspector() {
 
 		}).on('keyup', function(e) { // Detect the scroll to re-position pins
 
-			console.log('UNSHIFTED');
 
-			currentPinType = currentPinTypeWas;
-			toggleCursorActive(false, true); // Force Open
+			if (shifted && !pinWindowOpen) {
+
+				shifted = false;
+				console.log('UNSHIFTED');
+
+				currentPinType = currentPinTypeWas;
+				toggleCursorActive(false, true); // Force Open
+
+			}
+
 
 		});
 
@@ -850,7 +858,7 @@ function runTheInspector() {
 			//console.log('RESIZIIIIIIIING');
 
 
-		    // Re-Locate the pins
+		    // Re-Locate all the pins
 		    relocatePins();
 
 		});
@@ -1350,18 +1358,34 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	stopAutoRefresh();
 
 
-	// Element Info, gather from the focuser
+
+	// PIN LOCATION:
+	// Element info
 	var selectedElement = iframeElement(element_index);
+	var elementOffset = selectedElement.offset();
+	var elementTop = elementOffset.top;
+	var elementLeft = elementOffset.left;
 
 
-	// Put it just on the pointer point
-	pinX = parseFloat(pinX - 45/2).toFixed(5);
-	pinY = parseFloat(pinY - 45/2).toFixed(5);
+	// Float value
+	pinX = parseFloat(pinX).toFixed(5);
+	pinY = parseFloat(pinY).toFixed(5);
 
 
-	console.log('Put the Pin #' + currentPinNumber, pinX, pinY, cursorType, pinPrivate, element_index);
+	// The coordinates by the element
+	elementPinX = parseFloat(pinX - elementLeft).toFixed(5);
+	elementPinY = parseFloat(pinY - elementTop).toFixed(5);
 
 
+	console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
+	console.log('PinX: ' + pinX, ' PinY: ' + pinY);
+	console.log('TO REGISTER', elementPinX, elementPinY);
+	//console.log('Put the Pin #' + currentPinNumber, pinX, pinY, cursorType, pinPrivate, element_index);
+
+
+
+
+	// MODIFICATION CHECK:
 	// Detect modification info
 	var modificationType = null;
 	var modificationOriginal = null;
@@ -1382,14 +1406,8 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 
+	// CREATE THE PIN:
 	var temporaryPinID = makeID();
-
-
-	// Add the temporary pin to the DOM
-	$('#pins').append(
-		pinTemplate(currentPinNumber, temporaryPinID, '0', element_index, null, modificationType, pinPrivate, cursorType, pinX, pinY, true)
-	);
-
 
 
 	// Prepare the new pin info
@@ -1403,15 +1421,21 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		pin_css: null,
 		pin_private: parseInt(pinPrivate),
 		pin_type: cursorType,
-		pin_x: pinX,
-		pin_y: pinY,
+		pin_x: elementPinX.toString(),
+		pin_y: elementPinY.toString(),
 		user_ID: parseInt(user_ID)
 	};
 
 
 	// Add it to the pins global
 	Pins.push(newPinInfo);
-	var pinIndex = Pins.indexOf(newPinInfo); //console.error('HEYYYYYYYYYY', pinIndex, Pins);
+	var pinIndex = Pins.indexOf(newPinInfo);
+
+
+	// Add the temporary pin to the DOM
+	$('#pins').append(
+		pinTemplate(currentPinNumber, temporaryPinID, '0', element_index, null, modificationType, pinPrivate, cursorType, elementPinX, elementPinY, true)
+	);
 
 
 
@@ -1420,79 +1444,53 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 
-
-    //console.log('Add pin to the DB !!!');
-
 	// Start the process
 	var newPinProcessID = newProcess(null, "newPinProcess");
 
+	// Add pin to the DB
+    ajax('pin-add',
+    {
+		'pin_x' 	 			 : elementPinX,
+		'pin_y' 	 			 : elementPinY,
+		'pin_type' 	 			 : cursorType,
+		'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
+		'pin_private'			 : pinPrivate,
+		'pin_element_index' 	 : element_index,
+		'pin_device_ID'			 : device_ID
 
-	// Try taking a screenshot
-	//screenshot( iframeElement(element_index) ).then(function(canvas) {
-
-
-		// Image Data
-		//var imgDataURL = imageDataUrl(canvas);
-		var imgDataURL = "";
-
-
-		// Add pin to the DB
-	    ajax('pin-add',
-	    {
-			'pin_x' 	 			: pinX,
-			'pin_y' 	 			: pinY,
-			'pin_type' 	 			: cursorType,
-			'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
-			'pin_private'			: pinPrivate,
-			'pin_element_index' 	: element_index,
-			'pin_device_ID'			: device_ID,
-			'imgDataURL'			: imgDataURL
-
-		}).done(function(result){
-
-			console.log(result.data);
-
-			var realPinID = result.data.real_pin_ID;
-			var newPin = pinElement('[data-pin-id="'+ temporaryPinID +'"]');
-
-			//console.log('REAL PIN ID: '+realPinID);
+	}).done(function(result){
 
 
-			// Update the pin ID
-			newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
-			pinWindow('[data-pin-id="'+ temporaryPinID +'"]').attr('data-pin-id', realPinID).removeAttr('temporary');
-			if (typeof Pins[pinIndex] !== 'undefined') Pins[pinIndex].pin_ID = realPinID;
-			window.location.hash = "#"+realPinID;
+		console.log(result.data);
+
+		var realPinID = result.data.real_pin_ID; //console.log('REAL PIN ID: '+realPinID);
+		var newPin = pinElement('[data-pin-id="'+ temporaryPinID +'"]');
 
 
-			// Remove the loading text on pin window
-			pinWindow(realPinID).removeClass('loading');
+		// Update the pin ID
+		newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
+		pinWindow('[data-pin-id="'+ temporaryPinID +'"]').attr('data-pin-id', realPinID).removeAttr('temporary');
+		if (typeof Pins[pinIndex] !== 'undefined') Pins[pinIndex].pin_ID = realPinID;
+		window.location.hash = "#" + realPinID;
 
 
-			// Stick the pin
-			stickPin(realPinID);
+		// Remove the loading text on pin window
+		pinWindow(realPinID).removeClass('loading');
 
 
-			// Make draggable
-			makeDraggable(newPin);
+		// Stick the pin
+		stickPin(realPinID);
 
 
-			// Finish the process
-			endProcess(newPinProcessID);
+		// Make draggable
+		makeDraggable(newPin);
 
 
-			// Take "Before" screenshot
-			beforeScreenshot(realPinID);
-
-		});
+		// Finish the process
+		endProcess(newPinProcessID);
 
 
-
-	//});
-
-
-	// Re-Locate the pins
-	relocatePins();
+	});
 
 
 	// Increase the pin number
@@ -1815,76 +1813,82 @@ function changePinNumber(pinNumber) {
 }
 
 
-// Re-Locate Pins
-function relocatePins(pin_selector = null, x = null, y = null, onlyPinWindow = false) {
+// Relocate a pin
+function relocatePin(pin_ID, x = null, y = null) {
 
 
 	// Update the location and size values first
 	updateLocationValues();
 
 
-	if ( pin_selector ) {
+	// Pin info
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+	var pinIndex = Pins.indexOf(pin);
 
 
-		pin_ID = pin_selector.attr('data-pin-id');
-
-
-	    var scrolled_pin_x = x > 0 ? x : 0;
-	    var scrolled_pin_y = y > 0 ? y : 0;
-
-	    scrolled_pin_x = x < iframeWidth - 45 ? scrolled_pin_x : iframeWidth - 45;
-	    scrolled_pin_y = y < iframeHeight - 45 ? scrolled_pin_y : iframeHeight - 45;
-
-		pin_selector.css('left', scrolled_pin_x + "px");
-		pin_selector.css('top', scrolled_pin_y + "px");
-
-
-		var realPinX = (scrolled_pin_x / iframeScale) + scrollOffset_left;
-		var realPinY = (scrolled_pin_y / iframeScale) + scrollOffset_top;
-
-
-		// Update the registered pin location
-	    pin_selector.attr('data-pin-x', realPinX);
-		pin_selector.attr('data-pin-y', realPinY );
-
-
-		// Update the registered pin window location as well, only if current pin is moving
-		pinWindow(pin_ID).attr('data-pin-x', realPinX);
-		pinWindow(pin_ID).attr('data-pin-y', realPinY);
-
-
-	} else if (!onlyPinWindow) {
-
-
-	    $('#pins > pin').each(function() {
-
-		    var pin = $(this);
-
-
-		    var pin_x = parseInt(pin.attr('data-pin-x')) * iframeScale;
-		    var pin_y = parseInt(pin.attr('data-pin-y')) * iframeScale;
-
-
-		    var scrolled_pin_x = pin_x - scrollX;
-		    var scrolled_pin_y = pin_y - scrollY;
-
-
-		    pin.css('left', scrolled_pin_x + "px");
-			pin.css('top', scrolled_pin_y + "px");
-
-	    });
-
-
+	// Use the registered locations if not specified
+	if ( x == null || y == null ) {
+		x = pin.pin_x;
+		y = pin.pin_y;
 	}
 
 
-	// Current pin window location
-	var window_x = parseInt(pinWindow().attr('data-pin-x')) * iframeScale;
-	var window_y = parseInt(pinWindow().attr('data-pin-y')) * iframeScale;
+	// Get the locations
+	var pinLocation = locationsByElement(pin.pin_element_index, x, y);
 
 
-    var scrolled_window_x = window_x + offset.left - scrollX + 50;
-    var scrolled_window_y = window_y + offset.top - scrollY + 50;
+
+	//console.log('RELOCATING PIN #' + pin_ID, pinLocation );
+
+
+
+	// Update the global 'pins'
+	Pins[pinIndex].pin_x = x;
+	Pins[pinIndex].pin_y = y;
+
+
+	pinElement(pin_ID)
+		.attr('data-pin-x', x)
+		.attr('data-pin-y', y)
+		.css('left', pinLocation.x)
+		.css('top', pinLocation.y);
+
+
+
+	if (pinWindowOpen) relocatePinWindow(pin_ID);
+
+}
+
+
+// Relocate the pin window
+function relocatePinWindow(pin_ID) {
+
+
+	// Update the location and size values first
+	updateLocationValues();
+
+
+	// Pin info
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+
+
+	// Get the pin locations
+	var pinLocation = {
+		x : parseFloat(pinElement('[data-pin-id="'+ pin_ID +'"]').css('left')),
+		y : parseFloat(pinElement('[data-pin-id="'+ pin_ID +'"]').css('top'))
+	}
+
+
+	console.log('RELOCATING PIN WINDOW #' + pin_ID, pinLocation );
+
+
+
+	// Pin window location
+    var scrolled_window_x = offset.left + pinLocation.x + 50;
+    var scrolled_window_y = offset.top + pinLocation.y + 50;
 
 
 	var spaceWidth = offset.left + iframeWidth + offset.left - 15;
@@ -1917,8 +1921,65 @@ function relocatePins(pin_selector = null, x = null, y = null, onlyPinWindow = f
 
 
 	// Relocate the pin window
-	pinWindow().not('.moved').css('left', new_scrolled_window_x + "px");
-	pinWindow().not('.moved').css('top', new_scrolled_window_y + "px");
+	pinWindow('[data-pin-id="'+ pin_ID +'"]').not('.moved')
+		.attr('data-pin-x', pin.pin_x)
+		.attr('data-pin-y', pin.pin_y)
+		.css('left', new_scrolled_window_x + "px")
+		.css('top', new_scrolled_window_y + "px");
+
+}
+
+
+// Get real pin location
+function locationsByElement(element_index, pin_x, pin_y) {
+
+
+	var selectedElement = iframeElement(element_index);
+	var elementOffset = selectedElement.offset();
+	var elementTop = elementOffset.top;
+	var elementLeft = elementOffset.left;
+
+
+	// The coordinates by the element
+	var elementPinX = elementLeft + parseFloat(pin_x);
+	var elementPinY = elementTop + parseFloat(pin_y);
+
+
+	// With the iframe scale
+	elementPinX = parseFloat(elementPinX) * iframeScale;
+	elementPinY = parseFloat(elementPinY) * iframeScale;
+
+
+	// Middle of the pin
+	elementPinX = elementPinX - (45 / 2);
+	elementPinY = elementPinY - (45 / 2);
+
+
+	// Scroll
+	elementPinX = elementPinX - scrollX;
+	elementPinY = elementPinY - scrollY;
+
+
+	return {
+		x : elementPinX,
+		y : elementPinY
+	}
+
+}
+
+
+// Re-Locate Pins
+function relocatePins() {
+
+
+	// Relocate all the pins
+    $('#pins > pin').each(function() {
+
+	    var pin_ID = parseInt($(this).attr('data-pin-id'));
+	    relocatePin(pin_ID);
+
+    });
+
 
 }
 
@@ -1949,30 +2010,65 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 		drag: function( event, ui ) {
 
 
-			//console.log('DRAGGING ', ui.position.top, ui.position.left);
-
-
 			// Stop auto refresh
 			stopAutoRefresh();
 
 
-			// Fixed decimal for DB structure
+
+			//console.log('PIN: ', ui.position.left, ui.position.top);
+
+
+
+			// Get the pin ID
+			var pin_ID = parseInt($(this).attr('data-pin-id'));
+
+
+
+			// PIN LOCATION:
+			// Element info
+			var element_index = parseInt($(this).attr('data-revisionary-index'));
+			var selectedElement = iframeElement(element_index);
+			var elementOffset = selectedElement.offset();
+			var elementLeft = elementOffset.left;
+			var elementTop = elementOffset.top;
+
+
+			// Get the final positions
+			var pinX = (ui.position.left + scrollX + 45 / 2 ) / iframeScale;
+			var pinY = (ui.position.top + scrollY + 45 / 2 ) / iframeScale;
+
+
+			// Float value
+			pinX = parseFloat(pinX).toFixed(5);
+			pinY = parseFloat(pinY).toFixed(5);
+
+
+			// The coordinates by the element
+			elementPinX = parseFloat(pinX - elementLeft).toFixed(5);
+			elementPinY = parseFloat(pinY - elementTop).toFixed(5);
+
+
+			console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
+			console.log('PinX: ' + pinX, ' PinY: ' + pinY);
+			console.log('TO REGISTER', elementPinX, elementPinY);
+
+
+
+
+			// Position difference check
 			var leftDest = Math.abs(ui.originalPosition.left - ui.position.left);
 			var topDest = Math.abs(ui.originalPosition.top - ui.position.top);
-
-			console.log('DIFF: ', leftDest, topDest);
-
 
 			if (leftDest + topDest > 4) {
 				pinDragging = true;
 
 				console.log('DRAGGING!!!');
+
 			}
 
 
-
 			// If pin window open, attach it to the pin
-			relocatePins($(this), ui.position.left, ui.position.top, true);
+			relocatePin(pin_ID, elementPinX, elementPinY);
 
 
 		},
@@ -1990,17 +2086,6 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 			focusedPin = $(this);
 			var pin_ID = focusedPin.attr('data-pin-id');
 
-
-			// Get the final positions
-			var pos_x = ui.position.left;
-			var pos_y = ui.position.top;
-
-
-			//console.log('DROPPED ', pos_x, pos_y);
-
-
-			// Update the pin location attributes
-			relocatePins(focusedPin, pos_x, pos_y);
 
 
 			// Get the updated positions
@@ -2358,6 +2443,10 @@ function openPinWindow(pin_ID, firstTime = false) {
 		pinWindow().removeClass('removing');
 
 
+		// Relocate the window
+		relocatePinWindow(pin_ID);
+
+
 		// Reveal it
 		pinWindow().addClass('active');
 		pinWindowOpen = true;
@@ -2387,26 +2476,6 @@ function openPinWindow(pin_ID, firstTime = false) {
 
 		// Show the pin
 		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
-
-
-		// Relocate the window
-		relocatePins();
-
-
-	/*
-		// Initiate the Notification
-		initiateNotification(pin_ID);
-
-
-		// Stop the latest notification timeout
-		clearTimeout(notificationTimeout);
-		notificationTimeout = null;
-		console.log('Notification send countdown stopped.');
-	*/
-
-
-		// Add the before screenshot
-		if (!firstTime) beforeScreenshot(pin_ID);
 
 
 	} catch (e) {
@@ -2650,8 +2719,6 @@ function applyPins(oldPins = []) {
 
 	});
 
-	console.log('ORIIIIIG', elementOriginalPositions);
-
 
 	// Update the cursor number with the existing pins
 	currentPinNumber = $('#pins > pin').length + 1;
@@ -2660,10 +2727,6 @@ function applyPins(oldPins = []) {
 
 	// Make pins draggable
 	makeDraggable();
-
-
-	// Relocate the pins
-	relocatePins();
 
 
 	// Update the pins list tab
@@ -2680,35 +2743,14 @@ function applyPins(oldPins = []) {
 function stickPin(pin_ID) {
 
 	var pin = getPin(pin_ID);
-	var pinIndex = Pins.indexOf(pin);
 	var element_index = pin.pin_element_index;
 
 
+	iframeElement(element_index).onPositionChanged(function() {
 
-	setTimeout(function() {
-
-		var elementOffset = iframeElement(element_index).offset(); console.log('REGISTERED', elementOffset);
-		elementOriginalPositions[element_index] = elementOffset;
-
-		//pinElement(pin_ID).css('transform', 'translate('+ (elementOffset.left * iframeScale) +'px)');
-
-	}, 1000);
-
-/*
-	iframeElement(element_index).onPositionChanged(function(asd, elementOffset) {
-
-		if ( typeof elementOriginalPositions[element_index] !== 'undefined' ) {
-
-			var originalElementOffset = elementOriginalPositions[element_index];
-			var offsetDiffLeft = elementOffset.left - originalElementOffset.left;
-			var offsetDiffTop = elementOffset.top - originalElementOffset.top;
-
-			pinElement(pin_ID).css('transform', 'translate('+ (offsetDiffLeft * iframeScale) +'px, '+ (offsetDiffTop * iframeScale) +'px)');
-
-		}
+		relocatePin(pin_ID);
 
 	});
-*/
 
 
 }
@@ -3377,7 +3419,7 @@ function getComments(pin_ID, commentsWrapper = null) {
 
 
 		// Relocate the window
-		relocatePins();
+		relocatePinWindow(pin_ID);
 
 
 	});
@@ -3849,6 +3891,10 @@ function isPinWindowOpen(selector = "", byElementIndex = false) {
 // Pin template
 function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary = false, size = "big") {
 
+
+	var pinLocation = locationsByElement(pin_element_index, pin_x, pin_y);
+
+
 	return '\
 		<pin \
 			class="pin '+size+'" \
@@ -3861,8 +3907,9 @@ function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_mo
 			data-pin-y="'+pin_y+'" \
 			data-pin-modification-type="'+pin_modification_type+'" \
 			data-revisionary-index="'+pin_element_index+'" \
-			data-revisionary-edited="'+( pin_modification != null ? '1' : '0' )+'" \
+			data-revisionary-edited="'+ ( pin_modification != null ? '1' : '0' ) +'" \
 			data-revisionary-showing-changes="1" \
+			style="left: '+ pinLocation.x +'px; top: '+ pinLocation.y +'px;" \
 		>'+pin_number+'</pin> \
 	';
 
@@ -4635,7 +4682,7 @@ function nl2br(str, is_xhtml) {
 }
 
 jQuery.fn.onPositionChanged = function (trigger, millis) {
-    if (millis == null) millis = 100;
+    if (millis == null) millis = 10;
     var o = $(this[0]); // our jquery object
     if (o.length < 1) return o;
     var lastPos = null;

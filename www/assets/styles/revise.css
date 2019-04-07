@@ -93,7 +93,8 @@ html, body {
   #top-bar .pins .pins-list *:not(i) {
     font-weight: lighter; }
   #top-bar .pins .pins-list .pin {
-    margin-bottom: 15px; }
+    margin-bottom: 15px;
+    position: static !important; }
     #top-bar .pins .pins-list .pin:hover pin:before {
       opacity: 0; }
   #top-bar .pins .pins-list .pin-title {
