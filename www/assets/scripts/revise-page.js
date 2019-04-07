@@ -92,6 +92,19 @@ $(function() {
 	});
 
 
+	// Pin Window Opener
+	$(document).on('click', '.pins-list .pin', function(e) {
+
+
+		var pin_ID = parseInt( $(this).attr('data-pin-id') );
+		openPinWindow(pin_ID);
+
+
+		e.preventDefault();
+		return false;
+	});
+
+
 
 	// Pin mode change
 	$('.pin-types li:not(.deactivator) a').click(function(e) {
