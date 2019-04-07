@@ -625,7 +625,7 @@ function runTheInspector() {
 
 
 				// Close the pin window if open and not cursor active and not content editable
-				if ( pinWindowOpen && !iframeElement(focused_element_index).is('[contenteditable]') )
+				if ( pinWindowOpen && !iframeElement(focused_element_index).is('[contenteditable]') && !shifted )
 					closePinWindow(true);
 
 
@@ -647,10 +647,12 @@ function runTheInspector() {
 
 		}).on('keydown', function(e) { // Detect the scroll to re-position pins
 
+			if (e.shiftKey) shifted = true;
 
-			if (e.shiftKey && !pinWindowOpen && currentPinType != "browse") {
 
-				shifted = true;
+			if (shifted && !pinWindowOpen && currentPinType != "browse") {
+
+				shiftToggle = true;
 				console.log('SHIFTED');
 
 				currentPinTypeWas = currentPinType;
@@ -663,15 +665,18 @@ function runTheInspector() {
 		}).on('keyup', function(e) { // Detect the scroll to re-position pins
 
 
-			if (shifted && !pinWindowOpen) {
+			if (shifted && shiftToggle && !pinWindowOpen && currentPinType == "browse") {
 
-				shifted = false;
+				shiftToggle = false;
 				console.log('UNSHIFTED');
 
 				currentPinType = currentPinTypeWas;
 				toggleCursorActive(false, true); // Force Open
 
 			}
+
+
+			shifted = false;
 
 
 		});
@@ -1729,47 +1734,50 @@ function scrollToPin(pin_ID, openWindow = false, noDelay = false) {
 	console.log('SCROLL TO PIN #' + pin_ID);
 
 	var delay = noDelay ? 0 : 500;
-	var pin = pinElement(pin_ID);
+
+
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+	var element_index = pin.pin_element_index;
+
+
+	iframeElement('html, body').stop();
+	if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
+
+	pinAnimationTimeout = setTimeout(function() {
+
+
+		// Get the locations
+		var pinLocation = locationsByElement(element_index, pin.pin_x, pin.pin_y, true);
 
 
 
-	if (pin.length) {
+		console.log('SCROLLING TO PIN #' + pin_ID, pinLocation );
 
 
-		// Get pin location
-		var pinX =  pin.attr('data-pin-x');
-		var pinY =  pin.attr('data-pin-y');
+
+		pinAnimation = iframeElement('html, body').stop().animate({
 
 
-		iframeElement('html, body').stop();
-		if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
-
-		pinAnimationTimeout = setTimeout(function() {
-
-			pinAnimation = iframeElement('html, body').stop().animate({
+			scrollTop: parseInt( pinLocation.y / iframeScale ) - ($('.iframe-container').height() / 2) + 22.5
+			//scrollLeft: parseInt( pinLocation.x ) - ($('.iframe-container').width() / 2) + 22.5
 
 
-				scrollTop: parseInt( pinY ) - ($('.iframe-container').height() / 2) + 22.5
-				//scrollLeft: pinX !!!
+		}, delay, 'swing').promise().then(function() {
 
 
-			}, delay, 'swing').promise().then(function() {
+			if (openWindow)	openPinWindow(pin_ID);
 
 
-				if (openWindow)	openPinWindow(pin_ID);
+		});
 
 
-			});
+	}, delay);
 
 
-		}, delay);
+	return true;
 
-
-		return true;
-	}
-
-
-	return false;
 }
 
 
@@ -1862,16 +1870,23 @@ function relocatePin(pin_ID, x = null, y = null) {
 
 
 // Relocate the pin window
-function relocatePinWindow(pin_ID) {
+function relocatePinWindow(pin_ID = null) {
 
 
-	// Update the location and size values first
-	updateLocationValues();
+	if (pin_ID == null) pin_ID = parseInt(pinWindow().attr('data-pin-id'));
 
 
 	// Pin info
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
+
+
+	// Check current pin window ID
+	if ( pinWindow().attr('data-pin-id') != pin_ID ) return false;
+
+
+	// Update the location and size values first
+	updateLocationValues();
 
 
 
@@ -1882,7 +1897,7 @@ function relocatePinWindow(pin_ID) {
 	}
 
 
-	console.log('RELOCATING PIN WINDOW #' + pin_ID, pinLocation );
+	//console.log('RELOCATING PIN WINDOW #' + pin_ID, pinLocation );
 
 
 
@@ -1899,25 +1914,40 @@ function relocatePinWindow(pin_ID) {
     var new_scrolled_window_y = scrolled_window_y < spaceHeight - pinWindowHeight ? scrolled_window_y : spaceHeight - pinWindowHeight;
 
 
-	// Change the side of the window
+	// X: Change the side of the window
 	if (
 		scrolled_window_x >= spaceWidth - pinWindowWidth &&
 		scrolled_window_y >= spaceHeight - pinWindowHeight
 	) {
 
-		//console.log('OUCH!');
+		console.log('OUCH!');
 		new_scrolled_window_x = scrolled_window_x - pinWindowWidth - 55;
+
+
+		// Make it stay in the viewport
+		if (new_scrolled_window_x + pinWindowWidth > spaceWidth) new_scrolled_window_x = spaceWidth - pinWindowWidth;
 
 	}
 
+	if (new_scrolled_window_x < 10) new_scrolled_window_x = 10;
 
-	// Make the pin window stay after scrolling up
+
+
+	// Y: Make the pin window stay after scrolling up
 	if (scrolled_window_y > new_scrolled_window_y + pinWindowHeight) {
 
-		//console.log('GOODBYE!');
+		console.log('GOODBYE!');
 		new_scrolled_window_y = scrolled_window_y - pinWindowHeight;
 
 	}
+
+
+
+
+	//console.log('SPACE #' + new_scrolled_window_x, new_scrolled_window_y );
+	console.log('PIN WINDOW RELOCATING #' + pin_ID, new_scrolled_window_x, new_scrolled_window_y );
+
+
 
 
 	// Relocate the pin window
@@ -1931,7 +1961,7 @@ function relocatePinWindow(pin_ID) {
 
 
 // Get real pin location
-function locationsByElement(element_index, pin_x, pin_y) {
+function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
 
 
 	var selectedElement = iframeElement(element_index);
@@ -1956,8 +1986,12 @@ function locationsByElement(element_index, pin_x, pin_y) {
 
 
 	// Scroll
-	elementPinX = elementPinX - scrollX;
-	elementPinY = elementPinY - scrollY;
+	if (!noScroll) {
+
+		elementPinX = elementPinX - scrollX;
+		elementPinY = elementPinY - scrollY;
+
+	}
 
 
 	return {
@@ -2695,7 +2729,7 @@ function applyPins(oldPins = []) {
 
 
 	// Revert the changes first
-	var showingOriginal = revertChanges([], oldPins); // !!! REVERT THE CSS CHANGES
+	var showingOriginal = revertChanges([], oldPins);
 
 
 	// Empty the pins

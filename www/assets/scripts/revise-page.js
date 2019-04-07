@@ -311,7 +311,7 @@ $(function() {
 
 
 		// Update the location and size values first
-		relocatePins(null, null, null, true);
+		relocatePinWindow();
 
 
 		e.preventDefault();
@@ -655,7 +655,7 @@ $(function() {
 		}, 1000);
 
 
-		relocatePins(null, null, null, true);
+		relocatePinWindow(pin_ID);
 		e.preventDefault();
 
 	});
@@ -872,7 +872,7 @@ $(function() {
 
 				//pinDragging = true;
 
-				//relocatePins(focusedPin, pos_x, pos_y);
+				//relocatePin();
 
 				//console.log('PIN IS MOVING!', pos_x, pos_y);
 
@@ -966,9 +966,12 @@ $(function() {
     $(document).keydown(function(e) {
 
 
-		if (e.shiftKey && !pinWindowOpen && currentPinType != "browse") {
+		if (e.shiftKey) shifted = true;
 
-			shifted = true;
+
+		if (shifted && !pinWindowOpen && currentPinType != "browse") {
+
+			shiftToggle = true;
 			console.log('SHIFTED');
 
 			currentPinTypeWas = currentPinType;
@@ -983,15 +986,18 @@ $(function() {
     $(document).keyup(function(e) {
 
 
-		if (shifted && !pinWindowOpen) {
+		if (shifted && shiftToggle && !pinWindowOpen && currentPinType == "browse") {
 
-			shifted = false;
+			shiftToggle = false;
 			console.log('UNSHIFTED');
 
 			currentPinType = currentPinTypeWas;
 			toggleCursorActive(false, true); // Force Open
 
 		}
+
+
+		shifted = false;
 
     });
 
