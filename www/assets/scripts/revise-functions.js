@@ -1183,59 +1183,6 @@ function stopAutoRefresh() {
 
 
 
-// SCREENSHOTS:
-// Take screenshot of an element
-function screenshot(element) {
-
-	var elementColor = element.css('color');
-	var brightness = lightOrDark(elementColor);
-	//console.log('Element Color is ' + brightness, elementColor);
-
-
-	// Take screenshot
-	return html2canvas( element[0], {
-		async: false,
-    	allowTaint: true,
-    	backgroundColor: brightness == "light" ? "black" : "white",
-    	scale: 1
-    });
-
-
-}
-
-
-// Get the image URL from canvas
-function imageDataUrl(canvas) {
-
-	try {
-
-
-		// Image Data
-		var dataURL = canvas.toDataURL('image/jpeg', 0.5); //console.log(dataURL);
-
-
-		// Data Size Calculation
-		var base64String = dataURL.split(",")[1];
-	    var nonBlob = stringToBytesFaster(base64String).length;
-	    var imageSizeKB = nonBlob/1000; //console.log("non blob", imageSizeKB, "KB");
-
-
-		// Size check !!!
-		return dataURL;
-
-
-	} catch (e) {
-
-		//console.error('Screenshot error', e);
-		return "";
-
-	}
-
-
-}
-
-
-
 // PINS:
 // DB: Get up-to-date pins and changes
 function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
@@ -1608,35 +1555,22 @@ function completePin(pin_ID, complete, imgData = null) {
 	var completePinProcessID = newProcess(null, "pin"+(complete ? 'Complete' : 'Incomplete'));
 
 
-	// Try taking a screenshot
-	//screenshot( iframeElement(element_index) ).then(function(canvas) {
+    // Update pin from the DB
+	ajax('pin-complete', {
+
+		'pin_ID' 	   : pin_ID,
+		'complete'	   : (complete ? 'complete' : 'incomplete')
+
+	}).done(function(result) {
+
+		console.log("RESULT: ", result.data);
 
 
-		// Image Data
-		//var imgDataURL = imageDataUrl(canvas);
-		var imgDataURL = "";
+		// Finish the process
+		endProcess(completePinProcessID);
 
+	});
 
-	    // Update pin from the DB
-		ajax('pin-complete', {
-
-			'pin_ID' 	   : pin_ID,
-			'complete'	   : (complete ? 'complete' : 'incomplete'),
-			'imgDataURL'   : imgDataURL
-
-		}).done(function(result) {
-
-			console.log("RESULT: ", result.data);
-
-
-			// Finish the process
-			endProcess(completePinProcessID);
-
-		});
-
-
-
-	//});
 
 }
 
@@ -1945,7 +1879,7 @@ function relocatePinWindow(pin_ID = null) {
 
 
 	//console.log('SPACE #' + new_scrolled_window_x, new_scrolled_window_y );
-	console.log('PIN WINDOW RELOCATING #' + pin_ID, new_scrolled_window_x, new_scrolled_window_y );
+	//console.log('PIN WINDOW RELOCATING #' + pin_ID, new_scrolled_window_x, new_scrolled_window_y );
 
 
 
@@ -2530,8 +2464,6 @@ function closePinWindow(removePinIfEmpty = true) {
 
 
 	var pin_ID = pinWindow().attr('data-pin-id');
-	var beforeImage = typeof Notifications[pin_ID] === 'undefined' ? "" : Notifications[pin_ID].before;
-	//console.log('BEFORE IMAGE WAS: ', beforeImage);
 
 
 	if (pinWindowOpen) console.log('PIN WINDOW CLOSING.');
@@ -2597,7 +2529,7 @@ function closePinWindow(removePinIfEmpty = true) {
 	// Notify the users if this was a new pin
 	if ( pinWindow(pin_ID).attr('data-pin-new') == "yes" && !pinRemoved ) {
 
-		newPinNotification(pin_ID, beforeImage);
+		newPinNotification(pin_ID);
 
 	}
 
@@ -2605,7 +2537,7 @@ function closePinWindow(removePinIfEmpty = true) {
 	// Notify the users if new comment added
 	else if ( pinWindow(pin_ID).attr('data-new-notification') == "comment") {
 
-		newCommentNotification(pin_ID, beforeImage);
+		newCommentNotification(pin_ID);
 
 	}
 
@@ -2613,7 +2545,7 @@ function closePinWindow(removePinIfEmpty = true) {
 	// Notify the users if this was completed
 	else if ( pinWindow(pin_ID).attr('data-new-notification') == "complete") {
 
-		completeNotification(pin_ID, "");
+		completeNotification(pin_ID);
 
 	}
 
@@ -2621,7 +2553,7 @@ function closePinWindow(removePinIfEmpty = true) {
 	// Notify the users if this was incompleted
 	else if ( pinWindow(pin_ID).attr('data-new-notification') == "incomplete") {
 
-		inCompleteNotification(pin_ID, "");
+		inCompleteNotification(pin_ID);
 
 	}
 
@@ -2636,11 +2568,6 @@ function closePinWindow(removePinIfEmpty = true) {
 	// Enable the iframe
 	//$('#the-page').css('pointer-events', '');
 
-
-/*
-	// Send the unsent Notification
-	sendNotifications(pin_ID);
-*/
 
 }
 
@@ -3499,53 +3426,39 @@ function sendComment(pin_ID, message) {
 	var newCommentProcessID = newProcess(null, "newPinCommentProcess");
 
 
-	// Try taking a screenshot
-	//screenshot( iframeElement(element_index) ).then(function(canvas) {
+
+    ajax('comment-add', {
+
+		'pin_ID'	: pin_ID,
+		'message'	: message,
+		'newPin'	: newPin
+
+	}).done(function(result){
 
 
-		// Image Data
-		//var imgDataURL = imageDataUrl(canvas);
-		var imgDataURL = "";
+		console.log(result.data);
 
 
-	    ajax('comment-add', {
-
-			'pin_ID'	: pin_ID,
-			'message'	: message,
-			'newPin'	: newPin,
-			'imgDataURL': imgDataURL
-
-		}).done(function(result){
+		// List the comments
+		getComments(pin_ID);
 
 
-			console.log(result.data);
+		// Finish the process
+		endProcess(newCommentProcessID);
 
 
-			// List the comments
-			getComments(pin_ID);
+		// Enable the inputs
+		$('#pin-window #comment-sender input, #pin-window #comment-sender textarea').prop('disabled', false);
 
 
-			// Finish the process
-			endProcess(newCommentProcessID);
+		// Clean the text in the message box and refocus
+		$('#pin-window #comment-sender .comment-input').val('').focus();
+		autosize.update($('#pin-window #comment-sender .comment-input'));
 
 
-			// Enable the inputs
-			$('#pin-window #comment-sender input, #pin-window #comment-sender textarea').prop('disabled', false);
+		//console.log('Message SENT: ', message);
 
-
-			// Clean the text in the message box and refocus
-			$('#pin-window #comment-sender .comment-input').val('').focus();
-			autosize.update($('#pin-window #comment-sender .comment-input'));
-
-
-			//console.log('Message SENT: ', message);
-
-		});
-
-
-
-
-	//});
+	});
 
 
 }
@@ -3600,153 +3513,10 @@ function deleteComment(pin_ID, comment_ID) {
 
 
 // NOTIFICATIONS:
-function initiateNotification(pin_ID) {
-
-
-	// Find the pin
-	var pin = getPin(pin_ID);
-	if (!pin) return false;
-
-
-	var element = iframeElement(pin.pin_element_index);
-
-
-	// Add the pin if not exists
-	if (typeof Notifications[pin_ID] === 'undefined') Notifications[pin_ID] = {
-
-		modification : {
-			sent: false,
-			type : pin.pin_modification_type,
-			original : pin.pin_modification_original,
-			change : pin.pin_modification
-		},
-		css : {
-			sent: false,
-			css : pin.pin_css
-		},
-		screenshot : {
-			original : "",
-			latest : ""
-		},
-		comment : {
-			sent: false,
-			comments : {}
-		}
-
-	};
-	else return false;
-
-
-	// Take the latest screenshot
-	screenshot(element).then(function(canvas) {
-
-		Notifications[pin_ID].screenshot.original = imageDataUrl(canvas);
-
-	});
-
-
-
-	// Add the notification data
-	//Notifications[pin_ID] = theData;
-
-
-	return Notifications[pin_ID];
-
-}
-
-
-// Add "Before" screenshot
-function beforeScreenshot(pin_ID) {
-
-
-	// Removed temporarily !!!
-	return "";
-
-
-	// Find the pin
-	var pin = getPin(pin_ID);
-	if (!pin) return false;
-
-
-	// If not defined
-	if (typeof Notifications[pin_ID] === 'undefined') Notifications[pin_ID] = { before : "" };
-
-
-/*
-	// Removed temporarily !!!
-
-	// Take the latest screenshot
-	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
-
-		if (typeof Notifications[pin_ID] !== 'undefined') Notifications[pin_ID].before = imageDataUrl(canvas);
-
-	});
-*/
-
-
-	//return Notifications[pin_ID];
-}
-
-
-// Update screenshot
-function finalScreenshot(pin_ID) {
-
-
-	// Removed temporarily !!!
-	return "";
-
-
-	// Find the pin
-	var pin = getPin(pin_ID);
-	if (!pin) return false;
-
-
-	// If not defined
-	if (typeof Notifications[pin_ID].latest === 'undefined') Notifications[pin_ID].latest = "";
-
-
-/*
-	// Removed temporarily !!!
-
-	// Take the latest screenshot
-	screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
-
-		if (typeof Notifications[pin_ID] !== 'undefined') Notifications[pin_ID].screenshot.latest = imageDataUrl(canvas);
-
-	});
-*/
-
-
-	return Notifications[pin_ID].screenshot;
-}
-
-
-// Add to notification
-function addNotification() {
-
-}
-
-
-// Send Notification
-function sendNotifications() {
-
-
-	console.log("All the notifications will be sent in " + (notificationTime / 1000) + " second(s).", Notifications);
-
-
-	notificationTimeout = setTimeout(function() {
-
-
-		console.log("SEND THEM:", Notifications);
-
-
-	}, notificationTime);
-
-}
 
 
 // Send New Pin Notification
-function newPinNotification(pin_ID, beforeImage) {
+function newPinNotification(pin_ID) {
 
 
 	console.log('New pin notification sending for #' + pin_ID);
@@ -3756,19 +3526,13 @@ function newPinNotification(pin_ID, beforeImage) {
 	var pinNumber = getPinNumber(pin_ID);
 
 
-	// Take the latest screenshot
-	//screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
-
-		//doAction('newNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
-		doAction('newNotification', 'pin', pin_ID, pinNumber, "", "");
-
-	//});
+	doAction('newNotification', 'pin', pin_ID, pinNumber, "", "");
 
 }
 
 
 // Send New Comment Notification
-function newCommentNotification(pin_ID, beforeImage) {
+function newCommentNotification(pin_ID) {
 
 
 	console.log('New comment notification sending for #' + pin_ID);
@@ -3778,13 +3542,7 @@ function newCommentNotification(pin_ID, beforeImage) {
 	var pinNumber = getPinNumber(pin_ID);
 
 
-	// Take the latest screenshot
-	//screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
-
-		//doAction('newCommentNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
-		doAction('newCommentNotification', 'pin', pin_ID, pinNumber, "", "");
-
-	//});
+	doAction('newCommentNotification', 'pin', pin_ID, pinNumber, "", "");
 
 
 	pinWindow(pin_ID).attr('data-new-notification', 'no');
@@ -3793,7 +3551,7 @@ function newCommentNotification(pin_ID, beforeImage) {
 
 
 // Complete Notification
-function completeNotification(pin_ID, beforeImage) {
+function completeNotification(pin_ID) {
 
 
 	console.log('New complete notification sending for #' + pin_ID);
@@ -3803,13 +3561,7 @@ function completeNotification(pin_ID, beforeImage) {
 	var pinNumber = getPinNumber(pin_ID);
 
 
-	// Take the latest screenshot
-	//screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
-
-		//doAction('completeNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
-		doAction('completeNotification', 'pin', pin_ID, pinNumber, "", "");
-
-	//});
+	doAction('completeNotification', 'pin', pin_ID, pinNumber, "", "");
 
 
 	pinWindow(pin_ID).attr('data-new-notification', 'no');
@@ -3818,7 +3570,7 @@ function completeNotification(pin_ID, beforeImage) {
 
 
 // Incomplete Notification
-function inCompleteNotification(pin_ID, beforeImage) {
+function inCompleteNotification(pin_ID) {
 
 
 	console.log('New incomplete notification sending for #' + pin_ID);
@@ -3828,13 +3580,7 @@ function inCompleteNotification(pin_ID, beforeImage) {
 	var pinNumber = getPinNumber(pin_ID);
 
 
-	// Take the latest screenshot
-	//screenshot( iframeElement( parseInt(pin.pin_element_index) ) ).then(function(canvas) {
-
-		//doAction('inCompleteNotification', 'pin', pin_ID, pinNumber, beforeImage, imageDataUrl(canvas));
-		doAction('inCompleteNotification', 'pin', pin_ID, pinNumber, "", "");
-
-	//});
+	doAction('inCompleteNotification', 'pin', pin_ID, pinNumber, "", "");
 
 
 	pinWindow(pin_ID).attr('data-new-notification', 'no');
@@ -4078,47 +3824,6 @@ function lightOrDark(color) {
 
         return 'dark';
     }
-}
-
-function dataURLtoBlob(dataURL) {
-  //http://mitgux.com/send-canvas-to-server-as-file-using-ajax
-  // Decode the dataURL
-  var binary = atob(dataURL.split(',')[1]);
-  // Create 8-bit unsigned array
-  var array = [];
-  for(var i = 0; i < binary.length; i++) {
-      array.push(binary.charCodeAt(i));
-  }
-  // Return our Blob object
-  return new Blob([new Uint8Array(array)], {type: 'image/png'});
-}
-
-function stringToBytesFaster( str ) {
-    //http://stackoverflow.com/questions/1240408/reading-bytes-from-a-javascript-string
-    var ch, st, re = [], j=0;
-    for (var i = 0; i < str.length; i++ ) {
-        ch = str.charCodeAt(i);
-        if(ch < 127)
-        {
-            re[j++] = ch & 0xFF;
-        }
-        else
-        {
-            st = [];    // clear stack
-            do {
-                st.push( ch & 0xFF );  // push byte to stack
-                ch = ch >> 8;          // shift value down by 1 byte
-            }
-            while ( ch );
-            // add stack contents to result
-            // done because chars have "wrong" endianness
-            st = st.reverse();
-            for(var k=0;k<st.length; ++k)
-                re[j++] = st[k];
-        }
-    }
-    // return an array of bytes
-    return re;
 }
 
 function urlStandardize(url) {

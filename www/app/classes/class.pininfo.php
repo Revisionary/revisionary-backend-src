@@ -98,8 +98,7 @@ class Pin {
     	float $pin_x = 50,
     	float $pin_y = 50,
     	int $pin_element_index = null,
-	    string $pin_modification_type = null,
-	    string $imgDataUrl = ""
+	    string $pin_modification_type = null
     ) {
 	    global $db, $log;
 
@@ -234,7 +233,7 @@ class Pin {
 
 
     // Complete a pin
-    public function complete(string $imgDataUrl = "") {
+    public function complete() {
 	    global $db, $log;
 
 
@@ -245,12 +244,6 @@ class Pin {
 
 		$pin_type = ucfirst( $this->getInfo('pin_type') );
 
-
-		// Element screenshot
-		$image = "";
-		if ($imgDataUrl != "") {
-			$image = "<img src='$imgDataUrl' style='border: 2px dashed red'><br><br>";
-		}
 
 
 		// Update the pin
@@ -280,7 +273,7 @@ class Pin {
 
 
     // inComplete a pin
-    public function inComplete(string $imgDataUrl = "") {
+    public function inComplete() {
 	    global $db, $log;
 
 
@@ -291,12 +284,6 @@ class Pin {
 
 		$pin_type = ucfirst( $this->getInfo('pin_type') );
 
-
-		// Element screenshot
-		$image = "";
-		if ($imgDataUrl != "") {
-			$image = "<img src='$imgDataUrl' style='border: 2px dashed red'><br><br>";
-		}
 
 
 		// Update the pin
@@ -473,8 +460,7 @@ class Pin {
     // Add a new comment
     public function addComment(
     	string $message,
-    	string $newPin = "no",
-    	string $imgDataUrl = ""
+    	string $newPin = "no"
 	) {
 	    global $db, $log;
 
@@ -485,13 +471,6 @@ class Pin {
 
 
 		$pin_type = ucfirst( $this->getInfo('pin_type') );
-
-
-		// Element screenshot
-		$image = "";
-		if ($imgDataUrl != "") {
-			$image = "<img src='$imgDataUrl' style='border: 2px dashed red'><br><br>";
-		}
 
 
 
@@ -574,9 +553,7 @@ class Pin {
 
 	// New pin notification
 	public function newNotification(
-		int $pin_number,
-		string $before_screenshot,
-		string $after_screenshot
+		int $pin_number
 	) {
 		global $db;
 
@@ -591,7 +568,7 @@ class Pin {
 
 
 		// Prepare the message
-		$template = $this->emailTemplate($pin_number, $before_screenshot, $after_screenshot, getUserInfo()['fullName']." added a new ".$this->getInfo('pin_type')." pin", "View Pin");
+		$template = $this->emailTemplate($pin_number, getUserInfo()['fullName']." added a new ".$this->getInfo('pin_type')." pin", "View Pin");
 		$notificationSubject = $template['subject'];
 		$notificationMessage = $template['message'];
 
@@ -626,9 +603,7 @@ class Pin {
 
 	// New comment notification
 	public function newCommentNotification(
-		int $pin_number,
-		string $before_screenshot,
-		string $after_screenshot
+		int $pin_number
 	) {
 
 
@@ -641,7 +616,7 @@ class Pin {
 
 
 		// Prepare the message
-		$template = $this->emailTemplate($pin_number, $before_screenshot, $after_screenshot, getUserInfo()['fullName']." wrote a new comment", "View Comments");
+		$template = $this->emailTemplate($pin_number, getUserInfo()['fullName']." wrote a new comment", "View Comments");
 		$notificationSubject = $template['subject'];
 		$notificationMessage = $template['message'];
 
@@ -667,9 +642,7 @@ class Pin {
 
 	// Complete notification
 	public function completeNotification(
-		int $pin_number,
-		string $before_screenshot,
-		string $after_screenshot
+		int $pin_number
 	) {
 
 
@@ -682,7 +655,7 @@ class Pin {
 
 
 		// Prepare the message
-		$template = $this->emailTemplate($pin_number, $before_screenshot, $after_screenshot, getUserInfo()['fullName']." completed a pin task", "View Pin");
+		$template = $this->emailTemplate($pin_number, getUserInfo()['fullName']." completed a pin task", "View Pin");
 		$notificationSubject = $template['subject'];
 		$notificationMessage = $template['message'];
 
@@ -711,9 +684,7 @@ class Pin {
 
 	// Incomplete notification
 	public function inCompleteNotification(
-		int $pin_number,
-		string $before_screenshot,
-		string $after_screenshot
+		int $pin_number
 	) {
 
 
@@ -726,7 +697,7 @@ class Pin {
 
 
 		// Prepare the message
-		$template = $this->emailTemplate($pin_number, $before_screenshot, $after_screenshot, getUserInfo()['fullName']." marked a pin task as incomplete", "View Pin");
+		$template = $this->emailTemplate($pin_number, getUserInfo()['fullName']." marked a pin task as incomplete", "View Pin");
 		$notificationSubject = $template['subject'];
 		$notificationMessage = $template['message'];
 
@@ -758,8 +729,6 @@ class Pin {
 	// TEMPLATES
 	private function emailTemplate(
 		int $pin_number,
-		string $before_screenshot,
-		string $after_screenshot,
 		string $pin_message,
 		string $button_text
 	) {
@@ -857,46 +826,19 @@ class Pin {
 		$projectData = Project::ID( $project_ID );
 
 
-		// After element screenshot
-		$afterImage = $afterTitle = "";
-		if ($after_screenshot != "") {
-			$afterTitle = "<h3 style='margin-bottom: 5px'>After</h3>";
-			$afterImage = "<img src='$after_screenshot' style='border: 2px dashed red; max-width: 100%;'><br><br>";
-		}
 
-
-		// Before element screenshot
-		$beforeImage = $beforeTitle = "";
-		if ($before_screenshot != "") {
-			$beforeTitle = "<h3 style='margin-bottom: 5px'>Before</h3>";
-			$beforeImage = "<img src='$before_screenshot' style='border: 2px dashed red; max-width: 100%;'><br><br>";
-		}
-
-		if ($before_screenshot == $after_screenshot || ($before_screenshot == "" && $after_screenshot != "") ) {
-
-			$beforeTitle = $beforeImage = "";
-			$afterTitle = "<h3 style='margin-bottom: 5px'>Screenshot</h3>";
-
-		}
-
-		$screenshots = "
+		// Screenshot !!!
+		$screenshot = "
 
 			<tr>
 				<td colspan='2'>
 
-					<br>
-					$afterTitle
-					$afterImage
-
-					$beforeTitle
-					$beforeImage
 
 				</td>
 			</tr>
 
 		";
 
-		$screenshots = ""; // Removed temporarily !!!
 
 
 		// Modification info
@@ -1040,7 +982,7 @@ class Pin {
 				</td>
 			</tr>
 
-			$screenshots
+			$screenshot
 
 		</table>
 

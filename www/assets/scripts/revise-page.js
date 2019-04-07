@@ -67,6 +67,9 @@ $(function() {
 	});
 
 
+
+	// PINS LIST:
+
 	// Comment Opener
 	$(document).on('click', '.pins-list .pin-title', function(e) {
 
@@ -105,6 +108,75 @@ $(function() {
 	});
 
 
+	// Hovering a pin from the pins list tab
+	$(document).on('mouseover', '.pins-list > .pin', function(e) {
+
+
+		var pin_ID = $(this).find('pin').attr('data-pin-id');
+		var pin_type = $(this).find('pin').attr('data-pin-type');
+		var pin_private = $(this).find('pin').attr('data-pin-private');
+		var element_index = $(this).find('pin').attr('data-revisionary-index');
+		var pinX =  pinElement(pin_ID).attr('data-pin-x');
+		var pinY =  pinElement(pin_ID).attr('data-pin-y'); console.log(pinY, ($('.iframe-container').height() / 2), 22.5, parseInt( pinY ) - ($('.iframe-container').height() / 2) - 22.5);
+
+		// Outline
+		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
+		outline(iframeElement(element_index), pin_private, pin_type);
+
+		// Scroll
+		scrollToPin(pin_ID);
+
+
+		e.preventDefault();
+
+	}).on('mouseout', '.pins-list > .pin', function(e) {
+
+
+		iframeElement('html, body').stop();
+		if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
+
+		$('#pins > pin').css('opacity', '');
+		removeOutline();
+
+
+		e.preventDefault();
+
+	});
+
+
+	// Filtering the pins
+	$('.pins-filter > a').click(function(e) {
+
+
+		console.log('SHOW THE PINS: ', filter);
+
+
+		var filter = $(this).attr('data-filter');
+
+
+		$('.pins-filter > a').removeClass('selected');
+		$(this).addClass('selected');
+
+
+		$('#pins, .pins-list').attr('data-filter', filter);
+
+
+
+		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+
+
+		if (history.pushState) {
+		    var newurl = queryParameter(currentUrl, 'filter', (filter == "all" ? '' : filter));
+		    window.history.pushState({path:newurl},'',newurl);
+		}
+
+
+		e.preventDefault();
+	});
+
+
+
+	// PIN MODES:
 
 	// Pin mode change
 	$('.pin-types li:not(.deactivator) a').click(function(e) {
@@ -133,7 +205,6 @@ $(function() {
 	$('.pin-mode').hover(function() {
 		$('.pin-mode .dropdown > ul').css('display', '');
 	});
-
 
 	// Cursor deactivator
 	$('.deactivator').click(function(e) {
@@ -230,6 +301,8 @@ $(function() {
 
 
 
+	// PIN WINDOW:
+
 	// Stop scrolling on content editor
 	var scrollOnContent = false;
 	$(document).on('mousewheel', '#pin-window [contenteditable], #pin-window .pin-comments', function(e) {
@@ -292,8 +365,17 @@ $(function() {
 		var pin_ID = pinWindow().attr('data-pin-id');
 
 		// Delete it from DB
-		if ( confirm('Are you sure you want to delete this pin and its modifications and comments?') )
+		if (
+			pinWindow(pin_ID).attr('data-pin-new') == "yes"
+			&& pinWindow(pin_ID).attr('data-revisionary-edited') == "0"
+			&& pinWindow(pin_ID).attr('data-changed') == "no"
+			&& pinWindow(pin_ID).attr('data-has-comments') == "no"
+			&& pinWindow(pin_ID).attr('temporary') != ""
+		) removePin(pin_ID);
+
+		else if ( confirm('Are you sure you want to delete this pin and its modifications and comments?') )
 			removePin(pin_ID);
+
 
 		e.preventDefault();
 
@@ -758,73 +840,6 @@ $(function() {
 
 		e.preventDefault();
 
-	});
-
-
-	// Hovering a pin from the pins list tab
-	$(document).on('mouseover', '.pins-list > .pin', function(e) {
-
-
-		var pin_ID = $(this).find('pin').attr('data-pin-id');
-		var pin_type = $(this).find('pin').attr('data-pin-type');
-		var pin_private = $(this).find('pin').attr('data-pin-private');
-		var element_index = $(this).find('pin').attr('data-revisionary-index');
-		var pinX =  pinElement(pin_ID).attr('data-pin-x');
-		var pinY =  pinElement(pin_ID).attr('data-pin-y'); console.log(pinY, ($('.iframe-container').height() / 2), 22.5, parseInt( pinY ) - ($('.iframe-container').height() / 2) - 22.5);
-
-		// Outline
-		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
-		outline(iframeElement(element_index), pin_private, pin_type);
-
-		// Scroll
-		scrollToPin(pin_ID);
-
-
-		e.preventDefault();
-
-	}).on('mouseout', '.pins-list > .pin', function(e) {
-
-
-		iframeElement('html, body').stop();
-		if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
-
-		$('#pins > pin').css('opacity', '');
-		removeOutline();
-
-
-		e.preventDefault();
-
-	});
-
-
-	// Filtering the pins
-	$('.pins-filter > a').click(function(e) {
-
-
-		console.log('SHOW THE PINS: ', filter);
-
-
-		var filter = $(this).attr('data-filter');
-
-
-		$('.pins-filter > a').removeClass('selected');
-		$(this).addClass('selected');
-
-
-		$('#pins, .pins-list').attr('data-filter', filter);
-
-
-
-		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
-
-
-		if (history.pushState) {
-		    var newurl = queryParameter(currentUrl, 'filter', (filter == "all" ? '' : filter));
-		    window.history.pushState({path:newurl},'',newurl);
-		}
-
-
-		e.preventDefault();
 	});
 
 

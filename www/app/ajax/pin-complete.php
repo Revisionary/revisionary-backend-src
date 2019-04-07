@@ -10,7 +10,6 @@ $status = "initiated";
 // Get the pin info
 $pin_ID = request('pin_ID');
 $complete = request('complete') == "complete" ? true : false;
-$imageDataURL = request('imgDataURL') != "" ? request('imgDataURL') : "";
 
 
 // Are they numbers?
@@ -28,7 +27,7 @@ $pinData = Pin::ID($pin_ID);
 
 
 // Complete/Incomplete the pin
-$pin_completed = $complete ? $pinData->complete($imageDataURL) : $pinData->inComplete($imageDataURL);
+$pin_completed = $complete ? $pinData->complete() : $pinData->inComplete();
 
 if ($pin_completed) {
 
@@ -44,8 +43,7 @@ $data['data'] = array(
 	'status' => $status,
 	'nonce' => request('nonce'),
 	//'S_nonce' => $_SESSION['pin_nonce'],
-	'pin_ID' => $pin_ID,
-	'imageDataURL' => $imageDataURL
+	'pin_ID' => $pin_ID
 
 );
 

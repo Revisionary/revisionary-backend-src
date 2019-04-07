@@ -429,7 +429,6 @@ $additionalHeadJS = [
 	'vendor/autosize.min.js',
 	'vendor/diff.js',
 	'vendor/spectrum.js',
-	'vendor/html2canvas.min.js',
 	'vendor/popline/jquery.popline.js',
 	'vendor/popline/plugins/jquery.popline.link.js',
 	//'vendor/popline/plugins/jquery.popline.blockquote.js',
