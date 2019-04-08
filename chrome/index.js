@@ -726,6 +726,7 @@ require('http').createServer(async (req, res) => {
 				// SCREENSHOTS
 				try {
 
+
 					const screenshot = await pTimeout(page.screenshot({
 						type: 'jpeg'
 					}), 20 * 1000, 'Screenshot timed out');
@@ -736,17 +737,6 @@ require('http').createServer(async (req, res) => {
 					if (!fs.existsSync(deviceScreenshotDir)) fs.mkdirSync(deviceScreenshotDir);
 					fs.writeFileSync(deviceScreenshot, screenshot);
 					console.log('📸 Device Screenshot Saved: ', deviceScreenshot);
-
-					// Project Screenshot Saving if not exists
-					const projectScreenshotDir = siteDir + "../";
-					const projectScreenshot = projectScreenshotDir + 'project.jpg';
-					if (!fs.existsSync(projectScreenshotDir)) fs.mkdirSync(projectScreenshotDir);
-					if (!fs.existsSync(projectScreenshot)) {
-
-						fs.writeFileSync(projectScreenshot, screenshot);
-						console.log('📸 Project Screenshot Saved: ', projectScreenshot);
-
-					}
 
 
 				} catch (err) {

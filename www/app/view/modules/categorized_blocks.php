@@ -91,6 +91,22 @@
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
 
+		<?php } elseif ( isset($_GET['versiondoesntexist']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('versiondoesntexist');</script>
+			You don't have access to this version.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
+		<?php } elseif ( isset($_GET['invalidversion']) ) { ?>
+
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invalidversion');</script>
+			We couldn't find the version you are looking for.
+
+			<a href="#" class="close"><i class="fa fa-times"></i></a>
+		</div>
+
 
 
 
@@ -215,8 +231,7 @@
 
 
 								// Block Images
-								$block_image_name = "project.jpg";
-								$block_image_path = "projects/project-".$block['project_ID']."/$block_image_name";
+								$block_image_path = "projects/project-".$block['project_ID']."/page-0/version-0/screenshots/device-0.jpg";
 								$block_image_uri = cache."/$block_image_path";
 								$block_image_url = cache_url($block_image_path);
 
@@ -247,11 +262,12 @@
 
 
 								$firstDevice = reset($blockDevices);
+								//die_to_print($firstDevice);
 
 
 								// First device Image
 								$block_image_name = "device-".$firstDevice['device_ID'].".jpg";
-								$block_image_path = "projects/project-".$block['project_ID']."/page-".$block['page_ID']."/screenshots/$block_image_name";
+								$block_image_path = "projects/project-".$block['project_ID']."/page-".$block['page_ID']."/version-".$firstDevice['version_ID']."/screenshots/$block_image_name";
 								$block_image_uri = cache."/$block_image_path";
 								$block_image_url = cache_url($block_image_path);
 
