@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 08, 2019 at 08:18 AM
+-- Generation Time: Apr 08, 2019 at 01:47 PM
 -- Server version: 8.0.15
 -- PHP Version: 7.2.14
 
@@ -137,7 +137,8 @@ CREATE TABLE `pins` (
   `pin_modification` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `pin_modification_original` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `pin_css` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `device_ID` bigint(20) NOT NULL,
+  `version_ID` bigint(20) NOT NULL,
+  `device_ID` bigint(20) DEFAULT NULL,
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -168,6 +169,7 @@ CREATE TABLE `projects` (
   `project_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `project_archived` tinyint(1) NOT NULL DEFAULT '0',
   `project_deleted` tinyint(1) NOT NULL DEFAULT '0',
+  `project_image_device_ID` bigint(20) DEFAULT NULL,
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -323,7 +325,7 @@ CREATE TABLE `users` (
   `user_email_notifications` tinyint(1) NOT NULL DEFAULT '1',
   `user_registered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_IP` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '127.0.0.1',
-  `user_level_ID` smallint(5) NOT NULL
+  `user_level_ID` smallint(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT;
 
 --
@@ -384,7 +386,7 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 
 CREATE TABLE `versions` (
   `version_ID` bigint(20) NOT NULL,
-  `version_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `version_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `version_internalized` int(20) NOT NULL DEFAULT '0',
   `page_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -445,7 +447,8 @@ ALTER TABLE `password_reset`
 ALTER TABLE `pins`
   ADD PRIMARY KEY (`pin_ID`),
   ADD KEY `user_ID` (`user_ID`),
-  ADD KEY `device_ID` (`device_ID`) USING BTREE;
+  ADD KEY `version_ID` (`version_ID`),
+  ADD KEY `device_ID` (`device_ID`);
 
 --
 -- Indexes for table `pin_comments`
@@ -460,7 +463,8 @@ ALTER TABLE `pin_comments`
 --
 ALTER TABLE `projects`
   ADD PRIMARY KEY (`project_ID`),
-  ADD KEY `projects_ibfk_3` (`user_ID`);
+  ADD KEY `projects_ibfk_3` (`user_ID`),
+  ADD KEY `project_image_device_ID` (`project_image_device_ID`);
 
 --
 -- Indexes for table `projects_categories`
@@ -520,7 +524,7 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`user_ID`),
   ADD UNIQUE KEY `user_name` (`user_name`),
   ADD UNIQUE KEY `user_email` (`user_email`),
-  ADD KEY `fk_user_level` (`user_level_ID`);
+  ADD KEY `user_level_ID` (`user_level_ID`);
 
 --
 -- Indexes for table `user_levels`
@@ -702,7 +706,8 @@ ALTER TABLE `password_reset`
 --
 ALTER TABLE `pins`
   ADD CONSTRAINT `pins_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pins_ibfk_2` FOREIGN KEY (`device_ID`) REFERENCES `devices` (`device_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `pins_ibfk_2` FOREIGN KEY (`version_ID`) REFERENCES `versions` (`version_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `pins_ibfk_3` FOREIGN KEY (`device_ID`) REFERENCES `devices` (`device_ID`) ON DELETE SET NULL ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `pin_comments`
@@ -715,7 +720,8 @@ ALTER TABLE `pin_comments`
 -- Constraints for table `projects`
 --
 ALTER TABLE `projects`
-  ADD CONSTRAINT `projects_ibfk_3` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `projects_ibfk_3` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `projects_ibfk_4` FOREIGN KEY (`project_image_device_ID`) REFERENCES `devices` (`device_ID`) ON DELETE SET NULL ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `projects_categories`
@@ -755,7 +761,7 @@ ALTER TABLE `shares`
 -- Constraints for table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `fk_user_level` FOREIGN KEY (`user_level_ID`) REFERENCES `user_levels` (`user_level_ID`);
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_level_ID`) REFERENCES `user_levels` (`user_level_ID`) ON DELETE SET NULL ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `versions`
