@@ -146,8 +146,9 @@ require('http').createServer(async (req, res) => {
 		const width = parseInt(queryData.width, 10) || 1024;
 		const height = parseInt(queryData.height, 10) || 768;
 		const device_ID = parseInt(queryData.device_ID) || 0;
+		const version_ID = parseInt(queryData.version_ID) || 0;
 		const page_ID = parseInt(queryData.page_ID) || 0;
-		const browser_ID = page_ID + '-' + device_ID || url;
+		const browser_ID = version_ID + '-' + page_ID + '-' + device_ID || url;
 		const fullPage = queryData.fullPage == 'true' || false;
 		const SSR = queryData.ssr == 'true' || false;
 		const siteDir = queryData.sitedir || 'site/project/page/version/';
@@ -956,13 +957,13 @@ require('http').createServer(async (req, res) => {
 
 					if (browser[browser_ID]) {
 
-						console.log('🔌 Closing the browser for ' + url, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
+						console.log('🔌 Closing the browser for ' + url, ' VERSION ID: ' + version_ID, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
 
 						browser[browser_ID].close();
 						browser[browser_ID] = null;
 						delete browser[browser_ID];
 
-						console.log('🔌✅ Browser closed for ' + url, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
+						console.log('🔌✅ Browser closed for ' + url, ' VERSION ID: ' + version_ID, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
 
 					}
 

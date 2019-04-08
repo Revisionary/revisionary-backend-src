@@ -26,9 +26,9 @@ if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 }
 
 
-// Get the page ID
-$device_ID = $_url[1];
 
+// Get the device ID
+$device_ID = $_url[1];
 
 // If the specified device doesn't exist, go projects page
 $deviceData = Device::ID($device_ID);
@@ -40,10 +40,23 @@ if ( !$device ) {
 }
 
 
-// Get page ID
-$page_ID = $device['page_ID'];
+
+// Get the version ID
+$version_ID = $device['version_ID'];
+
+// If the specified device doesn't exist, go projects page
+$versionData = Version::ID($version_ID);
+$version = $versionData->getInfo();
+//die_to_print($version);
+if ( !$version ) {
+	header('Location: '.site_url('projects?versiondoesntexist'));
+	die();
+}
 
 
+
+// Get the page ID
+$page_ID = $version['page_ID'];
 
 // THE PAGE INFO
 
@@ -55,8 +68,8 @@ $allMyPages = categorize($allMyPages, 'page', true);
 
 
 // Find the current page
-$page = array_filter($allMyPages, function($pageFound) use ($device) {
-    return ($pageFound['page_ID'] == $device['page_ID']);
+$page = array_filter($allMyPages, function($pageFound) use ($page_ID) {
+    return ($pageFound['page_ID'] == $page_ID);
 });
 $page = end($page);
 
@@ -74,6 +87,7 @@ if ( !$page ) {
 	header('Location: '.site_url('projects?pagedoesntexist'));
 	die();
 }
+
 
 
 // Get the project ID
@@ -109,7 +123,7 @@ $screenIcon = $device['screen_cat_icon'];
 // Screenshots
 $pageData = Page::ID($page_ID);
 $device_image = $deviceData->getImage();
-$project_image = cache."/projects/project-$project_ID/project.jpg";
+$project_image = cache."/projects/project-$project_ID/project.jpg"; // !!!
 //die("$device_image -> $project_image");
 
 
@@ -117,7 +131,7 @@ $project_image = cache."/projects/project-$project_ID/project.jpg";
 // PROTOCOL REDIRECTIONS:
 
 // Http to Https Redirection
-if ( substr($pageData->remoteUrl, 0, 8) == "https://" && !ssl) {
+if ( substr($versionData->remoteUrl, 0, 8) == "https://" && !ssl) {
 
 	$url_to_redirect = site_url('revise/'.$device_ID, true);
 	if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
@@ -131,7 +145,7 @@ if ( substr($pageData->remoteUrl, 0, 8) == "https://" && !ssl) {
 }
 
 // Https to Http Redirection
-if ( substr($pageData->remoteUrl, 0, 7) == "http://" && ssl) {
+if ( substr($versionData->remoteUrl, 0, 7) == "http://" && ssl) {
 
 	$url_to_redirect = site_url('revise/'.$device_ID, false, true);
 	if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
@@ -146,15 +160,15 @@ if ( substr($pageData->remoteUrl, 0, 7) == "http://" && ssl) {
 
 
 // Create the log folder if not exists
-if ( !file_exists($pageData->logDir) )
-	mkdir($pageData->logDir, 0755, true);
-@chmod($pageData->logDir, 0755);
+if ( !file_exists($versionData->logDir) )
+	mkdir($versionData->logDir, 0755, true);
+@chmod($versionData->logDir, 0755);
 
 
 
 // Check if queue is already working
 $db->where('queue_type', 'internalize');
-$db->where('queue_object_ID', $page_ID);
+$db->where('queue_object_ID', $version_ID);
 
 $db->where("(queue_status = 'working' OR queue_status = 'waiting')");
 $existing_queue = $db->get('queues');
@@ -170,12 +184,12 @@ $process_status = "";
 
 
 /*
-die_to_print( $pageData->pageDir, false ); // Folder is exist
-die_to_print( $pageData->pageFile, false ); // HTML is downloaded
-die_to_print( $project_image, false ); // // Project image ready
-die_to_print( $pageData->logDir."/browser.log", false ); // No error on Browser
-die_to_print( $pageData->logDir."/html-filter.log", false ); // No error on HTML filtering
-die_to_print( $pageData->logDir."/css-filter.log" ); // No error on CSS filtering
+die_to_print( $versionData->versionDir, false ); // Folder is exist
+die_to_print( $versionData->versionFile, false ); // HTML is downloaded
+die_to_print( $project_image, false ); // // Project image ready !!!
+die_to_print( $versionData->logDir."/browser.log", false ); // No error on Browser
+die_to_print( $versionData->logDir."/html-filter.log", false ); // No error on HTML filtering
+die_to_print( $versionData->logDir."/css-filter.log" ); // No error on CSS filtering
 */
 
 
@@ -207,7 +221,7 @@ if (
 	$queue_status = $existing_queue['queue_status'];
 
 
-	$process_status = "Page #$page_ID Queue Found: Queue #$queue_ID '".ucfirst($queue_status)."' | Device #$device_ID | Process #$queue_PID | User #".currentUserID();
+	$process_status = "Version #$version_ID Queue Found: Queue #$queue_ID '".ucfirst($queue_status)."' | Page #$page_ID | Device #$device_ID | Process #$queue_PID | User #".currentUserID();
 
 
 	// Site log
@@ -227,17 +241,17 @@ if (
 
 	!$forceReInternalize &&
 
-	file_exists( $pageData->pageDir ) && // Folder is exist
-	file_exists( $pageData->pageFile ) && // HTML is downloaded
-	file_exists( $project_image ) && // // Project image ready
-	file_exists( $pageData->logDir."/browser.log" ) && // No error on Browser
-	file_exists( $pageData->logDir."/html-filter.log" ) && // No error on HTML filtering
-	file_exists( $pageData->logDir."/css-filter.log" ) // No error on CSS filtering
+	file_exists( $versionData->versionDir ) && // Folder is exist
+	file_exists( $versionData->versionFile ) && // HTML is downloaded
+	//file_exists( $project_image ) && // // Project image ready !!!
+	file_exists( $versionData->logDir."/browser.log" ) && // No error on Browser
+	file_exists( $versionData->logDir."/html-filter.log" ) && // No error on HTML filtering
+	file_exists( $versionData->logDir."/css-filter.log" ) // No error on CSS filtering
 
 ) {
 
 
-	$process_status = "Device #$device_ID Opening: Page #$page_ID (Already Downloaded) | User #".currentUserID();
+	$process_status = "Device #$device_ID Opening: Version #$version_ID (Already Downloaded) | Page #$page_ID | User #".currentUserID();
 
 
 	// Site log
@@ -259,13 +273,13 @@ if (
 		// NEW QUEUE
 		// Add a new job to the queue
 		$queue = new Queue();
-		$queue_results = $queue->new_job('screenshot', $page_ID, $device_ID, "Waiting other works to be done.");
+		$queue_results = $queue->new_job('screenshot', $version_ID, $page_ID, $device_ID, "Waiting other works to be done.");
 		$process_ID = $queue_results['process_ID'];
 		$queue_ID = $queue_results['queue_ID'];
 
 
 		// Site log
-		$log->info("Device #$device_ID Screenshot Taking: Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
+		$log->info("Device #$device_ID Screenshot Taking: Version #$version_ID | Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
 
 
 	}
@@ -277,33 +291,33 @@ if (
 
 
 	// Remove the existing and wrong files
-	if ( file_exists($pageData->pageDir) )
-		deleteDirectory($pageData->pageDir);
+	if ( file_exists($versionData->versionDir) )
+		deleteDirectory($versionData->versionDir);
 
 
 	// Re-Create the log folder if not exists
-	if ( !file_exists($pageData->logDir) )
-		mkdir($pageData->logDir, 0755, true);
-	@chmod($pageData->logDir, 0755);
+	if ( !file_exists($versionData->logDir) )
+		mkdir($versionData->logDir, 0755, true);
+	@chmod($versionData->logDir, 0755);
 
 
 	// Logger
-	$logger = new Katzgrau\KLogger\Logger($pageData->logDir, Psr\Log\LogLevel::DEBUG, array(
-		'filename' => $pageData->logFileName,
-	    'extension' => $pageData->logFileExtension, // changes the log file extension
+	$logger = new Katzgrau\KLogger\Logger($versionData->logDir, Psr\Log\LogLevel::DEBUG, array(
+		'filename' => $versionData->logFileName,
+	    'extension' => $versionData->logFileExtension, // changes the log file extension
 	));
 
 
 	// NEW QUEUE
 	// Add a new job to the queue
 	$queue = new Queue();
-	$queue_results = $queue->new_job('internalize', $page_ID, $device_ID, "Waiting other works to be done.");
+	$queue_results = $queue->new_job('internalize', $version_ID, $page_ID, $device_ID, "Waiting other works to be done.");
 	$process_ID = $queue_results['process_ID'];
 	$queue_ID = $queue_results['queue_ID'];
 
 
 	// Site log
-	$log->info("Device #$device_ID Internalizing: Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
+	$log->info("Device #$device_ID Internalizing: Version #$version_ID | Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
 
 
 }

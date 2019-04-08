@@ -4,12 +4,13 @@
 
 	user_ID = '<?=currentUserID()?>';
 	device_ID = '<?=$device_ID?>';
+	version_ID = '<?=$version_ID?>';
 	page_ID = '<?=$page_ID?>';
 	project_ID = '<?=$project_ID?>';
-	remote_URL = '<?=$pageData->remoteUrl?>';
+	remote_URL = '<?=$versionData->remoteUrl?>';
 	pages_downloaded = {<?php
 
-	foreach ($other_pages as $pageOther) {
+		foreach ($other_pages as $pageOther) {
 
 		echo "'".$pageOther['page_url']."' : ".$pageOther['page_ID'].",";
 
@@ -24,7 +25,7 @@
 
 	<div class="progress-info">
 		<ul>
-			<li style="color: white;"><?=$pageData->cachedUrl?></li>
+			<li style="color: white;"><?=$versionData->cachedUrl?></li>
 		</ul>
 	</div>
 
@@ -277,7 +278,24 @@
 		</div>
 		<div class="col screen">
 
+
 			<div class="wrap xl-gutter-8">
+				<div class="col version">
+
+					<div class="desc nomargin">Version</div>
+					<span class="dropdown">
+
+						<a href="#" class="button select-version"><i class="fa fa-code-branch"></i> v2 <i class="fa fa-caret-down"></i></a>
+						<ul class="xl-left bottom-tooltip" data-tooltip="In development...">
+							<li class=""><a href="#"><i class="fa fa-code-branch"></i> v1 - Initial Version</a></li>
+							<li class="selected"><a href="#"><i class="fa fa-code-branch"></i> v2 - After changes</a></li>
+
+							<li><a href="#" class="add-version"><i class="fa fa-plus"></i> <b>Add New Version</b></a></li>
+						</ul>
+					</span>
+
+
+				</div>
 				<div class="col screen">
 
 					<div class="desc nomargin">Screen Size</div>

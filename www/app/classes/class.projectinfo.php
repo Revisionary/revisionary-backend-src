@@ -81,7 +81,7 @@ class Project {
 
 
         // Set the project directory
-        return cache."/projects/".$projectPath;
+        return cache."/projects/$projectPath";
     }
 
 

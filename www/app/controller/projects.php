@@ -75,9 +75,23 @@ if (
 
 
 
+	// Add a version
+	$version_ID = Version::ID()->addNew(
+		$page_ID,
+		'Initial version'
+	);
+
+	// Check the result
+	if(!$version_ID) {
+		header('Location: '.site_url("project/$project_ID?addversionerror")); // If unsuccessful
+		die();
+	}
+
+
+
 	// Add the Devices
 	$device_ID = Device::ID()->addNew(
-		$page_ID,
+		$version_ID,
 		is_array(request('screens')) ? request('screens') : array(), // Screen IDs array
 		request('page_width') != "" ? request('page_width') : null,
 		request('page_height') != "" ? request('page_height') : null,

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Mar 30, 2019 at 10:13 AM
+-- Generation Time: Apr 08, 2019 at 08:18 AM
 -- Server version: 8.0.15
 -- PHP Version: 7.2.14
 
@@ -34,7 +34,7 @@ CREATE TABLE `devices` (
   `device_height` mediumint(10) DEFAULT NULL,
   `device_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `device_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `page_ID` bigint(20) NOT NULL,
+  `version_ID` bigint(20) NOT NULL,
   `screen_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -331,12 +331,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_job_title`, `user_department`, `user_company`, `user_picture`, `user_has_public_profile`, `user_email_notifications`, `user_IP`, `user_level_ID`) VALUES
-(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Bilal', 'TAŞ', NULL, NULL, NULL, 'trhnihu6u3.jpg', 1, 1, '127.0.0.1', 1),
+(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Bilal', 'TAŞ', NULL, NULL, NULL, 'zusda8f7ue.jpg', 1, 1, '127.0.0.1', 1),
 (2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', NULL, NULL, NULL, 'ike.png', 0, 1, '127.0.0.1', 2),
 (3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', NULL, NULL, NULL, 'sara.png', 0, 1, '127.0.0.1', 2),
 (4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', NULL, NULL, NULL, 'matt.png', 0, 1, '127.0.0.1', 2),
 (5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', NULL, NULL, NULL, '2kry4vttuv.jpg', 0, 1, '127.0.0.1', 2),
-(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$d39kS46ZfdS9x4Vhzqp3mebAq17UD31qLl6ogC6RPHzwM1bG0.0hK', 'Bill', 'TAS', 'Lead Web Developer', 'Web Department', 'Twelve12', '68fbcrn9wt.png', 0, 1, '127.0.0.1', 2),
+(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$d39kS46ZfdS9x4Vhzqp3mebAq17UD31qLl6ogC6RPHzwM1bG0.0hK', 'Bill', 'TAS', 'Lead Web Developer', 'Web Department', 'Twelve12', 'zp2wsikcd3.png', 0, 1, '127.0.0.1', 2),
 (7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, NULL, NULL, NULL, 0, 1, '127.0.0.1', 2),
 (8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', NULL, NULL, NULL, 'sara.png', 0, 1, '127.0.0.1', 2),
 (9, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, NULL, NULL, NULL, 0, 1, '127.0.0.1', 2),
@@ -376,6 +376,19 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 (3, 'Plus', 'Plus description', 12, 24, 99999, 99999, 3, 120, 9.99, 'green'),
 (4, 'Enterprise', 'Enterprise description.', 99999, 99999, 99999, 99999, 99999, 2048, 19.99, 'gold');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `versions`
+--
+
+CREATE TABLE `versions` (
+  `version_ID` bigint(20) NOT NULL,
+  `version_name` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `version_internalized` int(20) NOT NULL DEFAULT '0',
+  `page_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -385,8 +398,8 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 --
 ALTER TABLE `devices`
   ADD PRIMARY KEY (`device_ID`),
-  ADD KEY `devices_ibfk_1` (`page_ID`),
-  ADD KEY `devices_ibfk_2` (`screen_ID`);
+  ADD KEY `devices_ibfk_2` (`screen_ID`),
+  ADD KEY `version_ID` (`version_ID`);
 
 --
 -- Indexes for table `notifications`
@@ -516,6 +529,13 @@ ALTER TABLE `user_levels`
   ADD PRIMARY KEY (`user_level_ID`);
 
 --
+-- Indexes for table `versions`
+--
+ALTER TABLE `versions`
+  ADD PRIMARY KEY (`version_ID`),
+  ADD KEY `page_ID` (`page_ID`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -628,6 +648,12 @@ ALTER TABLE `user_levels`
   MODIFY `user_level_ID` smallint(5) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `versions`
+--
+ALTER TABLE `versions`
+  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -635,8 +661,8 @@ ALTER TABLE `user_levels`
 -- Constraints for table `devices`
 --
 ALTER TABLE `devices`
-  ADD CONSTRAINT `devices_ibfk_1` FOREIGN KEY (`page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`screen_ID`) REFERENCES `screens` (`screen_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`screen_ID`) REFERENCES `screens` (`screen_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `devices_ibfk_3` FOREIGN KEY (`version_ID`) REFERENCES `versions` (`version_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `notifications`
@@ -716,7 +742,7 @@ ALTER TABLE `project_cat_connect`
 -- Constraints for table `screens`
 --
 ALTER TABLE `screens`
-  ADD CONSTRAINT `screens_ibfk_1` FOREIGN KEY (`screen_cat_ID`) REFERENCES `screen_categories` (`screen_cat_ID`),
+  ADD CONSTRAINT `screens_ibfk_1` FOREIGN KEY (`screen_cat_ID`) REFERENCES `screen_categories` (`screen_cat_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
   ADD CONSTRAINT `screens_ibfk_2` FOREIGN KEY (`screen_user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE;
 
 --
@@ -730,6 +756,12 @@ ALTER TABLE `shares`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `fk_user_level` FOREIGN KEY (`user_level_ID`) REFERENCES `user_levels` (`user_level_ID`);
+
+--
+-- Constraints for table `versions`
+--
+ALTER TABLE `versions`
+  ADD CONSTRAINT `versions_ibfk_1` FOREIGN KEY (`page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

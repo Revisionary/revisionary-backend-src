@@ -6,10 +6,11 @@ set_time_limit(0);
 
 
 // Get the data
-$page_ID = $argv[1];
-$device_ID = $argv[2];
-$sessionID = $argv[3];
-$queue_ID = isset($argv[4]) && is_numeric($argv[4]) ? $argv[4] : "";
+$version_ID = $argv[1];
+$page_ID = $argv[2];
+$device_ID = $argv[3];
+$sessionID = $argv[4];
+$queue_ID = isset($argv[5]) && is_numeric($argv[5]) ? $argv[5] : "";
 
 
 // Correct the session ID
@@ -25,16 +26,16 @@ session_write_close();
 
 
 // Get the page data
-$pageData = Page::ID($page_ID);
+$versionData = Version::ID($version_ID);
 
 
 // Logger
 $logger = new Katzgrau\KLogger\Logger(
-	$pageData->logDir,
+	$versionData->logDir,
 	Psr\Log\LogLevel::DEBUG,
 	array(
-		'filename' => $pageData->logFileName,
-	    'extension' => $pageData->logFileExtension, // changes the log file extension
+		'filename' => $versionData->logFileName,
+	    'extension' => $versionData->logFileExtension, // changes the log file extension
 	)
 );
 
@@ -44,7 +45,7 @@ $queue = new Queue();
 
 
 // Initialize internalizator
-$internalize = new Internalize($page_ID, $device_ID, $queue_ID);
+$internalize = new Internalize($version_ID, $page_ID, $device_ID, $queue_ID);
 
 
 // Reset the variables
@@ -53,6 +54,8 @@ $job_ready = $browser_done = $files_detected = $html_filtred = $css_filtred = fa
 
 echo "Queue ID: $queue_ID  \r\n";
 echo "Page ID: $page_ID \r\n";
+echo "Version ID: $version_ID \r\n";
+echo "Device ID: $device_ID \r\n";
 echo "SessionID: $sessionID \r\n";
 
 
