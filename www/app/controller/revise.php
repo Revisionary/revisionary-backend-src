@@ -264,9 +264,9 @@ if (
 
 
 		// Logger
-		$logger = new Katzgrau\KLogger\Logger($pageData->logDir, Psr\Log\LogLevel::DEBUG, array(
+		$logger = new Katzgrau\KLogger\Logger($versionData->logDir, Psr\Log\LogLevel::DEBUG, array(
 			'filename' => 'screenshot',
-		    'extension' => $pageData->logFileExtension, // changes the log file extension
+		    'extension' => $versionData->logFileExtension, // changes the log file extension
 		));
 
 

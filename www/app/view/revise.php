@@ -1016,6 +1016,7 @@ $(function(){
 
 	var loadingProcessID = newProcess(false, "loadingProcess");
 	checkPageStatus(
+		<?=$version_ID?>,
 		<?=$page_ID?>,
 		<?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
 		<?=is_numeric($process_ID) ? $process_ID : "''"?>,

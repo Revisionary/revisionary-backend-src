@@ -1,6 +1,6 @@
 // FUNCTIONS:
 // DB: Run the internalizator
-function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
+function checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProcessID) {
 
 
 	// If being force reinternalizing, update the URL
@@ -10,6 +10,7 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 	// Get the up-to-date pins
 	var statusCheckRequest = ajax('internalize-status',
 	{
+		'version_ID'	: version_ID,
 		'page_ID'		: page_ID,
 		'queue_ID'		: queue_ID,
 		'processID'		: processID
@@ -53,7 +54,7 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 		if (width == 100 && data.processStatus == "ready") {
 
 			// Update the global page URL
-			page_URL = data.pageUrl + '?v=' + data.internalized;
+			page_URL = data.versionUrl + '?v=' + data.internalized;
 
 
 			// Update the iframe url
@@ -71,7 +72,7 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 
 			setTimeout(function() {
 
-				checkPageStatus(page_ID, queue_ID, processID, loadingProcessID);
+				checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProcessID);
 
 			}, 1000);
 
@@ -89,7 +90,7 @@ function checkPageStatus(page_ID, queue_ID, processID, loadingProcessID) {
 
 		setTimeout(function() {
 
-			checkPageStatus(page_ID, queue_ID, processID, loadingProcessID);
+			checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProcessID);
 
 		}, 1000);
 
