@@ -1902,9 +1902,24 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
 
 
 	var selectedElement = iframeElement(element_index);
+	var pin_ID = parseInt( pinElement(selectedElement, true).attr('data-pin-id') );
+
+
+	// Check if hidden
+	var tempshow = false;
+	if ( selectedElement.css('display') == 'none' ) {
+		toggleCSS(pin_ID, true);
+		tempshow = true;
+	}
+
+
 	var elementOffset = selectedElement.offset();
 	var elementTop = elementOffset.top;
 	var elementLeft = elementOffset.left;
+
+	if (tempshow) {
+		toggleCSS(pin_ID);
+	}
 
 
 	// The coordinates by the element
@@ -1999,9 +2014,22 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 			// Element info
 			var element_index = parseInt($(this).attr('data-revisionary-index'));
 			var selectedElement = iframeElement(element_index);
+
+
+			// Check if hidden
+			var tempshow = false;
+			if ( selectedElement.css('display') == 'none' ) {
+				toggleCSS(pin_ID, true);
+				tempshow = true;
+			}
+
 			var elementOffset = selectedElement.offset();
 			var elementLeft = elementOffset.left;
 			var elementTop = elementOffset.top;
+
+			if (tempshow) {
+				toggleCSS(pin_ID);
+			}
 
 
 			// Get the final positions
@@ -3243,7 +3271,7 @@ function resetCSS(pin_ID) {
 
 
 // Toggle content edits
-function toggleCSS(pin_ID) {
+function toggleCSS(pin_ID, forceClose = false, forceOpen = false) {
 
 
     // Get the pin from the Pins global
@@ -3259,12 +3287,15 @@ function toggleCSS(pin_ID) {
 		var isShowingCSS = styleElement.html() == "" ? false : true;
 
 
+		console.log( isShowingCSS || forceClose ? "CLOSING" : "OPENING" );
+
+
 		// Toggle the styles
-		styleElement.html( (isShowingCSS ? "" : '[data-revisionary-index="'+ elementIndex +'"]{ '+ pin.pin_css +' }') );
+		styleElement.html( (isShowingCSS || forceClose ? "" : '[data-revisionary-index="'+ elementIndex +'"]{ '+ pin.pin_css +' }') );
 
 
 		// Toggle the option
-		pinWindow(pin_ID).attr('data-showing-changes', (isShowingCSS ? "no" : "yes"));
+		pinWindow(pin_ID).attr('data-showing-changes', (isShowingCSS || forceClose ? "no" : "yes"));
 
 
 	}
