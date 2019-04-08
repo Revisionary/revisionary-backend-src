@@ -582,6 +582,9 @@
 						</ul>
 
 					</div>
+					<div class="col action">
+						<a href="#" class="center-tooltip bottom-tooltip" data-tooltip="Only for this device" style="color: #007acc;"><i class="fa fa-thumbtack"></i></a>
+					</div>
 					<div class="col action" data-tooltip="Coming soon." style="display: none !important;">
 
 						<i class="fa fa-user-o"></i>

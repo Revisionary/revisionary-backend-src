@@ -231,7 +231,18 @@
 
 
 								// Block Images
-								$block_image_path = "projects/project-".$block['project_ID']."/page-0/version-0/screenshots/device-0.jpg";
+								$block_image_path = "projects/project-".$block['project_ID']."/page-0/version-0/screenshots/device-".$block['project_image_device_ID'].".jpg";
+
+								if ($block['project_image_device_ID'] != null) {
+
+
+									$blockDeviceInfo = Device::ID( $block['project_image_device_ID'] )->getInfo();
+ 									$block_image_path = "projects/project-".$block['project_ID']."/page-".$blockDeviceInfo['page_ID']."/version-".$blockDeviceInfo['version_ID']."/screenshots/device-".$block['project_image_device_ID'].".jpg";
+
+
+
+								}
+
 								$block_image_uri = cache."/$block_image_path";
 								$block_image_url = cache_url($block_image_path);
 

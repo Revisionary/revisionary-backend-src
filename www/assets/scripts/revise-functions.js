@@ -1199,7 +1199,8 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 	// Send the Ajax request
 	autoRefreshRequest = ajax('pins-get', {
 
-		'device_ID'	: device_ID
+		'version_ID' : version_ID,
+		'device_ID'	  : device_ID
 
 	}).done(function( result ) {
 
@@ -1409,6 +1410,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
 		'pin_private'			 : pinPrivate,
 		'pin_element_index' 	 : element_index,
+		'pin_version_ID'		 : version_ID,
 		'pin_device_ID'			 : device_ID
 
 	}).done(function(result){

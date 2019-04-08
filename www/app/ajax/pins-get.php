@@ -8,6 +8,7 @@ $status = "initiated";
 
 
 // Get the pin info
+$version_ID = request('version_ID');
 $device_ID = request('device_ID');
 $currentUserID = currentUserID();
 $pins = array();
@@ -28,7 +29,7 @@ if ( !userloggedIn() ) $status = "not-logged-in";
 
 
 // If device is not exist
-else if ( !User::ID()->canAccess($device_ID, "device") ) {
+else if ( !User::ID()->canAccess($version_ID, "version") ) {
 
 	$status = "no-access";
 
@@ -39,7 +40,10 @@ else if ( !User::ID()->canAccess($device_ID, "device") ) {
 else {
 
 	// Get pins from this device
-	$db->where('device_ID', $device_ID);
+	$db->where('version_ID', $version_ID);
+
+	// Hide device specific pins
+	$db->where ("(device_ID IS NULL or (device_ID IS NOT NULL and device_ID = $device_ID))");
 
 	// Hide private pins to other people
 	$db->where ("(user_ID = ".$currentUserID." or (user_ID != ".$currentUserID." and pin_private = 0))");

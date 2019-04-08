@@ -32,7 +32,7 @@ $device_ID = $_url[1];
 
 // If the specified device doesn't exist, go projects page
 $deviceData = Device::ID($device_ID);
-$device = $deviceData->getInfo("*", true);
+$device = $deviceData->getInfo();
 //die_to_print($device);
 if ( !$device ) {
 	header('Location: '.site_url('projects?devicedoesntexist'));

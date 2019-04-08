@@ -92,13 +92,14 @@ class Pin {
 
     // Add a new pin
     public function addNew(
-	    int $pin_device_ID,
+	    int $pin_version_ID,
     	string $pin_type = 'standard',
     	bool $pin_private = false,
     	float $pin_x = 50,
     	float $pin_y = 50,
     	int $pin_element_index = null,
-	    string $pin_modification_type = null
+	    string $pin_modification_type = null,
+	    int $pin_device_ID = null
     ) {
 	    global $db, $log;
 
@@ -115,34 +116,35 @@ class Pin {
 		// Add the pin
 		$pin_ID = $db->insert('pins', array(
 			"user_ID" => currentUserID(),
-			"device_ID" => $pin_device_ID,
+			"version_ID" => $pin_version_ID,
 			"pin_type" => $pin_type,
 			"pin_private" => $pin_private,
 			"pin_x" => $pin_x,
 			"pin_y" => $pin_y,
 			"pin_element_index" => $pin_element_index,
-			"pin_modification_type" => $pin_modification_type
+			"pin_modification_type" => $pin_modification_type,
+			"device_ID" => $pin_device_ID
 		));
 
 
 		// Notify the users
 		if ($pin_ID) {
 
-			$pinData = Pin::ID($pin_ID);
-			$device_ID = $pinData->getInfo('device_ID');
-			$page_ID = Device::ID( $device_ID )->getInfo('page_ID');
+			$device_ID = $pin_device_ID;
+			$version_ID = $pin_version_ID;
+
+			$page_ID = Version::ID( $version_ID )->getInfo('page_ID');
 			$pageData = Page::ID( $page_ID );
+
 			$project_ID = $pageData->getInfo('project_ID');
-			$projectData = Project::ID( $project_ID );
 
 
 			// Update the page modification date
-			$page_ID = Device::ID($pin_device_ID)->getInfo('page_ID');
 			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 
 
 			// Site log
-			$log->info(ucfirst($pin_type)." Pin #$pin_ID Added to: '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #$device_ID | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info(ucfirst($pin_type)." Pin #$pin_ID Added to: '".$pageData->getInfo('page_name')."' Page #$page_ID | Version #$version_ID | Device #$device_ID | Project #$project_ID | User #".currentUserID());
 
 
 		}

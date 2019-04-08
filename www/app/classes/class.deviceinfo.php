@@ -3,8 +3,8 @@
 class Device {
 
 
-	// The screen ID
 	public static $device_ID;
+	public static $deviceInfo;
 
 
 
@@ -17,35 +17,63 @@ class Device {
 
 	// ID Setter
     public static function ID($device_ID = null) {
+	    global $db;
 
-	    // Set the screen ID
-		if ($device_ID != null) self::$device_ID = $device_ID;
-		return new static;
+
+	    // Set the page ID
+		if ($device_ID != null && is_numeric($device_ID)) {
+
+
+			// Bring the screens
+			$db->join("screens s", "s.screen_ID = d.screen_ID", "LEFT");
+
+
+			// Bring the screen category info
+			$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
+
+
+			// Bring the version info
+			$db->join("versions v", "v.version_ID = d.version_ID", "LEFT");
+
+
+			// Select the device
+		    $db->where('d.device_ID', $device_ID);
+			$deviceInfo = $db->getOne("devices d");
+
+			if ( $deviceInfo ) {
+
+				self::$device_ID = $device_ID;
+				self::$deviceInfo = $deviceInfo;
+				return new static;
+
+			}
+
+
+		}
+
+
+	    // For the new page
+		if ($device_ID == null) {
+
+			self::$device_ID = "new";
+			return new static;
+
+		}
+
+		return false;
 
     }
 
 
 
+
 	// GETTERS:
 
-    // Get a Device & Screeen info
-    public function getInfo($columns = null, $array = false) {
-	    global $db;
+    // Get device info
+    public function getInfo($column = null) {
 
+	    return $column == null ? self::$deviceInfo : self::$deviceInfo[$column];
 
-		// Bring the screens
-		$db->join("screens s", "s.screen_ID = d.screen_ID", "LEFT");
-
-
-		// Bring the screen category info
-		$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
-
-
-		// Select the device
-	    $db->where("d.device_ID", self::$device_ID);
-
-
-		return $array ? $db->getOne("devices d", $columns) : $db->getValue("devices d", $columns);
     }
 
 
@@ -69,10 +97,6 @@ class Device {
 		// Bring the version info
 		$db->join("versions v", "v.version_ID = d.version_ID", "LEFT");
 		$db->joinWhere("versions v", "v.page_ID", $page_IDs, "IN");
-
-
-		// Devices only for my pages
-		//$db->where("v.page_ID", $page_IDs, 'IN');
 
 
 		// Order by device ID

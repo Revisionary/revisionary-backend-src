@@ -366,8 +366,7 @@ $(function() {
 
 		// Delete it from DB
 		if (
-			pinWindow(pin_ID).attr('data-pin-new') == "yes"
-			&& pinWindow(pin_ID).attr('data-revisionary-edited') == "0"
+			pinWindow(pin_ID).attr('data-revisionary-edited') == "0"
 			&& pinWindow(pin_ID).attr('data-changed') == "no"
 			&& pinWindow(pin_ID).attr('data-has-comments') == "no"
 			&& pinWindow(pin_ID).attr('temporary') != ""

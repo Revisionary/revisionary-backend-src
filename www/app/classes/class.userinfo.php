@@ -406,6 +406,7 @@ class User {
 	    if (
 		    $object_type != "project"
 		    && $object_type != "page"
+		    && $object_type != "version"
 		    && $object_type != "device"
 		    && $object_type != "pin"
 	    ) return false;
