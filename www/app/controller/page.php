@@ -57,20 +57,27 @@ if ( !$page ) {
 }
 
 
+// Get project ID
+$project_ID = $page['project_ID'];
 
-// THE DEVICE INFO
-$devices = Device::ID()->getDevices([$page_ID]);
-$first_device = reset($devices);
-//die_to_print($first_device);
+
+
+// THE VERSION INFO
+
+// All my versions
+$db->where('page_ID', $page_ID);
+$allMyVersions = $db->get('versions');
+$lastVersion = end($allMyVersions);
+//die_to_print($lastVersion);
 
 // If the specified device doesn't exist, go projects page
-if ( !isset($first_device) ) {
-	header('Location: '.site_url('projects?devicedoesntexist'));
+if ( !isset($lastVersion) ) {
+	header('Location: '.site_url("project/$project_ID?versiondoesntexist"));
 	die();
 }
 
 
-$url_to_redirect = site_url('revise/'.$first_device['device_ID']);
+$url_to_redirect = site_url('version/'.$lastVersion['version_ID']);
 if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
 if ( get('privatepin') == "1" ) $url_to_redirect = queryArg('privatepin=1', $url_to_redirect);
 if ( get('filter') == "incomplete" || get('filter') == "complete" ) $url_to_redirect = queryArg('filter='.get('filter'), $url_to_redirect);

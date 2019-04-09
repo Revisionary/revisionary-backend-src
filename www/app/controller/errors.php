@@ -1,6 +1,6 @@
 <?php
 
-$error_type = isset($_url[1]) ? $_url[1] : "";
+$error_type = isset($_url[1]) && is_numeric($_url[1]) ? $_url[1] : "";
 
 
 // Correct the messages !!!

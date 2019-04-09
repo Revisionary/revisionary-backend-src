@@ -96,87 +96,155 @@
 							<?=$projectInfo['project_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
-							<?php
-							foreach ($allMyProjects as $project) {
+<?php
+foreach ($allMyProjects as $project) {
 
-								$selected = $project['project_ID'] == $project_ID ? "selected" : "";
-
-
-								$pages_of_project = array_filter($allMyPages, function($pageFound) use ($project) {
-								    return ($pageFound['project_ID'] == $project['project_ID']);
-								});
-								$pages_of_project = categorize($pages_of_project, 'page', true);
-								//die_to_print($pages_of_project, false);
+	$selected = $project['project_ID'] == $project_ID ? "selected" : "";
 
 
-								$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$project['project_ID'];
-
-							?>
-							<li class="item <?=$selected?>" data-type="project" data-id="<?=$project['project_ID']?>">
-
-								<a href="<?=site_url('project/'.$project['project_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$project['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ""?></a>
-
-								<?php
-								if ( count($pages_of_project) ) {
-								?>
-								<ul>
-									<?php
-									foreach ($pages_of_project as $pageFromProject) {
-
-										$selected = $pageFromProject['page_ID'] == $page_ID ? "selected" : "";
+	$pages_of_project = array_filter($allMyPages, function($pageFound) use ($project) {
+	    return ($pageFound['project_ID'] == $project['project_ID']);
+	});
+	$pages_of_project = categorize($pages_of_project, 'page', true);
+	//die_to_print($pages_of_project, false);
 
 
-										$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageFromProject) {
-										    return ($deviceFound['page_ID'] == $pageFromProject['page_ID']);
-										});
-										$firstDevice = reset($devices_of_page);
-										//die_to_print($devices_of_page, false);
+	$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$project['project_ID'];
+
+?>
+<li class="item <?=$selected?>" data-type="project" data-id="<?=$project['project_ID']?>">
+
+	<a href="<?=site_url('project/'.$project['project_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$project['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ""?></a>
+
+	<?php
+	if ( count($pages_of_project) ) {
+	?>
+	<ul>
+		<?php
+		foreach ($pages_of_project as $pageFromProject) {
+
+			$selected = $pageFromProject['page_ID'] == $page_ID ? "selected" : "";
 
 
-									?>
-									<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageFromProject['page_ID']?>">
-										<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?></a>
+			// Get versions of the page
+			$versions_of_page = array_filter($allMyVersions, function($versionFound) use ($pageFromProject) {
+			    return ($versionFound['page_ID'] == $pageFromProject['page_ID']);
+			});
+			$versions_of_page = array_values($versions_of_page); // Reset the keys to get version numbers
+			//$firstVersion = reset($versions_of_page);
+			//die_to_print($versions_of_page);
 
-										<?php
-										if ( count($devices_of_page) ) {
-										?>
-										<ul>
-											<?php
-											foreach ($devices_of_page as $deviceFromPage) {
 
-												$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
-											?>
-											<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-												<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
-											</li>
-											<?php
-											}
-											?>
-										</ul>
-										<?php
-										}
-										?>
+		?>
+		<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageFromProject['page_ID']?>">
+			<a href="<?=site_url('page/'.$pageFromProject['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?> <i class="fa fa-caret-right"></i></a>
 
-									</li>
-									<?php
-									}
-									?>
-								</ul>
-								<?php
-								}
-								?>
+			<?php
+			if ( count($versions_of_page) > 1 ) {
+			?>
+			<ul>
+				<?php
+				foreach ($versions_of_page as $versionFromPage) {
 
-								<?php
-								if ($selected != "selected" && 2 != 2) {
-								?>
-								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Project" data-action="delete" data-confirm="Are you sure you want to delete this project?"></i>
-								<?php
-								}
-								?>
-							</li>
-							<?php
-							}
-							?>
+					$selected = $versionFromPage['version_ID'] == $version_ID ? "selected" : "";
+					$versionNumber = array_search($versionFromPage, $versions_of_page) + 1;
+
+
+					// Get devices of this version
+					$devices_of_version = array_filter($allMyDevices, function($deviceFound) use ($versionFromPage) {
+					    return ($deviceFound['version_ID'] == $versionFromPage['version_ID']);
+					});
+					//$firstDevice = reset($devices_of_version);
+					//die_to_print($devices_of_version);
+
+				?>
+				<li class="item <?=$selected?>" data-type="version" data-id="<?=$versionFromPage['version_ID']?>">
+					<a href="<?=site_url('version/'.$versionFromPage['version_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?></a>
+
+					<?php
+					if ( count($devices_of_version) ) {
+					?>
+					<ul>
+						<?php
+						foreach ($devices_of_version as $deviceFromPage) {
+
+							$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
+						?>
+						<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
+							<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+						</li>
+						<?php
+						}
+						?>
+					</ul>
+					<?php
+					}
+					?>
+
+
+				</li>
+				<?php
+				}
+				?>
+			</ul>
+			<?php
+			} else {
+			?>
+
+
+				<?php
+				// Get devices of this version
+				$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageFromProject) {
+				    return ($deviceFound['page_ID'] == $pageFromProject['page_ID']);
+				});
+				//$firstDevice = reset($devices_of_page);
+				//die_to_print($devices_of_page);
+
+
+				if ( count($devices_of_page) ) {
+				?>
+				<ul>
+					<?php
+					foreach ($devices_of_page as $deviceFromPage) {
+
+						$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
+					?>
+					<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
+						<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+					</li>
+					<?php
+					}
+					?>
+				</ul>
+				<?php
+				}
+				?>
+
+
+			<?php
+			}
+			?>
+
+		</li>
+		<?php
+		}
+		?>
+	</ul>
+	<?php
+	}
+	?>
+
+	<?php
+	if ($project['project_ID'] != $project_ID && 2 != 2) {
+	?>
+	<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Project" data-action="delete" data-confirm="Are you sure you want to delete this project?"></i>
+	<?php
+	}
+	?>
+</li>
+<?php
+}
+?>
 							<li><a href="#" data-modal="add-new" data-type="project" data-id="new"><i class="fa fa-plus"></i> <b>Add New Project</b></a></li>
 						</ul>
 					</span>
@@ -211,58 +279,126 @@
 							<?=$page['page_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
-							<?php
+<?php
 
-							foreach ($other_pages as $pageOther) {
+foreach ($other_pages as $pageOther) {
 
-								$selected = $pageOther['page_ID'] == $page_ID ? "selected" : "";
-
-
-								$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageOther) {
-								    return ($deviceFound['page_ID'] == $pageOther['page_ID']);
-								});
-								$firstDevice = reset($devices_of_page);
-								//die_to_print($devices_of_page);
+	$selected = $pageOther['page_ID'] == $page_ID ? "selected" : "";
 
 
-								$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$pageOther['page_ID'];
+	// Get versions of the page
+	$versions_of_page = array_filter($allMyVersions, function($versionFound) use ($pageOther) {
+	    return ($versionFound['page_ID'] == $pageOther['page_ID']);
+	});
+	$versions_of_page = array_values($versions_of_page); // Reset the keys to get version numbers
+	//$firstVersion = reset($versions_of_page);
+	//die_to_print($versions_of_page);
 
-							?>
-							<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageOther['page_ID']?>">
 
-								<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a>
-								<?php
-								if ( count($devices_of_page) ) {
-								?>
-								<ul>
-									<?php
-									foreach ($devices_of_page as $deviceFromPage) {
+	$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$pageOther['page_ID'];
 
-										$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
-									?>
-									<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-										<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
-									</li>
-									<?php
-									}
-									?>
-								</ul>
-								<?php
-								}
-								?>
+?>
+<li class="item deletable <?=$selected?>" data-type="page" data-id="<?=$pageOther['page_ID']?>">
 
-								<?php
-								if ($selected != "selected" && 2 != 2) {
-								?>
-								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Page" data-action="delete" data-confirm="Are you sure you want to delete this page?"></i>
-								<?php
-								}
-								?>
+	<a href="<?=site_url('page/'.$pageOther['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a>
+	<?php
+	if ( count($versions_of_page) > 1 ) {
+	?>
+	<ul>
+		<?php
+		foreach ($versions_of_page as $versionFromPage) {
 
-							</li>
-							<?php
-							}
-							?>
+			$selected = $versionFromPage['version_ID'] == $version_ID ? "selected" : "";
+			$versionNumber = array_search($versionFromPage, $versions_of_page) + 1;
+
+
+			// Get devices of this version
+			$devices_of_version = array_filter($allMyDevices, function($deviceFound) use ($versionFromPage) {
+			    return ($deviceFound['version_ID'] == $versionFromPage['version_ID']);
+			});
+			//$firstDevice = reset($devices_of_version);
+			//die_to_print($devices_of_version);
+
+		?>
+		<li class="item <?=$selected?>" data-type="version" data-id="<?=$versionFromPage['version_ID']?>">
+			<a href="<?=site_url('version/'.$versionFromPage['version_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?></a>
+
+			<?php
+			if ( count($devices_of_version) ) {
+			?>
+			<ul>
+				<?php
+				foreach ($devices_of_version as $deviceFromPage) {
+
+					$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
+				?>
+				<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
+					<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+				</li>
+				<?php
+				}
+				?>
+			</ul>
+			<?php
+			}
+			?>
+
+
+		</li>
+		<?php
+		}
+		?>
+	</ul>
+<?php
+} else {
+?>
+
+
+	<?php
+	// Get devices of this version
+	$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageOther) {
+	    return ($deviceFound['page_ID'] == $pageOther['page_ID']);
+	});
+	$firstDevice = reset($devices_of_page);
+	//die_to_print($devices_of_page);
+
+
+	if ( count($devices_of_page) ) {
+	?>
+	<ul>
+		<?php
+		foreach ($devices_of_page as $deviceFromPage) {
+
+			$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
+		?>
+		<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
+			<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+		</li>
+		<?php
+		}
+		?>
+	</ul>
+	<?php
+	}
+	?>
+
+
+<?php
+}
+?>
+
+	<?php
+	if ($pageOther['page_ID'] != $page_ID) {
+	?>
+	<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Page" data-action="delete" data-confirm="Are you sure you want to delete this page?"></i>
+	<?php
+	}
+	?>
+
+</li>
+<?php
+}
+?>
 							<li>
 
 								<a href="#" data-modal="add-new" data-object-name="<?=$projectInfo['project_name']?>" data-type="page" data-id="<?=$projectInfo['project_ID']?>"><i class="fa fa-plus"></i> <b>Add New Page</b></a>

@@ -96,13 +96,12 @@ class Device {
 
 		// Bring the version info
 		$db->join("versions v", "v.version_ID = d.version_ID", "LEFT");
-		$db->joinWhere("versions v", "v.page_ID", $page_IDs, "IN");
 
 
 		// Order by device ID
 		$db->orderBy('d.device_ID', 'ASC');
 
-
+		$db->where("v.page_ID", $page_IDs, "IN");
 		return $db->get('devices d');
     }
 
