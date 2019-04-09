@@ -1780,7 +1780,7 @@ function relocatePin(pin_ID, x = null, y = null) {
 
 
 
-	console.log('RELOCATING PIN #' + pin_ID, pinLocation );
+	//console.log('RELOCATING PIN #' + pin_ID, pinLocation );
 
 
 

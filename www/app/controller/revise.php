@@ -32,12 +32,12 @@ $device_ID = $_url[1];
 
 // If the specified device doesn't exist, go projects page
 $deviceData = Device::ID($device_ID);
-$device = $deviceData->getInfo();
-//die_to_print($device);
-if ( !$device ) {
+if ( !$deviceData ) {
 	header('Location: '.site_url('projects?devicedoesntexist'));
 	die();
 }
+$device = $deviceData->getInfo();
+//die_to_print($device);
 
 
 
@@ -46,12 +46,12 @@ $version_ID = $device['version_ID'];
 
 // If the specified device doesn't exist, go projects page
 $versionData = Version::ID($version_ID);
-$version = $versionData->getInfo();
-//die_to_print($version);
-if ( !$version ) {
+if ( !$versionData ) {
 	header('Location: '.site_url('projects?versiondoesntexist'));
 	die();
 }
+$version = $versionData->getInfo();
+//die_to_print($version);
 
 
 
@@ -353,6 +353,11 @@ $projectInfo = Project::ID($project_ID)->getInfo(null, true);
 // MY PROJECTS
 $allMyProjects = User::ID()->getMy('projects');
 //die_to_print($allMyProjects);
+
+
+// VERSIONS OF THE PAGE
+$db->where('page_ID', $page_ID);
+$versions = $db->get('versions');
 
 
 // MY DEVICES IN THIS PROJECT
