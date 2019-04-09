@@ -1780,7 +1780,7 @@ function relocatePin(pin_ID, x = null, y = null) {
 
 
 
-	//console.log('RELOCATING PIN #' + pin_ID, pinLocation );
+	console.log('RELOCATING PIN #' + pin_ID, pinLocation );
 
 
 
@@ -1818,8 +1818,10 @@ function relocatePinWindow(pin_ID = null) {
 	if ( pinWindow().attr('data-pin-id') != pin_ID ) return false;
 
 
-	// Update the location and size values first
+/*
+	// Update the location and size values
 	updateLocationValues();
+*/
 
 
 
@@ -1895,6 +1897,10 @@ function relocatePinWindow(pin_ID = null) {
 
 // Get real pin location
 function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
+
+
+	// Update the location and size values
+	updateLocationValues();
 
 
 	var elementOffset = getElementOffset(element_index);
@@ -2687,7 +2693,7 @@ function applyPins(oldPins = []) {
 
 
 
-	// Update the location and size values first
+	// Update the location and size values
 	updateLocationValues();
 
 
@@ -3752,8 +3758,6 @@ function isPinWindowOpen(selector = "", byElementIndex = false) {
 function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary = false, size = "big") {
 
 
-	// Update the location and size values first
-	updateLocationValues();
 	var pinLocation = locationsByElement(pin_element_index, pin_x, pin_y);
 
 
@@ -4504,7 +4508,7 @@ function nl2br(str, is_xhtml) {
 
 jQuery.fn.onPositionChanged = function (trigger, millis) {
 
-    if (millis == null) millis = 100;
+    if (millis == null) millis = 10;
     var o = $(this[0]); // our jquery object
     if (o.length < 1) return o;
     var lastPos = null;
