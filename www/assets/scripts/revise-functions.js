@@ -1762,10 +1762,6 @@ function changePinNumber(pinNumber) {
 function relocatePin(pin_ID, x = null, y = null) {
 
 
-	// Update the location and size values first
-	updateLocationValues();
-
-
 	// Pin info
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
@@ -1901,25 +1897,9 @@ function relocatePinWindow(pin_ID = null) {
 function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
 
 
-	var selectedElement = iframeElement(element_index);
-	var pin_ID = parseInt( pinElement(selectedElement, true).attr('data-pin-id') );
-
-
-	// Check if hidden
-	var tempshow = false;
-	if ( selectedElement.css('display') == 'none' ) {
-		toggleCSS(pin_ID, true);
-		tempshow = true;
-	}
-
-
-	var elementOffset = selectedElement.offset();
+	var elementOffset = getElementOffset(element_index);
 	var elementTop = elementOffset.top;
 	var elementLeft = elementOffset.left;
-
-	if (tempshow) {
-		toggleCSS(pin_ID);
-	}
 
 
 	// The coordinates by the element
@@ -1950,6 +1930,37 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
 		x : elementPinX,
 		y : elementPinY
 	}
+
+}
+
+
+// Get element offset
+function getElementOffset(element_index) {
+
+
+	var selectedElement = iframeElement(element_index);
+
+	var pin = getPin(element_index, true);
+	var pin_ID = pin.pin_ID;
+
+
+	// Check if hidden
+	if ( selectedElement.css('display') == 'none' ) {
+
+
+		disableCSS(pin_ID);
+		var elementOffset = selectedElement.offset();
+		activateCSS(pin_ID);
+
+
+	} else {
+
+		var elementOffset = selectedElement.offset();
+
+	}
+
+
+	return elementOffset;
 
 }
 
@@ -2013,23 +2024,11 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 			// PIN LOCATION:
 			// Element info
 			var element_index = parseInt($(this).attr('data-revisionary-index'));
-			var selectedElement = iframeElement(element_index);
 
 
-			// Check if hidden
-			var tempshow = false;
-			if ( selectedElement.css('display') == 'none' ) {
-				toggleCSS(pin_ID, true);
-				tempshow = true;
-			}
-
-			var elementOffset = selectedElement.offset();
-			var elementLeft = elementOffset.left;
+			var elementOffset = getElementOffset(element_index);
 			var elementTop = elementOffset.top;
-
-			if (tempshow) {
-				toggleCSS(pin_ID);
-			}
+			var elementLeft = elementOffset.left;
 
 
 			// Get the final positions
@@ -2683,7 +2682,13 @@ function updateOriginals(pinsList = [], oldPinsList) {
 function applyPins(oldPins = []) {
 
 
+
 	console.log('APPLYING PINS...');
+
+
+
+	// Update the location and size values first
+	updateLocationValues();
 
 
 	// Revert the changes first
@@ -2699,6 +2704,7 @@ function applyPins(oldPins = []) {
 
 		var pin_number = i + 1;
 		var elementIndex = parseInt(pin.pin_element_index);
+
 
 		// Add the pin to the list
 		$('#pins').append(
@@ -2763,7 +2769,7 @@ function applyChanges(showingOriginal = []) {
 
 
 		// CSS CODES:
-		if ( pin.pin_css != null ) updateCSS(pin.pin_ID, pin.pin_css);
+		if ( pin.pin_css != null ) updateCSS(pin.pin_ID);
 
 
 
@@ -3232,10 +3238,12 @@ function saveCSS(pin_ID, css) {
 
 
 // Update CSS
-function updateCSS(pin_ID, cssCodes) {
+function updateCSS(pin_ID, cssCodes = null) {
 
 
 	var pin = getPin(pin_ID);
+	if (!pin) return false;
+	if (cssCodes == null) cssCodes = pin.pin_css;
 
 
 	// Mark the old one
@@ -3252,6 +3260,10 @@ function updateCSS(pin_ID, cssCodes) {
 
 	// Update the changed status
 	pinWindow(pin.pin_element_index, true).attr('data-changed', (cssCodes != null ? "yes" : "no"));
+
+
+	// Relocate the pin
+	relocatePin(pin_ID);
 
 
 }
@@ -3271,11 +3283,12 @@ function resetCSS(pin_ID) {
 
 
 // Toggle content edits
-function toggleCSS(pin_ID, forceClose = false, forceOpen = false) {
+function toggleCSS(pin_ID) {
 
 
     // Get the pin from the Pins global
 	var pin = getPin(pin_ID);
+	if (!pin) return false;
 
 
 	// If pin and its CSS found
@@ -3284,18 +3297,26 @@ function toggleCSS(pin_ID, forceClose = false, forceOpen = false) {
 
 		var elementIndex = pin.pin_element_index;
 		var styleElement = iframeElement('style[data-pin-id="'+ pin_ID +'"]');
-		var isShowingCSS = styleElement.html() == "" ? false : true;
+		var isShowingCSS = styleElement.is('[media]') ? false : true;
 
 
-		console.log( isShowingCSS || forceClose ? "CLOSING" : "OPENING" );
+		//console.log( isShowingCSS || forceClose ? "CLOSING" : "OPENING" );
 
 
 		// Toggle the styles
-		styleElement.html( (isShowingCSS || forceClose ? "" : '[data-revisionary-index="'+ elementIndex +'"]{ '+ pin.pin_css +' }') );
+		if (isShowingCSS) {
+
+			disableCSS(pin_ID);
+
+		} else {
+
+			activateCSS(pin_ID);
+
+		}
 
 
 		// Toggle the option
-		pinWindow(pin_ID).attr('data-showing-changes', (isShowingCSS || forceClose ? "no" : "yes"));
+		pinWindow(pin_ID).attr('data-showing-changes', (isShowingCSS ? "no" : "yes"));
 
 
 	}
@@ -3309,8 +3330,33 @@ function revertCSS(pin_ID) {
 	console.log('REMOVING CSS FOR: #', pin_ID);
 
 	var pin = getPin(pin_ID);
-
 	return iframeElement('style[data-pin-id="'+ pin.pin_ID +'"]').remove();
+
+}
+
+
+// Disable CSS
+function disableCSS(pin_ID) {
+
+	//console.log('Disabling CSS FOR: #', pin_ID);
+
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+	return iframeElement('style[data-pin-id="'+ pin.pin_ID +'"]').attr('media', 'max-width: 1px;');
+
+}
+
+
+// Activate CSS
+function activateCSS(pin_ID) {
+
+	//console.log('Activating CSS FOR: #', pin_ID);
+
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+	return iframeElement('style[data-pin-id="'+ pin.pin_ID +'"]').removeAttr('media');
 
 }
 
@@ -3660,9 +3706,9 @@ function pinElement(selector, byElementIndex = false) {
 
 
 // Get pin from the Pins global
-function getPin(pin_ID) {
+function getPin(pin_ID, byElementIndex = false) {
 
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID ? true : false; });
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID || (byElementIndex && pin.pin_element_index == pin_ID ) ? true : false; });
 	if (typeof pin === 'undefined') return false;
 
 	return pin;
@@ -3706,6 +3752,8 @@ function isPinWindowOpen(selector = "", byElementIndex = false) {
 function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary = false, size = "big") {
 
 
+	// Update the location and size values first
+	updateLocationValues();
 	var pinLocation = locationsByElement(pin_element_index, pin_x, pin_y);
 
 
@@ -4455,23 +4503,28 @@ function nl2br(str, is_xhtml) {
 }
 
 jQuery.fn.onPositionChanged = function (trigger, millis) {
-    if (millis == null) millis = 10;
+
+    if (millis == null) millis = 100;
     var o = $(this[0]); // our jquery object
     if (o.length < 1) return o;
     var lastPos = null;
     var lastOff = null;
     var lastWidth = null;
     var lastOffWidth = null;
+
     setInterval(function () {
+
         if (o == null || o.length < 1) return o; // abort if element is non existend eny more
         if (lastPos == null) lastPos = o.position();
         if (lastOff == null) lastOff = o.offset();
         if (lastWidth == null) lastWidth = o.width();
         if (lastOffWidth == null) lastOffWidth = o[0].offsetWidth;
+
         var newPos = o.position();
         var newOff = o.offset();
         var newWidth = o.width();
         var newOffWidth = o[0].offsetWidth;
+
         if (lastPos.top != newPos.top || lastPos.left != newPos.left) {
             $(this).trigger('onPositionChanged', { lastPos: lastPos, newPos: newPos });
             if (typeof (trigger) == "function") trigger(lastPos, newPos);
@@ -4492,6 +4545,9 @@ jQuery.fn.onPositionChanged = function (trigger, millis) {
             if (typeof (trigger) == "function") trigger(lastOffWidth, newOffWidth);
             lastWidth= o.width();
         }
+
     }, millis);
+
+
     return o;
 };

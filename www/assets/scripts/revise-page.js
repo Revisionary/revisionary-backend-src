@@ -749,7 +749,7 @@ $(function() {
 		}, 1000);
 
 
-		relocatePinWindow(pin_ID);
+		relocatePins();
 		e.preventDefault();
 
 	});
