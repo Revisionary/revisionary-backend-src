@@ -287,8 +287,17 @@
 
 						<a href="#" class="button select-version"><i class="fa fa-code-branch"></i> v2 <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left bottom-tooltip" data-tooltip="In development...">
-							<li class=""><a href="#"><i class="fa fa-code-branch"></i> v1 - Initial Version</a></li>
-							<li class="selected"><a href="#"><i class="fa fa-code-branch"></i> v2 - After changes</a></li>
+
+							<?php
+							$versionNumber = 0;
+							foreach($versions as $version) { $versionNumber++;
+							?>
+
+							<li class=""><a href="#"><i class="fa fa-code-branch"></i> v<?=$versionNumber?> - <?=$version['version_name']?></a></li>
+
+							<?php
+							}
+							?>
 
 							<li><a href="#" class="add-version"><i class="fa fa-plus"></i> <b>Add New Version</b></a></li>
 						</ul>

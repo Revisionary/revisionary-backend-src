@@ -105,6 +105,18 @@ if (
 	}
 
 
+	// Update the project image
+	if ($new_project) {
+
+		$projectData = Project::ID($project_ID);
+		$projectInfo = $projectData->getInfo();
+		$project_image = $projectInfo['project_image_device_ID'];
+
+		if ($project_image == null) $projectData->edit('project_image_device_ID', $device_ID);
+
+	}
+
+
 	// Revising URL
 	$revise_url = site_url('revise/'.$device_ID);
 	if ( request('pinmode') == "browse" ) $revise_url = $revise_url."?pinmode=browse&new=page";

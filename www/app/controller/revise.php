@@ -243,7 +243,6 @@ if (
 
 	file_exists( $versionData->versionDir ) && // Folder is exist
 	file_exists( $versionData->versionFile ) && // HTML is downloaded
-	//file_exists( $project_image ) && // // Project image ready !!!
 	file_exists( $versionData->logDir."/browser.log" ) && // No error on Browser
 	file_exists( $versionData->logDir."/html-filter.log" ) && // No error on HTML filtering
 	file_exists( $versionData->logDir."/css-filter.log" ) // No error on CSS filtering
@@ -346,8 +345,12 @@ $screen_data = User::ID()->getScreenData();
 
 
 // PROJECT INFO
-$projectInfo = Project::ID($project_ID)->getInfo(null, true);
+$projectData = Project::ID($project_ID);
+$projectInfo = $projectData->getInfo();
 //die_to_print($projectInfo);
+
+$project_image = $projectInfo['project_image_device_ID'];
+if ($project_image == null) $projectData->edit('project_image_device_ID', $device_ID);
 
 
 // MY PROJECTS
