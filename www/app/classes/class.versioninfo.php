@@ -295,8 +295,7 @@ class Version {
 
     // Add a new version
     public function addNew(
-    	int $page_ID, // The page_ID that new version is belong to
-    	string $version_name = null
+    	int $page_ID // The page_ID that new version is belong to
     ) {
 	    global $db, $log;
 
@@ -308,44 +307,46 @@ class Version {
 
 		// Add the version
 		$version_ID = $db->insert('versions', array(
-			"version_name" => $version_name,
 			"page_ID" => $page_ID
 		));
 
 
 
-/*
 		// If version added
 		if ($version_ID) {
 
 
 			$version_link = site_url('version/'.$version_ID);
-			$page_name = " [".Page::ID($page_ID)->getInfo('page_name')."]";
+
+			$pageData = Page::ID($page_ID);
+			$page_name = $pageData->getInfo('page_name');
+
+			$project_ID = $pageData->getInfo('project_ID');
+			$projectData = Project::ID($project_ID);
+			$project_name = " [".$projectData->getInfo('project_name')."]";
 
 
 			// Get the users to notify
 			$users = Version::ID($version_ID)->getUsers();
 
 
-			// Web notification
+			// Web notification !!!
 			Notify::ID($users)->web("new", "version", $version_ID);
 
 
 			// Email notification
 			Notify::ID($users)->mail(
-				getUserInfo()['fullName']." added a new version: ".$version_name.$page_name,
-				getUserInfo()['fullName']." added a new version: ".$version_name.$page_name." <br>
-				<b>Version URL</b>: $version_url <br><br>
-				<a href='$version_link' target='_blank'>$version_link</a>"
+				getUserInfo()['fullName']." added a new version in ".$page_name.$project_name,
+				getUserInfo()['fullName']." added a new version in ".$page_name.$project_name." <br><br>
+				<b>Version Link</b>: <a href='$version_link' target='_blank'>$version_link</a>"
 			);
 
 
 			// Site log
-			$log->info("Version #$version_ID Added: $version_name($version_url) | User #".currentUserID());
+			$log->info("Version #$version_ID Added in $page_name.$project_name | Page #$page_ID | Project #$project_ID | User #".currentUserID());
 
 
 		}
-*/
 
 
 		return $version_ID;
@@ -427,44 +428,10 @@ class Version {
 
 
 		// Site log
-		if ($version_removed) $log->info("Version #".self::$version_ID." Removed: '".$this->getInfo('version_name')."' | Project Name: ".$projectData->getInfo('project_name')." | Project #".$projectData->getInfo('project_ID')." | Page Name: ".$pageData->getInfo('page_name')." | Page #".$this->getInfo('page_ID')."User #".currentUserID());
+		if ($version_removed) $log->info("Version #".self::$version_ID." Removed | Project Name: ".$projectData->getInfo('project_name')." | Project #".$projectData->getInfo('project_ID')." | Page Name: ".$pageData->getInfo('page_name')." | Page #".$this->getInfo('page_ID')."User #".currentUserID());
 
 
 		return $version_removed;
-
-    }
-
-
-
-    // Rename a version
-    public function rename(
-	    string $text
-    ) {
-	    global $db, $log;
-
-
-
-		// More DB Checks of arguments !!!
-
-
-
-		$current_version_name = $this->getInfo('version_name');
-
-
-    	$db->where('version_ID', self::$version_ID);
-		//$db->where('user_ID', currentUserID()); // !!! Only rename my version?
-
-		$version_renamed = $db->update('versions', array(
-			'version_name' => $text
-		));
-
-
-		// Site log
-		if ($version_renamed) $log->info("Version #".self::$version_ID." Renamed: '$current_version_name => $text' | Page #".$this->getInfo('page_ID')." | User #".currentUserID());
-
-
-
-		return $version_renamed;
 
     }
 

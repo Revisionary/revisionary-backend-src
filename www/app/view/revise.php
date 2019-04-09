@@ -427,7 +427,7 @@ foreach ($other_pages as $pageOther) {
 					?>
 
 						<a href="#" class="button select-version"><i class="fa fa-code-branch"></i> v<?=$currentVersionNumber?> <i class="fa fa-caret-down"></i></a>
-						<ul class="xl-left bottom-tooltip">
+						<ul class="xl-left">
 
 							<?php
 							foreach($other_versions as $versionFound) {

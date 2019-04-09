@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 08, 2019 at 01:47 PM
+-- Generation Time: Apr 09, 2019 at 03:36 PM
 -- Server version: 8.0.15
 -- PHP Version: 7.2.14
 
@@ -386,8 +386,8 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 
 CREATE TABLE `versions` (
   `version_ID` bigint(20) NOT NULL,
-  `version_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `version_internalized` int(20) NOT NULL DEFAULT '0',
+  `version_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `page_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

@@ -1,14 +1,46 @@
 <?php
 
 function categorize($objects, $dataType, $prepared = false) {
-	global $thePreparedData, $devices, $catFilter;
+	global $db, $thePreparedData, $versions, $devices, $catFilter;
 
 
 	// Bring the devices data for pages
 	if ($dataType == "page") {
 
+
 		$page_IDs = array_unique(array_column($objects, 'page_ID'));
+
+
+		// All my versions
+		$db->where('page_ID', $page_IDs, 'IN');
+		$versions = $db->get('versions');
+
+
+		// All my devices
 		$devices = Device::ID()->getDevices($page_IDs);
+
+
+
+		// PREPARE VERSIONS WITH DEVICES
+		$versionsWithDevices = [];
+		foreach ($versions as $version) {
+
+			$versionsWithDevices[ $version["version_ID"] ] = $version;
+			$versionsWithDevices[ $version["version_ID"] ]['devicesData'] = array();
+
+
+			// Extract this page's devices
+			$pageDevices = array_filter($devices, function ($device) use ($version) {
+			    return ($device['version_ID'] == $version['version_ID']);
+			});
+
+
+			// Import the page devices
+			if (is_array($pageDevices) && count($pageDevices) > 0)
+				$versionsWithDevices[ $version["version_ID"] ]['devicesData'] = $pageDevices;
+
+		}
+
 
 	}
 
@@ -27,24 +59,26 @@ function categorize($objects, $dataType, $prepared = false) {
 		if ($dataType == "page") {
 
 			$thePreparedData[ $object["page_ID"] ] = $object;
-			$thePreparedData[ $object["page_ID"] ]['devicesData'] = array();
+			$thePreparedData[ $object["page_ID"] ]['versionsData'] = array();
 
 
-			// Extract this page's devices
-			$pageDevices = array_filter($devices, function ($device) use ($object) {
-			    return ($device['page_ID'] == $object['page_ID']);
+			// Extract this page's versions
+			$pageVersions = array_filter($versionsWithDevices, function ($version) use ($object) {
+			    return ($version['page_ID'] == $object['page_ID']);
 			});
+			$pageVersions = array_values($pageVersions);
 
 
-			// Import the page devices
-			if (is_array($pageDevices) && count($pageDevices) > 0)
-				$thePreparedData[ $object["page_ID"] ]['devicesData'] = $pageDevices;
+			// Import the page versions
+			if (is_array($pageVersions) && count($pageVersions) > 0)
+				$thePreparedData[ $object["page_ID"] ]['versionsData'] = $pageVersions;
 
 
 		}
 
 
 	}
+
 
 
 	if ($prepared) return $thePreparedData;

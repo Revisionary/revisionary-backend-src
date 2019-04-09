@@ -54,6 +54,7 @@ $catFilter = isset($_url[2]) ? $_url[2] : '';
 $dataType = "page";
 $allMyPagesList = User::ID()->getMy("pages", $catFilter, $order, $project_ID, null, true);
 //die_to_print($allMyPagesList);
+
 $theCategorizedData = categorize($allMyPagesList, $dataType);
 //die_to_print($theCategorizedData);
 
@@ -65,7 +66,12 @@ $allMyPages = $thePreparedData;
 
 
 // MY DEVICES IN THIS PROJECT
-$allMyDevices = $devices;
+$allMyVersions = $versions; // Comes globally from 'categorize.php'
+//die_to_print($allMyVersions);
+
+
+// MY DEVICES IN THIS PROJECT
+$allMyDevices = $devices; // Comes globally from 'categorize.php'
 //die_to_print($allMyDevices);
 
 
@@ -97,7 +103,7 @@ if (
 
 
 
-// COUNT ALL THE PINS
+// COUNT ALL THE PINS !!!
 $totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = $totalCompletePinCount = 0;
 
 $allMyPins = array();
@@ -155,15 +161,32 @@ foreach($theCategorizedData as $categories) {
 	if ( isset($categories['theData']) ) {
 
 		foreach($categories['theData'] as $page) {
-			foreach ($page['devicesData'] as $device) {
 
-				$available_screens[$device['screen_cat_ID']] = array(
-					"screen_cat_ID" => $device['screen_cat_ID'],
-					"screen_cat_name" => $device['screen_cat_name'],
-					"screen_cat_icon" => $device['screen_cat_icon']
-				);
+			if ( isset($page['versionsData']) ) {
+
+				foreach ($page['versionsData'] as $version) {
+
+					if ( isset($version['devicesData']) ) {
+
+
+						foreach ($version['devicesData'] as $device) {
+
+							$available_screens[$device['screen_cat_ID']] = array(
+								"screen_cat_ID" => $device['screen_cat_ID'],
+								"screen_cat_name" => $device['screen_cat_name'],
+								"screen_cat_icon" => $device['screen_cat_icon']
+							);
+
+						}
+
+
+					}
+
+				}
 
 			}
+
+
 		}
 
 	}

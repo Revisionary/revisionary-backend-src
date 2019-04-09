@@ -252,8 +252,8 @@
 
 							if ($dataType == "page") {
 
-
-								$blockDevices = $block['devicesData'];
+								$blockVersion = end($block['versionsData']);
+								$blockDevices = $blockVersion['devicesData'];
 
 
 								// Screen filter
@@ -582,20 +582,64 @@ if ($dataType == "page" && $allMyPins) {
 
 										<?php
 										if ($dataType == "page") {
+
+//die_to_print($block['versionsData'], false);
+
+											$blockVersionNumber = array_search($blockVersion, $block['versionsData']) + 1;
 										?>
 
-										<a href="#">v2 <i class="fa fa-caret-down"></i></a>
-										<ul class="xl-left">
-											<li>
-												<a href="#">v1 (1 week ago)</a>
-											</li>
-											<li>
-												<a href="#">v2 (2 days ago)</a>
-											</li>
-											<li>
-												<a href="#">v3 (1 day ago)</a>
-											</li>
-										</ul>
+<a href="#">v<?=$blockVersionNumber?> <i class="fa fa-caret-down"></i></a>
+<ul class="xl-left">
+	<?php
+	foreach($block['versionsData'] as $otherVersion) {
+
+		$otherVersionNumber = array_search($otherVersion, $block['versionsData']) + 1;
+
+
+		// Devices of the version
+		$devices_of_version = $otherVersion['devicesData'];
+		$firstDevice = reset($devices_of_version);
+		//die_to_print($devices_of_version, false);
+	?>
+
+	<li class="item deletable <?=$blockVersion['version_ID'] == $otherVersion['version_ID'] ? "selected" : ""?>" data-type="version" data-id="<?=$otherVersion['version_ID']?>">
+		<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$otherVersionNumber?> (<?=timeago($otherVersion['version_created'])?>)</a>
+
+		<?php
+		if ( count($devices_of_version) ) {
+		?>
+		<ul>
+			<?php
+			foreach ($devices_of_version as $deviceFromVersion) {
+			?>
+			<li class="item" data-type="device" data-id="<?=$deviceFromVersion['device_ID']?>">
+				<a href="<?=site_url('revise/'.$deviceFromVersion['device_ID'])?>"><i class="fa <?=$deviceFromVersion['screen_cat_icon']?>"></i> <?=$deviceFromVersion['screen_cat_name']?></a>
+			</li>
+			<?php
+			}
+			?>
+		</ul>
+		<?php
+		}
+		?>
+
+
+		<?php
+		if ( $blockVersion['version_ID'] != $otherVersion['version_ID'] ) {
+		?>
+
+		<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Version" data-action="remove" data-confirm="Are you sure you want to remove this version?"></i>
+
+		<?php
+		}
+		?>
+
+	</li>
+
+	<?php } ?>
+
+	<li><a href="<?=site_url("projects?new_version=".$block['page_ID']."&page_width=1440&page_height=774")?>" class="add-version"><i class="fa fa-plus"></i> <b>Add New Version</b></a></li>
+</ul>
 
 										<?php } ?>
 

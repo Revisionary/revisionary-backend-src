@@ -77,8 +77,7 @@ if (
 
 	// Add a version
 	$version_ID = Version::ID()->addNew(
-		$page_ID,
-		'Initial version'
+		$page_ID
 	);
 
 	// Check the result
@@ -171,8 +170,7 @@ if (
 
 	// Add a version
 	$version_ID = Version::ID()->addNew(
-		get('new_version'),
-		'New version'
+		get('new_version')
 	);
 
 	// Check the result
