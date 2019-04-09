@@ -169,7 +169,7 @@ class Internalize {
 
 		// Device Info
 		$device_ID = $this->device_ID;
-		$deviceInfo = $this->deviceData->getInfo(null, true);
+		$deviceInfo = $this->deviceData->getInfo();
 
 
 		// Screen info

@@ -27,6 +27,7 @@ if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 
 
 
+// DEVICE:
 // Get the device ID
 $device_ID = $_url[1];
 
@@ -41,30 +42,15 @@ $device = $deviceData->getInfo();
 
 
 
-// Get the version ID
-$version_ID = $device['version_ID'];
-
-// If the specified device doesn't exist, go projects page
-$versionData = Version::ID($version_ID);
-if ( !$versionData ) {
-	header('Location: '.site_url('projects?versiondoesntexist'));
-	die();
-}
-$version = $versionData->getInfo();
-//die_to_print($version);
-
-
-
+// PAGE:
 // Get the page ID
-$page_ID = $version['page_ID'];
-
-// THE PAGE INFO
+$page_ID = $device['page_ID'];
 
 // All my pages
 $allMyPages = User::ID()->getMy('pages');
 $allMyPages = categorize($allMyPages, 'page', true);
+$allMyPageIDs = array_column($allMyPages, 'page_ID');
 //die_to_print($allMyPages);
-
 
 
 // Find the current page
@@ -89,7 +75,6 @@ if ( !$page ) {
 }
 
 
-
 // Get the project ID
 $project_ID = $page['project_ID'];
 
@@ -99,6 +84,41 @@ $other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) 
 	return ($pageFound['project_ID'] == $project_ID);
 });
 //die_to_print($other_pages);
+
+
+
+// VERSION:
+// Get the version ID
+$version_ID = $device['version_ID'];
+
+// All my versions
+$db->where('page_ID', $allMyPageIDs, 'IN');
+$allMyVersions = $db->get('versions');
+//die_to_print($allMyVersions);
+
+// Find the current version
+$version = array_filter($allMyVersions, function($versionFound) use ($version_ID) {
+    return ($versionFound['version_ID'] == $version_ID);
+});
+$version = end($version);
+//die_to_print($version);
+
+// Current version data
+$versionData = Version::ID($version_ID);
+//die_to_print($versionData);
+
+// If the specified version doesn't exist, go projects page
+if ( !$versionData ) {
+	header('Location: '.site_url('projects?versiondoesntexist'));
+	die();
+}
+
+// Find the other versions from this page
+$other_versions = array_filter($allMyVersions, function($versionFound) use ($page_ID) {
+	return ($versionFound['page_ID'] == $page_ID);
+});
+$other_versions = array_values($other_versions); // Reset the keys to get version numbers
+//die_to_print($other_versions);
 
 
 
@@ -121,7 +141,6 @@ $screenIcon = $device['screen_cat_icon'];
 
 
 // Screenshots
-$pageData = Page::ID($page_ID);
 $device_image = $deviceData->getImage();
 $project_image = cache."/projects/project-$project_ID/project.jpg"; // !!!
 //die("$device_image -> $project_image");
@@ -159,6 +178,9 @@ if ( substr($versionData->remoteUrl, 0, 7) == "http://" && ssl) {
 }
 
 
+
+// LOG:
+
 // Create the log folder if not exists
 if ( !file_exists($versionData->logDir) )
 	mkdir($versionData->logDir, 0755, true);
@@ -166,10 +188,11 @@ if ( !file_exists($versionData->logDir) )
 
 
 
+// QUEUE CHECK:
+
 // Check if queue is already working
 $db->where('queue_type', 'internalize');
 $db->where('queue_object_ID', $version_ID);
-
 $db->where("(queue_status = 'working' OR queue_status = 'waiting')");
 $existing_queue = $db->get('queues');
 //die_to_print($existing_queue);
@@ -181,8 +204,6 @@ $process_status = "";
 
 
 
-
-
 /*
 die_to_print( $versionData->versionDir, false ); // Folder is exist
 die_to_print( $versionData->versionFile, false ); // HTML is downloaded
@@ -191,12 +212,6 @@ die_to_print( $versionData->logDir."/browser.log", false ); // No error on Brows
 die_to_print( $versionData->logDir."/html-filter.log", false ); // No error on HTML filtering
 die_to_print( $versionData->logDir."/css-filter.log" ); // No error on CSS filtering
 */
-
-
-
-
-
-
 
 
 
@@ -323,7 +338,7 @@ if (
 
 
 
-// PROJECT SHARES QUERY
+// PROJECT SHARES QUERY // CHECK IF NEEDED BECAUSE OF AJAX CHECK !!! ???
 $db->where('share_type', 'project');
 $db->where('shared_object_ID', $project_ID);
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
@@ -331,7 +346,7 @@ $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
 
 
 
-// PAGE SHARES QUERY
+// PAGE SHARES QUERY // CHECK IF NEEDED BECAUSE OF AJAX CHECK !!! ???
 $db->where('share_type', 'page');
 $db->where('shared_object_ID', $page_ID);
 $pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
@@ -358,14 +373,8 @@ $allMyProjects = User::ID()->getMy('projects');
 //die_to_print($allMyProjects);
 
 
-// VERSIONS OF THE PAGE
-$db->where('page_ID', $page_ID);
-$versions = $db->get('versions');
-//die_to_print($versions);
-
-
 // MY DEVICES IN THIS PROJECT
-$allMyDevices = $devices;
+$allMyDevices = $devices; // Comes globally from 'categorize.php'
 //die_to_print($allMyDevices);
 
 

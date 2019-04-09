@@ -24,6 +24,7 @@ if (
 	   ( // Types
 	       $type != "Project"
 	       && $type != "Page"
+	       && $type != "Version"
 	       && $type != "Device"
 	       && $type != "User"
 	       && $type != "Pin"

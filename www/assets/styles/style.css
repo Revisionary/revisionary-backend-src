@@ -6557,7 +6557,8 @@ ol.categories {
           opacity: 0;
           background-color: rgba(0, 0, 0, 0.45);
           min-height: inherit; }
-          ol.categories > li.category > ol.blocks > .block .box .overlay * {
+          ol.categories > li.category > ol.blocks > .block .box .overlay div > a,
+          ol.categories > li.category > ol.blocks > .block .box .overlay span > a {
             color: white; }
           ol.categories > li.category > ol.blocks > .block .box .overlay .people > * {
             margin: 0;

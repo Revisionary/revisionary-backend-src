@@ -2359,7 +2359,8 @@ ol.categories {
 					    background-color: rgba(0, 0, 0, 0.45);
 					    min-height: inherit;
 
-					    & * {
+					    div > a,
+					    span > a {
 						    color: white;
 					    }
 

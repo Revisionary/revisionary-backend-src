@@ -391,28 +391,20 @@ class Version {
 
 
 
-		// Get the version info
-    	$version_user_ID = self::$versionInfo['user_ID'];
-    	$project_ID = self::$versionInfo['project_ID'];
+		// Get the page info
+    	$page_ID = self::$versionInfo['page_ID'];
+    	$pageData = Page::ID($page_ID);
+    	$pageInfo = $pageData->getInfo();
+
+
+    	// Get the project info
+    	$project_ID = $pageInfo['project_ID'];
     	$projectData = Project::ID($project_ID);
-
-
-    	$iamadmin = getUserInfo()['userLevelID'] == 1;
-    	$iamowner = $version_user_ID == currentUserID();
-    	$iamprojectowner = $projectData->getInfo('user_ID') == currentUserID();
-    	//$iamshared = false;
-
-
-    	//if (!$iamadmin && !$iamowner && !$iamprojectowner) return false; // !!!
+    	$projectInfo = $projectData->getInfo();
 
 
 
-
-		// SHARE REMOVAL
-		$db->where('share_type', 'version');
-		$db->where('shared_object_ID', self::$version_ID);
-		if (!$iamowner && !$iamadmin) $db->where('(sharer_user_ID = '.currentUserID().' OR share_to = '.currentUserID().')');
-		$db->delete('shares');
+    	if ( !User::ID()->canAccess( self::$version_ID, 'version') ) return false;
 
 
 
@@ -435,7 +427,7 @@ class Version {
 
 
 		// Site log
-		if ($version_removed) $log->info("Version #".self::$version_ID." Removed: '".$this->getInfo('version_name')."' | Project Name: ".$projectData->getInfo('project_name')." | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+		if ($version_removed) $log->info("Version #".self::$version_ID." Removed: '".$this->getInfo('version_name')."' | Project Name: ".$projectData->getInfo('project_name')." | Project #".$projectData->getInfo('project_ID')." | Page Name: ".$pageData->getInfo('page_name')." | Page #".$this->getInfo('page_ID')."User #".currentUserID());
 
 
 		return $version_removed;

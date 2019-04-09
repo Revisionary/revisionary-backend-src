@@ -62,7 +62,6 @@
 	<?php
 
 		$dataType = "page";
-
 		require view('modules/modals');
 
 	?>
@@ -287,7 +286,7 @@
 
 					<?php
 
-					$currentVersionNumber = array_search($version, $versions) + 1;
+					$currentVersionNumber = array_search($version, $other_versions) + 1;
 
 					?>
 
@@ -295,10 +294,10 @@
 						<ul class="xl-left bottom-tooltip">
 
 							<?php
-							foreach($versions as $versionFound) {
+							foreach($other_versions as $versionFound) {
 
 								if ($versionFound['version_ID'] == $version_ID) continue;
-								$versionNumber = array_search($versionFound, $versions) + 1;
+								$versionNumber = array_search($versionFound, $other_versions) + 1;
 
 
 								// Devices of the version

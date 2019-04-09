@@ -259,12 +259,27 @@ $(function() {
 		$('.new-screen[data-screen-id="11"]').each(function() {
 
 			var newScreenURL = $(this).attr('href');
-			//var topBarHeight = $('#top-bar').outerHeight();
 
 			var widthOnURL = getParameterByName('page_width', newScreenURL);
 			var heightOnURL = getParameterByName('page_height', newScreenURL);
 
 			var newURL = newScreenURL.replace('page_width='+widthOnURL, 'page_width='+width);
+			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+height);
+
+			$(this).attr('href', newURL);
+			//console.log(newURL);
+
+		});
+
+		// Update the URLs
+		$('.add-version').each(function() {
+
+			var newVersionURL = $(this).attr('href');
+
+			var widthOnURL = getParameterByName('page_width', newVersionURL);
+			var heightOnURL = getParameterByName('page_height', newVersionURL);
+
+			var newURL = newVersionURL.replace('page_width='+widthOnURL, 'page_width='+width);
 			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+height);
 
 			$(this).attr('href', newURL);

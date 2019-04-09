@@ -578,7 +578,26 @@ if ($dataType == "page" && $allMyPins) {
 
 
 									</div>
-									<div class="col xl-4-12 xl-center">
+									<div class="col xl-4-12 xl-center dropdown">
+
+										<?php
+										if ($dataType == "page") {
+										?>
+
+										<a href="#">v2 <i class="fa fa-caret-down"></i></a>
+										<ul class="xl-left">
+											<li>
+												<a href="#">v1 (1 week ago)</a>
+											</li>
+											<li>
+												<a href="#">v2 (2 days ago)</a>
+											</li>
+											<li>
+												<a href="#">v3 (1 day ago)</a>
+											</li>
+										</ul>
+
+										<?php } ?>
 
 									</div>
 									<div class="col xl-4-12 xl-right actions">
