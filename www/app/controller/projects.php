@@ -93,8 +93,8 @@ if (
 	$device_ID = Device::ID()->addNew(
 		$version_ID,
 		is_array(request('screens')) ? request('screens') : array(), // Screen IDs array
-		request('page_width') != "" ? request('page_width') : null,
-		request('page_height') != "" ? request('page_height') : null,
+		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
+		request('page_height') != "" && is_numeric(request('page_height')) ? request('page_height') : null,
 		true
 	);
 
@@ -133,22 +133,66 @@ if (
 // ADD NEW SCREEN
 if (
 	is_numeric(get('new_screen'))
-	&& is_numeric(get('page_ID'))
+	&& is_numeric(get('version_ID'))
 	// && get('nonce') == $_SESSION["new_screen_nonce"] !!! Disable the nonce check for now!
 ) {
 
 
 	// Add the Devices
 	$device_ID = Device::ID()->addNew(
-		get('page_ID'),
+		get('version_ID'),
 		array(get('new_screen')),
-		request('page_width') != "" ? request('page_width') : null,
-		request('page_height') != "" ? request('page_height') : null
+		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
+		request('page_height') != "" && is_numeric(request('page_height')) ? request('page_height') : null
 	);
 
 	// Check the result
 	if(!$device_ID) {
 		header('Location: '.site_url("project/$project_ID?adddeviceerror")); // If unsuccessful
+		die();
+	}
+
+
+
+	// If successful, redirect to "Revise" page
+	header('Location: '.site_url('revise/'.$device_ID));
+	die();
+
+}
+
+
+
+// ADD NEW VERSION
+if (
+	is_numeric(get('new_version'))
+	// && get('nonce') == $_SESSION["new_screen_nonce"] !!! Disable the nonce check for now!
+) {
+
+
+	// Add a version
+	$version_ID = Version::ID()->addNew(
+		get('new_version'),
+		'New version'
+	);
+
+	// Check the result
+	if(!$version_ID) {
+		header('Location: '.site_url("projects?addversionerror")); // If unsuccessful
+		die();
+	}
+
+
+	// Add the Devices
+	$device_ID = Device::ID()->addNew(
+		$version_ID,
+		array(11), // Add custom for now !!!
+		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
+		request('page_height') != "" && is_numeric(request('page_height')) ? request('page_height') : null
+	);
+
+	// Check the result
+	if(!$device_ID) {
+		header('Location: '.site_url("project?adddeviceerror")); // If unsuccessful
 		die();
 	}
 

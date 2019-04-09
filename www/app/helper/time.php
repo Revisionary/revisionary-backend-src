@@ -16,6 +16,6 @@ function timeago($date) {
 		}
 
 		$diff = round($diff);
-		return $diff . " " . $strTime[$i] . ($diff > 1 ? 's' : '') . " ago ";
+		return $diff . " " . $strTime[$i] . ($diff > 1 ? 's' : '') . " ago";
    }
 }

@@ -361,6 +361,7 @@ $allMyProjects = User::ID()->getMy('projects');
 // VERSIONS OF THE PAGE
 $db->where('page_ID', $page_ID);
 $versions = $db->get('versions');
+//die_to_print($versions);
 
 
 // MY DEVICES IN THIS PROJECT

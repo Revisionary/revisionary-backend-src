@@ -285,21 +285,65 @@
 					<div class="desc nomargin">Version</div>
 					<span class="dropdown">
 
-						<a href="#" class="button select-version"><i class="fa fa-code-branch"></i> v2 <i class="fa fa-caret-down"></i></a>
-						<ul class="xl-left bottom-tooltip" data-tooltip="In development...">
+					<?php
+
+					$currentVersionNumber = array_search($version, $versions) + 1;
+
+					?>
+
+						<a href="#" class="button select-version"><i class="fa fa-code-branch"></i> v<?=$currentVersionNumber?> <i class="fa fa-caret-down"></i></a>
+						<ul class="xl-left bottom-tooltip">
 
 							<?php
-							$versionNumber = 0;
-							foreach($versions as $version) { $versionNumber++;
+							foreach($versions as $versionFound) {
+
+								if ($versionFound['version_ID'] == $version_ID) continue;
+								$versionNumber = array_search($versionFound, $versions) + 1;
+
+
+								// Devices of the version
+								$devices_of_version = array_filter($allMyDevices, function($deviceFound) use ($versionFound) {
+								    return ($deviceFound['version_ID'] == $versionFound['version_ID']);
+								});
+								$firstDevice = reset($devices_of_version);
+								//die_to_print($devices_of_page);
+
+
+								$action_url = 'ajax?type=data-action&data-type=version&nonce='.$_SESSION['js_nonce'].'&id='.$versionFound['version_ID'];
 							?>
 
-							<li class=""><a href="#"><i class="fa fa-code-branch"></i> v<?=$versionNumber?> - <?=$version['version_name']?></a></li>
+							<li class="item deletable" data-type="version" data-id="<?=$versionFound['version_ID']?>">
+								<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?> (<?=timeago($versionFound['version_created'])?>)</a>
+
+								<?php
+								if ( count($devices_of_version) ) {
+								?>
+								<ul>
+									<?php
+									foreach ($devices_of_version as $deviceFromVersion) {
+
+										$selected = $deviceFromVersion['device_ID'] == $device_ID ? "selected" : "";
+									?>
+									<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromVersion['device_ID']?>">
+										<a href="<?=site_url('revise/'.$deviceFromVersion['device_ID'])?>"><i class="fa <?=$deviceFromVersion['screen_cat_icon']?>"></i> <?=$deviceFromVersion['screen_cat_name']?></a>
+									</li>
+									<?php
+									}
+									?>
+								</ul>
+								<?php
+								}
+								?>
+
+								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Version" data-action="remove" data-confirm="Are you sure you want to remove this version?"></i>
+
+							</li>
 
 							<?php
 							}
 							?>
 
-							<li><a href="#" class="add-version"><i class="fa fa-plus"></i> <b>Add New Version</b></a></li>
+							<li><a href="<?=site_url("projects?new_version=$page_ID&page_width=1440&page_height=774")?>" class="add-version"><i class="fa fa-plus"></i> <b>Add New Version</b></a></li>
 						</ul>
 					</span>
 
@@ -315,8 +359,8 @@
 						<?php
 
 						// EXISTING DEVICES
-						$devices_of_mypage = array_filter($allMyDevices, function($deviceFound) use ($page_ID) {
-						    return ($deviceFound['page_ID'] == $page_ID);
+						$devices_of_mypage = array_filter($allMyDevices, function($deviceFound) use ($version_ID) {
+						    return ($deviceFound['version_ID'] == $version_ID);
 						});
 						foreach ($devices_of_mypage as $device) {
 							if ($device['device_ID'] == $device_ID) continue;
@@ -364,7 +408,7 @@
 											foreach ($screen_cat['screens'] as $screen) {
 
 
-												$screen_link = site_url("projects?new_screen=".$screen['screen_ID']."&page_ID=".$page_ID);
+												$screen_link = site_url("projects?new_screen=".$screen['screen_ID']."&version_ID=".$version_ID);
 												$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
 												if ($screen['screen_ID'] == 11) {
 													$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
