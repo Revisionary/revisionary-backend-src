@@ -1818,10 +1818,8 @@ function relocatePinWindow(pin_ID = null) {
 	if ( pinWindow().attr('data-pin-id') != pin_ID ) return false;
 
 
-/*
 	// Update the location and size values
 	updateLocationValues();
-*/
 
 
 
