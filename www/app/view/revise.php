@@ -644,6 +644,8 @@ foreach ($other_pages as $pageOther) {
 				<i class="fa fa-bell"></i>
 				<div class="notif-no hide">0</div>
 
+				NOTIFICATIONS
+
 			</a>
 			<div class="notifications">
 				<ul></ul>
