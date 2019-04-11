@@ -94,7 +94,7 @@
 								<li><a href="#">Features Help</a></li>
 								<li><a href="#">Advanced Features</a></li>
 								<li><a href="#">Keyboard Shortcuts</a></li>
-								<li><a href="#">Integrations</a></li>
+								<li><a href="#">Integrations Help</a></li>
 								<li><a href="#">Contact Support</a></li>
 							</ul>
 						</li>
@@ -660,7 +660,7 @@ foreach ($other_pages as $pageOther) {
 				<div class="col dropdown info">
 
 					<a href="#" class="button"><i class="fa fa-tools"></i> TOOLS</a>
-					<ul class="center">
+					<ul class="center xl-left">
 						<li>
 							<div class="xl-left page-info" style="font-size: 12px;">
 
@@ -678,21 +678,13 @@ foreach ($other_pages as $pageOther) {
 
 								<b>Current Frame Scale:</b> <span class="iframe-scale">1.0</span> <br/>
 
-								<div style="text-align: center; margin: 10px 0;">
-
-									<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button light bottom-tooltip center-tooltip redownload" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="All your pins for this page will be removed, are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
-
-									<!--
-									<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Server Side Rendering"><i class="fa fa-bolt"></i> SSR</a>
-									<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Only comment mode..."><i class="fa fa-file-image"></i> PICTURE MODE</a>
-									-->
-
-
-								</div>
-
 							</div>
 
 						</li>
+						<li><a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="bottom-tooltip center-tooltip redownload" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="All your pins for this page will be removed, are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS VERSION</a></li>
+						<li><a href="#" class="bottom-tooltip center-tooltip" data-tooltip="Coming soon: Connect this project with GitHub, BitBucket, Trello, Asana, etc. platforms to create tasks automatically by adding a pin."><i class="fa fa-plug"></i> INTEGRATIONS</a></li>
+						<li><a href="#" class="bottom-tooltip center-tooltip" data-tooltip="Coming soon: Revisionary takes your page's full size screenshot and you can only put comment pins on it. This should only be used if the page doesn't show up correctly."><i class="fa fa-file-image"></i> SITE CAPTURE MODE</a></li>
+						<li><a href="#" class="bottom-tooltip center-tooltip" data-tooltip="Coming soon: If you want to revise a JS-created webpage, you can revise your page after the JS outputs the content. !!!"><i class="fa fa-bolt"></i> SERVER SIDE RENDERING</a></li>
 					</ul>
 
 				</div>
@@ -704,7 +696,7 @@ foreach ($other_pages as $pageOther) {
 						<li><a href="#">Features Help</a></li>
 						<li><a href="#">Advanced Features</a></li>
 						<li><a href="#">Keyboard Shortcuts</a></li>
-						<li><a href="#">Integrations</a></li>
+						<li><a href="#">Integrations Help</a></li>
 						<li><a href="#">Contact Support</a></li>
 					</ul>
 
