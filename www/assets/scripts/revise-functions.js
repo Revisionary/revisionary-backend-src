@@ -1901,9 +1901,20 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
 	updateLocationValues();
 
 
+	var element = iframeElement(element_index);
 	var elementOffset = getElementOffset(element_index);
 	var elementTop = elementOffset.top;
 	var elementLeft = elementOffset.left;
+	var elementWidth = element.width();
+	var elementHeight = element.height();
+
+
+	// Detect the X positive exceed
+	if ( elementLeft + parseFloat(pin_x) > iframeWidth ) pin_x = elementWidth;
+
+
+	// Detect the X negative exceed
+	if ( elementLeft + parseFloat(pin_x) < 0 ) pin_x = 0;
 
 
 	// The coordinates by the element
