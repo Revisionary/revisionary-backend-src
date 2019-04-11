@@ -394,12 +394,23 @@ class Notification {
 					$project_name = Project::ID($project_ID)->getInfo('project_name');
 
 
+					$title = "$sender_full_name added a <b>new screen</b>:";
+					$content = "<span><a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a></span>";
+
+					if ($notificationContent == "new version") {
+
+						$title = "$sender_full_name created a <b>new version</b>";
+						$content = "<span>for <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a></span>";
+
+					}
+
+
 
 					// Notification Content
 					$notificationHTML .= "
 
-						$sender_full_name added a <b>new screen</b>:
-						<span><a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a></span><br/>
+						$title
+						$content<br/>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 

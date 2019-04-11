@@ -185,7 +185,9 @@ if (
 		$version_ID,
 		array(11), // Add custom for now !!!
 		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
-		request('page_height') != "" && is_numeric(request('page_height')) ? request('page_height') : null
+		request('page_height') != "" && is_numeric(request('page_height')) ? request('page_height') : null,
+		false,
+		true // From version
 	);
 
 	// Check the result

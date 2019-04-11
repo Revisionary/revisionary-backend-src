@@ -147,7 +147,8 @@ class Device {
 	    array $screen_IDs = array(4),
     	int $device_width = null,
     	int $device_height = null,
-    	bool $fromPage = false
+    	bool $fromPage = false,
+    	bool $fromVersion = false
     ) {
 	    global $db, $log;
 
@@ -220,18 +221,40 @@ class Device {
 			$users = $pageData->getUsers();
 
 
-
-			// Web notification
-			Notify::ID($users)->web("new", "device", $first_device_ID, "".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.")");
+			if ($fromVersion) {
 
 
+				// Web notification
+				Notify::ID($users)->web("new", "device", $first_device_ID, "new version");
 
-			// Email notification
-			Notify::ID($users)->mail(
-				getUserInfo()['fullName']." added a new screen on ".$pageData->getInfo('page_name')." page",
-				getUserInfo()['fullName']." added a new screen: ".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.") <br><br>
-				<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
-			);
+
+				// Email notification
+				Notify::ID($users)->mail(
+					getUserInfo()['fullName']." created a new version on ".$pageData->getInfo('page_name')." page",
+					getUserInfo()['fullName']." created a new version on ".$pageData->getInfo('page_name')." page. <br><br>
+					<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
+				);
+
+
+			} else {
+
+
+				// Web notification
+				Notify::ID($users)->web("new", "device", $first_device_ID, $screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.")");
+
+
+				// Email notification
+				Notify::ID($users)->mail(
+					getUserInfo()['fullName']." added a new screen on ".$pageData->getInfo('page_name')." page",
+					getUserInfo()['fullName']." added a new screen: ".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.") <br><br>
+					<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
+				);
+
+
+			}
+
+
+
 
 		}
 

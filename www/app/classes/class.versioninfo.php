@@ -326,22 +326,6 @@ class Version {
 			$project_name = " [".$projectData->getInfo('project_name')."]";
 
 
-			// Get the users to notify
-			$users = Version::ID($version_ID)->getUsers();
-
-
-			// Web notification !!!
-			Notify::ID($users)->web("new", "version", $version_ID);
-
-
-			// Email notification
-			Notify::ID($users)->mail(
-				getUserInfo()['fullName']." added a new version in ".$page_name.$project_name,
-				getUserInfo()['fullName']." added a new version in ".$page_name.$project_name." <br><br>
-				<b>Version Link</b>: <a href='$version_link' target='_blank'>$version_link</a>"
-			);
-
-
 			// Site log
 			$log->info("Version #$version_ID Added in $page_name.$project_name | Page #$page_ID | Project #$project_ID | User #".currentUserID());
 
