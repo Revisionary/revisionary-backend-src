@@ -21,6 +21,7 @@
 </script>
 
 
+
 <div id="loading" class="overlay">
 
 	<div class="progress-info">
@@ -77,9 +78,25 @@
 
 			<div class="wrap xl-flexbox xl-bottom breadcrumbs">
 
-				<div class="col home">
+				<div class="col account dropdown" style="margin-right: 15px;">
 
-					<a href="<?=site_url('projects/')?>">
+					<a href="<?=site_url('projects', true)?>">
+						<picture class="profile-picture" <?=getUserInfo()['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
+							<span><?=getUserInfo()['nameAbbr']?></span>
+						</picture>
+					</a>
+					<ul class="user-menu xl-left">
+						<li><a href="<?=site_url('projects', true)?>"><i class="fa fa-th"></i> All Projects</a></li>
+						<li><a href="#" data-tooltip="Coming soon..."><i class="fa fa-life-ring"></i> Help</a></li>
+						<li><a href="<?=site_url('account', true)?>"><i class="fa fa-user-cog"></i> My Account</a></li>
+						<li><a href="<?=site_url('logout', true)?>"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+					</ul>
+
+				</div>
+
+				<div class="col home xl-hidden">
+
+					<a href="<?=site_url('projects', true)?>">
 						<i class="fa fa-th"></i> All Projects
 					</a>
 					<sep><i class="fa fa-chevron-right"></i></sep>
@@ -92,7 +109,7 @@
 					<div class="desc">Project</div>
 
 					<span class="dropdown">
-						<a href="<?=site_url('project/'.$project_ID)?>">
+						<a href="<?=site_url('project/'.$project_ID, true)?>">
 							<?=$projectInfo['project_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
@@ -114,7 +131,7 @@ foreach ($allMyProjects as $project) {
 ?>
 <li class="item <?=$selected?>" data-type="project" data-id="<?=$project['project_ID']?>">
 
-	<a href="<?=site_url('project/'.$project['project_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$project['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ""?></a>
+	<a href="<?=site_url('project/'.$project['project_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$project['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ""?></a>
 
 	<?php
 	if ( count($pages_of_project) ) {
@@ -137,7 +154,7 @@ foreach ($allMyProjects as $project) {
 
 		?>
 		<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageFromProject['page_ID']?>">
-			<a href="<?=site_url('page/'.$pageFromProject['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?> <i class="fa fa-caret-right"></i></a>
+			<a href="<?=site_url('page/'.$pageFromProject['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?> <i class="fa fa-caret-right"></i></a>
 
 			<?php
 			if ( count($versions_of_page) > 1 ) {
@@ -159,7 +176,7 @@ foreach ($allMyProjects as $project) {
 
 				?>
 				<li class="item <?=$selected?>" data-type="version" data-id="<?=$versionFromPage['version_ID']?>">
-					<a href="<?=site_url('version/'.$versionFromPage['version_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?></a>
+					<a href="<?=site_url('version/'.$versionFromPage['version_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?></a>
 
 					<?php
 					if ( count($devices_of_version) ) {
@@ -171,7 +188,7 @@ foreach ($allMyProjects as $project) {
 							$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 						?>
 						<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-							<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+							<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
 						</li>
 						<?php
 						}
@@ -210,7 +227,7 @@ foreach ($allMyProjects as $project) {
 						$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 					?>
 					<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-						<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+						<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
 					</li>
 					<?php
 					}
@@ -237,7 +254,7 @@ foreach ($allMyProjects as $project) {
 	<?php
 	if ($project['project_ID'] != $project_ID && 2 != 2) {
 	?>
-	<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Project" data-action="delete" data-confirm="Are you sure you want to delete this project?"></i>
+	<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete', true)?>" data-tooltip="Delete This Project" data-action="delete" data-confirm="Are you sure you want to delete this project?"></i>
 	<?php
 	}
 	?>
@@ -260,7 +277,7 @@ foreach ($allMyProjects as $project) {
 
 					<div class="desc">Category</div>
 
-					<a href="<?=site_url('project/'.$project_ID.'/'.permalink($page['cat_name']))?>">
+					<a href="<?=site_url('project/'.$project_ID.'/'.permalink($page['cat_name']), true)?>">
 						<?=$page['cat_name']?>
 					</a>
 					<sep><i class="fa fa-chevron-right"></i></sep>
@@ -275,7 +292,7 @@ foreach ($allMyProjects as $project) {
 					<div class="desc">Page</div>
 
 					<span class="dropdown">
-						<a href="<?=site_url('project/'.$project_ID)?>">
+						<a href="<?=site_url('project/'.$project_ID, true)?>">
 							<?=$page['page_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
@@ -300,7 +317,7 @@ foreach ($other_pages as $pageOther) {
 ?>
 <li class="item deletable <?=$selected?>" data-type="page" data-id="<?=$pageOther['page_ID']?>">
 
-	<a href="<?=site_url('page/'.$pageOther['page_ID'])?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a>
+	<a href="<?=site_url('page/'.$pageOther['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a>
 	<?php
 	if ( count($versions_of_page) > 1 ) {
 	?>
@@ -321,7 +338,7 @@ foreach ($other_pages as $pageOther) {
 
 		?>
 		<li class="item <?=$selected?>" data-type="version" data-id="<?=$versionFromPage['version_ID']?>">
-			<a href="<?=site_url('version/'.$versionFromPage['version_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?></a>
+			<a href="<?=site_url('version/'.$versionFromPage['version_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?></a>
 
 			<?php
 			if ( count($devices_of_version) ) {
@@ -333,7 +350,7 @@ foreach ($other_pages as $pageOther) {
 					$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 				?>
 				<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-					<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+					<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
 				</li>
 				<?php
 				}
@@ -372,7 +389,7 @@ foreach ($other_pages as $pageOther) {
 			$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 		?>
 		<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-			<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'])?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+			<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
 		</li>
 		<?php
 		}
@@ -390,7 +407,7 @@ foreach ($other_pages as $pageOther) {
 	<?php
 	if ($pageOther['page_ID'] != $page_ID) {
 	?>
-	<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete')?>" data-tooltip="Delete This Page" data-action="delete" data-confirm="Are you sure you want to delete this page?"></i>
+	<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete', true)?>" data-tooltip="Delete This Page" data-action="delete" data-confirm="Are you sure you want to delete this page?"></i>
 	<?php
 	}
 	?>
@@ -448,7 +465,7 @@ foreach ($other_pages as $pageOther) {
 							?>
 
 							<li class="item deletable" data-type="version" data-id="<?=$versionFound['version_ID']?>">
-								<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?> (<?=timeago($versionFound['version_created'])?>)</a>
+								<a href="<?=site_url('revise/'.$firstDevice['device_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?> (<?=timeago($versionFound['version_created'])?>)</a>
 
 								<?php
 								if ( count($devices_of_version) ) {
@@ -460,7 +477,7 @@ foreach ($other_pages as $pageOther) {
 										$selected = $deviceFromVersion['device_ID'] == $device_ID ? "selected" : "";
 									?>
 									<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromVersion['device_ID']?>">
-										<a href="<?=site_url('revise/'.$deviceFromVersion['device_ID'])?>"><i class="fa <?=$deviceFromVersion['screen_cat_icon']?>"></i> <?=$deviceFromVersion['screen_cat_name']?></a>
+										<a href="<?=site_url('revise/'.$deviceFromVersion['device_ID'], true)?>"><i class="fa <?=$deviceFromVersion['screen_cat_icon']?>"></i> <?=$deviceFromVersion['screen_cat_name']?></a>
 									</li>
 									<?php
 									}
@@ -470,7 +487,7 @@ foreach ($other_pages as $pageOther) {
 								}
 								?>
 
-								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Version" data-action="remove" data-confirm="Are you sure you want to remove this version?"></i>
+								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove', true)?>" data-tooltip="Delete This Version" data-action="remove" data-confirm="Are you sure you want to remove this version?"></i>
 
 							</li>
 
@@ -478,7 +495,7 @@ foreach ($other_pages as $pageOther) {
 							}
 							?>
 
-							<li><a href="<?=site_url("projects?new_version=$page_ID&page_width=1440&page_height=774")?>" class="add-version"><i class="fa fa-plus"></i> <b>Add New Version</b></a></li>
+							<li><a href="<?=site_url("projects?new_version=$page_ID&page_width=1440&page_height=774", true)?>" class="add-version"><i class="fa fa-plus"></i> <b>Add New Version</b></a></li>
 						</ul>
 					</span>
 
@@ -519,8 +536,8 @@ foreach ($other_pages as $pageOther) {
 						?>
 
 							<li class="item deletable screen-registered" data-type="device" data-id="<?=$device['device_ID']?>">
-								<a href="<?=site_url('revise/'.$device['device_ID'])?>"><i class="fa <?=$device['screen_cat_icon']?>"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
-								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" data-action="remove" data-confirm="Are you sure you want to remove this screen?"></i>
+								<a href="<?=site_url('revise/'.$device['device_ID'], true)?>"><i class="fa <?=$device['screen_cat_icon']?>"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
+								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove', true)?>" data-tooltip="Delete This Screen" data-action="remove" data-confirm="Are you sure you want to remove this screen?"></i>
 							</li>
 
 						<?php
@@ -543,7 +560,7 @@ foreach ($other_pages as $pageOther) {
 											foreach ($screen_cat['screens'] as $screen) {
 
 
-												$screen_link = site_url("projects?new_screen=".$screen['screen_ID']."&version_ID=".$version_ID);
+												$screen_link = site_url("projects?new_screen=".$screen['screen_ID']."&version_ID=".$version_ID, true);
 												$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
 												if ($screen['screen_ID'] == 11) {
 													$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
@@ -631,7 +648,7 @@ foreach ($other_pages as $pageOther) {
 
 							<div style="text-align: center; margin: 10px 0;">
 
-								<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button light bottom-tooltip center-tooltip redownload" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="All your pins for this page will be removed, are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
+								<a href="<?=site_url('revise/'.$device_ID.'?redownload', true)?>" class="button light bottom-tooltip center-tooltip redownload" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="All your pins for this page will be removed, are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
 
 								<!--
 								<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Server Side Rendering"><i class="fa fa-bolt"></i> SSR</a>
