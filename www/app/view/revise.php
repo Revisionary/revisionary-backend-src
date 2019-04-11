@@ -87,7 +87,17 @@
 					</a>
 					<ul class="user-menu xl-left">
 						<li><a href="<?=site_url('projects', true)?>"><i class="fa fa-th"></i> All Projects</a></li>
-						<li><a href="#" data-tooltip="Coming soon..."><i class="fa fa-life-ring"></i> Help</a></li>
+						<li>
+							<a href="#"><i class="fa fa-life-ring"></i> Help <i class="fa fa-caret-right"></i></a>
+							<ul class="bottom-tooltip" data-tooltip="Coming soon...">
+								<li><a href="#">Quick Start</a></li>
+								<li><a href="#">Features Help</a></li>
+								<li><a href="#">Advanced Features</a></li>
+								<li><a href="#">Keyboard Shortcuts</a></li>
+								<li><a href="#">Integrations</a></li>
+								<li><a href="#">Contact Support</a></li>
+							</ul>
+						</li>
 						<li><a href="<?=site_url('account', true)?>"><i class="fa fa-user-cog"></i> My Account</a></li>
 						<li><a href="<?=site_url('logout', true)?>"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
 					</ul>
@@ -626,44 +636,6 @@ foreach ($other_pages as $pageOther) {
 
 			<a href="#" class="button" data-modal="share" data-type="page" data-id="<?=$page_ID?>" data-object-name="<?=$page['page_name']?>" data-iamowner="<?=$page['user_ID'] == currentUserID() ? "yes" : "no"?>"><i class="fa fa-share-alt"></i> SHARE</a>
 
-			<span class="dropdown">
-				<a href="#" style="margin-left: 10px;"><i class="fa fa-info-circle"></i></a>
-				<ul class="center">
-					<li>
-						<div class="xl-left page-info">
-
-							<b>Site URL:</b> <a href="<?=$page['page_url']?>" target="_blank" style="letter-spacing: 0;"><i class="fa fa-external-link-alt"></i> <?=$page['page_url']?></a> <br/>
-
-
-							<?php
-							$date_created = timeago($page['page_created'] );
-							$last_updated = timeago($page['page_modified'] );
-
-							echo "<b>Date Created:</b> $date_created<br>";
-							if ($date_created != $last_updated)
-								echo "<b>Last Updated:</b> $last_updated<br>";
-							?>
-
-							<b>Current Frame Scale:</b> <span class="iframe-scale">1.0</span> <br/>
-
-							<div style="text-align: center; margin: 10px 0;">
-
-								<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button light bottom-tooltip center-tooltip redownload" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="All your pins for this page will be removed, are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
-
-								<!--
-								<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Server Side Rendering"><i class="fa fa-bolt"></i> SSR</a>
-								<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Only comment mode..."><i class="fa fa-file-image"></i> PICTURE MODE</a>
-								-->
-
-
-							</div>
-
-						</div>
-
-					</li>
-				</ul>
-			</span>
-
 		</div>
 		<div class="col notifications-wrapper">
 
@@ -675,6 +647,66 @@ foreach ($other_pages as $pageOther) {
 			</a>
 			<div class="notifications">
 				<ul></ul>
+			</div>
+
+		</div>
+		<div class="col help-information">
+
+			<div class="desc nomargin">Information</div>
+
+			<div class="wrap xl-gutter-8">
+				<div class="col dropdown info">
+
+					<a href="#" class="button"><i class="fa fa-tools"></i> TOOLS</a>
+					<ul class="center">
+						<li>
+							<div class="xl-left page-info" style="font-size: 12px;">
+
+								<b>Site URL:</b> <a href="<?=$page['page_url']?>" target="_blank" style="letter-spacing: 0;"><i class="fa fa-external-link-alt"></i> <?=$page['page_url']?></a> <br/>
+
+
+								<?php
+								$date_created = timeago($page['page_created'] );
+								$last_updated = timeago($page['page_modified'] );
+
+								echo "<b>Date Created:</b> $date_created<br>";
+								if ($date_created != $last_updated)
+									echo "<b>Last Updated:</b> $last_updated<br>";
+								?>
+
+								<b>Current Frame Scale:</b> <span class="iframe-scale">1.0</span> <br/>
+
+								<div style="text-align: center; margin: 10px 0;">
+
+									<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button light bottom-tooltip center-tooltip redownload" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="All your pins for this page will be removed, are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
+
+									<!--
+									<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Server Side Rendering"><i class="fa fa-bolt"></i> SSR</a>
+									<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Only comment mode..."><i class="fa fa-file-image"></i> PICTURE MODE</a>
+									-->
+
+
+								</div>
+
+							</div>
+
+						</li>
+					</ul>
+
+				</div>
+				<div class="col dropdown help">
+
+					<a href="#" class="button"><i class="fa fa-question-circle"></i> HELP</a>
+					<ul class="xl-left bottom-tooltip" data-tooltip="Coming soon...">
+						<li><a href="#">Quick Start</a></li>
+						<li><a href="#">Features Help</a></li>
+						<li><a href="#">Advanced Features</a></li>
+						<li><a href="#">Keyboard Shortcuts</a></li>
+						<li><a href="#">Integrations</a></li>
+						<li><a href="#">Contact Support</a></li>
+					</ul>
+
+				</div>
 			</div>
 
 		</div>
