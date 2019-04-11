@@ -1148,6 +1148,14 @@ ul.user-header-menu {
 		font-size: 30px;
 	}
 
+	&.white-border {
+		border-color: white;
+	}
+
+	&.thin-border {
+		border-width: 1px;
+	}
+
 	&.avatar-changer {
 
 		&::after {

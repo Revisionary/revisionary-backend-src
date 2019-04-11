@@ -81,7 +81,7 @@
 				<div class="col account dropdown" style="margin-right: 15px;">
 
 					<a href="<?=site_url('projects', true)?>">
-						<picture class="profile-picture" <?=getUserInfo()['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
+						<picture class="profile-picture white-border thin-border" <?=getUserInfo()['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
 							<span><?=getUserInfo()['nameAbbr']?></span>
 						</picture>
 					</a>

@@ -5775,6 +5775,10 @@ ul.user-header-menu {
     width: 100px;
     height: 100px;
     font-size: 30px; }
+  .profile-picture.white-border {
+    border-color: white; }
+  .profile-picture.thin-border {
+    border-width: 1px; }
   .profile-picture.avatar-changer::after {
     color: white;
     content: "\f030";
