@@ -35,7 +35,7 @@
 			<span class="description">Add your comments and edit any website’s content, <br/>
 				for <del>a fee</del> free! <br/><br/>
 
-				<a href="#" class="buton-oval" data-tooltip='Coming soon...'><i class="fa fa-play-circle"></i> See how it works</a>
+				<a href="#" class="button-oval" data-tooltip='Coming soon...'><i class="fa fa-play-circle"></i> See how it works</a>
 
 			</span>
 		</div>

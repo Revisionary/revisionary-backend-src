@@ -105,7 +105,7 @@
 
 
 				<span class="dropdown">
-					<a href="#" class="button">Dropdown In Button <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+					<a href="#" class="button">Dropdown On Button <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 					<ul>
 						<li><a href="#">Item 1</a></li>
 						<li><a href="#">Item 2</a></li>
@@ -125,8 +125,18 @@
 
 
 		<b>Text Inputs </b><br/><br/>
-		<input type="text" class="large" placeholder="Text Box" style="display: inline-block;"/>
-		<input type="text" placeholder="Text Box" style="display: inline-block;"/>
+		<div class="wrap xl-gutter-24">
+			<div class="col">
+
+				<input type="text" class="large" placeholder="Text Box" style="display: inline-block;"/>
+
+			</div>
+			<div class="col">
+
+				<input type="text" placeholder="Text Box" style="display: inline-block;"/>
+
+			</div>
+		</div>
 
 
 		<br/>
@@ -136,8 +146,23 @@
 
 
 		<b>Buttons </b><br/><br/>
-		<button class="large"><a href="#">Button</a></button>
-		<button><a href="#">Button</a></button>
+		<div class="wrap xl-gutter-24">
+			<div class="col">
+
+				<button class="large"><a href="#">Large Button</a></button>
+
+			</div>
+			<div class="col">
+
+				<button><a href="#">Small Button</a></button>
+
+			</div>
+			<div class="col">
+
+				<a href="#" class="button-oval"><i class="fa fa-play-circle"></i> Oval Button with Icon</a>
+
+			</div>
+		</div>
 
 
 		<br/>
@@ -164,6 +189,37 @@
 				<input type="text" placeholder="Form Input 2"/>
 				<button><a href="#">Form Group</a></button>
 
+
+			</div>
+		</div>
+
+
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+
+
+		<div class="wrap xl-gutter-40">
+			<div class="col xl-center">
+
+				<b class="left-tooltip" data-tooltip="Tooltip Message">Hover Tooltip Left</b>
+
+			</div>
+			<div class="col xl-center">
+
+				<b class="bottom-tooltip" data-tooltip="Tooltip Message">Hover Tooltip Bottom</b>
+
+			</div>
+			<div class="col xl-center">
+
+				<b class="top-tooltip" data-tooltip="Tooltip Message">Hover Tooltip Top</b>
+
+			</div>
+			<div class="col xl-center">
+
+				<b class="right-tooltip" data-tooltip="Tooltip Message">Hover Tooltip Right</b>
 
 			</div>
 		</div>
@@ -211,37 +267,6 @@
 					<span><?=getUserInfo(6)['nameAbbr']?></span>
 				</picture>
 
-
-			</div>
-		</div>
-
-
-		<br/>
-		<br/>
-		<br/>
-		<br/>
-		<br/>
-
-
-		<div class="wrap xl-gutter-40">
-			<div class="col xl-center">
-
-				<b class="left-tooltip" data-tooltip="Tooltip Message">Hover Tooltip Left</b>
-
-			</div>
-			<div class="col xl-center">
-
-				<b class="bottom-tooltip" data-tooltip="Tooltip Message">Hover Tooltip Bottom</b>
-
-			</div>
-			<div class="col xl-center">
-
-				<b class="top-tooltip" data-tooltip="Tooltip Message">Hover Tooltip Top</b>
-
-			</div>
-			<div class="col xl-center">
-
-				<b class="right-tooltip" data-tooltip="Tooltip Message">Hover Tooltip Right</b>
 
 			</div>
 		</div>
