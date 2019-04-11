@@ -648,7 +648,7 @@ foreach ($other_pages as $pageOther) {
 
 							<div style="text-align: center; margin: 10px 0;">
 
-								<a href="<?=site_url('revise/'.$device_ID.'?redownload', true)?>" class="button light bottom-tooltip center-tooltip redownload" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="All your pins for this page will be removed, are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
+								<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button light bottom-tooltip center-tooltip redownload" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="All your pins for this page will be removed, are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS PAGE</a>
 
 								<!--
 								<a href="#" class="button light bottom-tooltip center-tooltip" data-tooltip="Coming soon: Server Side Rendering"><i class="fa fa-bolt"></i> SSR</a>
@@ -667,15 +667,10 @@ foreach ($other_pages as $pageOther) {
 		</div>
 		<div class="col notifications-wrapper">
 
-			<?php
-				//$notification_count = Notification::ID()->getCount();
-				$notification_count = 0;
-			?>
-
 			<a href="#" class="button notification-opener refresh-notifications">
 
 				<i class="fa fa-bell"></i>
-				<div class="notif-no <?=$notification_count == 0 ? "hide" : ""?>"><?=$notification_count?></div>
+				<div class="notif-no hide">0</div>
 
 			</a>
 			<div class="notifications">

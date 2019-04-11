@@ -42,6 +42,7 @@ if ($ownerInfo) {
 
 	$status = "Owner added";
 
+
 	// Add the owner
 	$shared_users[] = array(
 		'mStatus' => "owner",
@@ -61,9 +62,12 @@ if ($ownerInfo) {
 // 2. Find the project shares (if only the type is page)
 if ( $dataType == "page" ) {
 
+	$status = "Project owner added";
+
 	$project_ID = $objectData->getInfo('project_ID');
-	$project_owner_ID = Project::ID()->getInfo('user_ID');
+	$project_owner_ID = Project::ID($project_ID)->getInfo('user_ID');
 	$projectOwnerInfo = getUserInfo($project_owner_ID);
+
 
 	// Add the owner
 	$shared_users[] = array(
