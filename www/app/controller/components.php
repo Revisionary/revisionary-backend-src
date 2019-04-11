@@ -1,4 +1,4 @@
 <?php
 
-$page_title = "SITE COMPONENTS";
+$page_title = "Site Components";
 require view('components');

@@ -8,10 +8,11 @@
 		<br/>
 		<br/>
 		<br/>
+		<br/>
 
-
+		<b>Titles </b><br/><br/>
 		<h1>Heading 1</h1>
-		<h2>Heading 2</h2>
+		<h2 style="font-size: 40px;">Heading 2</h2>
 		<h3>Heading 3</h3>
 		<h4>Heading 4</h4>
 		<h5>Heading 5</h5>
@@ -21,100 +22,152 @@
 		<br/>
 		<br/>
 		<br/>
+		<br/>
 
 
-		<p>Pharagraph lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi aliquam, distinctio? Sequi vitae similique est facere maxime ea nulla, voluptatum vel quos esse aut dicta, sapiente sit eum dolorem libero.</p>
+		<b>Paragraph</b> <br/>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi aliquam, distinctio? Sequi vitae similique est facere maxime ea nulla, voluptatum vel quos esse aut dicta, sapiente sit eum dolorem libero.</p>
 
 
 		<br/>
 		<br/>
 		<br/>
+		<br/>
+
+		<b>Dropdowns </b><br/><br/>
+		<div class="wrap xl-gutter-40">
+			<div class="col">
 
 
-		<span class="dropdown">
-			<a href="#" class="learn-more">Dropdown Link <i class="fa fa-caret-down" aria-hidden="true"></i></a>
-			<ul>
-				<li><span>No Link Item</span></li>
-				<li><a href="#">Linked Item</a></li>
-				<li class="selected"><a href="#">Selected Item</a></li>
-				<li><a href="#"><i class="fa fa-user"></i> Item with Icon</a></li>
-				<li class="selected"><a href="#"><i class="fa fa-user"></i> Selected Iconic Item</a></li>
-				<li>
-					<a href="#"><i class="fa fa-sign-in-alt"></i> Alt Dropdown Item <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+				<span class="dropdown">
+					<a href="#" class="learn-more">Dropdown on Link <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 					<ul>
-						<li><span>Sub Item 1</span></li>
+						<li><span>No Link Item</span></li>
+						<li><a href="#">Linked Item</a></li>
+						<li class="selected"><a href="#">Selected Item</a></li>
+						<li><a href="#"><i class="fa fa-user"></i> Item with Icon</a></li>
+						<li class="selected"><a href="#"><i class="fa fa-user"></i> Selected Iconic Item</a></li>
 						<li>
-							<a href="#"><i class="fa fa-sign-in-alt"></i> Sub Item 2 <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+							<a href="#"><i class="fa fa-sign-in-alt"></i> Alt Dropdown Item <i class="fa fa-caret-right" aria-hidden="true"></i></a>
 							<ul>
-								<li><span>Subber Item 1</span></li>
+								<li><span>Sub Item 1</span></li>
 								<li>
-
-									<a href="#"><i class="fa fa-sign-in-alt"></i> Subber Item 2 <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+									<a href="#"><i class="fa fa-sign-in-alt"></i> Sub Item 2 <i class="fa fa-caret-right" aria-hidden="true"></i></a>
 									<ul>
 										<li><span>Subber Item 1</span></li>
 										<li>
+
 											<a href="#"><i class="fa fa-sign-in-alt"></i> Subber Item 2 <i class="fa fa-caret-right" aria-hidden="true"></i></a>
 											<ul>
 												<li><span>Subber Item 1</span></li>
-												<li><span>Subber Item 2</span></li>
+												<li>
+													<a href="#"><i class="fa fa-sign-in-alt"></i> Subber Item 2 <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+													<ul>
+														<li><span>Subber Item 1</span></li>
+														<li><span>Subber Item 2</span></li>
+														<li><span>Subber Item 3</span></li>
+													</ul>
+												</li>
 												<li><span>Subber Item 3</span></li>
 											</ul>
+
 										</li>
 										<li><span>Subber Item 3</span></li>
 									</ul>
-
 								</li>
-								<li><span>Subber Item 3</span></li>
+								<li><a href="#"><i class="fa fa-sign-in-alt"></i> Sub Item 3</a></li>
 							</ul>
 						</li>
-						<li><a href="#"><i class="fa fa-sign-in-alt"></i> Sub Item 3</a></li>
+						<li>
+							<a href="#"><i class="fa fa-sign-in-alt"></i> Selectables <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+							<ul class="selectable">
+								<li><a href="#">Selectable 1</a></li>
+								<li class="selected"><a href="#">Selectable 2</a></li>
+								<li><a href="#">Selectable 3</a></li>
+								<li><a href="#">Selectable 4</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="#"><i class="fa fa-sign-in-alt"></i> Addables <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+							<ul class="addable">
+								<li><a href="#">Addable 1</a></li>
+								<li><a href="#">Addable 2</a></li>
+								<li><a href="#">Addable 3</a></li>
+								<li><a href="#">Addable 4</a></li>
+							</ul>
+						</li>
 					</ul>
-				</li>
-				<li>
-					<a href="#"><i class="fa fa-sign-in-alt"></i> Selectables <i class="fa fa-caret-right" aria-hidden="true"></i></a>
-					<ul class="selectable">
-						<li><a href="#">Selectable 1</a></li>
-						<li class="selected"><a href="#">Selectable 2</a></li>
-						<li><a href="#">Selectable 3</a></li>
-						<li><a href="#">Selectable 4</a></li>
+				</span>
+
+
+			</div>
+			<div class="col">
+
+
+				<span class="dropdown">
+					<a href="#" class="button">Dropdown In Button <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+					<ul>
+						<li><a href="#">Item 1</a></li>
+						<li><a href="#">Item 2</a></li>
+						<li><a href="#">Item 3</a></li>
 					</ul>
-				</li>
-				<li>
-					<a href="#"><i class="fa fa-sign-in-alt"></i> Addables <i class="fa fa-caret-right" aria-hidden="true"></i></a>
-					<ul class="addable">
-						<li><a href="#">Addable 1</a></li>
-						<li><a href="#">Addable 2</a></li>
-						<li><a href="#">Addable 3</a></li>
-						<li><a href="#">Addable 4</a></li>
-					</ul>
-				</li>
-			</ul>
-		</span>
+				</span>
 
-		<br/>
-		<br/>
-		<br/>
-		<br/>
-		<br/>
 
-		<input type="text" placeholder="Text Box"/>
+			</div>
+		</div>
+
 
 		<br/>
 		<br/>
 		<br/>
 		<br/>
 
+
+		<b>Text Inputs </b><br/><br/>
+		<input type="text" class="large" placeholder="Text Box" style="display: inline-block;"/>
+		<input type="text" placeholder="Text Box" style="display: inline-block;"/>
+
+
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+
+
+		<b>Buttons </b><br/><br/>
+		<button class="large"><a href="#">Button</a></button>
 		<button><a href="#">Button</a></button>
 
-		<br/>
+
 		<br/>
 		<br/>
 		<br/>
 		<br/>
 
-		<input type="text" placeholder="Form Input 1"/>
-		<input type="text" placeholder="Form Input 2"/>
-		<button><a href="#">Form Group</a></button>
+		<b>Forms </b><br/><br/>
+
+		<div class="wrap xl-gutter-40">
+			<div class="col">
+
+
+				<input class="large full" type="text" placeholder="Form Input 1"/>
+				<input class="large full" type="text" placeholder="Form Input 2"/>
+				<button class="large full"><a href="#">Form Group</a></button>
+
+
+			</div>
+			<div class="col">
+
+
+				<input type="text" placeholder="Form Input 1"/>
+				<input type="text" placeholder="Form Input 2"/>
+				<button><a href="#">Form Group</a></button>
+
+
+			</div>
+		</div>
+
 
 		<br/>
 		<br/>
@@ -127,6 +180,10 @@
 			<div class="col xl-center">
 
 				Profile Picture With Image <br/><br/>
+				<picture class="profile-picture larger" <?=getUserInfo(6)['printPicture']?> data-type="user" data-id="6">
+					<span><?=getUserInfo(6)['nameAbbr']?></span>
+				</picture><br/><br/>
+
 				<picture class="profile-picture big" <?=getUserInfo(6)['printPicture']?> data-type="user" data-id="6">
 					<span><?=getUserInfo(6)['nameAbbr']?></span>
 				</picture><br/><br/>
@@ -141,6 +198,11 @@
 
 
 				Profile Picture Without Image <br/><br/>
+				<picture class="profile-picture larger" data-type="user" data-id="6">
+					<span><?=getUserInfo(6)['nameAbbr']?></span>
+				</picture><br/><br/>
+
+
 				<picture class="profile-picture big" data-type="user" data-id="6">
 					<span><?=getUserInfo(6)['nameAbbr']?></span>
 				</picture><br/><br/>

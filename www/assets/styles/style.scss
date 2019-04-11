@@ -225,7 +225,8 @@ input[type='email'],
 input[type='password'],
 input[type='url'],
 input[type='submit'],
-button {
+button,
+.button {
 	display: block;
     padding: 0 10px;
     border: 2px solid $color;
@@ -282,46 +283,10 @@ button {
     padding: 5px 15px;
 }
 
-.filter-blocks {
-	position: relative;
-
-	i {
-		cursor: pointer;
-	}
-
-	input[type="text"] {
-	    display: inline-block;
-	    width: auto;
-		max-width: none;
-	    height: auto;
-	    border: 2px solid;
-	    padding: 2px 5px;
-	    font-size: 14px;
-	    position: absolute;
-	    top: 50%;
-	    transform: translateY(-50%);
-	    visibility: hidden;
-	    opacity: 0;
-	    right: -100%;
-	    transition: 500ms;
-	    border-radius: 8px;
-	    outline: none;
-
-	    &:focus {
-		    border-color: $color-secondary;
-	    }
-
-	    &.active {
-		    visibility: visible;
-		    opacity: 1;
-		    right: calc(100% + 8px);
-	    }
-	}
-}
-
 /* !!! - Duplicate */
 input[type='submit'],
-button {
+button,
+.button {
 	display: inline-block;
     width: auto;
 	max-width: 100%;
@@ -378,6 +343,43 @@ textarea {
 	resize: none;
 	padding: 2px 5px;
 	font-size: 14px;
+}
+
+.filter-blocks {
+	position: relative;
+
+	i {
+		cursor: pointer;
+	}
+
+	input[type="text"] {
+	    display: inline-block;
+	    width: auto;
+		max-width: none;
+	    height: auto;
+	    border: 2px solid;
+	    padding: 2px 5px;
+	    font-size: 14px;
+	    position: absolute;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    visibility: hidden;
+	    opacity: 0;
+	    right: -100%;
+	    transition: 500ms;
+	    border-radius: 8px;
+	    outline: none;
+
+	    &:focus {
+		    border-color: $color-secondary;
+	    }
+
+	    &.active {
+		    visibility: visible;
+		    opacity: 1;
+		    right: calc(100% + 8px);
+	    }
+	}
 }
 
 [disabled] {
