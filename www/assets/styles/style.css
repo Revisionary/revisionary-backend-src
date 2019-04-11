@@ -5693,6 +5693,7 @@ ul.user-header-menu {
   position: relative; }
   [data-tooltip].tooltip {
     cursor: help; }
+  [data-tooltip].tooltip-active:after,
   [data-tooltip]:hover:after {
     pointer-events: none;
     padding: 4px;
@@ -5701,8 +5702,6 @@ ul.user-header-menu {
     content: attr(data-tooltip);
     position: absolute;
     z-index: 999;
-    bottom: 100%;
-    right: 0;
     text-transform: initial;
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 12px;
@@ -5710,20 +5709,28 @@ ul.user-header-menu {
     font-weight: bold !important;
     letter-spacing: normal;
     width: 120px;
+    min-height: 15px;
     white-space: normal;
     text-align: center;
     box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
-    border-radius: 5px; }
-  [data-tooltip].bottom-tooltip:hover:after {
-    bottom: auto;
-    top: 100%; }
-  [data-tooltip].left-tooltip:hover:after {
-    right: auto;
-    left: 0; }
-  [data-tooltip].center-tooltip:hover:after {
+    border-radius: 5px;
+    bottom: calc(100% + 5px);
     right: auto;
     left: 50%;
     transform: translateX(-50%); }
+  [data-tooltip].bottom-tooltip:after {
+    bottom: auto;
+    top: calc(100% + 5px); }
+  [data-tooltip].left-tooltip:after {
+    right: calc(100% + 5px);
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%); }
+  [data-tooltip].right-tooltip:after {
+    right: auto;
+    left: calc(100% + 5px);
+    top: 50%;
+    transform: translateY(-50%); }
 
 .profile-picture {
   font-size: 12px;

@@ -1036,6 +1036,7 @@ ul.user-header-menu {
 		cursor: help;
 	}
 
+	&.tooltip-active:after,
 	&:hover:after{
 		pointer-events: none;
 	    padding: 4px;
@@ -1044,8 +1045,6 @@ ul.user-header-menu {
 	    content: attr(data-tooltip);
 	    position: absolute;
 	    z-index: 999;
-	    bottom: 100%;
-	    right: 0;
 	    text-transform: initial;
 	    font-family: 'Roboto Condensed', sans-serif;
 	    font-size: 12px;
@@ -1053,27 +1052,35 @@ ul.user-header-menu {
 	    font-weight: bold !important;
 	    letter-spacing: normal;
 	    width: 120px;
+	    min-height: 15px;
 	    white-space: normal;
 	    text-align: center;
 	    box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.5);
 	    border-radius: 5px;
-	    //white-space: nowrap;
-	}
-
-	&.bottom-tooltip:hover:after {
-		bottom: auto;
-		top: 100%;
-	}
-
-	&.left-tooltip:hover:after {
-		right: auto;
-		left: 0;
-	}
-
-	&.center-tooltip:hover:after {
+	    bottom: calc(100% + 5px);
 		right: auto;
 		left: 50%;
 	    transform: translateX(-50%);
+	    //white-space: nowrap;
+	}
+
+	&.bottom-tooltip:after {
+		bottom: auto;
+		top: calc(100% + 5px);
+	}
+
+	&.left-tooltip:after {
+		right: calc(100% + 5px);
+		left: auto;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	&.right-tooltip:after {
+		right: auto;
+		left: calc(100% + 5px);
+		top: 50%;
+		transform: translateY(-50%);
 	}
 
 }
