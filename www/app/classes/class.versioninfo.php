@@ -44,7 +44,7 @@ class Version {
 
         // Paths
 		$fullPath = $this->versionDir."/";
-		$fullPath = str_replace(cache, "", $fullPath);
+		$fullPath = str_replace(cache."/", "", $fullPath);
 
 
         // Set the version cache directory URL
