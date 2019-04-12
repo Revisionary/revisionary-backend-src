@@ -125,20 +125,6 @@
 
 
 			</div>
-			<div class="col">
-
-
-				<span class="dropdown">
-					<a href="#" class="button">Dropdown On Button <i class="fa fa-caret-down" aria-hidden="true"></i></a>
-					<ul>
-						<li><a href="#">Item 1</a></li>
-						<li><a href="#">Item 2</a></li>
-						<li><a href="#">Item 3</a></li>
-					</ul>
-				</span>
-
-
-			</div>
 		</div>
 
 

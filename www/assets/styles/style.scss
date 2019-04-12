@@ -225,8 +225,7 @@ input[type='email'],
 input[type='password'],
 input[type='url'],
 input[type='submit'],
-button,
-.button {
+button {
 	display: block;
     padding: 0 10px;
     border: 2px solid $color;
@@ -285,8 +284,7 @@ button,
 
 /* !!! - Duplicate */
 input[type='submit'],
-button,
-.button {
+button {
 	display: inline-block;
     width: auto;
 	max-width: 100%;
