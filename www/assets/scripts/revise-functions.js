@@ -548,9 +548,11 @@ function runTheInspector() {
 
 				} else {
 
+
 					// If not editable, switch back to the standard pin
 					switchCursorType('standard');
 					if (focused_element_has_index) outline(focused_element, currentPinPrivate, (focused_element_editable && currentPinType == "live" ? "live" : "standard"));
+
 
 				}
 
@@ -569,8 +571,8 @@ function runTheInspector() {
 					outline( focused_element, focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type') );
 
 
-
 					//console.log('This element already has a live pin.');
+
 
 				} else {
 
@@ -590,18 +592,25 @@ function runTheInspector() {
 		}).on('mousedown', function(e) { // Detect the mouse clicks in frame
 
 
+			//console.log('MOUSE DOWN');
+
+
 			// While editing a content on page
 			mouseDownOnContentEdit = cursorActive && focused_element_has_live_pin ? true : false;
 
 
-		}).on('click', function(e) { // Detect the mouse clicks in frame
+			//$('#the-page').css('pointer-events', 'none');
 
 
-			//console.log('CLICKED SOMEWHERE', focused_element_index);
+		}).on('mouseup', function(e) { // Detect the mouse clicks in frame
+
+
+			//console.log('MOUSE CLICKED SOMEWHERE', focused_element_index);
 
 
 			// If cursor is active
 			if (cursorActive) {
+
 
 				// If focused element has a live pin
 				if (focused_element_has_live_pin) {
@@ -614,10 +623,14 @@ function runTheInspector() {
 					)
 						openPinWindow( focused_element_pin.attr('data-pin-id') );
 
+
 				} else {
 
+
 					// Add a pin and open a pin window
-					if ( !mouseDownOnContentEdit ) putPin(focused_element_index, e.pageX, e.pageY, currentCursorType, currentPinPrivate);
+					if ( !mouseDownOnContentEdit )
+						putPin(focused_element_index, e.pageX, e.pageY, currentCursorType, currentPinPrivate);
+
 
 				}
 
@@ -633,12 +646,18 @@ function runTheInspector() {
 			}
 
 
+			// Re-enable iframe
+			//$('#the-page').css('pointer-events', '');
+
+
 			// Prevent clicking something
 			e.preventDefault();
+			e.stopPropagation();
 			return false;
 
 
 		}).on('scroll', function(e) { // Detect the scroll to re-position pins
+
 
 			//console.log('SCROLLIIIIIIIING');
 
@@ -646,7 +665,9 @@ function runTheInspector() {
 		    // Re-Locate all the pins
 		    relocatePins();
 
+
 		}).on('keydown', function(e) { // Detect the scroll to re-position pins
+
 
 			if (e.shiftKey) shifted = true;
 
@@ -852,6 +873,7 @@ function runTheInspector() {
 
 
 				e.preventDefault();
+				e.stopPropagation();
 				return false;
 			}
 
@@ -1333,7 +1355,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 	console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
 	console.log('PinX: ' + pinX, ' PinY: ' + pinY);
-	console.log('TO REGISTER', elementPinX, elementPinY);
+	console.log('TO REGISTER', elementPinX, elementPinY, selectedElement.prop('tagName'));
 	//console.log('Put the Pin #' + currentPinNumber, pinX, pinY, cursorType, pinPrivate, element_index);
 
 
@@ -1423,14 +1445,18 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 		// Update the pin ID
-		newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
-		pinWindow('[data-pin-id="'+ temporaryPinID +'"]').attr('data-pin-id', realPinID).removeAttr('temporary');
 		if (typeof Pins[pinIndex] !== 'undefined') Pins[pinIndex].pin_ID = realPinID;
-		window.location.hash = "#" + realPinID;
+		newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
 
 
-		// Remove the loading text on pin window
-		pinWindow(realPinID).removeClass('loading');
+		if (pinWindowOpen) {
+
+			// Remove the loading text on pin window
+			pinWindow('[data-pin-id="'+ temporaryPinID +'"]').attr('data-pin-id', realPinID).removeAttr('temporary');
+			window.location.hash = "#" + realPinID;
+			pinWindow(realPinID).removeClass('loading');
+
+		}
 
 
 		// Stick the pin
@@ -3688,15 +3714,27 @@ function inCompleteNotification(pin_ID) {
 // Find iframe element
 function iframeElement(selector) {
 
+	var element = false;
+
 	if ( $.isNumeric(selector) ) {
 
-		return iframeElement('[data-revisionary-index="'+ selector +'"]');
+		element = iframeElement('[data-revisionary-index="'+ selector +'"]');
+
+		if (element.length > 1) {
+
+			element.filter(':hidden').removeAttr('data-revisionary-index');
+			element = element.filter(':visible');
+
+		}
 
 	} else {
 
-		return iframe.find(selector);
+		element = iframe.find(selector);
 
 	}
+
+
+	return element;
 
 }
 
