@@ -5,10 +5,34 @@
 
 		<h1 class="xl-center"><?=$page_title?></h1>
 
+
 		<br/>
 		<br/>
 		<br/>
 		<br/>
+
+
+		<div class="wrap xl-gutter-40 xl-table">
+			<div class="col">
+
+				<b>Logo </b><br/><br/>
+				<img src="<?=asset_url("images/revisionary-logo.png")?>" alt=""/>
+
+			</div>
+			<div class="col">
+
+				<b>Icon </b><br/><br/>
+				<img src="<?=asset_url("images/revisionary-icon.png")?>" alt=""/>
+
+			</div>
+		</div>
+
+
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+
 
 		<b>Titles </b><br/><br/>
 		<h1>Heading 1</h1>
@@ -26,7 +50,7 @@
 
 
 		<b>Paragraph</b> <br/>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi aliquam, distinctio? Sequi vitae similique est facere maxime ea nulla, voluptatum vel quos esse aut dicta, sapiente sit eum dolorem libero.</p>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
 
 		<br/>

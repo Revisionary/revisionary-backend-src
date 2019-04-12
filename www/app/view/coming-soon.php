@@ -10,10 +10,6 @@ if (
 ) {
 
 
-
-
-
-
 	$MailChimp = new MailChimp('cf46d8fcb49efd7ebbe51f02aec3ec58-us17');
 	$list_id = '74f14f8baf';
 	$email = $_POST['email'];
@@ -71,9 +67,9 @@ if (
 require view('static/header_html');
 
 ?>
-
+<main>
 	<div class="vertical-middle" style="text-align: center;">
-		<img src="<?=asset_url('images/revisionary-logo.jpg')?>" width="512" height="262" alt="Revisionary Logo"/>
+		<img src="<?=asset_url('images/revisionary-logo.png')?>" width="402" height="136" alt="Revisionary Logo"/>
 		<h1>We are coming soon</h1>
 		<p>Would you like to be notified when we're ready?</p>
 
