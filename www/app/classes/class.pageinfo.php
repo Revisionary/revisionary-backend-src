@@ -305,6 +305,23 @@ class Page {
     }
 
 
+
+    // Edit a page
+    public function updateModified() {
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!!
+
+
+
+		$page_modified = $this->edit('page_modified', date('Y-m-d H:i:s'));
+
+		return $page_modified;
+    }
+
+
     // Archive a page
     public function archive() {
 	    global $db, $log;
