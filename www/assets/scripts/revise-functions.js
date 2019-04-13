@@ -589,6 +589,18 @@ function runTheInspector() {
 			} // If cursor active
 
 
+		}).on('click', function(e) { // Detect the mouse clicks in frame !!!! Does not prevent the mouse click events that's already registered
+
+
+			console.log('MOUSE CLICKED');
+
+
+			// Prevent clicking something
+			e.preventDefault();
+			e.stopPropagation();
+			return false;
+
+
 		}).on('mousedown', function(e) { // Detect the mouse clicks in frame
 
 
@@ -2547,6 +2559,10 @@ function closePinWindow(removePinIfEmpty = true) {
 	pinWindow().removeClass('active');
 	pinWindowOpen = false;
 	history.pushState("", document.title, window.location.pathname + window.location.search);
+
+
+	// Close the Popline
+	$('.popline').fadeOut();
 
 
 	// Close the colorpicker
