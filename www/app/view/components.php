@@ -40,7 +40,7 @@
 		<br/>
 		<br/>
 
-
+		<b>Color</b><br><br>
 		<div class="wrap xl-gutter-40">
 			<div class="col">
 
@@ -95,6 +95,29 @@
 		<br/>
 
 
+		<b>Typography</b><br>
+		<div class="wrap xl-gutter-40">
+			<div class="col">
+
+				<h2 style="margin-top: 20px;">Roboto Condensed</h2>
+				<h3 style="font-weight: 300;">Light</h3>
+				<h3 style="font-weight: 300;"><i>Light Italic</i></h3>
+				<h3 style="font-weight: 400;">Regular</h3>
+				<h3 style="font-weight: 400;"><i>Regular Italic</i></h3>
+				<h3 style="font-weight: 700;">Bold</h3>
+				<h3 style="font-weight: 700;"><i>Bold Italic</i></h3>
+				
+
+			</div>
+		</div>
+
+
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+
+
 		<b>Titles </b><br/><br/>
 		<h1>Heading 1</h1>
 		<h2 style="font-size: 40px;">Heading 2</h2>
@@ -108,6 +131,7 @@
 		<br/>
 		<br/>
 		<br/>
+		
 
 		<style>
 			p a {
@@ -122,6 +146,24 @@
 
 		<b>Paragraph</b> <br/>
 		<p>Lorem ipsum dolor sit amet, <a href="#"><b>consectetur</b> adipisicing elit</a>, <b>sed do <i>eiusmod</i></b> tempor <i>incididunt ut labore et</i> dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+
+
+		<b>Icons</b><br>
+		<div class="wrap xl-gutter-40">
+			<div class="col">
+
+
+				<a href="http://fontawesome.io/icons/" target="_blank">Font Awesome</a>
+				
+
+			</div>
+		</div>
 
 
 		<br/>
