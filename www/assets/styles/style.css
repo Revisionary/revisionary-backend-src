@@ -5198,7 +5198,7 @@ button {
   border-radius: 30px;
   padding: 5px 15px; }
 
-/* !!! - Duplicate */
+/* Button specific */
 input[type='submit'],
 button {
   display: inline-block;
@@ -5328,9 +5328,6 @@ textarea {
   cursor: pointer; }
 
 /**
- * Forms
- */
-/**
  * Navigation
  */
 nav#main-navigation > ul {
@@ -5422,6 +5419,15 @@ a {
     display: block;
     text-decoration: underline; }
 
+ul.user-header-menu {
+  padding: 0;
+  margin: 0; }
+  ul.user-header-menu > li {
+    margin: 0 10px; }
+    ul.user-header-menu > li:last-child {
+      margin-right: 0; }
+
+/* Notifications */
 .notifications-wrapper {
   position: relative; }
   .notifications-wrapper .notification-opener {
@@ -5516,14 +5522,32 @@ a {
         line-height: 14px;
         opacity: 0.4; }
 
-ul.user-header-menu {
-  padding: 0;
-  margin: 0; }
-  ul.user-header-menu > li {
-    margin: 0 10px; }
-    ul.user-header-menu > li:last-child {
-      margin-right: 0; }
+.notif-no {
+  font-size: 8px;
+  bottom: -3px;
+  right: -5px;
+  display: block;
+  width: 14px;
+  height: 14px;
+  background-color: #D0011B;
+  color: white;
+  line-height: 14px;
+  font-weight: normal;
+  position: absolute;
+  text-align: center;
+  letter-spacing: 0;
+  border-radius: 50%;
+  -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5); }
+  .notif-no.hide {
+    display: none; }
+  .big .notif-no {
+    font-size: 10px;
+    bottom: 0;
+    right: 0; }
 
+/* Dropdown */
 .dropdown {
   position: relative;
   cursor: auto; }
@@ -5676,9 +5700,7 @@ ul.user-header-menu {
   line-height: 18px;
   letter-spacing: 0; }
 
-/**
- * Alignments
- */
+/* Alignments */
 .vertical-middle {
   position: absolute;
   top: 50%;
@@ -5687,9 +5709,7 @@ ul.user-header-menu {
   right: 0;
   left: 0; }
 
-/**
- * 10.0 - Widgets
- */
+/* Tooltips */
 [data-tooltip] {
   position: relative; }
   [data-tooltip].tooltip {
@@ -5709,6 +5729,7 @@ ul.user-header-menu {
     line-height: 15px;
     font-weight: bold !important;
     letter-spacing: normal;
+    display: inline-table;
     width: 120px;
     min-height: 15px;
     white-space: normal;
@@ -5733,6 +5754,7 @@ ul.user-header-menu {
     top: 50%;
     transform: translateY(-50%); }
 
+/* Profile Pictures */
 .profile-picture {
   font-size: 12px;
   line-height: 25px;
@@ -5815,31 +5837,6 @@ ul.user-header-menu {
     font-size: 15px; }
   .profile-picture.avatar-changer.loading input {
     display: none; }
-
-.notif-no {
-  font-size: 8px;
-  bottom: -3px;
-  right: -5px;
-  display: block;
-  width: 14px;
-  height: 14px;
-  background-color: #D0011B;
-  color: white;
-  line-height: 14px;
-  font-weight: normal;
-  position: absolute;
-  text-align: center;
-  letter-spacing: 0;
-  border-radius: 50%;
-  -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5); }
-  .notif-no.hide {
-    display: none; }
-  .big .notif-no {
-    font-size: 10px;
-    bottom: 0;
-    right: 0; }
 
 /* Pin */
 pin {
@@ -6390,6 +6387,59 @@ pin {
   margin-top: 18px;
   font-size: 14px;
   line-height: 18px; }
+
+/* Pin Comments */
+.pin-comments {
+  padding-top: 10px;
+  padding-bottom: 25px; }
+  .pin-comments > *:not(.comment) {
+    margin-left: -10px; }
+  .pin-comments .comment {
+    margin-top: 10px;
+    margin-bottom: 25px; }
+    .pin-comments .comment:first-child {
+      margin-top: 0; }
+    .pin-comments .comment:last-child {
+      margin-bottom: 0; }
+    .pin-comments .comment .profile-picture {
+      margin-left: 0;
+      margin-right: 0; }
+      .pin-comments .comment .profile-picture .new-comment-icon {
+        position: absolute;
+        left: -15px; }
+    .pin-comments .comment .xl-last .new-comment-icon {
+      right: -15px;
+      left: auto; }
+    .pin-comments .comment .comment-inner-wrapper .comment-user-name {
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1.5px; }
+    .pin-comments .comment .comment-inner-wrapper .comment-date {
+      padding-left: 5px;
+      padding-right: 5px;
+      font-size: 10px;
+      line-height: 20px;
+      opacity: 0.4; }
+    .pin-comments .comment .comment-inner-wrapper .comment-text {
+      font-size: 14px;
+      letter-spacing: 0.5px; }
+      .pin-comments .comment .comment-inner-wrapper .comment-text a:not(.delete-comment) {
+        text-decoration: underline; }
+      .pin-comments .comment .comment-inner-wrapper .comment-text .delete-comment {
+        opacity: 0;
+        line-height: 5px; }
+      .pin-comments .comment .comment-inner-wrapper .comment-text:hover .delete-comment {
+        opacity: 1; }
+    .pin-comments .comment.recurring {
+      margin-top: -15px; }
+      .pin-comments .comment.recurring .profile-image > picture {
+        display: none; }
+      .pin-comments .comment.recurring .comment-user-name {
+        display: none; }
+      .pin-comments .comment.recurring .comment-date {
+        padding: 0; }
+    .pin-comments .comment.sametime .comment-date {
+      display: none; }
 
 /**
  * 11.0 - Content

@@ -202,59 +202,6 @@ html, body {
       #page .iframe-container iframe.dragging {
         pointer-events: none; }
 
-/* Pin Comments */
-.pin-comments {
-  padding-top: 10px;
-  padding-bottom: 25px; }
-  .pin-comments > *:not(.comment) {
-    margin-left: -10px; }
-  .pin-comments .comment {
-    margin-top: 10px;
-    margin-bottom: 25px; }
-    .pin-comments .comment:first-child {
-      margin-top: 0; }
-    .pin-comments .comment:last-child {
-      margin-bottom: 0; }
-    .pin-comments .comment .profile-picture {
-      margin-left: 0;
-      margin-right: 0; }
-      .pin-comments .comment .profile-picture .new-comment-icon {
-        position: absolute;
-        left: -15px; }
-    .pin-comments .comment .xl-last .new-comment-icon {
-      right: -15px;
-      left: auto; }
-    .pin-comments .comment .comment-inner-wrapper .comment-user-name {
-      font-size: 14px;
-      font-weight: bold;
-      letter-spacing: 1.5px; }
-    .pin-comments .comment .comment-inner-wrapper .comment-date {
-      padding-left: 5px;
-      padding-right: 5px;
-      font-size: 10px;
-      line-height: 20px;
-      opacity: 0.4; }
-    .pin-comments .comment .comment-inner-wrapper .comment-text {
-      font-size: 14px;
-      letter-spacing: 0.5px; }
-      .pin-comments .comment .comment-inner-wrapper .comment-text a:not(.delete-comment) {
-        text-decoration: underline; }
-      .pin-comments .comment .comment-inner-wrapper .comment-text .delete-comment {
-        opacity: 0;
-        line-height: 5px; }
-      .pin-comments .comment .comment-inner-wrapper .comment-text:hover .delete-comment {
-        opacity: 1; }
-    .pin-comments .comment.recurring {
-      margin-top: -15px; }
-      .pin-comments .comment.recurring .profile-image > picture {
-        display: none; }
-      .pin-comments .comment.recurring .comment-user-name {
-        display: none; }
-      .pin-comments .comment.recurring .comment-date {
-        padding: 0; }
-    .pin-comments .comment.sametime .comment-date {
-      display: none; }
-
 /* Progress Bar */
 .ready .progress-bar {
   top: auto;

@@ -283,7 +283,7 @@ button {
     padding: 5px 15px;
 }
 
-/* !!! - Duplicate */
+/* Button specific */
 input[type='submit'],
 button {
 	display: inline-block;
@@ -447,11 +447,6 @@ textarea {
 
 
 /**
- * Forms
- */
-
-
-/**
  * Navigation
  */
 
@@ -587,6 +582,22 @@ a {
 	}
 }
 
+ul.user-header-menu {
+	padding: 0;
+	margin: 0;
+
+	& > li {
+		margin: 0 10px;
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+	}
+}
+
+
+/* Notifications */
 .notifications-wrapper {
 	position: relative;
 
@@ -734,22 +745,42 @@ a {
     }
 }
 
-ul.user-header-menu {
-	padding: 0;
-	margin: 0;
+.notif-no {
+    font-size: 8px;
+    bottom: -3px;
+    right: -5px;
 
-	& > li {
-		margin: 0 10px;
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-color: #D0011B;
+    color: white;
+    line-height: 14px;
+    font-weight: normal;
+    position: absolute;
+    text-align: center;
+    letter-spacing: 0;
+    border-radius: 50%;
 
-		&:last-child {
-			margin-right: 0;
-		}
+    -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
+	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
 
+	&.hide {
+		display: none;
 	}
+
+	.big & {
+	    font-size: 10px;
+	    bottom: 0;
+	    right: 0;
+	}
+
+
 }
 
 
-
+/* Dropdown */
 .dropdown { // <SPAN | DIV>
 	position: relative;
 	cursor: auto;
@@ -1009,10 +1040,7 @@ ul.user-header-menu {
 
 
 
-/**
- * Alignments
- */
-
+/* Alignments */
 .vertical-middle {
 	position: absolute;
 	top: 50%;
@@ -1024,11 +1052,7 @@ ul.user-header-menu {
 
 
 
-/**
- * 10.0 - Widgets
- */
-
-
+/* Tooltips */
 [data-tooltip] {
 	position: relative;
 
@@ -1052,6 +1076,7 @@ ul.user-header-menu {
 	    line-height: 15px;
 	    font-weight: bold !important;
 	    letter-spacing: normal;
+        display: inline-table;
 	    width: 120px;
 	    min-height: 15px;
 	    white-space: normal;
@@ -1086,6 +1111,8 @@ ul.user-header-menu {
 
 }
 
+
+/* Profile Pictures */
 .profile-picture {
     font-size: 12px;
     line-height: 25px;
@@ -1207,41 +1234,6 @@ ul.user-header-menu {
 		}
 
 	}
-}
-
-
-.notif-no {
-    font-size: 8px;
-    bottom: -3px;
-    right: -5px;
-
-    display: block;
-    width: 14px;
-    height: 14px;
-    background-color: #D0011B;
-    color: white;
-    line-height: 14px;
-    font-weight: normal;
-    position: absolute;
-    text-align: center;
-    letter-spacing: 0;
-    border-radius: 50%;
-
-    -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
-	-moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
-	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
-
-	&.hide {
-		display: none;
-	}
-
-	.big & {
-	    font-size: 10px;
-	    bottom: 0;
-	    right: 0;
-	}
-
-
 }
 
 
@@ -1407,7 +1399,6 @@ pin {
 
     }
 }
-
 
 
 
@@ -2279,6 +2270,118 @@ pin {
     font-size: 14px;
     line-height: 18px;
 }
+
+
+
+/* Pin Comments */
+.pin-comments {
+	padding-top: 10px;
+	padding-bottom: 25px;
+
+	& > *:not(.comment) {
+		margin-left: -10px;
+	}
+
+
+	.comment {
+		margin-top: 10px;
+		margin-bottom: 25px;
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		.profile-picture {
+			margin-left: 0;
+			margin-right: 0;
+
+			.new-comment-icon {
+			    position: absolute;
+			    left: -15px;
+			}
+		}
+
+		.xl-last .new-comment-icon {
+		    right: -15px;
+		    left: auto;
+		}
+
+		.comment-inner-wrapper {
+
+		    .comment-user-name {
+			    font-size: 14px;
+			    font-weight: bold;
+			    letter-spacing: 1.5px;
+		    }
+
+		    .comment-date {
+			    padding-left: 5px;
+			    padding-right: 5px;
+			    font-size: 10px;
+			    line-height: 20px;
+			    opacity: 0.4;
+		    }
+
+		    .comment-text {
+				font-size: 14px;
+				letter-spacing: 0.5px;
+
+
+				a:not(.delete-comment) {
+					text-decoration: underline;
+				}
+
+				.delete-comment {
+					opacity: 0;
+					line-height: 5px;
+				}
+
+				&:hover .delete-comment {
+					opacity: 1;
+				}
+
+		    }
+
+		}
+
+
+		&.recurring {
+			margin-top: -15px;
+
+			.profile-image > picture {
+				display: none;
+			}
+
+			.comment-user-name {
+				display: none;
+			}
+
+			.comment-date {
+				padding: 0;
+			}
+
+		}
+
+
+		&.sametime {
+
+			.comment-date {
+				display: none;
+			}
+
+		}
+
+
+	}
+
+}
+
+
+
 
 
 /**
