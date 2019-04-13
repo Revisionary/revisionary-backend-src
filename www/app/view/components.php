@@ -17,6 +17,7 @@
 	.inputs .button:focus,
 	.inputs .button-oval:focus {
 		box-shadow: 0px 0px 5px 1px #007acc;
+		border-color: #007acc;
 	}
 
 	</style>
@@ -175,7 +176,7 @@
 				<input type="text" class="large" placeholder="Text Box" style="display: inline-block; border-color: #007acc;"/><br/><br/>
 
 				<small>Focus</small><br/>
-				<input type="text" class="large" placeholder="Text Box" style="display: inline-block; box-shadow: 0px 0px 5px 1px #007acc;"/><br/><br/>
+				<input type="text" class="large" placeholder="Text Box" style="display: inline-block; border-color: #007acc; box-shadow: 0px 0px 5px 1px #007acc;"/><br/><br/>
 
 			</div>
 			<div class="col">
@@ -187,7 +188,7 @@
 				<input type="text" placeholder="Text Box" style="display: inline-block; border-color: #007acc;"/><br/><br/>
 
 				<small>Focus</small><br/>
-				<input type="text" placeholder="Text Box" style="display: inline-block; box-shadow: 0px 0px 5px 1px #007acc;"/><br/><br/>
+				<input type="text" placeholder="Text Box" style="display: inline-block; border-color: #007acc; box-shadow: 0px 0px 5px 1px #007acc;"/><br/><br/>
 
 			</div>
 		</div>
@@ -210,7 +211,7 @@
 				<button class="large" style="border-color: #007acc;"><a href="#" style="color: #007acc;">Large Button</a></button><br/><br/>
 
 				<small>Focus</small><br/>
-				<button class="large" style="box-shadow: 0px 0px 5px 1px #007acc;"><a href="#">Large Button</a></button><br/><br/>
+				<button class="large" style="box-shadow: 0px 0px 5px 1px #007acc; border-color: #007acc;"><a href="#">Large Button</a></button><br/><br/>
 
 			</div>
 			<div class="col">
@@ -222,7 +223,7 @@
 				<button style="border-color: #007acc;"><a href="#" style="color: #007acc;">Small Button</a></button><br/><br/>
 
 				<small>Focus</small><br/>
-				<button style="box-shadow: 0px 0px 5px 1px #007acc;"><a href="#">Small Button</a></button><br/><br/>
+				<button style="box-shadow: 0px 0px 5px 1px #007acc; border-color: #007acc;"><a href="#">Small Button</a></button><br/><br/>
 
 			</div>
 			<div class="col">
@@ -234,7 +235,7 @@
 				<a href="#" class="button-oval" style="border-color: #007acc; color: #007acc;"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
 
 				<small>Focus</small><br/>
-				<a href="#" class="button-oval" style="box-shadow: 0px 0px 5px 1px #007acc;"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
+				<a href="#" class="button-oval" style="box-shadow: 0px 0px 5px 1px #007acc; border-color: #007acc;"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
 
 			</div>
 		</div>
