@@ -7,11 +7,21 @@ class Pin {
 	public static $pin_ID;
 	public static $pinInfo;
 
+	public $version_ID;
+	public $versionData;
+	public $page_ID;
+	public $device_ID;
+
 
 
 	// SETTERS:
 
 	public function __construct() {
+
+		$this->version_ID = self::$pinInfo['version_ID'];
+		$this->versionData = Version::ID( $this->version_ID );
+		$this->page_ID = $this->versionData->getInfo('page_ID');
+		$this->device_ID = self::$pinInfo['device_ID'];
 
     }
 
@@ -71,14 +81,8 @@ class Pin {
 		global $db;
 
 
-		$pin_ID = self::$pin_ID;
-		$device_ID = $this->getInfo('device_ID');
-		$page_ID = Device::ID( $device_ID )->getInfo('page_ID');
-		$pageData = Page::ID( $page_ID );
-
-
 		// Get the page users
-		$users = $pageData->getUsers($include_me);
+		$users = $this->versionData->getUsers($include_me);
 
 
 		return $users;
@@ -138,12 +142,9 @@ class Pin {
 
 			$page_ID = Version::ID( $version_ID )->getInfo('page_ID');
 			$pageData = Page::ID( $page_ID );
+			$pageData->updateModified();
 
 			$project_ID = $pageData->getInfo('project_ID');
-
-
-			// Update the page modification date
-			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
 
 
 			// Site log
@@ -151,8 +152,6 @@ class Pin {
 
 
 		}
-
-
 
 
 
@@ -182,11 +181,9 @@ class Pin {
 		);
 		$pin_updated = $db->update('pins', $pin_locations);
 
+
 		// Update the page modification date
-		if ($pin_updated) {
-			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			Page::ID($page_ID)->edit('page_modified', date('Y-m-d H:i:s'));
-		}
+		if ($pin_updated) Page::ID( $this->page_ID )->updateModified();
 
 
 		return $pin_updated;
@@ -220,16 +217,19 @@ class Pin {
 
 
 
-		// Update the page modification date
 		if ($pin_deleted) {
-			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			$pageData = Page::ID($page_ID);
-			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+
+
+			// Update the page modification date
+			$pageData = Page::ID( $this->page_ID );
+			$pageData->updateModified();
+
+
+			// Site log
+			$log->info("$pin_type Pin #".self::$pin_ID." Removed from: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
+
 		}
-
-
-		// Site log
-		if ($pin_deleted) $log->info("$pin_type Pin #".self::$pin_ID." Removed from: '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		return $pin_deleted;
@@ -260,13 +260,12 @@ class Pin {
 
 
 			// Update the page modification date
-			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			$pageData = Page::ID($page_ID);
-			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+			$pageData = Page::ID( $this->page_ID );
+			$pageData->updateModified();
 
 
 			// Site log
-			$log->info("$pin_type Pin #".self::$pin_ID." Completed: '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info("$pin_type Pin #".self::$pin_ID." Completed: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		}
@@ -301,13 +300,12 @@ class Pin {
 
 
 			// Update the page modification date
-			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			$pageData = Page::ID($page_ID);
-			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+			$pageData = Page::ID( $this->page_ID );
+			$pageData->updateModified();
 
 
 			// Site log
-			$log->info("$pin_type Pin #".self::$pin_ID." Incompleted: '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info("$pin_type Pin #".self::$pin_ID." Incompleted: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		}
@@ -334,11 +332,13 @@ class Pin {
 		$current_pin_type = $this->getInfo('pin_type');
 		$current_pin_private = $this->getInfo('pin_private');
 
+
 		// Update the pin
 		$db->where('pin_ID', self::$pin_ID);
 
 		// Don't convert the other's pin private status
 		if ($pin_private == "1") $db->where('user_ID', currentUserID());
+
 
 		$pin_data = array(
 			'pin_type' => $pin_type,
@@ -354,16 +354,21 @@ class Pin {
 		$pin_updated = $db->update('pins', $pin_data);
 
 
-		// Update the page modification date
+
 		if ($pin_updated) {
-			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			$pageData = Page::ID($page_ID);
-			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+
+
+			// Update the page modification date
+			$pageData = Page::ID( $this->page_ID );
+			$pageData->updateModified();
+
+
+			// Site log
+			$log->info(ucfirst($current_pin_type)." Pin #".self::$pin_ID." Converted to ".ucfirst($pin_type)." ".($pin_private == "1" ? "(Private)" : "(Public)" )." -Before: ".ucfirst($current_pin_type)." ".($current_pin_private == "1" ? "(Private)" : "(Public)" )."-: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
+
 		}
 
-
-		// Site log
-		if ($pin_updated) $log->info(ucfirst($current_pin_type)." Pin #".self::$pin_ID." Converted to ".ucfirst($pin_type)." ".($pin_private == "1" ? "(Private)" : "(Public)" )." -Before: ".ucfirst($current_pin_type)." ".($current_pin_private == "1" ? "(Private)" : "(Public)" )."-: '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		return $pin_updated;
@@ -389,16 +394,21 @@ class Pin {
 		$db->where('pin_ID', self::$pin_ID);
 		$pin_updated = $db->update('pins', array('pin_modification' => $modification));
 
-		// Update the page modification date
+
 		if ($pin_updated) {
-			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			$pageData = Page::ID($page_ID);
-			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+
+
+			// Update the page modification date
+			$pageData = Page::ID( $this->page_ID );
+			$pageData->updateModified();
+
+
+			// Site log
+			$log->info("$pin_type Pin #".self::$pin_ID." Modified: '$modification' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
+
 		}
 
-
-		// Site log
-		if ($pin_updated) $log->info("$pin_type Pin #".self::$pin_ID." Modified: '$modification' | '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		return $pin_updated;
@@ -424,16 +434,21 @@ class Pin {
 		$db->where('pin_ID', self::$pin_ID);
 		$pin_updated = $db->update('pins', array('pin_css' => $css));
 
-		// Update the page modification date
+
 		if ($pin_updated) {
-			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			$pageData = Page::ID($page_ID);
-			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+
+
+			// Update the page modification date
+			$pageData = Page::ID( $this->page_ID );
+			$pageData->updateModified();
+
+
+			// Site log
+			$log->info("$pin_type Pin #".self::$pin_ID." CSS Updated: '$css' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
+
 		}
 
-
-		// Site log
-		if ($pin_updated) $log->info("$pin_type Pin #".self::$pin_ID." CSS Updated: '$css' | '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		return $pin_updated;
@@ -487,12 +502,8 @@ class Pin {
 		));
 
 
-		// Update the page modification date
-		if ($comment_ID) {
 
-			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			$pageData = Page::ID($page_ID);
-			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+		if ($comment_ID) {
 
 
 			// Send it to all related users
@@ -502,11 +513,17 @@ class Pin {
 			// Web notification
 			Notify::ID($users)->web("comment", "pin", self::$pin_ID, substr($message, 0, 70));
 
+
+			// Update the page modification date
+			$pageData = Page::ID( $this->page_ID );
+			$pageData->updateModified();
+
+
+			// Site log
+			$log->info("$pin_type Pin #".self::$pin_ID." Comment Added: '$message' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
+
 		}
-
-
-		// Site log
-		if ($comment_ID) $log->info("$pin_type Pin #".self::$pin_ID." Comment Added: '$message' | '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 
@@ -538,16 +555,18 @@ class Pin {
 		$comment_deleted = $db->delete('pin_comments');
 
 
-		// Update the page modification date
 		if ($comment_deleted) {
-			$page_ID = Device::ID( $this->getInfo('device_ID') )->getInfo('page_ID');
-			$pageData = Page::ID($page_ID);
-			$pageData->edit('page_modified', date('Y-m-d H:i:s'));
+
+
+			// Update the page modification date
+			$pageData = Page::ID( $this->page_ID );
+			$pageData->updateModified();
+
+
+			// Site log
+			$log->info("$pin_type Pin #".self::$pin_ID." Comment Deleted: Comment #$comment_ID | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
 		}
-
-
-		// Site log
-		if ($comment_deleted) $log->info("$pin_type Pin #".self::$pin_ID." Comment Deleted: Comment #$comment_ID | '".$pageData->getInfo('page_name')."' Page #$page_ID | Device #".$this->getInfo('device_ID')." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 
@@ -823,9 +842,10 @@ class Pin {
 		";
 
 
-		// Page/Project info
-		$device_ID = $this->getInfo('device_ID');
-		$page_ID = Device::ID( $device_ID )->getInfo('page_ID');
+		// Page/Project/Version info
+		$version_ID = $this->version_ID;
+		$device_ID = $this->device_ID;
+		$page_ID = $this->page_ID;
 		$pageData = Page::ID( $page_ID );
 		$project_ID = $pageData->getInfo('project_ID');
 		$projectData = Project::ID( $project_ID );
@@ -953,7 +973,7 @@ class Pin {
 				<td colspan='2'>
 
 					<h1>
-						<a href='".site_url("revise/$device_ID#$pin_ID")."' style='text-decoration: none;'>".$projectData->getInfo('project_name')." - ".$pageData->getInfo('page_name')."</a>
+						<a href='".site_url("version/$version_ID#$pin_ID")."' style='text-decoration: none;'>".$projectData->getInfo('project_name')." - ".$pageData->getInfo('page_name')."</a>
 					</h1>
 
 				</td>
@@ -964,7 +984,7 @@ class Pin {
 				<td>
 
 					$pin_message. <br>
-					<a href='".site_url("revise/$device_ID#$pin_ID")."'><b>View Comments</b></a>
+					<a href='".site_url("version/$version_ID#$pin_ID")."'><b>View Comments</b></a>
 
 				</td>
 			</tr>
