@@ -16,7 +16,7 @@
 			<div class="col">
 
 				<b>Logo </b><br/><br/>
-				<img src="<?=asset_url("images/revisionary-logo.png")?>" alt=""/>
+				<img src="<?=asset_url("images/revisionary-logo.png")?>" width="402" height="136" alt=""/>
 
 			</div>
 			<div class="col">
