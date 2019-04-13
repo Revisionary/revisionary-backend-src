@@ -138,12 +138,26 @@
 		<div class="wrap xl-gutter-24">
 			<div class="col">
 
-				<input type="text" class="large" placeholder="Text Box" style="display: inline-block;"/>
+				<small>Normal</small><br/>
+				<input type="text" class="large" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
+
+				<small>Hover</small><br/>
+				<input type="text" class="large" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
+
+				<small>Focus</small><br/>
+				<input type="text" class="large" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
 
 			</div>
 			<div class="col">
 
-				<input type="text" placeholder="Text Box" style="display: inline-block;"/>
+				<small>Normal</small><br/>
+				<input type="text" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
+
+				<small>Hover</small><br/>
+				<input type="text" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
+
+				<small>Focus</small><br/>
+				<input type="text" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
 
 			</div>
 		</div>
@@ -159,17 +173,38 @@
 		<div class="wrap xl-gutter-24">
 			<div class="col">
 
-				<button class="large"><a href="#">Large Button</a></button>
+				<small>Normal</small><br/>
+				<button class="large"><a href="#">Large Button</a></button><br/><br/>
+
+				<small>Hover</small><br/>
+				<button class="large"><a href="#">Large Button</a></button><br/><br/>
+
+				<small>Focus</small><br/>
+				<button class="large"><a href="#">Large Button</a></button><br/><br/>
 
 			</div>
 			<div class="col">
 
-				<button><a href="#">Small Button</a></button>
+				<small>Normal</small><br/>
+				<button><a href="#">Small Button</a></button><br/><br/>
+
+				<small>Hover</small><br/>
+				<button><a href="#">Small Button</a></button><br/><br/>
+
+				<small>Focus</small><br/>
+				<button><a href="#">Small Button</a></button><br/><br/>
 
 			</div>
 			<div class="col">
 
-				<a href="#" class="button-oval"><i class="fa fa-play-circle"></i> Oval Button with Icon</a>
+				<small>Normal</small><br/>
+				<a href="#" class="button-oval"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
+
+				<small>Hover</small><br/>
+				<a href="#" class="button-oval"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
+
+				<small>Focus</small><br/>
+				<a href="#" class="button-oval"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
 
 			</div>
 		</div>
