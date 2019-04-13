@@ -1,6 +1,26 @@
 <?php require view('static/header_html'); ?>
 <?php require view('static/header_frontend'); ?>
 
+
+	<style>
+	/* TEMPORARY STYLES */
+
+	.inputs input:hover,
+	.inputs button:hover,
+	.inputs .button:hover,
+	.inputs .button-oval:hover {
+		border-color: #007acc;
+	}
+
+	.inputs input:focus,
+	.inputs button:focus,
+	.inputs .button:focus,
+	.inputs .button-oval:focus {
+		box-shadow: 0px 0px 5px 1px #007acc;
+	}
+
+	</style>
+
 	<div class="container">
 
 		<h1 class="xl-center"><?=$page_title?></h1>
@@ -48,9 +68,19 @@
 		<br/>
 		<br/>
 
+		<style>
+			p a {
+				color: #007acc;
+				text-decoration: underline;
+			}
+
+			p a:hover {
+				text-decoration: none;
+			}
+		</style>
 
 		<b>Paragraph</b> <br/>
-		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<p>Lorem ipsum dolor sit amet, <a href="#"><b>consectetur</b> adipisicing elit</a>, <b>sed do <i>eiusmod</i></b> tempor <i>incididunt ut labore et</i> dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
 
 		<br/>
@@ -135,17 +165,17 @@
 
 
 		<b>Text Inputs </b><br/><br/>
-		<div class="wrap xl-gutter-24">
+		<div class="wrap xl-gutter-24 inputs">
 			<div class="col">
 
 				<small>Normal</small><br/>
 				<input type="text" class="large" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
 
 				<small>Hover</small><br/>
-				<input type="text" class="large" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
+				<input type="text" class="large" placeholder="Text Box" style="display: inline-block; border-color: #007acc;"/><br/><br/>
 
 				<small>Focus</small><br/>
-				<input type="text" class="large" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
+				<input type="text" class="large" placeholder="Text Box" style="display: inline-block; box-shadow: 0px 0px 5px 1px #007acc;"/><br/><br/>
 
 			</div>
 			<div class="col">
@@ -154,10 +184,10 @@
 				<input type="text" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
 
 				<small>Hover</small><br/>
-				<input type="text" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
+				<input type="text" placeholder="Text Box" style="display: inline-block; border-color: #007acc;"/><br/><br/>
 
 				<small>Focus</small><br/>
-				<input type="text" placeholder="Text Box" style="display: inline-block;"/><br/><br/>
+				<input type="text" placeholder="Text Box" style="display: inline-block; box-shadow: 0px 0px 5px 1px #007acc;"/><br/><br/>
 
 			</div>
 		</div>
@@ -170,17 +200,17 @@
 
 
 		<b>Buttons </b><br/><br/>
-		<div class="wrap xl-gutter-24">
+		<div class="wrap xl-gutter-24 inputs">
 			<div class="col">
 
 				<small>Normal</small><br/>
 				<button class="large"><a href="#">Large Button</a></button><br/><br/>
 
 				<small>Hover</small><br/>
-				<button class="large"><a href="#">Large Button</a></button><br/><br/>
+				<button class="large" style="border-color: #007acc;"><a href="#" style="color: #007acc;">Large Button</a></button><br/><br/>
 
 				<small>Focus</small><br/>
-				<button class="large"><a href="#">Large Button</a></button><br/><br/>
+				<button class="large" style="box-shadow: 0px 0px 5px 1px #007acc;"><a href="#">Large Button</a></button><br/><br/>
 
 			</div>
 			<div class="col">
@@ -189,10 +219,10 @@
 				<button><a href="#">Small Button</a></button><br/><br/>
 
 				<small>Hover</small><br/>
-				<button><a href="#">Small Button</a></button><br/><br/>
+				<button style="border-color: #007acc;"><a href="#" style="color: #007acc;">Small Button</a></button><br/><br/>
 
 				<small>Focus</small><br/>
-				<button><a href="#">Small Button</a></button><br/><br/>
+				<button style="box-shadow: 0px 0px 5px 1px #007acc;"><a href="#">Small Button</a></button><br/><br/>
 
 			</div>
 			<div class="col">
@@ -201,10 +231,10 @@
 				<a href="#" class="button-oval"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
 
 				<small>Hover</small><br/>
-				<a href="#" class="button-oval"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
+				<a href="#" class="button-oval" style="border-color: #007acc; color: #007acc;"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
 
 				<small>Focus</small><br/>
-				<a href="#" class="button-oval"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
+				<a href="#" class="button-oval" style="box-shadow: 0px 0px 5px 1px #007acc;"><i class="fa fa-play-circle"></i> Oval Button with Icon</a><br/><br/>
 
 			</div>
 		</div>
@@ -217,7 +247,7 @@
 
 		<b>Forms </b><br/><br/>
 
-		<div class="wrap xl-gutter-40">
+		<div class="wrap xl-gutter-40 inputs">
 			<div class="col">
 
 
