@@ -20,11 +20,44 @@
 		border-color: #007acc;
 	}
 
+	.color {
+		display: inline-block;
+		width: 60px;
+		height: 30px;
+		background-color: black;
+		border: 1px solid black;
+	}
+
 	</style>
 
 	<div class="container">
 
 		<h1 class="xl-center"><?=$page_title?></h1>
+
+
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+
+
+		<div class="wrap xl-gutter-40">
+			<div class="col">
+
+				<b>Primary Color </b><br/><br/>
+				<div class="color" style="background-color: #000000;"></div><br>
+				#000000
+				
+
+			</div>
+			<div class="col">
+
+				<b>Secondary Color </b><br/><br/>
+				<div class="color" style="background-color: #007acc;"></div><br>
+				#007acc
+
+			</div>
+		</div>
 
 
 		<br/>
