@@ -2,6 +2,18 @@
 <?php require view('static/header_frontend'); ?>
 
 
+<div class="bg-overlay">
+
+	<?php
+
+		$dataType = "page";
+		require view('modules/modals');
+
+	?>
+
+</div>
+
+
 	<style>
 	/* TEMPORARY STYLES */
 
@@ -7130,19 +7142,17 @@
 		<b>Popups</b><br><br>
 		<div class="wrap xl-gutter-40">
 			<div class="col">
+
+
+				<a href="#" data-modal="add-new" data-type="project">Click here for a New Project Popup</a><br><br>
+
+				<a href="#" data-modal="add-new" data-type="page">Click here for a New Page Popup</a><br><br>
 			
-				<small>New Page Popup</small>
+				<a href="#" data-modal="share" data-type="project" data-id="13" data-object-name="Home" data-iamowner="yes">Click here for Sharing a Project Popup</a><br><br>
+
+				<a href="#" data-modal="share" data-type="page" data-id="14" data-object-name="Home" data-iamowner="yes">Click here for Sharing a Page Popup</a><br><br>
 			
-			</div>
-			<div class="col">
-			
-				<small>New Project Popup</small>
-			
-			</div>
-			<div class="col">
-			
-				<small>Sharing Popup</small>
-			
+
 			</div>
 		</div>
 
