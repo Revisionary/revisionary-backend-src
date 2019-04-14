@@ -58,7 +58,7 @@ function checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProces
 
 
 			// Update the iframe url
-			$('iframe').attr('src', page_URL);
+			$('#the-page').attr('src', page_URL);
 
 
 			// Run the inspector
@@ -106,14 +106,14 @@ function runTheInspector() {
 
 
 	// WHEN IFRAME DOCUMENT READY !!! ?
-	$('iframe').contents().ready(function() {
+	$('#the-page').contents().ready(function() {
 
 
 	});
 
 
 	// WHEN IFRAME HAS LOADED
-	$('iframe').on('load', function() {
+	$('#the-page').on('load', function() {
 
 
 		console.log('IFRAME DOCUMENT LOADED!', canAccessIFrame( $(this) ));
@@ -209,7 +209,7 @@ function runTheInspector() {
 			console.log('*** LOAD REDIRECTING BACK TO...', page_URL);
 
 			//window.frames["the-page"].location = page_URL;
-			$('iframe').attr('src', page_URL);
+			$('#the-page').attr('src', page_URL);
 			page_redirected = true;
 
 
@@ -224,7 +224,7 @@ function runTheInspector() {
 
 
 		// Iframe element
-	    iframe = $('iframe').contents();
+	    iframe = $('#the-page').contents();
 
 
 

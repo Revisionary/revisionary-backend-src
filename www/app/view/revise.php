@@ -80,7 +80,7 @@
 
 				<div class="col account dropdown" style="margin-right: 15px;">
 
-					<a href="<?=site_url('projects', true)?>">
+					<a href="#">
 						<picture class="profile-picture white-border thin-border" <?=getUserInfo()['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
 							<span><?=getUserInfo()['nameAbbr']?></span>
 						</picture>
@@ -90,12 +90,12 @@
 						<li>
 							<a href="#"><i class="fa fa-life-ring"></i> Help <i class="fa fa-caret-right"></i></a>
 							<ul class="bottom-tooltip" data-tooltip="Coming soon...">
-								<li><a href="#">Quick Start</a></li>
-								<li><a href="#">Features Help</a></li>
-								<li><a href="#">Advanced Features</a></li>
-								<li><a href="#">Keyboard Shortcuts</a></li>
-								<li><a href="#">Integrations Help</a></li>
-								<li><a href="#">Contact Support</a></li>
+								<li><a href="#" data-modal="video">Quick Start</a></li>
+								<li><a href="#" data-modal="video">Features Help</a></li>
+								<li><a href="#" data-modal="video">Advanced Features</a></li>
+								<li><a href="#" data-modal="video">Keyboard Shortcuts</a></li>
+								<li><a href="#" data-modal="video">Integrations Help</a></li>
+								<li><a href="#" data-modal="video">Contact Support</a></li>
 							</ul>
 						</li>
 						<li><a href="<?=site_url('account', true)?>"><i class="fa fa-user-cog"></i> My Account</a></li>
@@ -692,12 +692,12 @@ foreach ($other_pages as $pageOther) {
 
 					<a href="#" class="button"><i class="fa fa-question-circle"></i> HELP</a>
 					<ul class="xl-left bottom-tooltip" data-tooltip="Coming soon...">
-						<li><a href="#">Quick Start</a></li>
-						<li><a href="#">Features Help</a></li>
-						<li><a href="#">Advanced Features</a></li>
-						<li><a href="#">Keyboard Shortcuts</a></li>
-						<li><a href="#">Integrations Help</a></li>
-						<li><a href="#">Contact Support</a></li>
+						<li><a href="#" data-modal="video">Quick Start</a></li>
+						<li><a href="#" data-modal="video">Features Help</a></li>
+						<li><a href="#" data-modal="video">Advanced Features</a></li>
+						<li><a href="#" data-modal="video">Keyboard Shortcuts</a></li>
+						<li><a href="#" data-modal="video">Integrations Help</a></li>
+						<li><a href="#" data-modal="video">Contact Support</a></li>
 					</ul>
 
 				</div>

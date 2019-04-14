@@ -232,8 +232,8 @@ $(function() {
 
 
 	// Iframe Fit to the screen
-	var maxWidth  = iframeWidth = $('iframe').width();
-	var maxHeight = iframeHeight = $('iframe').height();
+	var maxWidth  = iframeWidth = $('#the-page').width();
+	var maxHeight = iframeHeight = $('#the-page').height();
 	$('.iframe-container').css({ width: maxWidth, height: maxHeight });
 
 	$(window).resize(function(e) {
@@ -296,7 +296,7 @@ $(function() {
 
 	    // Early exit if smaller than the screen
 	    if(width >= maxWidth && height >= maxHeight) {
-	        $('iframe').css({'-webkit-transform': ''});
+	        $('#the-page').css({'-webkit-transform': ''});
 	        //$('.iframe-container').css({ width: '', height: '' });
 	        return;
 	    }
@@ -308,7 +308,7 @@ $(function() {
 		// Update the scale on info section
 		$('.iframe-scale').text( iframeScale.toFixed(1) );
 
-	    $('iframe').css({'-webkit-transform': 'scale(' + iframeScale + ')'});
+	    $('#the-page').css({'-webkit-transform': 'scale(' + iframeScale + ')'});
 	    $('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
 
 
