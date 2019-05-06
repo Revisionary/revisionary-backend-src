@@ -3,10 +3,7 @@
 node_modules
 npm-debug.log
 
-www/cache/projects/project-*/*.png
-www/cache/projects/project-*/*.jpg
 www/cache/projects/project-*/page-*/v*
-www/cache/users/user-*/*
 
 database/mysql/*
 
