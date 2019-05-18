@@ -229,7 +229,7 @@ button {
 	display: block;
     padding: 0 10px;
     border: 2px solid $color;
-    border-radius: 0;
+    border-radius: 8px;
     width: auto;
 	max-width: 100%;
     box-sizing: border-box;
@@ -303,6 +303,7 @@ button {
 
 	&.small {
 		border-width: 2px;
+		border-radius: 4px;
 	    font-size: 20px;
 	    line-height: 35px;
 	    height: auto;
@@ -489,6 +490,7 @@ nav#main-navigation {
 
 	a {
 	    border: 5px solid $color;
+	    border-radius: 8px;
 	    padding: 6px 36px;
 	    font-size: 24px !important;
 

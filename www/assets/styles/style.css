@@ -5125,7 +5125,7 @@ button {
   display: block;
   padding: 0 10px;
   border: 2px solid black;
-  border-radius: 0;
+  border-radius: 8px;
   width: auto;
   max-width: 100%;
   box-sizing: border-box;
@@ -5217,6 +5217,7 @@ button {
   input[type='submit'].small,
   button.small {
     border-width: 2px;
+    border-radius: 4px;
     font-size: 20px;
     line-height: 35px;
     height: auto;
@@ -5353,6 +5354,7 @@ nav#main-navigation > ul {
 
 .signup-link a {
   border: 5px solid black;
+  border-radius: 8px;
   padding: 6px 36px;
   font-size: 24px !important; }
   @media (max-width: 845px) {
