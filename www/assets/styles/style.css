@@ -5003,6 +5003,8 @@ body {
   body.index p {
     font-size: 20px;
     line-height: 25px; }
+  body.revise #page {
+    background-color: transparent; }
 
 h1 {
   word-break: break-word;
