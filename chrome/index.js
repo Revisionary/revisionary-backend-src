@@ -626,10 +626,18 @@ require('http').createServer(async (req, res) => {
 		}
 
 
+		// Wait
+		let waitFor = 0;
+		if (SSR) waitFor = 2000;
+
+		console.log('⏳ Waiting for '+ (waitFor/1000) +' seconds...');
+		await page.waitFor(waitFor);
+		console.log('▶️ Continuing the process.');
 
 
 		// Serialized HTML of page DOM
 		const renderedHTML = await page.content();
+
 
 
 
