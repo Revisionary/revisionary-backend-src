@@ -146,7 +146,7 @@ class Internalize {
 	// 2.1. Download the HTML, CSS, JS and Font files
 	// 2.2. Take a screenshot for the device, and project if not exist
 	// 2.3. JSON Output all the downloaded files
-	public function browserWorks() {
+	public function browserWorks($ssr = false) {
 		global $db, $queue, $logger, $config;
 
 
@@ -189,6 +189,11 @@ class Internalize {
 		$processLink .= "&page_ID=$page_ID";
 		$processLink .= "&device_ID=$device_ID";
 		$processLink .= "&sitedir=".urlencode($versionDir."/");
+
+
+		// Server side rendering
+		if ($ssr) $processLink .= "&ssr=true";
+
 
 		$logger->info("Process URL String: $processLink");
 
@@ -303,7 +308,7 @@ class Internalize {
 
 
 	// 3. HTML absolute URL filter to correct downloaded URLs
-	public function filterAndUpdateHTML() {
+	public function filterAndUpdateHTML($ssr = false) {
 		global $logger, $queue;
 
 
@@ -365,34 +370,7 @@ class Internalize {
 
 
 		// INCLUDE THE BASE
-		$countHead = 0;
-		$html = preg_replace_callback(
-	        '/<head([\>]|[\s][^<]*?\>)/i',
-	        function ($urls) {
-		        global $countHead;
-		        $countHead++;
-
-		        $head_tag = $urls[0];
-
-		        if ( $countHead == 1 ) {
-
-			        // Specific Log
-					file_put_contents( $this->versionData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->versionData->remoteUrl."' \r\n", FILE_APPEND);
-
-					$new_base = "<base href='".$this->versionData->remoteUrl."'>";
-
-			        return $head_tag.$new_base;
-
-		        }
-
-		        return $head_tag;
-
-	        },
-	        $html
-	    );
-
-	    // If no <head> tag, add it after the <html> tag
-	    if ($countHead == 0) {
+	    if (!$ssr) {
 
 			$countHtml = 0;
 			$html = preg_replace_callback(
@@ -521,91 +499,95 @@ class Internalize {
 
 
 		// INTERNALIZE JS FILES
-		$html = preg_replace_callback(
-	        '/<(?<tagname>script)\s+[^<]*?(?<attr>src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/is',
-	        function ($urls) {
+		if (!$ssr) {
+
+			$html = preg_replace_callback(
+		        '/<(?<tagname>script)\s+[^<]*?(?<attr>src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/is',
+		        function ($urls) {
 
 
-		        // Found parts
-		        $full_tag = $urls[0];
-		        $attribute = $urls['attr'];
-		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+			        // Found parts
+			        $full_tag = $urls[0];
+			        $attribute = $urls['attr'];
+			        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
 
 
-		        // Remove extra slashes from the URL
-		        $the_url_clean = str_replace('\/', '/', $the_url);
+			        // Remove extra slashes from the URL
+			        $the_url_clean = str_replace('\/', '/', $the_url);
 
 
-		        // Absoluted URL
-		        $new_url = url_to_absolute($this->versionData->remoteUrl, $the_url_clean);
+			        // Absoluted URL
+			        $new_url = url_to_absolute($this->versionData->remoteUrl, $the_url_clean);
 
 
-				// If it has host, but no protocol (without http or https)
-		        if (parseUrl($the_url_clean)['host'] != "" )
-		        	$new_url = url_to_absolute(parseUrl($the_url_clean)['full_host'], $the_url_clean);
+					// If it has host, but no protocol (without http or https)
+			        if (parseUrl($the_url_clean)['host'] != "" )
+			        	$new_url = url_to_absolute(parseUrl($the_url_clean)['full_host'], $the_url_clean);
 
 
-		        // If not on our server, don't touch it !!!
-		        if (parseUrl($the_url_clean)['domain'] != "" && parseUrl($the_url_clean)['domain'] != parseUrl($this->versionData->remoteUrl)['domain'] )
-		        	$new_url = $the_url_clean;
+			        // If not on our server, don't touch it !!!
+			        if (parseUrl($the_url_clean)['domain'] != "" && parseUrl($the_url_clean)['domain'] != parseUrl($this->versionData->remoteUrl)['domain'] )
+			        	$new_url = $the_url_clean;
 
 
 
-				// Find in downloads
-		        $js_resource_key = array_search($new_url, array_column($this->downloadedJS, 'url'));
+					// Find in downloads
+			        $js_resource_key = array_search($new_url, array_column($this->downloadedJS, 'url'));
 
-				// Check without hash
-				if ($js_resource_key === false)
-					$js_resource_key = array_search(parseUrl($new_url)['full_path'], array_column($this->downloadedJS, 'url'));
-
-
-		        // If file is from the remote url, and already downloaded
-		        if ($js_resource_key !== false) {
-
-			        // Downloaded file name
-					$js_file_name = $this->downloadedJS[$js_resource_key]['new_file_name'];
+					// Check without hash
+					if ($js_resource_key === false)
+						$js_resource_key = array_search(parseUrl($new_url)['full_path'], array_column($this->downloadedJS, 'url'));
 
 
-			        // Change the URL again with the downloaded file
-			        $new_url = $this->versionData->versionUri."js/".$js_file_name;
+			        // If file is from the remote url, and already downloaded
+			        if ($js_resource_key !== false) {
 
+				        // Downloaded file name
+						$js_file_name = $this->downloadedJS[$js_resource_key]['new_file_name'];
+
+
+				        // Change the URL again with the downloaded file
+				        $new_url = $this->versionData->versionUri."js/".$js_file_name;
+
+
+
+				        // Specific Log
+						file_put_contents( $this->versionData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+
+					}
+
+
+
+			        // Update the HTML element
+		            $new_full_tag = str_replace(
+		            	"$attribute='$the_url", // with single quote
+		            	"$attribute='$new_url",
+		            	$full_tag
+		            );
+
+		            $new_full_tag = str_replace(
+		            	"$attribute=\"$the_url", // with double quotes
+		            	"$attribute=\"$new_url",
+		            	$new_full_tag
+		            );
+
+
+
+			        // Found URL Log
+					//file_put_contents( $this->versionData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
 
 
 			        // Specific Log
-					file_put_contents( $this->versionData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
-
-				}
-
+					file_put_contents( $this->versionData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+					file_put_contents( $this->versionData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
 
 
-		        // Update the HTML element
-	            $new_full_tag = str_replace(
-	            	"$attribute='$the_url", // with single quote
-	            	"$attribute='$new_url",
-	            	$full_tag
-	            );
+		            return $new_full_tag;
+		        },
+		        $html
+		    );
 
-	            $new_full_tag = str_replace(
-	            	"$attribute=\"$the_url", // with double quotes
-	            	"$attribute=\"$new_url",
-	            	$new_full_tag
-	            );
-
-
-
-		        // Found URL Log
-				//file_put_contents( $this->versionData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
-
-
-		        // Specific Log
-				file_put_contents( $this->versionData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
-				file_put_contents( $this->versionData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
-
-
-	            return $new_full_tag;
-	        },
-	        $html
-	    );
+	    }
 
 
 

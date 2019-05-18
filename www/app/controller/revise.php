@@ -4,6 +4,7 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 
 // Force re-internalize
 $forceReInternalize = get('redownload') === "" ? true : false;
+$ssr = $forceReInternalize && get('ssr') === "";
 
 
 
@@ -325,7 +326,8 @@ if (
 	// NEW QUEUE
 	// Add a new job to the queue
 	$queue = new Queue();
-	$queue_results = $queue->new_job('internalize', $version_ID, $page_ID, $device_ID, "Waiting other works to be done.");
+	$ssrAnswer = $ssr ? "yes" : "no";
+	$queue_results = $queue->new_job('internalize', $version_ID, $page_ID, $device_ID, "Waiting other works to be done.", $ssrAnswer);
 	$process_ID = $queue_results['process_ID'];
 	$queue_ID = $queue_results['queue_ID'];
 
