@@ -59,7 +59,7 @@
 				<b>Primary Color </b><br/><br/>
 				<div class="color" style="background-color: #000000;"></div><br>
 				#000000
-				
+
 
 			</div>
 			<div class="col">
@@ -118,7 +118,7 @@
 				<h3 style="font-weight: 400;"><i>Regular Italic</i></h3>
 				<h3 style="font-weight: 700;">Bold</h3>
 				<h3 style="font-weight: 700;"><i>Bold Italic</i></h3>
-				
+
 
 			</div>
 		</div>
@@ -143,7 +143,7 @@
 		<br/>
 		<br/>
 		<br/>
-		
+
 
 		<style>
 			p a {
@@ -172,7 +172,7 @@
 
 
 				<a href="http://fontawesome.io/icons/" target="_blank">Font Awesome</a>
-				
+
 
 			</div>
 		</div>
@@ -622,7 +622,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -634,7 +634,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -681,7 +681,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -690,13 +690,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -708,7 +708,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -753,8 +753,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">SECTION</span><span class="element-id">#featured-aircraft</span><span class="element-class">.white-background.sm-pt-0</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -950,7 +950,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -974,13 +974,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -1092,7 +1092,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -1104,7 +1104,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -1151,7 +1151,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -1160,13 +1160,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -1178,7 +1178,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -1223,8 +1223,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">SECTION</span><span class="element-id">#featured-aircraft</span><span class="element-class">.white-background.sm-pt-0</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -1420,7 +1420,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -1444,13 +1444,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -1562,7 +1562,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -1574,7 +1574,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -1621,7 +1621,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -1630,13 +1630,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -1648,7 +1648,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -1693,8 +1693,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">SECTION</span><span class="element-id">#featured-aircraft</span><span class="element-class">.white-background.sm-pt-0</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -1890,7 +1890,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -1914,13 +1914,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -2043,7 +2043,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -2055,7 +2055,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -2102,7 +2102,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -2111,13 +2111,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -2129,7 +2129,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -2174,8 +2174,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">H1</span><span class="element-id"></span><span class="element-class">.blue-text.margin-bottom-50</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -2371,7 +2371,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -2395,13 +2395,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -2512,7 +2512,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -2524,7 +2524,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -2571,7 +2571,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -2580,13 +2580,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -2598,7 +2598,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -2643,8 +2643,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">H1</span><span class="element-id"></span><span class="element-class">.blue-text.margin-bottom-50</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -2840,7 +2840,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -2864,13 +2864,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -2981,7 +2981,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -2993,7 +2993,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -3040,7 +3040,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -3049,13 +3049,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -3067,7 +3067,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -3112,8 +3112,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">H1</span><span class="element-id"></span><span class="element-class">.blue-text.margin-bottom-50</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -3309,7 +3309,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -3333,13 +3333,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -3450,7 +3450,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -3462,7 +3462,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -3509,7 +3509,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -3518,13 +3518,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -3536,7 +3536,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -3581,8 +3581,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">H1</span><span class="element-id"></span><span class="element-class">.blue-text.margin-bottom-50</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -3778,7 +3778,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -3802,13 +3802,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -3919,7 +3919,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -3931,7 +3931,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -3978,7 +3978,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -3987,13 +3987,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -4005,7 +4005,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -4050,8 +4050,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">H1</span><span class="element-id"></span><span class="element-class">.blue-text.margin-bottom-50</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -4247,7 +4247,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -4271,13 +4271,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -4388,7 +4388,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -4400,7 +4400,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -4447,7 +4447,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -4456,13 +4456,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -4474,7 +4474,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -4519,8 +4519,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">H1</span><span class="element-id"></span><span class="element-class">.blue-text.margin-bottom-50</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -4716,7 +4716,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -4740,13 +4740,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -4868,7 +4868,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -4880,7 +4880,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -4927,7 +4927,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -4936,13 +4936,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -4954,7 +4954,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -4999,8 +4999,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">IMG</span><span class="element-id"></span><span class="element-class">.attachment-listing-list-item.size-listing-list-item.wp-post-image</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -5196,7 +5196,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden scroll; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -5220,13 +5220,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -5337,7 +5337,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -5349,7 +5349,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -5396,7 +5396,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -5405,13 +5405,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -5423,7 +5423,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -5468,8 +5468,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">IMG</span><span class="element-id"></span><span class="element-class">.attachment-listing-list-item.size-listing-list-item.wp-post-image</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -5665,7 +5665,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden scroll; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -5689,13 +5689,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -5806,7 +5806,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -5818,7 +5818,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -5865,7 +5865,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -5874,13 +5874,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -5892,7 +5892,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -5937,8 +5937,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">IMG</span><span class="element-id"></span><span class="element-class">.attachment-listing-list-item.size-listing-list-item.wp-post-image</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -6134,7 +6134,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden scroll; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -6158,13 +6158,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -6275,7 +6275,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -6287,7 +6287,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -6334,7 +6334,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -6343,13 +6343,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -6361,7 +6361,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -6406,8 +6406,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">IMG</span><span class="element-id"></span><span class="element-class">.attachment-listing-list-item.size-listing-list-item.wp-post-image</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -6603,7 +6603,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -6627,13 +6627,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -6744,7 +6744,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -6756,7 +6756,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -6803,7 +6803,7 @@
 						<div class="col">
 
 							<a href="#" class="switch edits-switch original">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+								<img src="/assets/icons/edits-switch-off.svg" alt="">
 								SHOW ORIGINAL
 							</a>
 
@@ -6812,13 +6812,13 @@
 
 					<div class="wrap xl-flexbox xl-between xl-bottom edits-switch-wrap original">
 						<div class="col">
-							<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt="">
+							<img src="/assets/icons/edits-switch-off.svg" alt="">
 							ORIGINAL CONTENT:
 						</div>
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -6830,7 +6830,7 @@
 						<div class="col edits-switch-wrap">
 
 							<a href="#" class="switch edits-switch changes xl-hidden">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt="">
+								<img src="/assets/icons/edits-switch-on.svg" alt="">
 								SHOW CHANGED
 							</a>
 
@@ -6875,8 +6875,8 @@
 							<span class="css-selector"><b>EDIT STYLE:</b> <span class="element-tag">IMG</span><span class="element-id"></span><span class="element-class">.attachment-listing-list-item.size-listing-list-item.wp-post-image</span></span>
 
 							<a href="#" class="switch show-original-css" style="position: absolute; right: 0; top: 5px; z-index: 1;">
-								<span class="original"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
-								<span class="changes"><img src="http://inscr.revisionaryapp.com/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
+								<span class="original"><img src="/assets/icons/edits-switch-off.svg" alt=""> SHOW ORIGINAL</span>
+								<span class="changes"><img src="/assets/icons/edits-switch-on.svg" alt=""> SHOW CHANGES</span>
 							</a>
 
 							<a href="#" class="switch reset-css" style="position: absolute; right: 0; top: 22px; z-index: 1;">
@@ -7072,7 +7072,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="http://inscr.revisionaryapp.com/assets/icons/comment-send.svg">
+									<input type="image" src="/assets/icons/comment-send.svg">
 								</div>
 							</div>
 						</form>
@@ -7096,13 +7096,13 @@
 					<ul>
 						<li>
 							<a href="#" class="xl-left draw-rectangle" data-tooltip="Coming soon." style="padding-right: 15px;">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
+								<img src="/assets/icons/mark-rectangle.png" width="15" height="10" alt="">
 								RECTANGLE
 							</a>
 						</li>
 						<li>
 							<a href="#" class="xl-left" data-tooltip="Coming soon.">
-								<img src="http://inscr.revisionaryapp.com/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
+								<img src="/assets/icons/mark-ellipse.png" width="15" height="14" alt="">
 								ELLIPSE
 							</a>
 						</li>
@@ -7147,11 +7147,11 @@
 				<a href="#" data-modal="add-new" data-type="project">Click here for a New Project Popup</a><br><br>
 
 				<a href="#" data-modal="add-new" data-type="page">Click here for a New Page Popup</a><br><br>
-			
+
 				<a href="#" data-modal="share" data-type="project" data-id="13" data-object-name="Home" data-iamowner="yes">Click here for Sharing a Project Popup</a><br><br>
 
 				<a href="#" data-modal="share" data-type="page" data-id="14" data-object-name="Home" data-iamowner="yes">Click here for Sharing a Page Popup</a><br><br>
-			
+
 
 			</div>
 		</div>
