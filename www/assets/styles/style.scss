@@ -29,6 +29,7 @@ html, body {
 
 #page {
 	overflow: hidden;
+	background-color: black;
 }
 
 .invisible {
@@ -2509,12 +2510,18 @@ section {
 	width: 100%;
 	height: 100vh;
 	box-sizing: border-box;
+	border-radius: 30px;
 	margin-bottom: 1px;
+	background-color: white;
 }
 
 main {
 	height: auto;
 	min-height: 100vh;
+}
+
+footer {
+	background-color: white;
 }
 
 .more-info {
