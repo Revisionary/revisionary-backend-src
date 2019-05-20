@@ -1250,7 +1250,7 @@ foreach ($other_pages as $pageOther) {
 		<p>Is this page showing correctly now?</p>
 
 		<div class="answers">
-			<a href="#" class="button good close-pop"><i class="fa fa-thumbs-up"></i> Yes</a>
+			<a href="#" class="button good" data-popup="close"><i class="fa fa-thumbs-up"></i> Yes</a>
 			<a href="<?=site_url('revise/'.$device_ID.'?redownload&ssr&secondtry')?>" class="button bad"><i class="fa fa-thumbs-down"></i> No</a>
 		</div>
 
