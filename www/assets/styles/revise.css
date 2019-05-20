@@ -334,4 +334,47 @@ html, body {
       border: 2px solid black;
       color: #007acc; }
 
+.ask-showing-correctly {
+  position: absolute;
+  right: 10px;
+  bottom: -50px;
+  pointer-events: none;
+  opacity: 0;
+  transition: 500ms; }
+  .ask-showing-correctly.open {
+    bottom: 10px;
+    pointer-events: auto;
+    opacity: 1; }
+  .ask-showing-correctly .inner {
+    position: relative;
+    padding: 20px;
+    background-color: white;
+    border: 2px solid;
+    border-radius: 8px;
+    text-align: center; }
+  .ask-showing-correctly .close-pop {
+    position: absolute;
+    right: 5px;
+    top: 1px;
+    font-size: 15px;
+    opacity: 0.2; }
+    .ask-showing-correctly .close-pop:hover {
+      opacity: 1; }
+  .ask-showing-correctly p {
+    margin-top: 0; }
+  .ask-showing-correctly .answers .button {
+    color: white;
+    background-color: black;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 4px; }
+    .ask-showing-correctly .answers .button.good:hover {
+      background-color: green; }
+    .ask-showing-correctly .answers .button.middle:hover {
+      background-color: blue; }
+    .ask-showing-correctly .answers .button.bad:hover {
+      background-color: red; }
+
 /*# sourceMappingURL=revise.map */

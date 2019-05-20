@@ -6,6 +6,8 @@ function checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProces
 	// If being force reinternalizing, update the URL
 	removeQueryArgFromCurrentUrl('redownload');
 	removeQueryArgFromCurrentUrl('ssr');
+	removeQueryArgFromCurrentUrl('new');
+	removeQueryArgFromCurrentUrl('secondtry');
 
 
 	// Get the up-to-date pins
@@ -269,6 +271,9 @@ function runTheInspector() {
 			$('title').text( "Revise Page: " + iframeElement('title').text() );
 		}
 
+
+		// If new downloaded site, ask whether or not it's showing correctly
+		if ( $('.ask-showing-correctly').length ) $('.ask-showing-correctly').addClass('open');
 
 
 		// MOUSE ACTIONS:

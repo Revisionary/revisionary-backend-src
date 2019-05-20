@@ -548,3 +548,71 @@ html, body {
 	    }
     }
 }
+
+
+
+.ask-showing-correctly {
+	position: absolute;
+	right: 10px;
+	bottom: -50px;
+	pointer-events: none;
+	opacity: 0;
+	transition: 500ms;
+
+	&.open {
+		bottom: 10px;
+		pointer-events: auto;
+		opacity: 1;
+	}
+
+	.inner {
+		position: relative;
+		padding: 20px;
+		background-color: white;
+		border: 2px solid;
+		border-radius: 8px;
+		text-align: center;
+	}
+
+	.close-pop {
+		position: absolute;
+	    right: 5px;
+	    top: 1px;
+	    font-size: 15px;
+	    opacity: 0.2;
+
+	    &:hover {
+		    opacity: 1;
+	    }
+	}
+
+	p {
+		margin-top: 0;
+	}
+
+	.answers {
+
+		.button {
+			color: white;
+			background-color: $color;
+			padding: 5px 10px;
+			border-radius: 4px;
+			text-transform: uppercase;
+		    display: inline-block;
+		    margin-bottom: 4px;
+
+		    &.good:hover {
+			    background-color: green;
+		    }
+
+		    &.middle:hover {
+			    background-color: blue;
+		    }
+
+		    &.bad:hover {
+			    background-color: red;
+		    }
+		}
+
+	}
+}

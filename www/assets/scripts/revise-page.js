@@ -857,6 +857,14 @@ $(function() {
 	});
 
 
+	// SURVEY POPUPS
+	$('.ask-showing-correctly [data-popup="close"]').click(function() {
+
+		$('.ask-showing-correctly').removeClass('open');
+
+	});
+
+
 	// PIN HOVERING
 	hoveringPin = false;
 	var pinClicked = false;
