@@ -118,7 +118,7 @@ if (
 
 	// Revising URL
 	$revise_url = site_url('revise/'.$device_ID.'?new');
-	if ( request('pinmode') == "browse" ) $revise_url = $revise_url."?pinmode=browse&new=page";
+	if ( request('pinmode') == "browse" ) $revise_url = $revise_url."=page&pinmode=browse";
 
 
 	// If successful

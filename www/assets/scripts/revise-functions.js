@@ -6,7 +6,7 @@ function checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProces
 	// If being force reinternalizing, update the URL
 	removeQueryArgFromCurrentUrl('redownload');
 	removeQueryArgFromCurrentUrl('ssr');
-	removeQueryArgFromCurrentUrl('new');
+	//removeQueryArgFromCurrentUrl('new');
 	removeQueryArgFromCurrentUrl('secondtry');
 
 
