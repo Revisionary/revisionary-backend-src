@@ -158,7 +158,7 @@ class Version {
 		)
 			$process_status = [
 				"status" => "downloading-version",
-				"description" => "Downloading the version",
+				"description" => "Downloading the page",
 				"percentage" => 25
 			];
 
@@ -169,7 +169,7 @@ class Version {
 		)
 			$process_status = [
 				"status" => "downloaded-version",
-				"description" => "Version is downloaded",
+				"description" => "Page is downloaded",
 				"percentage" => 25
 			];
 
@@ -178,7 +178,7 @@ class Version {
 		if (file_exists($this->logDir."/_html-filter.log"))
 			$process_status = [
 				"status" => "updating-html",
-				"description" => "Updating the version",
+				"description" => "Updating the page",
 				"percentage" => 50
 			];
 
@@ -187,7 +187,7 @@ class Version {
 		if (file_exists($this->logDir."/html-filter.log"))
 			$process_status = [
 				"status" => "updated-html",
-				"description" => "Version updated",
+				"description" => "Page updated",
 				"percentage" => 70
 			];
 
@@ -195,7 +195,7 @@ class Version {
 		if (file_exists($this->logDir."/__html-filter.log"))
 			$process_status = [
 				"status" => "updating-html-error",
-				"description" => "The version couldn't be updated",
+				"description" => "The page couldn't be updated",
 				"percentage" => 0
 			];
 
