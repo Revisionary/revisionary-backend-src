@@ -1485,8 +1485,13 @@ function currentUrl() {
 function removeQueryArgFromCurrentUrl(arg) {
 
 
+	var value = getParameterByName(arg, currentUrl());
+	var change = true;
+	if ( arg == "new" && value == "page" ) change = false;
+
+
 	// If being force reinternalizing, update the URL
-	if (history.replaceState) {
+	if (history.replaceState && change) {
 	    var newurl = queryParameter(currentUrl(), arg, "");
 	    if (newurl != currentUrl()) window.history.replaceState({path:newurl},'',newurl);
 	}
