@@ -682,7 +682,7 @@ foreach ($other_pages as $pageOther) {
 
 						</li>
 						<li><a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="bottom-tooltip center-tooltip redownload" data-tooltip="Try redownloading the page only if the page is not showing correctly." data-confirm="All your pins for this page will be removed, are you sure you want to redownload this page?"><i class="fa fa-angle-double-down"></i> REDOWNLOAD THIS VERSION</a></li>
-						<li><a href="<?=site_url('revise/'.$device_ID.'?redownload&ssr')?>" class="bottom-tooltip center-tooltip redownload" data-tooltip="If you want to revise a JS-created webpage, you can revise your page after the JS outputs the content."><i class="fa fa-bolt"></i> JS SITE REDOWNLOAD</a></li>
+						<li><a href="<?=site_url('revise/'.$device_ID.'?redownload&ssr')?>" class="bottom-tooltip center-tooltip redownload" data-tooltip="If you want to revise a JS-created webpage, you can revise your page after the JS outputs the content."><i class="fa fa-bolt"></i> REDOWNLOAD FOR JS SITE</a></li>
 						<li><a href="#" class="bottom-tooltip center-tooltip" data-tooltip="Coming soon: Revisionary takes your page's full size screenshot and you can only put comment pins on it. This should only be used if the page doesn't show up correctly."><i class="fa fa-file-image"></i> SITE CAPTURE MODE</a></li>
 						<li><a href="#" class="bottom-tooltip center-tooltip" data-tooltip="Coming soon: Connect this project with GitHub, BitBucket, Trello, Asana, etc. platforms to create tasks automatically by adding a pin."><i class="fa fa-plug"></i> INTEGRATIONS</a></li>
 					</ul>
