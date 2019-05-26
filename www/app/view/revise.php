@@ -1245,7 +1245,7 @@ foreach ($other_pages as $pageOther) {
 <div class="ask-showing-correctly">
 	<div class="inner">
 
-		<a href="#" class="close-pop"><i class="fa fa-times"></i></a>
+		<a href="#" class="close-pop" data-popup="close"><i class="fa fa-times"></i></a>
 
 		<p>Is this page showing correctly now?</p>
 
