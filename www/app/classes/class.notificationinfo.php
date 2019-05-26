@@ -397,9 +397,9 @@ class Notification {
 					$title = "$sender_full_name added a <b>new screen</b>:";
 					$content = "<span><a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a></span>";
 
-					if ($notificationContent == "new version") {
+					if ($notificationContent == "new phase") {
 
-						$title = "$sender_full_name created a <b>new version</b>";
+						$title = "$sender_full_name created a <b>new phase</b>";
 						$content = "<span>for <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a></span>";
 
 					}

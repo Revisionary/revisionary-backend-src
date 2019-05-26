@@ -75,14 +75,14 @@ if (
 
 
 
-	// Add a version
-	$version_ID = Version::ID()->addNew(
+	// Add a phase
+	$phase_ID = Phase::ID()->addNew(
 		$page_ID
 	);
 
 	// Check the result
-	if(!$version_ID) {
-		header('Location: '.site_url("project/$project_ID?addversionerror")); // If unsuccessful
+	if(!$phase_ID) {
+		header('Location: '.site_url("project/$project_ID?addphaseerror")); // If unsuccessful
 		die();
 	}
 
@@ -90,7 +90,7 @@ if (
 
 	// Add the Devices
 	$device_ID = Device::ID()->addNew(
-		$version_ID,
+		$phase_ID,
 		is_array(request('screens')) ? request('screens') : array(), // Screen IDs array
 		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
 		request('page_height') != "" && is_numeric(request('page_height')) ? request('page_height') : null,
@@ -132,14 +132,14 @@ if (
 // ADD NEW SCREEN
 if (
 	is_numeric(get('new_screen'))
-	&& is_numeric(get('version_ID'))
+	&& is_numeric(get('phase_ID'))
 	// && get('nonce') == $_SESSION["new_screen_nonce"] !!! Disable the nonce check for now!
 ) {
 
 
 	// Add the Devices
 	$device_ID = Device::ID()->addNew(
-		get('version_ID'),
+		get('phase_ID'),
 		array(get('new_screen')),
 		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
 		request('page_height') != "" && is_numeric(request('page_height')) ? request('page_height') : null
@@ -163,31 +163,31 @@ if (
 
 // ADD NEW VERSION
 if (
-	is_numeric(get('new_version'))
+	is_numeric(get('new_phase'))
 	// && get('nonce') == $_SESSION["new_screen_nonce"] !!! Disable the nonce check for now!
 ) {
 
 
-	// Add a version
-	$version_ID = Version::ID()->addNew(
-		get('new_version')
+	// Add a phase
+	$phase_ID = Phase::ID()->addNew(
+		get('new_phase')
 	);
 
 	// Check the result
-	if(!$version_ID) {
-		header('Location: '.site_url("projects?addversionerror")); // If unsuccessful
+	if(!$phase_ID) {
+		header('Location: '.site_url("projects?addphaseerror")); // If unsuccessful
 		die();
 	}
 
 
 	// Add the Devices
 	$device_ID = Device::ID()->addNew(
-		$version_ID,
+		$phase_ID,
 		array(11), // Add custom for now !!!
 		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
 		request('page_height') != "" && is_numeric(request('page_height')) ? request('page_height') : null,
 		false,
-		true // From version
+		true // From phase
 	);
 
 	// Check the result

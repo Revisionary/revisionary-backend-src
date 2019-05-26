@@ -91,18 +91,18 @@
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
 
-		<?php } elseif ( isset($_GET['versiondoesntexist']) ) { ?>
+		<?php } elseif ( isset($_GET['phasedoesntexist']) ) { ?>
 
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('versiondoesntexist');</script>
-			You don't have access to this version.
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('phasedoesntexist');</script>
+			You don't have access to this phase.
 
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
 
-		<?php } elseif ( isset($_GET['invalidversion']) ) { ?>
+		<?php } elseif ( isset($_GET['invalidphase']) ) { ?>
 
-		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invalidversion');</script>
-			We couldn't find the version you are looking for.
+		<div class="alert error"> <script>removeQueryArgFromCurrentUrl('invalidphase');</script>
+			We couldn't find the phase you are looking for.
 
 			<a href="#" class="close"><i class="fa fa-times"></i></a>
 		</div>
@@ -231,13 +231,13 @@
 
 
 								// Block Images
-								$block_image_path = "projects/project-".$block['project_ID']."/page-0/version-0/screenshots/device-".$block['project_image_device_ID'].".jpg";
+								$block_image_path = "projects/project-".$block['project_ID']."/page-0/phase-0/screenshots/device-".$block['project_image_device_ID'].".jpg";
 
 								if ($block['project_image_device_ID'] != null) {
 
 
 									$blockDeviceInfo = Device::ID( $block['project_image_device_ID'] )->getInfo();
- 									$block_image_path = "projects/project-".$block['project_ID']."/page-".$blockDeviceInfo['page_ID']."/version-".$blockDeviceInfo['version_ID']."/screenshots/device-".$block['project_image_device_ID'].".jpg";
+ 									$block_image_path = "projects/project-".$block['project_ID']."/page-".$blockDeviceInfo['page_ID']."/phase-".$blockDeviceInfo['phase_ID']."/screenshots/device-".$block['project_image_device_ID'].".jpg";
 
 
 
@@ -252,8 +252,8 @@
 
 							if ($dataType == "page") {
 
-								$blockVersion = end($block['versionsData']);
-								$blockDevices = $blockVersion['devicesData'];
+								$blockPhase = end($block['phasesData']);
+								$blockDevices = $blockPhase['devicesData'];
 
 
 								// Screen filter
@@ -278,7 +278,7 @@
 
 								// First device Image
 								$block_image_name = "device-".$firstDevice['device_ID'].".jpg";
-								$block_image_path = "projects/project-".$block['project_ID']."/page-".$block['page_ID']."/version-".$firstDevice['version_ID']."/screenshots/$block_image_name";
+								$block_image_path = "projects/project-".$block['project_ID']."/page-".$block['page_ID']."/phase-".$firstDevice['phase_ID']."/screenshots/$block_image_name";
 								$block_image_uri = cache."/$block_image_path";
 								$block_image_url = cache_url($block_image_path);
 
@@ -583,37 +583,37 @@ if ($dataType == "page" && $allMyPins) {
 										<?php
 										if ($dataType == "page") {
 
-//die_to_print($block['versionsData'], false);
+//die_to_print($block['phasesData'], false);
 
-											$blockVersionNumber = array_search($blockVersion, $block['versionsData']) + 1;
+											$blockPhaseNumber = array_search($blockPhase, $block['phasesData']) + 1;
 										?>
 
-<a href="#">v<?=$blockVersionNumber?> <i class="fa fa-caret-down"></i></a>
+<a href="#">v<?=$blockPhaseNumber?> <i class="fa fa-caret-down"></i></a>
 <ul class="xl-left">
 	<?php
-	foreach($block['versionsData'] as $otherVersion) {
+	foreach($block['phasesData'] as $otherPhase) {
 
-		$otherVersionNumber = array_search($otherVersion, $block['versionsData']) + 1;
+		$otherPhaseNumber = array_search($otherPhase, $block['phasesData']) + 1;
 
 
-		// Devices of the version
-		$devices_of_version = $otherVersion['devicesData'];
-		$firstDevice = reset($devices_of_version);
-		//die_to_print($devices_of_version, false);
+		// Devices of the phase
+		$devices_of_phase = $otherPhase['devicesData'];
+		$firstDevice = reset($devices_of_phase);
+		//die_to_print($devices_of_phase, false);
 	?>
 
-	<li class="item deletable <?=$blockVersion['version_ID'] == $otherVersion['version_ID'] ? "selected" : ""?>" data-type="version" data-id="<?=$otherVersion['version_ID']?>">
-		<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$otherVersionNumber?> (<?=timeago($otherVersion['version_created'])?>)</a>
+	<li class="item deletable <?=$blockPhase['phase_ID'] == $otherPhase['phase_ID'] ? "selected" : ""?>" data-type="phase" data-id="<?=$otherPhase['phase_ID']?>">
+		<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$otherPhaseNumber?> (<?=timeago($otherPhase['phase_created'])?>)</a>
 
 		<?php
-		if ( count($devices_of_version) ) {
+		if ( count($devices_of_phase) ) {
 		?>
 		<ul>
 			<?php
-			foreach ($devices_of_version as $deviceFromVersion) {
+			foreach ($devices_of_phase as $deviceFromPhase) {
 			?>
-			<li class="item" data-type="device" data-id="<?=$deviceFromVersion['device_ID']?>">
-				<a href="<?=site_url('revise/'.$deviceFromVersion['device_ID'])?>"><i class="fa <?=$deviceFromVersion['screen_cat_icon']?>"></i> <?=$deviceFromVersion['screen_cat_name']?></a>
+			<li class="item" data-type="device" data-id="<?=$deviceFromPhase['device_ID']?>">
+				<a href="<?=site_url('revise/'.$deviceFromPhase['device_ID'])?>"><i class="fa <?=$deviceFromPhase['screen_cat_icon']?>"></i> <?=$deviceFromPhase['screen_cat_name']?></a>
 			</li>
 			<?php
 			}
@@ -625,10 +625,10 @@ if ($dataType == "page" && $allMyPins) {
 
 
 		<?php
-		if ( $blockVersion['version_ID'] != $otherVersion['version_ID'] ) {
+		if ( $blockPhase['phase_ID'] != $otherPhase['phase_ID'] ) {
 		?>
 
-		<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Version" data-action="remove" data-confirm="Are you sure you want to remove this version?"></i>
+		<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Phase" data-action="remove" data-confirm="Are you sure you want to remove this phase?"></i>
 
 		<?php
 		}
@@ -638,7 +638,7 @@ if ($dataType == "page" && $allMyPins) {
 
 	<?php } ?>
 
-	<li><a href="<?=site_url("projects?new_version=".$block['page_ID']."&page_width=1440&page_height=774")?>" class="add-version"><i class="fa fa-plus"></i> <b>Add New Version</b></a></li>
+	<li><a href="<?=site_url("projects?new_phase=".$block['page_ID']."&page_width=1440&page_height=774")?>" class="add-phase"><i class="fa fa-plus"></i> <b>Add New Phase</b></a></li>
 </ul>
 
 										<?php } ?>

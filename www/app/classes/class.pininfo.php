@@ -7,8 +7,8 @@ class Pin {
 	public static $pin_ID;
 	public static $pinInfo;
 
-	public $version_ID;
-	public $versionData;
+	public $phase_ID;
+	public $phaseData;
 	public $page_ID;
 	public $device_ID;
 
@@ -18,9 +18,9 @@ class Pin {
 
 	public function __construct() {
 
-		$this->version_ID = self::$pinInfo['version_ID'];
-		$this->versionData = Version::ID( $this->version_ID );
-		$this->page_ID = $this->versionData->getInfo('page_ID');
+		$this->phase_ID = self::$pinInfo['phase_ID'];
+		$this->phaseData = Phase::ID( $this->phase_ID );
+		$this->page_ID = $this->phaseData->getInfo('page_ID');
 		$this->device_ID = self::$pinInfo['device_ID'];
 
     }
@@ -82,7 +82,7 @@ class Pin {
 
 
 		// Get the page users
-		$users = $this->versionData->getUsers($include_me);
+		$users = $this->phaseData->getUsers($include_me);
 
 
 		return $users;
@@ -96,7 +96,7 @@ class Pin {
 
     // Add a new pin
     public function addNew(
-	    int $pin_version_ID,
+	    int $pin_phase_ID,
     	string $pin_type = 'standard',
     	bool $pin_private = false,
     	float $pin_x = 50,
@@ -123,7 +123,7 @@ class Pin {
 		// Add the pin
 		$pin_ID = $db->insert('pins', array(
 			"user_ID" => currentUserID(),
-			"version_ID" => $pin_version_ID,
+			"phase_ID" => $pin_phase_ID,
 			"pin_type" => $pin_type,
 			"pin_private" => $pin_private,
 			"pin_x" => $pin_x,
@@ -138,9 +138,9 @@ class Pin {
 		if ($pin_ID) {
 
 			$device_ID = $pin_device_ID;
-			$version_ID = $pin_version_ID;
+			$phase_ID = $pin_phase_ID;
 
-			$page_ID = Version::ID( $version_ID )->getInfo('page_ID');
+			$page_ID = Phase::ID( $phase_ID )->getInfo('page_ID');
 			$pageData = Page::ID( $page_ID );
 			$pageData->updateModified();
 
@@ -148,7 +148,7 @@ class Pin {
 
 
 			// Site log
-			$log->info(ucfirst($pin_type)." Pin #$pin_ID Added to: '".$pageData->getInfo('page_name')."' Page #$page_ID | Version #$version_ID | Device #$device_ID | Project #$project_ID | User #".currentUserID());
+			$log->info(ucfirst($pin_type)." Pin #$pin_ID Added to: '".$pageData->getInfo('page_name')."' Page #$page_ID | Phase #$phase_ID | Device #$device_ID | Project #$project_ID | User #".currentUserID());
 
 
 		}
@@ -226,7 +226,7 @@ class Pin {
 
 
 			// Site log
-			$log->info("$pin_type Pin #".self::$pin_ID." Removed from: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info("$pin_type Pin #".self::$pin_ID." Removed from: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		}
@@ -265,7 +265,7 @@ class Pin {
 
 
 			// Site log
-			$log->info("$pin_type Pin #".self::$pin_ID." Completed: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info("$pin_type Pin #".self::$pin_ID." Completed: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		}
@@ -305,7 +305,7 @@ class Pin {
 
 
 			// Site log
-			$log->info("$pin_type Pin #".self::$pin_ID." Incompleted: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info("$pin_type Pin #".self::$pin_ID." Incompleted: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		}
@@ -364,7 +364,7 @@ class Pin {
 
 
 			// Site log
-			$log->info(ucfirst($current_pin_type)." Pin #".self::$pin_ID." Converted to ".ucfirst($pin_type)." ".($pin_private == "1" ? "(Private)" : "(Public)" )." -Before: ".ucfirst($current_pin_type)." ".($current_pin_private == "1" ? "(Private)" : "(Public)" )."-: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info(ucfirst($current_pin_type)." Pin #".self::$pin_ID." Converted to ".ucfirst($pin_type)." ".($pin_private == "1" ? "(Private)" : "(Public)" )." -Before: ".ucfirst($current_pin_type)." ".($current_pin_private == "1" ? "(Private)" : "(Public)" )."-: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		}
@@ -404,7 +404,7 @@ class Pin {
 
 
 			// Site log
-			$log->info("$pin_type Pin #".self::$pin_ID." Modified: '$modification' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info("$pin_type Pin #".self::$pin_ID." Modified: '$modification' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		}
@@ -444,7 +444,7 @@ class Pin {
 
 
 			// Site log
-			$log->info("$pin_type Pin #".self::$pin_ID." CSS Updated: '$css' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info("$pin_type Pin #".self::$pin_ID." CSS Updated: '$css' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		}
@@ -520,7 +520,7 @@ class Pin {
 
 
 			// Site log
-			$log->info("$pin_type Pin #".self::$pin_ID." Comment Added: '$message' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info("$pin_type Pin #".self::$pin_ID." Comment Added: '$message' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		}
@@ -564,7 +564,7 @@ class Pin {
 
 
 			// Site log
-			$log->info("$pin_type Pin #".self::$pin_ID." Comment Deleted: Comment #$comment_ID | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Version #".$this->version_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info("$pin_type Pin #".self::$pin_ID." Comment Deleted: Comment #$comment_ID | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 		}
 
@@ -842,8 +842,8 @@ class Pin {
 		";
 
 
-		// Page/Project/Version info
-		$version_ID = $this->version_ID;
+		// Page/Project/Phase info
+		$phase_ID = $this->phase_ID;
 		$device_ID = $this->device_ID;
 		$page_ID = $this->page_ID;
 		$pageData = Page::ID( $page_ID );
@@ -973,7 +973,7 @@ class Pin {
 				<td colspan='2'>
 
 					<h1>
-						<a href='".site_url("version/$version_ID#$pin_ID")."' style='text-decoration: none;'>".$projectData->getInfo('project_name')." - ".$pageData->getInfo('page_name')."</a>
+						<a href='".site_url("phase/$phase_ID#$pin_ID")."' style='text-decoration: none;'>".$projectData->getInfo('project_name')." - ".$pageData->getInfo('page_name')."</a>
 					</h1>
 
 				</td>
@@ -984,7 +984,7 @@ class Pin {
 				<td>
 
 					$pin_message. <br>
-					<a href='".site_url("version/$version_ID#$pin_ID")."'><b>View Comments</b></a>
+					<a href='".site_url("phase/$phase_ID#$pin_ID")."'><b>View Comments</b></a>
 
 				</td>
 			</tr>

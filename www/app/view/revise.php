@@ -4,10 +4,10 @@
 
 	user_ID = '<?=currentUserID()?>';
 	device_ID = '<?=$device_ID?>';
-	version_ID = '<?=$version_ID?>';
+	phase_ID = '<?=$phase_ID?>';
 	page_ID = '<?=$page_ID?>';
 	project_ID = '<?=$project_ID?>';
-	remote_URL = '<?=$versionData->remoteUrl?>';
+	remote_URL = '<?=$phaseData->remoteUrl?>';
 	pages_downloaded = {<?php
 
 		foreach ($other_pages as $pageOther) {
@@ -26,7 +26,7 @@
 
 	<div class="progress-info">
 		<ul>
-			<li style="color: white;"><?=$versionData->cachedUrl?></li>
+			<li style="color: white;"><?=$phaseData->cachedUrl?></li>
 		</ul>
 	</div>
 
@@ -153,13 +153,13 @@ foreach ($allMyProjects as $project) {
 			$selected = $pageFromProject['page_ID'] == $page_ID ? "selected" : "";
 
 
-			// Get versions of the page
-			$versions_of_page = array_filter($allMyVersions, function($versionFound) use ($pageFromProject) {
-			    return ($versionFound['page_ID'] == $pageFromProject['page_ID']);
+			// Get phases of the page
+			$phases_of_page = array_filter($allMyPhases, function($phaseFound) use ($pageFromProject) {
+			    return ($phaseFound['page_ID'] == $pageFromProject['page_ID']);
 			});
-			$versions_of_page = array_values($versions_of_page); // Reset the keys to get version numbers
-			//$firstVersion = reset($versions_of_page);
-			//die_to_print($versions_of_page);
+			$phases_of_page = array_values($phases_of_page); // Reset the keys to get phase numbers
+			//$firstPhase = reset($phases_of_page);
+			//die_to_print($phases_of_page);
 
 
 		?>
@@ -167,33 +167,33 @@ foreach ($allMyProjects as $project) {
 			<a href="<?=site_url('page/'.$pageFromProject['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?> <i class="fa fa-caret-right"></i></a>
 
 			<?php
-			if ( count($versions_of_page) > 1 ) {
+			if ( count($phases_of_page) > 1 ) {
 			?>
 			<ul>
 				<?php
-				foreach ($versions_of_page as $versionFromPage) {
+				foreach ($phases_of_page as $phaseFromPage) {
 
-					$selected = $versionFromPage['version_ID'] == $version_ID ? "selected" : "";
-					$versionNumber = array_search($versionFromPage, $versions_of_page) + 1;
+					$selected = $phaseFromPage['phase_ID'] == $phase_ID ? "selected" : "";
+					$phaseNumber = array_search($phaseFromPage, $phases_of_page) + 1;
 
 
-					// Get devices of this version
-					$devices_of_version = array_filter($allMyDevices, function($deviceFound) use ($versionFromPage) {
-					    return ($deviceFound['version_ID'] == $versionFromPage['version_ID']);
+					// Get devices of this phase
+					$devices_of_phase = array_filter($allMyDevices, function($deviceFound) use ($phaseFromPage) {
+					    return ($deviceFound['phase_ID'] == $phaseFromPage['phase_ID']);
 					});
-					//$firstDevice = reset($devices_of_version);
-					//die_to_print($devices_of_version);
+					//$firstDevice = reset($devices_of_phase);
+					//die_to_print($devices_of_phase);
 
 				?>
-				<li class="item <?=$selected?>" data-type="version" data-id="<?=$versionFromPage['version_ID']?>">
-					<a href="<?=site_url('version/'.$versionFromPage['version_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?></a>
+				<li class="item <?=$selected?>" data-type="phase" data-id="<?=$phaseFromPage['phase_ID']?>">
+					<a href="<?=site_url('phase/'.$phaseFromPage['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?></a>
 
 					<?php
-					if ( count($devices_of_version) ) {
+					if ( count($devices_of_phase) ) {
 					?>
 					<ul>
 						<?php
-						foreach ($devices_of_version as $deviceFromPage) {
+						foreach ($devices_of_phase as $deviceFromPage) {
 
 							$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 						?>
@@ -220,7 +220,7 @@ foreach ($allMyProjects as $project) {
 
 
 				<?php
-				// Get devices of this version
+				// Get devices of this phase
 				$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageFromProject) {
 				    return ($deviceFound['page_ID'] == $pageFromProject['page_ID']);
 				});
@@ -313,13 +313,13 @@ foreach ($other_pages as $pageOther) {
 	$selected = $pageOther['page_ID'] == $page_ID ? "selected" : "";
 
 
-	// Get versions of the page
-	$versions_of_page = array_filter($allMyVersions, function($versionFound) use ($pageOther) {
-	    return ($versionFound['page_ID'] == $pageOther['page_ID']);
+	// Get phases of the page
+	$phases_of_page = array_filter($allMyPhases, function($phaseFound) use ($pageOther) {
+	    return ($phaseFound['page_ID'] == $pageOther['page_ID']);
 	});
-	$versions_of_page = array_values($versions_of_page); // Reset the keys to get version numbers
-	//$firstVersion = reset($versions_of_page);
-	//die_to_print($versions_of_page);
+	$phases_of_page = array_values($phases_of_page); // Reset the keys to get phase numbers
+	//$firstPhase = reset($phases_of_page);
+	//die_to_print($phases_of_page);
 
 
 	$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$pageOther['page_ID'];
@@ -329,33 +329,33 @@ foreach ($other_pages as $pageOther) {
 
 	<a href="<?=site_url('page/'.$pageOther['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a>
 	<?php
-	if ( count($versions_of_page) > 1 ) {
+	if ( count($phases_of_page) > 1 ) {
 	?>
 	<ul>
 		<?php
-		foreach ($versions_of_page as $versionFromPage) {
+		foreach ($phases_of_page as $phaseFromPage) {
 
-			$selected = $versionFromPage['version_ID'] == $version_ID ? "selected" : "";
-			$versionNumber = array_search($versionFromPage, $versions_of_page) + 1;
+			$selected = $phaseFromPage['phase_ID'] == $phase_ID ? "selected" : "";
+			$phaseNumber = array_search($phaseFromPage, $phases_of_page) + 1;
 
 
-			// Get devices of this version
-			$devices_of_version = array_filter($allMyDevices, function($deviceFound) use ($versionFromPage) {
-			    return ($deviceFound['version_ID'] == $versionFromPage['version_ID']);
+			// Get devices of this phase
+			$devices_of_phase = array_filter($allMyDevices, function($deviceFound) use ($phaseFromPage) {
+			    return ($deviceFound['phase_ID'] == $phaseFromPage['phase_ID']);
 			});
-			//$firstDevice = reset($devices_of_version);
-			//die_to_print($devices_of_version);
+			//$firstDevice = reset($devices_of_phase);
+			//die_to_print($devices_of_phase);
 
 		?>
-		<li class="item <?=$selected?>" data-type="version" data-id="<?=$versionFromPage['version_ID']?>">
-			<a href="<?=site_url('version/'.$versionFromPage['version_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?></a>
+		<li class="item <?=$selected?>" data-type="phase" data-id="<?=$phaseFromPage['phase_ID']?>">
+			<a href="<?=site_url('phase/'.$phaseFromPage['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?></a>
 
 			<?php
-			if ( count($devices_of_version) ) {
+			if ( count($devices_of_phase) ) {
 			?>
 			<ul>
 				<?php
-				foreach ($devices_of_version as $deviceFromPage) {
+				foreach ($devices_of_phase as $deviceFromPage) {
 
 					$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 				?>
@@ -382,7 +382,7 @@ foreach ($other_pages as $pageOther) {
 
 
 	<?php
-	// Get devices of this version
+	// Get devices of this phase
 	$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageOther) {
 	    return ($deviceFound['page_ID'] == $pageOther['page_ID']);
 	});
@@ -442,52 +442,52 @@ foreach ($other_pages as $pageOther) {
 
 
 			<div class="wrap xl-gutter-8">
-				<div class="col version">
+				<div class="col phase">
 
-					<div class="desc nomargin">Version</div>
+					<div class="desc nomargin">Phase</div>
 					<span class="dropdown">
 
 					<?php
 
-					$currentVersionNumber = array_search($version, $other_versions) + 1;
+					$currentPhaseNumber = array_search($phase, $other_phases) + 1;
 
 					?>
 
-						<a href="#" class="button select-version"><i class="fa fa-code-branch"></i> v<?=$currentVersionNumber?> <i class="fa fa-caret-down"></i></a>
+						<a href="#" class="button select-phase"><i class="fa fa-code-branch"></i> v<?=$currentPhaseNumber?> <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left">
 
 							<?php
-							foreach($other_versions as $versionFound) {
+							foreach($other_phases as $phaseFound) {
 
-								if ($versionFound['version_ID'] == $version_ID) continue;
-								$versionNumber = array_search($versionFound, $other_versions) + 1;
+								if ($phaseFound['phase_ID'] == $phase_ID) continue;
+								$phaseNumber = array_search($phaseFound, $other_phases) + 1;
 
 
-								// Devices of the version
-								$devices_of_version = array_filter($allMyDevices, function($deviceFound) use ($versionFound) {
-								    return ($deviceFound['version_ID'] == $versionFound['version_ID']);
+								// Devices of the phase
+								$devices_of_phase = array_filter($allMyDevices, function($deviceFound) use ($phaseFound) {
+								    return ($deviceFound['phase_ID'] == $phaseFound['phase_ID']);
 								});
-								$firstDevice = reset($devices_of_version);
+								$firstDevice = reset($devices_of_phase);
 								//die_to_print($devices_of_page);
 
 
-								$action_url = 'ajax?type=data-action&data-type=version&nonce='.$_SESSION['js_nonce'].'&id='.$versionFound['version_ID'];
+								$action_url = 'ajax?type=data-action&data-type=phase&nonce='.$_SESSION['js_nonce'].'&id='.$phaseFound['phase_ID'];
 							?>
 
-							<li class="item deletable" data-type="version" data-id="<?=$versionFound['version_ID']?>">
-								<a href="<?=site_url('revise/'.$firstDevice['device_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$versionNumber?> (<?=timeago($versionFound['version_created'])?>)</a>
+							<li class="item deletable" data-type="phase" data-id="<?=$phaseFound['phase_ID']?>">
+								<a href="<?=site_url('revise/'.$firstDevice['device_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?> (<?=timeago($phaseFound['phase_created'])?>)</a>
 
 								<?php
-								if ( count($devices_of_version) ) {
+								if ( count($devices_of_phase) ) {
 								?>
 								<ul>
 									<?php
-									foreach ($devices_of_version as $deviceFromVersion) {
+									foreach ($devices_of_phase as $deviceFromPhase) {
 
-										$selected = $deviceFromVersion['device_ID'] == $device_ID ? "selected" : "";
+										$selected = $deviceFromPhase['device_ID'] == $device_ID ? "selected" : "";
 									?>
-									<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromVersion['device_ID']?>">
-										<a href="<?=site_url('revise/'.$deviceFromVersion['device_ID'], true)?>"><i class="fa <?=$deviceFromVersion['screen_cat_icon']?>"></i> <?=$deviceFromVersion['screen_cat_name']?></a>
+									<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPhase['device_ID']?>">
+										<a href="<?=site_url('revise/'.$deviceFromPhase['device_ID'], true)?>"><i class="fa <?=$deviceFromPhase['screen_cat_icon']?>"></i> <?=$deviceFromPhase['screen_cat_name']?></a>
 									</li>
 									<?php
 									}
@@ -497,7 +497,7 @@ foreach ($other_pages as $pageOther) {
 								}
 								?>
 
-								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove', true)?>" data-tooltip="Delete This Version" data-action="remove" data-confirm="Are you sure you want to remove this version?"></i>
+								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove', true)?>" data-tooltip="Delete This Phase" data-action="remove" data-confirm="Are you sure you want to remove this phase?"></i>
 
 							</li>
 
@@ -505,7 +505,7 @@ foreach ($other_pages as $pageOther) {
 							}
 							?>
 
-							<li><a href="<?=site_url("projects?new_version=$page_ID&page_width=1440&page_height=774", true)?>" class="add-version"><i class="fa fa-plus"></i> <b>Add New Version</b></a></li>
+							<li><a href="<?=site_url("projects?new_phase=$page_ID&page_width=1440&page_height=774", true)?>" class="add-phase"><i class="fa fa-plus"></i> <b>Add New Phase</b></a></li>
 						</ul>
 					</span>
 
@@ -521,8 +521,8 @@ foreach ($other_pages as $pageOther) {
 						<?php
 
 						// EXISTING DEVICES
-						$devices_of_mypage = array_filter($allMyDevices, function($deviceFound) use ($version_ID) {
-						    return ($deviceFound['version_ID'] == $version_ID);
+						$devices_of_mypage = array_filter($allMyDevices, function($deviceFound) use ($phase_ID) {
+						    return ($deviceFound['phase_ID'] == $phase_ID);
 						});
 						foreach ($devices_of_mypage as $device) {
 							if ($device['device_ID'] == $device_ID) continue;
@@ -570,7 +570,7 @@ foreach ($other_pages as $pageOther) {
 											foreach ($screen_cat['screens'] as $screen) {
 
 
-												$screen_link = site_url("projects?new_screen=".$screen['screen_ID']."&version_ID=".$version_ID, true);
+												$screen_link = site_url("projects?new_screen=".$screen['screen_ID']."&phase_ID=".$phase_ID, true);
 												$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
 												if ($screen['screen_ID'] == 11) {
 													$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
@@ -1288,7 +1288,7 @@ $(function(){
 
 	var loadingProcessID = newProcess(false, "loadingProcess");
 	checkPageStatus(
-		<?=$version_ID?>,
+		<?=$phase_ID?>,
 		<?=$page_ID?>,
 		<?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
 		<?=is_numeric($process_ID) ? $process_ID : "''"?>,

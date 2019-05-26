@@ -5,11 +5,11 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 class Screenshot {
 
 
-	// The Version ID
-	public $version_ID;
+	// The Phase ID
+	public $phase_ID;
 
-	// The Version data
-	public $versionData;
+	// The Phase data
+	public $phaseData;
 
 	// The Page ID
 	public $page_ID;
@@ -30,14 +30,14 @@ class Screenshot {
 
 
 	// When initialized
-	public function __construct($version_ID, $page_ID, $device_ID, $queue_ID) {
+	public function __construct($phase_ID, $page_ID, $device_ID, $queue_ID) {
 
 
-		// Set the version ID
-		$this->version_ID = $version_ID;
+		// Set the phase ID
+		$this->phase_ID = $phase_ID;
 
-		// Get the version data
-		$this->versionData = Version::ID($version_ID);
+		// Get the phase data
+		$this->phaseData = Phase::ID($phase_ID);
 
 
 		// Set the page ID
@@ -102,10 +102,10 @@ class Screenshot {
 		$logger->info("Browser job is starting.");
 
 
-		// Version Info
-		$version_ID = $this->version_ID;
-		$url = $this->versionData->remoteUrl;
-		$versionDir = $this->versionData->versionDir;
+		// Phase Info
+		$phase_ID = $this->phase_ID;
+		$url = $this->phaseData->remoteUrl;
+		$phaseDir = $this->phaseData->phaseDir;
 
 
 		// Page Info
@@ -130,10 +130,10 @@ class Screenshot {
 		$processLink .= "?url=".urlencode($url);
 		$processLink .= "&action=screenshot";
 		$processLink .= "&width=$width&height=$height";
-		$processLink .= "&version_ID=$version_ID";
+		$processLink .= "&phase_ID=$phase_ID";
 		$processLink .= "&page_ID=$page_ID";
 		$processLink .= "&device_ID=$device_ID";
-		$processLink .= "&sitedir=".urlencode($versionDir."/");
+		$processLink .= "&sitedir=".urlencode($phaseDir."/");
 
 
 		// Send the request

@@ -168,14 +168,14 @@ $(function() {
 		});
 
 		// Update the URLs
-		$('.add-version').each(function() {
+		$('.add-phase').each(function() {
 
-			var newVersionURL = $(this).attr('href');
+			var newPhaseURL = $(this).attr('href');
 
-			var widthOnURL = getParameterByName('page_width', newVersionURL);
-			var heightOnURL = getParameterByName('page_height', newVersionURL);
+			var widthOnURL = getParameterByName('page_width', newPhaseURL);
+			var heightOnURL = getParameterByName('page_height', newPhaseURL);
 
-			var newURL = newVersionURL.replace('page_width='+widthOnURL, 'page_width='+width);
+			var newURL = newPhaseURL.replace('page_width='+widthOnURL, 'page_width='+width);
 			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+height);
 
 			$(this).attr('href', newURL);

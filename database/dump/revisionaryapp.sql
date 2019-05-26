@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: May 06, 2019 at 09:15 AM
--- Server version: 8.0.15
+-- Generation Time: May 26, 2019 at 01:34 PM
+-- Server version: 8.0.16
 -- PHP Version: 7.2.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -34,7 +34,7 @@ CREATE TABLE `devices` (
   `device_height` mediumint(10) DEFAULT NULL,
   `device_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `device_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `version_ID` bigint(20) NOT NULL,
+  `phase_ID` bigint(20) NOT NULL,
   `screen_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -81,7 +81,6 @@ CREATE TABLE `pages` (
   `page_pass` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `page_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `page_internalized` int(20) NOT NULL DEFAULT '0',
   `page_archived` tinyint(1) NOT NULL DEFAULT '0',
   `page_deleted` tinyint(1) NOT NULL DEFAULT '0',
   `order_number` bigint(20) NOT NULL DEFAULT '0',
@@ -120,6 +119,19 @@ CREATE TABLE `password_reset` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `phases`
+--
+
+CREATE TABLE `phases` (
+  `phase_ID` bigint(20) NOT NULL,
+  `phase_internalized` int(20) NOT NULL DEFAULT '0',
+  `phase_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `page_ID` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pins`
 --
 
@@ -137,7 +149,7 @@ CREATE TABLE `pins` (
   `pin_modification` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `pin_modification_original` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `pin_css` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `version_ID` bigint(20) NOT NULL,
+  `phase_ID` bigint(20) NOT NULL,
   `device_ID` bigint(20) DEFAULT NULL,
   `user_ID` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -378,19 +390,6 @@ INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_descr
 (3, 'Plus', 'Plus description', 12, 24, 99999, 99999, 3, 120, 9.99, 'green'),
 (4, 'Enterprise', 'Enterprise description.', 99999, 99999, 99999, 99999, 99999, 2048, 19.99, 'gold');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `versions`
---
-
-CREATE TABLE `versions` (
-  `version_ID` bigint(20) NOT NULL,
-  `version_internalized` int(20) NOT NULL DEFAULT '0',
-  `version_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `page_ID` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 --
 -- Indexes for dumped tables
 --
@@ -401,7 +400,7 @@ CREATE TABLE `versions` (
 ALTER TABLE `devices`
   ADD PRIMARY KEY (`device_ID`),
   ADD KEY `devices_ibfk_2` (`screen_ID`),
-  ADD KEY `version_ID` (`version_ID`);
+  ADD KEY `phase_ID` (`phase_ID`);
 
 --
 -- Indexes for table `notifications`
@@ -442,12 +441,19 @@ ALTER TABLE `password_reset`
   ADD KEY `user_ID` (`user_ID`);
 
 --
+-- Indexes for table `phases`
+--
+ALTER TABLE `phases`
+  ADD PRIMARY KEY (`phase_ID`),
+  ADD KEY `page_ID` (`page_ID`);
+
+--
 -- Indexes for table `pins`
 --
 ALTER TABLE `pins`
   ADD PRIMARY KEY (`pin_ID`),
   ADD KEY `user_ID` (`user_ID`),
-  ADD KEY `version_ID` (`version_ID`),
+  ADD KEY `phase_ID` (`phase_ID`),
   ADD KEY `device_ID` (`device_ID`);
 
 --
@@ -533,13 +539,6 @@ ALTER TABLE `user_levels`
   ADD PRIMARY KEY (`user_level_ID`);
 
 --
--- Indexes for table `versions`
---
-ALTER TABLE `versions`
-  ADD PRIMARY KEY (`version_ID`),
-  ADD KEY `page_ID` (`page_ID`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -578,6 +577,12 @@ ALTER TABLE `pages_categories`
 --
 ALTER TABLE `password_reset`
   MODIFY `pass_reset_ID` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `phases`
+--
+ALTER TABLE `phases`
+  MODIFY `phase_ID` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `pins`
@@ -652,12 +657,6 @@ ALTER TABLE `user_levels`
   MODIFY `user_level_ID` smallint(5) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `versions`
---
-ALTER TABLE `versions`
-  MODIFY `version_ID` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
 -- Constraints for dumped tables
 --
 
@@ -666,7 +665,7 @@ ALTER TABLE `versions`
 --
 ALTER TABLE `devices`
   ADD CONSTRAINT `devices_ibfk_2` FOREIGN KEY (`screen_ID`) REFERENCES `screens` (`screen_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  ADD CONSTRAINT `devices_ibfk_3` FOREIGN KEY (`version_ID`) REFERENCES `versions` (`version_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
+  ADD CONSTRAINT `devices_ibfk_3` FOREIGN KEY (`phase_ID`) REFERENCES `phases` (`phase_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
 -- Constraints for table `notifications`
@@ -702,11 +701,17 @@ ALTER TABLE `password_reset`
   ADD CONSTRAINT `password_reset_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 --
+-- Constraints for table `phases`
+--
+ALTER TABLE `phases`
+  ADD CONSTRAINT `phases_ibfk_1` FOREIGN KEY (`page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `pins`
 --
 ALTER TABLE `pins`
   ADD CONSTRAINT `pins_ibfk_1` FOREIGN KEY (`user_ID`) REFERENCES `users` (`user_ID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pins_ibfk_2` FOREIGN KEY (`version_ID`) REFERENCES `versions` (`version_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  ADD CONSTRAINT `pins_ibfk_2` FOREIGN KEY (`phase_ID`) REFERENCES `phases` (`phase_ID`) ON DELETE CASCADE ON UPDATE RESTRICT,
   ADD CONSTRAINT `pins_ibfk_3` FOREIGN KEY (`device_ID`) REFERENCES `devices` (`device_ID`) ON DELETE SET NULL ON UPDATE RESTRICT;
 
 --
@@ -762,12 +767,6 @@ ALTER TABLE `shares`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_level_ID`) REFERENCES `user_levels` (`user_level_ID`) ON DELETE SET NULL ON UPDATE RESTRICT;
-
---
--- Constraints for table `versions`
---
-ALTER TABLE `versions`
-  ADD CONSTRAINT `versions_ibfk_1` FOREIGN KEY (`page_ID`) REFERENCES `pages` (`page_ID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

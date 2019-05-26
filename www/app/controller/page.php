@@ -64,20 +64,20 @@ $project_ID = $page['project_ID'];
 
 // THE VERSION INFO
 
-// All my versions
+// All my phases
 $db->where('page_ID', $page_ID);
-$allMyVersions = $db->get('versions');
-$lastVersion = end($allMyVersions);
-//die_to_print($lastVersion);
+$allMyPhases = $db->get('phases');
+$lastPhase = end($allMyPhases);
+//die_to_print($lastPhase);
 
 // If the specified device doesn't exist, go projects page
-if ( !isset($lastVersion) ) {
-	header('Location: '.site_url("project/$project_ID?versiondoesntexist"));
+if ( !isset($lastPhase) ) {
+	header('Location: '.site_url("project/$project_ID?phasedoesntexist"));
 	die();
 }
 
 
-$url_to_redirect = site_url('version/'.$lastVersion['version_ID']);
+$url_to_redirect = site_url('phase/'.$lastPhase['phase_ID']);
 if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
 if ( get('privatepin') == "1" ) $url_to_redirect = queryArg('privatepin=1', $url_to_redirect);
 if ( get('filter') == "incomplete" || get('filter') == "complete" ) $url_to_redirect = queryArg('filter='.get('filter'), $url_to_redirect);

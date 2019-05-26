@@ -32,8 +32,8 @@ class Device {
 			$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
 
 
-			// Bring the version info
-			$db->join("versions v", "v.version_ID = d.version_ID", "LEFT");
+			// Bring the phase info
+			$db->join("phases v", "v.phase_ID = d.phase_ID", "LEFT");
 
 
 			// Select the device
@@ -94,8 +94,8 @@ class Device {
 		$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
 
 
-		// Bring the version info
-		$db->join("versions v", "v.version_ID = d.version_ID", "LEFT");
+		// Bring the phase info
+		$db->join("phases v", "v.phase_ID = d.phase_ID", "LEFT");
 
 
 		// Order by device ID
@@ -109,8 +109,8 @@ class Device {
     // Get device image
     public function getImage() {
 
-	    $version_ID = $this->getInfo('version_ID');
-	    $page_ID = Version::ID($version_ID)->getInfo('page_ID');
+	    $phase_ID = $this->getInfo('phase_ID');
+	    $page_ID = Phase::ID($phase_ID)->getInfo('page_ID');
 
 	    $image_dir = Page::ID($page_ID)->getDir()."/screenshots/device-".self::$device_ID.".jpg";
 
@@ -124,8 +124,8 @@ class Device {
 		global $db;
 
 
-		$version_ID = $this->getInfo('version_ID');
-		$page_ID = Version::ID($version_ID)->getInfo('page_ID');
+		$phase_ID = $this->getInfo('phase_ID');
+		$page_ID = Phase::ID($phase_ID)->getInfo('page_ID');
 		$pageData = Page::ID( $page_ID );
 
 
@@ -143,12 +143,12 @@ class Device {
 
     // Add a new device
     public function addNew(
-	    int $version_ID,
+	    int $phase_ID,
 	    array $screen_IDs = array(4),
     	int $device_width = null,
     	int $device_height = null,
     	bool $fromPage = false,
-    	bool $fromVersion = false
+    	bool $fromPhase = false
     ) {
 	    global $db, $log;
 
@@ -175,7 +175,7 @@ class Device {
 
 			// Add the new page with the screen
 			$device_ID = $db->insert('devices', array(
-				"version_ID" => $version_ID,
+				"phase_ID" => $phase_ID,
 				"screen_ID" => $screen_ID,
 				"device_width" => $screen_ID == 11 ? $device_width : null,
 				"device_height" => $screen_ID == 11 ? $device_height : null
@@ -197,7 +197,7 @@ class Device {
 		$devices_list = trim($devices_list, ", ");
 		$screens_list = trim($screens_list, ", ");
 
-		if ($first_device_ID) $log->info("Devices #$devices_list Added to: Version #$version_ID | Screens #$screens_list | User #".currentUserID());
+		if ($first_device_ID) $log->info("Devices #$devices_list Added to: Phase #$phase_ID | Screens #$screens_list | User #".currentUserID());
 
 
 
@@ -212,7 +212,7 @@ class Device {
 
 
 			// Get the users to notify
-			$page_ID = Version::ID($version_ID)->getInfo('page_ID');
+			$page_ID = Phase::ID($phase_ID)->getInfo('page_ID');
 
 
 
@@ -221,17 +221,17 @@ class Device {
 			$users = $pageData->getUsers();
 
 
-			if ($fromVersion) {
+			if ($fromPhase) {
 
 
 				// Web notification
-				Notify::ID($users)->web("new", "device", $first_device_ID, "new version");
+				Notify::ID($users)->web("new", "device", $first_device_ID, "new phase");
 
 
 				// Email notification
 				Notify::ID($users)->mail(
-					getUserInfo()['fullName']." created a new version on ".$pageData->getInfo('page_name')." page",
-					getUserInfo()['fullName']." created a new version on ".$pageData->getInfo('page_name')." page. <br><br>
+					getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." page",
+					getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." page. <br><br>
 					<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
 				);
 

@@ -8,7 +8,7 @@ $status = "initiated";
 
 
 // Get the pin info
-$pin_version_ID = intval(request('pin_version_ID'));
+$pin_phase_ID = intval(request('pin_phase_ID'));
 $pin_device_ID = intval(request('pin_device_ID'));
 $pin_type = request('pin_type');
 $pin_private = boolval(request('pin_private'));
@@ -30,7 +30,7 @@ if ( !is_numeric($pin_device_ID) || is_numeric($pin_type) || !is_numeric($pin_y)
 
 // Add the pin
 $pin_ID = Pin::ID()->addNew(
-	$pin_version_ID,
+	$pin_phase_ID,
 	$pin_type,
 	$pin_private,
 	$pin_x,

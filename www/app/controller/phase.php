@@ -15,25 +15,25 @@ $currentUserLevel_ID = getUserInfo()['userLevelID'];
 
 // If no page specified or not numeric, go projects page
 if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
-	header('Location: '.site_url('projects?invalidversion'));
+	header('Location: '.site_url('projects?invalidphase'));
 	die();
 }
 
 
 
-// Get the version ID
-$version_ID = $_url[1];
+// Get the phase ID
+$phase_ID = $_url[1];
 
 
 
 // THE VERSION INFO
 
-// All my versions
-$versionData = Version::ID($version_ID);
+// All my phases
+$phaseData = Phase::ID($phase_ID);
 
 // If the specified device doesn't exist, go projects page
-if ( !isset($versionData) ) {
-	header('Location: '.site_url("project/$project_ID?versiondoesntexist"));
+if ( !isset($phaseData) ) {
+	header('Location: '.site_url("project/$project_ID?phasedoesntexist"));
 	die();
 }
 
@@ -43,7 +43,7 @@ if ( !isset($versionData) ) {
 // THE DEVICE INFO
 
 // All my devices
-$db->where('version_ID', $version_ID);
+$db->where('phase_ID', $phase_ID);
 $devices = $db->get('devices');
 $firstDevice = reset($devices);
 //die_to_print($firstDevice);

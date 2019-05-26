@@ -89,37 +89,37 @@ $other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) 
 
 
 // VERSION:
-// Get the version ID
-$version_ID = $device['version_ID'];
+// Get the phase ID
+$phase_ID = $device['phase_ID'];
 
-// All my versions
+// All my phases
 $db->where('page_ID', $allMyPageIDs, 'IN');
-$allMyVersions = $db->get('versions');
-//die_to_print($allMyVersions);
+$allMyPhases = $db->get('phases');
+//die_to_print($allMyPhases);
 
-// Find the current version
-$version = array_filter($allMyVersions, function($versionFound) use ($version_ID) {
-    return ($versionFound['version_ID'] == $version_ID);
+// Find the current phase
+$phase = array_filter($allMyPhases, function($phaseFound) use ($phase_ID) {
+    return ($phaseFound['phase_ID'] == $phase_ID);
 });
-$version = end($version);
-//die_to_print($version);
+$phase = end($phase);
+//die_to_print($phase);
 
-// Current version data
-$versionData = Version::ID($version_ID);
-//die_to_print($versionData);
+// Current phase data
+$phaseData = Phase::ID($phase_ID);
+//die_to_print($phaseData);
 
-// If the specified version doesn't exist, go projects page
-if ( !$versionData ) {
-	header('Location: '.site_url('projects?versiondoesntexist'));
+// If the specified phase doesn't exist, go projects page
+if ( !$phaseData ) {
+	header('Location: '.site_url('projects?phasedoesntexist'));
 	die();
 }
 
-// Find the other versions from this page
-$other_versions = array_filter($allMyVersions, function($versionFound) use ($page_ID) {
-	return ($versionFound['page_ID'] == $page_ID);
+// Find the other phases from this page
+$other_phases = array_filter($allMyPhases, function($phaseFound) use ($page_ID) {
+	return ($phaseFound['page_ID'] == $page_ID);
 });
-$other_versions = array_values($other_versions); // Reset the keys to get version numbers
-//die_to_print($other_versions);
+$other_phases = array_values($other_phases); // Reset the keys to get phase numbers
+//die_to_print($other_phases);
 
 
 
@@ -151,7 +151,7 @@ $project_image = cache."/projects/project-$project_ID/project.jpg"; // !!!
 // PROTOCOL REDIRECTIONS:
 
 // Http to Https Redirection
-if ( substr($versionData->remoteUrl, 0, 8) == "https://" && !ssl) {
+if ( substr($phaseData->remoteUrl, 0, 8) == "https://" && !ssl) {
 
 	$url_to_redirect = site_url('revise/'.$device_ID, true);
 	if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
@@ -165,7 +165,7 @@ if ( substr($versionData->remoteUrl, 0, 8) == "https://" && !ssl) {
 }
 
 // Https to Http Redirection
-if ( substr($versionData->remoteUrl, 0, 7) == "http://" && ssl) {
+if ( substr($phaseData->remoteUrl, 0, 7) == "http://" && ssl) {
 
 	$url_to_redirect = site_url('revise/'.$device_ID, false, true);
 	if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
@@ -183,9 +183,9 @@ if ( substr($versionData->remoteUrl, 0, 7) == "http://" && ssl) {
 // LOG:
 
 // Create the log folder if not exists
-if ( !file_exists($versionData->logDir) )
-	mkdir($versionData->logDir, 0755, true);
-@chmod($versionData->logDir, 0755);
+if ( !file_exists($phaseData->logDir) )
+	mkdir($phaseData->logDir, 0755, true);
+@chmod($phaseData->logDir, 0755);
 
 
 
@@ -193,7 +193,7 @@ if ( !file_exists($versionData->logDir) )
 
 // Check if queue is already working
 $db->where('queue_type', 'internalize');
-$db->where('queue_object_ID', $version_ID);
+$db->where('queue_object_ID', $phase_ID);
 $db->where("(queue_status = 'working' OR queue_status = 'waiting')");
 $existing_queue = $db->get('queues');
 //die_to_print($existing_queue);
@@ -206,12 +206,12 @@ $process_status = "";
 
 
 /*
-die_to_print( $versionData->versionDir, false ); // Folder is exist
-die_to_print( $versionData->versionFile, false ); // HTML is downloaded
+die_to_print( $phaseData->phaseDir, false ); // Folder is exist
+die_to_print( $phaseData->phaseFile, false ); // HTML is downloaded
 die_to_print( $project_image, false ); // // Project image ready !!!
-die_to_print( $versionData->logDir."/browser.log", false ); // No error on Browser
-die_to_print( $versionData->logDir."/html-filter.log", false ); // No error on HTML filtering
-die_to_print( $versionData->logDir."/css-filter.log" ); // No error on CSS filtering
+die_to_print( $phaseData->logDir."/browser.log", false ); // No error on Browser
+die_to_print( $phaseData->logDir."/html-filter.log", false ); // No error on HTML filtering
+die_to_print( $phaseData->logDir."/css-filter.log" ); // No error on CSS filtering
 */
 
 
@@ -237,7 +237,7 @@ if (
 	$queue_status = $existing_queue['queue_status'];
 
 
-	$process_status = "Version #$version_ID Queue Found: Queue #$queue_ID '".ucfirst($queue_status)."' | Page #$page_ID | Device #$device_ID | Process #$queue_PID | User #".currentUserID();
+	$process_status = "Phase #$phase_ID Queue Found: Queue #$queue_ID '".ucfirst($queue_status)."' | Page #$page_ID | Device #$device_ID | Process #$queue_PID | User #".currentUserID();
 
 
 	// Site log
@@ -257,16 +257,16 @@ if (
 
 	!$forceReInternalize &&
 
-	file_exists( $versionData->versionDir ) && // Folder is exist
-	file_exists( $versionData->versionFile ) && // HTML is downloaded
-	file_exists( $versionData->logDir."/browser.log" ) && // No error on Browser
-	file_exists( $versionData->logDir."/html-filter.log" ) && // No error on HTML filtering
-	file_exists( $versionData->logDir."/css-filter.log" ) // No error on CSS filtering
+	file_exists( $phaseData->phaseDir ) && // Folder is exist
+	file_exists( $phaseData->phaseFile ) && // HTML is downloaded
+	file_exists( $phaseData->logDir."/browser.log" ) && // No error on Browser
+	file_exists( $phaseData->logDir."/html-filter.log" ) && // No error on HTML filtering
+	file_exists( $phaseData->logDir."/css-filter.log" ) // No error on CSS filtering
 
 ) {
 
 
-	$process_status = "Device #$device_ID Opening: Version #$version_ID (Already Downloaded) | Page #$page_ID | User #".currentUserID();
+	$process_status = "Device #$device_ID Opening: Phase #$phase_ID (Already Downloaded) | Page #$page_ID | User #".currentUserID();
 
 
 	// Site log
@@ -279,22 +279,22 @@ if (
 
 
 		// Logger
-		$logger = new Katzgrau\KLogger\Logger($versionData->logDir, Psr\Log\LogLevel::DEBUG, array(
+		$logger = new Katzgrau\KLogger\Logger($phaseData->logDir, Psr\Log\LogLevel::DEBUG, array(
 			'filename' => 'screenshot',
-		    'extension' => $versionData->logFileExtension, // changes the log file extension
+		    'extension' => $phaseData->logFileExtension, // changes the log file extension
 		));
 
 
 		// NEW QUEUE
 		// Add a new job to the queue
 		$queue = new Queue();
-		$queue_results = $queue->new_job('screenshot', $version_ID, $page_ID, $device_ID, "Waiting other works to be done.");
+		$queue_results = $queue->new_job('screenshot', $phase_ID, $page_ID, $device_ID, "Waiting other works to be done.");
 		$process_ID = $queue_results['process_ID'];
 		$queue_ID = $queue_results['queue_ID'];
 
 
 		// Site log
-		$log->info("Device #$device_ID Screenshot Taking: Version #$version_ID | Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
+		$log->info("Device #$device_ID Screenshot Taking: Phase #$phase_ID | Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
 
 
 	}
@@ -306,20 +306,20 @@ if (
 
 
 	// Remove the existing and wrong files
-	if ( file_exists($versionData->versionDir) )
-		deleteDirectory($versionData->versionDir);
+	if ( file_exists($phaseData->phaseDir) )
+		deleteDirectory($phaseData->phaseDir);
 
 
 	// Re-Create the log folder if not exists
-	if ( !file_exists($versionData->logDir) )
-		mkdir($versionData->logDir, 0755, true);
-	@chmod($versionData->logDir, 0755);
+	if ( !file_exists($phaseData->logDir) )
+		mkdir($phaseData->logDir, 0755, true);
+	@chmod($phaseData->logDir, 0755);
 
 
 	// Logger
-	$logger = new Katzgrau\KLogger\Logger($versionData->logDir, Psr\Log\LogLevel::DEBUG, array(
-		'filename' => $versionData->logFileName,
-	    'extension' => $versionData->logFileExtension, // changes the log file extension
+	$logger = new Katzgrau\KLogger\Logger($phaseData->logDir, Psr\Log\LogLevel::DEBUG, array(
+		'filename' => $phaseData->logFileName,
+	    'extension' => $phaseData->logFileExtension, // changes the log file extension
 	));
 
 
@@ -327,13 +327,13 @@ if (
 	// Add a new job to the queue
 	$queue = new Queue();
 	$ssrAnswer = $ssr ? "yes" : "no";
-	$queue_results = $queue->new_job('internalize', $version_ID, $page_ID, $device_ID, "Waiting other works to be done.", $ssrAnswer);
+	$queue_results = $queue->new_job('internalize', $phase_ID, $page_ID, $device_ID, "Waiting other works to be done.", $ssrAnswer);
 	$process_ID = $queue_results['process_ID'];
 	$queue_ID = $queue_results['queue_ID'];
 
 
 	// Site log
-	$log->info("Device #$device_ID Internalizing: Version #$version_ID | Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
+	$log->info("Device #$device_ID Internalizing: Phase #$phase_ID | Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
 
 
 }
@@ -383,7 +383,7 @@ $allMyDevices = $devices; // Comes globally from 'categorize.php'
 if ($forceReInternalize) {
 
 	// Remove all the pins for this page
-	$db->where('version_ID', $version_ID);
+	$db->where('phase_ID', $phase_ID);
 	$db->delete('pins');
 
 }

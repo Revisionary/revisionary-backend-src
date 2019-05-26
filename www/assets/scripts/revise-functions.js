@@ -1,6 +1,6 @@
 // FUNCTIONS:
 // DB: Run the internalizator
-function checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProcessID) {
+function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessID) {
 
 
 	// If being force reinternalizing, update the URL
@@ -13,7 +13,7 @@ function checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProces
 	// Get the up-to-date pins
 	var statusCheckRequest = ajax('internalize-status',
 	{
-		'version_ID'	: version_ID,
+		'phase_ID'	: phase_ID,
 		'page_ID'		: page_ID,
 		'queue_ID'		: queue_ID,
 		'processID'		: processID
@@ -57,7 +57,7 @@ function checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProces
 		if (width == 100 && data.processStatus == "ready") {
 
 			// Update the global page URL
-			page_URL = data.versionUrl + '?v=' + data.internalized;
+			page_URL = data.phaseUrl + '?v=' + data.internalized;
 
 
 			// Update the iframe url
@@ -75,7 +75,7 @@ function checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProces
 
 			setTimeout(function() {
 
-				checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProcessID);
+				checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessID);
 
 			}, 1000);
 
@@ -93,7 +93,7 @@ function checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProces
 
 		setTimeout(function() {
 
-			checkPageStatus(version_ID, page_ID, queue_ID, processID, loadingProcessID);
+			checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessID);
 
 		}, 1000);
 
@@ -1239,7 +1239,7 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 	// Send the Ajax request
 	autoRefreshRequest = ajax('pins-get', {
 
-		'version_ID' : version_ID,
+		'phase_ID' : phase_ID,
 		'device_ID'	  : device_ID
 
 	}).done(function( result ) {
@@ -1450,7 +1450,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
 		'pin_private'			 : pinPrivate,
 		'pin_element_index' 	 : element_index,
-		'pin_version_ID'		 : version_ID,
+		'pin_phase_ID'		 : phase_ID,
 		'pin_device_ID'			 : device_ID
 
 	}).done(function(result){

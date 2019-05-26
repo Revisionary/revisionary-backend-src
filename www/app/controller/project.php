@@ -66,8 +66,8 @@ $allMyPages = $thePreparedData;
 
 
 // MY DEVICES IN THIS PROJECT
-$allMyVersions = $versions; // Comes globally from 'categorize.php'
-//die_to_print($allMyVersions);
+$allMyPhases = $phases; // Comes globally from 'categorize.php'
+//die_to_print($allMyPhases);
 
 
 // MY DEVICES IN THIS PROJECT
@@ -162,14 +162,14 @@ foreach($theCategorizedData as $categories) {
 
 		foreach($categories['theData'] as $page) {
 
-			if ( isset($page['versionsData']) ) {
+			if ( isset($page['phasesData']) ) {
 
-				foreach ($page['versionsData'] as $version) {
+				foreach ($page['phasesData'] as $phase) {
 
-					if ( isset($version['devicesData']) ) {
+					if ( isset($phase['devicesData']) ) {
 
 
-						foreach ($version['devicesData'] as $device) {
+						foreach ($phase['devicesData'] as $device) {
 
 							$available_screens[$device['screen_cat_ID']] = array(
 								"screen_cat_ID" => $device['screen_cat_ID'],

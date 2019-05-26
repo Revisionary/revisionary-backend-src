@@ -4,12 +4,12 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 
 // Set the process ID to check
 $process = BackgroundProcess::createFromPID( request('processID') );
-$version_ID = request('version_ID');
+$phase_ID = request('phase_ID');
 $queue_ID = request('queue_ID');
 
 
 // Get the page data
-$versionData = Version::ID($version_ID);
+$phaseData = Phase::ID($phase_ID);
 
 
 // STATUS CHECK
@@ -22,9 +22,9 @@ elseif ( is_numeric($queue_ID) ) {
 
 
 	// Logger
-	$logger = new Katzgrau\KLogger\Logger($versionData->logDir, Psr\Log\LogLevel::DEBUG, array(
-		'filename' => $versionData->logFileName,
-	    'extension' => $versionData->logFileExtension, // changes the log file extension
+	$logger = new Katzgrau\KLogger\Logger($phaseData->logDir, Psr\Log\LogLevel::DEBUG, array(
+		'filename' => $phaseData->logFileName,
+	    'extension' => $phaseData->logFileExtension, // changes the log file extension
 	));
 
 
@@ -51,14 +51,14 @@ elseif ( is_numeric($queue_ID) ) {
 $data = array(
 
 	// JUST TO SEE
-	'version_ID' => $version_ID,
+	'phase_ID' => $phase_ID,
 	'queue_ID' => $queue_ID,
 
 	'status' => $status,
 	'processID' => $process->getPid(),
-	'processStatus' => $versionData->versionStatus['status'],
-	'processDescription' => $versionData->versionStatus['description'],
-	'processPercentage' => $versionData->versionStatus['percentage'],
+	'processStatus' => $phaseData->phaseStatus['status'],
+	'processDescription' => $phaseData->phaseStatus['description'],
+	'processPercentage' => $phaseData->phaseStatus['percentage'],
 
 
 
@@ -67,13 +67,13 @@ $data = array(
 
 		'status' => $status,
 		'processID' => $process->getPid(),
-		'processStatus' => $versionData->versionStatus['status'],
-		'processDescription' => $versionData->versionStatus['description'],
-		'processPercentage' => $versionData->versionStatus['percentage'],
+		'processStatus' => $phaseData->phaseStatus['status'],
+		'processDescription' => $phaseData->phaseStatus['description'],
+		'processPercentage' => $phaseData->phaseStatus['percentage'],
 
 		'queue_ID' => $queue_ID,
-		'versionUrl' => $versionData->cachedUrl,
-		'internalized' => $versionData->internalizeCount,
+		'phaseUrl' => $phaseData->cachedUrl,
+		'internalized' => $phaseData->internalizeCount,
 	]
 );
 

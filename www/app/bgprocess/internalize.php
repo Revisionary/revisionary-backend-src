@@ -6,7 +6,7 @@ set_time_limit(0);
 
 
 // Get the data
-$version_ID = $argv[1];
+$phase_ID = $argv[1];
 $page_ID = $argv[2];
 $device_ID = $argv[3];
 $sessionID = $argv[4];
@@ -27,16 +27,16 @@ session_write_close();
 
 
 // Get the page data
-$versionData = Version::ID($version_ID);
+$phaseData = Phase::ID($phase_ID);
 
 
 // Logger
 $logger = new Katzgrau\KLogger\Logger(
-	$versionData->logDir,
+	$phaseData->logDir,
 	Psr\Log\LogLevel::DEBUG,
 	array(
-		'filename' => $versionData->logFileName,
-	    'extension' => $versionData->logFileExtension, // changes the log file extension
+		'filename' => $phaseData->logFileName,
+	    'extension' => $phaseData->logFileExtension, // changes the log file extension
 	)
 );
 
@@ -46,7 +46,7 @@ $queue = new Queue();
 
 
 // Initialize internalizator
-$internalize = new Internalize($version_ID, $page_ID, $device_ID, $queue_ID);
+$internalize = new Internalize($phase_ID, $page_ID, $device_ID, $queue_ID);
 
 
 // Reset the variables
@@ -55,7 +55,7 @@ $job_ready = $browser_done = $files_detected = $html_filtred = $css_filtred = fa
 
 echo "Queue ID: $queue_ID  \r\n";
 echo "Page ID: $page_ID \r\n";
-echo "Version ID: $version_ID \r\n";
+echo "Phase ID: $phase_ID \r\n";
 echo "Device ID: $device_ID \r\n";
 echo "SessionID: $sessionID \r\n";
 echo "SSR: ".($ssr ? "YES" : "NO")." \r\n";

@@ -1,7 +1,7 @@
 <?php
 
 function categorize($objects, $dataType, $prepared = false) {
-	global $db, $thePreparedData, $versions, $devices, $catFilter;
+	global $db, $thePreparedData, $phases, $devices, $catFilter;
 
 
 	// Bring the devices data for pages
@@ -16,9 +16,9 @@ function categorize($objects, $dataType, $prepared = false) {
 		if ( is_array($page_IDs) && count($page_IDs) == 0 ) return array();
 
 
-		// All my versions
+		// All my phases
 		$db->where('page_ID', $page_IDs, 'IN');
-		$versions = $db->get('versions');
+		$phases = $db->get('phases');
 
 
 		// All my devices
@@ -27,22 +27,22 @@ function categorize($objects, $dataType, $prepared = false) {
 
 
 		// PREPARE VERSIONS WITH DEVICES
-		$versionsWithDevices = [];
-		foreach ($versions as $version) {
+		$phasesWithDevices = [];
+		foreach ($phases as $phase) {
 
-			$versionsWithDevices[ $version["version_ID"] ] = $version;
-			$versionsWithDevices[ $version["version_ID"] ]['devicesData'] = array();
+			$phasesWithDevices[ $phase["phase_ID"] ] = $phase;
+			$phasesWithDevices[ $phase["phase_ID"] ]['devicesData'] = array();
 
 
 			// Extract this page's devices
-			$pageDevices = array_filter($devices, function ($device) use ($version) {
-			    return ($device['version_ID'] == $version['version_ID']);
+			$pageDevices = array_filter($devices, function ($device) use ($phase) {
+			    return ($device['phase_ID'] == $phase['phase_ID']);
 			});
 
 
 			// Import the page devices
 			if (is_array($pageDevices) && count($pageDevices) > 0)
-				$versionsWithDevices[ $version["version_ID"] ]['devicesData'] = $pageDevices;
+				$phasesWithDevices[ $phase["phase_ID"] ]['devicesData'] = $pageDevices;
 
 		}
 
@@ -64,19 +64,19 @@ function categorize($objects, $dataType, $prepared = false) {
 		if ($dataType == "page") {
 
 			$thePreparedData[ $object["page_ID"] ] = $object;
-			$thePreparedData[ $object["page_ID"] ]['versionsData'] = array();
+			$thePreparedData[ $object["page_ID"] ]['phasesData'] = array();
 
 
-			// Extract this page's versions
-			$pageVersions = array_filter($versionsWithDevices, function ($version) use ($object) {
-			    return ($version['page_ID'] == $object['page_ID']);
+			// Extract this page's phases
+			$pagePhases = array_filter($phasesWithDevices, function ($phase) use ($object) {
+			    return ($phase['page_ID'] == $object['page_ID']);
 			});
-			$pageVersions = array_values($pageVersions);
+			$pagePhases = array_values($pagePhases);
 
 
-			// Import the page versions
-			if (is_array($pageVersions) && count($pageVersions) > 0)
-				$thePreparedData[ $object["page_ID"] ]['versionsData'] = $pageVersions;
+			// Import the page phases
+			if (is_array($pagePhases) && count($pagePhases) > 0)
+				$thePreparedData[ $object["page_ID"] ]['phasesData'] = $pagePhases;
 
 
 		}
