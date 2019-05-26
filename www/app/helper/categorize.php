@@ -9,6 +9,11 @@ function categorize($objects, $dataType, $prepared = false) {
 
 
 		$page_IDs = array_unique(array_column($objects, 'page_ID'));
+		//die_to_print($page_IDs);
+
+
+		// If no pages in it
+		if ( is_array($page_IDs) && count($page_IDs) == 0 ) return array();
 
 
 		// All my versions
