@@ -1,3 +1,5 @@
+/*jshint multistr: true */
+
 // Notification Auto-Refresh
 var notificationAutoRefreshTimer;
 var notificationAutoRefreshInterval = 10000;
@@ -27,8 +29,8 @@ $(function() {
 
 		}
 
-		return false;
 		e.preventDefault();
+		return false;
 	});
 
 
@@ -101,7 +103,12 @@ $(function() {
 		var emailList = $('.shares.email.'+type);
 		var lists = $('.shares.'+type);
 
-		function userTemplate_html(user_ID, userPhoto, userName, type, deletable = true) {
+		function userTemplate_html(user_ID, userPhoto, userName, type, deletable) {
+
+
+			// Default
+			deletable = assignDefault(deletable, true);
+
 
 			return '\
 				<li class="'+ (!deletable ? 'undeletable' : '') +'" data-to="'+ user_ID +'">\
@@ -115,7 +122,12 @@ $(function() {
 
 		}
 
-		function emailTemplate_html(email, type, deletable = true) {
+		function emailTemplate_html(email, type, deletable) {
+
+
+			// Default
+			deletable = assignDefault(deletable, true);
+
 
 			return '\
 				<li class="'+ (!deletable ? 'undeletable' : '') +'" data-to="'+ email +'">\
@@ -686,7 +698,7 @@ $(function() {
 			$('#avatar-form').submit();
 
 
-	    }
+	    };
 
 
 		// If a file selected
@@ -1020,7 +1032,14 @@ function addshare() {
 
 
 // Do an action
-function doAction(action, object_type, object_ID, firstParameter = null, secondParameter = null, thirdParameter = null, nonce = "") {
+function doAction(action, object_type, object_ID, firstParameter, secondParameter, thirdParameter, nonce) {
+
+
+	// Defaults
+	firstParameter = assignDefault(firstParameter, null);
+	secondParameter = assignDefault(secondParameter, null);
+	thirdParameter = assignDefault(thirdParameter, null);
+	nonce = assignDefault(nonce, "");
 
 
 	// Start progress bar action
@@ -1137,7 +1156,11 @@ function doAction(action, object_type, object_ID, firstParameter = null, secondP
 
 
 // Get notifications
-function getNotifications(markAsRead = false) {
+function getNotifications(markAsRead) {
+
+
+	// Default
+	markAsRead = assignDefault(markAsRead, false);
 
 
 	console.log('Getting notifications...');
@@ -1196,7 +1219,11 @@ function getNotifications(markAsRead = false) {
 
 
 // Get more notifications
-function moreNotifications(offset = 0) {
+function moreNotifications(offset) {
+
+
+	// Default
+	offset = assignDefault(offset, 0);
 
 
 	console.log('Loading more notifications...');
@@ -1499,7 +1526,12 @@ function removeQueryArgFromCurrentUrl(arg) {
 
 }
 
-function cleanHTML(s, allowBRs = false) {
+function cleanHTML(s, allowBRs) {
+
+
+	// Default
+	allowBRs = assignDefault(allowBRs, false);
+
 
 	if (allowBRs) {
 
@@ -1522,7 +1554,11 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-function queryParameter(url, key, value = null) {
+function queryParameter(url, key, value) {
+
+
+	// Default
+	value = assignDefault(value, null);
 
 
 	var urlParsed = new URL(url);
@@ -1581,9 +1617,20 @@ function timeSince(date) {
   return "about a minute";
 }
 
-function ajax(type, givenData = {}) {
+function assignDefault(variable, defaultValue) {
 
-	givenData['type'] = type;
+	return (typeof variable !== 'undefined') ?  variable : defaultValue;
+
+}
+
+function ajax(type, givenData) {
+
+
+	// Default
+	givenData = assignDefault(givenData, {});
+
+
+	givenData.type = type;
 
 	return $.ajax({
 		method: "POST",

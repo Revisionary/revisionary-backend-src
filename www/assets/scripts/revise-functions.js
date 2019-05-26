@@ -1,3 +1,4 @@
+/*jshint multistr: true */
 // FUNCTIONS:
 // DB: Run the internalizator
 function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessID) {
@@ -774,7 +775,7 @@ function runTheInspector() {
 
 
 				// Difference check
-				var diffContent = diffCheck(originalContent, changedContent)
+				var diffContent = diffCheck(originalContent, changedContent);
 
 
 				// Add the differences content
@@ -960,7 +961,7 @@ function detectColors() {
 
 
 	// Order the colors
-	colorsSorted = Object.keys(page_colors).sort(function(a,b){ return page_colors[b]-page_colors[a] })
+	colorsSorted = Object.keys(page_colors).sort(function(a,b){ return page_colors[b]-page_colors[a]; });
 	$("input[type='color']").spectrum("option", "palette", colorsSorted);
 
 
@@ -1871,7 +1872,7 @@ function relocatePinWindow(pin_ID = null) {
 	var pinLocation = {
 		x : parseFloat(pinElement('[data-pin-id="'+ pin_ID +'"]').css('left')),
 		y : parseFloat(pinElement('[data-pin-id="'+ pin_ID +'"]').css('top'))
-	}
+	};
 
 
 	//console.log('RELOCATING PIN WINDOW #' + pin_ID, pinLocation );
@@ -1988,7 +1989,7 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
 	return {
 		x : elementPinX,
 		y : elementPinY
-	}
+	};
 
 }
 
@@ -2002,19 +2003,21 @@ function getElementOffset(element_index) {
 	var pin = getPin(element_index, true);
 	var pin_ID = pin.pin_ID;
 
+	var elementOffset;
+
 
 	// Check if hidden
 	if ( selectedElement.css('display') == 'none' ) {
 
 
 		disableCSS(pin_ID);
-		var elementOffset = selectedElement.offset();
+		elementOffset = selectedElement.offset();
 		activateCSS(pin_ID);
 
 
 	} else {
 
-		var elementOffset = selectedElement.offset();
+		elementOffset = selectedElement.offset();
 
 	}
 

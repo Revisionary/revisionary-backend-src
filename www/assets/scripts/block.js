@@ -1,3 +1,5 @@
+/*jshint multistr: true */
+
 var screenWidth = $(window).width();
 var screenHeight = $(window).height();
 
@@ -40,8 +42,8 @@ $(function() {
 		onDrop: function ($item, container, _super, event) {
 
 
-			$item.removeClass(container.group.options.draggedClass).removeAttr("style")
-			$("body").removeClass(container.group.options.bodyClass)
+			$item.removeClass(container.group.options.draggedClass).removeAttr("style");
+			$("body").removeClass(container.group.options.bodyClass);
 
 
 
@@ -74,9 +76,9 @@ $(function() {
 			$item.css({
 				height: $item.outerHeight(),
 				width: $item.outerWidth()
-			})
-			$item.addClass(container.group.options.draggedClass)
-			$("body").addClass(container.group.options.bodyClass)
+			});
+			$item.addClass(container.group.options.draggedClass);
+			$("body").addClass(container.group.options.bodyClass);
 
 
 
@@ -93,8 +95,8 @@ $(function() {
 		onDrop: function ($item, container, _super, event) {
 
 
-			$item.removeClass(container.group.options.draggedClass).removeAttr("style")
-			$("body").removeClass(container.group.options.bodyClass)
+			$item.removeClass(container.group.options.draggedClass).removeAttr("style");
+			$("body").removeClass(container.group.options.bodyClass);
 
 
 
@@ -226,7 +228,7 @@ $(function() {
         $('.category').hide();
 
         $('.block').hide().filter(function() {
-            return regex.test( $(this).find('.box-name .name').text().toLowerCase() )
+            return regex.test( $(this).find('.box-name .name').text().toLowerCase() );
         }).each(function() {
 
 	        $(this).show();
@@ -319,7 +321,12 @@ function addNewPageButtons() {
 // TEMPLATES:
 
 // New project/page buttons
-function newBlockTemplate(cat_project_ID = "new") {
+function newBlockTemplate(cat_project_ID) {
+
+
+	// Default
+	cat_project_ID = assignDefault(cat_project_ID, "new");
+
 
 	return '\
 	<li class="col block add-new-block">\

@@ -24,7 +24,13 @@ $(document).ready(function() {
 
 
 // FUNCTION: Start Process
-function newProcess(preventWindowClose = true, processDescription = "") { // Add timeout function here !!!
+function newProcess(preventWindowClose, processDescription) { // Add timeout function here !!!
+
+
+	// Default
+	preventWindowClose = assignDefault(preventWindowClose, true);
+	processDescription = assignDefault(processDescription, "");
+
 
 	var newProcessID = processCount + 1;
 
