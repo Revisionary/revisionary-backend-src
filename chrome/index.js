@@ -285,7 +285,7 @@ require('http').createServer(async (req, res) => {
 				if (seconds > 10) {
 					console.log(`❌⏳ ${method} ${resourceType} ${shortURL}`);
 					request.abort();
-				} else if (reqCount > 100) {
+				} else if (reqCount > 200) {
 					console.log(`❌📈 ${method} ${resourceType} ${shortURL}`);
 					request.abort();
 				} else if (actionDone) {
