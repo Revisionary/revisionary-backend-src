@@ -400,7 +400,7 @@ class Phase {
 
 
 		// Delete the phase folder
-		deleteDirectory( cache."/projects/project-$project_ID/phase-".self::$phase_ID."/" );
+		deleteDirectory( cache."/projects/project-$project_ID/page-$page_ID/phase-".self::$phase_ID."/" );
 
 
 
