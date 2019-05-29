@@ -370,7 +370,29 @@ class Internalize {
 
 
 		// INCLUDE THE BASE
-	    if (!$ssr) {
+		$countHead = 0;
+		$html = preg_replace_callback(
+	        '/<head([\>]|[\s][^<]*?\>)/i',
+	        function ($urls) {
+		        global $countHead;
+		        $countHead++;
+		        $head_tag = $urls[0];
+		        if ( $countHead == 1 ) {
+			        // Specific Log
+					file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->phaseData->remoteUrl."' \r\n", FILE_APPEND);
+					$new_base = "<base href='".$this->phaseData->remoteUrl."'>";
+			        return $head_tag.$new_base;
+		        }
+		        return $head_tag;
+	        },
+	        $html
+	    );
+
+
+
+
+		// If no <head> tag, add it after the <html> tag
+	    if ($countHead == 0 && !$ssr) {
 
 			$countHtml = 0;
 			$html = preg_replace_callback(
