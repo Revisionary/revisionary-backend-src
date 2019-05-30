@@ -29,7 +29,7 @@ html, body {
 
 #page {
 	overflow: hidden;
-	background-color: black;
+	background-color: $color;
 }
 
 .invisible {
@@ -287,7 +287,7 @@ button {
 
 .button-oval {
     display: inline-block;
-	border: 1px solid black;
+	border: 1px solid $color;
     border-radius: 30px;
     padding: 5px 15px;
 }
