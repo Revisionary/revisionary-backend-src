@@ -686,7 +686,9 @@ require('http').createServer(async (req, res) => {
 
 
 							// Server side rendered buffer
-							if (SSR || renderDifference > 50000) {
+							if (
+								SSR //|| renderDifference > 50000
+							) {
 
 								// Save the unrendered version first? !!!
 								fs.writeFileSync(siteDir + 'original.html', buffer);
