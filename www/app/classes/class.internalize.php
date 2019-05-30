@@ -425,14 +425,13 @@ class Internalize {
 
 		// INTERNALIZE CSS FILES
 		$html = preg_replace_callback(
-	        '/<(?<tagname>link)\s+[^<]*?(?<attr>href)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/is',
+	        '/<link[\s]+[^<]*[\s]*href=(?:(?:["](?<value>[^<>\'"\s]+)["])|(?:[\'](?<value2>[^<>\'"\s]*)[\'])|(?:[^\'"]*?(?<value3>[^<>\'"\s]*)[^\'"]*?)).*?[>$]/is',
 	        function ($urls) {
 
 
 		        // Found parts
-		        $full_tag = $urls[0];
-		        $attribute = $urls['attr'];
-		        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+				$full_tag = $new_full_tag = $urls[0];
+				$the_url = isset($urls['value3']) ? $urls['value3'] : (isset($urls['value2']) ? $urls['value2'] : $urls['value']);
 
 
 		        // Remove extra slashes from the URL
@@ -474,6 +473,7 @@ class Internalize {
 
 		        ) {
 
+
 			        // Downloaded file name
 					$css_file_name = $this->downloadedCSS[$css_resource_key]['new_file_name'];
 
@@ -484,7 +484,8 @@ class Internalize {
 
 
 			        // Specific Log
-					file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS - Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+					file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS - Internalized URLs: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+
 
 				}
 
@@ -492,25 +493,27 @@ class Internalize {
 
 		        // Update the HTML element
 	            $new_full_tag = str_replace(
-	            	"$attribute='$the_url", // with single quote
-	            	"$attribute='$new_url",
+	            	"href='$the_url", // with single quote
+	            	"href='$new_url",
 	            	$full_tag
 	            );
 
 	            $new_full_tag = str_replace(
-	            	"$attribute=\"$the_url", // with double quotes
-	            	"$attribute=\"$new_url",
+	            	"href=\"$the_url", // with double quotes
+	            	"href=\"$new_url",
+	            	$new_full_tag
+	            );
+
+	            $new_full_tag = str_replace(
+	            	"href=$the_url", // without quotes
+	            	"href=$new_url",
 	            	$new_full_tag
 	            );
 
 
 
-		        // Found URL Log
-				//file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
-
-
 		        // Specific Log
-				file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+				file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS - Absoluted URLs: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 				file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - CSS - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
 
 
@@ -524,14 +527,13 @@ class Internalize {
 		if (!$ssr) {
 
 			$html = preg_replace_callback(
-		        '/<(?<tagname>script)\s+[^<]*?(?<attr>src)=(?:(?:[\"](?<value>[^<]*?)[\"])|(?:[\'](?<value2>[^<]*?)[\'])).*?>/is',
+		        '/<script[\s]+[^<]*[\s]*src=(?:(?:["](?<value>[^<>\'"\s]+)["])|(?:[\'](?<value2>[^<>\'"\s]*)[\'])|(?:[^\'"]*?(?<value3>[^<>\'"\s]*)[^\'"]*?)).*?[>$]/is',
 		        function ($urls) {
 
 
 			        // Found parts
-			        $full_tag = $urls[0];
-			        $attribute = $urls['attr'];
-			        $the_url = isset($urls['value2']) ? $urls['value2'] : $urls['value'];
+					$full_tag = $new_full_tag = $urls[0];
+					$the_url = isset($urls['value3']) ? $urls['value3'] : (isset($urls['value2']) ? $urls['value2'] : $urls['value']);
 
 
 			        // Remove extra slashes from the URL
@@ -574,7 +576,7 @@ class Internalize {
 
 
 				        // Specific Log
-						file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Internalized: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+						file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Internalized URLs: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 					}
 
@@ -582,26 +584,30 @@ class Internalize {
 
 			        // Update the HTML element
 		            $new_full_tag = str_replace(
-		            	"$attribute='$the_url", // with single quote
-		            	"$attribute='$new_url",
+		            	"src='$the_url", // with single quote
+		            	"src='$new_url",
 		            	$full_tag
 		            );
 
 		            $new_full_tag = str_replace(
-		            	"$attribute=\"$the_url", // with double quotes
-		            	"$attribute=\"$new_url",
+		            	"src=\"$the_url", // with double quotes
+		            	"src=\"$new_url",
+		            	$new_full_tag
+		            );
+
+		            $new_full_tag = str_replace(
+		            	"src=$the_url", // without quotes
+		            	"src=$new_url",
 		            	$new_full_tag
 		            );
 
 
 
-			        // Found URL Log
-					//file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Found URL: '".print_r( $urls, true)."' \r\n", FILE_APPEND);
-
 
 			        // Specific Log
-					file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Absoluted: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+					file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Absoluted URLs: '".$the_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 					file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - JS - Absoluted HTML: '".$full_tag."' -> '".$new_full_tag."' \r\n", FILE_APPEND);
+
 
 
 		            return $new_full_tag;
