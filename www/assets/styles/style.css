@@ -5492,6 +5492,9 @@ ul.user-header-menu {
         padding-left: 5px;
         font-size: 12px;
         line-height: 15px; }
+        .notifications > ul > li .content .notif-text {
+          font-size: 12px;
+          line-height: 15px; }
         .notifications > ul > li .content span {
           display: inline-block;
           font-size: 12px;

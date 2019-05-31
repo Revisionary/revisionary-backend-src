@@ -260,14 +260,14 @@ class Notification {
 					$notificationHTML .= "
 
 						$sender_full_name completed a <b>$pin_type pin</b>:
-						<span class='wrap xl-table xl-middle'>
-							<span class='col'>
+						<div class='wrap xl-table xl-middle'>
+							<div class='col' style='width: 30px;'>
 								<a href='$object_link' data-go-pin='$object_ID'><pin class='small' data-pin-complete='1' data-pin-type='$pin_type'>$notificationContent</pin></a>
-							</span>
-							<span class='col' style='padding-left: 4px;'>
+							</div>
+							<div class='col notif-text'>
 								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
-							</span>
-						</span><br/>
+							</div>
+						</div><br/>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -281,14 +281,14 @@ class Notification {
 					$notificationHTML .= "
 
 						$sender_full_name marked a pin <b>incomplete</b>:
-						<span class='wrap xl-table xl-middle'>
-							<span class='col'>
+						<div class='wrap xl-table xl-middle'>
+							<div class='col' style='width: 30px;'>
 								<a href='$object_link' data-go-pin='$object_ID'><pin class='small' data-pin-complete='0' data-pin-type='$pin_type'>$notificationContent</pin></a>
-							</span>
-							<span class='col' style='padding-left: 4px;'>
+							</div>
+							<div class='col notif-text'>
 								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
-							</span>
-						</span><br/>
+							</div>
+						</div><br/>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -333,19 +333,19 @@ class Notification {
 					$notificationHTML .= "
 
 						$sender_full_name added a new <b>$pin_type pin</b>:
-						<span class='wrap xl-table xl-middle'>
-							<span class='col'>
+						<div class='wrap xl-table xl-middle'>
+							<div class='col' style='width: 30px;'>
 								<a href='$object_link' data-go-pin='$object_ID'><pin class='small' data-pin-complete='$pin_complete' data-pin-type='$pin_type'>$notificationContent</pin></a>
-							</span>
-							<span class='col' style='padding-left: 4px;'>
+							</div>
+							<div class='col notif-text'>
 								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a><br>
 								<ul>
 									$content
 									$style
 									$comment
 								</ul>
-							</span>
-						</span><br/>
+							</div>
+						</div><br/>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
