@@ -1171,7 +1171,7 @@ foreach ($other_pages as $pageOther) {
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="<?=asset_url('icons/comment-send.svg')?>"/>
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>

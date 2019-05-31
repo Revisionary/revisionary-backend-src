@@ -1748,6 +1748,16 @@ pin {
 
 		}
 
+		.send-comment {
+		    font-size: 20px;
+		    display: block;
+		    margin-top: -5px;
+
+		    &:hover {
+			    color: $color-secondary;
+		    }
+		}
+
 	}
 
 	& > .bottom-actions {

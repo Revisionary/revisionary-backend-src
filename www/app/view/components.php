@@ -950,7 +950,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -1420,7 +1420,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -1890,7 +1890,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -2371,7 +2371,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -2840,7 +2840,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -3309,7 +3309,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -3778,7 +3778,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -4247,7 +4247,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -4716,7 +4716,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -5196,7 +5196,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden scroll; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -5665,7 +5665,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden scroll; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -6134,7 +6134,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden scroll; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -6603,7 +6603,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>
@@ -7072,7 +7072,7 @@
 									<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required="" style="overflow: hidden; overflow-wrap: break-word; height: 31px;"></textarea>
 								</div>
 								<div class="col">
-									<input type="image" src="/assets/icons/comment-send.svg">
+									<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
 								</div>
 							</div>
 						</form>

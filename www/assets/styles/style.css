@@ -6125,6 +6125,12 @@ pin {
       min-height: 30px;
       max-height: 61px;
       width: 100%; }
+  #pin-window .comment-actions .send-comment {
+    font-size: 20px;
+    display: block;
+    margin-top: -5px; }
+    #pin-window .comment-actions .send-comment:hover {
+      color: #007acc; }
   #pin-window > .bottom-actions .action > a {
     font-size: 14px;
     line-height: 20px;

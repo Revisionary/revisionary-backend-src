@@ -438,16 +438,39 @@ $(function() {
 		sendComment(pin_ID, message);
 
 		e.preventDefault();
+		return false;
+
 	});
 
 
 	// Pressing enter / enter + shift on comment input
 	$('.comment-input').keypress(function(e) {
+
 		if (e.keyCode == 13 && !e.shiftKey) {
+
 			$(this).parents('form').submit(); //Submit your form here
+
 			e.preventDefault();
 			return false;
 		}
+
+	});
+
+
+	// Send button
+	$('.send-comment').click(function() {
+
+
+		var pin_ID = pinWindow().attr('data-pin-id');
+		var message = pinWindow(pin_ID).find('.comment-input').val();
+
+		// Add it from DB
+		sendComment(pin_ID, message);
+
+		e.preventDefault();
+		return false;
+
+
 	});
 
 
