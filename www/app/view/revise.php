@@ -660,11 +660,11 @@ foreach ($other_pages as $pageOther) {
 				<div class="col dropdown info">
 
 					<a href="#" class="button"><i class="fa fa-tools"></i> TOOLS</a>
-					<ul class="center xl-left">
+					<ul class="center xl-left" style="max-width: 300px;">
 						<li>
 							<div class="xl-left page-info" style="font-size: 12px;">
 
-								<b>Site URL:</b> <a href="<?=$page['page_url']?>" target="_blank" style="letter-spacing: 0;"><i class="fa fa-external-link-alt"></i> <?=$page['page_url']?></a> <br/>
+								<b>Site URL:</b> <a href="<?=$page['page_url']?>" target="_blank" style="letter-spacing: 0; white-space: normal;"><i class="fa fa-external-link-alt"></i> <?=$page['page_url']?></a> <br/>
 
 
 								<?php
