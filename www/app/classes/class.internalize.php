@@ -425,7 +425,7 @@ class Internalize {
 
 		// INTERNALIZE CSS FILES
 		$html = preg_replace_callback(
-	        '/<link[\s]+[^<]*[\s]*href=(?:(?:["](?<value>[^<>\'"\s]+)["])|(?:[\'](?<value2>[^<>\'"\s]*)[\'])|(?:[^\'"]*?(?<value3>[^<>\'"\s]*)[^\'"]*?)).*?[>$]/is',
+	        '/<link[\s]+[^<>]*[\s]*href=(?:(?:["](?<value>[^<>\'"\s]+)["])|(?:[\'](?<value2>[^<>\'"\s]*)[\'])|(?:[^\'"]*?(?<value3>[^<>\'"\s]*)[^\'"]*?)).*?[>$]/is',
 	        function ($urls) {
 
 
@@ -527,7 +527,7 @@ class Internalize {
 		if (!$ssr) {
 
 			$html = preg_replace_callback(
-		        '/<script[\s]+[^<]*[\s]*src=(?:(?:["](?<value>[^<>\'"\s]+)["])|(?:[\'](?<value2>[^<>\'"\s]*)[\'])|(?:[^\'"]*?(?<value3>[^<>\'"\s]*)[^\'"]*?)).*?[>$]/is',
+		        '/<script[\s]+[^<>]*[\s]*src=(?:(?:["](?<value>[^<>\'"\s]+)["])|(?:[\'](?<value2>[^<>\'"\s]*)[\'])|(?:[^\'"]*?(?<value3>[^<>\'"\s]*)[^\'"]*?)).*?[>$]/is',
 		        function ($urls) {
 
 
