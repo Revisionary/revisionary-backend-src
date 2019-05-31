@@ -5080,7 +5080,8 @@ ul.full {
  * Elements
  */
 img {
-  max-width: 100%; }
+  max-width: 100%;
+  height: auto; }
 
 input[type='range'] {
   -webkit-appearance: none;
