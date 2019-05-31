@@ -242,14 +242,17 @@ class Notification {
 
 				$pin_type = $object_data->getInfo('pin_type');
 				$pin_complete = $object_data->getInfo('pin_complete');
-				$device_ID = $object_data->getInfo('device_ID');
-				$page_ID = Device::ID($device_ID)->getInfo('page_ID');
+				$phase_ID = $object_data->getInfo('phase_ID');
+
+				$page_ID = Phase::ID($phase_ID)->getInfo('page_ID');
 				$page_data = Page::ID($page_ID);
 				$page_name = $page_data->getInfo('page_name');
+
 				$project_ID = $page_data->getInfo('project_ID');
 				$project_name = Project::ID($project_ID)->getInfo('project_name');
 
-				$object_link = site_url("revise/$device_ID#$object_ID");
+
+				$object_link = site_url("page/$page_ID#$object_ID");
 
 
 
