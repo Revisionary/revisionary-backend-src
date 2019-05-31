@@ -267,7 +267,7 @@ class Notification {
 							<div class='col notif-text'>
 								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
 							</div>
-						</div><br/>
+						</div>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -288,7 +288,7 @@ class Notification {
 							<div class='col notif-text'>
 								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
 							</div>
-						</div><br/>
+						</div>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -345,7 +345,7 @@ class Notification {
 									$comment
 								</ul>
 							</div>
-						</div><br/>
+						</div>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
