@@ -6061,6 +6061,7 @@ pin {
     width: 100%;
     height: 90px;
     border: 3px solid black;
+    border-radius: 5px;
     box-sizing: border-box;
     padding: 4px 5px;
     font-size: 14px;
@@ -6118,6 +6119,7 @@ pin {
     #pin-window .comment-actions .comment-input-col .comment-input {
       outline: none;
       border: 3px solid black;
+      border-radius: 5px;
       font-size: 14px;
       line-height: 15px;
       padding: 5px;
