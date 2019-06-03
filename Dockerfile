@@ -25,6 +25,13 @@ RUN echo "ServerName dev.revisionaryapp.com" >> /etc/apache2/apache2.conf
 RUN docker-php-ext-install mysqli
 
 
+# Install Intl PHP Extension for jeremykendall/php-domain-parser
+RUN apt-get -y update \
+    && apt-get install -y libicu-dev\
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl
+
+
 # Activate the rewrite engine and SSL
 RUN a2enmod rewrite
 RUN a2enmod ssl
