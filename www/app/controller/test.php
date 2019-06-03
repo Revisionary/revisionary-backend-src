@@ -2,6 +2,44 @@
 <?php
 
 
+
+use Aws\S3\S3Client;
+
+
+
+// Configure a client using Spaces
+$key = "OEOX6GJZWOHFTVUVUPA2";
+$secret = "Jnno7atCU++0g+2QXhFj6H169xlKL8DrimiiJRPxy0Y";
+
+$space_name = "revisionary";
+$region = "sfo2";
+
+$space = new SpacesConnect($key, $secret, $space_name, $region);
+
+
+
+/*
+//List all files and folders
+$result = $space->ListObjects();
+*/
+
+
+
+//Delete a file/folder.
+$result = $space->DeleteObject("test");
+
+
+
+
+
+
+var_dump($result);
+exit;
+
+
+
+
+
 var_dump(
 
 	getUserInfo(3)
