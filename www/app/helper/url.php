@@ -151,56 +151,86 @@ function permalink($str, $options = array()) {
 // URL PARSER
 function parseUrl($url) {
 
+
 	// Sanitize Quotes
 	$url = str_replace("'", "", $url);
 	$url = str_replace('"', '', $url);
 
-	if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
-	    return false;
-	}
+
+	if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) return false;
 
 
-	// Parse Url
-	$url = new \Purl\Url($url);
 
 	/*
+	http://user:pass@www.pref.okinawa.jp:8080/path/to/page.html?query=string#fragment
 
-	https://subdomain.example.com:80/folder/file.php?key=value#hash
-
-	scheme: https
-	host: subdomain.example.com
-	port: 80
-	user:
-	pass:
-	path: /folder/file.php
-	query: key=value
-	fragment: hash
-	publicSuffix: com
-	registerableDomain: example.com
-	subdomain: subdomain
-	canonical: com.example.subdomain/folder/file.php?key=value
-	resource: /folder/file.php?key=value
+	Array
+	(
+	    [scheme] => http
+	    [host] => www.pref.okinawa.jp
+	    [port] => 8080
+	    [user] => user
+	    [pass] => pass
+	    [path] => /path/to/page.html
+	    [query] => query=string
+	    [fragment] => fragment
+	)
 
 	*/
+	$parsed_url = parse_url($url);
+
+	$scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] : "";
+	$host     = isset($parsed_url['host']) ? $parsed_url['host'] : "";
+	$port     = isset($parsed_url['port']) ? $parsed_url['port'] : "";
+	$user     = isset($parsed_url['user']) ? $parsed_url['user'] : "";
+	$pass     = isset($parsed_url['pass']) ? $parsed_url['pass'] : "";
+	$path     = isset($parsed_url['path']) ? $parsed_url['path'] : "";
+	$query    = isset($parsed_url['query']) ? $parsed_url['query'] : "";
+	$fragment = isset($parsed_url['fragment']) ? $parsed_url['fragment'] : "";
+
+	$full_host = "$scheme://$host";
+	$full_path = "$scheme://$host".$path.$query;
 
 
 
-	$full_path = $url->scheme."://".$url->host.$url->path;
 
-	if ( strpos(basename($url->path), '.') !== false )
+	/*
+	www.pref.okinawa.jp
+
+	Pdp\Domain Object
+	(
+	    [domain] => www.pref.okinawa.jp
+	    [registrableDomain] => pref.okinawa.jp
+	    [subDomain] => www
+	    [publicSuffix] => okinawa.jp
+	    [isKnown] => 1
+	    [isICANN] => 1
+	    [isPrivate] =>
+	)
+
+	*/
+	$manager = new Pdp\Manager(new Pdp\Cache(), new Pdp\CurlHttpClient());
+	$rules = $manager->getRules(); //$rules is a Pdp\Rules object
+	$parsed_domain = $rules->resolve($host); //$domain is a Pdp\Domain object
+
+
+
+
+	if ( strpos(basename($parsed_url['path']), '.') !== false )
 		$full_path = str_replace(basename($full_path), '', $full_path);
 
 
 
 	return array(
-		'scheme' => $url->scheme,
-		'host' => $url->host,
-		'full_host' => $url->scheme."://".$url->host,
-		'path' => $url->path,
-		'full_path' => $url->scheme."://".$url->host.$url->path,
-		'domain' => $url->registerableDomain,
-		'subdomain' => $url->subdomain,
-		'hash' => $url->fragment
+		'scheme' 	 => $scheme,
+		'host' 		 => $host,
+		'full_host' => $full_host,
+		'path' 		 => $path,
+		'full_path' => $full_path,
+		'hash' 		 => $fragment,
+
+		'domain' 	 => $parsed_domain->getRegistrableDomain(),
+		'subdomain' => $parsed_domain->getSubDomain()
 	);
 
 }

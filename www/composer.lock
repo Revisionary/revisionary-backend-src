@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e61feb63dfefdfb8c02fd86dc09c6633",
-    "content-hash": "fb33b872e5f924dcedea5c5bb12e86d9",
+    "hash": "4d93114864d5c5609172e97e5dde883b",
+    "content-hash": "44b2d7b30bd65852b9e13e2ed3b8945d",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -356,6 +356,84 @@
             "time": "2018-12-04 20:46:45"
         },
         {
+            "name": "jeremykendall/php-domain-parser",
+            "version": "5.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jeremykendall/php-domain-parser.git",
+                "reference": "93efea6362ee769d41754336abfb29aead38cfe2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jeremykendall/php-domain-parser/zipball/93efea6362ee769d41754336abfb29aead38cfe2",
+                "reference": "93efea6362ee769d41754336abfb29aead38cfe2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "php": ">=7.0",
+                "psr/simple-cache": "^1.0.1"
+            },
+            "require-dev": {
+                "composer/composer": "^1.6",
+                "friendsofphp/php-cs-fixer": "^2.7",
+                "mikey179/vfsstream": "^1.6",
+                "phpstan/phpstan": "^0.9.2",
+                "phpstan/phpstan-phpunit": "^0.9.4",
+                "phpstan/phpstan-strict-rules": "^0.9.0",
+                "phpunit/phpunit": "^6.3"
+            },
+            "suggest": {
+                "ext-curl": "To use the package http client",
+                "league/uri-parser": "To parse URL and validate host",
+                "psr/simple-cache-implementation": "To enable using other cache providers"
+            },
+            "bin": [
+                "bin/update-psl"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pdp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeremy Kendall",
+                    "homepage": "http://about.me/jeremykendall",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/jeremykendall/php-domain-parser/graphs/contributors"
+                },
+                {
+                    "name": "Ignace Nyamagana Butera",
+                    "homepage": "http://nyamsprod.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Public Suffix List based URL parsing implemented in PHP.",
+            "homepage": "https://github.com/jeremykendall/php-domain-parser",
+            "keywords": [
+                "PSL",
+                "Public Suffix List",
+                "domain parsing",
+                "icann",
+                "idn"
+            ],
+            "time": "2019-04-14 07:14:35"
+        },
+        {
             "name": "joshcam/mysqli-database-class",
             "version": "dev-master",
             "source": {
@@ -399,58 +477,6 @@
             ],
             "description": "PHP MySQL Wrapper and object mapper which utilizes MySQLi and prepared statements",
             "time": "2019-03-13 18:38:23"
-        },
-        {
-            "name": "jwage/purl",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jwage/purl.git",
-                "reference": "d1cf27f96a5889885677e58e313880bfb2717f83"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jwage/purl/zipball/d1cf27f96a5889885677e58e313880bfb2717f83",
-                "reference": "d1cf27f96a5889885677e58e313880bfb2717f83",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2"
-            },
-            "require-dev": {
-                "doctrine/coding-standard": "^6.0",
-                "phpstan/phpstan": "^0.11.5",
-                "phpstan/phpstan-strict-rules": "^0.11.0",
-                "phpunit/phpunit": "^8.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Purl\\": "src/Purl"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jonathan H. Wage",
-                    "email": "jonwage@gmail.com"
-                }
-            ],
-            "description": "URL Manipulation for PHP 5.3",
-            "homepage": "http://github.com/jwage/purl",
-            "keywords": [
-                "manipulation",
-                "url"
-            ],
-            "time": "2019-04-12 21:56:37"
         },
         {
             "name": "katzgrau/klogger",
@@ -721,6 +747,54 @@
             "time": "2018-11-20 15:27:04"
         },
         {
+            "name": "psr/simple-cache",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/simple-cache.git",
+                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\SimpleCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for simple caching",
+            "keywords": [
+                "cache",
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
+            ],
+            "time": "2017-10-23 01:57:42"
+        },
+        {
             "name": "ralouphie/getallheaders",
             "version": "2.0.5",
             "source": {
@@ -804,7 +878,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "jwage/purl": 20,
         "joshcam/mysqli-database-class": 20,
         "cocur/background-process": 20,
         "katzgrau/klogger": 20,
