@@ -8,13 +8,13 @@ use Aws\S3\S3Client;
 
 
 // Configure a client using Spaces
-$key = "OEOX6GJZWOHFTVUVUPA2";
-$secret = "Jnno7atCU++0g+2QXhFj6H169xlKL8DrimiiJRPxy0Y";
+$key = $_ENV['S3_KEY'];
+$secret = $_ENV['S3_SECRET'];
 
-$space_name = "revisionary";
-$region = "sfo2";
+$space_name = $_ENV['S3_BUCKET'];
+$region = $_ENV['S3_REGION'];
 
-$space = new SpacesConnect($key, $secret, $space_name, $region);
+$client = new SpacesConnect($key, $secret, $space_name, $region);
 
 
 
@@ -25,9 +25,23 @@ $result = $space->ListObjects();
 
 
 
+/*
 //Delete a file/folder.
 $result = $space->DeleteObject("test");
+*/
 
+
+
+
+// Listing all Spaces in the region
+$spaces = $client->client->listBuckets();
+foreach ($spaces['Buckets'] as $space){
+    echo $space['Name']."\n";
+}
+
+
+
+// $client->DeleteObject("asd/")
 
 
 
