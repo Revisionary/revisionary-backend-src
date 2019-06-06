@@ -1,48 +1,6 @@
 <pre>
 <?php
 
-$full_url = 'http://user:pass@www.pref.okinawa.jp:8080/path/to/page.html?query=string#fragment';
-$parsed_url = parse_url($full_url);
-
-
-print_r($parsed_url);
-
-
-
-
-use Pdp\Cache;
-use Pdp\CurlHttpClient;
-use Pdp\Manager;
-use Pdp\Rules;
-
-
-$manager = new Manager(new Cache(), new CurlHttpClient());
-$rules = $manager->getRules(); //$rules is a Pdp\Rules object
-
-$parsed_domain = $rules->resolve($parsed_url['host']); //$domain is a Pdp\Domain object
-
-echo "REG: ".$parsed_domain->getRegistrableDomain();
-
-
-die_to_print($parsed_domain);
-
-
-/*
-
-
-
-echo "TEST: ".$url->getSuffix();
-*/
-
-//var_dump($url);
-
-
-//die_to_print($url);
-
-
-
-
-exit;
 use Aws\S3\S3Client;
 
 
@@ -74,26 +32,56 @@ $result = $space->DeleteObject("test");
 
 
 // Listing all Spaces in the region
-$spaces = $client->client->listBuckets();
+$spaces = $client->ListSpaces();
+//die_to_print( $spaces );
+
 foreach ($spaces['Buckets'] as $space){
     echo $space['Name']."\n";
 }
 
 
 
-// $client->DeleteObject("asd/")
+// $client->DeleteObject("asd/", true);
 
 
 
 
 
-var_dump($result);
+//var_dump($result);
 exit;
 
 
 
 
 
+
+/*
+$full_url = 'http://user:pass@www.pref.okinawa.jp:8080/path/to/page.html?query=string#fragment';
+$parsed_url = parse_url($full_url);
+
+print_r($parsed_url);
+
+
+use Pdp\Cache;
+use Pdp\CurlHttpClient;
+use Pdp\Manager;
+use Pdp\Rules;
+
+
+$manager = new Manager(new Cache(), new CurlHttpClient());
+$rules = $manager->getRules(); //$rules is a Pdp\Rules object
+$parsed_domain = $rules->resolve($parsed_url['host']); //$domain is a Pdp\Domain object
+
+echo "REG: ".$parsed_domain->getRegistrableDomain();
+
+die_to_print($parsed_domain);
+*/
+
+
+
+
+
+/*
 var_dump(
 
 	getUserInfo(3)
@@ -107,6 +95,7 @@ die_to_print(
 	getUserInfo(123)
 
 );
+*/
 
 
 
