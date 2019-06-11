@@ -34,7 +34,7 @@ function get_http_response_code($url) {
 
 
 // Get content from remote URL
-function getRemoteData($url, $timeout = 20) {
+function getRemoteData($url, $timeout = 60) {
 
 
 	return json_decode(file_get_contents($url, false, stream_context_create(array('http'=>
@@ -42,6 +42,7 @@ function getRemoteData($url, $timeout = 20) {
 	        'timeout' => $timeout,  // Seconds
 	    )
 	))));
+
 
 }
 
