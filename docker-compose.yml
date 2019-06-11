@@ -71,6 +71,8 @@ services:
         container_name: revisionary_chrome
         working_dir: /app
         restart: on-failure
+        env_file:
+            - ./.env
         ports:
             - ${LOCAL_IP}:8080:3000
         volumes:
