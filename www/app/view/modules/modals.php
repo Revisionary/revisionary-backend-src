@@ -28,7 +28,7 @@
 						<input type="hidden" name="screens[]" value="11"/>
 						<input type="hidden" name="page_width" value="1440"/>
 						<input type="hidden" name="page_height" value="900"/>
-						<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width">1440</span> x <span class="screen-height">900</span>)</span>
+						<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Window (<span class="screen-width">1440</span> x <span class="screen-height">900</span>)</span>
 						<a href="#" class="remove-screen" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 					</li>
 				</ul><br/>
