@@ -18,18 +18,14 @@ COPY ./config/php.ini /usr/local/etc/php/
 
 
 # Add the server name to Apache configuration
-RUN echo "ServerName dev.revisionaryapp.com" >> /etc/apache2/apache2.conf
+RUN echo "ServerName revisionaryapp.com" >> /etc/apache2/apache2.conf
 
 
-# Install the MySQLi PHP extension
-RUN docker-php-ext-install mysqli
-
-
-# Install Intl PHP Extension for jeremykendall/php-domain-parser
+# Install necessary PHP Extensions (intl for intljeremykendall/php-domain-parser)
 RUN apt-get -y update \
     && apt-get install -y libicu-dev\
     && docker-php-ext-configure intl \
-    && docker-php-ext-install intl
+    && docker-php-ext-install intl mysqli
 
 
 # Activate the rewrite engine and SSL
