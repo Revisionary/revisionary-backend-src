@@ -21,7 +21,7 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 
 	}).done(function(result) {
 
-		var data = result.data.final;
+		var data = result.data.final; console.log('RESULTS: ', result);
 
 
 		// LOG
@@ -59,6 +59,7 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 
 			// Update the global page URL
 			page_URL = data.phaseUrl + '?v=' + data.internalized;
+			console.log('PAGE URL: ', page_URL)
 
 
 			// Update the iframe url
@@ -72,7 +73,7 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 
 
 		// Restart if not done
-		if (data.status != "not-running" &&	data.processStatus != "ready") {
+		if (data.status != "not-running" && data.processStatus != "ready") {
 
 			setTimeout(function() {
 
@@ -1250,7 +1251,7 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 
 
 		// If not logged in, refresh this page to go to the login page
-		if (data.status == "not-logged-in" || data.status == "no-access") location.reload();
+		//if (data.status == "not-logged-in" || data.status == "no-access") location.reload();
 
 
 		// Update the global pins list
