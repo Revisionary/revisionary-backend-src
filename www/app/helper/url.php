@@ -216,7 +216,7 @@ function parseUrl($url) {
 
 
 
-	if ( strpos(basename($parsed_url['path']), '.') !== false )
+	if ( isset($parsed_url['path']) && strpos(basename($parsed_url['path']), '.') !== false )
 		$full_path = str_replace(basename($full_path), '', $full_path);
 
 

@@ -1558,7 +1558,7 @@ function removePin(pin_ID) {
 
 	}).done(function(result){
 
-		console.log("DB REMOVED: ", result.data);
+		console.log("PIN REMOVED: ", result.data);
 
 
 		// Finish the process
@@ -1611,7 +1611,7 @@ function completePin(pin_ID, complete, imgData = null) {
 
 	}).done(function(result) {
 
-		console.log("RESULT: ", result.data);
+		console.log("PIN COMPLETED: ", result.data);
 
 
 		// Finish the process
@@ -1698,7 +1698,7 @@ function convertPin(pin_ID, targetPin) {
 
 	}).done(function(result) {
 
-		console.log(result.data);
+		console.log('PIN CONVERTED: ', result.data);
 
 
 		// Finish the process
@@ -3273,6 +3273,18 @@ function saveCSS(pin_ID, css) {
 		var cssCode = data.css_code;
 
 
+		// Check the pin if still exists
+		if ( !getPin(pin_ID) ) {
+
+			console.log('PIN #'+pin_ID+' NOT FOUND!');
+
+			// Early finish the process
+			endProcess(pinCSSProcessID);
+
+			return false;
+		}
+
+
 		// Update the global
 		Pins[pinIndex].pin_css = cssCode; //console.log('FILTERED: ', filtered_css);
 
@@ -3293,9 +3305,10 @@ function saveCSS(pin_ID, css) {
 		// Finish the process
 		endProcess(pinCSSProcessID);
 
+
 	}).fail(function(fail) {
 
-		console.log('FAILED: ', fail);
+		console.error('FAILED: ', fail);
 
 	});
 
