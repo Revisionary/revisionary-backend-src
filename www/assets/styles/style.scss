@@ -3359,6 +3359,8 @@ ol.categories {
 
 					.box {
 						border-radius: 50%;
+						border-color: $color-secondary;
+						border-width: 5px;
 
 						a {
 							min-height: inherit;

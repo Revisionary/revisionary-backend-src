@@ -7075,7 +7075,9 @@ ol.categories {
     ol.categories > li.category > ol.blocks > .block {
       margin-bottom: 50px; }
       ol.categories > li.category > ol.blocks > .block.add-new-block .box {
-        border-radius: 50%; }
+        border-radius: 50%;
+        border-color: #007acc;
+        border-width: 5px; }
         ol.categories > li.category > ol.blocks > .block.add-new-block .box a {
           min-height: inherit;
           letter-spacing: normal;
