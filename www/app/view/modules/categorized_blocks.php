@@ -736,7 +736,7 @@ if ($dataType == "page" && $allMyPins) {
 						$catFilter != "archived"
 						&& $catFilter != "deleted"
 						&& $catFilter != "shared"
-					) $add_new_link = "<a href='#' data-modal='add-new' data-type='$dataType' data-id='".($dataType == "page" ? $project_ID : "new")."'><b><u>Add one?</u></b></a>";
+					) $add_new_link = "<a href='#' onClick='$(this).parents(\"li\").find(\"input[name=page-url]\").focus();'><b><u>Add one?</u></b></a>";
 
 
 					echo "<li class='col xl-1-1 xl-center empty-cat' style='margin-bottom: 60px;'>

@@ -338,7 +338,6 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 		<div class="box xl-center">\
 			<div class="wrap xl-flexbox xl-middle xl-left new">\
 				<div class="col xl-8-12 xl-outside-24 xl-center">\
-					<b>Add New '+ dataType +'</b>\
 					<form action="/projects" method="get">\
 						<input type="hidden" name="add_new" value="true"/>\
 						<input type="hidden" name="project_ID" value="'+cat_project_ID+'"/>\
@@ -347,9 +346,12 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 						<input type="hidden" name="page_width" value="1440"/>\
 						<input type="hidden" name="page_height" value="900"/>\
 						<input type="hidden" name="screens[]" value="11"/>\
-						<div class="wrap xl-table xl-center xl-gutter-8">\
+						<label for="url-'+category_ID+'">\
+							<b>Add New '+ dataType +'</b><br>\
+						</label>\
+						<div class="wrap xl-table xl-bottom xl-center xl-gutter-8">\
 							<div class="col">\
-								<input type="url" name="page-url" class="full" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocus/>\
+								<input id="url-'+category_ID+'" type="url" name="page-url" class="full" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocus/>\
 							</div>\
 							<div class="col" style="width: 55px;">\
 								<input type="submit" value="Add" class="invert" title="Go Revising!"/>\
