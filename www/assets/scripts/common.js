@@ -482,6 +482,7 @@ $(function() {
 			var catID = $(this).parents('.category').attr('data-id') || 0;
 			var catName = $(this).parents('.category').find('.cat-separator .name').text();
 			var orderNumber = $(this).parents('.category').attr('data-order') || 0;
+			var valueEntered = $(this).parents('.add-new-block').find('input[name="page-url"]').val() || "";
 
 
 			// Update the current category name
@@ -501,6 +502,10 @@ $(function() {
 
 			// Order number input update
 			modal.find('input[name="order"]').attr('value', ( typeof orderNumber !== 'undefined' ? parseInt(orderNumber) + 1 : 0 ));
+
+
+			// URL input update
+			modal.find('input[name="page-url"]').val(valueEntered);
 
 
 		}

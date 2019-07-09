@@ -5179,6 +5179,14 @@ button {
   button.invert {
     color: white;
     background-color: black; }
+    input[type='text'].invert > a,
+    input[type='email'].invert > a,
+    input[type='password'].invert > a,
+    input[type='url'].invert > a,
+    input[type='submit'].invert > a,
+    button.invert > a {
+      color: white;
+      background-color: black; }
     input[type='text'].invert:hover,
     input[type='email'].invert:hover,
     input[type='password'].invert:hover,
@@ -5186,7 +5194,17 @@ button {
     input[type='submit'].invert:hover,
     button.invert:hover {
       background-color: white;
-      color: black; }
+      color: black;
+      border-color: black; }
+      input[type='text'].invert:hover > a,
+      input[type='email'].invert:hover > a,
+      input[type='password'].invert:hover > a,
+      input[type='url'].invert:hover > a,
+      input[type='submit'].invert:hover > a,
+      button.invert:hover > a {
+        background-color: white;
+        color: black;
+        border-color: black; }
   input[type='text']:focus,
   input[type='email']:focus,
   input[type='password']:focus,
@@ -6996,23 +7014,17 @@ footer .footer-links a {
   font-size: 30px; }
 
 .enter-url {
-  width: 555px;
-  margin: 0 auto;
-  position: relative;
-  max-width: calc(100vw - 40px); }
+  position: relative; }
   .enter-url form {
     position: relative; }
-  .enter-url input[type="url"] {
-    height: 80px;
-    border: 8px solid black !important;
-    border-radius: 10px;
-    color: black;
-    width: 100%;
+  body.index .enter-url {
+    width: 555px;
+    max-width: calc(100vw - 40px);
+    margin: 0 auto; }
+  body.index .enter-url input[type="url"] {
     font-size: 25px;
-    letter-spacing: 3px;
-    background-color: white;
-    box-sizing: border-box; }
-  .enter-url input[type="submit"] {
+    letter-spacing: 3px; }
+  body.index .enter-url input[type="submit"] {
     position: absolute;
     top: 10px;
     right: -80px;
@@ -7051,7 +7063,7 @@ ol.categories {
     padding: 10px; }
     ol.categories > li.category:not(#uncategorized):hover,
     ol.categories > li.category.dragged {
-      border-color: #c7c7c7;
+      border-color: rgba(0, 0, 0, 0.1);
       background-color: white; }
     ol.categories > li.category .cat-separator {
       border-bottom: 1px solid;
@@ -7062,14 +7074,19 @@ ol.categories {
         opacity: 1; }
     ol.categories > li.category > ol.blocks > .block {
       margin-bottom: 50px; }
-      ol.categories > li.category > ol.blocks > .block.add-new-block .box a {
-        min-height: inherit;
-        letter-spacing: normal;
-        text-transform: capitalize; }
-        ol.categories > li.category > ol.blocks > .block.add-new-block .box a:hover .plus-icon {
-          color: #007acc; }
-        ol.categories > li.category > ol.blocks > .block.add-new-block .box a .plus-icon {
-          font-size: 55px; }
+      ol.categories > li.category > ol.blocks > .block.add-new-block .box {
+        border-radius: 50%; }
+        ol.categories > li.category > ol.blocks > .block.add-new-block .box a {
+          min-height: inherit;
+          letter-spacing: normal;
+          text-transform: capitalize; }
+          ol.categories > li.category > ol.blocks > .block.add-new-block .box a:hover .plus-icon {
+            color: #007acc; }
+          ol.categories > li.category > ol.blocks > .block.add-new-block .box a .plus-icon {
+            font-size: 55px; }
+        ol.categories > li.category > ol.blocks > .block.add-new-block .box .new {
+          min-height: inherit;
+          text-transform: capitalize; }
       ol.categories > li.category > ol.blocks > .block .box {
         border: 3px solid;
         border-radius: 10px;

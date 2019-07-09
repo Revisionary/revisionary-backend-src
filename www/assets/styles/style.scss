@@ -274,9 +274,21 @@ button {
 	    color: white;
 	    background-color: $color;
 
+	    & > a {
+		    color: white;
+			background-color: $color;
+	    }
+
 	    &:hover {
 		    background-color: white;
 		    color: $color;
+		    border-color: $color;
+
+		    & > a {
+			    background-color: white;
+			    color: $color;
+				border-color: $color;
+		    }
 	    }
     }
 
@@ -3241,29 +3253,25 @@ footer {
 }
 
 .enter-url {
-    width: 555px;
-    margin: 0 auto;
     position: relative;
-	max-width: calc(100vw - 40px);
 
 	form {
 		position: relative;
 	}
 
-
-	input[type="url"] {
-	    height: 80px;
-	    border: 8px solid $color !important;
-	    border-radius: 10px;
-	    color: $color;
-	    width: 100%;
-	    font-size: 25px;
-	    letter-spacing: 3px;
-		background-color: white;
-		box-sizing: border-box;
+	body.index & {
+    	width: 555px;
+		max-width: calc(100vw - 40px);
+		margin: 0 auto;
 	}
 
-	input[type="submit"] {
+
+	body.index & input[type="url"] {
+	    font-size: 25px;
+	    letter-spacing: 3px;
+	}
+
+	body.index & input[type="submit"] {
 	    position: absolute;
 	    top: 10px;
 	    right: -80px;
@@ -3322,7 +3330,7 @@ ol.categories {
 
 		&:not(#uncategorized):hover,
 		&.dragged {
-			border-color: #c7c7c7;
+			border-color: rgba(0, 0, 0, 0.1);
 			background-color: white;
 		}
 
@@ -3348,20 +3356,32 @@ ol.categories {
 
 				&.add-new-block {
 
-					.box a {
-						min-height: inherit;
-						letter-spacing: normal;
-						text-transform: capitalize;
 
-						&:hover .plus-icon {
-							color: $color-secondary;
+					.box {
+						border-radius: 50%;
+
+						a {
+							min-height: inherit;
+							letter-spacing: normal;
+							text-transform: capitalize;
+
+							&:hover .plus-icon {
+								color: $color-secondary;
+							}
+
+							.plus-icon {
+								font-size: 55px;
+							}
+
 						}
 
-						.plus-icon {
-							font-size: 55px;
+						.new {
+							min-height: inherit;
+							text-transform: capitalize;
 						}
 
 					}
+
 
 				}
 

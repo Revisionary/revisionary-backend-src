@@ -311,7 +311,10 @@ function addNewPageButtons() {
 	// Add the box to each category
 	$('.category').each(function() {
 
-		$(this).find('ol.blocks').append( newBlockTemplate(cat_project_ID) );
+		var category_ID = parseInt( $(this).attr('data-id') );
+		var order = $(this).find('li.item').length;
+
+		$(this).find('ol.blocks').append( newBlockTemplate(cat_project_ID, category_ID, order) );
 
 	});
 
@@ -321,22 +324,41 @@ function addNewPageButtons() {
 // TEMPLATES:
 
 // New project/page buttons
-function newBlockTemplate(cat_project_ID) {
+function newBlockTemplate(cat_project_ID, category_ID, order) {
 
 
 	// Default
 	cat_project_ID = assignDefault(cat_project_ID, "new");
+	category_ID = assignDefault(category_ID, 0);
+	order = assignDefault(order, 0);
 
 
 	return '\
-	<li class="col block add-new-block">\
+	<li class="col xl-3-12 block add-new-block">\
 		<div class="box xl-center">\
-			<a href="#" class="wrap xl-flexbox xl-middle xl-center" data-modal="add-new" data-type="'+ dataType +'" data-id="'+cat_project_ID+'">\
-				<div class="col">\
-					New '+ dataType +'\
-					<div class="plus-icon"><i class="fa fa-plus"></i></div>\
+			<div class="wrap xl-flexbox xl-middle xl-left new">\
+				<div class="col xl-8-12 xl-outside-24 xl-center">\
+					<b>Add New '+ dataType +'</b>\
+					<form action="/projects" method="get">\
+						<input type="hidden" name="add_new" value="true"/>\
+						<input type="hidden" name="project_ID" value="'+cat_project_ID+'"/>\
+						<input type="hidden" name="category" value="'+category_ID+'"/>\
+						<input type="hidden" name="order" value="'+order+'"/>\
+						<input type="hidden" name="page_width" value="1440"/>\
+						<input type="hidden" name="page_height" value="900"/>\
+						<input type="hidden" name="screens[]" value="11"/>\
+						<div class="wrap xl-table xl-center xl-gutter-8">\
+							<div class="col">\
+								<input type="url" name="page-url" class="full" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocus/>\
+							</div>\
+							<div class="col" style="width: 55px;">\
+								<input type="submit" value="Add" class="invert" title="Go Revising!"/>\
+							</div>\
+						</div>\
+					</form>\
+					<a href="#" class="plus-icon" data-modal="add-new" data-type="'+ dataType +'" data-id="'+cat_project_ID+'"><small style="opacity: .3; font-size: 10px; letter-spacing: 0.7px;"><i class="fa fa-ellipsis-v"></i> Advanced</small></a>\
 				</div>\
-			</a>\
+			</div>\
 		</div>\
 	</li>';
 
