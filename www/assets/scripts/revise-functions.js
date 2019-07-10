@@ -851,6 +851,7 @@ function runTheInspector() {
 			if (
 				currentPinType == "browse"
 				&& !link.startsWith('#')
+				&& !link.startsWith('javascript:')
 			) {
 
 
