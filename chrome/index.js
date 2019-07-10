@@ -121,6 +121,7 @@ require('http').createServer(async (req, res) => {
 		const path = decodeURIComponent(pathname);
 		const output = queryData.output;
 
+/*
 		await new Promise((resolve, reject) => {
 			const req = http.request({
 				method: 'HEAD',
@@ -139,6 +140,7 @@ require('http').createServer(async (req, res) => {
 			req.on('error', reject);
 			req.end();
 		});
+*/
 
 		pageURL = origin + path; console.log('🌎 pageURL: ', pageURL);
 		let realPageURL = pageURL;
