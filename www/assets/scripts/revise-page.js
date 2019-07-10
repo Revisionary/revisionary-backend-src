@@ -24,6 +24,7 @@ $(function() {
 		if (
 			currentPinType == "browse"
 			&& !link.startsWith('#')
+			&& !link.startsWith('javascript:')
 			&& target == "_self"
 			&& queryParameter(currentUrl, 'new') == "page"
 			&& queryParameter(linkAbsolute, 'new_screen') == null
