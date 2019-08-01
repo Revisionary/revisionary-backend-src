@@ -437,7 +437,10 @@ if (getUserInfo()['email'] != "bilaltas@me.com" && getUserInfo()['email'] != "bi
 		Full Name: ".getUserInfo()['fullName']." <br>
 		Username: ".getUserInfo()['userName']." <br><br>
 
-		<b>Page Link:</b> ".site_url('revise/'.$device_ID)." ($screen_name: $width x $height) <br>
+
+		<b>Project Name:</b> <a href='".site_url('project/'.$project_ID)."'>".$projectInfo['project_name']."</a> <br>
+		<b>Page Name:</b> <a href='".site_url('page/'.$page_ID)."'>".$pageInfo['page_name']."</a> <br>
+		<b>Device:</b> $screen_name: $width x $height <br>
 		"
 	);
 
