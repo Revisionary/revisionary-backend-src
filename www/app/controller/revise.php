@@ -439,7 +439,7 @@ if (getUserInfo()['email'] != "bilaltas@me.com" && getUserInfo()['email'] != "bi
 
 
 		<b>Project Name:</b> <a href='".site_url('project/'.$project_ID)."'>".$projectInfo['project_name']."</a> <br>
-		<b>Page Name:</b> <a href='".site_url('page/'.$page_ID)."'>".$pageInfo['page_name']."</a> <br>
+		<b>Page Name:</b> <a href='".site_url('page/'.$page_ID)."'>".$page['page_name']."</a> <br>
 		<b>Device:</b> $screen_name: $width x $height <br>
 		"
 	);
