@@ -708,7 +708,7 @@ foreach ($other_pages as $pageOther) {
 
 			<a href="#" class="button opener open">
 				PINS <i class="fa fa-list-ul"></i>
-				<div class="notif-no left hidee">3</div>
+				<div class="notif-no left hide">0</div>
 			</a>
 			<div class="tab right wrap">
 				<div class="col xl-1-1">
