@@ -777,6 +777,7 @@ ul.user-header-menu {
 .notif-no {
     font-size: 8px;
     bottom: -3px;
+    left: auto;
     right: -5px;
 
     display: block;
@@ -797,6 +798,15 @@ ul.user-header-menu {
 
 	&.hide {
 		display: none;
+	}
+
+	&.left {
+		right: auto;
+		left: -5px;
+	}
+
+	.button & {
+		bottom: -10px;
 	}
 
 	.big & {

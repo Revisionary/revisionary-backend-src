@@ -1802,6 +1802,11 @@ function changePinNumber(pinNumber) {
 	cursor.text(pinNumber);
 	currentPinNumber = pinNumber;
 
+
+	if (pinNumber - 1 > 0) $('.pins .button .notif-no').removeClass('hide').text(pinNumber - 1);
+	else $('.pins .button .notif-no').addClass('hide');
+
+
 }
 
 

@@ -47,6 +47,7 @@ html, body {
 		box-sizing: border-box;
 		border-radius: 3px;
 		display: inline-block;
+		position: relative;
 
 		&.open,
 		&:hover {

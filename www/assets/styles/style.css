@@ -5552,6 +5552,7 @@ ul.user-header-menu {
 .notif-no {
   font-size: 8px;
   bottom: -3px;
+  left: auto;
   right: -5px;
   display: block;
   width: 14px;
@@ -5569,6 +5570,11 @@ ul.user-header-menu {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5); }
   .notif-no.hide {
     display: none; }
+  .notif-no.left {
+    right: auto;
+    left: -5px; }
+  .button .notif-no {
+    bottom: -10px; }
   .big .notif-no {
     font-size: 10px;
     bottom: 0;

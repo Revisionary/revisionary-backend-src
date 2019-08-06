@@ -29,7 +29,8 @@ html, body {
     border: 1px solid gray;
     box-sizing: border-box;
     border-radius: 3px;
-    display: inline-block; }
+    display: inline-block;
+    position: relative; }
     #top-bar .button.open,
     #top-bar .button:hover {
       color: white;
