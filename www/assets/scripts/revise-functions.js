@@ -1259,6 +1259,10 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 		Pins = updateOriginals(result.pins, oldPins);
 
 
+	    // Update incomplete pin count
+	    updatePinCount();
+
+
 
 		console.log('OLD PINS: ', oldPins);
 		console.log('NEW PINS: ', Pins);
@@ -1498,6 +1502,10 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	// Increase the pin number
 	changePinNumber(parseInt( currentPinNumber ) + 1);
 
+
+    // Update incomplete pin count
+    updatePinCount();
+
 }
 
 
@@ -1543,6 +1551,10 @@ function removePin(pin_ID) {
 
 	// Re-Index the pin counts
 	reindexPins();
+
+
+    // Update incomplete pin count
+    updatePinCount();
 
 
 	// Unhover
@@ -1598,6 +1610,10 @@ function completePin(pin_ID, complete, imgData = null) {
 
 	// Mark as completed pin notification
 	pinWindow(pin_ID).attr('data-new-notification', (complete ? 'complete' : 'incomplete'));
+
+
+    // Update incomplete pin count
+    updatePinCount();
 
 
 
@@ -1765,6 +1781,23 @@ function scrollToPin(pin_ID, openWindow = false, noDelay = false) {
 }
 
 
+// Incomplete Pin counts
+function updatePinCount() {
+
+
+	var incompletePins = Pins.filter(function(pin) {
+		return pin.pin_complete == 0
+	});
+
+
+	if (incompletePins.length > 0) $('.pins .button .notif-no').removeClass('hide').text(incompletePins.length);
+	else $('.pins .button .notif-no').addClass('hide');
+
+	return incompletePins.length;
+
+}
+
+
 // Re-Index Pins
 function reindexPins() {
 
@@ -1801,11 +1834,6 @@ function changePinNumber(pinNumber) {
 
 	cursor.text(pinNumber);
 	currentPinNumber = pinNumber;
-
-
-	if (pinNumber - 1 > 0) $('.pins .button .notif-no').removeClass('hide').text(pinNumber - 1);
-	else $('.pins .button .notif-no').addClass('hide');
-
 
 }
 
