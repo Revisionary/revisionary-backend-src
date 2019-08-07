@@ -3586,7 +3586,7 @@ function getComments(pin_ID, commentsWrapper = null) {
 // DB: Send a comment
 function sendComment(pin_ID, message) {
 
-
+	if (message == "") return false;
 
 	//console.log('Sending this message: ', message);
 
