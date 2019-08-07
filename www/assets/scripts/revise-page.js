@@ -459,7 +459,7 @@ $(function() {
 
 
 	// Send button
-	$('.send-comment').click(function() {
+	$('.send-comment').click(function(e) {
 
 
 		var pin_ID = pinWindow().attr('data-pin-id');
@@ -882,9 +882,11 @@ $(function() {
 
 
 	// SURVEY POPUPS
-	$('.ask-showing-correctly [data-popup="close"]').click(function() {
+	$('.ask-showing-correctly [data-popup="close"]').click(function(e) {
 
 		$('.ask-showing-correctly').removeClass('open');
+
+		e.preventDefault();
 
 	});
 
