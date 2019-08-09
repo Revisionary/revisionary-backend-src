@@ -1308,7 +1308,6 @@ pin {
 	    font-size: 7px;
 	    line-height: 16px;
 	    opacity: 0.8;
-	    color: white;
 	}
 
 	&.small {
@@ -3466,6 +3465,10 @@ ol.categories {
 									bottom: auto;
 									right: -5px;
 									top: -5px;
+								}
+
+								.pin-title {
+								    color: white;
 								}
 							}
 						}

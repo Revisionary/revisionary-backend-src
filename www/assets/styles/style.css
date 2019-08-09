@@ -5894,8 +5894,7 @@ pin {
   pin .pin-title {
     font-size: 7px;
     line-height: 16px;
-    opacity: 0.8;
-    color: white; }
+    opacity: 0.8; }
   pin.small[data-pin-complete="1"]:before {
     font-size: 12px; }
   pin.mid {
@@ -7140,6 +7139,8 @@ ol.categories {
                 bottom: auto;
                 right: -5px;
                 top: -5px; }
+              ol.categories > li.category > ol.blocks > .block .box .overlay .pins pin .pin-title {
+                color: white; }
           ol.categories > li.category > ol.blocks > .block .box .overlay .screens > .device-wrap a > i {
             font-size: 30px; }
           ol.categories > li.category > ol.blocks > .block .box .overlay > div:not(.people):not(.pages) {
