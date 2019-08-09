@@ -5791,7 +5791,7 @@ ul.user-header-menu {
 .profile-picture {
   font-size: 12px;
   line-height: 25px;
-  letter-spacing: 1px;
+  letter-spacing: 0;
   font-weight: normal;
   text-align: center;
   text-transform: uppercase;
@@ -5821,7 +5821,8 @@ ul.user-header-menu {
   .profile-picture > span {
     font-size: inherit;
     font-weight: inherit;
-    line-height: inherit; }
+    line-height: inherit;
+    letter-spacing: inherit; }
   .profile-picture.header-user {
     margin-left: 20px; }
   .profile-picture.square {

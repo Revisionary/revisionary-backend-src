@@ -1155,7 +1155,7 @@ ul.user-header-menu {
 .profile-picture {
     font-size: 12px;
     line-height: 25px;
-    letter-spacing: 1px;
+    letter-spacing: 0;
 	font-weight: normal;
 	text-align: center;
 	text-transform: uppercase;
@@ -1195,6 +1195,7 @@ ul.user-header-menu {
 	    font-size: inherit;
 	    font-weight: inherit;
 	    line-height: inherit;
+		letter-spacing: inherit;
     }
 
 
