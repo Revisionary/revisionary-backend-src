@@ -252,7 +252,9 @@
 
 							if ($dataType == "page") {
 
-								$blockPhase = end($block['phasesData']);
+
+								$blockPhases = $block['phasesData'];
+								$blockPhase = end($blockPhases);
 								$blockDevices = $blockPhase['devicesData'];
 
 
@@ -436,32 +438,33 @@ $livePinCount = $standardPinCount = $privatePinCount = $completePinCount = 0;
 
 if ($dataType == "page" && $allMyPins) {
 
-	$device_IDs = array_column($blockDevices, "device_ID");
+	$phase_IDs = array_column($blockPhases, "phase_ID");
 
-	$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $device_IDs) {
 
-		$pageCondition = in_array($value['device_ID'], $device_IDs);
+	$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+
+		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
 		return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
 	}));
-	$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $device_IDs) {
+	$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-		$pageCondition = in_array($value['device_ID'], $device_IDs);
+		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
 		return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
 	}));
-	$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $device_IDs) {
+	$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-		$pageCondition = in_array($value['device_ID'], $device_IDs);
+		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
 		return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
 
 	}));
-	$completePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $device_IDs) {
+	$completePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-		$pageCondition = in_array($value['device_ID'], $device_IDs);
+		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
 		return $pageCondition && $value['pin_complete'] == "1";
 

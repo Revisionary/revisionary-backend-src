@@ -65,7 +65,7 @@ $allMyPages = $thePreparedData;
 //die_to_print($allMyPages);
 
 
-// MY DEVICES IN THIS PROJECT
+// MY PHASES IN THIS PROJECT
 $allMyPhases = $phases; // Comes globally from 'categorize.php'
 //die_to_print($allMyPhases);
 
@@ -107,13 +107,13 @@ if (
 $totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = $totalCompletePinCount = 0;
 
 $allMyPins = array();
-if ($allMyPages && $allMyDevices) {
+if ($allMyPages && $allMyPhases) {
 
-	$db->join("devices d", "pin.device_ID = d.device_ID", "LEFT");
+	$db->join("phases p", "pin.phase_ID = p.phase_ID", "LEFT");
 
-	$device_IDs = array_column($allMyDevices, "device_ID"); //print_r($page_IDs);
-	$db->where('d.device_ID', $device_IDs, 'IN');
-	$allMyPins = $db->get('pins pin', null, "pin.pin_type, pin.pin_private, pin.pin_complete, pin.user_ID, d.device_ID");
+	$phase_IDs = array_column($allMyPhases, "phase_ID"); //print_r($page_IDs);
+	$db->where('p.phase_ID', $phase_IDs, 'IN');
+	$allMyPins = $db->get('pins pin', null, "pin.pin_type, pin.pin_private, pin.pin_complete, pin.user_ID, p.phase_ID");
 	//die_to_print($allMyPins);
 
 
