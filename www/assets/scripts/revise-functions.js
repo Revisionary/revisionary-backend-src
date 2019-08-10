@@ -1789,8 +1789,13 @@ function updatePinCount() {
 		return pin.pin_complete == 0
 	});
 
+	var completePins = Pins.filter(function(pin) {
+		return pin.pin_complete == 1
+	});
 
-	if (incompletePins.length > 0) $('.pins .button .notif-no').removeClass('hide').text(incompletePins.length);
+
+	if (incompletePins.length > 0) $('.pins .button .notif-no').removeClass('hide').removeClass('green').text(incompletePins.length);
+	else if (completePins.length > 0 && incompletePins.length == 0) $('.pins .button .notif-no').removeClass('hide').addClass('green').text(completePins.length);
 	else $('.pins .button .notif-no').addClass('hide');
 
 	return incompletePins.length;

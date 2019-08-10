@@ -800,6 +800,10 @@ ul.user-header-menu {
 		display: none;
 	}
 
+	&.green {
+		background-color: green;
+	}
+
 	&.left {
 		right: auto;
 		left: -5px;

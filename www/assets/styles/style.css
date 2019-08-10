@@ -5570,6 +5570,8 @@ ul.user-header-menu {
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5); }
   .notif-no.hide {
     display: none; }
+  .notif-no.green {
+    background-color: green; }
   .notif-no.left {
     right: auto;
     left: -5px; }
