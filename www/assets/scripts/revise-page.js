@@ -1030,10 +1030,15 @@ $(function() {
 
 	$(document).on('click', '[data-go-pin]', function(e) {
 
-		var pin_ID = parseInt( $(this).attr('data-go-pin') );
-		scrollToPin(pin_ID, true, true);
 
-		e.preventDefault();
+		var pin_ID = parseInt( $(this).attr('data-go-pin') );
+
+		if ( getPin(pin_ID) ) {
+
+			scrollToPin(pin_ID, true, true);
+			e.preventDefault();
+
+		}
 
 	});
 
