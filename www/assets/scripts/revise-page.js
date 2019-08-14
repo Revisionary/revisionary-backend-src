@@ -205,6 +205,9 @@ $(function() {
 
 		} else {
 
+			currentPinTypeWas = currentPinTypeWas != "browse" ? currentPinTypeWas : "live";
+			currentPinPrivateWas = currentPinPrivateWas != null ? currentPinPrivateWas : "0";
+
 			switchPinType(currentPinTypeWas, currentPinPrivateWas);
 
 		}

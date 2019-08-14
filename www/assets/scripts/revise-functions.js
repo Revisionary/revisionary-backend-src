@@ -547,9 +547,10 @@ function runTheInspector() {
 
 					// Update the cursor
 					changePinNumber( focused_element_live_pin.text() );
+
+
 					switchCursorType( focused_element_live_pin.attr('data-pin-type'), focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type') );
 					outline( focused_element, focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type') );
-
 					//console.log('This element already has a live pin.');
 
 
@@ -574,7 +575,9 @@ function runTheInspector() {
 
 						// If not editable, switch back to the standard pin
 						switchCursorType('standard');
-						if (focused_element_has_index) outline(focused_element, currentPinPrivate, (focused_element_editable && currentPinType == "live" ? "live" : "standard"));
+
+						if (focused_element_has_index)
+							outline(focused_element, currentPinPrivate, (focused_element_editable && currentPinType == "live" ? "live" : "standard"));
 
 
 					}
