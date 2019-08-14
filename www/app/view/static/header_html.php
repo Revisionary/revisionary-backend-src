@@ -34,7 +34,7 @@
 			}
 		?>
 
-		<script src="<?=asset_url('scripts/vendor/jquery-3.3.1.min.js')?>"></script>
+		<script src="<?=asset_url('scripts/vendor/jquery-3.4.1.min.js')?>"></script>
 		<script>
 			var ajax_url = '<?=site_url('ajax')?>';
 			var nonce = '<?=$_SESSION["js_nonce"]?>';
