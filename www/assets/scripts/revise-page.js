@@ -215,8 +215,8 @@ $(function() {
 	});
 
 
-	$('.pin-mode').hover(function() {
-		$(this).find('.dropdown > ul').css('display', '');
+	$('.pin-type-selector').hover(function() {
+		$(this).find('ul.pin-types').css('display', '');
 	});
 
 
