@@ -1057,24 +1057,57 @@ function switchPinType(pinType, pinPrivate) {
 	log('Switched Pin Private: ', pinPrivate);
 
 
+	currentPinTypeWas = currentPinType;
+	currentPinPrivateWas = currentPinPrivate;
+
 	currentPinType = pinType;
 	currentPinPrivate = parseInt(pinPrivate);
 
 
 	// Change the activator color and label
+	if (pinType == "browse") currentPinLabel = pinModes.browse;
 	if (pinType == "live") currentPinLabel = pinModes.live;
 	if (pinType == "standard") currentPinLabel = pinModes.standard;
 	if (currentPinPrivate == "1") currentPinLabel = pinModes['private-live'];
 
+
+
+	// Activator updates
 	activator.attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate).find('.mode-label').text(currentPinLabel);
+
+
+
+	// Hide the dropdown
+	$('ul.pin-types').hide();
+
+	// Reset the list
+	$('ul.pin-types > li').removeClass('selected');
+
+	// Select on the list
+	$('ul.pin-types > li[data-pin-type="'+ currentPinType +'"][data-pin-private="'+ currentPinPrivate +'"]').addClass('selected');
+
 
 
 	// Change the cursor color
 	switchCursorType(pinType == 'live' ? 'standard' : pinType, currentPinPrivate);
 
 
+
+	// URL update
+	if (history.pushState) {
+	    var newurl = queryParameter(currentUrl(), 'pinmode', (currentPinType == "live" ? "" : currentPinType));
+	    newurl = queryParameter(newurl, 'privatepin', (currentPinPrivate == 1 ? "1" : ""));
+	    window.history.pushState({path:newurl},'',newurl);
+	}
+
+
+
 	// Activate the cursor
 	if (!cursorActive) toggleCursorActive(false, true);
+
+	// Deactivate the cursor
+	else if (pinType == "browse") toggleCursorActive(true);
+
 
 
 	// Close the open pin window
@@ -1123,15 +1156,11 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 		// Deactivate
-		activator.attr('data-pin-type', 'browse');
+		activator.attr('data-pin-type', 'browse').attr('data-pin-private', '0');
 
 		// Update the label
-		$('.current-mode .mode-label').text('BROWSE MODE');
+		$('.current-mode .mode-label').text(currentPinLabel);
 
-
-
-		// Close the dropdown
-		$('.pin-mode .dropdown > ul').hide();
 
 		// Hide the cursor
 		if (cursorVisible) cursor.removeClass('active');
@@ -1156,7 +1185,6 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 		$('.current-mode .mode-label').text(currentPinLabel);
 
 
-
 		// Show the cursor
 		if (!cursorVisible && !pinWindowOpen) cursor.addClass('active');
 
@@ -1169,7 +1197,6 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 		cursorActive = true;
-		//if (pinTypeSelectorOpen) togglePinTypeSelector(true); // Force Close
 
 	}
 

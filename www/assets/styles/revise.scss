@@ -217,6 +217,35 @@ html, body {
 
 		.current-mode {
 
+			& > a {
+
+				&.browse-switcher {
+					border-top-right-radius: 0;
+					border-bottom-right-radius: 0;
+				}
+
+				&.pin-type-selector {
+					left: -4px;
+					padding: 2px 1px;
+					border-top-left-radius: 0;
+					border-bottom-left-radius: 0;
+					letter-spacing: 0;
+
+					& > i {
+						//opacity: 0.5;
+					}
+				}
+
+				&:hover {
+					z-index: 1;
+
+					& > i {
+						opacity: 1;
+					}
+				}
+
+			}
+
 			& > a > i.fa-mouse-pointer {
 				display: none;
 			}
@@ -229,9 +258,11 @@ html, body {
 
 		[data-pin-type="live"][data-pin-private="0"] {
 
+/*
 			[data-pin-type="live"][data-pin-private="0"] {
 				display: none;
 			}
+*/
 
 			& > a > i {
 				color: $color-live;
@@ -240,9 +271,11 @@ html, body {
 
 		[data-pin-type="standard"][data-pin-private="0"] {
 
+/*
 			[data-pin-type="standard"][data-pin-private="0"] {
 				display: none;
 			}
+*/
 
 			& > a > i {
 				//color: $color-live;
@@ -251,9 +284,11 @@ html, body {
 
 		[data-pin-type="live"][data-pin-private="1"] {
 
+/*
 			[data-pin-type="live"][data-pin-private="1"] {
 				display: none;
 			}
+*/
 
 			& > a > i {
 				color: $color-private-live;
@@ -262,9 +297,11 @@ html, body {
 
 		[data-pin-type="standard"][data-pin-private="1"] {
 
+/*
 			[data-pin-type="standard"][data-pin-private="1"] {
 				display: none;
 			}
+*/
 
 			& > a > i {
 				color: $color-private;
@@ -281,9 +318,11 @@ html, body {
 				display: inline-block;
 			}
 
+/*
 			.deactivator {
 				display: none;
 			}
+*/
 		}
 
 	}

@@ -90,7 +90,8 @@ var pinModes = {
 	'live' 			: 'Content and View Changes',
 	'standard' 		: 'View Changes',
 	'private-live'	: 'Private Content and View Changes',
-	'private'		: 'Private View Changes'
+	'private'		: 'Private View Changes',
+	'browse'		: 'Browse Mode'
 };
 
 // Pin Mode Selector
@@ -105,6 +106,7 @@ var currentPinType = "live";
 var currentPinPrivate = 0;
 var currentPinLabel = pinModes.live;
 var currentPinTypeWas;
+var currentPinPrivateWas;
 var shifted = false;
 var shiftToggle = false;
 
@@ -163,7 +165,7 @@ var openPin = null;
 $(function() {
 
 	activator = $('.current-mode');
-	cursorActive = activator.hasClass('active');
+	cursorActive = activator.data('pin-type') != "browse";
 	cursorWasActive = cursorActive;
 
 	page_width = parseInt( $('#the-page').attr('width') );

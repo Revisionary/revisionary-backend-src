@@ -619,15 +619,19 @@ foreach ($other_pages as $pageOther) {
 		<div class="col xl-left pin-mode">
 
 			<div class="desc nomargin">Pin Mode</div>
-			<div class="dropdown current-mode active" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
-				<a href="#" class="button">
-					<i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label"></span>
+
+			<div class="dropdown current-mode" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
+				<a href="#" class="button browse-switcher">
+					<i class="fa fa-dot-circle"></i><i class="fa fa-mouse-pointer"></i> <span class="mode-label"></span></span>
+				</a>
+				<a href="#" class="button pin-type-selector">
+					<i class="fa fa-caret-down"></i></span>
 				</a>
 				<ul class="pin-types">
-					<li class="bottom-tooltip" data-pin-type="live" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes."><a href="#"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a></li>
-					<li class="bottom-tooltip" data-pin-type="standard" data-pin-private="0" data-tooltip="You can only do the visual changes."><a href="#"><i class="fa fa-dot-circle"></i> ONLY VIEW CHANGES</a></li>
-					<li class="bottom-tooltip" data-pin-type="live" data-pin-private="1" data-tooltip="Only you can see the changes you made."><a href="#"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a></li>
-					<li class="deactivator bottom-tooltip" data-tooltip="Use this mode to be able to do something like opening a menu, closing popups, skipping slides, and navigating to different pages."><a href="#"><i class="fa fa-mouse-pointer"></i> BROWSE MODE [Shift Key]</a></li>
+					<li class="bottom-tooltip <?=$pin_mode == "live" && $pin_private == "0" ? "selected" : ""?>" data-pin-type="live" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes."><a href="#"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a></li>
+					<li class="bottom-tooltip <?=$pin_mode == "standard" && $pin_private == "0" ? "selected" : ""?>" data-pin-type="standard" data-pin-private="0" data-tooltip="You can only do the visual changes."><a href="#"><i class="fa fa-dot-circle"></i> ONLY VIEW CHANGES</a></li>
+					<li class="bottom-tooltip <?=$pin_mode == "live" && $pin_private == "1" ? "selected" : ""?>" data-pin-type="live" data-pin-private="1" data-tooltip="Only you can see the changes you made."><a href="#"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a></li>
+					<li class="bottom-tooltip <?=$pin_mode == "browse" && $pin_private == "0" ? "selected" : ""?>" data-pin-type="browse" data-pin-private="0" data-tooltip="Use this mode to be able to do something like opening a menu, closing popups, skipping slides, and navigating to different pages."><a href="#"><i class="fa fa-mouse-pointer"></i> BROWSE MODE [Shift Key]</a></li>
 				</ul>
 			</div>
 

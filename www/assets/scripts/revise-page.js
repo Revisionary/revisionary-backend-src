@@ -180,54 +180,43 @@ $(function() {
 	// PIN MODES:
 
 	// Pin mode change
-	$('.pin-types li:not(.deactivator) a').click(function(e) {
+	$('.pin-mode ul.pin-types > li > a').click(function(e) {
 
 		var selectedPinType = $(this).parent().attr('data-pin-type');
 		var selectedPinPrivate = $(this).parent().attr('data-pin-private');
 
+
 		switchPinType(selectedPinType, selectedPinPrivate);
 
-		$('.pin-mode .dropdown > ul').hide();
+
+		e.preventDefault();
+		return false;
+	});
 
 
-		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+	// Browse Switch
+	$('.pin-mode a.browse-switcher').click(function(e) {
 
-		if (history.pushState) {
-		    var newurl = queryParameter(currentUrl, 'pinmode', (selectedPinType == "live" ? "" : selectedPinType));
-		    newurl = queryParameter(newurl, 'privatepin', (selectedPinPrivate == 1 ? "1" : ""));
-		    window.history.pushState({path:newurl},'',newurl);
+
+
+		if (currentPinType != "browse") {
+
+			switchPinType('browse', 0);
+
+		} else {
+
+			switchPinType(currentPinTypeWas, currentPinPrivateWas);
+
 		}
 
 
 		e.preventDefault();
 		return false;
 	});
+
 
 	$('.pin-mode').hover(function() {
-		$('.pin-mode .dropdown > ul').css('display', '');
-	});
-
-	// Cursor deactivator
-	$('.deactivator').click(function(e) {
-
-
-		toggleCursorActive(true);
-
-
-		currentPinType = "browse";
-
-
-		var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
-
-		if (history.pushState) {
-		    var newurl = queryParameter(currentUrl, 'pinmode', currentPinType);
-		    newurl = queryParameter(newurl, 'privatepin', '');
-		    window.history.pushState({path:newurl},'',newurl);
-		}
-
-
-		e.preventDefault();
-		return false;
+		$(this).find('.dropdown > ul').css('display', '');
 	});
 
 
@@ -1056,8 +1045,10 @@ $(function() {
 			console.log('SHIFTED');
 
 			currentPinTypeWas = currentPinType;
+			currentPinPrivateWas = currentPinPrivate;
 			toggleCursorActive(true); // Force close
 			currentPinType = "browse";
+			currentPinPrivate = 0;
 
 		}
 
@@ -1073,6 +1064,7 @@ $(function() {
 			console.log('UNSHIFTED');
 
 			currentPinType = currentPinTypeWas;
+			currentPinPrivate = currentPinPrivateWas;
 			toggleCursorActive(false, true); // Force Open
 
 		}
