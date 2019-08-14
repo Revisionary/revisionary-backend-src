@@ -4644,7 +4644,7 @@ function nl2br(str, is_xhtml) {
 
 jQuery.fn.onPositionChanged = function(trigger, millis) {
 
-    if (millis == null) millis = 400;
+    if (millis == null) millis = 100;
     var o = $(this[0]); // our jquery object
     if (o.length < 1) return o;
     var lastPos = null;
