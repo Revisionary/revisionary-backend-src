@@ -1301,12 +1301,6 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 			if (applyChanges) applyPins(oldPins);
 
 
-			if (firstRetrieve) {
-
-
-			}
-
-
 		} else {
 
 
@@ -1314,25 +1308,19 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 			autoRefreshRequest = null;
 
 
-			if (firstRetrieve) {
-
-
-				// Hide the loading overlay
-				$('#loading').fadeOut();
-
-
-				// Page is ready now
-				page_ready = true;
-				$('body').addClass('ready');
-
-
-			}
-
-
 		}
 
 
 		if (firstRetrieve) {
+
+
+			// Hide the loading overlay
+			$('#loading').fadeOut();
+
+
+			// Page is ready now
+			page_ready = true;
+			$('body').addClass('ready');
 
 
 			// Detect colors in the page
@@ -1416,11 +1404,11 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 		// Add edited status to the DOM
-		selectedElement
-			.attr('data-revisionary-edited', "0")
-			.attr('contenteditable', "true");
+		selectedElement.attr('data-revisionary-edited', "0");
 
 		modificationType = selectedElement.prop('tagName').toUpperCase() == 'IMG' ? "image" : "html";
+		if (modificationType == "html") selectedElement.attr('contenteditable', "true");
+
 		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.attr('src');
 
 
@@ -2070,10 +2058,12 @@ function getElementOffset(element_index) {
 	// Check if hidden
 	if ( selectedElement.css('display') == 'none' ) {
 
-
+		// Disabled temporarily !!!
+/*
 		disableCSS(pin_ID);
 		elementOffset = selectedElement.offset();
 		activateCSS(pin_ID);
+*/
 
 
 	} else {
