@@ -549,7 +549,7 @@ function runTheInspector() {
 					changePinNumber( focused_element_live_pin.text() );
 
 
-					switchCursorType( focused_element_live_pin.attr('data-pin-type'), focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type') );
+					switchCursorType( focused_element_live_pin.attr('data-pin-type'), focused_element_live_pin.attr('data-pin-private'), true);
 					outline( focused_element, focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type') );
 					//console.log('This element already has a live pin.');
 
@@ -1184,7 +1184,7 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 		// Hide the original cursor
 		if ( !iframeElement('#revisionary-cursor').length )
-			iframeElement('body').append('<style id="revisionary-cursor"> * { cursor: none !important; } </style>');
+			iframeElement('body').append('<style id="revisionary-cursor"> * { cursor: crosshair !important; } </style>');
 
 		// Disable all the links
 	    // ...
@@ -4642,9 +4642,9 @@ function nl2br(str, is_xhtml) {
     return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
 
-jQuery.fn.onPositionChanged = function (trigger, millis) {
+jQuery.fn.onPositionChanged = function(trigger, millis) {
 
-    if (millis == null) millis = 10;
+    if (millis == null) millis = 400;
     var o = $(this[0]); // our jquery object
     if (o.length < 1) return o;
     var lastPos = null;
@@ -4652,7 +4652,7 @@ jQuery.fn.onPositionChanged = function (trigger, millis) {
     var lastWidth = null;
     var lastOffWidth = null;
 
-    setInterval(function () {
+    setInterval(function() {
 
         if (o == null || o.length < 1) return o; // abort if element is non existend eny more
         if (lastPos == null) lastPos = o.position();
