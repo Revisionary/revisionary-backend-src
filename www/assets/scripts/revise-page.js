@@ -216,7 +216,7 @@ $(function() {
 
 
 	$('.pin-type-selector').hover(function() {
-		$(this).find('ul.pin-types').css('display', '');
+		$('ul.pin-types').css('display', '');
 	});
 
 
