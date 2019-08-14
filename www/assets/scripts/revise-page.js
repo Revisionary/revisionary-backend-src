@@ -198,7 +198,6 @@ $(function() {
 	$('.pin-mode a.browse-switcher').click(function(e) {
 
 
-
 		if (currentPinType != "browse") {
 
 			switchPinType('browse', 0);
