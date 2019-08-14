@@ -244,18 +244,8 @@ function runTheInspector() {
 
 
 
-		// CURSOR WORKS:
-		// Close Pin Mode pinTypeSelector
-		if (currentPinType == "browse") {
-
-			toggleCursorActive(true);
-
-		} else {
-
-			switchPinType(currentPinType, currentPinPrivate);
-			toggleCursorActive(false, true);
-
-		}
+		// UPDATE INITIAL CURSOR TYPE
+		switchPinType(currentPinType, currentPinPrivate);
 
 
 
@@ -1103,11 +1093,11 @@ function switchPinType(pinType, pinPrivate) {
 
 
 
-	// Activate the cursor
-	if (!cursorActive) toggleCursorActive(false, true);
-
 	// Deactivate the cursor
-	else if (pinType == "browse") toggleCursorActive(true);
+	if (pinType == "browse") toggleCursorActive(true);
+
+	// Activate the cursor
+	else toggleCursorActive(false, true);
 
 
 
