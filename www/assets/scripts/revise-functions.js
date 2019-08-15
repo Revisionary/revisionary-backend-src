@@ -1996,6 +1996,12 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
 
 
 	var element = iframeElement(element_index);
+
+
+	// Check if element exists
+	if (element.length == 0) return false;
+
+
 	var elementOffset = getElementOffset(element_index);
 	var elementTop = elementOffset.top;
 	var elementLeft = elementOffset.left;
