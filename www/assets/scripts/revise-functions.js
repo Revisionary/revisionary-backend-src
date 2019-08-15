@@ -1999,7 +1999,7 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
 
 
 	// Check if element exists
-	if (element.length == 0) return false;
+	if (!element.length) return false;
 
 
 	var elementOffset = getElementOffset(element_index);
@@ -2054,10 +2054,12 @@ function getElementOffset(element_index) {
 
 
 	var selectedElement = iframeElement(element_index);
+	if (!selectedElement.length) return false;
 
 	var pin = getPin(element_index, true);
-	var pin_ID = pin.pin_ID;
+	if (!pin) return false;
 
+	var pin_ID = pin.pin_ID;
 	var elementOffset;
 
 
@@ -2065,11 +2067,9 @@ function getElementOffset(element_index) {
 	if ( selectedElement.css('display') == 'none' ) {
 
 		// Disabled temporarily !!!
-/*
-		disableCSS(pin_ID);
+		//disableCSS(pin_ID);
 		elementOffset = selectedElement.offset();
-		activateCSS(pin_ID);
-*/
+		//activateCSS(pin_ID);
 
 
 	} else {
