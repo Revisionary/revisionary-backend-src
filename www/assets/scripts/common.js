@@ -1510,7 +1510,8 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 // HELPERS:
 function currentUrl() {
 
-	return window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+	//return window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
+	return window.location.href;
 
 }
 
