@@ -6056,6 +6056,8 @@ pin {
     padding-left: 10px; }
   #pin-window > .top-actions .close-button {
     font-family: Arial; }
+  #pin-window > .top-actions .device-specific.loading {
+    opacity: 0.5; }
   #pin-window > .top-actions .device-specific.active {
     color: #007acc;
     position: relative; }

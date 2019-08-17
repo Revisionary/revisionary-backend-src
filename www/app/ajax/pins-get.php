@@ -61,7 +61,8 @@ else {
 		pin.pin_css,
 		pin.pin_x,
 		pin.pin_y,
-		pin.user_ID
+		pin.user_ID,
+		pin.device_ID
 	');
 
 	$status = $pins ? "Pins received" : "No Pins Found";

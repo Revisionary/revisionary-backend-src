@@ -1613,6 +1613,10 @@ pin {
 
 		.device-specific {
 
+			&.loading {
+				opacity: 0.5;
+			}
+
 			&.active {
 				color: $color-secondary;
 				position: relative;

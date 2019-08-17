@@ -1609,6 +1609,105 @@ function removePin(pin_ID) {
 }
 
 
+// DB: Make Device Specific
+function makeDeviceSpecific(pin_ID, device_ID) {
+
+
+	console.log('Make the pin #' + pin_ID + ' stick to device #'+ device_ID +' on DB!!');
+
+
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+	var pinIndex = Pins.indexOf(pin);
+	var element_index = pin.pin_element_index;
+
+
+	// Prevent double clicking
+	pinWindow(pin_ID).find('.device-specific').addClass('loading');
+
+
+	// Update from the Pins global
+	Pins[pinIndex].device_ID = parseInt(device_ID);
+
+
+
+	// Start the process
+	var devicespecificPinProcessID = newProcess(null, "devicespecificPinProcess");
+
+
+    // Update pin from the DB
+	ajax('pin-devicespecific', {
+
+		'pin_ID' 	 : pin_ID,
+		'device_ID'	 : device_ID,
+
+	}).done(function(result) {
+
+		console.log("PIN #"+pin_ID+" MADE ONLY FOR DEVICE #" + device_ID, result.data);
+
+
+		// Update the button
+		pinWindow(pin_ID).find('.device-specific').removeClass('loading').addClass('active');
+
+
+		// Finish the process
+		endProcess(devicespecificPinProcessID);
+
+	});
+
+}
+
+
+// DB: Make pin for all devices
+function makeForAllDevices(pin_ID) {
+
+
+	console.log('Make the pin #' + pin_ID + ' for all devices on DB!!');
+
+
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+	var pinIndex = Pins.indexOf(pin);
+	var element_index = pin.pin_element_index;
+
+
+	// Prevent double clicking
+	pinWindow(pin_ID).find('.device-specific').addClass('loading');
+
+
+	// Update from the Pins global
+	Pins[pinIndex].device_ID = null;
+
+
+
+	// Start the process
+	var deviceForAllPinProcessID = newProcess(null, "deviceForAllPinProcess");
+
+
+    // Update pin from the DB
+	ajax('pin-deviceall', {
+
+		'pin_ID' 	 : pin_ID
+
+	}).done(function(result) {
+
+		console.log("PIN #"+pin_ID+" MADE FOR ALL DEVICES", result.data);
+
+
+		// Update the button
+		pinWindow(pin_ID).find('.device-specific').removeClass('loading').removeClass('active');
+
+
+		// Finish the process
+		endProcess(deviceForAllPinProcessID);
+
+	});
+
+}
+
+
 // DB: Complete/Incomplete a pin
 function completePin(pin_ID, complete, imgData = null) {
 
@@ -2345,6 +2444,11 @@ function openPinWindow(pin_ID, firstTime = false, scrollToPin = false) {
 			.attr('data-pin-type', thePinType)
 			.attr('data-pin-private', thePinPrivate);
 		pinWindow().find('.pin-label').text(thePinText);
+
+
+		// Device specific pin
+		pinWindow().find('.device-specific').removeClass('loading').removeClass('active');
+		if ( pin.device_ID != null ) pinWindow().find('.device-specific').addClass('active');
 
 
 

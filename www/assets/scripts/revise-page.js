@@ -384,6 +384,34 @@ $(function() {
 	});
 
 
+	// Device only Pin
+	$(document).on('click', '#pin-window .device-specific:not(.active):not(.loading)', function(e) {
+
+		var pin_ID = pinWindow().attr('data-pin-id');
+
+
+		makeDeviceSpecific(pin_ID, device_ID);
+
+
+		e.preventDefault();
+
+	});
+
+
+	// Disable Device only Pin
+	$(document).on('click', '#pin-window .device-specific.active:not(.loading)', function(e) {
+
+		var pin_ID = pinWindow().attr('data-pin-id');
+
+
+		makeForAllDevices(pin_ID);
+
+
+		e.preventDefault();
+
+	});
+
+
 	// Complete Pin
 	$('#pin-window .pin-complete > a').click(function(e) {
 

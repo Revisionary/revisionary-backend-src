@@ -316,6 +316,76 @@ class Pin {
 	}
 
 
+    // Make device specific
+    public function deviceSpecific($device_ID) {
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		// Update the pin
+		$db->where('pin_ID', self::$pin_ID);
+		$pin_updated = $db->update('pins', array('device_ID' => $device_ID));
+
+		// If successful
+		if ($pin_updated) {
+
+
+			// Update the page modification date
+			$pageData = Page::ID( $this->page_ID );
+			$pageData->updateModified();
+
+
+			// Site log
+			$log->info("Pin #".self::$pin_ID." has been made only for Device #$device_ID '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
+
+		}
+
+
+		return $pin_updated;
+
+	}
+
+
+    // Make for all devices
+    public function deviceAll() {
+	    global $db, $log;
+
+
+
+		// More DB Checks of arguments !!! (This user can complete?)
+
+
+
+		// Update the pin
+		$db->where('pin_ID', self::$pin_ID);
+		$pin_updated = $db->update('pins', array('device_ID' => null));
+
+		// If successful
+		if ($pin_updated) {
+
+
+			// Update the page modification date
+			$pageData = Page::ID( $this->page_ID );
+			$pageData->updateModified();
+
+
+			// Site log
+			$log->info("Pin #".self::$pin_ID." has been made for all devices: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
+
+		}
+
+
+		return $pin_updated;
+
+	}
+
+
     // Convert a pin
     public function convert(
 	    string $pin_type,

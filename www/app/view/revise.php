@@ -817,7 +817,7 @@ foreach ($other_pages as $pageOther) {
 
 					</div>
 					<div class="col action">
-						<a href="#" class="center-tooltip bottom-tooltip device-specific activee" data-tooltip="Only For Current Device (In development...)"><i class="fa fa-thumbtack"></i></a>
+						<a href="#" class="center-tooltip bottom-tooltip device-specific" data-tooltip="Only For Current Device"><i class="fa fa-thumbtack"></i></a>
 					</div>
 					<div class="col action" data-tooltip="Coming soon." style="display: none !important;">
 
