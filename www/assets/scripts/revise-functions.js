@@ -869,8 +869,7 @@ function runTheInspector() {
 
 
 				// Remove current page if no pins added
-				var currentUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
-				if ( queryParameter(currentUrl, 'new') == "page" && Pins.length == 0 ) {
+				if ( queryParameter(currentUrl(), 'new') == "page" && Pins.length == 0 ) {
 
 
 					// Remove the page and then go to the link
