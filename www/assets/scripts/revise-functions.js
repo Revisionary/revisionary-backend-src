@@ -207,6 +207,9 @@ function runTheInspector() {
 						openPin = pinWindow().attr('data-pin-id');
 						console.log('AFTER REDIRECT, OPEN PIN ID #' + openPin);
 
+						// Close pin window
+						closePinWindow(false);
+
 					}
 
 
