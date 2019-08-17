@@ -1083,7 +1083,7 @@ class Pin {
 
 		<br><br><br>
 
-		<small>If you don't want to receive these email notifications, update your email notification preference in your <a href='".site_url('account/email')."'>Email Settings</a> page.</small>
+		<small>If you don't want to receive these email notifications, update your email notification preference in your account's <a href='".site_url('account/email')."'>Email Settings</a> page.</small>
 
 
 		", 'subject' => "$pin_message on ".$pageData->getInfo('page_name')."[".$projectData->getInfo('project_name')."] page"];
