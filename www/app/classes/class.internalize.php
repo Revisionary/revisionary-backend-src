@@ -993,8 +993,8 @@ class Internalize {
 
 
 					// Font Logs
-					$logger->info('Font Detected: '.$relative_url.' -> '.$new_url);
-			        file_put_contents( $this->phaseData->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
+					$logger->info('Imported Font Detected: '.$relative_url.' -> '.$new_url);
+			        file_put_contents( $this->phaseData->logDir."/_css-filter.log", "[".date("Y-m-d h:i:sa")."] - Imported Font Detected: '".$relative_url."' -> '".$new_url."' \r\n", FILE_APPEND);
 
 
 				} elseif ( $css_resource_key !== false ) {
