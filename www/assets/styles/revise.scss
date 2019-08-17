@@ -258,54 +258,34 @@ html, body {
 
 		[data-pin-type="live"][data-pin-private="0"] {
 
-/*
-			[data-pin-type="live"][data-pin-private="0"] {
-				display: none;
-			}
-*/
-
 			& > a > i {
 				color: $color-live;
 			}
+
 		}
 
 		[data-pin-type="standard"][data-pin-private="0"] {
 
-/*
-			[data-pin-type="standard"][data-pin-private="0"] {
-				display: none;
-			}
-*/
-
 			& > a > i {
 				//color: $color-live;
 			}
+
 		}
 
 		[data-pin-type="live"][data-pin-private="1"] {
 
-/*
-			[data-pin-type="live"][data-pin-private="1"] {
-				display: none;
-			}
-*/
-
 			& > a > i {
 				color: $color-private-live;
 			}
+
 		}
 
 		[data-pin-type="standard"][data-pin-private="1"] {
 
-/*
-			[data-pin-type="standard"][data-pin-private="1"] {
-				display: none;
-			}
-*/
-
 			& > a > i {
 				color: $color-private;
 			}
+
 		}
 
 		[data-pin-type="browse"] {
@@ -318,11 +298,6 @@ html, body {
 				display: inline-block;
 			}
 
-/*
-			.deactivator {
-				display: none;
-			}
-*/
 		}
 
 	}

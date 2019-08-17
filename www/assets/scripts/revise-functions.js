@@ -110,6 +110,16 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 function runTheInspector() {
 
 
+
+	// CLOSE ALL THE OPEN TABS
+	$('.opener').each(function() {
+
+		toggleTab( $(this), true );
+
+	});
+
+
+
 	// WHEN IFRAME DOCUMENT READY !!! ?
 	$('#the-page').contents().ready(function() {
 
@@ -126,6 +136,11 @@ function runTheInspector() {
 
 		// If we have access on this iframe (CORS Check)
 		if ( canAccessIFrame($(this)) ) {
+
+
+			// Iframe element
+		    iframe = $('#the-page').contents();
+			iframeLoaded = true;
 
 
 			// After coming back to the real page
@@ -154,6 +169,13 @@ function runTheInspector() {
 				}, 2000);
 
 
+			} else {
+
+
+				// UPDATE INITIAL CURSOR TYPE
+				switchPinType(currentPinType, currentPinPrivate);
+
+
 			}
 
 
@@ -161,8 +183,9 @@ function runTheInspector() {
 			// PINS:
 			// Get latest pins and apply them to the page
 			Pins = [];
-			getPins(true, true, openPin);
+			getPins(true, openPin);
 			openPin = null;
+
 
 
 
@@ -182,9 +205,7 @@ function runTheInspector() {
 
 						// Register the open pin
 						openPin = pinWindow().attr('data-pin-id');
-
-						// Close the open pin window
-						closePinWindow();
+						console.log('AFTER REDIRECT, OPEN PIN ID #' + openPin);
 
 					}
 
@@ -208,7 +229,7 @@ function runTheInspector() {
 	        });
 
 
-		} else {
+		} else { // IF NO ACCESS OF IFRAME
 
 
 			console.log('*** LOAD REDIRECTING BACK TO...', page_URL);
@@ -216,6 +237,7 @@ function runTheInspector() {
 			//window.frames["the-page"].location = page_URL;
 			$('#the-page').attr('src', page_URL);
 			page_redirected = true;
+			iframeLoaded = false;
 
 
 			return;
@@ -223,13 +245,7 @@ function runTheInspector() {
 		}
 
 
-
 		console.log('Load Complete', canAccessIFrame( $(this) ));
-
-
-
-		// Iframe element
-	    iframe = $('#the-page').contents();
 
 
 
@@ -244,28 +260,16 @@ function runTheInspector() {
 
 
 
-		// UPDATE INITIAL CURSOR TYPE
-		switchPinType(currentPinType, currentPinPrivate);
-
-
-
-		// PAGE INTERACTIONS:
-		// Close all the tabs
-		$('.opener').each(function() {
-
-			toggleTab( $(this), true );
-
-		});
-
-
 	    // Update the title
 		if ( iframeElement('title').length ) {
 			$('title').text( "Revise Page: " + iframeElement('title').text() );
 		}
 
 
+
 		// If new downloaded site, ask whether or not it's showing correctly
 		if ( $('.ask-showing-correctly').length ) $('.ask-showing-correctly').addClass('open');
+
 
 
 		// MOUSE ACTIONS:
@@ -1018,6 +1022,9 @@ function updatePinsList() {
 // Color the element
 function outline(element, private_pin, pin_type = "live") {
 
+	if (iframeLoaded == false) return false;
+
+
 	var block = pin_type == "live" ? false : true;
 
 	var elementColor = private_pin == 1 ? '#FC0FB3' : '#7ED321';
@@ -1033,6 +1040,8 @@ function outline(element, private_pin, pin_type = "live") {
 
 // Color the element
 function removeOutline() {
+
+	if (iframeLoaded == false) return false;
 
 	// Remove outlines from iframe
 	iframeElement('*:not(.revisionary-focused)').css('outline', '');
@@ -1104,7 +1113,7 @@ function switchPinType(pinType, pinPrivate) {
 
 
 	// Close the open pin window
-	if (pinWindowOpen) closePinWindow();
+	if (pinWindowOpen && iframeLoaded) closePinWindow();
 
 }
 
@@ -1195,12 +1204,12 @@ function toggleCursorActive(forceClose = false, forceOpen = false) {
 
 
 	// Close the open pin window
-	if (pinWindowOpen) closePinWindow();
+	if (pinWindowOpen && iframeLoaded) closePinWindow();
 
 }
 
 
-// Hide cursor
+// Hide cursor !!!
 function hideCursor() {
 
 }
@@ -1249,7 +1258,7 @@ function stopAutoRefresh() {
 
 // PINS:
 // DB: Get up-to-date pins and changes
-function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
+function getPins(firstRetrieve = false, goToPin = null) {
 
 
 	console.log('GETTING PINS...');
@@ -1272,7 +1281,7 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 
 
 		// If not logged in, refresh this page to go to the login page
-		//if (data.status == "not-logged-in" || data.status == "no-access") location.reload();
+		if (data.status == "not-logged-in" || data.status == "no-access") location.reload();
 
 
 		// Update the global pins list
@@ -1297,7 +1306,7 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 
 
 			// Apply Pins, revert old pins, loading overlay will be removed after this task
-			if (applyChanges) applyPins(oldPins);
+			applyPins(oldPins);
 
 
 		} else {
@@ -1311,6 +1320,9 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 
 
 		if (firstRetrieve) {
+
+
+			console.log('FIRST RETRIEVE!', window.location.hash);
 
 
 			// Hide the loading overlay
@@ -1343,9 +1355,9 @@ function getPins(applyChanges = true, firstRetrieve = false, goToPin = null) {
 		// If goToPin entered
 		if (goToPin != null) {
 
-			console.log('AUTO GOOOOOOOOOOOOO!!!!!');
 
-			openPinWindow(goToPin, true);
+			console.log('Auto opening pin window for Pin #' + goToPin);
+			if (!pinWindowOpen) openPinWindow(goToPin, true);
 
 		}
 
@@ -1475,6 +1487,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 		var realPinID = result.data.real_pin_ID; //console.log('REAL PIN ID: '+realPinID);
 		var newPin = pinElement('[data-pin-id="'+ temporaryPinID +'"]');
+		if (openPin != null) openPin = realPinID;
 
 
 		// Update the pin ID
@@ -1775,7 +1788,7 @@ function scrollToPin(pin_ID, openWindow = false, noDelay = false) {
 		}, delay, 'swing').promise().then(function() {
 
 
-			if (openWindow)	openPinWindow(pin_ID);
+			if (openWindow && !pinWindowOpen) openPinWindow(pin_ID);
 
 
 		});
@@ -2254,10 +2267,10 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 
 // PIN WINDOW:
 // Open the pin window
-function openPinWindow(pin_ID, firstTime = false) {
+function openPinWindow(pin_ID, firstTime = false, scrollToPin = false) {
 
 
-	console.log('OPEN WINDOW PIN ID', pin_ID, firstTime);
+	console.log('OPEN WINDOW PIN #' + pin_ID, firstTime);
 
 
 	try {
@@ -2614,7 +2627,7 @@ function closePinWindow(removePinIfEmpty = true) {
 	var pin_ID = pinWindow().attr('data-pin-id');
 
 
-	if (pinWindowOpen) console.log('PIN WINDOW CLOSING.');
+	if (pinWindowOpen) console.log('CLOSE PIN WINDOW #' + pin_ID);
 
 
 	// Previous state of window
@@ -3807,6 +3820,8 @@ function inCompleteNotification(pin_ID) {
 // SELECTORS:
 // Find iframe element
 function iframeElement(selector) {
+
+	if (iframeLoaded == false) return false;
 
 	var element = false;
 

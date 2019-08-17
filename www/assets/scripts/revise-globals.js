@@ -1,5 +1,6 @@
 // GLOBAL VARIABLES
 var iframe;
+var iframeLoaded = false;
 var documentChild;
 var childWindow;
 

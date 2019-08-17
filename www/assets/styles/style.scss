@@ -1611,6 +1611,15 @@ pin {
 		    font-family: Arial;
 		}
 
+		.device-specific {
+
+			&.active {
+				color: $color-secondary;
+				position: relative;
+			}
+
+		}
+
 		.action {
 		    display: flex;
 		    justify-content: center;
