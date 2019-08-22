@@ -330,7 +330,7 @@ require('http').createServer(async (req, res) => {
 
 
 					// If on the same host, or provided by a CDN
-					if ( ourHost == requestHost || fromCDN ) {
+					if ( ourHost == requestHost || ourHost == requestHost.replace('www.', '') || fromCDN ) {
 
 
 						let shouldDownload = true;
@@ -339,7 +339,7 @@ require('http').createServer(async (req, res) => {
 
 
 						// HTML File
-						if (resourceType == 'document' && ourHost == requestHost) {
+						if (resourceType == 'document' && (ourHost == requestHost || ourHost == requestHost.replace('www.', ''))) {
 
 							htmlCount++;
 							newDir = "";
@@ -408,7 +408,13 @@ require('http').createServer(async (req, res) => {
 
 
 					// If not on our host !!!
-					} else console.log(`📄❌ OTHER HOST FILE ${fileType} ${shortURL}`);
+					} else {
+
+						console.log(`📄❌ OTHER HOST FILE ${fileType} ${shortURL}`);
+						//console.log('Our Host: ', ourHost);
+						//console.log('Request Host: ', requestHost);
+
+					}
 
 
 				} // If request allowed

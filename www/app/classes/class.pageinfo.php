@@ -151,6 +151,11 @@ class Page {
 
 
 
+		// Check for redirects
+		$page_url = get_redirect_final_target($page_url);
+
+
+
 		// Create a project
 		if ($project_ID == 0) {
 

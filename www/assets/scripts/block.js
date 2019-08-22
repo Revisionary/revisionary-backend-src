@@ -345,7 +345,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 		<div class="box xl-center">\
 			<div class="wrap xl-flexbox xl-middle xl-left new">\
 				<div class="col xl-8-12 xl-outside-24 xl-center">\
-					<form action="/projects" method="get">\
+					<form action="/projects" method="post" class="new-project-form">\
 						<input type="hidden" name="add_new" value="true"/>\
 						<input type="hidden" name="project_ID" value="'+cat_project_ID+'"/>\
 						<input type="hidden" name="category" value="'+category_ID+'"/>\

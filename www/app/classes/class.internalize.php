@@ -235,6 +235,15 @@ class Internalize {
 		}
 
 
+
+		// Update the real URL
+		if ( isset($data->realPageURL) && $data->realPageURL != $url ) {
+
+			Page::ID($page_ID)->edit('page_url', $data->realPageURL);
+
+		}
+
+
 		// Update the queue status
 		$queue->update_status($this->queue_ID, "working", "Downloaded files list is ready.");
 		$logger->info("Downloaded files list is ready: ", $data->downloadedFiles);

@@ -2,7 +2,7 @@
 	<h2>Add New <span class="data-type"></span></h2>
 	<h5 class="to"></h5>
 
-	<form action="<?=site_url('projects', true)?>" method="post">
+	<form action="<?=site_url('projects', true)?>" method="post" class="new-project-form">
 
 		<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
 		<input type="hidden" name="add_new" value="true"/>

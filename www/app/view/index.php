@@ -16,7 +16,7 @@
 				</ul>
 			</div>
 
-			<form action="<?=site_url('projects', true)?>" method="get">
+			<form action="<?=site_url('projects', true)?>" method="post" class="new-project-form">
 
 				<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
 				<input type="hidden" name="add_new" value="true"/>
