@@ -173,6 +173,16 @@ function runTheInspector() {
 
 
 				// UPDATE INITIAL CURSOR TYPE
+
+				// Check for the client settings
+				var clientPinType = get_client_cache(user_ID + '_currentPinType');
+				var clientPinPrivate = get_client_cache(user_ID + '_currentPinPrivate');
+
+				if (clientPinType != null && clientPinPrivate != null) {
+					currentPinType = clientPinType;
+					currentPinPrivate = clientPinPrivate;
+				}
+
 				switchPinType(currentPinType, currentPinPrivate);
 
 
@@ -1104,6 +1114,12 @@ function switchPinType(pinType, pinPrivate) {
 	    newurl = queryParameter(newurl, 'privatepin', (currentPinPrivate == 1 ? "1" : ""));
 	    window.history.pushState({path:newurl},'',newurl);
 	}
+
+
+
+	// Client settings
+	set_client_cache(user_ID + '_currentPinType', currentPinType);
+	set_client_cache(user_ID + '_currentPinPrivate', currentPinPrivate);
 
 
 
