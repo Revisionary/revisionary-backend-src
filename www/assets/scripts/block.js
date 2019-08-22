@@ -23,10 +23,17 @@ $(function() {
 		$(this).parent().parent().children('li').removeClass('selected');
 		$(this).parent().addClass('selected');
 
+		set_client_cache(user_ID + '_columnSize', selected);
+
 		e.preventDefault();
 		return false;
 
 	});
+
+
+	// Apply Block sizes
+	var columnSize = get_client_cache(user_ID + '_columnSize');
+	if ( columnSize ) $('.size-selector a[data-column="'+ columnSize +'"]').click();
 
 
 	// Category Sortable

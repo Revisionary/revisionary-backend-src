@@ -1508,6 +1508,59 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 
 
 // HELPERS:
+function get_client_cache(key) {
+
+
+	if (localStorage) {
+
+		return localStorage.getItem(key);
+
+	} else {
+
+		// No support. Use a fallback such as browser cookies or store on the server. !!!
+		return false;
+
+	}
+
+
+}
+
+function set_client_cache(key, value) {
+
+
+	if (localStorage) {
+
+		localStorage.setItem(key, value);
+		return true;
+
+	} else {
+
+		// No support. Use a fallback such as browser cookies or store on the server. !!!
+		return false;
+
+	}
+
+
+}
+
+function remove_client_cache(key) {
+
+
+	if (localStorage) {
+
+		localStorage.removeItem(key);
+		return true;
+
+	} else {
+
+		// No support. Use a fallback such as browser cookies or store on the server. !!!
+		return false;
+
+	}
+
+
+}
+
 function currentUrl() {
 
 	//return window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
