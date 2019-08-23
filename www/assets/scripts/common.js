@@ -83,6 +83,103 @@ $(function() {
 	});
 
 
+	// New project modal URL check
+	$(document).on('submit', '.new-project-form', function(e) {
+
+		var url = $(this).find('input[name="page-url"]').val();
+		var project_ID = $(this).find('input[name="project_ID"]').val();
+
+
+		// Other pages check
+		var pageExists = false;
+		if (project_ID != "new" && project_ID != "autodetect") {
+
+			// Check the URLs in this project !!!
+
+		}
+
+
+		// Other pages in other projects
+		var pageExistsInOtherProject = false;
+		var urlsInOtherProjects = {};
+
+
+		// Check other project domains
+		var projectExists = false;
+		var otherProjectDomains = {};
+
+
+		// Reccomend adding different project
+		var newProject = false;
+		if (project_ID != "new" && project_ID != "autodetect") {
+
+			// Check the URLs in this project !!!
+
+		}
+
+
+
+		if (pageExists) { // URL found in a page_ID in this project (Only in a specific Project)
+
+
+			// Confirm: Should we add a new phase?
+			if ( confirm("The URL you entered already has a page in this project. Should we add a new phase on this page?") ) {
+
+				console.log('Redirect to a new phase URL...');
+
+
+				e.preventDefault();
+			}
+
+
+		} else if (pageExistsInOtherProject) { // URL found in different project_ID
+
+
+			// Confirm: Should we add a new phase?
+			if ( confirm("The URL you entered already has a page in a project. Should we add a new phase on that page?") ) {
+
+				console.log('Redirect to a new phase URL...');
+
+
+				e.preventDefault();
+			}
+
+
+		} else if (projectExists) { // Domain found in different project_ID
+
+
+			// Confirm: Should we add a new page in the found Project?
+			if ( confirm("The URL you entered already has a project. Should we add a new page in that Project?") ) {
+
+				console.log('Update the project number...');
+
+			}
+
+
+		} else if (newProject) { // URL or Domain not found in this project_ID and other projects (Only in a specific Project)
+
+
+			// Confirm: Should we add a new project for this URL?
+			if ( confirm("The URL you entered doesn't look belong to this project. Should we add a new project for this URL?") ) {
+
+				console.log('Redirect to a new project URL...');
+
+
+				e.preventDefault();
+
+			}
+
+
+		}
+
+
+
+		console.log('URL: ', url);
+		console.log('Project ID: ', project_ID);
+
+	});
+
+
 	// Add user toggle
 	$('.new-member').click(function(e) {
 
