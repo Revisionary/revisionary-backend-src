@@ -41,24 +41,24 @@ function cache_url($url = null, $forceSSL = false, $unForceSSL = false) {
 
 function current_url($query = "", $removeQuery = "", $forceSSL = false, $unForceSSL = false) {
 
-	$pageURL = 'http';
+
+	// Get current host
+	$pageURL = 'http'.(isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on" ? "s" : "")."://".$_SERVER["SERVER_NAME"];
 
 
-	if ( (isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on" && !$unForceSSL) || $forceSSL )
-		$pageURL .= "s";
-
-	$pageURL .= "://";
-
-
-	if ($_SERVER["SERVER_PORT"] != "80" && $_SERVER["SERVER_PORT"] != "443")
-		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-	else
-		$pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+	// SSL forcing
+	if ($forceSSL) $pageURL = secure_url;
+	if ($unForceSSL) $pageURL = insecure_url;
 
 
+	// Port detection
+	$pageURL .= ($_SERVER["SERVER_PORT"] != "80" && $_SERVER["SERVER_PORT"] != "443" ? ":".$_SERVER["SERVER_PORT"] : "").$_SERVER["REQUEST_URI"];
+
+
+
+	// Query works
 	if ($query != "")
 		$pageURL = queryArg($query, $pageURL);
-
 
 	if ($removeQuery != "")
 		$pageURL = removeQueryArg($removeQuery, $pageURL);
