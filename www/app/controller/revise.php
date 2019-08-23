@@ -76,6 +76,18 @@ if ( !$page ) {
 }
 
 
+// Check the New URL if force reinternalizing
+if ($forceReInternalize) {
+
+	// Test the URL and get final URL after redirects
+	$final_url = get_redirect_final_target($page['page_url']);
+	if ($page['page_url'] != $final_url) {
+		Page::ID($page_ID)->edit('page_url', $final_url);
+	}
+
+}
+
+
 // Get the project ID
 $project_ID = $page['project_ID'];
 
@@ -158,7 +170,9 @@ if ( substr($phaseData->remoteUrl, 0, 8) == "https://" && !ssl) {
 	if ( get('privatepin') == "1" ) $url_to_redirect = queryArg('privatepin=1', $url_to_redirect);
 	if ( get('filter') == "incomplete" || get('filter') == "complete" ) $url_to_redirect = queryArg('filter='.get('filter'), $url_to_redirect);
 	if ( get('new') == "page" ) $url_to_redirect = queryArg('new=page', $url_to_redirect);
+	if ( get('redownload') === "" ) $url_to_redirect = queryArg('redownload', $url_to_redirect);
 
+	//$url_to_redirect = current_url("", "", true);
 	header( 'Location: '.$url_to_redirect ); // Force HTTPS
 	die();
 
@@ -172,7 +186,9 @@ if ( substr($phaseData->remoteUrl, 0, 7) == "http://" && ssl) {
 	if ( get('privatepin') == "1" ) $url_to_redirect = queryArg('privatepin=1', $url_to_redirect);
 	if ( get('filter') == "incomplete" || get('filter') == "complete" ) $url_to_redirect = queryArg('filter='.get('filter'), $url_to_redirect);
 	if ( get('new') == "page" ) $url_to_redirect = queryArg('new=page', $url_to_redirect);
+	if ( get('redownload') === "" ) $url_to_redirect = queryArg('redownload', $url_to_redirect);
 
+	//$url_to_redirect = current_url("", "", false, true);
 	header( 'Location: '.$url_to_redirect ); // Force HTTP
 	die();
 

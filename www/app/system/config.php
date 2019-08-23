@@ -15,8 +15,9 @@ $config['env'] = [
 	'db_user' 	=> $_ENV['DB_USER'],
 	'db_pass' 	=> $_ENV['DB_PASSWORD'],
 	'timezone'  => $_ENV['DB_TIMEZONE'],
-	'smtp_user'  => $_ENV['SMTP_USER'],
-	'smtp_pass'  => $_ENV['SMTP_PASS']
+	'smtp_user' => $_ENV['SMTP_USER'],
+	'smtp_pass' => $_ENV['SMTP_PASS'],
+	'debug'  	=> $_ENV['DEBUG']
 ];
 
 

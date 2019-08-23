@@ -1,6 +1,11 @@
 <pre>
 <?php
 
+echo get_redirect_final_target('http://bugrayazar.com');
+
+
+die();
+
 use Aws\S3\S3Client;
 
 
