@@ -224,22 +224,25 @@ require('http').createServer(async (req, res) => {
 
 				// Update the real page URL
 				if (page.url() != 'about:blank' && realPageURL != page.url()) {
+
+
 					realPageURL = page.url();
 					console.log('🌎 Real Page URL: ', page.url());
+
+
+					// Delete other documents from the list
+					downloadableRequests = downloadableRequests.filter(function(req){
+
+						if (req.fileType == "document") return false;
+					    return true;
+
+					});
+
+
+					console.log('🏠 HOME OLD DOCUMENT REMOVED:', realPageURL);
+
+
 				}
-
-
-				// Delete other documents from the list
-				downloadableRequests = downloadableRequests.filter(function(req, index, arr){
-
-					if (
-						(req.fileType == "document" && req.remoteUrl == realPageURL)
-						|| req.fileType != "document"
-					) return true;
-
-				    return false;
-
-				});
 
 
 				const parsedRealURL = new URL(realPageURL);
@@ -279,7 +282,6 @@ require('http').createServer(async (req, res) => {
 				const fileType = resourceType;
 
 
-
 				const seconds = (+new Date() - nowTime) / 1000;
 				const otherResources = /^(manifest|other)$/i.test(resourceType);
 				// Abort requests that exceeds 15 seconds
@@ -316,206 +318,227 @@ require('http').createServer(async (req, res) => {
 					console.log(`❌🌪 ${method} ${resourceType} ${shortURL}`);
 					request.abort();
 				} else {
-					console.log(`✅ ${method} ${resourceType} ${fileName} ${shortURL}`);
+
+
+					if (url == realPageURL) console.log('🏠 HOME REQUEST:', url);
+
+
+					console.log(`✅ ALLOWED REQUEST: ${method} ${resourceType} ${fileName} ${shortURL}`);
 					request.continue();
 					reqCount++;
 
 
-					// Detect CDN
-					let fromCDN = false;
-					if (ourHost != requestHost && cdnDetector.detectFromHostname(requestHost) != null) {
-						console.log('🌪 CDN DETECTED: ', requestHost);
-						fromCDN = true;
-					}
-
-
-					// If on the same host, or provided by a CDN
-					if ( ourHost == requestHost || ourHost == requestHost.replace('www.', '') || fromCDN ) {
-
-
-						let shouldDownload = true;
-						let newFileName = "noname.txt";
-						let newDir = "temp/";
-
-
-						// HTML File
-						if (resourceType == 'document' && (ourHost == requestHost || ourHost == requestHost.replace('www.', ''))) {
-
-							htmlCount++;
-							newDir = "";
-							newFileName = 'index.html';
-
-						}
-
-						// CSS Files
-						else if (fileType == 'stylesheet') {
-
-							cssCount++;
-							newDir = "css/";
-							newFileName = cssCount + '.css';
-
-						}
-
-						// JS Files
-						else if (fileType == 'script') {
-
-							jsCount++;
-							newDir = "js/";
-							newFileName = jsCount + '.js';
-
-						}
-
-						// Font Files
-						else if (fileType == 'font') {
-
-							fontCount++;
-							newDir = "fonts/";
-							newFileName = fileName;
-
-						}
-
-						// If none of them
-						else {
-
-							shouldDownload = false;
-							console.log(`📄❌ NOT ALLOWED TYPE: ${fileType} ${fileName} ${shortURL}`);
-
-						}
-
-
-
-						// Add to the list
-						if (shouldDownload) {
-
-							// Prepend the site directory
-							newDir = siteDir + newDir;
-
-
-							downloadableRequests.push(
-								{
-									remoteUrl: url,
-									fileType: fileType,
-									fileName: fileName,
-									newDir: newDir,
-									newFileName: newFileName,
-									buffer: null
-								}
-							);
-
-							console.log('📄📋 #'+downloadableRequests.length+' '+fileType.toUpperCase()+' to Download: ', fileName + ' -> ' + newDir + newFileName);
-
-						}
-
-
-					// If not on our host !!!
-					} else {
-
-						console.log(`📄❌ OTHER HOST FILE ${fileType} ${shortURL}`);
-						//console.log('Our Host: ', ourHost);
-						//console.log('Request Host: ', requestHost);
-
-					}
-
-
 				} // If request allowed
+
 
 
 			}); // THE REQUESTS LOOP
 
 
 
-			// RESPONSE
+
+			// REQUEST FINISHED
 			let responseCount = 0;
 			let bufferCount = 0;
-
-			let responseReject;
-			const responsePromise = new Promise((_, reject) => {
-				responseReject = reject;
-			});
-			page.on('response', (response) => {
-
-				const headers = response._headers;
-				const location = headers['location'];
-				if (location && location.includes(host)) {
-					responseReject(new Error('Possible infinite redirects detected.'));
-				}
+			page.on('requestfinished', async (request) => {
 
 				responseCount++;
 
 
-				// Request info
-				const request = response.request();
+				// Response info
+			    const response = await request.response();
+			    const response_status = response.status();
+			    const response_url = response.url();
+
+
+
+				console.log('REQUEST FINISHED:', response_url);
+
+
+
+			    // Request info
+				const parsedRealURL = new URL(realPageURL);
+				const ourHost = parsedRealURL.hostname;
+
+
 				const url = request.url();
 				const parsedUrl = new URL(url);
+				const requestHost = parsedUrl.hostname;
 				const shortURL = truncate(url, 70);
 				const method = request.method();
 				const resourceType = request.resourceType();
 
 
-				var downloadable = downloadableRequests.find(function(req) {return req.remoteUrl == url ? true : false;});
-				var downloadedIndex = downloadableRequests.indexOf(downloadable);
+				// Get the filename
+				const split = parsedUrl.pathname.split('/');
+				let fileName = split[split.length - 1];
+
+				if (fileName == '') fileName += 'index';
+
+				if (!fileName.includes('.')) {
+
+				    if (resourceType == 'document') fileName += '.html';
+				    else if (resourceType == 'stylesheet') fileName += '.css';
+				    else if (resourceType == 'script') fileName += '.js';
+
+				}
+
+				// Get the file extension
+				const extsplit = fileName.split('.');
+				const fileExtension = extsplit[extsplit.length - 1];
+				const fileType = resourceType;
 
 
-				if ( downloadable && !url.startsWith('data:') && response.ok && response.status() != 301 ) {
+
+				// Detect CDN
+				let fromCDN = false;
+				if (ourHost != requestHost && cdnDetector.detectFromHostname(requestHost) != null) {
+					console.log('🌪 CDN DETECTED: ', requestHost);
+					fromCDN = true;
+				}
 
 
 
-					// Get the buffer
-					response.buffer().then(buffer => { bufferCount++;
+
+				// If on the same host, or provided by a CDN
+				if ( ourHost == requestHost || ourHost == requestHost.replace('www.', '') || fromCDN ) {
 
 
-						if (downloadableRequests[downloadedIndex].buffer == null || downloadableRequests[downloadedIndex].buffer.length == 0) {
+					let shouldDownload = true;
+					let newFileName = "noname.txt";
+					let newDir = "temp/";
+
+
+					// HTML File
+					if (resourceType == 'document' && (ourHost == requestHost || ourHost == requestHost.replace('www.', ''))) {
+
+						htmlCount++;
+						newDir = "";
+						newFileName = 'index.html';
+
+					}
+
+					// CSS Files
+					else if (fileType == 'stylesheet') {
+
+						cssCount++;
+						newDir = "css/";
+						newFileName = cssCount + '.css';
+
+					}
+
+					// JS Files
+					else if (fileType == 'script') {
+
+						jsCount++;
+						newDir = "js/";
+						newFileName = jsCount + '.js';
+
+					}
+
+					// Font Files
+					else if (fileType == 'font') {
+
+						fontCount++;
+						newDir = "fonts/";
+						newFileName = fileName;
+
+					}
+
+					// If none of them
+					else {
+
+						shouldDownload = false;
+						console.log(`📄❌ NOT ALLOWED TYPE: ${fileType} ${fileName} ${shortURL}`);
+
+					}
+
+
+
+					// Add to the list
+					if (shouldDownload) {
+
+
+						// Prepend the site directory
+						newDir = siteDir + newDir;
+
+
+						// Get the buffer
+						response.buffer().then(buffer => { bufferCount++;
+
+							if (response_url == realPageURL) console.log('🏠 HOME BUFFER READY:', response_url);
 
 
 							if (buffer != null) {
 
 
-								// Add the buffer
-								downloadableRequests[downloadedIndex].buffer = buffer;
+								downloadableRequests.push(
+									{
+										remoteUrl: url,
+										fileType: resourceType,
+										fileName: fileName,
+										newDir: newDir,
+										newFileName: newFileName,
+										buffer: buffer
+									}
+								);
 
+
+								if (response_url == realPageURL) console.log('🏠 HOME BUFFER ADDED:', response_url);
 
 								//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
-								console.log(`📋✅ #${downloadedIndex} (${bufferCount}/${downloadableRequests.length}) ${method} ${resourceType} ${url}`);
+								console.log(`📋✅ BUFFER ADDED: #${bufferCount} ${method} ${resourceType} ${url}`);
 
 
 							} else {
 
-								console.error(`📋❌ EMPTY BUFFER: ${response.status()} ${request.resourceType()} ${response.url()}`);
+								if (response_url == realPageURL) console.log('🏠 HOME EMPTY BUFFER ERROR:', response_url);
 
-								// Delete from the download list
-								downloadableRequests.splice(downloadedIndex, 1);
+								console.error(`📋❌ EMPTY BUFFER: ${response.status()} ${request.resourceType()} ${response.url()}`);
 
 							}
 
 
-						}
 
+						}, e => {
 
-					}, e => {
+							if (response_url == realPageURL) console.log('🏠 HOME BUFFER ERROR:', response_url);
 
-						console.error(`📋❌${response.status()} ${request.resourceType()} ${response.url()} failed: ${e}`);
+							console.error(`📋❌ BUFFER ERROR: ${response.status()} ${request.resourceType()} ${response.url()} failed: ${e}`);
 
-						// Delete from the download list
-						downloadableRequests.splice(downloadedIndex, 1);
-
-					});
-
-
-				} else {
-
-					console.error(`❌ Response not allowed: ${response.status()} ${request.resourceType()} ${response.url()}`);
-
-					if (downloadable) {
-
-						console.error(`📋❌ Deleted from the list: ${response.status()} ${request.resourceType()} ${response.url()}`, downloadable);
-
-						// Delete from the download list
-						downloadableRequests.splice(downloadedIndex, 1);
+						});
 
 					}
 
+
+				// If not on our host !!!
+				} else {
+
+					console.log(`📄❌ OTHER HOST FILE: ${fileType} ${shortURL}`);
+					//console.log('Our Host: ', ourHost);
+					//console.log('Request Host: ', requestHost);
+
 				}
 
+
+
+			}); // THE REQUEST FINISHED LOOP
+
+
+
+
+			//page.on('requestfailed', nextRequest);
+
+
+
+
+
+			// RESPONSE
+			let responseReject;
+			const responsePromise = new Promise((_, reject) => {
+				responseReject = reject;
+			});
+			page.on('response', (response) => {
 
 
 			}); // THE RESPONSES LOOP
@@ -650,6 +673,10 @@ require('http').createServer(async (req, res) => {
 
 
 		console.log('💥 Perform action: ' + action);
+		console.log('💥 DOWNLOADABLES: ');
+		console.log(downloadableRequests);
+
+
 
 		switch (action) {
 			case 'internalize': {

@@ -1,7 +1,7 @@
 <pre>
 <?php
 
-echo get_redirect_final_target('http://bugrayazar.com');
+echo get_redirect_final_target('http://bilaltas.net');
 
 
 die();
