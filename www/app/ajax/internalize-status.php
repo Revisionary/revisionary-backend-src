@@ -53,6 +53,8 @@ $data = array(
 	// JUST TO SEE
 	'phase_ID' => $phase_ID,
 	'queue_ID' => $queue_ID,
+	'phaseUrl' => $phaseData->cachedUrl,
+	'remoteUrl' => $phaseData->remoteUrl,
 
 	'status' => $status,
 	'processID' => $process->getPid(),
@@ -73,6 +75,7 @@ $data = array(
 
 		'queue_ID' => $queue_ID,
 		'phaseUrl' => $phaseData->cachedUrl,
+		'remoteUrl' => $phaseData->remoteUrl,
 		'internalized' => $phaseData->internalizeCount,
 	]
 );

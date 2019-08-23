@@ -239,7 +239,9 @@ class Internalize {
 		// Update the real URL
 		if ( isset($data->realPageURL) && $data->realPageURL != $url ) {
 
+			$url = $data->realPageURL;
 			Page::ID($page_ID)->edit('page_url', $data->realPageURL);
+			$this->phaseData = Phase::ID($phase_ID);
 
 		}
 

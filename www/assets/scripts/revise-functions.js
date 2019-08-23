@@ -62,6 +62,13 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 			console.log('PAGE URL: ', page_URL)
 
 
+			// Redirects
+			if (
+				( page_URL.startsWith("http://") && currentUrl().startsWith("https://") ) ||
+				( page_URL.startsWith("https://") && currentUrl().startsWith("http://") )
+			) location.reload();
+
+
 			// Update the iframe url
 			$('#the-page').attr('src', page_URL);
 
