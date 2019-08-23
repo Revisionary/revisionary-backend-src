@@ -42,6 +42,27 @@
 			<?=userloggedIn() ? "var user_ID = ".currentUserID().";" : ""?>
 			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
 			<?=isset($dataType) && $dataType == "page" && isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
+			var myPages = [];
+			<?php
+
+			if ( isset($allMyPages) ) {
+				foreach ($allMyPages as $myPage) {
+
+					// Skip archived and deleted
+					if ($myPage['page_deleted'] || $myPage['page_archived']) continue;
+			?>
+
+				myPages.push({
+					page_url : '<?=$myPage['page_url']?>',
+					page_ID : <?=$myPage['page_ID']?>,
+					project_ID : <?=$myPage['project_ID']?>
+				});
+
+			<?php
+				}
+			}
+
+			?>
 		</script>
 
 		<?php

@@ -88,13 +88,21 @@ $(function() {
 
 		var url = $(this).find('input[name="page-url"]').val();
 		var project_ID = $(this).find('input[name="project_ID"]').val();
+		var page_width = $(this).find('input[name="page_width"]').val();
+		var page_height = $(this).find('input[name="page_height"]').val();
 
 
 		// Other pages check
 		var pageExists = false;
 		if (project_ID != "new" && project_ID != "autodetect") {
 
-			// Check the URLs in this project !!!
+
+			var pageFound = myPages.find(function(page) {return page.page_url == url && page.project_ID == project_ID ? true : false;});
+
+			if (pageFound) {
+				pageExists = true;
+			}
+
 
 		}
 
@@ -113,7 +121,13 @@ $(function() {
 		var newProject = false;
 		if (project_ID != "new" && project_ID != "autodetect") {
 
-			// Check the URLs in this project !!!
+
+			var pageFound = myPages.find(function(page) {return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID ? true : false;});
+
+			if (!pageFound) {
+				newProject = true;
+			}
+
 
 		}
 
@@ -125,11 +139,17 @@ $(function() {
 			// Confirm: Should we add a new phase?
 			if ( confirm("The URL you entered already has a page in this project. Should we add a new phase on this page?") ) {
 
-				console.log('Redirect to a new phase URL...');
+				var newPhaseUrl = "/projects?new_phase="+ pageFound.page_ID +"&page_width="+page_width+"&page_height="+page_height;
+				console.log('Redirect to a new phase URL...', newPhaseUrl);
 
 
-				e.preventDefault();
+				// Redirect
+				window.location = newPhaseUrl;
+
 			}
+
+
+			e.preventDefault();
 
 
 		} else if (pageExistsInOtherProject) { // URL found in different project_ID
@@ -140,9 +160,10 @@ $(function() {
 
 				console.log('Redirect to a new phase URL...');
 
-
-				e.preventDefault();
 			}
+
+
+			e.preventDefault();
 
 
 		} else if (projectExists) { // Domain found in different project_ID
@@ -156,6 +177,9 @@ $(function() {
 			}
 
 
+			e.preventDefault();
+
+
 		} else if (newProject) { // URL or Domain not found in this project_ID and other projects (Only in a specific Project)
 
 
@@ -165,7 +189,9 @@ $(function() {
 				console.log('Redirect to a new project URL...');
 
 
-				e.preventDefault();
+				// Update the project id as new
+				$(this).find('input[name="project_ID"]').attr('value', 'autodetect');
+
 
 			}
 
@@ -1187,8 +1213,26 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 
 				// Hide the item
-				if ( object_type != "projectcategory" && object_type != "pagecategory" )
+				if ( object_type != "projectcategory" && object_type != "pagecategory" ) {
+
 					items.remove();
+
+
+					// Remove from myPages variable
+					if (object_type == "page") {
+
+						var pageFound = myPages.find(function(page) {return page.page_ID == object_ID ? true : false;});
+
+						if (pageFound) {
+
+							var pageIndex = myPages.indexOf(pageFound);
+							myPages.splice(pageIndex, 1);
+
+						}
+
+					}
+
+				}
 
 
 				// If action on categories
@@ -1663,6 +1707,13 @@ function currentUrl() {
 	//return window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
 	return window.location.href;
 
+}
+
+function getDomainName(url) {
+
+	var sourceString = url.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0];
+
+	return sourceString;
 }
 
 function removeQueryArgFromCurrentUrl(arg) {

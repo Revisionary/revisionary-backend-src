@@ -103,7 +103,7 @@ if (
 
 
 
-// COUNT ALL THE PINS !!!
+// COUNT ALL THE PINS
 $totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = $totalCompletePinCount = 0;
 
 $allMyPins = array();
