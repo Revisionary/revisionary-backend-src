@@ -30,7 +30,7 @@ if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 
 // DEVICE:
 // Get the device ID
-$device_ID = $_url[1];
+$device_ID = intval($_url[1]);
 
 // If the specified device doesn't exist, go projects page
 $deviceData = Device::ID($device_ID);

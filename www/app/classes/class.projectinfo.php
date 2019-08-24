@@ -300,14 +300,8 @@ class Project {
 
 
 
-		// Get the project owner
-    	$project_user_ID = $this->getInfo('user_ID');
-    	$iamowner = $project_user_ID == currentUserID();
-    	$iamadmin = getUserInfo()['userLevelID'] == 1;
-
-
-    	// Return if not admin or owner
-    	if (!$iamadmin && !$iamowner) return false;
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -334,14 +328,8 @@ class Project {
 
 
 
-		// Get the project owner
-    	$project_user_ID = $this->getInfo('user_ID');
-    	$iamowner = $project_user_ID == currentUserID();
-    	$iamadmin = getUserInfo()['userLevelID'] == 1;
-
-
-    	// Return if not admin or owner
-    	if (!$iamadmin && !$iamowner) return false;
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -367,14 +355,8 @@ class Project {
 
 
 
-		// Get the project owner
-    	$project_user_ID = $this->getInfo('user_ID');
-    	$iamowner = $project_user_ID == currentUserID();
-    	$iamadmin = getUserInfo()['userLevelID'] == 1;
-
-
-    	// Return if not admin or owner
-    	if (!$iamadmin && !$iamowner) return false;
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -400,14 +382,8 @@ class Project {
 
 
 
-		// Get the project owner
-    	$project_user_ID = $this->getInfo('user_ID');
-    	$iamowner = $project_user_ID == currentUserID();
-    	$iamadmin = getUserInfo()['userLevelID'] == 1;
-
-
-    	// Return if not admin or owner
-    	if (!$iamadmin && !$iamowner) return false;
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -446,14 +422,8 @@ class Project {
 
 
 
-		// Get the project owner
-    	$project_user_ID = $this->getInfo('user_ID');
-    	$iamowner = $project_user_ID == currentUserID();
-    	$iamadmin = getUserInfo()['userLevelID'] == 1;
-
-
-    	// Return if not admin or owner
-    	if (!$iamadmin && !$iamowner) return false;
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -507,6 +477,11 @@ class Project {
 
 
 
+		// Return if no access
+    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+
+
+
 		$current_project_name = $this->getInfo('project_name');
 
 
@@ -541,6 +516,8 @@ class Project {
 
 
 		$old_owner_ID = self::$projectInfo['user_ID'];
+
+		if ($old_owner_ID != currentUserID() && getUserInfo()['userLevelID'] != 1) return false;
 
 
 		// Share to old owner

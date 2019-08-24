@@ -708,8 +708,8 @@ class User {
 		$unshared = $db->delete('shares');
 
 
-		// Site log
-		if ($unshared) {
+		// Notifications
+		if ($unshared && self::$user_ID != currentUserID()) {
 
 
 			// Notify User via web notification
@@ -727,6 +727,7 @@ class User {
 			);
 
 
+			// Site log
 			$log->info("User #".self::$user_ID." Unshared: $share_type #$shared_object_ID | Username '".$this->getInfo('user_name')."' | Email '".$this->getInfo('user_email')."'");
 
 		}

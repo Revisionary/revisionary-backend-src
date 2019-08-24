@@ -301,6 +301,11 @@ class Page {
 
 
 
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+
+
+
 		// Update the page
 		$db->where('page_ID', self::$page_ID);
 		$page_updated = $db->update('pages', array($column => $new_value));
@@ -341,6 +346,11 @@ class Page {
 
 
 
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+
+
+
 		$archived = $this->edit("page_archived", 1);
 
 
@@ -363,6 +373,11 @@ class Page {
 
 
 
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+
+
+
 		$deleted = $this->edit("page_deleted", 1);
 
 
@@ -382,6 +397,11 @@ class Page {
 
 
 		// More DB Checks of arguments !!!
+
+
+
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -416,7 +436,12 @@ class Page {
 
 
 
-		// More DB Checks of arguments !!! (Do I have access to this page?!)
+		// More DB Checks of arguments !!!
+
+
+
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -484,6 +509,11 @@ class Page {
 
 
 
+    	// Return if no access
+    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+
+
+
 		$current_page_name = $this->getInfo('page_name');
 
 
@@ -518,6 +548,9 @@ class Page {
 
 
 		$old_owner_ID = self::$pageInfo['user_ID'];
+
+
+		if ($old_owner_ID != currentUserID() && getUserInfo()['userLevelID'] != 1) return false;
 
 
 		// Share to old owner

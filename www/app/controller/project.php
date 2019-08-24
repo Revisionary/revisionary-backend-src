@@ -21,7 +21,7 @@ if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 
 
 // Get the project ID
-$project_ID = $_url[1];
+$project_ID = intval($_url[1]);
 
 
 // If the specified project doesn't exist, go projects page
