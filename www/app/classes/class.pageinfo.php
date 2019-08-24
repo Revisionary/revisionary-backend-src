@@ -142,7 +142,6 @@ class Page {
 
 		// URL check
 		if (!filter_var($page_url, FILTER_VALIDATE_URL)) return false;
-		$parsed_url = parseUrl($page_url);
 
 
 
@@ -153,6 +152,11 @@ class Page {
 
 		// Check for redirects
 		$page_url = get_redirect_final_target($page_url);
+
+
+
+		// Parse the URL
+		$parsed_url = parseUrl($page_url);
 
 
 

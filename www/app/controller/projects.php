@@ -20,7 +20,7 @@ if (
 	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
 ) {
 
-	$project_ID = request('project_ID');
+	$project_ID = $project_ID_initial = request('project_ID');
 	$page_url = request('page-url');
 	if ( request('pinmode') == "browse" ) $page_url = rawurldecode($page_url);
 
@@ -30,6 +30,16 @@ if (
 		header('Location: '.site_url("projects?invalidurl")); // If unsuccessful
 		die();
 	}
+
+
+
+	// Standardize the URL before saving
+	$page_url = urlStandardize($page_url);
+
+
+
+	// Check for redirects
+	$page_url = get_redirect_final_target($page_url);
 
 
 
@@ -44,7 +54,7 @@ if (
 			is_array(request('project_shares')) ? request('project_shares') : array(),
 			request('category'),
 			request('order'),
-			request('page-url')
+			$page_url
 		);
 
 	}
@@ -57,20 +67,47 @@ if (
 
 
 
-	// Add the Page
-	$page_ID = Page::ID()->addNew(
-		$project_ID,
-		request('page-url'),
-		request('page-name'),
-		is_array(request('page_shares')) ? request('page_shares') : array(),
-		$new_project ? 0 : request('category'),
-		$new_project ? 0 : request('order')
-	);
+	if ($project_ID_initial == 'autodetect') {
 
-	// Check the result
-	if(!$page_ID) {
-		header('Location: '.site_url("project/$project_ID?addpageerror")); // If unsuccessful
-		die();
+
+		// Bring the project info
+		$db->join("projects pr", "pr.project_ID = p.project_ID", "LEFT");
+
+		$db->where('p.user_ID', currentUserID());
+		$db->where('p.page_deleted', 0);
+		$db->where('p.page_archived', 0);
+		$db->where('pr.project_deleted', 0);
+		$db->where('pr.project_archived', 0);
+		$db->where('p.page_url', $page_url);
+		$pages_match = $db->get('pages p', null, 'p.page_url, p.page_ID, p.project_ID');
+		$possible_page_IDs = array_unique(array_column($pages_match, 'page_ID'));
+
+
+		// Make it project id if the result has 1 record
+		if ( count($possible_page_IDs) == 1 )
+			$page_ID = reset($possible_page_IDs);
+
+
+	} else {
+
+
+		// Add the Page
+		$page_ID = Page::ID()->addNew(
+			$project_ID,
+			$page_url,
+			request('page-name'),
+			is_array(request('page_shares')) ? request('page_shares') : array(),
+			$new_project ? 0 : request('category'),
+			$new_project ? 0 : request('order')
+		);
+
+		// Check the result
+		if(!$page_ID) {
+			header('Location: '.site_url("project/$project_ID?addpageerror")); // If unsuccessful
+			die();
+		}
+
+
 	}
 
 
