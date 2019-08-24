@@ -204,7 +204,29 @@
 
 	<div class="col xl-3-12 xl-right" data-tooltip="In development...">
 
-		<b>Usage:</b> 8 MB of 25 MB (<?=getUserInfo()['userLevelName']?> Account)
+
+
+
+
+		<div class="wrap xl-2 xl-table xl-middle xl-gutter-8">
+			<div class="col xl-right" style="font-size: 12px; line-height: 12px;">
+				<b><?=getUserInfo()['userLevelName']?></b><br>Account
+			</div>
+			<div class="col">
+
+				<div class="limit-bar">
+					<div class="current-status" style="width: 80%;">
+						<span>80%</span>
+					</div>
+					<div class="total">12<br><?=ucfirst($dataType)?>s</div>
+				</div>
+
+			</div>
+		</div>
+
+
+
+		<div class="xl-hidden"><b>Usage:</b> 8 MB of 25 MB (<?=getUserInfo()['userLevelName']?> Account)</div>
 
 	</div>
 </div>
