@@ -167,9 +167,16 @@ class Project {
 			// Page domain
 			$page_domain = parseUrl($page_url)['full_host'];
 
-			$db->where('user_ID', currentUserID());
-			$db->where('page_url', "$page_domain%", 'like');
-			$pages_match = $db->get('pages', null, 'page_url, project_ID');
+			// Bring the project info
+			$db->join("projects pr", "pr.project_ID = p.project_ID", "LEFT");
+
+			$db->where('p.user_ID', currentUserID());
+			$db->where('p.page_deleted', 0);
+			$db->where('p.page_archived', 0);
+			$db->where('pr.project_deleted', 0);
+			$db->where('pr.project_archived', 0);
+			$db->where('p.page_url', "$page_domain%", 'like');
+			$pages_match = $db->get('pages p', null, 'p.page_url, p.project_ID');
 			$possible_project_IDs = array_unique(array_column($pages_match, 'project_ID'));
 
 
