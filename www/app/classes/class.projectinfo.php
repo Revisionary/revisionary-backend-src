@@ -427,6 +427,13 @@ class Project {
 
 
 
+		// Get the project owner
+    	$project_user_ID = $this->getInfo('user_ID');
+    	$iamowner = $project_user_ID == currentUserID();
+    	$iamadmin = getUserInfo()['userLevelID'] == 1;
+
+
+
 
 		// SHARE REMOVAL
 		$db->where('share_type', 'project');
