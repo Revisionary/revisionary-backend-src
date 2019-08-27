@@ -2147,7 +2147,7 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
 
 
 	// Detect the X positive exceed
-	if ( elementLeft + parseFloat(pin_x) > iframeWidth ) pin_x = elementWidth;
+	if ( elementLeft + parseFloat(pin_x) > iframeWidth / iframeScale) pin_x = elementWidth;
 
 
 	// Detect the X negative exceed
@@ -2302,9 +2302,11 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 			elementPinY = parseFloat(pinY - elementTop).toFixed(5);
 
 
+/*
 			console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
 			console.log('PinX: ' + pinX, ' PinY: ' + pinY);
 			console.log('TO REGISTER', elementPinX, elementPinY);
+*/
 
 
 
@@ -2316,7 +2318,7 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 			if (leftDest + topDest > 4) {
 				pinDragging = true;
 
-				console.log('DRAGGING!!!');
+				//console.log('DRAGGING!!!');
 
 			}
 
