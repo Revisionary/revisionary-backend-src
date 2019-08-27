@@ -97,7 +97,9 @@ $(function() {
 		if (project_ID != "new" && project_ID != "autodetect") {
 
 
-			var pageFound = myPages.find(function(page) {return page.page_url == url && page.project_ID == project_ID ? true : false;});
+			var pageFound = myPages.find(function(page) {
+				return (page.page_url == url || page.page_url == url+'/' || page.page_url+'/' == url) && page.project_ID == project_ID ? true : false;
+			});
 
 			if (pageFound) {
 				pageExists = true;
@@ -122,7 +124,9 @@ $(function() {
 		if (project_ID != "new" && project_ID != "autodetect") {
 
 
-			var pageFound = myPages.find(function(page) {return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID ? true : false;});
+			var pageFound = myPages.find(function(page) {
+				return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID ? true : false;
+			});
 
 			if (!pageFound) {
 				newProject = true;
