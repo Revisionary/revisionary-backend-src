@@ -881,11 +881,16 @@ function runTheInspector() {
 				var newPageLink = "/projects/?add_new=true&pinmode=browse&page_width="+ page_width +"&page_height="+ page_height +"&project_ID=" + project_ID + "&page-url=" + encodedLink;
 
 
-				// If the page has already been downloaded, go revising that page
-				if (pages_downloaded[absoluteLink] != null) {
+				// Search in my pages registered
+				var pageFound = myPages.find(function(page) {
+					return urlStandardize(page.page_url, true) == urlStandardize(absoluteLink, true) ? true : false;
+				});
 
-					var downloadedPageID = pages_downloaded[absoluteLink];
-					newPageLink = "/page/" + downloadedPageID + "?pinmode=browse";
+
+				// If the page has already been downloaded, go revising that page
+				if (pageFound) {
+
+					newPageLink = "/page/" + pageFound.page_ID + "?pinmode=browse";
 
 					console.log('ALREADY DOWNLOADED!!!', newPageLink);
 

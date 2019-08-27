@@ -8,15 +8,6 @@
 	page_ID = '<?=$page_ID?>';
 	project_ID = '<?=$project_ID?>';
 	remote_URL = '<?=$phaseData->remoteUrl?>';
-	pages_downloaded = {<?php
-
-		foreach ($other_pages as $pageOther) {
-
-		echo "'".$pageOther['page_url']."' : ".$pageOther['page_ID'].",";
-
-	}
-
-	?>};
 
 </script>
 

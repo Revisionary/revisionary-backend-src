@@ -14,7 +14,6 @@ var page_width = 1440;
 var page_height = 900;
 var page_ready = false;
 var page_redirected = false;
-var pages_downloaded = {};
 var page_colors = {};
 var colorsSorted = [];
 
