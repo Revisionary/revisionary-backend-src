@@ -4200,15 +4200,6 @@ function lightOrDark(color) {
     }
 }
 
-function urlStandardize(url) {
-
-	// Remove hash
-	url = url.split('#')[0];
-
-
-	return url;
-}
-
 function rgbToHex(orig){
 
 	var rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);

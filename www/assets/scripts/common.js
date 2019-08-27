@@ -98,7 +98,7 @@ $(function() {
 
 
 			var pageFound = myPages.find(function(page) {
-				return (page.page_url == url || page.page_url == url+'/' || page.page_url+'/' == url) && page.project_ID == project_ID ? true : false;
+				return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID == project_ID ? true : false;
 			});
 
 			if (pageFound) {
@@ -1714,6 +1714,41 @@ function currentUrl() {
 	//return window.location.protocol + "//" + window.location.host + window.location.pathname + window.location.search;
 	return window.location.href;
 
+}
+
+function urlStandardize(url, removeProtocol = false) {
+
+
+	// Remove hash
+	url = url.split('#')[0];
+
+
+	// Split from query string
+	if ( url.split('?').length === 1 ) {
+
+
+		// Remove slash at the end
+		url = url.replace(/\/$/,'');
+
+
+	} else if ( url.split('?').length > 1 ) {
+
+
+		// Remove slash from the end of the string before query
+		url = url.split('?')[0].replace(/\/$/,'') + '?' + url.split('?')[1]
+
+	}
+
+
+	// Remove the protocol
+	if (removeProtocol) {
+
+		url = url.replace('http://', '').replace('https://', '');
+
+	}
+
+
+	return url;
 }
 
 function getDomainName(url) {
