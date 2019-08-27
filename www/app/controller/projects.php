@@ -86,9 +86,14 @@ if (
 		// Make it project id if the result has 1 record
 		if ( count($possible_page_IDs) == 1 )
 			$page_ID = reset($possible_page_IDs);
+		else
+			$page_ID = "new";
 
 
-	} else {
+	}
+
+
+	if ($project_ID_initial != 'autodetect' || $page_ID == "new") {
 
 
 		// Add the Page
