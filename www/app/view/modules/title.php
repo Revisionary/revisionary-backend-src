@@ -202,28 +202,37 @@
 
 	</div>
 
-	<div class="col xl-3-12 xl-right" data-tooltip="In development...">
+	<div class="col xl-3-12 xl-right" data-tooltipp="In development...">
 
 
+		<?php
+
+			$maxProjects = getUserInfo()['userLevelMaxProject'];
+			$projectsCount = count($allProjects);
+			$projectsPercentage = intval((100 * $projectsCount) / $maxProjects);
+
+		?>
 
 
-
-		<div class="wrap xl-2 xl-table xl-middle xl-gutter-8">
-			<div class="col xl-right" style="font-size: 12px; line-height: 12px;">
-				<b><?=getUserInfo()['userLevelName']?></b><br>Account
-			</div>
-			<div class="col">
-
-				<div class="limit-bar">
-					<div class="current-status" style="width: 80%;">
-						<span>80%</span>
-					</div>
-					<div class="total">12<br><?=ucfirst($dataType)?>s</div>
+		<div class="dropdown limit-wrapper">
+			<a href="#" class="wrap xl-2 xl-table xl-middle xl-gutter-8">
+				<div class="col xl-right" style="font-size: 12px; line-height: 12px;">
+					<b><?=getUserInfo()['userLevelName']?></b><br>Account
 				</div>
+				<div class="col">
 
-			</div>
+					<div class="limit-bar">
+						<div class="current-status" style="width: <?=$projectsPercentage?>%;">
+							<span class="percentage bottom-tooltip" data-tooltip="You have <?="$projectsCount project".($maxProjects > 1 ? "s" : "")?>"><?=$projectsPercentage?>%</span>
+						</div>
+						<div class="total" data-tooltip="Maximum <?="Project".($maxProjects > 1 ? "s" : "")?> Allowed">
+							<?="$maxProjects<br>Project".($maxProjects > 1 ? "s" : "")?>
+						</div>
+					</div>
+
+				</div>
+			</a>
 		</div>
-
 
 
 		<div class="xl-hidden"><b>Usage:</b> 8 MB of 25 MB (<?=getUserInfo()['userLevelName']?> Account)</div>

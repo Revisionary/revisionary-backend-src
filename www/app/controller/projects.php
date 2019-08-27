@@ -266,10 +266,16 @@ $theCategorizedData = categorize($allMyProjectsList, $dataType);
 
 
 // MY PAGES AND COUNTS
-$allMyPages = $mySharedPages;
-$pageCount = array_column($allMyPages, 'project_ID', 'page_ID');
-$pageCounts = array_count_values($pageCount);
+$allMyPages = $mySharedPages; // Comes globally from 'class.userinfo.php'
 //die_to_print($allMyPages);
+$pageCount = array_column($allMyPages, 'project_ID', 'page_ID');
+//die_to_print($pageCount);
+$pageCounts = array_count_values($pageCount);
+
+
+// All Projects (Not filtered)
+$allProjects = array_column($allMyPages, 'project_name', 'project_ID');
+//die_to_print($allProjects);
 
 
 

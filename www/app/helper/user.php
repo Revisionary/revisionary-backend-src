@@ -29,9 +29,11 @@ function getUserInfo($user_ID = 0, $fromDB = false) {
 			'userPic' => "",
 			'userPicUrl' => null,
 			'printPicture' => "",
+			'emailNotifications' => "",
 			'userLevelName' => "",
 			'userLevelID' => "",
-			'emailNotifications' => ""
+			'userLevelMaxProject' => "",
+			'userLevelMaxPage' => ""
 		);
 
 
@@ -60,10 +62,12 @@ function getUserInfo($user_ID = 0, $fromDB = false) {
 		'nameAbbr' => mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
 		'email' => $userInfo['user_email'],
 		'userPic' => $userInfo['user_picture'],
-		'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url('users/user-'.$user_ID.'/'.$userInfo['user_picture']) : get_gravatar($userInfo['user_email'], 250),
+		'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url("users/user-$user_ID/".$userInfo['user_picture']) : get_gravatar($userInfo['user_email'], 250),
+		'emailNotifications' => $userInfo['user_email_notifications'],
 		'userLevelName' => $userInfo['user_level_name'],
 		'userLevelID' => $userInfo['user_level_ID'],
-		'emailNotifications' => $userInfo['user_email_notifications']
+		'userLevelMaxProject' => $userInfo['user_level_max_project'],
+		'userLevelMaxPage' => $userInfo['user_level_max_page'],
 	);
 	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';
 

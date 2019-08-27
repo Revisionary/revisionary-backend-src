@@ -60,8 +60,25 @@ $theCategorizedData = categorize($allMyPagesList, $dataType);
 
 
 
+
+// All Pages
+$mySharedPages = User::ID()->getMy('pages', "", "", null, null, true);
+$mySharedProjectsFromPages = array_unique(array_column($mySharedPages, 'project_ID'));
+
+
+// All Pages (Not filtered)
+$allPages = array_column($mySharedPages, 'page_name', 'page_ID');
+//die_to_print($allPages);
+
+
+// All Projects (Not filtered)
+$allProjects = array_column($mySharedPages, 'project_name', 'project_ID');
+//die_to_print($allProjects);
+
+
+
 // MY PAGES IN THIS PROJECT
-$allMyPages = $thePreparedData;
+$allMyPages = $thePreparedData; // Comes globally from 'categorize.php'
 //die_to_print($allMyPages);
 
 

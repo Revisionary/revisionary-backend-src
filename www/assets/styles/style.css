@@ -6528,7 +6528,11 @@ header {
   .title .dropdown > ul {
     min-width: 220px; }
 
-.limit-bar {
+.limit-wrapper ul > li {
+  padding-top: 20px;
+  padding-bottom: 20px; }
+
+.limit-wrapper .limit-bar {
   display: inline-block;
   width: 100%;
   height: 2px;
@@ -6536,8 +6540,8 @@ header {
   margin-bottom: 5px;
   position: relative;
   font-size: 12px; }
-  .limit-bar::before,
-  .limit-bar::after {
+  .limit-wrapper .limit-bar::before,
+  .limit-wrapper .limit-bar::after {
     content: "";
     position: absolute;
     top: 1px;
@@ -6545,26 +6549,33 @@ header {
     width: 2px;
     height: 15px;
     background-color: rgba(0, 0, 0, 0.1); }
-  .limit-bar::before {
+  .limit-wrapper .limit-bar::before {
     background-color: black;
     right: 100%;
     height: 24px; }
-  .limit-bar::after {
+  .limit-wrapper .limit-bar::after {
     left: 100%; }
-  .limit-bar > .current-status {
+  .limit-wrapper .limit-bar > .current-status {
     background-color: black;
     height: inherit;
     position: relative;
     width: 10px; }
-    .limit-bar > .current-status > span {
+    .limit-wrapper .limit-bar > .current-status > span {
       display: inline-block;
       background-color: white;
       position: absolute;
       z-index: 1;
       left: 100%;
       top: 100%;
-      transform: translateX(-50%); }
-  .limit-bar > .total {
+      text-align: center;
+      transform: translateX(-50%);
+      transition: 500ms; }
+      .limit-wrapper .limit-bar > .current-status > span.count {
+        pointer-events: none;
+        opacity: 0; }
+      .limit-wrapper .limit-bar > .current-status > span.percentage:hover + .count {
+        opacity: 1; }
+  .limit-wrapper .limit-bar > .total {
     position: absolute;
     bottom: 100%;
     left: 100%;
