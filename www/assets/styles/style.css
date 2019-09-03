@@ -6544,6 +6544,7 @@ header {
   .limit-wrapper .limit-bar::after {
     content: "";
     position: absolute;
+    z-index: 1;
     top: 1px;
     transform: translateY(-50%);
     width: 2px;
@@ -6570,7 +6571,8 @@ header {
       top: 100%;
       text-align: center;
       transform: translateX(-50%);
-      transition: 500ms; }
+      transition: 500ms;
+      padding-top: 5px; }
       .limit-wrapper .limit-bar > .current-status > span.count {
         pointer-events: none;
         opacity: 0; }
@@ -6585,6 +6587,19 @@ header {
     font-size: 10px;
     line-height: 9px;
     text-align: center; }
+
+.limit-wrapper.exceed .limit-bar::after {
+  background-color: red;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%); }
+
+.limit-wrapper.exceed .current-status {
+  background: black;
+  background: -webkit-linear-gradient(left, black 0%, red 100%);
+  background: -o-linear-gradient(left, black 0%, red 100%);
+  background: linear-gradient(to right, black 0%, red 100%); }
 
 .under-main-title {
   margin-bottom: 10px; }

@@ -214,7 +214,7 @@
 		?>
 
 
-		<div class="dropdown limit-wrapper">
+		<div class="dropdown limit-wrapper <?=$projectsPercentage > 100 ? "exceed" : ""?>">
 			<a href="#" class="wrap xl-2 xl-table xl-middle xl-gutter-8">
 				<div class="col xl-right" style="font-size: 12px; line-height: 12px;">
 					<b><?=getUserInfo()['userLevelName']?></b><br>Account

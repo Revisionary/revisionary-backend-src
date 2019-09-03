@@ -2541,6 +2541,7 @@ header {
 	    &::after {
 		    content: "";
 		    position: absolute;
+		    z-index: 1;
 		    top: 1px;
 		    transform: translateY(-50%);
 		    width: 2px;
@@ -2575,6 +2576,7 @@ header {
 				text-align: center;
 				transform: translateX(-50%);
 				transition: 500ms;
+				padding-top: 5px;
 
 				&.count {
 					pointer-events: none;
@@ -2601,6 +2603,25 @@ header {
 		    line-height: 9px;
 		    text-align: center;
 	    }
+	}
+
+	&.exceed {
+
+		.limit-bar::after {
+			background-color: red;
+			height: 15px;
+			width: 15px;
+			border-radius: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.current-status {
+			background: rgb(0,0,0);
+		    background: -webkit-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
+		    background: -o-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
+		    background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
+		}
+
 	}
 
 
