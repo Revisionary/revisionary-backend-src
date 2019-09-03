@@ -2547,6 +2547,7 @@ header {
 		    width: 2px;
 		    height: 15px;
 		    background-color: rgba(0, 0, 0, 0.1);
+		    pointer-events: none;
 	    }
 
 	    &::before {

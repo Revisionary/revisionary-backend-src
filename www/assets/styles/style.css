@@ -6549,7 +6549,8 @@ header {
     transform: translateY(-50%);
     width: 2px;
     height: 15px;
-    background-color: rgba(0, 0, 0, 0.1); }
+    background-color: rgba(0, 0, 0, 0.1);
+    pointer-events: none; }
   .limit-wrapper .limit-bar::before {
     background-color: black;
     right: 100%;
