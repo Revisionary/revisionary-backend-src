@@ -883,7 +883,7 @@ function runTheInspector() {
 
 				// Search in my pages registered
 				var pageFound = myPages.find(function(page) {
-					return urlStandardize(page.page_url, true) == urlStandardize(absoluteLink, true) ? true : false;
+					return urlStandardize(page.page_url, true) == urlStandardize(absoluteLink, true) && page.project_ID == project_ID ? true : false;
 				});
 
 
