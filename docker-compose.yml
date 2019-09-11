@@ -7,6 +7,7 @@ services:
         env_file:
             - ./.env
         depends_on:
+            - memcached
             - db
             - composer
             - chrome
@@ -20,6 +21,7 @@ services:
             - ./www/app/logs:/var/www/html/app/logs
         networks:
             - default
+
     db:
         image: mysql:8
         container_name: revisionary_mysql
@@ -44,6 +46,13 @@ services:
             - ./database/mysql:/var/lib/mysql
         networks:
             - default
+
+    memcached:
+        image: memcached:latest
+        container_name: revisionary_memcached
+        ports:
+        - "11211:11211"
+
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         container_name: revisionary_phpmyadmin
@@ -55,6 +64,7 @@ services:
             MYSQL_USER: ${DB_USER}
             MYSQL_PASSWORD: ${DB_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+
     composer:
         image: composer/composer
         container_name: revisionary_composer
@@ -63,6 +73,7 @@ services:
         restart: "no"
         volumes:
             - ./www:/var/www/html
+
     chrome:
         build: ./chrome
         user: www-data
@@ -77,6 +88,7 @@ services:
             - ${LOCAL_IP}:8080:3000
         volumes:
             - ./www/cache:/var/www/html/cache
+
 volumes:
     persistent:
 networks:

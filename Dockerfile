@@ -28,6 +28,13 @@ RUN apt-get -y update \
     && docker-php-ext-install intl mysqli
 
 
+# Install Memcached
+RUN apt-get update \
+    && apt-get install -y libmemcached-dev zlib1g-dev \
+    && pecl install memcached-3.0.4 \
+    && docker-php-ext-enable memcached
+
+
 # Activate the rewrite engine and SSL
 RUN a2enmod rewrite
 RUN a2enmod ssl
