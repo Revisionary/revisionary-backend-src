@@ -38,8 +38,8 @@
 		<script>
 			var ajax_url = '<?=site_url('ajax')?>';
 			var nonce = '<?=$_SESSION["js_nonce"]?>';
-			var loggedIn = <?=userloggedIn() ? "true" : "false"?>;
-			<?=userloggedIn() ? "var user_ID = ".currentUserID().";" : ""?>
+			var loggedIn = <?=userLoggedIn() ? "true" : "false"?>;
+			<?=userLoggedIn() ? "var user_ID = ".currentUserID().";" : ""?>
 			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
 			<?=isset($dataType) && $dataType == "page" && isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
 			var myPages = [];

@@ -25,7 +25,7 @@ if ( !is_numeric($device_ID) )
 
 
 // If not logged in
-if ( !userloggedIn() ) $status = "not-logged-in";
+if ( !userLoggedIn() ) $status = "not-logged-in";
 
 
 // If device is not exist

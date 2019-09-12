@@ -11,7 +11,7 @@ $ssr = $forceReInternalize && get('ssr') === "";
 // SECURITY CHECKS
 
 // If not logged in, go login page !!! Change when public revising available
-if (!userloggedIn()) {
+if (!userLoggedIn()) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }

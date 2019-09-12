@@ -22,7 +22,7 @@ class User {
 	    global $db, $Users;
 
 
-		if ( $user_ID == null && userloggedIn() )
+		if ( $user_ID == null && userLoggedIn() )
 			$user_ID = currentUserID();
 
 

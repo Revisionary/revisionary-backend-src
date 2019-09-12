@@ -4,7 +4,7 @@
 // SECURITY CHECKS
 
 // If not logged in, go login page
-if ( !userloggedIn() ) {
+if ( !userLoggedIn() ) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }

@@ -30,7 +30,7 @@
 			<div class="col menu-side xl-right inline-guys">
 
 				<?php
-				if ( !userloggedIn() ) {
+				if ( !userLoggedIn() ) {
 				?>
 
 				<nav id="main-navigation">

@@ -1,11 +1,11 @@
 <?php
 
-function userloggedIn() {
+function userLoggedIn() {
 	return isset($_SESSION['user_ID']) ? true : false;
 }
 
 function currentUserID() {
-	return userloggedIn() ? $_SESSION['user_ID'] : 0;
+	return userLoggedIn() ? $_SESSION['user_ID'] : 0;
 }
 
 function getUserInfo($user_ID = 0, $fromDB = false) {

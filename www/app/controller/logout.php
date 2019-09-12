@@ -1,7 +1,7 @@
 <?php
 
 // If not logged in, go home
-if (!userloggedIn()) {
+if (!userLoggedIn()) {
 	header('Location: '.site_url());
 	die();
 }
