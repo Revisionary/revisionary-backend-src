@@ -22,7 +22,7 @@ class User {
 	    global $db, $Users;
 
 
-		if ($user_ID == null)
+		if ( $user_ID == null && userloggedIn() )
 			$user_ID = currentUserID();
 
 
@@ -64,7 +64,7 @@ class User {
 
 
 	    // For the new user
-		if ($user_ID == "new" || $user_ID == 0) {
+		if ($user_ID == "new" || $user_ID === 0) {
 
 			self::$user_ID = "new";
 			self::$userInfo = false;
@@ -173,7 +173,275 @@ class User {
 		    'notifications' => $notifications,
 		    'totalCount' => $db->totalCount
 	    );
-    }
+	}
+
+
+
+	// Get all the devices that user can access
+	public function getDevices($nocache = false) {
+		global $db, $cache;
+
+
+		// CHECH THE CACHE FIRST
+		$cached_devices = $cache->get(self::$user_ID.'_devices');
+		if ( $cached_devices !== false && !$nocache ) return $cached_devices;
+
+
+
+		// Get the project IDs from my pages
+		$myPages = $this->getPages();
+		$myPageIDsFromPages = array_unique(array_column($myPages, 'page_ID'));
+
+
+		// Early exit if no pages
+		if ( !count($myPages) ) return array();
+
+
+		// Bring the screens
+		$db->join("screens s", "s.screen_ID = d.screen_ID", "LEFT");
+
+
+		// Bring the screen category info
+		$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
+
+
+		// Bring the phase info
+		$db->join("phases v", "v.phase_ID = d.phase_ID", "LEFT");
+
+
+		// Order by device ID
+		$db->orderBy('d.device_ID', 'ASC');
+
+
+		// Filter the devices by page_IDs
+		$db->where("v.page_ID", $myPageIDsFromPages, "IN");
+		$devices = $db->get('devices d');
+
+
+		// Set the cache
+		$cache->set(self::$user_ID.'_devices', $devices);
+
+
+		// Return the data
+		return $devices;
+
+
+	}
+
+
+
+	// Get all the phases that user can access
+	public function getPhases($nocache = false) {
+		global $db, $cache;
+
+
+		// CHECH THE CACHE FIRST
+		$cached_phases = $cache->get(self::$user_ID.'_phases');
+		if ( $cached_phases !== false && !$nocache ) return $cached_phases;
+
+
+
+		// Get the project IDs from my pages
+		$myPages = $this->getPages();
+		$myPageIDsFromPages = array_unique(array_column($myPages, 'page_ID'));
+
+
+		// Early exit if no pages
+		if ( !count($myPages) ) return array();
+
+
+		// Filter the phases by page_IDs
+		$db->where('page_ID', $myPageIDsFromPages, 'IN');
+		$phases = $db->get('phases');
+
+
+		// Set the cache
+		$cache->set(self::$user_ID.'_phases', $phases);
+
+
+		// Return the data
+		return $phases;
+
+
+	}
+
+
+
+	// Get all the pages that user can access
+	public function getPages($nocache = false) {
+		global $db, $cache;
+
+
+		// CHECH THE CACHE FIRST
+		$cached_pages = $cache->get(self::$user_ID.'_pages');
+		if ( $cached_pages !== false && !$nocache ) return $cached_pages;
+
+
+
+		// Bring the owner info
+		$db->join("users u", "p.user_ID = u.user_ID", "LEFT");
+
+
+		// Bring the category info
+		$db->join("pages_categories cat", "cat.cat_ID = p.cat_ID", "LEFT");
+
+
+		// Bring the project info
+		$db->join("projects pr", "pr.project_ID = p.project_ID", "LEFT");
+
+
+		// Bring page share info
+		$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
+		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
+		$db->joinWhere("shares s", "s.share_type", "page");
+
+
+		// Bring project share info
+		$db->join("shares sp", "p.project_ID = sp.shared_object_ID", "LEFT");
+		$db->joinWhere("shares sp", "sp.share_type", 'project');
+
+
+		// Check access if not admin
+		if (getUserInfo()['userLevelID'] != 1) {
+
+			$db->where('(
+				p.user_ID = '.self::$user_ID.'
+				OR s.share_to = '.self::$user_ID.'
+				OR s.share_to = "'.self::$userInfo['user_email'].'"
+				OR pr.user_ID = '.self::$user_ID.'
+				OR sp.share_to = '.self::$user_ID.'
+				OR sp.share_to = "'.self::$userInfo['user_email'].'"
+			)');
+
+		}
+
+
+		// Default Sorting
+		$db->orderBy("order_number", "asc");
+		$db->orderBy("s.share_ID", "desc");
+		$db->orderBy("cat.cat_name", "asc");
+		$db->orderBy("p.page_name", "asc");
+
+
+		// GET THE DATA
+		$pages = $db->get(
+			'pages p',
+			null,
+			'
+				*,
+				p.user_ID as user_ID,
+				p.page_ID as page_ID,
+				s.share_to as share_to,
+				s.sharer_user_ID as sharer_user_ID
+			'
+		);
+
+
+		// Set the cache
+		$cache->set(self::$user_ID.'_pages', $pages);
+
+
+		// Return the data
+		return $pages;
+
+
+	}
+
+
+
+	// Get all the projects that user can access
+	public function getProjects($nocache = false) {
+		global $db, $cache;
+
+
+		// CHECH THE CACHE FIRST
+		$cached_projects = $cache->get(self::$user_ID.'_projects');
+		if ( $cached_projects !== false && !$nocache ) return $cached_projects;
+
+
+
+		// Get the project IDs from my pages
+		$myPages = $this->getPages();
+		$myProjectIDsFromPages = array_unique(array_column($myPages, 'project_ID'));
+
+
+		// Bring project share info
+		$db->join("shares s", "p.project_ID = s.shared_object_ID", "LEFT");
+		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
+		$db->joinWhere("shares s", "s.share_type", "project");
+
+
+		// Bring the category connection
+		$db->join("project_cat_connect cat_connect", "p.project_ID = cat_connect.project_ID", "LEFT");
+
+
+		// Bring the owner info
+		$db->join("users u", "p.user_ID = u.user_ID", "LEFT");
+
+
+		// Bring the category info
+		$db->join("projects_categories cat", "cat_connect.cat_ID = cat.cat_ID", "LEFT");
+		$db->joinWhere("projects_categories cat", "cat.user_ID", self::$user_ID);
+
+
+		// Bring the order info
+		$db->join("projects_order o", "o.project_ID = p.project_ID", "LEFT");
+		$db->joinWhere("projects_order o", "o.user_ID", currentUserID());
+
+
+		// Check access if not admin
+		if (getUserInfo()['userLevelID'] != 1) {
+
+			// If shared pages exist
+			$find_in = "";
+			if ( count($myProjectIDsFromPages) > 0 ) {
+
+				$project_IDs = join("','", $myProjectIDsFromPages);
+				$find_in = "OR p.project_ID IN ('$project_IDs')";
+
+			}
+
+
+			$db->where('(
+				p.user_ID = '.self::$user_ID.'
+				OR s.share_to = '.self::$user_ID.'
+				OR s.share_to = "'.self::$userInfo['user_email'].'"
+				'.$find_in.'
+			)');
+
+		}
+
+
+		// Default Sorting
+		$db->orderBy("order_number", "asc");
+		$db->orderBy("s.share_ID", "desc");
+		$db->orderBy("cat.cat_name", "asc");
+		$db->orderBy("p.project_name", "asc");
+
+
+		// GET THE DATA
+		$projects = $db->get(
+			'projects p',
+			null,
+			'
+				*,
+				p.user_ID as user_ID,
+				p.project_ID as project_ID,
+				s.share_to as share_to,
+				s.sharer_user_ID as sharer_user_ID
+			'
+		);
+
+
+		// Set the cache
+		$cache->set(self::$user_ID.'_projects', $projects);
+
+
+		// Return the data
+		return $projects;
+
+
+	}
 
 
 
@@ -290,13 +558,13 @@ class User {
 
 
 
+		// FILTERS
 		// Mine and Shared Filters
 		if ($catFilter == "mine")
 			$db->where('p.user_ID = '.self::$user_ID);
 
 		elseif ($catFilter == "shared")
 			$db->where('p.user_ID != '.self::$user_ID);
-
 
 
 		if (!$deletes_archives) {
@@ -316,7 +584,7 @@ class User {
 		$db->orderBy("p.".$data_type."_name", "asc");
 
 
-		// Order Projects
+		// Order by name or date
 		if ($order == "name") $db->orderBy("p.".$data_type."_name", "asc");
 		if ($order == "date") $db->orderBy("p.".$data_type."_created", "asc");
 

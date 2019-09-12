@@ -1,38 +1,125 @@
 <pre>
 <?php
-$mc = new Memcached();
-$mc->addServer("memcached", 11211);
+
+//die_to_print( $cache->get('6_pages') );
 
 
-$mc->set("foo", "Hello!");
-$mc->set("bar", "Memcached...");
+// USERS INFO
+// $user_ID = 1;
+// $db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
+// $db->where("u.user_ID", $user_ID);
+// $userInfo = $db->getOne("users u");
 
-$arr = array(
-    $mc->get("foo"),
-    $mc->get("bar")
-);
-var_dump($arr);
-
+// $Users[$user_ID] = $userInfo ? $userInfo : false;
 
 
-exit;
-echo get_redirect_final_target('http://bilaltas.net');
+// $user_ID = 2;
+// $db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
+// $db->where("u.user_ID", $user_ID);
+// $userInfo = $db->getOne("users u");
 
+// $Users[$user_ID] = $userInfo ? $userInfo : false;
+//print_r($Users);
+
+
+
+// SCREENS
+$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
+
+$db->where('s.screen_user_ID', 1); // !!! ?
+
+// Order
+$db->orderBy('s_cat.screen_cat_order', 'asc');
+$db->orderBy(' s.screen_order', 'asc');
+$screens = $db->get('screens s');
+//print_r($screens);
+
+
+
+
+
+
+// DYNAMIC
+
+$user = User::ID();
+
+
+if ($user) {
+
+	// DEVICES
+	echo "<h2>DEVICES</h2>";
+	$devices = $user->getDevices(true);
+	print_r($devices);
+
+
+	// PHASES
+	echo "<h2>PHASES</h2>";
+	$phases = $user->getPhases(true);
+	print_r($phases);
+
+
+	// PAGES
+	echo "<h2>PAGES</h2>";
+	$pages = $user->getPages(true);
+	print_r($pages);
+
+
+	// PROJECTS
+	echo "<h2>PROJECTS</h2>";
+	$projects = $user->getProjects(true);
+	print_r($projects);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//$cache->set("foo", 2);
+//$cache->increment("foo", 2);
+// $cache->set('foo', 'fasdsasd');
+
+
+// var_dump(
+
+// 	$cache->get('foo')
+
+// );
 
 die();
 
-use Aws\S3\S3Client;
+
+
+// echo get_redirect_final_target('http://bilaltas.net');
+// die();
+
+// use Aws\S3\S3Client;
 
 
 
-// Configure a client using Spaces
-$key = $_ENV['S3_KEY'];
-$secret = $_ENV['S3_SECRET'];
+// // Configure a client using Spaces
+// $key = $_ENV['S3_KEY'];
+// $secret = $_ENV['S3_SECRET'];
 
-$space_name = $_ENV['S3_BUCKET'];
-$region = $_ENV['S3_REGION'];
+// $space_name = $_ENV['S3_BUCKET'];
+// $region = $_ENV['S3_REGION'];
 
-$client = new SpacesConnect($key, $secret, $space_name, $region);
+// $client = new SpacesConnect($key, $secret, $space_name, $region);
 
 
 
@@ -51,13 +138,13 @@ $result = $space->DeleteObject("test");
 
 
 
-// Listing all Spaces in the region
-$spaces = $client->ListSpaces();
-//die_to_print( $spaces );
+// // Listing all Spaces in the region
+// $spaces = $client->ListSpaces();
+// //die_to_print( $spaces );
 
-foreach ($spaces['Buckets'] as $space){
-    echo $space['Name']."\n";
-}
+// foreach ($spaces['Buckets'] as $space){
+//     echo $space['Name']."\n";
+// }
 
 
 
@@ -68,7 +155,7 @@ foreach ($spaces['Buckets'] as $space){
 
 
 //var_dump($result);
-exit;
+//exit;
 
 
 
