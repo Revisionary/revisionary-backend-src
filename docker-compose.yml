@@ -51,7 +51,19 @@ services:
         image: memcached:latest
         container_name: revisionary_memcached
         ports:
-        - "11211:11211"
+            - 11211:11211
+
+    phpmemcachedadmin:
+        container_name: revisionary_phpmemcachedadmin
+        image: phpmemcachedadmin
+        build: ./phpmemcachedadmin/phpmemcachedadmin/
+        ports:
+            - ${LOCAL_IP}:1200:80
+        restart: unless-stopped
+        depends_on:
+            - memcached
+        volumes:
+            - ./phpmemcachedadmin/Memcache.docker.php:/var/www/localhost/htdocs/Config/Memcache.php
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -81,7 +93,7 @@ services:
             - SYS_ADMIN
         container_name: revisionary_chrome
         working_dir: /app
-        restart: on-failure
+        restart: unless-stopped
         env_file:
             - ./.env
         ports:
