@@ -15,7 +15,6 @@ $classesDir = realpath('.') . '/app/classes';
 if ($dh = opendir($classesDir)){
 	while($file = readdir($dh)){
 		if (is_file($classesDir . '/' . $file) && substr($file, -4) == ".php"){
-			echo "$classesDir/$file <br>";
 			require $classesDir . '/' . $file;
 		}
 	}
