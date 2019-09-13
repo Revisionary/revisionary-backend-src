@@ -178,13 +178,18 @@ class User {
 
 
 	// Get all the devices that user can access
-	public function getDevices($nocache = false) {
+	public function getDevices(bool $nocache = false) {
 		global $db, $cache;
 
 
 		// CHECH THE CACHE FIRST
 		$cached_devices = $cache->get(self::$user_ID.'_devices');
-		if ( $cached_devices !== false && !$nocache ) return $cached_devices;
+		if ( $cached_devices !== false && !$nocache ) {
+
+			array_unshift($cached_devices, 'FROM CACHE');
+
+			return $cached_devices;
+		}
 
 
 
@@ -215,6 +220,9 @@ class User {
 
 		// Filter the devices by page_IDs
 		$db->where("v.page_ID", $myPageIDsFromPages, "IN");
+
+
+		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
 		$devices = $db->get('devices d');
 
 
@@ -231,13 +239,18 @@ class User {
 
 
 	// Get all the phases that user can access
-	public function getPhases($nocache = false) {
+	public function getPhases(bool $nocache = false) {
 		global $db, $cache;
 
 
 		// CHECH THE CACHE FIRST
 		$cached_phases = $cache->get(self::$user_ID.'_phases');
-		if ( $cached_phases !== false && !$nocache ) return $cached_phases;
+		if ( $cached_phases !== false && !$nocache ) {
+
+			array_unshift($cached_phases, 'FROM CACHE');
+
+			return $cached_phases;
+		}
 
 
 
@@ -252,6 +265,9 @@ class User {
 
 		// Filter the phases by page_IDs
 		$db->where('page_ID', $myPageIDsFromPages, 'IN');
+
+
+		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
 		$phases = $db->get('phases');
 
 
@@ -268,13 +284,18 @@ class User {
 
 
 	// Get all the pages that user can access
-	public function getPages($nocache = false) {
+	public function getPages(bool $nocache = false) {
 		global $db, $cache;
 
 
 		// CHECH THE CACHE FIRST
 		$cached_pages = $cache->get(self::$user_ID.'_pages');
-		if ( $cached_pages !== false && !$nocache ) return $cached_pages;
+		if ( $cached_pages !== false && !$nocache ) {
+
+			array_unshift($cached_pages, 'FROM CACHE');
+
+			return $cached_pages;
+		}
 
 
 
@@ -302,7 +323,7 @@ class User {
 
 
 		// Check access if not admin
-		if (getUserInfo()['userLevelID'] != 1) {
+		if ( getUserInfo()['userLevelID'] != 1 ) {
 
 			$db->where('(
 				p.user_ID = '.self::$user_ID.'
@@ -323,7 +344,7 @@ class User {
 		$db->orderBy("p.page_name", "asc");
 
 
-		// GET THE DATA
+		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
 		$pages = $db->get(
 			'pages p',
 			null,
@@ -350,13 +371,18 @@ class User {
 
 
 	// Get all the projects that user can access
-	public function getProjects($nocache = false) {
+	public function getProjects(bool $nocache = false) {
 		global $db, $cache;
 
 
 		// CHECH THE CACHE FIRST
 		$cached_projects = $cache->get(self::$user_ID.'_projects');
-		if ( $cached_projects !== false && !$nocache ) return $cached_projects;
+		if ( $cached_projects !== false && !$nocache ) {
+
+			array_unshift($cached_projects, 'FROM CACHE');
+
+			return $cached_projects;
+		}
 
 
 
@@ -390,7 +416,7 @@ class User {
 
 
 		// Check access if not admin
-		if (getUserInfo()['userLevelID'] != 1) {
+		if ( getUserInfo()['userLevelID'] != 1 ) {
 
 			// If shared pages exist
 			$find_in = "";
@@ -419,7 +445,7 @@ class User {
 		$db->orderBy("p.project_name", "asc");
 
 
-		// GET THE DATA
+		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
 		$projects = $db->get(
 			'projects p',
 			null,

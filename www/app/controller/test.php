@@ -1,6 +1,12 @@
 <pre>
 <?php
 
+
+//$cache->deleteMulti( $cache->getAllKeys() );
+//$cache->flush();
+//print_r($cache->getAllKeys());
+
+
 //die_to_print( $cache->get('6_pages') );
 
 
@@ -23,16 +29,20 @@
 
 
 
-// SCREENS
-$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
 
-$db->where('s.screen_user_ID', 1); // !!! ?
 
-// Order
-$db->orderBy('s_cat.screen_cat_order', 'asc');
-$db->orderBy(' s.screen_order', 'asc');
-$screens = $db->get('screens s');
-//print_r($screens);
+
+
+
+// // SCREENS
+// echo "<h2>SCREENS</h2>";
+// $db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
+
+// // Order
+// $db->orderBy('s_cat.screen_cat_order', 'asc');
+// $db->orderBy(' s.screen_order', 'asc');
+// $screens = $db->get('screens s');
+// print_r($screens);
 
 
 
@@ -46,28 +56,29 @@ $user = User::ID();
 
 if ($user) {
 
-	// DEVICES
-	echo "<h2>DEVICES</h2>";
-	$devices = $user->getDevices(true);
-	print_r($devices);
 
-
-	// PHASES
-	echo "<h2>PHASES</h2>";
-	$phases = $user->getPhases(true);
-	print_r($phases);
+	// PROJECTS
+	echo "<h2>PROJECTS</h2>";
+	$projects = $user->getProjects();
+	print_r($projects);
 
 
 	// PAGES
 	echo "<h2>PAGES</h2>";
-	$pages = $user->getPages(true);
+	$pages = $user->getPages();
 	print_r($pages);
 
 
-	// PROJECTS
-	echo "<h2>PROJECTS</h2>";
-	$projects = $user->getProjects(true);
-	print_r($projects);
+	// PHASES
+	echo "<h2>PHASES</h2>";
+	$phases = $user->getPhases();
+	print_r($phases);
+
+
+	// DEVICES
+	echo "<h2>DEVICES</h2>";
+	$devices = $user->getDevices();
+	print_r($devices);
 
 }
 
