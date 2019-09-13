@@ -4,7 +4,7 @@ class Cache {
 
 
 	private static $mc;
-	private static $default_timeout = 5;
+	private static $default_timeout = 20;
 
 
 	public function __construct($mc) {
