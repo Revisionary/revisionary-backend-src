@@ -1,15 +1,19 @@
 <?php
 
+use MemcachedTags\MemcachedTags;
+
 class Cache {
 
 
 	private static $mc;
+	private static $mcTags;
 	private static $default_timeout = 20;
 
 
-	public function __construct($mc) {
+	public function __construct($mc, $mcTags) {
 
 		self::$mc = $mc;
+		self::$mcTags = $mcTags;
 
     }
 
@@ -63,4 +67,6 @@ class Cache {
 $mc = new Memcached();
 $mc->addServer("memcached", 11211);
 
-$cache = new Cache($mc);
+$MemcachedTags = new MemcachedTags($mc);
+
+$cache = new Cache($mc, $MemcachedTags);

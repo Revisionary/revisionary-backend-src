@@ -2,9 +2,20 @@
 <?php
 
 
+//$MemcachedTags->addTagsToKeys('user:6', ['pages:6', 'devices:6']);
+
+
+// var_dump(
+//     $MemcachedTags->getKeysByTag('user:6')
+// );
+
+// var_dump(
+//     $MemcachedTags->deleteKeysByTag('user:6')
+// );
+
 //$cache->deleteMulti( $cache->getAllKeys() );
 //$cache->flush();
-//print_r($cache->getAllKeys());
+print_r( $cache->getAllKeys() );
 
 
 //die_to_print( $cache->get('6_pages') );

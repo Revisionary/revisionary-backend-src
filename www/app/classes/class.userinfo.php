@@ -183,7 +183,7 @@ class User {
 
 
 		// CHECH THE CACHE FIRST
-		$cached_devices = $cache->get(self::$user_ID.'_devices');
+		$cached_devices = $cache->get('devices:'.self::$user_ID);
 		if ( $cached_devices !== false && !$nocache ) {
 
 			array_unshift($cached_devices, 'FROM CACHE');
@@ -227,7 +227,7 @@ class User {
 
 
 		// Set the cache
-		$cache->set(self::$user_ID.'_devices', $devices);
+		$cache->set('devices:'.self::$user_ID, $devices);
 
 
 		// Return the data
@@ -244,7 +244,7 @@ class User {
 
 
 		// CHECH THE CACHE FIRST
-		$cached_phases = $cache->get(self::$user_ID.'_phases');
+		$cached_phases = $cache->get('phases:'.self::$user_ID);
 		if ( $cached_phases !== false && !$nocache ) {
 
 			array_unshift($cached_phases, 'FROM CACHE');
@@ -272,7 +272,7 @@ class User {
 
 
 		// Set the cache
-		$cache->set(self::$user_ID.'_phases', $phases);
+		$cache->set('phases:'.self::$user_ID, $phases);
 
 
 		// Return the data
@@ -289,7 +289,7 @@ class User {
 
 
 		// CHECH THE CACHE FIRST
-		$cached_pages = $cache->get(self::$user_ID.'_pages');
+		$cached_pages = $cache->get('pages:'.self::$user_ID);
 		if ( $cached_pages !== false && !$nocache ) {
 
 			array_unshift($cached_pages, 'FROM CACHE');
@@ -359,7 +359,7 @@ class User {
 
 
 		// Set the cache
-		$cache->set(self::$user_ID.'_pages', $pages);
+		$cache->set('pages:'.self::$user_ID, $pages);
 
 
 		// Return the data
@@ -376,7 +376,7 @@ class User {
 
 
 		// CHECH THE CACHE FIRST
-		$cached_projects = $cache->get(self::$user_ID.'_projects');
+		$cached_projects = $cache->get('projects:'.self::$user_ID);
 		if ( $cached_projects !== false && !$nocache ) {
 
 			array_unshift($cached_projects, 'FROM CACHE');
@@ -460,7 +460,7 @@ class User {
 
 
 		// Set the cache
-		$cache->set(self::$user_ID.'_projects', $projects);
+		$cache->set('projects:'.self::$user_ID, $projects);
 
 
 		// Return the data

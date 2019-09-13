@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3fb4f074d83494a5138b408fdd8d75eb",
-    "content-hash": "1980791406fd120dae7fb45a6c005f42",
+    "hash": "df002cd6db2f648c1bc56a70e36f5f51",
+    "content-hash": "9970a714856d70d834c998b0e9866422",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -89,6 +89,89 @@
                 "sdk"
             ],
             "time": "2019-06-05 18:07:37"
+        },
+        {
+            "name": "cheprasov/php-memcached-lock",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cheprasov/php-memcached-lock.git",
+                "reference": "3afd41642ea0e87982bdcc8d56ea1e40f5d4620d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cheprasov/php-memcached-lock/zipball/3afd41642ea0e87982bdcc8d56ea1e40f5d4620d",
+                "reference": "3afd41642ea0e87982bdcc8d56ea1e40f5d4620d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "cheprasov/php-parallel": "1.0.0",
+                "phpunit/phpunit": "4.8.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Cheprasov",
+                    "email": "acheprasov84@gmail.com"
+                }
+            ],
+            "description": "MemcachedLock for PHP is a synchronization mechanism for enforcing limits on access to a resource in an environment where there are many threads of execution. A lock is designed to enforce a mutual exclusion concurrency control policy.",
+            "homepage": "http://github.com/cheprasov/php-memcached-lock",
+            "time": "2017-10-08 16:09:10"
+        },
+        {
+            "name": "cheprasov/php-memcached-tags",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cheprasov/php-memcached-tags.git",
+                "reference": "c9856206a1099a9ab6aca996d685a2823766e6d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cheprasov/php-memcached-tags/zipball/c9856206a1099a9ab6aca996d685a2823766e6d2",
+                "reference": "c9856206a1099a9ab6aca996d685a2823766e6d2",
+                "shasum": ""
+            },
+            "require": {
+                "cheprasov/php-memcached-lock": "~1.0.4",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "cheprasov/php-parallel": "1.0.*",
+                "phpunit/phpunit": "4.8.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Cheprasov",
+                    "email": "cheprasov.84@ya.ru"
+                }
+            ],
+            "description": "MemcachedTags for PHP is a mechanism for adding tags to keys in Memcached. It is very useful, if you need to select or delete some keys by tags. And tags are really useful for group invalidation.",
+            "homepage": "http://github.com/cheprasov/php-memcached-tags",
+            "time": "2018-01-17 21:12:40"
         },
         {
             "name": "cocur/background-process",
