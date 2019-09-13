@@ -1,10 +1,21 @@
 <?php
 
+// Composer
+$autoload_file = realpath('.')."/vendor/autoload.php";
+
+// If Composer isn't installed
+if ( !file_exists($autoload_file) ) die('Please try again in a few minutes...');
+
+// Call the Composer
+require $autoload_file;
+
+
 // Bring the classes
 $classesDir = realpath('.') . '/app/classes';
 if ($dh = opendir($classesDir)){
 	while($file = readdir($dh)){
 		if (is_file($classesDir . '/' . $file) && substr($file, -4) == ".php"){
+			echo "$classesDir/$file <br>";
 			require $classesDir . '/' . $file;
 		}
 	}
@@ -43,9 +54,9 @@ $db = new MysqliDb(array(
 	'username' 	=> $config['db']['user'],
 	'password' 	=> $config['db']['pass'],
 	'db'		=> $config['db']['name'],
-	'port' => 3306,
-	'prefix' => '',
-	'charset' => 'utf8mb4'
+	'port'		=> 3306,
+	'prefix' 	=> '',
+	'charset' 	=> 'utf8mb4'
 ));
 
 $db->rawQuery("SET time_zone='$offset';");
