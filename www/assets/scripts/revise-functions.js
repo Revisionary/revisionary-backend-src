@@ -1475,7 +1475,8 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		pin_type: cursorType,
 		pin_x: elementPinX.toString(),
 		pin_y: elementPinY.toString(),
-		user_ID: parseInt(user_ID)
+		user_ID: parseInt(user_ID),
+		device_ID: null
 	};
 
 
