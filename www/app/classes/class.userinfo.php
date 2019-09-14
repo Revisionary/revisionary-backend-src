@@ -757,14 +757,7 @@ class User {
 	    global $db;
 
 
-		// Bring the screen category info
-		$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
-
-		$db->where('s.screen_user_ID', 1); // !!! ?
-
-		$db->orderBy('s_cat.screen_cat_order', 'asc');
-		$db->orderBy(' s.screen_order', 'asc');
-		$screens = $db->get('screens s');
+		$screens = $this->getScreens();
 
 
 		// Prepare the screens data
