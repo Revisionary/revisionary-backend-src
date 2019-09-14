@@ -2,23 +2,7 @@
 <?php
 
 
-/*
-// Bring the user level info
-$db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
-$db->where("u.user_ID", currentUserID());
-$userInfo = $db->getOne("users u");
 
-
-die_to_print($userInfo);
-*/
-
-
-//$mcTags->addTagsToKeys('projects', ['projects:1', 'projects:6']);
-
-
-// var_dump(
-//     $cache->getAllKeys()
-// );
 
 /*
 echo "<h3>Projects Tags</h3>";
@@ -36,7 +20,6 @@ print_r(
 //     $mcTags->deleteKeysByTag('user:6')
 // );
 
-//$cache->deleteMulti( $cache->getAllKeys() );
 //$cache->flush();
 
 
