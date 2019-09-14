@@ -18,38 +18,22 @@ class User {
 
 
 	// ID Setter
-    public static function ID($user_ID = null) {
-	    global $db, $Users;
+    public static function ID($user_ID = null, bool $nocache = false) {
+	    global $db, $cache;
 
 
-		if ( $user_ID == null && userLoggedIn() )
-			$user_ID = currentUserID();
-
+		// Use current user ID if not specified
+		$user_ID = $user_ID == null && userLoggedIn() ? currentUserID() : $user_ID;
 
 
 	    // Set the user ID
-		if ($user_ID != null && is_numeric($user_ID)) {
+		if ( is_int($user_ID) ) {
 
+			self::$userInfo = getUserInfoDB($user_ID, $nocache);
+			if ( !self::$userInfo) return false;
 
-			// If not exist in the global, pull data from DB
-			if ( !isset($Users[intval($user_ID)]) ) {
-
-
-				// Bring the user level info
-				$db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
-			    $db->where("u.user_ID", $user_ID);
-				$userInfo = $db->getOne("users u");
-
-				$Users[$user_ID] = $userInfo ? $userInfo : false;
-
-
-			}
-
-
-			self::$user_ID = intval($user_ID);
-			self::$userInfo = $Users[$user_ID];
+			self::$user_ID = $user_ID;
 			return new static;
-
 
 		}
 
@@ -83,6 +67,7 @@ class User {
 
     // Get the user info
     public function getInfo($column = null) {
+	    global $db;
 
 
 		// If email is given
@@ -182,7 +167,7 @@ class User {
 		global $db, $cache;
 
 
-		// CHECH THE CACHE FIRST
+		// CHECK THE CACHE FIRST
 		$cached_pins = $cache->get('pins:'.self::$user_ID);
 		if ( $cached_pins !== false && !$nocache && $phase_ID == null && $device_ID == null ) {
 
@@ -262,7 +247,7 @@ class User {
 		global $db, $cache;
 
 
-		// CHECH THE CACHE FIRST
+		// CHECK THE CACHE FIRST
 		$cached_devices = $cache->get('devices:'.self::$user_ID);
 		if ( $cached_devices !== false && !$nocache ) {
 
@@ -321,7 +306,7 @@ class User {
 		global $db, $cache;
 
 
-		// CHECH THE CACHE FIRST
+		// CHECK THE CACHE FIRST
 		$cached_phases = $cache->get('phases:'.self::$user_ID);
 		if ( $cached_phases !== false && !$nocache ) {
 
@@ -364,7 +349,7 @@ class User {
 		global $db, $cache;
 
 
-		// CHECH THE CACHE FIRST
+		// CHECK THE CACHE FIRST
 		$cached_pages = $cache->get('pages:'.self::$user_ID);
 		if ( $cached_pages !== false && !$nocache ) {
 
@@ -451,7 +436,7 @@ class User {
 		global $db, $cache;
 
 
-		// CHECH THE CACHE FIRST
+		// CHECK THE CACHE FIRST
 		$cached_projects = $cache->get('projects:'.self::$user_ID);
 		if ( $cached_projects !== false && !$nocache ) {
 
@@ -541,6 +526,47 @@ class User {
 
 		// Return the data
 		return $projects;
+
+
+	}
+
+
+
+	// Get all the screens
+	public function getScreens(bool $nocache = false) {
+		global $db, $cache;
+
+
+		// CHECK THE CACHE FIRST
+		$cached_screens = $cache->get('screens');
+		if ( $cached_screens !== false && !$nocache ) {
+
+			//array_unshift($cached_screens, 'FROM CACHE');
+
+			return $cached_screens;
+		}
+
+
+		// Bring the screen categories
+		$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
+
+
+		// Order
+		$db->orderBy('s_cat.screen_cat_order', 'asc');
+		$db->orderBy(' s.screen_order', 'asc');
+
+
+
+		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
+		$screens = $db->get('screens s');
+
+
+		// Set the cache
+		$cache->set('screens', $screens, 0);
+
+
+		// Return the data
+		return $screens;
 
 
 	}

@@ -22,7 +22,7 @@ class Screen {
 
 
 	    // Set the page ID
-		if ($screen_ID != null && is_numeric($screen_ID)) {
+		if ($screen_ID != null && is_int($screen_ID)) {
 
 			$db->join("screen_categories c", "c.screen_cat_ID = s.screen_cat_ID", "LEFT");
 		    $db->where("s.screen_ID", $screen_ID);

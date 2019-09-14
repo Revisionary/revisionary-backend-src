@@ -2,6 +2,7 @@
 
 $subpage = isset($_url[1]) ? $_url[1] : false;
 $user_ID = getUserInfo()['userLevelID'] == 1 && isset($_GET['user']) && is_numeric($_GET['user']) ? intval($_GET['user']) : currentUserID();
+$user = User::ID($user_ID);
 $userInfo = getUserInfo($user_ID);
 
 
@@ -10,7 +11,7 @@ if (!$userInfo) die('User Not Found.');
 
 
 // User info from DB
-$userInfoDB = $Users[$user_ID];
+$userInfoDB = $user->getInfo();
 
 
 if ( post('update-submit') == "Update" ) {

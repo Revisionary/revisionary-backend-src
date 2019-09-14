@@ -2,6 +2,17 @@
 <?php
 
 
+/*
+// Bring the user level info
+$db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
+$db->where("u.user_ID", currentUserID());
+$userInfo = $db->getOne("users u");
+
+
+die_to_print($userInfo);
+*/
+
+
 //$mcTags->addTagsToKeys('projects', ['projects:1', 'projects:6']);
 
 
@@ -29,7 +40,9 @@ print_r(
 //$cache->flush();
 
 
-/*
+
+
+
 echo "<h2>CACHES</h2>";
 $count = 0;
 foreach ($cache->getAllKeys() as $key) {
@@ -40,51 +53,9 @@ foreach ($cache->getAllKeys() as $key) {
 
 	$count++;
 }
-*/
-
-//die_to_print( $cache->get('6_pages') );
-
-
-// USERS INFO
-// $user_ID = 1;
-// $db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
-// $db->where("u.user_ID", $user_ID);
-// $userInfo = $db->getOne("users u");
-
-// $Users[$user_ID] = $userInfo ? $userInfo : false;
-
-
-// $user_ID = 2;
-// $db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
-// $db->where("u.user_ID", $user_ID);
-// $userInfo = $db->getOne("users u");
-
-// $Users[$user_ID] = $userInfo ? $userInfo : false;
-//print_r($Users);
 
 
 
-
-
-
-
-
-// // SCREENS
-// echo "<h2>SCREENS</h2>";
-// $db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
-
-// // Order
-// $db->orderBy('s_cat.screen_cat_order', 'asc');
-// $db->orderBy(' s.screen_order', 'asc');
-// $screens = $db->get('screens s');
-// print_r($screens);
-
-
-
-
-
-
-// DYNAMIC
 
 $user = User::ID();
 
@@ -94,9 +65,20 @@ if ($user) {
 
 
 	// PINS
+	echo "<h2>USER</h2>";
+	print_r( $user->getInfo() );
+
+
+	// PINS
 	echo "<h2>PINS</h2>";
 	$pins = $user->getPins();
 	print_r($pins);
+
+
+	// SCREENS
+	echo "<h2>SCREENS</h2>";
+	$screens = $user->getScreens();
+	print_r($screens);
 
 
 	// DEVICES
@@ -155,7 +137,7 @@ if ($user) {
 
 // );
 
-die();
+//die();
 
 
 

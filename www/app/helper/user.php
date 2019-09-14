@@ -8,13 +8,50 @@ function currentUserID() {
 	return userLoggedIn() ? $_SESSION['user_ID'] : 0;
 }
 
-function getUserInfo($user_ID = 0, $fromDB = false) {
-	global $Users;
+function getUserInfoDB(int $user_ID = null, bool $nocache = false) {
+    global $db, $cache;
+
+
+	$user_ID = $user_ID != null ? $user_ID : currentUserID();
+
+
+	// Check the cache first
+	$cached_user_info = $cache->get('user:'.$user_ID);
+	if ( $cached_user_info !== false && !$nocache ) {
+
+
+		return $cached_user_info;
+
+
+	} else { // If not exist in the cache, pull data from DB
+
+
+		// Bring the user level info
+		$db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
+	    $db->where("u.user_ID", $user_ID);
+		$userInfo = $db->getOne("users u");
+
+
+		// Set the cache
+		if ($userInfo) {
+			$cache->set('user:'.$user_ID, $userInfo);
+			return $userInfo;
+		}
+
+
+	}
+
+
+	return false;
+
+
+}
+
+function getUserInfo($user_ID = 0) {
 
 
 	// Get the User ID
 	$user_ID = !$user_ID ? currentUserID() : $user_ID;
-
 
 
 	// If email user
@@ -38,19 +75,12 @@ function getUserInfo($user_ID = 0, $fromDB = false) {
 
 
 	// If not numeric
-	if ( !is_numeric($user_ID) ) return false;
+	if ( !is_int($user_ID) ) return false;
 
 
 	// Get user information
-	$userInfo = isset($Users[$user_ID]) ? $Users[$user_ID] : User::ID($user_ID)->getInfo();
-
-
-	// If user not exist
+	$userInfo = User::ID($user_ID)->getInfo();
 	if ( !$userInfo ) return false;
-
-
-	// Serve the info directly from DB
-	if ($fromDB) return $userInfo;
 
 
 	// The extended user data

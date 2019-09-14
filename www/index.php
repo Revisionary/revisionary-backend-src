@@ -56,7 +56,6 @@ ob_end_flush();
 
 if ($_url[0] != "ajax" && $debug_mode) {
 
-	die_to_print($Users, false);
 	echo "TRACE COUNT: ".count($db->trace);
 	die_to_print($db->trace, false);
 
