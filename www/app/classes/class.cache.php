@@ -19,7 +19,7 @@ class Cache {
 
 
 	public function get($key) {
-		
+
 		return self::$mc->get($key);
 
 	}
@@ -36,7 +36,8 @@ class Cache {
 		$key_split = explode(':', $key);
 		if ( count($key_split) == 2 && !is_numeric( $key_split[0] ) ) {
 			$tag = $key_split[0];
-			self::$mc->set($key, $value, $timeout);
+
+			if ( !self::$mc->set($key, $value, $timeout) ) return false;
 			return self::$mcTags->addTagsToKeys($tag, $key);
 		}
 
@@ -51,28 +52,28 @@ class Cache {
 	public function getAllKeys() {
 
 		return self::$mc->getAllKeys();
-		
+
 	}
 
 
 	public function delete($key) {
 
 		return self::$mc->delete($key);
-		
+
 	}
 
 
 	public function deleteMulti(array $keys) {
 
 		return self::$mc->deleteMulti($keys);
-		
+
 	}
 
 
 	public function flush() {
 
 		return self::$mc->flush();
-		
+
 	}
 
 

@@ -177,6 +177,86 @@ class User {
 
 
 
+	// Get all the pins that user can access
+	public function getPins($phase_ID = null, $device_ID = null, bool $nocache = false) {
+		global $db, $cache;
+
+
+		// CHECH THE CACHE FIRST
+		$cached_pins = $cache->get('pins:'.self::$user_ID);
+		if ( $cached_pins !== false && !$nocache && $phase_ID == null && $device_ID == null ) {
+
+			array_unshift($cached_pins, 'FROM CACHE');
+
+			return $cached_pins;
+		}
+
+
+
+		// Get phase IDs
+		if ($phase_ID != null) {
+
+			$phaseIDs = array($phase_ID);
+
+		} else {
+
+			$phases = $this->getPhases();
+			if ( !count($phases) ) return array();
+			$phaseIDs = array_unique(array_column($phases, 'page_ID'));
+
+		}
+
+
+
+		// Get pins from this phase
+		$db->where("phase_ID", $phaseIDs, "IN");
+		//$db->where('phase_ID', $phase_ID);
+
+
+		// Hide device specific pins
+		if ($device_ID != null) {
+
+			$db->where ("(device_ID IS NULL or (device_ID IS NOT NULL and device_ID = $device_ID))");
+
+		}
+
+
+		// Hide private pins to other people
+		$db->where ("(user_ID = ".currentUserID()." or (user_ID != ".currentUserID()." and pin_private = 0))");
+
+
+		// GET THE DATA
+		$pins = $db->get('pins pin', null, '
+			pin.pin_ID,
+			pin.pin_complete,
+			pin.pin_private,
+			pin.pin_type,
+			pin.pin_element_index,
+			pin.pin_modification_type,
+			pin.pin_modification,
+			pin.pin_modification_original,
+			pin.pin_css,
+			pin.pin_x,
+			pin.pin_y,
+			pin.user_ID,
+			pin.phase_ID,
+			pin.device_ID
+		');
+
+
+		// Set the cache
+		if ( $phase_ID == null && $device_ID == null )
+			$cache->set('pins:'.self::$user_ID, $pins);
+
+
+		// Return the data
+		return $pins;
+
+
+	}
+
+
+
 	// Get all the devices that user can access
 	public function getDevices(bool $nocache = false) {
 		global $db, $cache;
@@ -193,13 +273,15 @@ class User {
 
 
 
-		// Get the project IDs from my pages
-		$myPages = $this->getPages();
-		$myPageIDsFromPages = array_unique(array_column($myPages, 'page_ID'));
+		// Get page IDs
+		$pages = $this->getPages();
+		if ( !count($pages) ) return array();
+		$pageIDs = array_unique(array_column($pages, 'page_ID'));
 
 
-		// Early exit if no pages
-		if ( !count($myPages) ) return array();
+
+		// Bring the phase info
+		$db->join("phases v", "v.phase_ID = d.phase_ID", "LEFT");
 
 
 		// Bring the screens
@@ -210,16 +292,12 @@ class User {
 		$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
 
 
-		// Bring the phase info
-		$db->join("phases v", "v.phase_ID = d.phase_ID", "LEFT");
-
-
 		// Order by device ID
 		$db->orderBy('d.device_ID', 'ASC');
 
 
 		// Filter the devices by page_IDs
-		$db->where("v.page_ID", $myPageIDsFromPages, "IN");
+		$db->where("v.page_ID", $pageIDs, "IN");
 
 
 		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
@@ -254,17 +332,15 @@ class User {
 
 
 
-		// Get the project IDs from my pages
-		$myPages = $this->getPages();
-		$myPageIDsFromPages = array_unique(array_column($myPages, 'page_ID'));
+		// Get page IDs
+		$pages = $this->getPages();
+		if ( !count($pages) ) return array();
+		$pageIDs = array_unique(array_column($pages, 'page_ID'));
 
-
-		// Early exit if no pages
-		if ( !count($myPages) ) return array();
 
 
 		// Filter the phases by page_IDs
-		$db->where('page_ID', $myPageIDsFromPages, 'IN');
+		$db->where('page_ID', $pageIDs, 'IN');
 
 
 		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
@@ -386,9 +462,9 @@ class User {
 
 
 
-		// Get the project IDs from my pages
-		$myPages = $this->getPages();
-		$myProjectIDsFromPages = array_unique(array_column($myPages, 'project_ID'));
+		// Get project IDs
+		$pages = $this->getPages();
+		$projectIDs = array_unique(array_column($pages, 'project_ID'));
 
 
 		// Bring project share info
@@ -420,9 +496,9 @@ class User {
 
 			// If shared pages exist
 			$find_in = "";
-			if ( count($myProjectIDsFromPages) > 0 ) {
+			if ( count($projectIDs) > 0 ) {
 
-				$project_IDs = join("','", $myProjectIDsFromPages);
+				$project_IDs = join("','", $projectIDs);
 				$find_in = "OR p.project_ID IN ('$project_IDs')";
 
 			}

@@ -9,6 +9,7 @@
 //     $cache->getAllKeys()
 // );
 
+/*
 echo "<h3>Projects Tags</h3>";
 print_r(
     $mcTags->getKeysByTag('projects')
@@ -18,6 +19,7 @@ echo "<h3>Pages Tags</h3>";
 print_r(
     $mcTags->getKeysByTag('pages')
 );
+*/
 
 // var_dump(
 //     $mcTags->deleteKeysByTag('user:6')
@@ -27,6 +29,7 @@ print_r(
 //$cache->flush();
 
 
+/*
 echo "<h2>CACHES</h2>";
 $count = 0;
 foreach ($cache->getAllKeys() as $key) {
@@ -37,6 +40,7 @@ foreach ($cache->getAllKeys() as $key) {
 
 	$count++;
 }
+*/
 
 //die_to_print( $cache->get('6_pages') );
 
@@ -85,19 +89,20 @@ foreach ($cache->getAllKeys() as $key) {
 $user = User::ID();
 
 
+// If logged in
 if ($user) {
 
 
-	// PROJECTS
-	echo "<h2>PROJECTS</h2>";
-	$projects = $user->getProjects();
-	print_r($projects);
+	// PINS
+	echo "<h2>PINS</h2>";
+	$pins = $user->getPins();
+	print_r($pins);
 
 
-	// PAGES
-	echo "<h2>PAGES</h2>";
-	$pages = $user->getPages();
-	print_r($pages);
+	// DEVICES
+	echo "<h2>DEVICES</h2>";
+	$devices = $user->getDevices();
+	print_r($devices);
 
 
 	// PHASES
@@ -106,10 +111,17 @@ if ($user) {
 	print_r($phases);
 
 
-	// DEVICES
-	echo "<h2>DEVICES</h2>";
-	$devices = $user->getDevices();
-	print_r($devices);
+	// PAGES
+	echo "<h2>PAGES</h2>";
+	$pages = $user->getPages();
+	print_r($pages);
+
+
+	// PROJECTS
+	echo "<h2>PROJECTS</h2>";
+	$projects = $user->getProjects();
+	print_r($projects);
+
 
 }
 
