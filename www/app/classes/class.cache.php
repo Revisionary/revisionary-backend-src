@@ -25,10 +25,26 @@ class Cache {
 	}
 
 
-	public function set($key, $value) {
+	public function set($key, $value, $timeout = null) {
 
-		return self::$mc->set($key, $value, self::$default_timeout);
-		
+
+		// Get timeout
+		$timeout = $timeout == null ? self::$default_timeout : $timeout;
+
+
+		// Add tags
+		$key_split = explode(':', $key);
+		if ( count($key_split) == 2 && !is_numeric( $key_split[0] ) ) {
+			$tag = $key_split[0];
+			self::$mc->set($key, $value, $timeout);
+			return self::$mcTags->addTagsToKeys($tag, $key);
+		}
+
+
+		// Standard set
+		return self::$mc->set($key, $value, $timeout);
+
+
 	}
 
 
@@ -67,6 +83,5 @@ class Cache {
 $mc = new Memcached();
 $mc->addServer("memcached", 11211);
 
-$MemcachedTags = new MemcachedTags($mc);
-
-$cache = new Cache($mc, $MemcachedTags);
+$mcTags = new MemcachedTags($mc);
+$cache = new Cache($mc, $mcTags);

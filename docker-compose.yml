@@ -50,6 +50,7 @@ services:
     memcached:
         image: memcached:latest
         container_name: revisionary_memcached
+        command: ["-m", "512m"]
         ports:
             - 11211:11211
 

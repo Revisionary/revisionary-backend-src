@@ -2,21 +2,41 @@
 <?php
 
 
-//$MemcachedTags->addTagsToKeys('user:6', ['pages:6', 'devices:6']);
+//$mcTags->addTagsToKeys('projects', ['projects:1', 'projects:6']);
 
 
 // var_dump(
-//     $MemcachedTags->getKeysByTag('user:6')
+//     $cache->getAllKeys()
 // );
 
+echo "<h3>Projects Tags</h3>";
+print_r(
+    $mcTags->getKeysByTag('projects')
+);
+
+echo "<h3>Pages Tags</h3>";
+print_r(
+    $mcTags->getKeysByTag('pages')
+);
+
 // var_dump(
-//     $MemcachedTags->deleteKeysByTag('user:6')
+//     $mcTags->deleteKeysByTag('user:6')
 // );
 
 //$cache->deleteMulti( $cache->getAllKeys() );
 //$cache->flush();
-print_r( $cache->getAllKeys() );
 
+
+echo "<h2>CACHES</h2>";
+$count = 0;
+foreach ($cache->getAllKeys() as $key) {
+
+	echo "[$count] [$key] => ";
+	echo !is_array($cache->get($key)) ? print_r( $cache->get($key), true) : "Array(...)";
+	echo "<br>";
+
+	$count++;
+}
 
 //die_to_print( $cache->get('6_pages') );
 
