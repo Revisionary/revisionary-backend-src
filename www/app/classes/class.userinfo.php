@@ -405,14 +405,39 @@ class User {
 		$db->orderBy("p.page_name", "asc");
 
 
-		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
+		// GET THE DATA
 		$pages = $db->get(
 			'pages p',
 			null,
 			'
-				*,
-				p.user_ID as user_ID,
 				p.page_ID as page_ID,
+				p.page_name,
+				p.page_url,
+				p.page_user,
+				p.page_created,
+				p.page_modified,
+				p.page_archived,
+				p.page_deleted,
+				p.order_number,
+				p.user_ID as user_ID,
+				cat.cat_ID,
+				cat.cat_name,
+				cat.cat_order_number,
+				p.project_ID,
+				pr.project_name,
+				pr.project_created,
+				pr.project_archived,
+				pr.project_deleted,
+				pr.project_image_device_ID,
+				u.user_name,
+				u.user_email,
+				u.user_first_name,
+				u.user_last_name,
+				u.user_company,
+				u.user_picture,
+				u.user_has_public_profile,
+				u.user_level_ID,
+				s.share_ID,
 				s.share_to as share_to,
 				s.sharer_user_ID as sharer_user_ID
 			'
@@ -506,14 +531,32 @@ class User {
 		$db->orderBy("p.project_name", "asc");
 
 
-		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
+		// GET THE DATA
 		$projects = $db->get(
 			'projects p',
 			null,
 			'
-				*,
-				p.user_ID as user_ID,
 				p.project_ID as project_ID,
+				p.project_name,
+				p.project_created,
+				p.project_archived,
+				p.project_deleted,
+				p.project_image_device_ID,
+				p.user_ID as user_ID,
+				o.order_ID,
+				o.order_number,
+				cat.cat_ID,
+				cat.cat_name,
+				cat.cat_order_number,
+				u.user_name,
+				u.user_email,
+				u.user_first_name,
+				u.user_last_name,
+				u.user_company,
+				u.user_picture,
+				u.user_has_public_profile,
+				u.user_level_ID,
+				s.share_ID,
 				s.share_to as share_to,
 				s.sharer_user_ID as sharer_user_ID
 			'

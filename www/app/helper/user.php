@@ -8,7 +8,7 @@ function currentUserID() {
 	return userLoggedIn() ? $_SESSION['user_ID'] : 0;
 }
 
-function getUserInfoDB(int $user_ID = null, bool $nocache = false) {
+function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = false) {
     global $db, $cache;
 
 
@@ -19,9 +19,7 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false) {
 	$cached_user_info = $cache->get('user:'.$user_ID);
 	if ( $cached_user_info !== false && !$nocache ) {
 
-
 		return $cached_user_info;
-
 
 	} else { // If not exist in the cache, pull data from DB
 
@@ -29,7 +27,36 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false) {
 		// Bring the user level info
 		$db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
 	    $db->where("u.user_ID", $user_ID);
-		$userInfo = $db->getOne("users u");
+		$userInfo = $db->getOne(
+			"users u",
+			null,
+			($full ? null : "
+				u.user_ID,
+				u.user_name,
+				u.user_email,
+				u.user_first_name,
+				u.user_last_name,
+				u.user_job_title,
+				u.user_department,
+				u.user_company,
+				u.user_picture,
+				u.user_has_public_profile,
+				u.user_email_notifications,
+				u.user_registered,
+				u.user_IP,
+				u.user_level_ID,
+				l.user_level_name,
+				l.user_level_description,
+				l.user_level_max_project,
+				l.user_level_max_page,
+				l.user_level_max_live_pin,
+				l.user_level_max_standard_pin,
+				l.user_level_max_client,
+				l.user_level_max_load,
+				l.user_level_price,
+				l.user_level_color
+			")
+		);
 
 
 		// Set the cache
