@@ -150,7 +150,7 @@ class Device {
     	bool $fromPage = false,
     	bool $fromPhase = false
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -199,6 +199,9 @@ class Device {
 
 		if ($first_device_ID) $log->info("Devices #$devices_list Added to: Phase #$phase_ID | Screens #$screens_list | User #".currentUserID());
 
+
+		// INVALIDATE THE CACHES
+		if ($first_device_ID) $cache->deleteKeysByTag('devices');
 
 
 		// Notify the users
@@ -268,7 +271,7 @@ class Device {
 
     // Remove a device
     public function remove() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 	    $page_ID = $this->getInfo('page_ID');
@@ -292,6 +295,10 @@ class Device {
 
 
 		if ($deleted) $log->info("Device #".self::$device_ID." Deleted: Page #$page_ID | Screenshot '$screenshot_file' | User #".currentUserID());
+
+
+		// INVALIDATE THE CACHES
+		if ($deleted) $cache->deleteKeysByTag('devices');
 
 
 		return $deleted;

@@ -132,7 +132,7 @@ class Page {
     	int $category_ID = 0, // The category_ID that new page is belong to
     	int $order_number = 0 // The order number
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -279,6 +279,11 @@ class Page {
 
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pages');
+
+
+
 		}
 
 
@@ -293,7 +298,7 @@ class Page {
 	    string $column,
 	    $new_value
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -313,6 +318,11 @@ class Page {
 
 		// Site log
 		if ($page_updated) $log->info("Page #".self::$page_ID." Updated: '$column => $new_value' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+
+
+
+		// INVALIDATE THE CACHES
+		if ($page_updated) $cache->deleteKeysByTag('pages');
 
 
 		return $page_updated;
@@ -338,7 +348,7 @@ class Page {
 
     // Archive a page
     public function archive() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -358,6 +368,11 @@ class Page {
 		if ($archived) $log->info("Page #".self::$page_ID." Archived: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
 
 
+
+		// INVALIDATE THE CACHES
+		if ($archived) $cache->deleteKeysByTag('pages');
+
+
 		return $archived;
 
     }
@@ -365,7 +380,7 @@ class Page {
 
     // Delete a page
     public function delete() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -385,6 +400,11 @@ class Page {
 		if ($deleted) $log->info("Page #".self::$page_ID." Deleted: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
 
 
+
+		// INVALIDATE THE CACHES
+		if ($deleted) $cache->deleteKeysByTag('pages');
+
+
 		return $deleted;
 
     }
@@ -392,7 +412,7 @@ class Page {
 
     // Recover a page
     public function recover() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -421,6 +441,10 @@ class Page {
 			$log->info("Page #".self::$page_ID." Recovered: '".$this->getInfo('page_name')."' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pages');
+
+
 			return true;
 		}
 
@@ -432,7 +456,7 @@ class Page {
 
     // Remove a page
     public function remove() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -492,6 +516,11 @@ class Page {
 		if ($page_removed) $log->info("Page #".self::$page_ID." Removed: '".$this->getInfo('page_name')."' | Project Name: ".$projectData->getInfo('project_name')." | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
 
 
+
+		// INVALIDATE THE CACHES
+		if ($page_removed) $cache->deleteKeysByTag(['pages', 'projects']);
+
+
 		return $page_removed;
 
     }
@@ -501,7 +530,7 @@ class Page {
     public function rename(
 	    string $text
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -530,6 +559,11 @@ class Page {
 
 
 
+		// INVALIDATE THE CACHES
+		if ($page_renamed) $cache->deleteKeysByTag('pages');
+
+
+
 		return $page_renamed;
 
     }
@@ -539,7 +573,7 @@ class Page {
     public function changeownership(
 	    int $user_ID
     ) {
-		global $db, $log;
+		global $db, $log, $cache;
 
 
 
@@ -564,7 +598,6 @@ class Page {
 		));
 
 
-
 		$db->where('page_ID', self::$page_ID);
 		$db->where('user_ID', currentUserID());
 		$ownership_changed = $db->update('pages', array(
@@ -574,6 +607,11 @@ class Page {
 
 		// Site log
 		if ($ownership_changed) $log->info("Page #".self::$page_ID." Ownership Changed: '$old_owner_ID => $user_ID' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
+
+
+
+		// INVALIDATE THE CACHES
+		if ($ownership_changed) $cache->deleteKeysByTag(['pages', 'projects']);
 
 
 		return $ownership_changed;

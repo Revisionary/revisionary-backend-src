@@ -171,7 +171,7 @@ class User {
 		$cached_pins = $cache->get('pins:'.self::$user_ID);
 		if ( $cached_pins !== false && !$nocache && $phase_ID == null && $device_ID == null ) {
 
-			array_unshift($cached_pins, 'FROM CACHE');
+			//array_unshift($cached_pins, 'FROM CACHE');
 
 			return $cached_pins;
 		}
@@ -251,7 +251,7 @@ class User {
 		$cached_devices = $cache->get('devices:'.self::$user_ID);
 		if ( $cached_devices !== false && !$nocache ) {
 
-			array_unshift($cached_devices, 'FROM CACHE');
+			//array_unshift($cached_devices, 'FROM CACHE');
 
 			return $cached_devices;
 		}
@@ -310,7 +310,7 @@ class User {
 		$cached_phases = $cache->get('phases:'.self::$user_ID);
 		if ( $cached_phases !== false && !$nocache ) {
 
-			array_unshift($cached_phases, 'FROM CACHE');
+			//array_unshift($cached_phases, 'FROM CACHE');
 
 			return $cached_phases;
 		}
@@ -353,7 +353,7 @@ class User {
 		$cached_pages = $cache->get('pages:'.self::$user_ID);
 		if ( $cached_pages !== false && !$nocache ) {
 
-			array_unshift($cached_pages, 'FROM CACHE');
+			//array_unshift($cached_pages, 'FROM CACHE');
 
 			return $cached_pages;
 		}
@@ -465,7 +465,7 @@ class User {
 		$cached_projects = $cache->get('projects:'.self::$user_ID);
 		if ( $cached_projects !== false && !$nocache ) {
 
-			array_unshift($cached_projects, 'FROM CACHE');
+			//array_unshift($cached_projects, 'FROM CACHE');
 
 			return $cached_projects;
 		}

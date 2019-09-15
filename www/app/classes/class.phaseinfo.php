@@ -297,7 +297,7 @@ class Phase {
     public function addNew(
     	int $page_ID // The page_ID that new phase is belong to
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -330,6 +330,10 @@ class Phase {
 			$log->info("Phase #$phase_ID Added in $page_name.$project_name | Page #$page_ID | Project #$project_ID | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('phases');
+
+
 		}
 
 
@@ -344,7 +348,7 @@ class Phase {
 	    string $column,
 	    $new_value
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -361,6 +365,10 @@ class Phase {
 		if ($phase_updated) $log->info("Phase #".self::$phase_ID." Updated: '$column => $new_value' | Page #".$this->getInfo('page_ID')." | User #".currentUserID());
 
 
+		// INVALIDATE THE CACHES
+		if ($phase_updated) $cache->deleteKeysByTag('phases');
+
+
 		return $phase_updated;
     }
 
@@ -368,7 +376,7 @@ class Phase {
 
     // Remove a phase
     public function remove() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -413,6 +421,10 @@ class Phase {
 
 		// Site log
 		if ($phase_removed) $log->info("Phase #".self::$phase_ID." Removed | Project Name: ".$projectData->getInfo('project_name')." | Project #".$projectData->getInfo('project_ID')." | Page Name: ".$pageData->getInfo('page_name')." | Page #".$this->getInfo('page_ID')."User #".currentUserID());
+
+
+		// INVALIDATE THE CACHES
+		if ($phase_removed) $cache->deleteKeysByTag('phases');
 
 
 		return $phase_removed;

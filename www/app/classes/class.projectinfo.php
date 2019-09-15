@@ -131,7 +131,7 @@ class Project {
     	int $order_number = 0, // The order number
 		string $page_url = ''
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -278,6 +278,11 @@ class Project {
 
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('projects');
+
+
+
 		}
 
 
@@ -292,7 +297,7 @@ class Project {
 	    string $column,
 	    $new_value
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -314,13 +319,17 @@ class Project {
 		if ($project_updated) $log->info("Project #".self::$project_ID." Updated: '$column => $new_value' | User #".currentUserID());
 
 
+		// INVALIDATE THE CACHES
+		if ($project_updated) $cache->deleteKeysByTag('projects');
+
+
 		return $project_updated;
     }
 
 
     // Archive a project
     public function archive() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -340,6 +349,10 @@ class Project {
 		if ($archived) $log->info("Project #".self::$project_ID." Archived: '".$this->getInfo('project_name')."' | User #".currentUserID());
 
 
+		// INVALIDATE THE CACHES
+		if ($archived) $cache->deleteKeysByTag('projects');
+
+
 		return $archived;
 
     }
@@ -347,7 +360,7 @@ class Project {
 
     // Delete a project
     public function delete() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -367,6 +380,10 @@ class Project {
 		if ($deleted) $log->info("Project #".self::$project_ID." Deleted: '".$this->getInfo('project_name')."' | User #".currentUserID());
 
 
+		// INVALIDATE THE CACHES
+		if ($deleted) $cache->deleteKeysByTag('projects');
+
+
 		return $deleted;
 
     }
@@ -374,7 +391,7 @@ class Project {
 
     // Recover a project
     public function recover() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -403,6 +420,10 @@ class Project {
 			$log->info("Project #".self::$project_ID." Recovered: '".$this->getInfo('project_name')."' | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('projects');
+
+
 			return true;
 		}
 
@@ -414,7 +435,7 @@ class Project {
 
     // Remove a project
     public function remove() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -467,6 +488,10 @@ class Project {
 		if ($project_removed) $log->info("Project #".self::$project_ID." Removed: '".$this->getInfo('project_name')."' | User #".currentUserID());
 
 
+		// INVALIDATE THE CACHES
+		if ($project_removed) $cache->deleteKeysByTag(['projects', 'pages']);
+
+
 		return $project_removed;
 
     }
@@ -476,7 +501,7 @@ class Project {
     public function rename(
 	    string $text
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -504,6 +529,10 @@ class Project {
 		if ($project_renamed) $log->info("Project #".self::$project_ID." Renamed: '$current_project_name => $text' | User #".currentUserID());
 
 
+		// INVALIDATE THE CACHES
+		if ($project_renamed) $cache->deleteKeysByTag('projects');
+
+
 
 		return $project_renamed;
 
@@ -514,7 +543,7 @@ class Project {
     public function changeownership(
 	    int $user_ID
     ) {
-		global $db, $log;
+		global $db, $log, $cache;
 
 
 
@@ -547,6 +576,10 @@ class Project {
 
 		// Site log
 		if ($ownership_changed) $log->info("Project #".self::$project_ID." Ownership Changed: '$old_owner_ID => $user_ID' | User #".currentUserID());
+
+
+		// INVALIDATE THE CACHES
+		if ($ownership_changed) $cache->deleteKeysByTag('projects');
 
 
 		return $ownership_changed;

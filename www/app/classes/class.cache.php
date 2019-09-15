@@ -70,6 +70,13 @@ class Cache {
 	}
 
 
+	public function deleteKeysByTag($tag) {
+
+		return self::$mcTags->deleteKeysByTag($tag);
+
+	}
+
+
 	public function flush() {
 
 		return self::$mc->flush();

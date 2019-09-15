@@ -67,8 +67,13 @@ class Screen {
 
     // ACTIONS:
 
-    // Add a new screen
+    // Add a new screen !!!
     public function addNew() {
+		global $db, $cache;
+
+
+		// INVALIDATE THE CACHES
+		if ($added) $cache->deleteKeysByTag('screens');
 
 
 	}

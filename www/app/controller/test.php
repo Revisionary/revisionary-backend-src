@@ -49,49 +49,64 @@ $user = User::ID();
 if ($user) {
 
 
-	// PINS
-	echo "<h2>USER</h2>";
-	print_r( $user->getInfo() );
+	// USER
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>USER</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getInfo(), true )."</p>
+	</details>";
 
 
 	// PINS
-	echo "<h2>PINS</h2>";
-	$pins = $user->getPins();
-	print_r($pins);
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>PINS</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getPins(), true )."</p>
+	</details>";
 
 
 	// SCREENS
-	echo "<h2>SCREENS</h2>";
-	$screens = $user->getScreens();
-	print_r($screens);
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>SCREENS</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getScreens(), true )."</p>
+	</details>";
 
 
 	// DEVICES
-	echo "<h2>DEVICES</h2>";
-	$devices = $user->getDevices();
-	print_r($devices);
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>DEVICES</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getDevices(), true )."</p>
+	</details>";
 
 
 	// PHASES
-	echo "<h2>PHASES</h2>";
-	$phases = $user->getPhases();
-	print_r($phases);
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>PHASES</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getPhases(), true )."</p>
+	</details>";
 
 
 	// PAGES
-	echo "<h2>PAGES</h2>";
-	$pages = $user->getPages();
-	print_r($pages);
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>PAGES</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getPages(), true )."</p>
+	</details>";
 
 
 	// PROJECTS
-	echo "<h2>PROJECTS</h2>";
-	$projects = $user->getProjects();
-	print_r($projects);
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>PROJECTS</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getProjects(), true )."</p>
+	</details>";
 
 
 }
-
+echo "<br><br>";
 
 
 
