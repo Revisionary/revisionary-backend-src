@@ -57,11 +57,27 @@ if ($user) {
 	</details>";
 
 
-	// SCREENS
+	// PROJECT CATEGORIES
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>SCREENS</h2></summary>
-		<p style='padding-left: 20px;'>".print_r( $user->getScreens(), true )."</p>
+		<summary><h2 style='display: inline;'>PROJECT CATEGORIES</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getProjectCategories(), true )."</p>
+	</details>";
+
+
+	// PROJECTS
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>PROJECTS</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getProjects(), true )."</p>
+	</details>";
+
+
+	// PAGE CATEGORIES
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>PAGE CATEGORIES</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getPageCategories(), true )."</p>
 	</details>";
 
 
@@ -81,14 +97,6 @@ if ($user) {
 	</details>";
 
 
-	// PROJECTS
-	echo "
-	<details>
-		<summary><h2 style='display: inline;'>PROJECTS</h2></summary>
-		<p style='padding-left: 20px;'>".print_r( $user->getProjects(), true )."</p>
-	</details>";
-
-
 	// DEVICES
 	echo "
 	<details>
@@ -105,24 +113,16 @@ if ($user) {
 	</details>";
 
 
+	// SCREENS
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>SCREENS</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getScreens(), true )."</p>
+	</details>";
+
+
 }
 echo "<br><br>";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

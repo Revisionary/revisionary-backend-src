@@ -48,7 +48,7 @@ class Pagecategory {
     public function addNew(
 	    int $project_ID
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -62,7 +62,12 @@ class Pagecategory {
 		));
 
 
+		// Site log
 		if ($cat_ID) $log->info("Page Category #$cat_ID Added: Untitled | Project #$project_ID | User #".currentUserID());
+
+
+		// INVALIDATE THE CACHES
+		if ($cat_ID) $cache->deleteKeysByTag('page_categories');
 
 
 		// Return the category ID
@@ -73,7 +78,7 @@ class Pagecategory {
 
 	// Remove a category
 	public function remove() {
-		global $db, $log;
+		global $db, $log, $cache;
 
 
 
@@ -86,7 +91,12 @@ class Pagecategory {
 		$removed = $db->delete('pages_categories');
 
 
+		// Site Log
 		if ($removed) $log->info("Page Category #".self::$category_ID." Removed: User #".currentUserID());
+
+
+		// INVALIDATE THE CACHES
+		if ($removed) $cache->deleteKeysByTag('page_categories');
 
 
 		return $removed;
@@ -98,7 +108,7 @@ class Pagecategory {
     public function rename(
 	    string $text
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -112,7 +122,12 @@ class Pagecategory {
 		));
 
 
+		// Site log
 		if ($updated) $log->info("Page Category #".self::$category_ID." Renamed as: '$text' | User #".currentUserID());
+
+
+		// INVALIDATE THE CACHES
+		if ($updated) $cache->deleteKeysByTag('page_categories');
 
 
 		return $updated;
@@ -124,7 +139,7 @@ class Pagecategory {
     public function reorder(
 	    int $order_number
     ) {
-	    global $db;
+	    global $db, $cache;
 
 
 
@@ -136,6 +151,10 @@ class Pagecategory {
 		$updated = $db->update('pages_categories', array(
 			'cat_order_number' => $order_number
 		));
+
+
+		// INVALIDATE THE CACHES
+		if ($updated) $cache->deleteKeysByTag('page_categories');
 
 
 		return $updated;
