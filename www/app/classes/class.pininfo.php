@@ -105,7 +105,7 @@ class Pin {
 	    string $pin_modification_type = null,
 	    int $pin_device_ID = null
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
     	// Security check !!!
@@ -151,6 +151,10 @@ class Pin {
 			$log->info(ucfirst($pin_type)." Pin #$pin_ID Added to: '".$pageData->getInfo('page_name')."' Page #$page_ID | Phase #$phase_ID | Device #$device_ID | Project #$project_ID | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pins');
+
+
 		}
 
 
@@ -165,7 +169,7 @@ class Pin {
     	float $pin_x = 50,
     	float $pin_y = 50
     ) {
-	    global $db;
+	    global $db, $cache;
 
 
 
@@ -186,6 +190,10 @@ class Pin {
 		if ($pin_updated) Page::ID( $this->page_ID )->updateModified();
 
 
+		// INVALIDATE THE CACHES
+		if ($pin_updated) $cache->deleteKeysByTag('pins');
+
+
 		return $pin_updated;
 
 	}
@@ -193,7 +201,7 @@ class Pin {
 
     // Delete a pin
     public function remove() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -229,6 +237,10 @@ class Pin {
 			$log->info("$pin_type Pin #".self::$pin_ID." Removed from: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pins');
+
+
 		}
 
 
@@ -239,7 +251,7 @@ class Pin {
 
     // Complete a pin
     public function complete() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -268,6 +280,10 @@ class Pin {
 			$log->info("$pin_type Pin #".self::$pin_ID." Completed: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pins');
+
+
 		}
 
 
@@ -278,7 +294,7 @@ class Pin {
 
     // inComplete a pin
     public function inComplete() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -308,6 +324,10 @@ class Pin {
 			$log->info("$pin_type Pin #".self::$pin_ID." Incompleted: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pins');
+
+
 		}
 
 
@@ -318,7 +338,7 @@ class Pin {
 
     // Make device specific
     public function deviceSpecific($device_ID) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -343,6 +363,10 @@ class Pin {
 			$log->info("Pin #".self::$pin_ID." has been made only for Device #$device_ID '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pins');
+
+
 		}
 
 
@@ -353,7 +377,7 @@ class Pin {
 
     // Make for all devices
     public function deviceAll() {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -378,6 +402,10 @@ class Pin {
 			$log->info("Pin #".self::$pin_ID." has been made for all devices: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pins');
+
+
 		}
 
 
@@ -391,7 +419,7 @@ class Pin {
 	    string $pin_type,
 	    string $pin_private
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -437,6 +465,10 @@ class Pin {
 			$log->info(ucfirst($current_pin_type)." Pin #".self::$pin_ID." Converted to ".ucfirst($pin_type)." ".($pin_private == "1" ? "(Private)" : "(Public)" )." -Before: ".ucfirst($current_pin_type)." ".($current_pin_private == "1" ? "(Private)" : "(Public)" )."-: '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pins');
+
+
 		}
 
 
@@ -448,7 +480,7 @@ class Pin {
 
     // Modify a pin
     public function modify($modification) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -477,6 +509,10 @@ class Pin {
 			$log->info("$pin_type Pin #".self::$pin_ID." Modified: '$modification' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pins');
+
+
 		}
 
 
@@ -488,7 +524,7 @@ class Pin {
 
     // Update CSS
     public function updateCSS($css) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -515,6 +551,10 @@ class Pin {
 
 			// Site log
 			$log->info("$pin_type Pin #".self::$pin_ID." CSS Updated: '$css' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+
+
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pins');
 
 
 		}
