@@ -57,35 +57,11 @@ if ($user) {
 	</details>";
 
 
-	// PINS
-	echo "
-	<details>
-		<summary><h2 style='display: inline;'>PINS</h2></summary>
-		<p style='padding-left: 20px;'>".print_r( $user->getPins(), true )."</p>
-	</details>";
-
-
 	// SCREENS
 	echo "
 	<details>
 		<summary><h2 style='display: inline;'>SCREENS</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getScreens(), true )."</p>
-	</details>";
-
-
-	// DEVICES
-	echo "
-	<details>
-		<summary><h2 style='display: inline;'>DEVICES</h2></summary>
-		<p style='padding-left: 20px;'>".print_r( $user->getDevices(), true )."</p>
-	</details>";
-
-
-	// PHASES
-	echo "
-	<details>
-		<summary><h2 style='display: inline;'>PHASES</h2></summary>
-		<p style='padding-left: 20px;'>".print_r( $user->getPhases(), true )."</p>
 	</details>";
 
 
@@ -97,11 +73,35 @@ if ($user) {
 	</details>";
 
 
+	// PHASES
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>PHASES</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getPhases(), true )."</p>
+	</details>";
+
+
 	// PROJECTS
 	echo "
 	<details>
 		<summary><h2 style='display: inline;'>PROJECTS</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getProjects(), true )."</p>
+	</details>";
+
+
+	// DEVICES
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>DEVICES</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getDevices(), true )."</p>
+	</details>";
+
+
+	// PINS
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>PINS</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getPins(), true )."</p>
 	</details>";
 
 

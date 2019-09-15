@@ -384,7 +384,7 @@ class User {
 
 
 		// Check access if not admin
-		if ( getUserInfo()['userLevelID'] != 1 ) {
+		if ( self::$userInfo['user_level_ID'] != 1 ) {
 
 			$db->where('(
 				p.user_ID = '.self::$user_ID.'
@@ -502,7 +502,7 @@ class User {
 
 
 		// Check access if not admin
-		if ( getUserInfo()['userLevelID'] != 1 ) {
+		if ( self::$userInfo['user_level_ID'] != 1 ) {
 
 			// If shared pages exist
 			$find_in = "";
