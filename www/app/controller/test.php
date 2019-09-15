@@ -26,16 +26,18 @@ print_r(
 
 
 
-echo "<h2>CACHES</h2>";
+echo "<h2>CACHES</h2><br>";
+echo "Array <br>(<br>";
 $count = 0;
 foreach ($cache->getAllKeys() as $key) {
 
-	echo "[$count] [$key] => ";
+	echo "    [$key] => ";
 	echo !is_array($cache->get($key)) ? print_r( $cache->get($key), true) : "Array(...)";
 	echo "<br>";
 
 	$count++;
 }
+echo ")";
 
 
 
