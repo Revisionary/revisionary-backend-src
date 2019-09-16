@@ -64,7 +64,8 @@ if ($debug_mode) $db->setTrace(true);
 
 
 // If logged in and user not found
-if ( userLoggedIn() && !getUserInfoDB() ) {
+$User = User::ID();
+if ( userLoggedIn() && !$User ) {
 
 
 	// Log out and go home
