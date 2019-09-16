@@ -26,8 +26,10 @@ print_r(
 
 
 
-echo "<h2>CACHES</h2><br>";
-echo "Array <br>(<br>";
+echo "
+<details>
+	<summary><h2 style='display: inline;'>CACHES</h2></summary>";
+echo "<p style='padding-left: 20px;'>Array <br>(<br>";
 $count = 0;
 foreach ($cache->getAllKeys() as $key) {
 
@@ -38,6 +40,8 @@ foreach ($cache->getAllKeys() as $key) {
 	$count++;
 }
 echo ")";
+echo "</p>
+</details>";
 
 
 
