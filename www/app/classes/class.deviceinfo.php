@@ -16,29 +16,20 @@ class Device {
 
 
 	// ID Setter
-    public static function ID($device_ID = null) {
-	    global $db;
+    public static function ID(int $device_ID = null) {
+	    global $db, $cache;
 
 
-	    // Set the page ID
-		if ($device_ID != null && is_numeric($device_ID)) {
+		// If specific device
+		if ( is_int($device_ID) ) {
 
 
-			// Bring the screens
-			$db->join("screens s", "s.screen_ID = d.screen_ID", "LEFT");
+			$devices = User::ID()->getDevices();
+			$device = array_filter($devices, function($deviceFound) use ($device_ID) {
+				return $deviceFound['device_ID'] == $device_ID;
+			});
+			$deviceInfo = end($device);
 
-
-			// Bring the screen category info
-			$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
-
-
-			// Bring the phase info
-			$db->join("phases v", "v.phase_ID = d.phase_ID", "LEFT");
-
-
-			// Select the device
-		    $db->where('d.device_ID', $device_ID);
-			$deviceInfo = $db->getOne("devices d");
 
 			if ( $deviceInfo ) {
 
