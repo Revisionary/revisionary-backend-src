@@ -75,24 +75,15 @@
 
 		<div class="wrap xl-center xl-flexbox xl-middle xl-gutter-8 under-main-title <?=$title == "projects" ? "public-link" : ""?>" <?=$title == "projects" ? "data-tooltip='Coming Soon...'" : ""?>>
 
-			<?php
-
-			if ($title == "projects") {
-
-/*
-			?>
+			<?php if ($title == "projects") { /*?>
 			<a href="<?=site_url(getUserInfo()['userName'])?>">
 				<i class="fa fa-link"></i> https://revisionaryapp.com/<?=getUserInfo()['userName']?>
 			</a>
 			<a href="#" class="privacy">
 				<i class="fa fa-globe-americas"></i> <i class="fa fa-caret-down"></i>
 			</a>
-			<?php
-*/
-
-			} else {
-
-			?>
+			<?php */ } ?>
+			<?php if ($dataType == "page") { ?>
 
 			<div class="col">
 
@@ -128,6 +119,7 @@
 					<?php
 					foreach ($projectShares as $share) {
 
+
 						// Don't show the shared people who I didn't share to and whom shared by a person I didn't share with. :O
 						if (
 							$project_user_ID == currentUserID() &&
@@ -142,7 +134,7 @@
 					?>
 
 						<?php
-							$shared_user_ID = $share['share_to'];
+							$shared_user_ID = intval($share['share_to']);
 
 							if ( is_numeric($share['share_to']) ) {
 								$shared_user = getUserInfo($shared_user_ID);
@@ -184,7 +176,6 @@
 
 						?>
 
-
 					<?php
 					}
 					?>
@@ -193,11 +184,7 @@
 
 			</div>
 
-			<?php
-
-			}
-
-			?>
+			<?php } // If dataType page ?>
 		</div>
 
 	</div>
