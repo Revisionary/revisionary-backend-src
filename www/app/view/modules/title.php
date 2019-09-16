@@ -208,7 +208,7 @@
 		<?php
 
 			$maxProjects = getUserInfo()['userLevelMaxProject'];
-			$projectsCount = count($allProjects);
+			$projectsCount = count( $User->getProjects() );
 			$projectsPercentage = intval((100 * $projectsCount) / $maxProjects);
 
 		?>
