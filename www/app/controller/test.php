@@ -2,104 +2,9 @@
 <?php
 
 
-
-
-// Bring the category info
-$db->join("pages_categories cat", "cat.cat_ID = p.cat_ID", "LEFT");
-
-
-// Bring the project info
-$db->join("projects pr", "pr.project_ID = p.project_ID", "LEFT");
-
-
-// Bring page share info
-$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
-$db->joinWhere("shares s", "(s.share_to = '".currentUserID()."' OR s.share_to = '".getUserInfo()['email']."')");
-$db->joinWhere("shares s", "s.share_type", "page");
-
-
-// Bring project share info
-$db->join("shares sp", "p.project_ID = sp.shared_object_ID", "LEFT");
-$db->joinWhere("shares sp", "sp.share_type", "project");
-
-
-// Check access if not admin
-$db->where('(
-	p.user_ID = '.currentUserID().'
-	OR s.share_to = '.currentUserID().'
-	OR s.share_to = "'.getUserInfo()['email'].'"
-	OR pr.user_ID = '.currentUserID().'
-	OR sp.share_to = '.currentUserID().'
-	OR sp.share_to = "'.getUserInfo()['email'].'"
-)');
-
-
-// Default Sorting
-$db->orderBy("order_number", "asc");
-$db->orderBy("s.share_ID", "desc");
-$db->orderBy("cat.cat_name", "asc");
-$db->orderBy("p.page_name", "asc");
-
-
-// GET THE DATA
-$pages = $db->get(
-	'pages p',
-	null,
-	'
-		p.page_ID as page_ID,
-		p.page_name,
-		p.page_url,
-		p.page_user,
-		p.page_created,
-		p.page_modified,
-		p.page_archived,
-		p.page_deleted,
-		p.order_number,
-		p.user_ID as user_ID,
-		cat.cat_ID,
-		cat.cat_name,
-		cat.cat_order_number,
-		p.project_ID,
-		pr.project_name,
-		pr.project_created,
-		pr.project_archived,
-		pr.project_deleted,
-		pr.project_image_device_ID,
-		s.share_ID,
-		s.share_to as share_to,
-		s.sharer_user_ID as sharer_user_ID
-	'
-);
-
-die_to_print(array_unique($pages, SORT_REGULAR));
-
-
-
-/*
-echo "<h3>Projects Tags</h3>";
-print_r(
-    $mcTags->getKeysByTag('projects')
-);
-
-echo "<h3>Pages Tags</h3>";
-print_r(
-    $mcTags->getKeysByTag('pages')
-);
-*/
-
-// var_dump(
-//     $mcTags->deleteKeysByTag('user:6')
-// );
-
-//$cache->flush();
-
-
-
-
-
 echo "
-<details>
-	<summary><h2 style='display: inline;'>CACHES</h2></summary>";
+<details open>
+	<summary><h2 style='display: inline;'>CACHES (".count($cache->getAllKeys()).")</h2></summary>";
 echo "<p style='padding-left: 20px;'>Array <br>(<br>";
 $count = 0;
 foreach ($cache->getAllKeys() as $key) {
@@ -135,7 +40,7 @@ if ($user) {
 	// PROJECT CATEGORIES
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PROJECT CATEGORIES</h2></summary>
+		<summary><h2 style='display: inline;'>PROJECT CATEGORIES (".count($user->getProjectCategories()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getProjectCategories(), true )."</p>
 	</details>";
 
@@ -143,7 +48,7 @@ if ($user) {
 	// PROJECTS
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PROJECTS</h2></summary>
+		<summary><h2 style='display: inline;'>PROJECTS (".count($user->getProjects()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getProjects(), true )."</p>
 	</details>";
 
@@ -151,31 +56,23 @@ if ($user) {
 	// PAGE CATEGORIES
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PAGE CATEGORIES</h2></summary>
+		<summary><h2 style='display: inline;'>PAGE CATEGORIES (".count($user->getPageCategories()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getPageCategories(), true )."</p>
 	</details>";
 
 
 	// PAGES
 	echo "
-	<details open>
-		<summary><h2 style='display: inline;'>PAGES</h2></summary>
+	<details>
+		<summary><h2 style='display: inline;'>PAGES (".count($user->getPages()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getPages(), true )."</p>
 	</details>";
-
-
-	// // GET MY PAGES
-	// echo "
-	// <details open>
-	// 	<summary><h2 style='display: inline;'>PAGES</h2></summary>
-	// 	<p style='padding-left: 20px;'>".print_r( $user->getMy('pages'), true )."</p>
-	// </details>";
 
 
 	// PHASES
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PHASES</h2></summary>
+		<summary><h2 style='display: inline;'>PHASES (".count($user->getPhases()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getPhases(), true )."</p>
 	</details>";
 
@@ -183,7 +80,7 @@ if ($user) {
 	// DEVICES
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>DEVICES</h2></summary>
+		<summary><h2 style='display: inline;'>DEVICES (".count($user->getDevices()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getDevices(), true )."</p>
 	</details>";
 
@@ -191,7 +88,7 @@ if ($user) {
 	// PINS
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PINS</h2></summary>
+		<summary><h2 style='display: inline;'>PINS (".count($user->getPins()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getPins(), true )."</p>
 	</details>";
 
@@ -199,7 +96,7 @@ if ($user) {
 	// SCREENS
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>SCREENS</h2></summary>
+		<summary><h2 style='display: inline;'>SCREENS (".count($user->getScreens()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getScreens(), true )."</p>
 	</details>";
 
@@ -207,7 +104,7 @@ if ($user) {
 }
 echo "<br><br>";
 
-$cache->flush();
+//$cache->flush();
 
 
 

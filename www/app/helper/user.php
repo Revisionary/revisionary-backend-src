@@ -74,7 +74,7 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 
 }
 
-function getUserInfo($user_ID = 0) {
+function getUserInfo($user_ID = false) {
 
 
 	// Get the User ID

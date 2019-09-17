@@ -1,5 +1,5 @@
 <?php
-$categories = $dataType == "project" ? $User->getProjectCategories($catFilter) : $User->getPageCategories($project_ID, $catFilter);
+$categories = $dataType == "project" ? $User->getProjectCategories($catFilter, $order) : $User->getPageCategories($project_ID, $catFilter, $order);
 ?>
 <?php require view('static/header_html'); ?>
 <?php require view('static/header_frontend'); ?>
@@ -199,7 +199,7 @@ $categories = $dataType == "project" ? $User->getProjectCategories($catFilter) :
 
 					// Block Data
 					$category_ID = $category['cat_ID'];
-					$blocks = $dataType == "project" ? $User->getProjects($category_ID, $catFilter) : $User->getPages($project_ID, $category_ID, $catFilter);
+					$blocks = $dataType == "project" ? $User->getProjects($category_ID, $catFilter, $order) : $User->getPages($project_ID, $category_ID, $catFilter, $order);
 					//die_to_print($blocks);
 
 					// THE BLOCK LOOP
@@ -243,8 +243,10 @@ $categories = $dataType == "project" ? $User->getProjectCategories($catFilter) :
 
 
 								// Screen filter
-								if ( $screenFilter != "" && is_int($screenFilter) ) {
+								if ( $screenFilter != "" && is_numeric($screenFilter) ) {
 
+									// Get all devices from the block page
+									$blockDevices = $User->getDevices( null, $block['page_ID'] );
 
 									// Extract the selected screen
 									$blockDevices = array_filter($blockDevices, function ($device) use ($screenFilter) {
@@ -394,41 +396,41 @@ $categories = $dataType == "project" ? $User->getProjectCategories($catFilter) :
 
 $livePinCount = $standardPinCount = $privatePinCount = $completePinCount = 0;
 
-// if ($dataType == "page" && $allMyPins) {
+if ($dataType == "page" && $allMyPins) {
 
-// 	$phase_IDs = array_column($blockPhases, "phase_ID");
+	$phase_IDs = array_column($blockPhases, "phase_ID");
 
 
-// 	$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+	$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-// 		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
-// 		return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+		return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
-// 	}));
-// 	$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+	}));
+	$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-// 		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
-// 		return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+		return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
-// 	}));
-// 	$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+	}));
+	$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-// 		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
-// 		return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
+		return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
 
-// 	}));
-// 	$completePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+	}));
+	$completePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-// 		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
-// 		return $pageCondition && $value['pin_complete'] == "1";
+		return $pageCondition && $value['pin_complete'] == "1";
 
-// 	}));
+	}));
 
-// }
+}
 ?>
 
 										<?php

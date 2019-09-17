@@ -134,9 +134,11 @@
 					?>
 
 						<?php
-							$shared_user_ID = intval($share['share_to']);
+							$shared_user_ID = $share['share_to'];
 
 							if ( is_numeric($share['share_to']) ) {
+
+								$shared_user_ID = intval($shared_user_ID);
 								$shared_user = getUserInfo($shared_user_ID);
 						?>
 
@@ -195,13 +197,19 @@
 		<?php
 
 			$maxProjects = getUserInfo()['userLevelMaxProject'];
-			$projectsCount = count( $User->getProjects() );
+			$allMyProjects = array_filter($User->getProjects(), function($projectFound) {
+
+				return $projectFound['user_ID'] == currentUserID();
+
+			});
+
+			$projectsCount = count( $allMyProjects );
 			$projectsPercentage = intval((100 * $projectsCount) / $maxProjects);
 
 		?>
 
 
-		<div class="dropdown limit-wrapper <?=$projectsPercentage > 100 ? "exceed" : ""?>" data-tooltip="In development...">
+		<div class="dropdown limit-wrapper <?=$projectsPercentage >= 100 ? "exceed" : ""?>" data-tooltip="In development...">
 			<a href="<?=site_url('upgrade')?>" class="wrap xl-2 xl-table xl-middle xl-gutter-8">
 				<div class="col xl-right" style="font-size: 12px; line-height: 12px;">
 					<b><?=getUserInfo()['userLevelName']?></b><br>Account

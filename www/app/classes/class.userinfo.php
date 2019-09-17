@@ -146,13 +146,21 @@ class User {
 		}
 
 
+		// Do ordering
+		if ($order !== null) {
+
+			if ($order == "name") array_multisort(array_column($categories, 'cat_name'), SORT_ASC, $categories);
+
+		}
+
+
 	    return $categories;
     }
 
 
 
 	// Get all the projects that user can access
-	public function getProjects(int $project_cat_ID = null, string $catFilter = null, bool $nocache = false) {
+	public function getProjects(int $project_cat_ID = null, string $catFilter = null, string $order = null, bool $nocache = false) {
 		global $db, $cache;
 
 
@@ -285,6 +293,15 @@ class User {
 		}
 
 
+		// Do ordering
+		if ($order !== null) {
+
+			if ($order == "name") array_multisort(array_column($projects, 'project_name'), SORT_ASC, $projects);
+			if ($order == "date") array_multisort(array_column($projects, 'project_created'), SORT_DESC, $projects);
+
+		}
+
+
 		// Return the data
 		return $projects;
 
@@ -367,13 +384,21 @@ class User {
 		}
 
 
+		// Do ordering
+		if ($order !== null) {
+
+			if ($order == "name") array_multisort(array_column($categories, 'cat_name'), SORT_ASC, $categories);
+
+		}
+
+
 	    return $categories;
     }
 
 
 
 	// Get all the pages that user can access
-	public function getPages(int $project_ID = null, int $page_cat_ID = null, string $catFilter = null, bool $nocache = true) {
+	public function getPages(int $project_ID = null, int $page_cat_ID = null, string $catFilter = null, string $order = null, bool $nocache = false) {
 		global $db, $cache;
 
 
@@ -388,7 +413,7 @@ class User {
 
 
 			// Bring the project info
-			$db->join("projects pr", "pr.project_ID = p.project_ID", "RIGHT");
+			$db->join("projects pr", "pr.project_ID = p.project_ID", "LEFT");
 
 
 			// Bring page share info
@@ -509,7 +534,17 @@ class User {
 		}
 
 
-		//$pages = array_unique($pages, SORT_REGULAR);
+		// BUG !!! - DB shows duplicate pages because of the project shares join
+		$pages = array_unique($pages, SORT_REGULAR);
+
+
+		// Do ordering
+		if ($order !== null) {
+
+			if ($order == "name") array_multisort(array_column($pages, 'page_name'), SORT_ASC, $pages);
+			if ($order == "date") array_multisort(array_column($pages, 'page_created'), SORT_DESC, $pages);
+
+		}
 
 
 		// Return the data
@@ -592,7 +627,7 @@ class User {
 
 
 	// Get all the devices that user can access
-	public function getDevices(int $phase_ID = null, bool $nocache = false) {
+	public function getDevices(int $phase_ID = null, int $page_ID = null, int $project_ID = null, bool $nocache = false) {
 		global $db, $cache;
 
 
@@ -602,11 +637,10 @@ class User {
 		else {
 
 
-			// Get page IDs
+			// Get all page IDs
 			$pages = $this->getPages();
 			if ( !count($pages) ) return array();
 			$pageIDs = array_unique(array_column($pages, 'page_ID'));
-
 
 
 			// Filter the devices by page_IDs
@@ -615,6 +649,14 @@ class User {
 
 			// Bring the phase info
 			$db->join("phases v", "v.phase_ID = d.phase_ID", "LEFT");
+
+
+			// Bring the page info
+			$db->join("pages pg", "v.page_ID = pg.page_ID", "LEFT");
+
+
+			// Bring the page info
+			$db->join("projects pr", "pg.project_ID = pr.project_ID", "LEFT");
 
 
 			// Bring the screens
@@ -651,6 +693,26 @@ class User {
 
 		}
 
+		if ($page_ID !== null) {
+
+			$devices = array_filter($devices, function($deviceFound) use ($page_ID) {
+
+				return $deviceFound['page_ID'] == $page_ID;
+
+			});
+
+		}
+
+		if ($project_ID !== null) {
+
+			$devices = array_filter($devices, function($deviceFound) use ($project_ID) {
+
+				return $deviceFound['project_ID'] == $project_ID;
+
+			});
+
+		}
+
 
 		// Return the data
 		return $devices;
@@ -661,46 +723,67 @@ class User {
 
 
 	// Get all the pins that user can access
-	public function getPins(int $phase_ID = null, int $device_ID = null, bool $nocache = false) {
+	public function getPins(int $phase_ID = null, int $device_ID = null, int $page_ID = null, int $project_ID = null, bool $nocache = false) {
 		global $db, $cache;
 
 
 		// CHECK THE CACHE FIRST
-		if ($phase_ID !== null && $device_ID === null) $cached_pins = $cache->get('pins:'.self::$user_ID.':phase:'.$phase_ID);
-		if ($phase_ID !== null && $device_ID !== null) $cached_pins = $cache->get('pins:'.self::$user_ID.':phase:'.$phase_ID.':device:'.$device_ID);
-		else $cached_pins = $cache->get('pins:'.self::$user_ID);
+		$cache_name = "pins:".self::$user_ID;
+		if ($phase_ID !== null) $cache_name .= ":phase:".$phase_ID;
+		if ($device_ID !== null) $cache_name .= ":device:".$device_ID;
+		if ($page_ID !== null) $cache_name .= ":page:".$page_ID;
+		if ($project_ID !== null) $cache_name .= ":project:".$project_ID;
 
+
+		$cached_pins = $cache->get($cache_name);
 		if ( $cached_pins !== false && !$nocache ) $pins = $cached_pins;
 		else {
 
 
-
-			// Get phase IDs
-			if ($phase_ID !== null) {
-
-				$phaseIDs = array($phase_ID);
-
-			} else { // Get from all phases
+			// Get all phase IDs
+			if ($phase_ID === null) {
 
 				$phases = $this->getPhases();
 				if ( !count($phases) ) return array();
-				$phaseIDs = array_unique(array_column($phases, 'page_ID'));
+				$phaseIDs = array_unique(array_column($phases, 'phase_ID'));
+
+
+				// Filter the pins by phase_IDs
+				$db->where("pin.phase_ID", $phaseIDs, "IN");
 
 			}
 
 
-
-			// Filter the pins by phase_IDs
-			$db->where("phase_ID", $phaseIDs, "IN");
-			//$db->where('phase_ID', $phase_ID);
+			// Phase filter
+			if ($phase_ID !== null) $db->where('pin.phase_ID', $phase_ID);
 
 
-			// // Hide device specific pins
-			if ($device_ID !== null) $db->where ("(device_ID IS NULL or (device_ID IS NOT NULL and device_ID = $device_ID))");
+			// Hide device specific pins
+			if ($device_ID !== null) $db->where ("(pin.device_ID IS NULL or (pin.device_ID IS NOT NULL and pin.device_ID = $device_ID))");
+
+
+			// Page filter
+			if ($page_ID !== null) $db->where('page.page_ID', $page_ID);
+
+
+			// Project filter
+			if ($project_ID !== null) $db->where('project.project_ID', $project_ID);
+
+
+			// Bring the phase info
+			$db->join("phases ph", "ph.phase_ID = pin.phase_ID", "LEFT");
+
+
+			// Bring the page info
+			$db->join("pages page", "ph.page_ID = page.page_ID", "LEFT");
+
+
+			// Bring the project info
+			$db->join("projects project", "page.project_ID = project.project_ID", "LEFT");
 
 
 			// Hide private pins to other people
-			$db->where ("(user_ID = ".self::$user_ID." or (user_ID != ".self::$user_ID." and pin_private = 0))");
+			$db->where ("(pin.user_ID = ".self::$user_ID." or (pin.user_ID != ".self::$user_ID." and pin.pin_private = 0))");
 
 
 			// GET THE DATA
@@ -723,30 +806,28 @@ class User {
 
 
 			// Set the cache
-			if ($phase_ID !== null && $device_ID === null) $cache->set('pins:'.self::$user_ID.':phase:'.$phase_ID, $pins);
-			if ($phase_ID !== null && $device_ID !== null) $cache->set('pins:'.self::$user_ID.':phase:'.$phase_ID.':device:'.$device_ID, $pins);
-			else $cache->set('pins:'.self::$user_ID, $pins);
+			$cache->set($cache_name, $pins);
 
 
 		}
 
 
-		// Do filters
-		if ($phase_ID !== null) {
+		// // Do filters
+		// if ($phase_ID !== null) {
 
-			$pins = array_filter($pins, function($pinFound) use ($phase_ID) {
-				return $pinFound['phase_ID'] == $phase_ID;
-			});
+		// 	$pins = array_filter($pins, function($pinFound) use ($phase_ID) {
+		// 		return $pinFound['phase_ID'] == $phase_ID;
+		// 	});
 
-		}
+		// }
 
-		if ($device_ID !== null) {
+		// if ($device_ID !== null) {
 
-			$pins = array_filter($pins, function($pinFound) use ($device_ID) {
-				return $pinFound['device_ID'] == null || $pinFound['device_ID'] == $device_ID;
-			});
+		// 	$pins = array_filter($pins, function($pinFound) use ($device_ID) {
+		// 		return $pinFound['device_ID'] == null || $pinFound['device_ID'] == $device_ID;
+		// 	});
 
-		}
+		// }
 
 
 		// Return the data
