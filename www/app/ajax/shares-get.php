@@ -8,19 +8,14 @@ $status = "initiated";
 // if ( request("nonce") !== $_SESSION["pin_nonce"] ) return;
 
 
-// Get the pin info
-$object_ID = request('id');
-$dataType = request('dataType');
-
-
 // Is the object ID number?
-if ( !is_numeric($object_ID) )
-	return;
+if ( !is_numeric(request('id')) ) return;
+$object_ID = intval(request('id'));
 
 
 // Data type options check
-if ( $dataType != "project" && $dataType != "page" )
-	return;
+if ( request('dataType') != "project" && request('dataType') != "page" ) return;
+$dataType = request('dataType');
 
 
 
@@ -34,7 +29,7 @@ $shared_users = array();
 
 // 1. Find the owner
 $objectData = $dataType::ID($object_ID);
-$owner_ID = $objectData->getInfo('user_ID');
+$owner_ID = intval($objectData->getInfo('user_ID'));
 $ownerInfo = getUserInfo($owner_ID);
 
 
@@ -64,8 +59,8 @@ if ( $dataType == "page" ) {
 
 	$status = "Project owner added";
 
-	$project_ID = $objectData->getInfo('project_ID');
-	$project_owner_ID = Project::ID($project_ID)->getInfo('user_ID');
+	$project_ID = intVal($objectData->getInfo('project_ID'));
+	$project_owner_ID = intVal( Project::ID($project_ID)->getInfo('user_ID') );
 	$projectOwnerInfo = getUserInfo($project_owner_ID);
 
 
@@ -95,7 +90,7 @@ if ( $dataType == "page" ) {
 		// Add the shared users
 		foreach ($project_shares as $sharedUser) {
 
-			$shredUserInfo = getUserInfo($sharedUser['share_to']);
+			$shredUserInfo = getUserInfo( intVal($sharedUser['share_to']) );
 			$shared_users[] = array(
 				'mStatus' => "project",
 				'type' => 'project',
@@ -127,7 +122,7 @@ if ($object_shares) {
 	// Add the shared users
 	foreach ($object_shares as $sharedUser) {
 
-		$shredUserInfo = getUserInfo($sharedUser['share_to']);
+		$shredUserInfo = getUserInfo( intVal($sharedUser['share_to']) );
 		$shared_users[] = array(
 			'mStatus' => "shared",
 			'type' => $dataType,
