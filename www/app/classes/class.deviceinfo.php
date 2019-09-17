@@ -25,10 +25,10 @@ class Device {
 
 
 			$devices = User::ID()->getDevices();
-			$device = array_filter($devices, function($deviceFound) use ($device_ID) {
+			$devices = array_filter($devices, function($deviceFound) use ($device_ID) {
 				return $deviceFound['device_ID'] == $device_ID;
 			});
-			$deviceInfo = end($device);
+			$deviceInfo = end($devices);
 
 
 			if ( $deviceInfo ) {
@@ -39,7 +39,6 @@ class Device {
 
 			}
 
-			return false;
 
 		}
 

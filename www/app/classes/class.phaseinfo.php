@@ -71,12 +71,16 @@ class Phase {
 	    global $db;
 
 
-	    // Set the phase ID
-		if ($phase_ID != null && is_numeric($phase_ID)) {
+	    // If specific phase
+		if ( is_int($phase_ID) ) {
 
 
-			$db->where('phase_ID', $phase_ID);
-			$phaseInfo = $db->getOne("phases");
+			$phases = User::ID()->getPhases();
+			$phases = array_filter($phases, function($phaseFound) use ($phase_ID) {
+				return $phaseFound['phase_ID'] == $phase_ID;
+			});
+			$phaseInfo = end($phases);
+
 
 			if ( $phaseInfo ) {
 
@@ -91,7 +95,7 @@ class Phase {
 
 
 	    // For the new phase
-		if ($phase_ID == null) {
+		if ($phase_ID == null || $phase_ID == "new") {
 
 			self::$phase_ID = "new";
 			return new static;

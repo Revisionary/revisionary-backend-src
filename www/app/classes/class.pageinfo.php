@@ -20,12 +20,16 @@ class Page {
 	    global $db;
 
 
-	    // Set the page ID
-		if ($page_ID != null && is_numeric($page_ID)) {
+	    // If specific page
+		if ( is_int($page_ID) ) {
 
 
-			$db->where('page_ID', $page_ID);
-			$pageInfo = $db->getOne("pages");
+			$pages = User::ID()->getPages();
+			$pages = array_filter($pages, function($pageFound) use ($page_ID) {
+				return $pageFound['page_ID'] == $page_ID;
+			});
+			$pageInfo = end($pages);
+
 
 			if ( $pageInfo ) {
 

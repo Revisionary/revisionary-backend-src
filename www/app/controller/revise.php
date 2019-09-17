@@ -11,16 +11,13 @@ $ssr = $forceReInternalize && get('ssr') === "";
 // SECURITY CHECKS
 
 // If not logged in, go login page !!! Change when public revising available
-if (!userLoggedIn()) {
+if (!$User) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }
 
-// Current user level ID
-$currentUserLevel_ID = getUserInfo()['userLevelID'];
 
-
-// If no page specified or not numeric, go projects page
+// If no deviec specified or not numeric, go projects page
 if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 	header('Location: '.site_url('projects?invaliddevice'));
 	die();
@@ -43,37 +40,54 @@ $device = $deviceData->getInfo();
 
 
 
+// VERSION:
+// Get the phase ID
+$phase_ID = $device['phase_ID'];
+
+// All my phases
+$allMyPhases = $User->getPhases();
+//die_to_print($allMyPhases);
+
+// Current phase data
+$phaseData = Phase::ID($phase_ID);
+//die_to_print($phaseData);
+
+// If the specified phase doesn't exist, go projects page
+if ( !$phaseData ) {
+	header('Location: '.site_url('projects?phasedoesntexist'));
+	die();
+}
+$phase = $phaseData->getInfo();
+
+// // Find the other phases from this device
+// $other_phases = array_filter($allMyPhases, function($phaseFound) use ($page_ID) {
+// 	return $phaseFound['page_ID'] == $page_ID;
+// });
+// $other_phases = array_values($other_phases); // Reset the keys to get phase numbers
+//die_to_print($other_phases);
+
+
+
 // PAGE:
 // Get the page ID
-$page_ID = $device['page_ID'];
+$page_ID = $phase['page_ID'];
 
 // All my pages
-$allMyPages = User::ID()->getMy('pages');
-$allMyPages = categorize($allMyPages, 'page', true);
-$allMyPageIDs = array_column($allMyPages, 'page_ID');
+$allMyPages = $User->getPages();
 //die_to_print($allMyPages);
 
 
 // Find the current page
-$page = array_filter($allMyPages, function($pageFound) use ($page_ID) {
-    return ($pageFound['page_ID'] == $page_ID);
-});
-$page = end($page);
+$pageData = Page::ID($page_ID);
 
-// If current user is admin
-if ($currentUserLevel_ID == 1) {
-
-	$pageData = Page::ID($page_ID);
-	$page = $pageData ? $pageData->getInfo() : false;
-
-}
-//die_to_print($page);
 
 // Check if page not exists, redirect to the projects page
 if ( !$page ) {
 	header('Location: '.site_url('projects?pagedoesntexist'));
 	die();
 }
+$page = $pageData->getInfo();
+//die_to_print($page);
 
 
 // Check the New URL if force reinternalizing
@@ -97,41 +111,6 @@ $other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) 
 	return ($pageFound['project_ID'] == $project_ID);
 });
 //die_to_print($other_pages);
-
-
-
-// VERSION:
-// Get the phase ID
-$phase_ID = $device['phase_ID'];
-
-// All my phases
-$db->where('page_ID', $allMyPageIDs, 'IN');
-$allMyPhases = $db->get('phases');
-//die_to_print($allMyPhases);
-
-// Find the current phase
-$phase = array_filter($allMyPhases, function($phaseFound) use ($phase_ID) {
-    return ($phaseFound['phase_ID'] == $phase_ID);
-});
-$phase = end($phase);
-//die_to_print($phase);
-
-// Current phase data
-$phaseData = Phase::ID($phase_ID);
-//die_to_print($phaseData);
-
-// If the specified phase doesn't exist, go projects page
-if ( !$phaseData ) {
-	header('Location: '.site_url('projects?phasedoesntexist'));
-	die();
-}
-
-// Find the other phases from this page
-$other_phases = array_filter($allMyPhases, function($phaseFound) use ($page_ID) {
-	return ($phaseFound['page_ID'] == $page_ID);
-});
-$other_phases = array_values($other_phases); // Reset the keys to get phase numbers
-//die_to_print($other_phases);
 
 
 
@@ -339,22 +318,6 @@ if (
 }
 
 
-
-// PROJECT SHARES QUERY // CHECK IF NEEDED BECAUSE OF AJAX CHECK !!! ???
-$db->where('share_type', 'project');
-$db->where('shared_object_ID', $project_ID);
-$projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
-//die_to_print($projectShares);
-
-
-
-// PAGE SHARES QUERY // CHECK IF NEEDED BECAUSE OF AJAX CHECK !!! ???
-$db->where('share_type', 'page');
-$db->where('shared_object_ID', $page_ID);
-$pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
-//die_to_print($projectShares);
-
-
 // PROJECT INFO
 $projectData = Project::ID($project_ID);
 $projectInfo = $projectData->getInfo();
@@ -365,7 +328,7 @@ if ($project_image == null) $projectData->edit('project_image_device_ID', $devic
 
 
 // MY PROJECTS
-$allMyProjects = User::ID()->getMy('projects');
+$allMyProjects = $User->getMy('projects');
 //die_to_print($allMyProjects);
 
 

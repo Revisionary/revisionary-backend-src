@@ -25,10 +25,10 @@ class Project {
 
 
 			$projects = User::ID()->getProjects();
-			$project = array_filter($projects, function($projectFound) use ($project_ID) {
+			$projects = array_filter($projects, function($projectFound) use ($project_ID) {
 				return $projectFound['project_ID'] == $project_ID;
 			});
-			$projectInfo = end($project);
+			$projectInfo = end($projects);
 
 
 			if ( $projectInfo ) {
@@ -39,7 +39,6 @@ class Project {
 
 			}
 
-			return false;
 
 		}
 
