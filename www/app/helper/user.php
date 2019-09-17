@@ -102,7 +102,8 @@ function getUserInfo($user_ID = 0) {
 
 
 	// If not numeric
-	if ( !is_int($user_ID) ) return false;
+	if ( !is_numeric($user_ID) ) return false;
+	$user_ID = intval($user_ID);
 
 
 	// Get user information

@@ -1008,7 +1008,7 @@ function updateShares() {
 
 	// Update the modal data
 	var dataType = modal.attr('data-type');
-	var object_ID = modal.attr('data-id');
+	var object_ID = parseInt(modal.attr('data-id'));
 	var iamOwner = modal.attr('data-iamowner');
 
 
