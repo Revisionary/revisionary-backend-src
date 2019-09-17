@@ -200,7 +200,7 @@ class User {
 
 			$phases = $this->getPhases();
 			if ( !count($phases) ) return array();
-			$phaseIDs = array_unique(array_column($phases, 'page_ID'));
+			$phaseIDs = array_unique(array_column($phases, 'phase_ID'));
 
 		}
 
