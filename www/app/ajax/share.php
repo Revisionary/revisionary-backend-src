@@ -6,11 +6,51 @@ $data['status'] = "initiated";
 $shareTo = "";
 
 
-// Data received
-$type = post('data-type');
-$object_ID = post("object_ID");
+// VALIDATE DATA
+$add_type = post("add-type"); // !!! Validate
+
+
+// Valid e-mail?
+if (!filter_var(post("email"), FILTER_VALIDATE_EMAIL)) {
+
+	$data['status'] = "invalid-email";
+	$data['email'] = post("email");
+
+
+	// CREATE THE ERROR RESPONSE
+	die(json_encode(array(
+	  'data' => $data
+	)));
+}
 $email = post("email");
-$add_type = post("add-type");
+
+
+// Valid type?
+if ( post('data-type') != "project" && post('data-type') != "page" ) {
+
+	$data['status'] = "invalid-process";
+
+
+	// CREATE THE ERROR RESPONSE
+	die(json_encode(array(
+	  'data' => $data
+	)));
+}
+$type = post('data-type');
+
+
+// Valid ID?
+if ( !is_numeric(post("object_ID")) ) {
+
+	$data['status'] = "invalid-id";
+
+
+	// CREATE THE ERROR RESPONSE
+	die(json_encode(array(
+	  'data' => $data
+	)));
+}
+$object_ID = intval( post("object_ID") );
 
 
 
@@ -32,47 +72,6 @@ if ( post("nonce") !== $_SESSION["js_nonce"] ) {
 }
 */
 
-
-
-// Valid type?
-if ($type != "project" && $type != "page") {
-
-	$data['status'] = "invalid-process";
-
-
-	// CREATE THE ERROR RESPONSE
-	die(json_encode(array(
-	  'data' => $data
-	)));
-}
-
-
-
-// Valid e-mail?
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-
-	$data['status'] = "invalid-email";
-	$data['email'] = $email;
-
-
-	// CREATE THE ERROR RESPONSE
-	die(json_encode(array(
-	  'data' => $data
-	)));
-}
-
-
-// Valid ID?
-if ( !is_numeric($object_ID) ) {
-
-	$data['status'] = "invalid-id";
-
-
-	// CREATE THE ERROR RESPONSE
-	die(json_encode(array(
-	  'data' => $data
-	)));
-}
 
 
 // Is this object exist?
@@ -115,7 +114,7 @@ if ( $user !== null ) {
 
 
 	// If current user
-	if ($user['user_ID'] == currentUserID()) {
+	if ( $user['user_ID'] == currentUserID() ) {
 
 		$data['status'] = "invalid-email";
 
@@ -128,19 +127,18 @@ if ( $user !== null ) {
 
 
 
-	// Change the share type
-	$shareTo = $user['user_ID'];
-
+	$shareTo = intval($user['user_ID']);
+	$shareToUserInfo = getUserInfo($shareTo);
 
 
 	$data = array(
 		'status' => 'found',
-		'user_ID' => $user['user_ID'],
-		'user_fullname' => getUserInfo($user['user_ID'])['fullName'],
-		'user_nameabbr' => getUserInfo($user['user_ID'])['nameAbbr'],
-		'user_photo' => getUserInfo($user['user_ID'])['printPicture'],
-		'user_avatar' => getUserInfo($user['user_ID'])['userPicUrl'],
-		'user_name' => '<span>'.(getUserInfo($user['user_ID'])['nameAbbr']).'</span>',
+		'user_ID' => $shareTo,
+		'user_fullname' => $shareToUserInfo['fullName'],
+		'user_nameabbr' => $shareToUserInfo['nameAbbr'],
+		'user_photo' => $shareToUserInfo['printPicture'],
+		'user_avatar' => $shareToUserInfo['userPicUrl'],
+		'user_name' => '<span>'.$shareToUserInfo['nameAbbr'].'</span>',
 	);
 
 
@@ -164,7 +162,7 @@ if ( $type == "page" && $add_type == "project" ) {
 
 
 	// Find the project ID
-	$object_ID = $objectInfo['project_ID'];
+	$object_ID = intval($objectInfo['project_ID']);
 	$type = "project";
 
 }
@@ -234,7 +232,7 @@ if ($share_ID) { // If successful
 
 		$projectName = "";
 		if ($type == "page") {
-			$projectName = " [".Project::ID( $objectData->getInfo("project_ID") )->getInfo('project_name')."]";
+			$projectName = " [".Project::ID( intval($objectData->getInfo("project_ID")) )->getInfo('project_name')."]";
 		}
 
 

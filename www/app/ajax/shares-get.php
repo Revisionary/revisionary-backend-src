@@ -59,8 +59,8 @@ if ( $dataType == "page" ) {
 
 	$status = "Project owner added";
 
-	$project_ID = intVal($objectData->getInfo('project_ID'));
-	$project_owner_ID = intVal( Project::ID($project_ID)->getInfo('user_ID') );
+	$project_ID = $objectData->getInfo('project_ID');
+	$project_owner_ID = Project::ID($project_ID)->getInfo('user_ID');
 	$projectOwnerInfo = getUserInfo($project_owner_ID);
 
 
@@ -78,6 +78,7 @@ if ( $dataType == "page" ) {
 	);
 
 
+	// Get Project Shares
 	$db->where('share_type', 'project');
 	$db->where('shared_object_ID', $project_ID);
 	$project_shares = $db->get('shares', null, "share_to, sharer_user_ID");
@@ -90,7 +91,8 @@ if ( $dataType == "page" ) {
 		// Add the shared users
 		foreach ($project_shares as $sharedUser) {
 
-			$shredUserInfo = getUserInfo( intVal($sharedUser['share_to']) );
+			$shredUserInfo = getUserInfo( $sharedUser['share_to'] );
+
 			$shared_users[] = array(
 				'mStatus' => "project",
 				'type' => 'project',
@@ -122,7 +124,7 @@ if ($object_shares) {
 	// Add the shared users
 	foreach ($object_shares as $sharedUser) {
 
-		$shredUserInfo = getUserInfo( intVal($sharedUser['share_to']) );
+		$shredUserInfo = getUserInfo( $sharedUser['share_to'] );
 		$shared_users[] = array(
 			'mStatus' => "shared",
 			'type' => $dataType,
