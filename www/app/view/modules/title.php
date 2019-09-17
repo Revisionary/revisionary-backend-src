@@ -221,7 +221,7 @@
 							<span class="percentage bottom-tooltip" data-tooltip="You have <?="$projectsCount project".($maxProjects > 1 ? "s" : "")?>"><?=$projectsPercentage?>%</span>
 						</div>
 						<div class="total" data-tooltip="Maximum <?="Project".($maxProjects > 1 ? "s" : "")?> Allowed">
-							<?="$maxProjects<br>Project".($maxProjects > 1 ? "s" : "")?>
+							<?="$projectsCount/$maxProjects<br>Project".($maxProjects > 1 ? "s" : "")?>
 						</div>
 					</div>
 
