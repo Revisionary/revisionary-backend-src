@@ -355,12 +355,6 @@ $pageShares = $db->get('shares', null, "share_to, sharer_user_ID");
 //die_to_print($projectShares);
 
 
-
-// SCREEN INFO
-$screen_data = User::ID()->getScreenData();
-//die_to_print($screen_data);
-
-
 // PROJECT INFO
 $projectData = Project::ID($project_ID);
 $projectInfo = $projectData->getInfo();

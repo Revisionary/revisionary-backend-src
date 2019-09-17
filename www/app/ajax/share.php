@@ -160,7 +160,6 @@ if ( $user !== null ) {
 // If different type selected
 if ( $type == "page" && $add_type == "project" ) {
 
-
 	// Find the project ID
 	$object_ID = intval($objectInfo['project_ID']);
 	$type = "project";

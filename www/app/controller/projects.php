@@ -4,7 +4,7 @@
 // SECURITY CHECKS
 
 // If not logged in, go login page
-if ( !userLoggedIn() ) {
+if ( !$User ) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }
@@ -248,7 +248,10 @@ if (
 
 
 
-// Get the order
+// Data Type
+$dataType = "project";
+
+// Get the order !!!
 $order = get('order');
 
 // Category Filter
@@ -256,37 +259,13 @@ $catFilter = isset($_url[1]) ? $_url[1] : '';
 
 
 
-// PROJECTS DATA MODEL
-$dataType = "project";
-$allMyProjectsList = User::ID()->getMy("projects", $catFilter, $order);
-//die_to_print($allMyProjectsList);
-$theCategorizedData = categorize($allMyProjectsList, $dataType);
-//die_to_print($theCategorizedData);
-
-
-
-// MY PAGES AND COUNTS
-$allMyPages = $mySharedPages; // Comes globally from 'class.userinfo.php'
-//die_to_print($allMyPages);
-$pageCount = array_column($allMyPages, 'project_ID', 'page_ID');
-//die_to_print($pageCount);
-$pageCounts = array_count_values($pageCount);
-
-
-// All Projects (Not filtered)
-$allProjects = array_column($allMyPages, 'project_name', 'project_ID');
-//die_to_print($allProjects);
-
-
-
-// CATEGORY INFO
-$categories = User::ID()->getCategories($dataType, $order);
-//die_to_print($categories);
-
-
-// SCREEN INFO
-$screen_data = User::ID()->getScreenData();
-//die_to_print($screen_data);
+// PAGES DATA AND COUNTS
+$pages = $User->getPages();
+//die_to_print($pages);
+$pageCounts = array_column($pages, 'project_ID', 'page_ID');
+//die_to_print($pageCounts);
+$pageCounts = array_count_values($pageCounts);
+//die_to_print($pageCounts);
 
 
 

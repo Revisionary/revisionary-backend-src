@@ -4,6 +4,77 @@
 
 
 
+// Bring the category info
+$db->join("pages_categories cat", "cat.cat_ID = p.cat_ID", "LEFT");
+
+
+// Bring the project info
+$db->join("projects pr", "pr.project_ID = p.project_ID", "LEFT");
+
+
+// Bring page share info
+$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
+$db->joinWhere("shares s", "(s.share_to = '".currentUserID()."' OR s.share_to = '".getUserInfo()['email']."')");
+$db->joinWhere("shares s", "s.share_type", "page");
+
+
+// Bring project share info
+$db->join("shares sp", "p.project_ID = sp.shared_object_ID", "LEFT");
+$db->joinWhere("shares sp", "sp.share_type", "project");
+
+
+// Check access if not admin
+$db->where('(
+	p.user_ID = '.currentUserID().'
+	OR s.share_to = '.currentUserID().'
+	OR s.share_to = "'.getUserInfo()['email'].'"
+	OR pr.user_ID = '.currentUserID().'
+	OR sp.share_to = '.currentUserID().'
+	OR sp.share_to = "'.getUserInfo()['email'].'"
+)');
+
+
+// Default Sorting
+$db->orderBy("order_number", "asc");
+$db->orderBy("s.share_ID", "desc");
+$db->orderBy("cat.cat_name", "asc");
+$db->orderBy("p.page_name", "asc");
+
+
+// GET THE DATA
+$pages = $db->get(
+	'pages p',
+	null,
+	'
+		p.page_ID as page_ID,
+		p.page_name,
+		p.page_url,
+		p.page_user,
+		p.page_created,
+		p.page_modified,
+		p.page_archived,
+		p.page_deleted,
+		p.order_number,
+		p.user_ID as user_ID,
+		cat.cat_ID,
+		cat.cat_name,
+		cat.cat_order_number,
+		p.project_ID,
+		pr.project_name,
+		pr.project_created,
+		pr.project_archived,
+		pr.project_deleted,
+		pr.project_image_device_ID,
+		s.share_ID,
+		s.share_to as share_to,
+		s.sharer_user_ID as sharer_user_ID
+	'
+);
+
+die_to_print(array_unique($pages, SORT_REGULAR));
+
+
+
 /*
 echo "<h3>Projects Tags</h3>";
 print_r(
@@ -87,10 +158,18 @@ if ($user) {
 
 	// PAGES
 	echo "
-	<details>
+	<details open>
 		<summary><h2 style='display: inline;'>PAGES</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getPages(), true )."</p>
 	</details>";
+
+
+	// // GET MY PAGES
+	// echo "
+	// <details open>
+	// 	<summary><h2 style='display: inline;'>PAGES</h2></summary>
+	// 	<p style='padding-left: 20px;'>".print_r( $user->getMy('pages'), true )."</p>
+	// </details>";
 
 
 	// PHASES
@@ -127,6 +206,8 @@ if ($user) {
 
 }
 echo "<br><br>";
+
+$cache->flush();
 
 
 

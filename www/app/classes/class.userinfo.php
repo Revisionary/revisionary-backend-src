@@ -79,445 +79,19 @@ class User {
 
 
 
-    // Get the categories of this user
-    public function getCategories($type = "project", $order = "", int $project_ID = null, bool $nocache = false) {
+    // Get the categories of this us
+    public function getProjectCategories(string $catFilter = null, string $order = null, bool $nocache = false) {
 		global $db, $cache;
 
 
 		// CHECK THE CACHE FIRST
-		$cached_categories = $cache->get($type.'_categories:'.self::$user_ID);
-		if ( $cached_categories !== false && $order == "" && $project_ID == null ) $categories = $cached_categories;
+		$cached_categories = $cache->get('project_categories:'.self::$user_ID);
+		if ( $cached_categories !== false ) $categories = $cached_categories;
 		else {
 
 
 			// Exclude other users
-			if ($type == "project") {
-
-				$db->where('cat.user_ID', currentUserID());
-
-			}
-
-			if ($type == "page" && $project_ID != null) {
-
-				$db->where('cat.project_ID', $project_ID);
-
-			}
-
-
-			// Default order
-			if ($order == "") $db->orderBy("cat.cat_order_number", "asc");
-
-
-			// Order Categories
-			if ($order == "name" || $order == "date") $db->orderBy("cat.cat_name", "asc");
-
-
-			$categories = $db->get($type."s_categories cat", null, '');
-
-
-			// Add the uncategorized item
-			array_unshift($categories , array(
-				'cat_ID' => 0,
-				'cat_name' => 'Uncategorized',
-				'cat_order_number' => 0
-			));
-
-
-			// Set the cache
-			if ( $order == "" && $project_ID == null )
-				$cache->set($type.'_categories:'.self::$user_ID, $categories);
-
-
-		}
-
-
-	    return $categories;
-    }
-
-
-
-    // Get notifications
-    public function getNotifications($offset = 0, $limit = 10) {
-		global $db;
-
-
-		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
-		$db->where('con.user_ID', self::$user_ID);
-		$db->orderBy("notification_time", "DESC");
-		$notifications = $db->withTotalCount()->get("notifications n", array($offset, $limit));
-
-
-	    return array(
-		    'notifications' => $notifications,
-		    'totalCount' => $db->totalCount
-	    );
-    }
-
-
-
-    // Get new notifications
-    public function getNewNotifications() {
-		global $db;
-
-
-		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
-		$db->where('con.user_ID', self::$user_ID);
-		$db->where('con.notification_read', 0);
-		$db->orderBy("notification_time", "DESC");
-		$notifications = $db->withTotalCount()->get("notifications n");
-
-
-	    return array(
-		    'notifications' => $notifications,
-		    'totalCount' => $db->totalCount
-	    );
-	}
-
-
-
-	// Get all the pins that user can access
-	public function getPins(int $phase_ID = null, int $device_ID = null, bool $nocache = false) {
-		global $db, $cache;
-
-
-		// CHECK THE CACHE FIRST
-		$cached_pins = $cache->get('pins:'.self::$user_ID);
-		if ( $cached_pins !== false && !$nocache && $phase_ID == null && $device_ID == null ) {
-
-			//array_unshift($cached_pins, 'FROM CACHE');
-
-			return $cached_pins;
-		}
-
-
-
-		// Get phase IDs
-		if ($phase_ID != null) {
-
-			$phaseIDs = array($phase_ID);
-
-		} else { // Get from all phases
-
-			$phases = $this->getPhases();
-			if ( !count($phases) ) return array();
-			$phaseIDs = array_unique(array_column($phases, 'page_ID'));
-
-		}
-
-
-
-		// Get pins from this phase
-		$db->where("phase_ID", $phaseIDs, "IN");
-		//$db->where('phase_ID', $phase_ID);
-
-
-		// Hide device specific pins
-		if ($device_ID != null) {
-
-			$db->where ("(device_ID IS NULL or (device_ID IS NOT NULL and device_ID = $device_ID))");
-
-		}
-
-
-		// Hide private pins to other people
-		$db->where ("(user_ID = ".currentUserID()." or (user_ID != ".currentUserID()." and pin_private = 0))");
-
-
-		// GET THE DATA
-		$pins = $db->get('pins pin', null, '
-			pin.pin_ID,
-			pin.pin_complete,
-			pin.pin_private,
-			pin.pin_type,
-			pin.pin_element_index,
-			pin.pin_modification_type,
-			pin.pin_modification,
-			pin.pin_modification_original,
-			pin.pin_css,
-			pin.pin_x,
-			pin.pin_y,
-			pin.user_ID,
-			pin.phase_ID,
-			pin.device_ID
-		');
-
-
-		// Set the cache
-		if ( $phase_ID == null && $device_ID == null )
-			$cache->set('pins:'.self::$user_ID, $pins);
-
-
-		// Return the data
-		return $pins;
-
-
-	}
-
-
-
-	// Get all the devices that user can access
-	public function getDevices(int $phase_ID = null, bool $nocache = false) {
-		global $db, $cache;
-
-
-		// CHECK THE CACHE FIRST
-		$cached_devices = $cache->get('devices:'.self::$user_ID);
-		if ( $cached_devices !== false && !$nocache ) $devices = $cached_devices;
-		else {
-
-
-			// Get page IDs
-			$pages = $this->getPages();
-			if ( !count($pages) ) return array();
-			$pageIDs = array_unique(array_column($pages, 'page_ID'));
-
-
-
-			// Bring the phase info
-			$db->join("phases v", "v.phase_ID = d.phase_ID", "LEFT");
-
-
-			// Bring the screens
-			$db->join("screens s", "s.screen_ID = d.screen_ID", "LEFT");
-
-
-			// Bring the screen category info
-			$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
-
-
-			// Order by device ID
-			$db->orderBy('d.device_ID', 'ASC');
-
-
-			// Filter the devices by page_IDs
-			$db->where("v.page_ID", $pageIDs, "IN");
-
-
-			// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
-			$devices = $db->get('devices d');
-
-
-			// Set the cache
-			$cache->set('devices:'.self::$user_ID, $devices);
-
-
-		}
-
-
-		// Do filters
-		if ($phase_ID !== null) {
-
-			$devices = array_filter($devices, function($deviceFound) use ($phase_ID) {
-
-				return $deviceFound['phase_ID'] == $phase_ID;
-
-			});
-
-		}
-
-
-		// Return the data
-		return $devices;
-
-
-	}
-
-
-
-	// Get all the phases that user can access
-	public function getPhases(int $page_ID = null, bool $nocache = false) {
-		global $db, $cache;
-
-
-		// CHECK THE CACHE FIRST
-		$cached_phases = $cache->get('phases:'.self::$user_ID);
-		if ( $cached_phases !== false && !$nocache ) $phases = $cached_phases;
-		else {
-
-
-			// Get page IDs
-			$pages = $this->getPages();
-			if ( !count($pages) ) return array();
-			$pageIDs = array_unique(array_column($pages, 'page_ID'));
-
-
-
-			// Filter the phases by page_IDs
-			$db->where('page_ID', $pageIDs, 'IN');
-
-
-			// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
-			$phases = $db->get('phases');
-
-
-			// Set the cache
-			$cache->set('phases:'.self::$user_ID, $phases);
-
-
-		}
-
-
-		// Do filters
-		if ($page_ID !== null) {
-
-			$phases = array_filter($phases, function($phaseFound) use ($page_ID) {
-
-				return $phaseFound['page_ID'] == $page_ID;
-
-			});
-
-		}
-
-
-		// Return the data
-		return $phases;
-
-
-	}
-
-
-
-	// Get all the pages that user can access
-	public function getPages(int $project_ID = null, int $page_cat_ID = null, bool $nocache = false) {
-		global $db, $cache;
-
-
-		// CHECK THE CACHE FIRST
-		$cached_pages = $cache->get('pages:'.self::$user_ID);
-		if ( $cached_pages !== false && !$nocache ) $pages = $cached_pages;
-		else {
-
-
-			// Bring the owner info
-			$db->join("users u", "p.user_ID = u.user_ID", "LEFT");
-
-
-			// Bring the category info
-			$db->join("pages_categories cat", "cat.cat_ID = p.cat_ID", "LEFT");
-
-
-			// Bring the project info
-			$db->join("projects pr", "pr.project_ID = p.project_ID", "LEFT");
-
-
-			// Bring page share info
-			$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
-			$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
-			$db->joinWhere("shares s", "s.share_type", "page");
-
-
-			// Bring project share info
-			$db->join("shares sp", "p.project_ID = sp.shared_object_ID", "LEFT");
-			$db->joinWhere("shares sp", "sp.share_type", 'project');
-
-
-			// Check access if not admin
-			if ( self::$userInfo['user_level_ID'] != 1 ) {
-
-				$db->where('(
-					p.user_ID = '.self::$user_ID.'
-					OR s.share_to = '.self::$user_ID.'
-					OR s.share_to = "'.self::$userInfo['user_email'].'"
-					OR pr.user_ID = '.self::$user_ID.'
-					OR sp.share_to = '.self::$user_ID.'
-					OR sp.share_to = "'.self::$userInfo['user_email'].'"
-				)');
-
-			}
-
-
-			// Default Sorting
-			$db->orderBy("order_number", "asc");
-			$db->orderBy("s.share_ID", "desc");
-			$db->orderBy("cat.cat_name", "asc");
-			$db->orderBy("p.page_name", "asc");
-
-
-			// GET THE DATA
-			$pages = $db->get(
-				'pages p',
-				null,
-				'
-					p.page_ID as page_ID,
-					p.page_name,
-					p.page_url,
-					p.page_user,
-					p.page_created,
-					p.page_modified,
-					p.page_archived,
-					p.page_deleted,
-					p.order_number,
-					p.user_ID as user_ID,
-					cat.cat_ID,
-					cat.cat_name,
-					cat.cat_order_number,
-					p.project_ID,
-					pr.project_name,
-					pr.project_created,
-					pr.project_archived,
-					pr.project_deleted,
-					pr.project_image_device_ID,
-					u.user_name,
-					u.user_email,
-					u.user_first_name,
-					u.user_last_name,
-					u.user_company,
-					u.user_picture,
-					u.user_has_public_profile,
-					u.user_level_ID,
-					s.share_ID,
-					s.share_to as share_to,
-					s.sharer_user_ID as sharer_user_ID
-				'
-			);
-
-
-			// Set the cache
-			$cache->set('pages:'.self::$user_ID, $pages);
-
-
-		}
-
-
-		// Do filters
-		if ($project_ID !== null) {
-
-			$pages = array_filter($pages, function($pageFound) use ($project_ID) {
-
-				return $pageFound['project_ID'] == $project_ID;
-
-			});
-
-		}
-		
-		if ($page_cat_ID !== null) {
-
-			$pages = array_filter($pages, function($pageFound) use ($page_cat_ID) {
-
-				return $pageFound['cat_ID'] == $page_cat_ID;
-
-			});
-
-		}
-
-
-		// Return the data
-		return $pages;
-
-
-	}
-
-
-
-    // Get the categories of page
-    public function getPageCategories(int $project_ID = null, bool $nocache = false) {
-		global $db, $cache;
-
-
-		// CHECK THE CACHE FIRST
-		$cached_categories = $cache->get('page_categories:'.self::$user_ID);
-		if ( $cached_categories !== false ) $categories = $cached_categories;
-		else {
+			$db->where('cat.user_ID', self::$user_ID);
 
 
 			// Default order
@@ -529,31 +103,43 @@ class User {
 
 
 			// GET THE DATA
-			$categories = $db->get("pages_categories cat", null, '');
+			$categories = $db->get("projects_categories cat", null, '');
 
 
 			// Add the uncategorized item
 			array_unshift($categories , array(
 				'cat_ID' => 0,
 				'cat_name' => 'Uncategorized',
-				'cat_order_number' => 0,
-				'project_ID' => 0
+				'cat_order_number' => 0
 			));
 
 
 			// Set the cache
-			$cache->set('page_categories:'.self::$user_ID, $categories);
+			$cache->set('project_categories:'.self::$user_ID, $categories);
 
 
 		}
 
 
 		// Do filters
-		if ($project_ID !== null) {
+		if ($catFilter !== null) {
 
-			$categories = array_filter($categories, function($pageCatFound) use ($project_ID) {
+			$categories = array_filter($categories, function($catFound) use ($catFilter) {
 
-				return $pageCatFound['project_ID'] == $project_ID || $pageCatFound['project_ID'] == 0;
+
+				// Show all categories if no filter
+				if ($catFilter == "" || $catFilter == "mine" || $catFilter == "shared") return true;
+
+
+				// Show only Uncategorized when on deleted and archived
+				if ($catFilter == "archived" || $catFilter == "deleted") return $catFound['cat_ID'] == 0;
+
+
+				// Category Filter
+				if ( $catFilter == permalink($catFound['cat_name']) ) return true;
+
+
+				return false;
 
 			});
 
@@ -566,7 +152,7 @@ class User {
 
 
 	// Get all the projects that user can access
-	public function getProjects(int $project_cat_ID = null, bool $nocache = false) {
+	public function getProjects(int $project_cat_ID = null, string $catFilter = null, bool $nocache = false) {
 		global $db, $cache;
 
 
@@ -589,10 +175,6 @@ class User {
 
 			// Bring the category connection
 			$db->join("project_cat_connect cat_connect", "p.project_ID = cat_connect.project_ID", "LEFT");
-
-
-			// Bring the owner info
-			$db->join("users u", "p.user_ID = u.user_ID", "LEFT");
 
 
 			// Bring the category info
@@ -652,14 +234,6 @@ class User {
 					cat.cat_ID,
 					cat.cat_name,
 					cat.cat_order_number,
-					u.user_name,
-					u.user_email,
-					u.user_first_name,
-					u.user_last_name,
-					u.user_company,
-					u.user_picture,
-					u.user_has_public_profile,
-					u.user_level_ID,
 					s.share_ID,
 					s.share_to as share_to,
 					s.sharer_user_ID as sharer_user_ID
@@ -675,13 +249,36 @@ class User {
 
 
 		// Do filters
-		if ($project_cat_ID !== null) {
+		if ($project_cat_ID !== null && $catFilter != "archived" && $catFilter != "deleted") {
 
 			$projects = array_filter($projects, function($projectFound) use ($project_cat_ID) {
 
 				// If zero
 				if ($project_cat_ID === 0) return $projectFound['cat_ID'] == null || $projectFound['cat_ID'] == $project_cat_ID;
 				return $projectFound['cat_ID'] == $project_cat_ID;
+
+			});
+
+		}
+
+		if ($catFilter !== null) {
+
+			// Archive and delete filters
+			$projects = array_filter($projects, function($projectFound) use ($catFilter) {
+
+				if ($catFilter == "archived") return $projectFound['project_archived'] == 1;
+				if ($catFilter == "deleted") return $projectFound['project_deleted'] == 1;
+				return $projectFound['project_archived'] == 0 && $projectFound['project_deleted'] == 0;
+
+			});
+
+
+			// Mine and shared filters
+			$projects = array_filter($projects, function($projectFound) use ($catFilter) {
+
+				if ($catFilter == "mine") return $projectFound['user_ID'] == self::$user_ID;
+				if ($catFilter == "shared") return $projectFound['user_ID'] != self::$user_ID;
+				return true;
 
 			});
 
@@ -696,19 +293,15 @@ class User {
 
 
 
-    // Get the categories of this us
-    public function getProjectCategories(bool $nocache = false) {
+    // Get the categories of page
+    public function getPageCategories(int $project_ID = null, string $catFilter = null, string $order = null, bool $nocache = false) {
 		global $db, $cache;
 
 
 		// CHECK THE CACHE FIRST
-		$cached_categories = $cache->get('project_categories:'.self::$user_ID);
+		$cached_categories = $cache->get('page_categories:'.self::$user_ID);
 		if ( $cached_categories !== false ) $categories = $cached_categories;
 		else {
-
-
-			// Exclude other users
-			$db->where('cat.user_ID', self::$user_ID);
 
 
 			// Default order
@@ -720,26 +313,486 @@ class User {
 
 
 			// GET THE DATA
-			$categories = $db->get("projects_categories cat", null, '');
+			$categories = $db->get("pages_categories cat", null, '');
 
 
 			// Add the uncategorized item
 			array_unshift($categories , array(
 				'cat_ID' => 0,
 				'cat_name' => 'Uncategorized',
-				'cat_order_number' => 0
+				'cat_order_number' => 0,
+				'project_ID' => 0
 			));
 
 
 			// Set the cache
-			$cache->set('project_categories:'.self::$user_ID, $categories);
+			$cache->set('page_categories:'.self::$user_ID, $categories);
 
+
+		}
+
+
+		// Do filters
+		if ($project_ID !== null) {
+
+			$categories = array_filter($categories, function($pageCatFound) use ($project_ID) {
+
+				return $pageCatFound['project_ID'] == $project_ID || $pageCatFound['project_ID'] == 0;
+
+			});
+
+		}
+
+		if ($catFilter !== null) {
+
+			$categories = array_filter($categories, function($catFound) use ($catFilter) {
+
+
+				// Show all categories if no filter
+				if ($catFilter == "" || $catFilter == "mine" || $catFilter == "shared") return true;
+
+
+				// Show only Uncategorized when on deleted and archived
+				if ($catFilter == "archived" || $catFilter == "deleted") return $catFound['cat_ID'] == 0;
+
+
+				// Category Filter
+				if ( $catFilter == permalink($catFound['cat_name']) ) return true;
+
+
+				return false;
+
+			});
 
 		}
 
 
 	    return $categories;
     }
+
+
+
+	// Get all the pages that user can access
+	public function getPages(int $project_ID = null, int $page_cat_ID = null, string $catFilter = null, bool $nocache = true) {
+		global $db, $cache;
+
+
+		// CHECK THE CACHE FIRST
+		$cached_pages = $cache->get('pages:'.self::$user_ID);
+		if ( $cached_pages !== false && !$nocache ) $pages = $cached_pages;
+		else {
+
+
+			// Bring the category info
+			$db->join("pages_categories cat", "cat.cat_ID = p.cat_ID", "LEFT");
+
+
+			// Bring the project info
+			$db->join("projects pr", "pr.project_ID = p.project_ID", "RIGHT");
+
+
+			// Bring page share info
+			$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
+			$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
+			$db->joinWhere("shares s", "s.share_type", "page");
+
+
+			// Bring project share info
+			$db->join("shares sp", "p.project_ID = sp.shared_object_ID", "LEFT");
+			$db->joinWhere("shares sp", "sp.share_type", "project");
+
+
+			// Check access if not admin
+			if ( self::$userInfo['user_level_ID'] != 1 ) {
+
+				$db->where('(
+					p.user_ID = '.self::$user_ID.'
+					OR s.share_to = '.self::$user_ID.'
+					OR s.share_to = "'.self::$userInfo['user_email'].'"
+					OR pr.user_ID = '.self::$user_ID.'
+					OR sp.share_to = '.self::$user_ID.'
+					OR sp.share_to = "'.self::$userInfo['user_email'].'"
+				)');
+
+			}
+
+
+			// Default Sorting
+			$db->orderBy("order_number", "asc");
+			$db->orderBy("s.share_ID", "desc");
+			$db->orderBy("cat.cat_name", "asc");
+			$db->orderBy("p.page_name", "asc");
+
+
+			// GET THE DATA
+			$pages = $db->get(
+				'pages p',
+				null,
+				'
+					p.page_ID as page_ID,
+					p.page_name,
+					p.page_url,
+					p.page_user,
+					p.page_created,
+					p.page_modified,
+					p.page_archived,
+					p.page_deleted,
+					p.order_number,
+					p.user_ID as user_ID,
+					cat.cat_ID,
+					cat.cat_name,
+					cat.cat_order_number,
+					p.project_ID,
+					pr.project_name,
+					pr.project_created,
+					pr.project_archived,
+					pr.project_deleted,
+					pr.project_image_device_ID,
+					s.share_ID,
+					s.share_to as share_to,
+					s.sharer_user_ID as sharer_user_ID
+				'
+			);
+
+
+			// Set the cache
+			$cache->set('pages:'.self::$user_ID, $pages);
+
+
+		}
+
+
+		// Do filters
+		if ($project_ID !== null) {
+
+			$pages = array_filter($pages, function($pageFound) use ($project_ID) {
+
+				return $pageFound['project_ID'] == $project_ID;
+
+			});
+
+		}
+		
+		if ($page_cat_ID !== null && $catFilter != "archived" && $catFilter != "deleted") {
+
+			$pages = array_filter($pages, function($pageFound) use ($page_cat_ID) {
+
+				// If zero
+				if ($page_cat_ID === 0) return $pageFound['cat_ID'] == null || $pageFound['cat_ID'] == $page_cat_ID;
+				return $pageFound['cat_ID'] == $page_cat_ID;
+
+			});
+
+		}
+
+		if ($catFilter !== null) {
+
+			// Archive and delete filters
+			$pages = array_filter($pages, function($pageFound) use ($catFilter) {
+
+				if ($catFilter == "archived") return $pageFound['page_archived'] == 1;
+				if ($catFilter == "deleted") return $pageFound['page_deleted'] == 1;
+				return $pageFound['page_archived'] == 0 && $pageFound['page_deleted'] == 0;
+
+			});
+
+
+			// Mine and shared filters
+			$pages = array_filter($pages, function($pageFound) use ($catFilter) {
+
+				if ($catFilter == "mine") return $pageFound['user_ID'] == self::$user_ID;
+				if ($catFilter == "shared") return $pageFound['user_ID'] != self::$user_ID;
+				return true;
+
+			});
+
+		}
+
+
+		//$pages = array_unique($pages, SORT_REGULAR);
+
+
+		// Return the data
+		return $pages;
+
+
+	}
+
+
+
+	// Get all the phases that user can access
+	public function getPhases(int $page_ID = null, int $project_ID = null, bool $nocache = false) {
+		global $db, $cache;
+
+
+		// CHECK THE CACHE FIRST
+		$cached_phases = $cache->get('phases:'.self::$user_ID);
+		if ( $cached_phases !== false && !$nocache ) $phases = $cached_phases;
+		else {
+
+
+			// Get page IDs
+			$pages = $this->getPages();
+			if ( !count($pages) ) return array();
+			$pageIDs = array_unique(array_column($pages, 'page_ID'));
+
+
+
+			// Filter the phases by page_IDs
+			$db->where('ph.page_ID', $pageIDs, 'IN');
+
+
+			// Bring page info
+			$db->join("pages p", "p.page_ID = ph.page_ID", "LEFT");
+
+
+			// Bring page info
+			$db->join("projects pr", "p.project_ID = pr.project_ID", "LEFT");
+
+
+			// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
+			$phases = $db->get('phases ph');
+
+
+			// Set the cache
+			$cache->set('phases:'.self::$user_ID, $phases);
+
+
+		}
+
+
+		// Do filters
+		if ($page_ID !== null) {
+
+			$phases = array_filter($phases, function($phaseFound) use ($page_ID) {
+
+				return $phaseFound['page_ID'] == $page_ID;
+
+			});
+
+		}
+
+		if ($project_ID !== null) {
+
+			$phases = array_filter($phases, function($phaseFound) use ($project_ID) {
+
+				return $phaseFound['project_ID'] == $project_ID;
+
+			});
+
+		}
+
+
+		// Return the data
+		return $phases;
+
+
+	}
+
+
+
+	// Get all the devices that user can access
+	public function getDevices(int $phase_ID = null, bool $nocache = false) {
+		global $db, $cache;
+
+
+		// CHECK THE CACHE FIRST
+		$cached_devices = $cache->get('devices:'.self::$user_ID);
+		if ( $cached_devices !== false && !$nocache ) $devices = $cached_devices;
+		else {
+
+
+			// Get page IDs
+			$pages = $this->getPages();
+			if ( !count($pages) ) return array();
+			$pageIDs = array_unique(array_column($pages, 'page_ID'));
+
+
+
+			// Filter the devices by page_IDs
+			$db->where("v.page_ID", $pageIDs, "IN");
+
+
+			// Bring the phase info
+			$db->join("phases v", "v.phase_ID = d.phase_ID", "LEFT");
+
+
+			// Bring the screens
+			$db->join("screens s", "s.screen_ID = d.screen_ID", "LEFT");
+
+
+			// Bring the screen category info
+			$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
+
+
+			// Order by device ID
+			$db->orderBy('d.device_ID', 'ASC');
+
+
+			// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
+			$devices = $db->get('devices d');
+
+
+			// Set the cache
+			$cache->set('devices:'.self::$user_ID, $devices);
+
+
+		}
+
+
+		// Do filters
+		if ($phase_ID !== null) {
+
+			$devices = array_filter($devices, function($deviceFound) use ($phase_ID) {
+
+				return $deviceFound['phase_ID'] == $phase_ID;
+
+			});
+
+		}
+
+
+		// Return the data
+		return $devices;
+
+
+	}
+
+
+
+	// Get all the pins that user can access
+	public function getPins(int $phase_ID = null, int $device_ID = null, bool $nocache = false) {
+		global $db, $cache;
+
+
+		// CHECK THE CACHE FIRST
+		if ($phase_ID !== null && $device_ID === null) $cached_pins = $cache->get('pins:'.self::$user_ID.':phase:'.$phase_ID);
+		if ($phase_ID !== null && $device_ID !== null) $cached_pins = $cache->get('pins:'.self::$user_ID.':phase:'.$phase_ID.':device:'.$device_ID);
+		else $cached_pins = $cache->get('pins:'.self::$user_ID);
+
+		if ( $cached_pins !== false && !$nocache ) $pins = $cached_pins;
+		else {
+
+
+
+			// Get phase IDs
+			if ($phase_ID !== null) {
+
+				$phaseIDs = array($phase_ID);
+
+			} else { // Get from all phases
+
+				$phases = $this->getPhases();
+				if ( !count($phases) ) return array();
+				$phaseIDs = array_unique(array_column($phases, 'page_ID'));
+
+			}
+
+
+
+			// Filter the pins by phase_IDs
+			$db->where("phase_ID", $phaseIDs, "IN");
+			//$db->where('phase_ID', $phase_ID);
+
+
+			// // Hide device specific pins
+			if ($device_ID !== null) $db->where ("(device_ID IS NULL or (device_ID IS NOT NULL and device_ID = $device_ID))");
+
+
+			// Hide private pins to other people
+			$db->where ("(user_ID = ".self::$user_ID." or (user_ID != ".self::$user_ID." and pin_private = 0))");
+
+
+			// GET THE DATA
+			$pins = $db->get('pins pin', null, '
+				pin.pin_ID,
+				pin.pin_complete,
+				pin.pin_private,
+				pin.pin_type,
+				pin.pin_element_index,
+				pin.pin_modification_type,
+				pin.pin_modification,
+				pin.pin_modification_original,
+				pin.pin_css,
+				pin.pin_x,
+				pin.pin_y,
+				pin.user_ID,
+				pin.phase_ID,
+				pin.device_ID
+			');
+
+
+			// Set the cache
+			if ($phase_ID !== null && $device_ID === null) $cache->set('pins:'.self::$user_ID.':phase:'.$phase_ID, $pins);
+			if ($phase_ID !== null && $device_ID !== null) $cache->set('pins:'.self::$user_ID.':phase:'.$phase_ID.':device:'.$device_ID, $pins);
+			else $cache->set('pins:'.self::$user_ID, $pins);
+
+
+		}
+
+
+		// Do filters
+		if ($phase_ID !== null) {
+
+			$pins = array_filter($pins, function($pinFound) use ($phase_ID) {
+				return $pinFound['phase_ID'] == $phase_ID;
+			});
+
+		}
+
+		if ($device_ID !== null) {
+
+			$pins = array_filter($pins, function($pinFound) use ($device_ID) {
+				return $pinFound['device_ID'] == null || $pinFound['device_ID'] == $device_ID;
+			});
+
+		}
+
+
+		// Return the data
+		return $pins;
+
+
+	}
+
+
+
+    // Get notifications
+    public function getNotifications($offset = 0, $limit = 10) {
+		global $db;
+
+
+		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
+		$db->where('con.user_ID', self::$user_ID);
+		$db->orderBy("notification_time", "DESC");
+		$notifications = $db->withTotalCount()->get("notifications n", array($offset, $limit));
+
+
+	    return array(
+		    'notifications' => $notifications,
+		    'totalCount' => $db->totalCount
+	    );
+    }
+
+
+
+    // Get new notifications
+    public function getNewNotifications() {
+		global $db;
+
+
+		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
+		$db->where('con.user_ID', self::$user_ID);
+		$db->where('con.notification_read', 0);
+		$db->orderBy("notification_time", "DESC");
+		$notifications = $db->withTotalCount()->get("notifications n");
+
+
+	    return array(
+		    'notifications' => $notifications,
+		    'totalCount' => $db->totalCount
+	    );
+	}
 
 
 
@@ -750,12 +803,7 @@ class User {
 
 		// CHECK THE CACHE FIRST
 		$cached_screens = $cache->get('screens');
-		if ( $cached_screens !== false && !$nocache ) {
-
-			//array_unshift($cached_screens, 'FROM CACHE');
-
-			return $cached_screens;
-		}
+		if ( $cached_screens !== false && !$nocache ) return $cached_screens;
 
 
 		// Bring the screen categories
@@ -765,7 +813,6 @@ class User {
 		// Order
 		$db->orderBy('s_cat.screen_cat_order', 'asc');
 		$db->orderBy(' s.screen_order', 'asc');
-
 
 
 		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
@@ -784,7 +831,39 @@ class User {
 
 
 
-	// Bring data that's mine or shared to me
+    // Get screen data
+    public function getScreenData() {
+	    global $db;
+
+
+		$screens = $this->getScreens();
+
+
+		// Prepare the screens data
+		$screen_data = [];
+		foreach ($screens as $screen) {
+
+			if ( !isset($screen_data[$screen['screen_cat_ID']]['screens']) ) {
+
+				$screen_data[$screen['screen_cat_ID']] = array(
+					'screen_cat_icon' => $screen['screen_cat_icon'],
+					'screen_cat_name' => $screen['screen_cat_name'],
+					'screens' => array(),
+				);
+
+			}
+
+			$screen_data[$screen['screen_cat_ID']]['screens'][$screen["screen_ID"]] = $screen;
+
+		}
+
+
+		return $screen_data;
+    }
+
+
+
+	// Bring data that's mine or shared to me !!! DELETE THIS
     public function getMy($data_type = "projects", $catFilter = "", $order = "", $project_ID = null, $object_ID = null, $deletes_archives = false) {
 		global $db, $mySharedPages;
 
@@ -963,38 +1042,6 @@ class User {
 
 
 
-    // Get screen data
-    public function getScreenData() {
-	    global $db;
-
-
-		$screens = $this->getScreens();
-
-
-		// Prepare the screens data
-		$screen_data = [];
-		foreach ($screens as $screen) {
-
-			if ( !isset($screen_data[$screen['screen_cat_ID']]['screens']) ) {
-
-				$screen_data[$screen['screen_cat_ID']] = array(
-					'screen_cat_icon' => $screen['screen_cat_icon'],
-					'screen_cat_name' => $screen['screen_cat_name'],
-					'screens' => array(),
-				);
-
-			}
-
-			$screen_data[$screen['screen_cat_ID']]['screens'][$screen["screen_ID"]] = $screen;
-
-		}
-
-
-		return $screen_data;
-    }
-
-
-
     // Can access?
     public function canAccess(
 	    int $object_ID,
@@ -1122,12 +1169,12 @@ class User {
 
 
 
-    // Edit a page
+    // Edit a user
     public function edit(
 	    string $column,
 	    $new_value
     ) {
-	    global $db, $log;
+	    global $db, $log, $cache;
 
 
 
@@ -1135,13 +1182,17 @@ class User {
 
 
 
-		// Update the page
+		// Update the user
 		$db->where('user_ID', self::$user_ID);
 		$user_updated = $db->update('users', array($column => $new_value));
 
 
 		// Site log
 		if ($user_updated) $log->info("User #".self::$user_ID." Updated: '$column => $new_value'");
+
+
+		// INVALIDATE THE CACHE
+		if ($user_updated) $cache->delete('user:'.self::$user_ID);
 
 
 		return $user_updated;
@@ -1152,7 +1203,7 @@ class User {
     public function reorder(
 	    array $orderData
     ) {
-	    global $db;
+	    global $db, $cache;
 
 
 
@@ -1170,18 +1221,22 @@ class User {
 					$data['type'] != "project" &&
 					$data['type'] != "page"
 				) ||
-				!is_numeric( intval($data['ID']) ) ||
-				!is_numeric( intval($data['catID']) ) ||
-				!is_numeric( intval($data['order']) )
+				!is_numeric( $data['ID'] ) ||
+				!is_numeric( $data['catID'] ) ||
+				!is_numeric( $data['order'] )
 			) {
 				return false;
 			}
 
+			$ID = intval($data['ID']);
+			$cat_ID = intval($data['catID']);
+			$order = intval($data['order']);
+
 
 
 			// Pass on category 0
-			if ($data['type'] == "projectcategory" && intval($data['ID']) == 0) continue;
-			if ($data['type'] == "pagecategory" && intval($data['ID']) == 0) continue;
+			if ($data['type'] == "projectcategory" && $ID == 0) continue;
+			if ($data['type'] == "pagecategory" && $ID == 0) continue;
 
 
 
@@ -1198,15 +1253,15 @@ class User {
 				// ORDERING:
 
 				// Delete the old record
-				$db->where('project_ID', $data['ID']);
+				$db->where('project_ID', $ID);
 				$db->where('user_ID', currentUserID());
 				$db->delete('projects_order');
 
 
 				// Add the new record
 				$ordered = $db->insert('projects_order', array(
-					"order_number" => $data['order'],
-					"project_ID" => $data['ID'],
+					"order_number" => $order,
+					"project_ID" => $ID,
 					"user_ID" => currentUserID()
 				));
 				if ($ordered) $status = "ordering-successful";
@@ -1216,24 +1271,29 @@ class User {
 				// CATEGORIZING:
 
 				// Delete the old connection
-				$db->where('project_ID', $data['ID']);
+				$db->where('project_ID', $ID);
 				$db->where('user_ID', currentUserID());
 				$db->delete('project_cat_connect');
 
 
-				if ($data['catID'] != 0) {
+				if ($cat_ID != 0) {
 
 
 					// Add the new record
 					$categorized = $db->insert('project_cat_connect', array(
-						"cat_ID" => $data['catID'],
-						"project_ID" => $data['ID'],
+						"cat_ID" => $cat_ID,
+						"project_ID" => $ID,
 						"user_ID" => currentUserID()
 					));
 					if ($categorized) $status = "categorizing-successful";
 
 
 				}
+
+
+
+				// INVALIDATE THE CACHES
+				$cache->deleteKeysByTag('projects');
 
 
 
@@ -1247,14 +1307,19 @@ class User {
 
 
 				// ORDERING:
-				$ordered = Page::ID($data['ID'])->edit('order_number', $data['order']);
+				$ordered = Page::ID($ID)->edit('order_number', $order);
 				if ($ordered) $status = "ordering-successful";
 
 
 
 				// CATEGORIZING
-				$categorized = Page::ID($data['ID'])->edit('cat_ID', ($data['catID'] == 0 ? null : $data['catID']));
+				$categorized = Page::ID($ID)->edit('cat_ID', ($cat_ID == 0 ? null : $cat_ID));
 				if ($categorized) $status = "categorizing-successful";
+
+
+
+				// INVALIDATE THE CACHES
+				$cache->deleteKeysByTag('pages');
 
 
 
@@ -1265,8 +1330,13 @@ class User {
 			if ($data['type'] == "projectcategory" || $data['type'] == "pagecategory") {
 
 
-				$cat_ordered = $data['type']::ID($data['ID'])->reorder($data['order']);
+				$cat_ordered = $data['type']::ID($ID)->reorder($order);
 				if ($cat_ordered) $status = "cat-ordering-successful";
+
+
+
+				// INVALIDATE THE CACHES
+				$cache->deleteKeysByTag(['pages', 'projects']);
 
 
 			}

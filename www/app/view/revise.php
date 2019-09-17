@@ -548,7 +548,7 @@ foreach ($other_pages as $pageOther) {
 								<a href="#" class="add-screen"><i class="fa fa-plus"></i> <b>Add New Screen</b></a>
 								<ul class="xl-left screen-adder">
 									<?php
-									foreach ($screen_data as $screen_cat) {
+									foreach ($User->getScreenData() as $screen_cat) {
 									?>
 
 									<li>

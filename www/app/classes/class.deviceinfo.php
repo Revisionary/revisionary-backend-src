@@ -16,7 +16,7 @@ class Device {
 
 
 	// ID Setter
-    public static function ID(int $device_ID = null) {
+    public static function ID($device_ID = null) {
 	    global $db, $cache;
 
 
@@ -39,12 +39,13 @@ class Device {
 
 			}
 
+			return false;
 
 		}
 
 
 	    // For the new page
-		if ($device_ID == null) {
+		if ($device_ID == null || $device_ID == "new") {
 
 			self::$device_ID = "new";
 			return new static;

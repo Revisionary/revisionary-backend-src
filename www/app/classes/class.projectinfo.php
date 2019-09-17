@@ -20,12 +20,16 @@ class Project {
 		global $db;
 
 
-	    // Set the page ID
-		if ($project_ID != null && is_numeric($project_ID)) {
+		// If specific project
+		if ( is_int($project_ID) ) {
 
 
-			$db->where('project_ID', $project_ID);
-			$projectInfo = $db->getOne("projects");
+			$projects = User::ID()->getProjects();
+			$project = array_filter($projects, function($projectFound) use ($project_ID) {
+				return $projectFound['project_ID'] == $project_ID;
+			});
+			$projectInfo = end($project);
+
 
 			if ( $projectInfo ) {
 
@@ -35,6 +39,7 @@ class Project {
 
 			}
 
+			return false;
 
 		}
 

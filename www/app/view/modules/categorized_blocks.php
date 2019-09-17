@@ -1,3 +1,6 @@
+<?php
+$categories = $dataType == "project" ? $User->getProjectCategories($catFilter) : $User->getPageCategories($project_ID, $catFilter);
+?>
 <?php require view('static/header_html'); ?>
 <?php require view('static/header_frontend'); ?>
 
@@ -154,25 +157,6 @@
 			foreach ($categories as $category) {
 
 
-				// Category Filter
-				if (
-					$catFilter != ""
-					&& $catFilter != "mine"
-					&& $catFilter != "shared"
-					&& $catFilter != "archived"
-					&& $catFilter != "deleted"
-					&& $catFilter != permalink($category['cat_name'])
-				) continue;
-
-
-
-				// Don't show categories if in the Archives or Deletes
-				if (
-					$category['cat_name'] != "Uncategorized" &&
-					( $catFilter == "archived" || $catFilter == "deleted" )
-				) continue;
-
-
 				// Category action URL
 				$action_url = 'ajax?type=data-action&data-type='.$dataType.'category&nonce='.$_SESSION['js_nonce'].'&id='.$category['cat_ID'];
 			?>
@@ -215,12 +199,13 @@
 
 					// Block Data
 					$category_ID = $category['cat_ID'];
-
+					$blocks = $dataType == "project" ? $User->getProjects($category_ID, $catFilter) : $User->getPages($project_ID, $category_ID, $catFilter);
+					//die_to_print($blocks);
 
 					// THE BLOCK LOOP
 					$object_count = 0;
-					if ( isset($theCategorizedData[$category_ID]) ) {
-						foreach ($theCategorizedData[$category_ID]['theData'] as $block) {
+					if ( isset($blocks) && count($blocks) > 0 ) {
+						foreach ($blocks as $block) {
 
 
 							if ($dataType == "project") {
@@ -230,15 +215,14 @@
 								$block_url = site_url('project/'.$block['project_ID']);
 
 
-								// Block Images
-								$block_image_path = "projects/project-".$block['project_ID']."/page-0/phase-0/screenshots/device-".$block['project_image_device_ID'].".jpg";
+								// Default Block Image !!!
+								$block_image_path = "projects/project-".$block['project_ID']."/page-0/phase-0/screenshots/device-0.jpg";
 
 								if ($block['project_image_device_ID'] != null) {
 
 
 									$blockDeviceInfo = Device::ID( $block['project_image_device_ID'] )->getInfo();
  									$block_image_path = "projects/project-".$block['project_ID']."/page-".$blockDeviceInfo['page_ID']."/phase-".$blockDeviceInfo['phase_ID']."/screenshots/device-".$block['project_image_device_ID'].".jpg";
-
 
 
 								}
@@ -253,13 +237,13 @@
 							if ($dataType == "page") {
 
 
-								$blockPhases = $block['phasesData'];
+								$blockPhases = array_values( $User->getPhases( $block['page_ID'] ) );
 								$blockPhase = end($blockPhases);
-								$blockDevices = $blockPhase['devicesData'];
+								$blockDevices = $User->getDevices( $blockPhase['phase_ID'] );
 
 
 								// Screen filter
-								if ( $screenFilter != "" && is_numeric($screenFilter) ) {
+								if ( $screenFilter != "" && is_int($screenFilter) ) {
 
 
 									// Extract the selected screen
@@ -273,9 +257,8 @@
 								}
 
 
-
 								$firstDevice = reset($blockDevices);
-								//die_to_print($firstDevice);
+
 
 
 								// First device Image
@@ -289,42 +272,17 @@
 								$block_url = site_url('revise/'.$firstDevice['device_ID']);
 
 
-
-								// Archive/Delete Filters
-								if (
-									$catFilter == "" &&
-									($block['page_deleted'] == 1 || $block['page_archived'] == 1)
-								) continue;
-
-
-								// Delete Filters
-								if (
-									$catFilter == "deleted" &&
-									$block['page_deleted'] == 0
-								) continue;
-
-
-								// Archive Filters
-								if (
-									$catFilter == "archived" &&
-									$block['page_archived'] == 0
-								) continue;
-
-
 							}
 
 
+							// Image style bg code
+							$image_style = file_exists($block_image_uri) ? "background-image: url(".$block_image_url.");" : "";
 
 							// Is directly shared to me
 							$blockSharedMe = $block['share_to'] == currentUserID();
 
 							// Is mine
 							$blockIsMine = $block['user_ID'] == currentUserID();
-
-
-
-							// Image style bg code
-							$image_style = file_exists($block_image_uri) ? "background-image: url(".$block_image_url.");" : "";
 
 					?>
 
@@ -436,41 +394,41 @@
 
 $livePinCount = $standardPinCount = $privatePinCount = $completePinCount = 0;
 
-if ($dataType == "page" && $allMyPins) {
+// if ($dataType == "page" && $allMyPins) {
 
-	$phase_IDs = array_column($blockPhases, "phase_ID");
+// 	$phase_IDs = array_column($blockPhases, "phase_ID");
 
 
-	$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+// 	$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+// 		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
-		return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+// 		return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
-	}));
-	$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+// 	}));
+// 	$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+// 		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
-		return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+// 		return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
-	}));
-	$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+// 	}));
+// 	$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+// 		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
-		return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
+// 		return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
 
-	}));
-	$completePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+// 	}));
+// 	$completePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
 
-		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+// 		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
 
-		return $pageCondition && $value['pin_complete'] == "1";
+// 		return $pageCondition && $value['pin_complete'] == "1";
 
-	}));
+// 	}));
 
-}
+// }
 ?>
 
 										<?php
@@ -586,21 +544,20 @@ if ($dataType == "page" && $allMyPins) {
 										<?php
 										if ($dataType == "page") {
 
-//die_to_print($block['phasesData'], false);
-
-											$blockPhaseNumber = array_search($blockPhase, $block['phasesData']) + 1;
+											//die_to_print($blockPhases, false);
+											$blockPhaseNumber = array_search($blockPhase, $blockPhases) + 1;
 										?>
 
 <a href="#">v<?=$blockPhaseNumber?> <i class="fa fa-caret-down"></i></a>
 <ul class="xl-left">
 	<?php
-	foreach($block['phasesData'] as $otherPhase) {
+	foreach($blockPhases as $otherPhase) {
 
-		$otherPhaseNumber = array_search($otherPhase, $block['phasesData']) + 1;
+		$otherPhaseNumber = array_search($otherPhase, $blockPhases) + 1;
 
 
 		// Devices of the phase
-		$devices_of_phase = $otherPhase['devicesData'];
+		$devices_of_phase = $User->getDevices( $otherPhase['phase_ID'] );
 		$firstDevice = reset($devices_of_phase);
 		//die_to_print($devices_of_phase, false);
 	?>
