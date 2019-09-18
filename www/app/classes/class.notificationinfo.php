@@ -117,6 +117,7 @@ class Notification {
 		$realNotificationsCount = 0;
 		foreach ($notifications as $notification) {
 
+			$notificationRow = "";
 
 			$notificationNew = $notification['notification_read'] == 0;
 			$notificationContent = $notification['notification'];
@@ -128,7 +129,7 @@ class Notification {
 			// Skip if the user not found
 			if (!$senderInfo) {
 
-				$notificationHTML .= '<li class="'.($notificationNew ? "new" : "").' xl-hidden" data-error="user-not-found" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+				$notificationRow = '<li class="'.($notificationNew ? "new" : "").' xl-hidden" data-error="user-not-found" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
 
 				continue;
 			}
@@ -148,7 +149,7 @@ class Notification {
 				// Delete this notification !!! ???
 				// Notification::ID( $notification['notification_ID'] )->remove();
 
-				$notificationHTML .= '<li data-error="'.$object_type.'-'.$object_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+				$notificationRow = '<li data-error="'.$object_type.'-'.$object_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
 
 				continue;
 			}
@@ -158,12 +159,12 @@ class Notification {
 			$object_link = site_url("$object_type/$object_ID");
 
 
-			$notificationHTML .= '
+			$notificationRow = '
 
 			<li class="'.($notificationNew ? "new" : "").'" data-type="notification" data-id="'.$notification['notification_ID'].'">';
 
 
-			$notificationHTML .= '
+			$notificationRow .= '
 
 				<div class="wrap xl-table xl-middle">
 					<div class="col image">
@@ -182,7 +183,7 @@ class Notification {
 
 
 				// Notification Content
-				$notificationHTML .= "
+				$notificationRow .= "
 					$sender_full_name ".$notification['notification']."<br>
 					<div class='date'>".timeago($notification['notification_time'])."</div>
 				";
@@ -203,7 +204,7 @@ class Notification {
 
 
 				// Notification Content
-				$notificationHTML .= "
+				$notificationRow .= "
 
 					$sender_full_name shared a <b>$object_type</b> with you:
 					<span><a href='$object_link'><b>$object_name</b>$project_name</a></span><br>
@@ -228,7 +229,7 @@ class Notification {
 
 
 				// Notification Content
-				$notificationHTML .= "
+				$notificationRow .= "
 
 					$sender_full_name unshared the <span><b>$object_name".$project_name."</b> $object_type</span> from you.</span><br>
 
@@ -243,10 +244,8 @@ class Notification {
 
 				$pin_type = $object_data->getInfo('pin_type');
 				$pin_complete = $object_data->getInfo('pin_complete');
+
 				$phase_ID = $object_data->getInfo('phase_ID');
-
-				$log->debug("TRYING TO GET PHASE #$phase_ID");
-
 				$phaseData = Phase::ID($phase_ID);
 
 				// Skip if the phase not found
@@ -255,7 +254,7 @@ class Notification {
 					// Delete this notification !!! ???
 					// Notification::ID( $notification['notification_ID'] )->remove();
 
-					$notificationHTML .= '<li data-error="phase-'.$phase_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+					$notificationRow = '<li data-error="phase-'.$phase_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
 
 					continue;
 				}
@@ -264,10 +263,35 @@ class Notification {
 
 				$page_ID = $phaseData->getInfo('page_ID');
 				$page_data = Page::ID($page_ID);
+
+				// Skip if the page not found
+				if (!$page_data) {
+
+					// Delete this notification !!! ???
+					// Notification::ID( $notification['notification_ID'] )->remove();
+
+					$notificationRow = '<li data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+
+					continue;
+				}
+
 				$page_name = $page_data->getInfo('page_name');
 
 				$project_ID = $page_data->getInfo('project_ID');
-				$project_name = Project::ID($project_ID)->getInfo('project_name');
+				$project_data = Project::ID($project_ID);
+
+				// Skip if the page not found
+				if (!$project_data) {
+
+					// Delete this notification !!! ???
+					// Notification::ID( $notification['notification_ID'] )->remove();
+
+					$notificationRow = '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+
+					continue;
+				}
+
+				$project_name = $project_data->getInfo('project_name');
 
 
 				$object_link = site_url("page/$page_ID#$object_ID");
@@ -278,7 +302,7 @@ class Notification {
 
 
 					// Notification Content
-					$notificationHTML .= "
+					$notificationRow .= "
 
 						$sender_full_name completed a <b>$pin_type pin</b>:
 						<div class='wrap xl-table xl-middle'>
@@ -299,7 +323,7 @@ class Notification {
 
 
 					// Notification Content
-					$notificationHTML .= "
+					$notificationRow .= "
 
 						$sender_full_name marked a pin <b>incomplete</b>:
 						<div class='wrap xl-table xl-middle'>
@@ -320,7 +344,7 @@ class Notification {
 
 
 					// Notification Content
-					$notificationHTML .= "
+					$notificationRow .= "
 
 						$sender_full_name wrote on a <a href='$object_link' data-go-pin='$object_ID'>$pin_type pin</a>:
 						<span class='wrap xl-table xl-middle'>
@@ -351,7 +375,7 @@ class Notification {
 
 
 					// Notification Content
-					$notificationHTML .= "
+					$notificationRow .= "
 
 						$sender_full_name added a new <b>$pin_type pin</b>:
 						<div class='wrap xl-table xl-middle'>
@@ -386,11 +410,23 @@ class Notification {
 
 
 					$project_ID = $object_data->getInfo('project_ID');
-					$project_name = Project::ID($project_ID)->getInfo('project_name');
+					$project_data = Project::ID($project_ID);
+
+					// Skip if the page not found
+					if (!$project_data) {
+	
+						// Delete this notification !!! ???
+						// Notification::ID( $notification['notification_ID'] )->remove();
+	
+						$notificationRow = '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+	
+						continue;
+					}
+					$project_name = $project_data->getInfo('project_name');
 
 
 					// Notification Content
-					$notificationHTML .= "
+					$notificationRow .= "
 
 						$sender_full_name added a <b>new page</b>:
 						<span><a href='$object_link'><b>$object_name</b> [$project_name]</a></span><br>
@@ -410,9 +446,34 @@ class Notification {
 
 					$page_ID = $object_data->getInfo('page_ID');
 					$page_data = Page::ID($page_ID);
+
+					// Skip if the page not found
+					if (!$page_data) {
+	
+						// Delete this notification !!! ???
+						// Notification::ID( $notification['notification_ID'] )->remove();
+	
+						$notificationRow = '<li data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+	
+						continue;
+					}
+
 					$page_name = $page_data->getInfo('page_name');
 					$project_ID = $page_data->getInfo('project_ID');
-					$project_name = Project::ID($project_ID)->getInfo('project_name');
+					$project_data = Project::ID($project_ID);
+
+					// Skip if the page not found
+					if (!$project_data) {
+	
+						// Delete this notification !!! ???
+						// Notification::ID( $notification['notification_ID'] )->remove();
+	
+						$notificationRow = '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+	
+						continue;
+					}
+
+					$project_name = $project_data->getInfo('project_name');
 
 
 					$title = "$sender_full_name added a <b>new screen</b>:";
@@ -428,7 +489,7 @@ class Notification {
 
 
 					// Notification Content
-					$notificationHTML .= "
+					$notificationRow .= "
 
 						$title
 						$content<br>
@@ -446,7 +507,7 @@ class Notification {
 
 
 
-			$notificationHTML .= '
+			$notificationRow .= '
 					</div>
 				</div>
 
@@ -459,6 +520,9 @@ class Notification {
 		
 		
 		}
+
+
+		$notificationHTML .= $notificationRow;
 
 
 		// Load more link
