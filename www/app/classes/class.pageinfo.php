@@ -16,7 +16,7 @@ class Page {
 
 
 	// ID Setter
-    public static function ID($page_ID = null) {
+    public static function ID($page_ID = null, $user_ID = null) {
 	    global $db;
 
 
@@ -24,7 +24,7 @@ class Page {
 		if ( is_int($page_ID) ) {
 
 
-			$pages = User::ID()->getPages();
+			$pages = User::ID($user_ID)->getPages();
 			$pages = array_filter($pages, function($pageFound) use ($page_ID) {
 				return $pageFound['page_ID'] == $page_ID;
 			});
@@ -611,7 +611,6 @@ class Page {
 
 		// Site log
 		if ($ownership_changed) $log->info("Page #".self::$page_ID." Ownership Changed: '$old_owner_ID => $user_ID' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
-
 
 
 		// INVALIDATE THE CACHES

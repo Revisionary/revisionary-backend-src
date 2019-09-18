@@ -17,11 +17,8 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 
 	// Check the cache first
 	$cached_user_info = $cache->get('user:'.$user_ID);
-	if ( $cached_user_info !== false && !$nocache && !$full ) {
-
-		return $cached_user_info;
-
-	} else { // If not exist in the cache, pull data from DB
+	if ( $cached_user_info !== false && !$nocache && !$full ) return $cached_user_info;
+	else { // If not exist in the cache, pull data from DB
 
 
 		// Bring the user level info

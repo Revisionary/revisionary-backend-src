@@ -6,11 +6,11 @@ set_time_limit(0);
 
 
 // Get the data
-$phase_ID = $argv[1];
-$page_ID = $argv[2];
-$device_ID = $argv[3];
+$phase_ID = intval($argv[1]);
+$page_ID = intval($argv[2]);
+$device_ID = intval($argv[3]);
 $sessionID = $argv[4];
-$queue_ID = isset($argv[5]) && is_numeric($argv[5]) ? $argv[5] : "";
+$queue_ID = isset($argv[5]) && is_numeric($argv[5]) ? intval($argv[5]) : "";
 
 
 // Correct the session ID

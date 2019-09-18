@@ -67,7 +67,7 @@ class Phase {
 
 
 	// ID Setter
-    public static function ID($phase_ID = null) {
+    public static function ID($phase_ID = null, $user_ID = null) {
 	    global $db;
 
 
@@ -75,7 +75,7 @@ class Phase {
 		if ( is_int($phase_ID) ) {
 
 
-			$phases = User::ID()->getPhases();
+			$phases = User::ID($user_ID)->getPhases();
 			$phases = array_filter($phases, function($phaseFound) use ($phase_ID) {
 				return $phaseFound['phase_ID'] == $phase_ID;
 			});

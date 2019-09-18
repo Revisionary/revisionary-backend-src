@@ -221,8 +221,25 @@ $categories = $dataType == "project" ? $User->getProjectCategories($catFilter, $
 								if ($block['project_image_device_ID'] != null) {
 
 
-									$blockDeviceInfo = Device::ID( $block['project_image_device_ID'] )->getInfo();
- 									$block_image_path = "projects/project-".$block['project_ID']."/page-".$blockDeviceInfo['page_ID']."/phase-".$blockDeviceInfo['phase_ID']."/screenshots/device-".$block['project_image_device_ID'].".jpg";
+									$blockDeviceData = Device::ID( $block['project_image_device_ID'] );
+									if ($blockDeviceData) {
+
+										$blockDeviceInfo = $blockDeviceData->getInfo();
+										$block_image_path = "projects/project-".$block['project_ID']."/page-".$blockDeviceInfo['page_ID']."/phase-".$blockDeviceInfo['phase_ID']."/screenshots/device-".$block['project_image_device_ID'].".jpg";
+
+									} elseif ($projectDevices = $User->getDevices(null, null, $block['project_ID'])) {
+
+										$firstDeviceOfProject = end($projectDevices);
+										if ( isset($firstDeviceOfProject) ) {
+
+											$block_image_path = "projects/project-".$block['project_ID']."/page-".$firstDeviceOfProject['page_ID']."/phase-".$firstDeviceOfProject['phase_ID']."/screenshots/device-".$firstDeviceOfProject['device_ID'].".jpg";
+											
+											print_r($block_image_path);
+											print_r($firstDeviceOfProject);
+
+										}
+
+									}
 
 
 								}

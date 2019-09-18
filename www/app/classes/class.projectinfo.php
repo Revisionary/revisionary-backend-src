@@ -16,7 +16,7 @@ class Project {
 
 
 	// ID Setter
-    public static function ID($project_ID = null) {
+    public static function ID($project_ID = null, $user_ID = null) {
 		global $db;
 
 
@@ -24,7 +24,7 @@ class Project {
 		if ( is_int($project_ID) ) {
 
 
-			$projects = User::ID()->getProjects();
+			$projects = User::ID($user_ID)->getProjects();
 			$projects = array_filter($projects, function($projectFound) use ($project_ID) {
 				return $projectFound['project_ID'] == $project_ID;
 			});

@@ -20,7 +20,6 @@ if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 // Get the project ID
 $project_ID = intval($_url[1]);
 
-
 // If the specified project doesn't exist, go projects page
 $project = Project::ID($project_ID);
 if ( !$project ) {
@@ -45,8 +44,13 @@ $catFilter = isset($_url[2]) ? $_url[2] : '';
 
 
 
-// PROJECT SHARES QUERY !!!
+// PAGES IN THIS PROJECT
+$allMyPages = $User->getPages($project_ID);
+//die_to_print($allMyPages);
 
+
+
+// PROJECT SHARES QUERY:
 // Exlude other types
 $db->where('share_type', 'project');
 $db->where('shared_object_ID', $project_ID);
@@ -61,7 +65,7 @@ $projectSharedMe = array_search(currentUserID(), array_column($projectShares, 's
 if (
 	$projectInfo['user_ID'] != currentUserID() // If the project isn't belong to me
 	&& !$projectSharedMe // And, if the project isn't shared to me
-	&& count( $phases ) === 0 // And, if there is no my page in it
+	&& count( $allMyPages ) === 0 // And, if there is no my page in it
 	&& $catFilter != "mine"
 	&& $User->getInfo('user_level_ID') != 1
 ) {
@@ -72,11 +76,6 @@ if (
 
 }
 
-
-
-// PAGES IN THIS PROJECT
-$allMyPages = $User->getPages($project_ID);
-//die_to_print($allMyPages);
 
 
 // Project Last Modified
@@ -91,7 +90,7 @@ $allMyPins = $User->getPins(null, null, null, $project_ID);
 //die_to_print($allMyPins);
 
 
-// COUNT ALL THE PIN TYPES
+// Count all the pin types
 $totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = $totalCompletePinCount = 0;
 
 if ($allMyPins) {
@@ -121,6 +120,7 @@ if ($allMyPins) {
 	}));
 
 }
+
 
 
 // Detect the available screens

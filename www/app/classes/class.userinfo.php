@@ -19,7 +19,7 @@ class User {
 
 	// ID Setter
     public static function ID($user_ID = null, bool $nocache = false) {
-	    global $db, $cache;
+	    global $db, $cache, $log;
 
 
 		// Use current user ID if not specified
@@ -33,6 +33,11 @@ class User {
 			if ( !self::$userInfo) return false;
 
 			self::$user_ID = $user_ID;
+
+
+			//if ($nocache) $log->debug("HEYYY: User #".self::$user_ID." Username '".self::$userInfo['user_name']."' | Email '".self::$userInfo['user_email']."'");
+
+
 			return new static;
 
 		}
@@ -643,12 +648,12 @@ class User {
 			$pageIDs = array_unique(array_column($pages, 'page_ID'));
 
 
-			// Filter the devices by page_IDs
-			$db->where("v.page_ID", $pageIDs, "IN");
-
-
 			// Bring the phase info
 			$db->join("phases v", "v.phase_ID = d.phase_ID", "LEFT");
+
+
+			// Filter the devices by page_IDs
+			$db->where("v.page_ID", $pageIDs, "IN");
 
 
 			// Bring the page info
@@ -1504,7 +1509,10 @@ class User {
 
 
 	    // Check the ownership
-	    $objectInfo = ucfirst($share_type)::ID($shared_object_ID)->getInfo();
+		$objectData = ucfirst($share_type)::ID($shared_object_ID, self::$user_ID);
+		if (!$objectData) return false;
+
+	    $objectInfo = $objectData->getInfo();
 	    $object_user_ID = $objectInfo['user_ID'];
 		$iamowner = $object_user_ID == currentUserID();
 
@@ -1514,7 +1522,7 @@ class User {
 	    if ($share_type == "page") {
 
 		    // Find the project info
-			$new_shared_object_ID = intval($objectInfo['project_ID']);
+			$new_shared_object_ID = $objectInfo['project_ID'];
 			$new_share_type = "project";
 
 	    }
@@ -1526,14 +1534,14 @@ class User {
 		    // Find the project info
 			$new_share_type = "page";
 
-	    }
+		}
 
 
 
 		// Remove share from DB
 		$db->where('share_type', $share_type);
 		$db->where('shared_object_ID', $shared_object_ID);
-		$db->where('share_to', self::$user_ID);
+		$db->where('share_to', strval(self::$user_ID));
 		if (!$iamowner) $db->where('sharer_user_ID', currentUserID());
 
 
@@ -1556,20 +1564,23 @@ class User {
     // Make owner
     public function makeownerof(
 	    string $data_type,
-	    int $object_ID
+	    $object_ID
     ) {
 		global $db, $log;
 
 
+		$object_ID = is_numeric($object_ID) ? intval($object_ID) : $object_ID;
+
+
 		// Is object exist
-		$object = $data_type::ID($object_ID);
+		$object = ucfirst($data_type)::ID($object_ID, self::$user_ID);
 		if (!$object) return false;
 
 
 		// Remove me from the shares
 		$db->where('share_type', $data_type);
 		$db->where('shared_object_ID', $object_ID);
-		$db->where('share_to', self::$user_ID);
+		$db->where('share_to', strval(self::$user_ID));
 		$deleted = $db->delete('shares');
 
 

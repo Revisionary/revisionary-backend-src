@@ -16,7 +16,7 @@ class Device {
 
 
 	// ID Setter
-    public static function ID($device_ID = null) {
+    public static function ID($device_ID = null, $user_ID = null) {
 	    global $db, $cache;
 
 
@@ -24,7 +24,7 @@ class Device {
 		if ( is_int($device_ID) ) {
 
 
-			$devices = User::ID()->getDevices();
+			$devices = User::ID($user_ID)->getDevices();
 			$devices = array_filter($devices, function($deviceFound) use ($device_ID) {
 				return $deviceFound['device_ID'] == $device_ID;
 			});
