@@ -39,7 +39,7 @@ class User {
 
 
 	    // For the email users
-		if (filter_var($user_ID, FILTER_VALIDATE_EMAIL)) {
+		if ( filter_var($user_ID, FILTER_VALIDATE_EMAIL) ) {
 
 			self::$user_ID = $user_ID;
 			return new static;
@@ -1490,27 +1490,23 @@ class User {
     }
 
 
-    // Change Share Access
+    // Change Share Access !!!
     public function changeshareaccess(
 	    string $share_type,
-	    int $shared_object_ID,
-	    int $new_shared_object_ID = null
+	    $shared_object_ID,
+	    $new_shared_object_ID = null
     ) {
-	    global $db, $log;
+		global $db, $log;
+
+
+		$shared_object_ID = is_numeric($shared_object_ID) ? intval($shared_object_ID) : $shared_object_ID;
+		$new_shared_object_ID = is_numeric($new_shared_object_ID) ? intval($new_shared_object_ID) : $new_shared_object_ID;
 
 
 	    // Check the ownership
 	    $objectInfo = ucfirst($share_type)::ID($shared_object_ID)->getInfo();
 	    $object_user_ID = $objectInfo['user_ID'];
-	    $iamowner = $object_user_ID == currentUserID() ? true : false;
-
-
-
-		// Remove share from DB
-		$db->where('share_type', $share_type);
-		$db->where('shared_object_ID', $shared_object_ID);
-		$db->where('share_to', self::$user_ID);
-		if (!$iamowner) $db->where('sharer_user_ID', currentUserID());
+		$iamowner = $object_user_ID == currentUserID();
 
 
 
@@ -1518,7 +1514,7 @@ class User {
 	    if ($share_type == "page") {
 
 		    // Find the project info
-			$new_shared_object_ID = $objectInfo['project_ID'];
+			$new_shared_object_ID = intval($objectInfo['project_ID']);
 			$new_share_type = "project";
 
 	    }
@@ -1531,6 +1527,14 @@ class User {
 			$new_share_type = "page";
 
 	    }
+
+
+
+		// Remove share from DB
+		$db->where('share_type', $share_type);
+		$db->where('shared_object_ID', $shared_object_ID);
+		$db->where('share_to', self::$user_ID);
+		if (!$iamowner) $db->where('sharer_user_ID', currentUserID());
 
 
 	    $changed = $db->update('shares', array(

@@ -3,10 +3,10 @@
 <script>
 
 	user_ID = '<?=currentUserID()?>';
-	device_ID = '<?=$device_ID?>';
-	phase_ID = '<?=$phase_ID?>';
-	page_ID = '<?=$page_ID?>';
 	project_ID = '<?=$project_ID?>';
+	page_ID = '<?=$page_ID?>';
+	phase_ID = '<?=$phase_ID?>';
+	device_ID = '<?=$device_ID?>';
 	remote_URL = '<?=$phaseData->remoteUrl?>';
 
 </script>
@@ -72,8 +72,8 @@
 				<div class="col account dropdown" style="margin-right: 15px;">
 
 					<a href="#">
-						<picture class="profile-picture white-border thin-border" <?=getUserInfo()['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
-							<span><?=getUserInfo()['nameAbbr']?></span>
+						<picture class="profile-picture white-border thin-border" <?=$userInfo['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
+							<span><?=$userInfo['nameAbbr']?></span>
 						</picture>
 					</a>
 					<ul class="user-menu xl-left">
@@ -111,28 +111,28 @@
 
 					<span class="dropdown">
 						<a href="<?=site_url('project/'.$project_ID, true)?>">
-							<?=$projectInfo['project_name']?> <i class="fa fa-caret-down"></i>
+							<?=$project['project_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
 <?php
-foreach ($allMyProjects as $project) {
+foreach ($allMyProjects as $myProject) {
 
-	$selected = $project['project_ID'] == $project_ID ? "selected" : "";
+	$selected = $myProject['project_ID'] == $project_ID ? "selected" : "";
 
 
-	$pages_of_project = array_filter($allMyPages, function($pageFound) use ($project) {
-	    return ($pageFound['project_ID'] == $project['project_ID']);
+	// Bring the pages in this project
+	$pages_of_project = array_filter($allMyPages, function($pageFound) use ($myProject) {
+	    return ($pageFound['project_ID'] == $myProject['project_ID']);
 	});
-	$pages_of_project = categorize($pages_of_project, 'page', true);
 	//die_to_print($pages_of_project, false);
 
 
-	$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$project['project_ID'];
+	$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$myProject['project_ID'];
 
 ?>
-<li class="item <?=$selected?>" data-type="project" data-id="<?=$project['project_ID']?>">
+<li class="item <?=$selected?>" data-type="project" data-id="<?=$myProject['project_ID']?>">
 
-	<a href="<?=site_url('project/'.$project['project_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$project['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ""?></a>
+	<a href="<?=site_url('project/'.$myProject['project_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$myProject['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ""?></a>
 
 	<?php
 	if ( count($pages_of_project) ) {
@@ -299,6 +299,13 @@ foreach ($allMyProjects as $project) {
 						<ul>
 <?php
 
+// Find the other pages from this project ???
+$other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) {
+	return ($pageFound['project_ID'] == $project_ID);
+});
+//die_to_print($other_pages);
+
+
 foreach ($other_pages as $pageOther) {
 
 	$selected = $pageOther['page_ID'] == $page_ID ? "selected" : "";
@@ -419,7 +426,7 @@ foreach ($other_pages as $pageOther) {
 ?>
 							<li>
 
-								<a href="#" data-modal="add-new" data-object-name="<?=$projectInfo['project_name']?>" data-type="page" data-id="<?=$projectInfo['project_ID']?>"><i class="fa fa-plus"></i> <b>Add New Page</b></a>
+								<a href="#" data-modal="add-new" data-object-name="<?=$project['project_name']?>" data-type="page" data-id="<?=$project['project_ID']?>"><i class="fa fa-plus"></i> <b>Add New Page</b></a>
 
 							</li>
 						</ul>
@@ -439,6 +446,13 @@ foreach ($other_pages as $pageOther) {
 					<span class="dropdown">
 
 					<?php
+
+					// Find the other phases from this device
+					$other_phases = array_filter($allMyPhases, function($phaseFound) use ($page_ID) {
+						return $phaseFound['page_ID'] == $page_ID;
+					});
+					$other_phases = array_values($other_phases); // Reset the keys to get phase numbers
+					//die_to_print($other_phases);
 
 					$currentPhaseNumber = array_search($phase, $other_phases) + 1;
 

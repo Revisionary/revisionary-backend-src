@@ -8,25 +8,22 @@ $ssr = $forceReInternalize && get('ssr') === "";
 
 
 
-// SECURITY CHECKS
-
+// USER:
 // If not logged in, go login page !!! Change when public revising available
 if (!$User) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }
+$userInfo = getUserInfo();
 
 
+
+// DEVICE:
 // If no deviec specified or not numeric, go projects page
 if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 	header('Location: '.site_url('projects?invaliddevice'));
 	die();
 }
-
-
-
-// DEVICE:
-// Get the device ID
 $device_ID = intval($_url[1]);
 
 // If the specified device doesn't exist, go projects page
@@ -38,15 +35,19 @@ if ( !$deviceData ) {
 $device = $deviceData->getInfo();
 //die_to_print($device);
 
+// Screenshots
+$device_image = $deviceData->getImage();
+//die($device_image);
+
+// All my devices
+$allMyDevices = $User->getDevices();
+//die_to_print($allMyDevices);
+
 
 
 // VERSION:
 // Get the phase ID
 $phase_ID = $device['phase_ID'];
-
-// All my phases
-$allMyPhases = $User->getPhases();
-//die_to_print($allMyPhases);
 
 // Current phase data
 $phaseData = Phase::ID($phase_ID);
@@ -58,13 +59,11 @@ if ( !$phaseData ) {
 	die();
 }
 $phase = $phaseData->getInfo();
+//die_to_print($phase);
 
-// // Find the other phases from this device
-// $other_phases = array_filter($allMyPhases, function($phaseFound) use ($page_ID) {
-// 	return $phaseFound['page_ID'] == $page_ID;
-// });
-// $other_phases = array_values($other_phases); // Reset the keys to get phase numbers
-//die_to_print($other_phases);
+// All my phases
+$allMyPhases = $User->getPhases();
+//die_to_print($allMyPhases);
 
 
 
@@ -72,45 +71,63 @@ $phase = $phaseData->getInfo();
 // Get the page ID
 $page_ID = $phase['page_ID'];
 
-// All my pages
-$allMyPages = $User->getPages();
-//die_to_print($allMyPages);
-
-
-// Find the current page
+// Current page data
 $pageData = Page::ID($page_ID);
 
-
 // Check if page not exists, redirect to the projects page
-if ( !$page ) {
+if ( !$pageData ) {
 	header('Location: '.site_url('projects?pagedoesntexist'));
 	die();
 }
 $page = $pageData->getInfo();
 //die_to_print($page);
 
+// All my pages
+$allMyPages = $User->getPages();
+//die_to_print($allMyPages);
 
-// Check the New URL if force reinternalizing
+
+
+// Force Internalizing
 if ($forceReInternalize) {
 
 	// Test the URL and get final URL after redirects
 	$final_url = get_redirect_final_target($page['page_url']);
 	if ($page['page_url'] != $final_url) {
-		Page::ID($page_ID)->edit('page_url', $final_url);
+		$pageData->edit('page_url', $final_url);
 	}
+
+
+	// Remove all pins in this phase when force reinternalizing
+	$db->where('phase_ID', $phase_ID);
+	$db->delete('pins');
 
 }
 
 
+
+// PROJECT:
 // Get the project ID
 $project_ID = $page['project_ID'];
 
+// Current project data
+$projectData = Project::ID($project_ID); // !!! ???
 
-// Find the other pages from this project
-$other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) {
-	return ($pageFound['project_ID'] == $project_ID);
-});
-//die_to_print($other_pages);
+// Check if project not exists, redirect to the projects page
+if ( !$projectData ) {
+	header('Location: '.site_url('projects?projectdoesntexist'));
+	die();
+}
+$project = $projectData->getInfo();
+//die_to_print($project);
+
+// Project Image
+$project_image = $project['project_image_device_ID'];
+if ($project_image == null) $projectData->edit('project_image_device_ID', $device_ID);
+
+// All my projects
+$allMyProjects = $User->getProjects();
+//die_to_print($allMyProjects);
 
 
 
@@ -129,13 +146,6 @@ $screen_name = $device['screen_name'];
 // Get the screen icon
 $screenCatID = $device['screen_cat_ID'];
 $screenIcon = $device['screen_cat_icon'];
-
-
-
-// Screenshots
-$device_image = $deviceData->getImage();
-$project_image = cache."/projects/project-$project_ID/project.jpg"; // !!!
-//die("$device_image -> $project_image");
 
 
 
@@ -187,12 +197,10 @@ $process_status = "";
 /*
 die_to_print( $phaseData->phaseDir, false ); // Folder is exist
 die_to_print( $phaseData->phaseFile, false ); // HTML is downloaded
-die_to_print( $project_image, false ); // // Project image ready !!!
 die_to_print( $phaseData->logDir."/browser.log", false ); // No error on Browser
 die_to_print( $phaseData->logDir."/html-filter.log", false ); // No error on HTML filtering
 die_to_print( $phaseData->logDir."/css-filter.log" ); // No error on CSS filtering
 */
-
 
 
 // If already working queue exists !!!
@@ -273,7 +281,7 @@ if (
 
 
 		// Site log
-		$log->info("Device #$device_ID Screenshot Taking: Phase #$phase_ID | Page #$page_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
+		$log->info("Device #$device_ID Screenshot Taking: Phase #$phase_ID | Page #$page_ID | Project #$project_ID | Queue #$queue_ID | Process ID #".$process_ID." | User #".currentUserID());
 
 
 	}
@@ -317,33 +325,12 @@ if (
 
 }
 
-
-// PROJECT INFO
-$projectData = Project::ID($project_ID);
-$projectInfo = $projectData->getInfo();
-//die_to_print($projectInfo);
-
-$project_image = $projectInfo['project_image_device_ID'];
-if ($project_image == null) $projectData->edit('project_image_device_ID', $device_ID);
-
-
-// MY PROJECTS
-$allMyProjects = $User->getMy('projects');
-//die_to_print($allMyProjects);
-
-
-// MY DEVICES IN THIS PROJECT
-$allMyDevices = $devices; // Comes globally from 'categorize.php'
-//die_to_print($allMyDevices);
-
-
-if ($forceReInternalize) {
-
-	// Remove all the pins for this page
-	$db->where('phase_ID', $phase_ID);
-	$db->delete('pins');
-
-}
+/*
+echo "<pre>"; print_r($existing_queue); echo "</pre>";
+echo $process_status."<br>";
+echo $process_ID;
+die();
+*/
 
 
 
@@ -373,29 +360,20 @@ if (
 ) $pin_private = get('privatepin');
 
 
-/*
-echo "<pre>"; print_r($existing_queue); echo "</pre>";
 
-echo $process_status."<br>";
-echo $process_ID;
-die();
-*/
-
-
-
-// Notify the admin
-if (getUserInfo()['email'] != "bilaltas@me.com" && getUserInfo()['email'] != "bill@twelve12.com") {
+// Revising Notification for the admin
+if ($userInfo['email'] != "bilaltas@me.com" && $userInfo['email'] != "bill@twelve12.com") {
 
 	Notify::ID(1)->mail(
-		getUserInfo()['fullName']." revising a page now.",
+		$userInfo['fullName']." revising a page now.",
 		"
 		<b>User Information</b> <br>
-		E-Mail: ".getUserInfo()['email']." <br>
-		Full Name: ".getUserInfo()['fullName']." <br>
-		Username: ".getUserInfo()['userName']." <br><br>
+		E-Mail: ".$userInfo['email']." <br>
+		Full Name: ".$userInfo['fullName']." <br>
+		Username: ".$userInfo['userName']." <br><br>
 
 
-		<b>Project Name:</b> <a href='".site_url('project/'.$project_ID)."'>".$projectInfo['project_name']."</a> <br>
+		<b>Project Name:</b> <a href='".site_url('project/'.$project_ID)."'>".$project['project_name']."</a> <br>
 		<b>Page Name:</b> <a href='".site_url('page/'.$page_ID)."'>".$page['page_name']."</a> <br>
 		<b>Device:</b> $screen_name: $width x $height <br>
 		"
@@ -436,6 +414,7 @@ $additionalBodyJS = [
 	'common.js',
 	'revise-page.js'
 ];
+
 
 
 // Generate new nonce for add new screens

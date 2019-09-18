@@ -1868,7 +1868,7 @@ function timeSince(date) {
 
 function assignDefault(variable, defaultValue) {
 
-	return (typeof variable !== 'undefined') ?  variable : defaultValue;
+	return (typeof variable !== 'undefined') ? ($.isNumeric(variable) ? parseInt(variable) : variable) : defaultValue;
 
 }
 

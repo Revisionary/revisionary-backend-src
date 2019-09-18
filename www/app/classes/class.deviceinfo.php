@@ -103,7 +103,7 @@ class Device {
 	    $phase_ID = $this->getInfo('phase_ID');
 	    $page_ID = Phase::ID($phase_ID)->getInfo('page_ID');
 
-	    $image_dir = Page::ID($page_ID)->getDir()."/screenshots/device-".self::$device_ID.".jpg";
+	    $image_dir = Page::ID($page_ID)->getDir()."/phase-$phase_ID/screenshots/device-".self::$device_ID.".jpg";
 
 		return $image_dir;
 
