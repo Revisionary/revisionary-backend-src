@@ -23,7 +23,7 @@ class Notification {
 
 
 	    // Set the notification ID
-		if ($notification_ID != null && is_numeric($notification_ID)) {
+		if (is_numeric($notification_ID)) {
 
 
 		    $db->where("notification_ID", $notification_ID);
@@ -80,7 +80,7 @@ class Notification {
 
     // Get the notifications HTML
     public function getHTML($offset = 0) {
-	    global $db;
+	    global $db, $log;
 
 
 		$notificationHTML = "";
@@ -104,7 +104,7 @@ class Notification {
 		// If there is no notifications
 		if ($notificationsCount == 0) {
 
-			$notificationHTML .= "<li>There's nothing to mention now. <br/>Your notifications will be here.</li>";
+			$notificationHTML .= "<li>There's nothing to mention now. <br>Your notifications will be here.</li>";
 
 		} else {
 
@@ -114,6 +114,7 @@ class Notification {
 
 
 		// List the notifications
+		$realNotificationsCount = 0;
 		foreach ($notifications as $notification) {
 
 
@@ -127,7 +128,7 @@ class Notification {
 			// Skip if the user not found
 			if (!$senderInfo) {
 
-				$notificationHTML .= '<li class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+				$notificationHTML .= '<li class="'.($notificationNew ? "new" : "").' xl-hidden" data-error="user-not-found" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
 
 				continue;
 			}
@@ -147,7 +148,7 @@ class Notification {
 				// Delete this notification !!! ???
 				// Notification::ID( $notification['notification_ID'] )->remove();
 
-				$notificationHTML .= '<li class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+				$notificationHTML .= '<li data-error="'.$object_type.'-'.$object_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
 
 				continue;
 			}
@@ -182,8 +183,8 @@ class Notification {
 
 				// Notification Content
 				$notificationHTML .= "
-							$sender_full_name ".$notification['notification']."<br/>
-							<div class='date'>".timeago($notification['notification_time'])."</div>
+					$sender_full_name ".$notification['notification']."<br>
+					<div class='date'>".timeago($notification['notification_time'])."</div>
 				";
 
 
@@ -205,7 +206,7 @@ class Notification {
 				$notificationHTML .= "
 
 					$sender_full_name shared a <b>$object_type</b> with you:
-					<span><a href='$object_link'><b>$object_name</b>$project_name</a></span><br/>
+					<span><a href='$object_link'><b>$object_name</b>$project_name</a></span><br>
 
 					<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -229,7 +230,7 @@ class Notification {
 				// Notification Content
 				$notificationHTML .= "
 
-					$sender_full_name unshared the <span><b>$object_name".$project_name."</b> $object_type</span> from you.</span><br/>
+					$sender_full_name unshared the <span><b>$object_name".$project_name."</b> $object_type</span> from you.</span><br>
 
 					<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -244,7 +245,24 @@ class Notification {
 				$pin_complete = $object_data->getInfo('pin_complete');
 				$phase_ID = $object_data->getInfo('phase_ID');
 
-				$page_ID = Phase::ID($phase_ID)->getInfo('page_ID');
+				$log->debug("TRYING TO GET PHASE #$phase_ID");
+
+				$phaseData = Phase::ID($phase_ID);
+
+				// Skip if the phase not found
+				if (!$phaseData) {
+
+					// Delete this notification !!! ???
+					// Notification::ID( $notification['notification_ID'] )->remove();
+
+					$notificationHTML .= '<li data-error="phase-'.$phase_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification['notification_ID'].'"></li>';
+
+					continue;
+				}
+
+
+
+				$page_ID = $phaseData->getInfo('page_ID');
 				$page_data = Page::ID($page_ID);
 				$page_name = $page_data->getInfo('page_name');
 
@@ -307,7 +325,7 @@ class Notification {
 						$sender_full_name wrote on a <a href='$object_link' data-go-pin='$object_ID'>$pin_type pin</a>:
 						<span class='wrap xl-table xl-middle'>
 							<a href='$object_link' data-go-pin='$object_ID'><span class='comment'>$notificationContent</span></a>
-						</span><br/>
+						</span><br>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -375,7 +393,7 @@ class Notification {
 					$notificationHTML .= "
 
 						$sender_full_name added a <b>new page</b>:
-						<span><a href='$object_link'><b>$object_name</b> [$project_name]</a></span><br/>
+						<span><a href='$object_link'><b>$object_name</b> [$project_name]</a></span><br>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -413,7 +431,7 @@ class Notification {
 					$notificationHTML .= "
 
 						$title
-						$content<br/>
+						$content<br>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -436,12 +454,27 @@ class Notification {
 
 			';
 
+		
+			$realNotificationsCount++;
+		
+		
 		}
 
 
 		// Load more link
 		if ( ($offset + $notificationsCount) < $totalNotifications ) {
 			$notificationHTML .= '<li class="more-notifications"><a href="#" data-offset="'.($offset + $notificationsCount).'">Load older notifications <i class="fa fa-level-down-alt"></i></a></li>';
+		}
+
+
+
+
+
+		// If there is no notifications
+		if ($realNotificationsCount == 0) {
+
+			$notificationHTML .= "<li>There's nothing to mention now. <br>Your notifications will be here.</li>";
+
 		}
 
 

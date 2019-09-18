@@ -1495,7 +1495,7 @@ class User {
     }
 
 
-    // Change Share Access !!!
+    // Change Share Access
     public function changeshareaccess(
 	    string $share_type,
 	    $shared_object_ID,
