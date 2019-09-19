@@ -302,7 +302,7 @@ class Page {
 	    string $column,
 	    $new_value
     ) {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -311,7 +311,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -352,7 +352,7 @@ class Page {
 
     // Archive a page
     public function archive() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -361,7 +361,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -384,7 +384,7 @@ class Page {
 
     // Delete a page
     public function delete() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -393,7 +393,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -416,7 +416,7 @@ class Page {
 
     // Recover a page
     public function recover() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -425,7 +425,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -460,7 +460,7 @@ class Page {
 
     // Remove a page
     public function remove() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -469,7 +469,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -534,7 +534,7 @@ class Page {
     public function rename(
 	    string $text
     ) {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -543,7 +543,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 

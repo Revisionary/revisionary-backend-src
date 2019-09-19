@@ -380,7 +380,7 @@ class Phase {
 
     // Remove a phase
     public function remove() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -401,7 +401,7 @@ class Phase {
 
 
 
-    	if ( !User::ID()->canAccess( self::$phase_ID, 'phase') ) return false;
+    	if ( !$User->canAccess( self::$phase_ID, 'phase') ) return false;
 
 
 

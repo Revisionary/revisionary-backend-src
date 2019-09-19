@@ -301,7 +301,7 @@ class Project {
 	    string $column,
 	    $new_value
     ) {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -310,7 +310,7 @@ class Project {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -333,7 +333,7 @@ class Project {
 
     // Archive a project
     public function archive() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -342,7 +342,7 @@ class Project {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -364,7 +364,7 @@ class Project {
 
     // Delete a project
     public function delete() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -373,7 +373,7 @@ class Project {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -395,7 +395,7 @@ class Project {
 
     // Recover a project
     public function recover() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -404,7 +404,7 @@ class Project {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -439,7 +439,7 @@ class Project {
 
     // Remove a project
     public function remove() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -448,7 +448,7 @@ class Project {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -505,7 +505,7 @@ class Project {
     public function rename(
 	    string $text
     ) {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -514,7 +514,7 @@ class Project {
 
 
 		// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 

@@ -5,11 +5,12 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 // Set the process ID to check
 $process = BackgroundProcess::createFromPID( request('processID') );
 $phase_ID = intval(request('phase_ID'));
-$queue_ID = intval(request('queue_ID'));
+$queue_ID = request('queue_ID');
 
 
 // Get the page data
 $phaseData = Phase::ID($phase_ID);
+if ($phaseData) return;
 
 
 // STATUS CHECK

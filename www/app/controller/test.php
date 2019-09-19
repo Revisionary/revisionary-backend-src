@@ -1,12 +1,10 @@
 <pre>
 <?php
-
-
-var_dump( Phase::ID(54) );
+//$cache->flush();
 
 
 echo "
-<details open>
+<details>
 	<summary><h2 style='display: inline;'>CACHES (".count($cache->getAllKeys()).")</h2></summary>";
 echo "<p style='padding-left: 20px;'>Array <br>(<br>";
 $count = 0;
@@ -244,7 +242,7 @@ exit;
 */
 
 /*
-var_dump( User::ID()->canAccess(23, "device") );
+var_dump( $User->canAccess(23, "device") );
 exit;
 */
 
@@ -262,7 +260,7 @@ exit;
 
 
 
-$notifications = User::ID()->getNotifications();
+$notifications = $User->getNotifications();
 die_to_print($db->totalCount);
 
 var_dump( $notifications );
@@ -283,7 +281,7 @@ exit;
 */
 
 /*
-$parsed_url = User::ID()->getNotifications();
+$parsed_url = $User->getNotifications();
 die_to_print( $parsed_url );
 */
 
@@ -292,7 +290,7 @@ die_to_print( $parsed_url );
 //echo Project::ID(6)->getInfo('user_ID');
 
 /*
-$the_user = User::ID();
+$the_user = $User;
 
 print_r($the_user);
 

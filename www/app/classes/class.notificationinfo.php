@@ -25,6 +25,7 @@ class Notification {
 	    // Set the notification ID
 		if (is_numeric($notification_ID)) {
 
+			$notification_ID = intval($notification_ID);
 
 		    $db->where("notification_ID", $notification_ID);
 			$notificationInfo = $db->getOne("notifications");
@@ -51,7 +52,7 @@ class Notification {
 
 
 	    // For the new notification
-		if ($notification_ID == "new" || $notification_ID == 0) {
+		if ($notification_ID === null || $notification_ID == "new") {
 
 			self::$notification_ID = "new";
 			return new static;

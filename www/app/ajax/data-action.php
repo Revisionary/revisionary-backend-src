@@ -11,8 +11,8 @@ $status = "initiated";
 
 // Global Vars
 $type = ucfirst(request('data-type'));
-$action = request('action');
 $id = is_numeric(request('id')) ? intval(request('id')) : request('id');
+$action = request('action');
 $first_parameter = request('firstParameter');
 $second_parameter = request('secondParameter');
 $third_parameter = request('thirdParameter');

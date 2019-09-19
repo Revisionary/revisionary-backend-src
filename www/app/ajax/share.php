@@ -91,7 +91,7 @@ $objectInfo = $object->getInfo();
 
 
 // Do I access this object?
-if ( ! User::ID()->canAccess($object_ID, $type) ) {
+if ( ! $User->canAccess($object_ID, $type) ) {
 
 	$data['status'] = "no-access";
 

@@ -103,10 +103,6 @@ class User {
 			$db->orderBy("cat.cat_order_number", "asc");
 
 
-			// Order Categories
-			//if ($order == "name" || $order == "date") $db->orderBy("cat.cat_name", "asc");
-
-
 			// GET THE DATA
 			$categories = $db->get("projects_categories cat", null, '');
 
@@ -328,10 +324,6 @@ class User {
 
 			// Default order
 			$db->orderBy("cat.cat_order_number", "asc");
-
-
-			// Order Categories
-			//if ($order == "name" || $order == "date") $db->orderBy("cat.cat_name", "asc");
 
 
 			// GET THE DATA
@@ -920,8 +912,8 @@ class User {
 
 		// List the notifications
 		$realNotificationsCount = 0;
-		$notificationRow = "";
 		foreach ($notifications as $notification) {
+			$notificationRow = "";
 
 			$notification_ID = $notification['notification_ID'];
 			$notification_type = $notification['notification_type'];
@@ -935,7 +927,7 @@ class User {
 			// Skip if the user not found
 			if (!$senderInfo) {
 
-				$notificationRow = '<li class="'.($notificationNew ? "new" : "").' xl-hidden" data-error="user-not-found" data-type="notification" data-id="'.$notification_ID.'"></li>';
+				$notificationHTML .= '<li class="'.($notificationNew ? "new" : "").' xl-hidden" data-error="user-not-found" data-type="notification" data-id="'.$notification_ID.'"></li>';
 
 				continue;
 			}
@@ -949,16 +941,11 @@ class User {
 			$object_data = ucfirst($object_type)::ID($object_ID);
 			$objectFound = $object_data ? "yes" : "no";
 
-			$notificationRow .= "<li>#$notification_ID | Type: $notification_type | Object ID: $object_ID | Object Found: $objectFound | New: $notificationNew | Content: $notificationContent</li>";
-			continue;
 
 			// Skip if the object not found
 			if (!$object_data) {
 
-				// Delete this notification !!! ???
-				// Notification::ID( $notification_ID )->remove();
-
-				$notificationRow = '<li data-error="'.$object_type.'-'.$object_ID.'-not-found" data-notification-type="'.$notification_type.'" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
+				$notificationHTML .= "<li data-id='$notification_ID' data-type='notification' data-error='$object_type-$object_ID-not-found' data-notification-type='$notification_type' class='".($notificationNew ? "new" : "")." xl-hidden'></li> \n";
 
 				continue;
 			}
@@ -968,11 +955,10 @@ class User {
 			$object_link = site_url("$object_type/$object_ID");
 
 
-			$notificationRow = '
+			// Open the list
+			$notificationRow = "<li data-id='$notification_ID' data-type='notification' class='".($notificationNew ? "new" : "")."'>";
 
-			<li class="'.($notificationNew ? "new" : "").'" data-type="notification" data-id="'.$notification_ID.'">';
-
-
+			// Add user info
 			$notificationRow .= '
 
 				<div class="wrap xl-table xl-middle">
@@ -984,6 +970,10 @@ class User {
 					</div>
 					<div class="col content">
 			';
+
+
+			// $notificationHTML .= "<li data-id='$notification_ID' data-type='notification'>#$notification_ID($realNotificationsCount) | Type: $notification_type | Object Type: $object_type($object_ID) | Object Found: $objectFound | New: $notificationNew | Content: $notificationContent</li> \n";
+			// continue;
 
 
 			// NOTIFICATION TYPES
@@ -1059,10 +1049,7 @@ class User {
 				// Skip if the phase not found
 				if (!$phaseData) {
 
-					// Delete this notification !!! ???
-					// Notification::ID( $notification_ID )->remove();
-
-					$notificationRow = '<li data-error="phase-'.$phase_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
+					$notificationHTML .= '<li data-error="phase-'.$phase_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
 
 					continue;
 				}
@@ -1073,10 +1060,7 @@ class User {
 				// Skip if the page not found
 				if (!$page_data) {
 
-					// Delete this notification !!! ???
-					// Notification::ID( $notification_ID )->remove();
-
-					$notificationRow = '<li data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
+					$notificationHTML .= '<li data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
 
 					continue;
 				}
@@ -1088,10 +1072,7 @@ class User {
 				// Skip if the page not found
 				if (!$project_data) {
 
-					// Delete this notification !!! ???
-					// Notification::ID( $notification_ID )->remove();
-
-					$notificationRow = '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
+					$notificationHTML .= '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
 
 					continue;
 				}
@@ -1202,7 +1183,7 @@ class User {
 
 				} else {
 
-					$notificationRow .= "teesst";
+					$notificationRow .= "Notification";
 
 				}
 
@@ -1222,13 +1203,11 @@ class User {
 					// Skip if the page not found
 					if (!$project_data) {
 	
-						// Delete this notification !!! ???
-						// Notification::ID( $notification_ID )->remove();
-	
-						$notificationRow = '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
+						$notificationHTML .= '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
 	
 						continue;
 					}
+
 					$project_name = $project_data->getInfo('project_name');
 
 
@@ -1255,10 +1234,7 @@ class User {
 					// Skip if the page not found
 					if (!$page_data) {
 	
-						// Delete this notification !!! ???
-						// Notification::ID( $notification_ID )->remove();
-	
-						$notificationRow = '<li data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
+						$notificationHTML .= '<li data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
 	
 						continue;
 					}
@@ -1267,11 +1243,8 @@ class User {
 					$project_ID = $page_data->getInfo('project_ID');
 					$project_data = Project::ID($project_ID);
 
-					// Skip if the page not found
+					// Skip if the project not found
 					if (!$project_data) {
-	
-						// Delete this notification !!! ???
-						// Notification::ID( $notification_ID )->remove();
 	
 						$notificationRow = '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' xl-hidden" data-type="notification" data-id="'.$notification_ID.'"></li>';
 	
@@ -1309,7 +1282,7 @@ class User {
 
 				else {
 
-					$notificationRow .= "TEST";
+					$notificationRow .= "Notification";
 	
 				}
 
@@ -1317,43 +1290,39 @@ class User {
 
 			} else {
 
-				$notificationRow .= "TEST2";
+				$notificationHTML .= "Notification";
 
 			}
 
 
+			// Close the list
+			$notificationRow .= "</div></div></li> \n";
 
-			$notificationRow .= '
-					</div>
-				</div>
 
-			</li>
-
-			';
+			// Add to the real list
+			$notificationHTML .= $notificationRow;
 
 		
+			// Count the shown notifications
 			$realNotificationsCount++;
 		
 		
 		}
 
 
-		$notificationHTML .= $notificationRow;
-
-
-		// // Load more link
-		// if ( ($offset + $notificationsCount) < $totalNotifications ) {
-		// 	$notificationHTML .= '<li class="more-notifications"><a href="#" data-offset="'.($offset + $notificationsCount).'">Load older notifications <i class="fa fa-level-down-alt"></i></a></li>';
-		// }
+		// Load more link
+		if ( ($offset + $notificationsCount) < $totalNotifications ) {
+			$notificationHTML .= '<li class="more-notifications"><a href="#" data-offset="'.($offset + $notificationsCount).'">Load older notifications <i class="fa fa-level-down-alt"></i></a></li>';
+		}
 
 
 
-		// // If there is no notifications
-		// if ($realNotificationsCount == 0) {
+		// If there is no notifications
+		if ($realNotificationsCount == 0) {
 
-		// 	$notificationHTML .= "<li>There's nothing to mention now. <br>Your notifications will be here.</li>";
+			$notificationHTML .= "<li>There's nothing to mention now. <br>Your notifications will be here.</li>";
 
-		// }
+		}
 
 
 		return $notificationHTML;

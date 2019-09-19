@@ -29,7 +29,7 @@ $page_ID = $_url[1];
 
 
 // All my pages
-$allMyPages = User::ID()->getMy('pages');
+$allMyPages = $User->getMy('pages');
 $allMyPages = categorize($allMyPages, 'page', true);
 //die_to_print($allMyPages);
 

@@ -8,7 +8,7 @@ $status = "initiated";
 
 
 // If not logged in
-if ( !userLoggedIn() ) {
+if ( !$User ) {
 
 	$status = "not-logged-in";
 
@@ -39,7 +39,7 @@ $offset = request("offset");
 
 
 
-$notifications = User::ID()->getNotificationsHTML($offset);
+$notifications = $User->getNotificationsHTML($offset);
 if ($notifications) $status = "success";
 
 
