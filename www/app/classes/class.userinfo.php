@@ -1769,9 +1769,7 @@ class User {
 				!is_numeric( $data['ID'] ) ||
 				!is_numeric( $data['catID'] ) ||
 				!is_numeric( $data['order'] )
-			) {
-				return false;
-			}
+			) return false;
 
 			$ID = intval($data['ID']);
 			$cat_ID = intval($data['catID']);
@@ -1903,13 +1901,19 @@ class User {
     ) {
 		global $db, $log, $cache;
 
-
 	    // Check the ownership
-	    $objectData = ucfirst($share_type)::ID($shared_object_ID, self::$user_ID);
+		$sharedUserID = self::$user_ID;
+		$objectData = ucfirst($share_type)::ID($shared_object_ID, currentUserID());
+		if (!$objectData) return false;
+		self::$user_ID = $sharedUserID;
+
+
 		$object_user_ID = $objectData->getInfo('user_ID');
 		$objectName = $objectData->getInfo($share_type.'_name');
 
+
 		//$log->debug("UNSHARE: \$share_type: $share_type->$objectName | \$shared_object_ID: $shared_object_ID | \$object_user_ID: $object_user_ID | \$User ID: ".self::$user_ID);
+
 
 	    $iamowner = $object_user_ID == currentUserID();
 	    $iamshared = self::$user_ID == currentUserID();
@@ -1975,8 +1979,10 @@ class User {
 
 
 	    // Check the ownership
-		$objectData = ucfirst($share_type)::ID($shared_object_ID, self::$user_ID);
+		$sharedUserID = self::$user_ID;
+		$objectData = ucfirst($share_type)::ID($shared_object_ID, currentUserID());
 		if (!$objectData) return false;
+		self::$user_ID = $sharedUserID;
 
 	    $objectInfo = $objectData->getInfo();
 	    $object_user_ID = $objectInfo['user_ID'];
@@ -2001,7 +2007,6 @@ class User {
 			$new_share_type = "page";
 
 		}
-
 
 
 		// Remove share from DB
@@ -2034,17 +2039,20 @@ class User {
     // Make owner
     public function makeownerof(
 	    string $data_type,
-	    $object_ID
+	    int $object_ID
     ) {
 		global $db, $log, $cache;
 
 
-		$object_ID = is_numeric($object_ID) ? intval($object_ID) : $object_ID;
+		if ( !is_int(self::$user_ID) ) return false;
 
 
 		// Is object exist
-		$object = ucfirst($data_type)::ID($object_ID, self::$user_ID);
-		if (!$object) return false;
+		$sharedUserID = self::$user_ID;
+		$objectData = ucfirst($data_type)::ID($object_ID, currentUserID());
+		if (!$objectData) return false;
+		self::$user_ID = $sharedUserID;
+
 
 
 		// Remove me from the shares
@@ -2056,7 +2064,7 @@ class User {
 
 		// Make me owner
 		$made_owner = false;
-		if ($deleted) $made_owner = $object->changeownership(self::$user_ID);
+		if ($deleted) $made_owner = $objectData->changeownership(self::$user_ID);
 
 
 		// Site log

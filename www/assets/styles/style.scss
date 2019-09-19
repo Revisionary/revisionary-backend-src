@@ -3127,6 +3127,14 @@ input.share-email {
 
 		}
 
+		&[data-confirmed="no"] {
+
+			.hide-if-not-confirmed {
+				display: none;
+			}
+
+		}
+
 		&[data-iamowner="yes"] {
 
 			[data-my-share="no"] {
@@ -3231,6 +3239,14 @@ input.share-email {
 
 			.change-access {
 				display: inline-block;
+			}
+
+		}
+
+		&[data-confirmed="no"] {
+
+			.hide-if-not-confirmed {
+				display: none;
 			}
 
 		}

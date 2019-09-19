@@ -1613,7 +1613,7 @@ function boxMemberTemplate(mStatus, email, fullName, nameAbbr, userImageUrl, use
 
 function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, dataType, type, currentUserId, sharer_user_ID, object_ID, page_ID) {
 
-	console.log(email, dataType);
+	//console.log(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, dataType, type, currentUserId, sharer_user_ID, object_ID, page_ID);
 
 	var printPicture = userImageUrl != null ? "style='background-image: url("+ userImageUrl +")'" : "";
 
@@ -1624,7 +1624,7 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 
 
 	return '\
-		<li class="wrap xl-flexbox xl-middle xl-gutter-16 member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-second-parameter="'+ object_ID +'" data-third-parameter="'+ page_ID +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'">\
+		<li class="wrap xl-flexbox xl-middle xl-gutter-16 member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-second-parameter="'+ object_ID +'" data-third-parameter="'+ page_ID +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'" data-confirmed="'+ ( email != "Not confirmed yet" ? "yes" : "no" ) +'">\
 			<div class="col xl-8-12">\
 				<div class="wrap xl-flexbox xl-middle xl-gutter-8">\
 					<div class="col xl-2-12">\
@@ -1644,7 +1644,7 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 				<ul class="no-delay right selectable change-access">\
 					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +' hide-if-me"><a href="#" data-action="changeshareaccess">THIS '+dataType+'</a></li>\
 					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +' hide-if-me hide-when-project" data-action="changeshareaccess"><a href="#">WHOLE PROJECT</a></li>\
-					<li class="'+ ( mStatus == "owner" ? "selected" : "" ) +' hide-if-not-owner"><a href="#" data-action="makeownerof" data-confirm="Are you sure you want to make this user owner of this '+dataType+'?">'+dataType+' OWNER</a></li>\
+					<li class="'+ ( mStatus == "owner" ? "selected" : "" ) +' hide-if-not-owner hide-if-not-confirmed"><a href="#" data-action="makeownerof" data-confirm="Are you sure you want to make this user owner of this '+dataType+'?">'+dataType+' OWNER</a></li>\
 					<li><a href="#" data-action="unshare" data-confirm="Are you sure you want to remove access for this user?">REMOVE ACCESS</a></li>\
 				</ul>\
 			</div>\
