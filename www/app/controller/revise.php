@@ -134,7 +134,7 @@ $allMyProjects = $User->getProjects();
 // SCREEN INFO
 
 // Get screen ID
-$screenID = $device['screen_ID'];
+$screen_ID = $device['screen_ID'];
 
 // Get the screen sizes
 $width = $device['device_width'] ? $device['device_width'] : $device['screen_width'];
