@@ -1901,7 +1901,7 @@ class User {
 	    string $share_type,
 	    int $shared_object_ID
     ) {
-		global $db, $log;
+		global $db, $log, $cache;
 
 
 	    // Check the ownership
@@ -1945,6 +1945,10 @@ class User {
 			);
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag(['pages', 'projects']);
+
+
 			// Site log
 			$log->info("User #".self::$user_ID." Unshared: $share_type #$shared_object_ID | Username '".$this->getInfo('user_name')."' | Email '".$this->getInfo('user_email')."'");
 
@@ -1963,7 +1967,7 @@ class User {
 	    $shared_object_ID,
 	    $new_shared_object_ID = null
     ) {
-		global $db, $log;
+		global $db, $log, $cache;
 
 
 		$shared_object_ID = is_numeric($shared_object_ID) ? intval($shared_object_ID) : $shared_object_ID;
@@ -2013,6 +2017,10 @@ class User {
 		));
 
 
+		// INVALIDATE THE CACHES
+		if ($changed) $cache->deleteKeysByTag(['pages', 'projects']);
+
+
 		// Site log
 		if ($changed) $log->info("User #".self::$user_ID." Share Access Changed: '$share_type => $new_share_type' | '#$shared_object_ID => #$new_shared_object_ID' | Username '".$this->getInfo('user_name')."' | Email '".$this->getInfo('user_email')."'");
 
@@ -2028,7 +2036,7 @@ class User {
 	    string $data_type,
 	    $object_ID
     ) {
-		global $db, $log;
+		global $db, $log, $cache;
 
 
 		$object_ID = is_numeric($object_ID) ? intval($object_ID) : $object_ID;
@@ -2053,6 +2061,10 @@ class User {
 
 		// Site log
 		if ($made_owner) $log->info("User #".self::$user_ID." has became owner of: ".ucfirst($data_type)." #$object_ID | Username '".$this->getInfo('user_name')."' | Email '".$this->getInfo('user_email')."'");
+
+
+		// INVALIDATE THE CACHES
+		if ($made_owner) $cache->deleteKeysByTag(['pages', 'projects']);
 
 
 
