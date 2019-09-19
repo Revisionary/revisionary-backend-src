@@ -8,14 +8,14 @@ $status = "initiated";
 
 
 // Get the pin info
-$pin_ID = request('pin_ID');
 $message = trim(request('message'));
 $newPin = request('newPin') == "yes" ? "yes" : "no";
 
 
-// Are they numbers?
-if ( !is_numeric($pin_ID) || empty($message) )
-	return;
+// Pin ID validation
+if ( !is_numeric(request('pin_ID')) || empty($message) ) return;
+$pin_ID = intval(request('pin_ID'));
+
 
 
 // DO THE SECURITY CHECKS !!!

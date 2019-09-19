@@ -45,7 +45,6 @@
 				<?php
 				} else {
 
-					//$notification_count = Notification::ID()->getCount();
 					$notification_count = 0;
 
 				?>

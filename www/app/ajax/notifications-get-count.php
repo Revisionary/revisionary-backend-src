@@ -24,7 +24,7 @@ if ( !userLoggedIn() ) {
 
 
 
-$count = Notification::ID()->getCount();
+$count = User::ID()->getNotificationsCount();
 $status = $count > 0 ? "new-notifications" : "no-new";
 
 

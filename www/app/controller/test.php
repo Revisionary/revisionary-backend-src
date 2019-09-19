@@ -40,6 +40,14 @@ if ($user) {
 	</details>";
 
 
+	// NOTIFICATIONS
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>NOTIFICATIONS (".$user->getNotifications()['totalCount'].")</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getNotifications()['notifications'], true )."</p>
+	</details>";
+
+
 	// PROJECT CATEGORIES
 	echo "
 	<details>

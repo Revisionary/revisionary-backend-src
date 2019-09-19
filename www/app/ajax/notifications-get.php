@@ -22,11 +22,8 @@ if ( !userLoggedIn() ) {
 }
 
 
-$offset = request("offset");
-
-
 // Offset numerical?
-if ( !is_numeric($offset) || $offset < 0 ) {
+if ( !is_numeric(request("offset")) || request("offset") < 0 ) {
 
 	$status = "wrong-offset";
 
@@ -38,10 +35,11 @@ if ( !is_numeric($offset) || $offset < 0 ) {
 	)));
 
 }
+$offset = request("offset");
 
 
 
-$notifications = Notification::ID()->getHTML($offset);
+$notifications = User::ID()->getNotificationsHTML($offset);
 if ($notifications) $status = "success";
 
 

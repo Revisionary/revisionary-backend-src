@@ -17,10 +17,6 @@ class Pin {
 	// SETTERS:
 
 	public function __construct() {
-		global $log;
-
-		$log->debug("REGISTERING: ", self::$pinInfo);
-
 
 		$this->phase_ID = self::$pinInfo['phase_ID'];
 		$this->phaseData = Phase::ID( $this->phase_ID );

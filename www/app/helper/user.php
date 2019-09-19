@@ -104,7 +104,7 @@ function getUserInfo($user_ID = false) {
 
 
 	// Get user information
-	$userInfo = User::ID($user_ID)->getInfo();
+	$userInfo = getUserInfoDB($user_ID);
 	if ( !$userInfo ) return false;
 
 
