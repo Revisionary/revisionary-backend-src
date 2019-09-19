@@ -72,7 +72,7 @@ class Phase {
 
 
 	    // If specific phase
-		if ( is_int($phase_ID) ) {
+		if ( is_int($phase_ID) || is_numeric($phase_ID) ) {
 
 
 			$phases = User::ID($user_ID)->getPhases();

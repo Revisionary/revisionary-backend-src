@@ -7,24 +7,22 @@ $status = "initiated";
 // if ( request("nonce") !== $_SESSION["pin_nonce"] ) return;
 
 
-// Get the pin info
-$pin_ID = request('pin_ID');
-$device_ID = request('device_ID');
-
-
-// Are they numbers?
-if ( !is_numeric($pin_ID) || !is_numeric($device_ID) )
-	return;
+// Validation
+if ( !is_numeric(request('pin_ID')) || !is_numeric(request('device_ID')) ) return;
+$pin_ID = intval(request('pin_ID'));
+$device_ID = intval(request('device_ID'));
 
 
 // DO THE SECURITY CHECKS!
 // a. Current user can edit this pin?
 
 
+$pinData = Pin::ID($pin_ID);
+if (!$pinData) return;
+
 
 // Update the pin
-$pin_updated = Pin::ID($pin_ID)->deviceSpecific($device_ID);
-
+$pin_updated = $pinData->deviceSpecific($device_ID);
 if ($pin_updated) $status = "Pin #$pin_ID made only for Device #$device_ID";
 
 

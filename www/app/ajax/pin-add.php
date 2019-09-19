@@ -7,20 +7,30 @@ $status = "initiated";
 // if ( request("nonce") !== $_SESSION["pin_nonce"] ) return;
 
 
+// Are they numbers?
+if ( 
+	!is_numeric(request('pin_phase_ID')) 
+	|| !is_numeric(request('pin_device_ID'))
+	|| !is_numeric(request('pin_x'))
+	|| !is_numeric(request('pin_y'))
+	|| !is_numeric(request('pin_element_index'))
+) return;
+
 // Get the pin info
 $pin_phase_ID = intval(request('pin_phase_ID'));
 $pin_device_ID = intval(request('pin_device_ID'));
-$pin_type = request('pin_type');
-$pin_private = boolval(request('pin_private'));
 $pin_x = floatval(request('pin_x'));
 $pin_y = floatval(request('pin_y'));
-$pin_element_index = request('pin_element_index');
+$pin_element_index = intval(request('pin_element_index'));
+
+
+// Pin type validation
+if ( request('pin_type') != "standard" && request('pin_type') != "live" ) return;
+$pin_type = request('pin_type');
+
+
+$pin_private = boolval(request('pin_private'));
 $pin_modification_type = request('pin_modification_type') == "{%null%}" ? null : request('pin_modification_type');
-
-
-// Are they numbers?
-if ( !is_numeric($pin_device_ID) || is_numeric($pin_type) || !is_numeric($pin_y) )
-	return;
 
 
 // DO THE SECURITY CHECKS !!!
@@ -29,7 +39,7 @@ if ( !is_numeric($pin_device_ID) || is_numeric($pin_type) || !is_numeric($pin_y)
 
 
 // Add the pin
-$pin_ID = Pin::ID()->addNew(
+$pin_ID = Pin::ID('new')->addNew(
 	$pin_phase_ID,
 	$pin_type,
 	$pin_private,

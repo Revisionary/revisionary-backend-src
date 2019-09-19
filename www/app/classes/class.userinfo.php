@@ -1911,8 +1911,9 @@ class User {
 
 	    // Check the ownership
 	    $objectData = ucfirst($share_type)::ID($shared_object_ID);
-	    $object_user_ID = $objectData->getInfo('user_ID');
-	    $objectName = $objectData->getInfo($share_type.'_name');
+		$object_user_ID = $objectData->getInfo('user_ID');
+		$objectName = $objectData->getInfo($share_type.'_name');
+
 	    $iamowner = $object_user_ID == currentUserID();
 	    $iamshared = self::$user_ID == currentUserID();
 

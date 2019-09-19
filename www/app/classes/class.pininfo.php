@@ -36,7 +36,7 @@ class Pin {
 
 
 	    // Set the pin ID
-		if (is_int($pin_ID)) {
+		if (is_int($pin_ID) || is_numeric($pin_ID)) {
 
 
 			// Bring the user level info
@@ -56,7 +56,7 @@ class Pin {
 
 
 	    // For the new pin
-		if ($pin_ID = null || $pin_ID == "new" || $pin_ID == 0) {
+		if ($pin_ID = null || $pin_ID == "new") {
 
 			self::$pin_ID = "new";
 			return new static;

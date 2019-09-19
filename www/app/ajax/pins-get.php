@@ -7,17 +7,14 @@ $status = "initiated";
 // if ( request("nonce") !== $_SESSION["pin_nonce"] ) return;
 
 
+// Validation
+if ( !is_numeric(request('phase_ID')) || !is_numeric(request('device_ID')) ) return;
+
+
 // Get the pin info
 $phase_ID = request('phase_ID');
 $device_ID = request('device_ID');
 $pins = array();
-
-
-
-// Are they numbers?
-if ( !is_numeric($device_ID) )
-	return;
-
 
 
 // If not logged in
@@ -35,7 +32,6 @@ else {
 	$status = $pins ? "Pins received" : "No Pins Found";
 
 }
-
 
 
 // CREATE THE RESPONSE

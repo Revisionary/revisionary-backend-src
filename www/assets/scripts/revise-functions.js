@@ -14,7 +14,7 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 	// Get the up-to-date pins
 	var statusCheckRequest = ajax('internalize-status',
 	{
-		'phase_ID'	: phase_ID,
+		'phase_ID'		: phase_ID,
 		'page_ID'		: page_ID,
 		'queue_ID'		: queue_ID,
 		'processID'		: processID

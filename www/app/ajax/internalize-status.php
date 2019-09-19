@@ -2,15 +2,22 @@
 use Cocur\BackgroundProcess\BackgroundProcess;
 
 
+// Validate phase_ID
+if ( !is_numeric(request('phase_ID')) ) return;
+$phase_ID = intval(request('phase_ID'));
+
+
+// Get queue_ID if exists
+$queue_ID = is_numeric(request('queue_ID')) ? intval(request('queue_ID')) : false;
+
+
 // Set the process ID to check
 $process = BackgroundProcess::createFromPID( request('processID') );
-$phase_ID = intval(request('phase_ID'));
-$queue_ID = request('queue_ID');
 
 
 // Get the page data
 $phaseData = Phase::ID($phase_ID);
-if ($phaseData) return;
+if (!$phaseData) return;
 
 
 // STATUS CHECK
@@ -19,7 +26,7 @@ if ( $process->isRunning() )
 	$status = 'running';
 
 // If not running
-elseif ( is_numeric($queue_ID) ) {
+elseif ( !$queue_ID ) {
 
 
 	// Logger

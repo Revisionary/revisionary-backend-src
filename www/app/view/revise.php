@@ -2,11 +2,11 @@
 
 <script>
 
-	user_ID = '<?=currentUserID()?>';
-	project_ID = '<?=$project_ID?>';
-	page_ID = '<?=$page_ID?>';
-	phase_ID = '<?=$phase_ID?>';
-	device_ID = '<?=$device_ID?>';
+	user_ID = <?=currentUserID()?>;
+	project_ID = <?=$project_ID?>;
+	page_ID = <?=$page_ID?>;
+	phase_ID = <?=$phase_ID?>;
+	device_ID = <?=$device_ID?>;
 	remote_URL = '<?=$phaseData->remoteUrl?>';
 
 </script>

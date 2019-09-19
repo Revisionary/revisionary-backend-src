@@ -7,14 +7,13 @@ $status = "initiated";
 // if ( request("nonce") !== $_SESSION["pin_nonce"] ) return;
 
 
+// Validation
+if ( !is_numeric(request('pin_ID')) || !is_array(request('css')) ) return;
+
+
 // Get the pin info
-$pin_ID = request('pin_ID');
+$pin_ID = intval(request('pin_ID'));
 $css = request('css');
-
-
-
-// Are they numbers?
-if ( !is_numeric($pin_ID) || !is_array($css) ) return;
 
 
 
@@ -211,8 +210,13 @@ if (empty($css_code)) $css_code = null;
 
 
 
+$pinData = Pin::ID($pin_ID);
+if (!$pinData) return;
+
+
+
 // Update the pin
-$pin_updated = Pin::ID($pin_ID)->updateCSS($css_code);
+$pin_updated = $pinData->updateCSS($css_code);
 
 if ($pin_updated) $status = "Pin Updated: $pin_ID";
 else $status = "error";

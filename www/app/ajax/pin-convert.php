@@ -7,29 +7,31 @@ $status = "initiated";
 // if ( request("nonce") !== $_SESSION["pin_nonce"] ) return;
 
 
+// Check the values
+if (
+	!is_numeric(request('pin_ID')) ||
+	(request('pin_type') != "standard" && request('pin_type') != "live" ) ||
+	(request('pin_private') != '0' && request('pin_private') != '1' )
+)
+	return;
+
+
 // Get the pin info
 $pin_ID = intval(request('pin_ID'));
 $pin_type = request('pin_type');
 $pin_private = request('pin_private');
 
 
-// Check the values
-if (
-	!is_numeric($pin_ID) ||
-	($pin_type != "standard" && $pin_type != "live" ) ||
-	($pin_private != '0' && $pin_private != '1' )
-)
-	return;
-
-
-
 // DO THE SECURITY CHECKS !!!
 // a. Current user can add this pin?
 
 
+$pinData = Pin::ID($pin_ID);
+if (!$pinData) return;
+
 
 // Add the pin
-$converted = Pin::ID($pin_ID)->convert($pin_type, $pin_private);
+$converted = $pinData->convert($pin_type, $pin_private);
 if ($converted) $status = "Converted #$pin_ID to $pin_type, $pin_private";
 
 
