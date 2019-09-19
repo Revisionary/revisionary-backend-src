@@ -17,6 +17,9 @@ $first_parameter = request('firstParameter');
 $second_parameter = request('secondParameter');
 $third_parameter = request('thirdParameter');
 
+// $first_parameter = is_numeric(request('firstParameter')) ? intval(request('firstParameter')) : request('firstParameter');
+// $second_parameter = is_numeric(request('secondParameter')) ? intval(request('secondParameter')) : request('secondParameter');
+// $third_parameter = is_numeric(request('thirdParameter')) ? intval(request('thirdParameter')) : request('thirdParameter');
 
 
 // Security Check !!!

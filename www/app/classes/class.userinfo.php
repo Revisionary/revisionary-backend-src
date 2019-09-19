@@ -19,7 +19,7 @@ class User {
 
 	// ID Setter
     public static function ID($user_ID = null, bool $nocache = false) {
-	    global $db, $cache, $log;
+	    global $db, $cache;
 
 
 		// Use current user ID if not specified
@@ -33,11 +33,6 @@ class User {
 			if ( !self::$userInfo) return false;
 
 			self::$user_ID = $user_ID;
-
-
-			//if ($nocache) $log->debug("HEYYY: User #".self::$user_ID." Username '".self::$userInfo['user_name']."' | Email '".self::$userInfo['user_email']."'");
-
-
 			return new static;
 
 		}
@@ -938,7 +933,7 @@ class User {
 			// Object Info
 			$object_ID = is_numeric($notification['object_ID']) ? intval($notification['object_ID']) : $notification['object_ID'];
 			$object_type = $notification['object_type'];
-			$object_data = ucfirst($object_type)::ID($object_ID);
+			$object_data = ucfirst($object_type)::ID($object_ID, self::$user_ID);
 			$objectFound = $object_data ? "yes" : "no";
 
 
@@ -1617,7 +1612,7 @@ class User {
 
 		if (class_exists($object_type)) {
 
-			$typeApi = $object_type::ID($object_ID);
+			$typeApi = $object_type::ID($object_ID, self::$user_ID);
 
 			if (method_exists($typeApi, 'getUsers') && $typeApi) {
 
@@ -1906,13 +1901,15 @@ class User {
 	    string $share_type,
 	    int $shared_object_ID
     ) {
-	    global $db, $log;
+		global $db, $log;
 
 
 	    // Check the ownership
-	    $objectData = ucfirst($share_type)::ID($shared_object_ID);
+	    $objectData = ucfirst($share_type)::ID($shared_object_ID, self::$user_ID);
 		$object_user_ID = $objectData->getInfo('user_ID');
 		$objectName = $objectData->getInfo($share_type.'_name');
+
+		//$log->debug("UNSHARE: \$share_type: $share_type->$objectName | \$shared_object_ID: $shared_object_ID | \$object_user_ID: $object_user_ID | \$User ID: ".self::$user_ID);
 
 	    $iamowner = $object_user_ID == currentUserID();
 	    $iamshared = self::$user_ID == currentUserID();
@@ -1921,7 +1918,7 @@ class User {
 		// Remove share from DB
 		$db->where('share_type', $share_type);
 		$db->where('shared_object_ID', $shared_object_ID);
-		$db->where('share_to', self::$user_ID);
+		$db->where('share_to', strval(self::$user_ID));
 
 		if (!$iamowner && !$iamshared) $db->where('sharer_user_ID', currentUserID());
 

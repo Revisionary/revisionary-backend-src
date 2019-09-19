@@ -226,7 +226,7 @@ if ($share_ID) { // If successful
 
 
 		$object_link = site_url($type.'/'.$object_ID);
-		$objectData = ucfirst($type)::ID($object_ID);
+		$objectData = ucfirst($type)::ID($object_ID, currentUserID());
 		$objectName = $objectData->getInfo($type."_name");
 
 		$projectName = "";
