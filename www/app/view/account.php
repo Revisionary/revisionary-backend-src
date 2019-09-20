@@ -102,9 +102,9 @@
 
 				</div>
 
-				<div class="col xl-3-12 xl-right" data-tooltip="In development...">
+				<div class="col xl-3-12 xl-right">
 
-					<b>Usage:</b> 8 MB of 25 MB (<?=$userInfo['userLevelName']?> Account)
+					<?php require view('modules/limitations'); ?>
 
 				</div>
 			</div>

@@ -1,9 +1,10 @@
 <?php
 
-$subpage = isset($_url[1]) ? $_url[1] : false;
+$subpage = isset($_url[1]) && is_string($_url[1]) ? $_url[1] : false;
 $user_ID = getUserInfo()['userLevelID'] == 1 && isset($_GET['user']) && is_numeric($_GET['user']) ? intval($_GET['user']) : currentUserID();
 $userInfo = getUserInfo($user_ID);
 $userInfoDB = getUserInfoDB($user_ID, true, true);
+//die_to_print($userInfoDB);
 
 
 // If user not exist
@@ -60,6 +61,9 @@ if ( post('update-submit') == "Update" ) {
 	}
 
 
+	// INVALIDATE THE CACHE
+	$cache->delete('user:'.$user_ID);
+
 
 	header('Location: '.current_url("successful", "error"));
 	die();
@@ -108,6 +112,9 @@ if ( post('update-submit') == "Update" ) {
 
 	}
 
+
+	// INVALIDATE THE CACHE
+	$cache->delete('user:'.$user_ID);
 
 
 	header('Location: '.current_url("successful", "error"));
@@ -182,6 +189,10 @@ if ( post('update-submit') == "Update" ) {
 		die();
 
 	}
+
+
+	// INVALIDATE THE CACHE
+	$cache->delete('user:'.$user_ID);
 
 
 	// Email notification

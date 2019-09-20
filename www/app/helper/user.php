@@ -57,9 +57,11 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 
 
 		// Set the cache
-		if ($userInfo && !$full) {
-			$cache->set('user:'.$user_ID, $userInfo);
+		if ($userInfo) {
+
+			if (!$full) $cache->set('user:'.$user_ID, $userInfo);
 			return $userInfo;
+
 		}
 
 
@@ -67,7 +69,6 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 
 
 	return false;
-
 
 }
 
@@ -128,6 +129,7 @@ function getUserInfo($user_ID = false) {
 
 
 	return $extendedUserInfo;
+
 }
 
 function checkAvailableEmail($user_email) {
