@@ -1,34 +1,11 @@
 <pre>
 <?php
-
-
-
-
-/*
-echo "<h3>Projects Tags</h3>";
-print_r(
-    $mcTags->getKeysByTag('projects')
-);
-
-echo "<h3>Pages Tags</h3>";
-print_r(
-    $mcTags->getKeysByTag('pages')
-);
-*/
-
-// var_dump(
-//     $mcTags->deleteKeysByTag('user:6')
-// );
-
 //$cache->flush();
-
-
-
 
 
 echo "
 <details>
-	<summary><h2 style='display: inline;'>CACHES</h2></summary>";
+	<summary><h2 style='display: inline;'>CACHES (".count($cache->getAllKeys()).")</h2></summary>";
 echo "<p style='padding-left: 20px;'>Array <br>(<br>";
 $count = 0;
 foreach ($cache->getAllKeys() as $key) {
@@ -61,10 +38,18 @@ if ($user) {
 	</details>";
 
 
+	// NOTIFICATIONS
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>NOTIFICATIONS (".$user->getNotifications()['totalCount'].")</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $user->getNotifications()['notifications'], true )."</p>
+	</details>";
+
+
 	// PROJECT CATEGORIES
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PROJECT CATEGORIES</h2></summary>
+		<summary><h2 style='display: inline;'>PROJECT CATEGORIES (".count($user->getProjectCategories()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getProjectCategories(), true )."</p>
 	</details>";
 
@@ -72,7 +57,7 @@ if ($user) {
 	// PROJECTS
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PROJECTS</h2></summary>
+		<summary><h2 style='display: inline;'>PROJECTS (".count($user->getProjects()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getProjects(), true )."</p>
 	</details>";
 
@@ -80,7 +65,7 @@ if ($user) {
 	// PAGE CATEGORIES
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PAGE CATEGORIES</h2></summary>
+		<summary><h2 style='display: inline;'>PAGE CATEGORIES (".count($user->getPageCategories()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getPageCategories(), true )."</p>
 	</details>";
 
@@ -88,7 +73,7 @@ if ($user) {
 	// PAGES
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PAGES</h2></summary>
+		<summary><h2 style='display: inline;'>PAGES (".count($user->getPages()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getPages(), true )."</p>
 	</details>";
 
@@ -96,7 +81,7 @@ if ($user) {
 	// PHASES
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PHASES</h2></summary>
+		<summary><h2 style='display: inline;'>PHASES (".count($user->getPhases()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getPhases(), true )."</p>
 	</details>";
 
@@ -104,7 +89,7 @@ if ($user) {
 	// DEVICES
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>DEVICES</h2></summary>
+		<summary><h2 style='display: inline;'>DEVICES (".count($user->getDevices()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getDevices(), true )."</p>
 	</details>";
 
@@ -112,7 +97,7 @@ if ($user) {
 	// PINS
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>PINS</h2></summary>
+		<summary><h2 style='display: inline;'>PINS (".count($user->getPins()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getPins(), true )."</p>
 	</details>";
 
@@ -120,13 +105,15 @@ if ($user) {
 	// SCREENS
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>SCREENS</h2></summary>
+		<summary><h2 style='display: inline;'>SCREENS (".count($user->getScreens()).")</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getScreens(), true )."</p>
 	</details>";
 
 
 }
 echo "<br><br>";
+
+//$cache->flush();
 
 
 
@@ -255,7 +242,7 @@ exit;
 */
 
 /*
-var_dump( User::ID()->canAccess(23, "device") );
+var_dump( $User->canAccess(23, "device") );
 exit;
 */
 
@@ -273,7 +260,7 @@ exit;
 
 
 
-$notifications = User::ID()->getNotifications();
+$notifications = $User->getNotifications();
 die_to_print($db->totalCount);
 
 var_dump( $notifications );
@@ -294,7 +281,7 @@ exit;
 */
 
 /*
-$parsed_url = User::ID()->getNotifications();
+$parsed_url = $User->getNotifications();
 die_to_print( $parsed_url );
 */
 
@@ -303,7 +290,7 @@ die_to_print( $parsed_url );
 //echo Project::ID(6)->getInfo('user_ID');
 
 /*
-$the_user = User::ID();
+$the_user = $User;
 
 print_r($the_user);
 

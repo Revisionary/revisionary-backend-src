@@ -16,7 +16,7 @@ class Device {
 
 
 	// ID Setter
-    public static function ID(int $device_ID = null) {
+    public static function ID($device_ID = null, $user_ID = null) {
 	    global $db, $cache;
 
 
@@ -24,11 +24,11 @@ class Device {
 		if ( is_int($device_ID) ) {
 
 
-			$devices = User::ID()->getDevices();
-			$device = array_filter($devices, function($deviceFound) use ($device_ID) {
+			$devices = User::ID($user_ID)->getDevices();
+			$devices = array_filter($devices, function($deviceFound) use ($device_ID) {
 				return $deviceFound['device_ID'] == $device_ID;
 			});
-			$deviceInfo = end($device);
+			$deviceInfo = end($devices);
 
 
 			if ( $deviceInfo ) {
@@ -44,7 +44,7 @@ class Device {
 
 
 	    // For the new page
-		if ($device_ID == null) {
+		if ($device_ID == null || $device_ID == "new") {
 
 			self::$device_ID = "new";
 			return new static;
@@ -103,7 +103,7 @@ class Device {
 	    $phase_ID = $this->getInfo('phase_ID');
 	    $page_ID = Phase::ID($phase_ID)->getInfo('page_ID');
 
-	    $image_dir = Page::ID($page_ID)->getDir()."/screenshots/device-".self::$device_ID.".jpg";
+	    $image_dir = Page::ID($page_ID)->getDir()."/phase-$phase_ID/screenshots/device-".self::$device_ID.".jpg";
 
 		return $image_dir;
 

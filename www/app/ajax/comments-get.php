@@ -7,13 +7,10 @@ $status = "initiated";
 // if ( request("nonce") !== $_SESSION["pin_nonce"] ) return;
 
 
-// Get the pin info
-$pin_ID = request('pin_ID');
+// Pin ID
+if ( !is_numeric(request('pin_ID')) ) return;
+$pin_ID = intval(request('pin_ID'));
 
-
-// Are they numbers?
-if ( !is_numeric($pin_ID) )
-	return;
 
 
 // DO THE SECURITY CHECKS !!!

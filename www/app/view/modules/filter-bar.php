@@ -30,8 +30,8 @@
 
 
 				<?php
-
-					foreach ($categories as $catLink) {
+					$allMyCategories = $dataType == "project" ? $User->getProjectCategories() : $User->getPageCategories($project_ID);
+					foreach ($allMyCategories as $catLink) {
 
 						// Skip the Uncategorized category
 						if ($catLink['cat_ID'] == 0) continue;

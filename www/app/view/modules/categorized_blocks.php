@@ -145,32 +145,14 @@
 
 
 			<!-- Blocks -->
-			<ol class="wrap categories <?=$order == "" ? "cat-sortable" : ""?>" data-filter="<?=$catFilter?>">
+			<ol class="wrap categories <?=$order == "" && $catFilter != "shared" ? "cat-sortable" : ""?>" data-filter="<?=$catFilter?>">
 
 			<?php
 
 			// THE CATEGORY LOOP
 			$data_count = 0;
+			$categories = $dataType == "project" ? $User->getProjectCategories($catFilter, $order) : $User->getPageCategories($project_ID, $catFilter, $order);
 			foreach ($categories as $category) {
-
-
-				// Category Filter
-				if (
-					$catFilter != ""
-					&& $catFilter != "mine"
-					&& $catFilter != "shared"
-					&& $catFilter != "archived"
-					&& $catFilter != "deleted"
-					&& $catFilter != permalink($category['cat_name'])
-				) continue;
-
-
-
-				// Don't show categories if in the Archives or Deletes
-				if (
-					$category['cat_name'] != "Uncategorized" &&
-					( $catFilter == "archived" || $catFilter == "deleted" )
-				) continue;
 
 
 				// Category action URL
@@ -208,19 +190,20 @@
 					</div>
 
 
-					<ol class="wrap dpl-xl-gutter-30 xl-6 blocks <?=$order == "" ? "object-sortable" : ""?>">
+					<ol class="wrap dpl-xl-gutter-30 xl-6 blocks <?=$order == "" && $catFilter != "shared" ? "object-sortable" : ""?>">
 
 					<?php
 
 
 					// Block Data
 					$category_ID = $category['cat_ID'];
-
+					$blocks = $dataType == "project" ? $User->getProjects($category_ID, $catFilter, $order) : $User->getPages($project_ID, $category_ID, $catFilter, $order);
+					//die_to_print($blocks);
 
 					// THE BLOCK LOOP
 					$object_count = 0;
-					if ( isset($theCategorizedData[$category_ID]) ) {
-						foreach ($theCategorizedData[$category_ID]['theData'] as $block) {
+					if ( isset($blocks) && count($blocks) > 0 ) {
+						foreach ($blocks as $block) {
 
 
 							if ($dataType == "project") {
@@ -230,15 +213,31 @@
 								$block_url = site_url('project/'.$block['project_ID']);
 
 
-								// Block Images
-								$block_image_path = "projects/project-".$block['project_ID']."/page-0/phase-0/screenshots/device-".$block['project_image_device_ID'].".jpg";
+								// Default Block Image !!!
+								$block_image_path = "projects/project-".$block['project_ID']."/page-0/phase-0/screenshots/device-0.jpg";
 
 								if ($block['project_image_device_ID'] != null) {
 
 
-									$blockDeviceInfo = Device::ID( $block['project_image_device_ID'] )->getInfo();
- 									$block_image_path = "projects/project-".$block['project_ID']."/page-".$blockDeviceInfo['page_ID']."/phase-".$blockDeviceInfo['phase_ID']."/screenshots/device-".$block['project_image_device_ID'].".jpg";
+									$blockDeviceData = Device::ID( $block['project_image_device_ID'], currentUserID() );
+									if ($blockDeviceData) {
 
+										$blockDeviceInfo = $blockDeviceData->getInfo();
+										$block_image_path = "projects/project-".$block['project_ID']."/page-".$blockDeviceInfo['page_ID']."/phase-".$blockDeviceInfo['phase_ID']."/screenshots/device-".$block['project_image_device_ID'].".jpg";
+
+									} elseif ($projectDevices = $User->getDevices(null, null, $block['project_ID'])) {
+
+										$firstDeviceOfProject = end($projectDevices);
+										if ( isset($firstDeviceOfProject) ) {
+
+											$block_image_path = "projects/project-".$block['project_ID']."/page-".$firstDeviceOfProject['page_ID']."/phase-".$firstDeviceOfProject['phase_ID']."/screenshots/device-".$firstDeviceOfProject['device_ID'].".jpg";
+											
+											print_r($block_image_path);
+											print_r($firstDeviceOfProject);
+
+										}
+
+									}
 
 
 								}
@@ -253,14 +252,17 @@
 							if ($dataType == "page") {
 
 
-								$blockPhases = $block['phasesData'];
+								$blockPhases = array_values( $User->getPhases( $block['page_ID'] ) );
 								$blockPhase = end($blockPhases);
-								$blockDevices = $blockPhase['devicesData'];
+								$blockPhaseID = isset($blockPhase['phase_ID']) ? $blockPhase['phase_ID'] : false;
+								$blockDevices = $User->getDevices( $blockPhaseID );
 
 
 								// Screen filter
 								if ( $screenFilter != "" && is_numeric($screenFilter) ) {
 
+									// Get all devices from the block page
+									$blockDevices = $User->getDevices( null, $block['page_ID'] );
 
 									// Extract the selected screen
 									$blockDevices = array_filter($blockDevices, function ($device) use ($screenFilter) {
@@ -273,9 +275,8 @@
 								}
 
 
-
 								$firstDevice = reset($blockDevices);
-								//die_to_print($firstDevice);
+
 
 
 								// First device Image
@@ -289,42 +290,17 @@
 								$block_url = site_url('revise/'.$firstDevice['device_ID']);
 
 
-
-								// Archive/Delete Filters
-								if (
-									$catFilter == "" &&
-									($block['page_deleted'] == 1 || $block['page_archived'] == 1)
-								) continue;
-
-
-								// Delete Filters
-								if (
-									$catFilter == "deleted" &&
-									$block['page_deleted'] == 0
-								) continue;
-
-
-								// Archive Filters
-								if (
-									$catFilter == "archived" &&
-									$block['page_archived'] == 0
-								) continue;
-
-
 							}
 
 
+							// Image style bg code
+							$image_style = file_exists($block_image_uri) ? "background-image: url(".$block_image_url.");" : "";
 
 							// Is directly shared to me
 							$blockSharedMe = $block['share_to'] == currentUserID();
 
 							// Is mine
 							$blockIsMine = $block['user_ID'] == currentUserID();
-
-
-
-							// Image style bg code
-							$image_style = file_exists($block_image_uri) ? "background-image: url(".$block_image_url.");" : "";
 
 					?>
 
@@ -563,7 +539,7 @@ if ($dataType == "page" && $allMyPins) {
 											}
 											?>
 
-											<span class="dropdown">
+											<span class="dropdown <?=!$blockPhaseID ? "xl-hidden" : ""?>">
 												<a href="#" class="add-screen"><span style="font-family: Arial;">+</span></a>
 												<?php require view('modules/add-screen'); ?>
 											</span>
@@ -586,21 +562,20 @@ if ($dataType == "page" && $allMyPins) {
 										<?php
 										if ($dataType == "page") {
 
-//die_to_print($block['phasesData'], false);
-
-											$blockPhaseNumber = array_search($blockPhase, $block['phasesData']) + 1;
+											//die_to_print($blockPhases, false);
+											$blockPhaseNumber = array_search($blockPhase, $blockPhases) + 1;
 										?>
 
 <a href="#">v<?=$blockPhaseNumber?> <i class="fa fa-caret-down"></i></a>
 <ul class="xl-left">
 	<?php
-	foreach($block['phasesData'] as $otherPhase) {
+	foreach($blockPhases as $otherPhase) {
 
-		$otherPhaseNumber = array_search($otherPhase, $block['phasesData']) + 1;
+		$otherPhaseNumber = array_search($otherPhase, $blockPhases) + 1;
 
 
 		// Devices of the phase
-		$devices_of_phase = $otherPhase['devicesData'];
+		$devices_of_phase = $User->getDevices( $otherPhase['phase_ID'] );
 		$firstDevice = reset($devices_of_phase);
 		//die_to_print($devices_of_phase, false);
 	?>

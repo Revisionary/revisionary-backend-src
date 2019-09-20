@@ -2,7 +2,6 @@
 
 $data = array();
 $status = "initiated";
-$email = post("email");
 
 
 // NONCE CHECK !!! Disabled for now!
@@ -10,7 +9,7 @@ $email = post("email");
 
 
 // Valid e-mail?
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+if (!filter_var(post("email"), FILTER_VALIDATE_EMAIL)) {
 
 	$data['status'] = "invalid-email";
 
@@ -20,6 +19,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 	  'data' => $data
 	)));
 }
+$email = post("email");
 
 
 
@@ -28,7 +28,7 @@ $db->where('user_email', $email);
 $user = $db->getOne('users');
 
 
-// If found
+// If found !!!
 if ( $user !== null ) {
 
 

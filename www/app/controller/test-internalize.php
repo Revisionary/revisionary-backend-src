@@ -12,9 +12,9 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 
 $page_ID = 9;
 
-$screenID = Page::ID($page_ID)->getInfo('screen_ID');
-$width = Screen::ID($screenID)->getInfo('screen_width');
-$height = Screen::ID($screenID)->getInfo('screen_height');
+$screen_ID = Page::ID($page_ID)->getInfo('screen_ID');
+$width = Screen::ID($screen_ID)->getInfo('screen_width');
+$height = Screen::ID($screen_ID)->getInfo('screen_height');
 
 
 $link = "http://chrome:3000/";

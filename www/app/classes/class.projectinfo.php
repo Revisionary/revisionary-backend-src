@@ -16,16 +16,20 @@ class Project {
 
 
 	// ID Setter
-    public static function ID($project_ID = null) {
+    public static function ID($project_ID = null, $user_ID = null) {
 		global $db;
 
 
-	    // Set the page ID
-		if ($project_ID != null && is_numeric($project_ID)) {
+		// If specific project
+		if ( is_int($project_ID) ) {
 
 
-			$db->where('project_ID', $project_ID);
-			$projectInfo = $db->getOne("projects");
+			$projects = User::ID($user_ID)->getProjects();
+			$projects = array_filter($projects, function($projectFound) use ($project_ID) {
+				return $projectFound['project_ID'] == $project_ID;
+			});
+			$projectInfo = end($projects);
+
 
 			if ( $projectInfo ) {
 
@@ -201,6 +205,11 @@ class Project {
 
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('projects');
+
+
+
 			// Get the already shared users
 			$users = $this->getUsers();
 
@@ -278,11 +287,6 @@ class Project {
 
 
 
-			// INVALIDATE THE CACHES
-			$cache->deleteKeysByTag('projects');
-
-
-
 		}
 
 
@@ -297,7 +301,7 @@ class Project {
 	    string $column,
 	    $new_value
     ) {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -306,7 +310,7 @@ class Project {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -329,7 +333,7 @@ class Project {
 
     // Archive a project
     public function archive() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -338,7 +342,7 @@ class Project {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -360,7 +364,7 @@ class Project {
 
     // Delete a project
     public function delete() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -369,7 +373,7 @@ class Project {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -391,7 +395,7 @@ class Project {
 
     // Recover a project
     public function recover() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -400,7 +404,7 @@ class Project {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -435,7 +439,7 @@ class Project {
 
     // Remove a project
     public function remove() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -444,7 +448,7 @@ class Project {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 
@@ -501,7 +505,7 @@ class Project {
     public function rename(
 	    string $text
     ) {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -510,7 +514,7 @@ class Project {
 
 
 		// Return if no access
-    	if ( !User::ID()->canAccess(self::$project_ID, 'project') ) return false;
+    	if ( !$User->canAccess(self::$project_ID, 'project') ) return false;
 
 
 

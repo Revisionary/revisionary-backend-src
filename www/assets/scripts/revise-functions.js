@@ -14,7 +14,7 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 	// Get the up-to-date pins
 	var statusCheckRequest = ajax('internalize-status',
 	{
-		'phase_ID'	: phase_ID,
+		'phase_ID'		: phase_ID,
 		'page_ID'		: page_ID,
 		'queue_ID'		: queue_ID,
 		'processID'		: processID
@@ -2401,7 +2401,12 @@ function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
 
 // PIN WINDOW:
 // Open the pin window
-function openPinWindow(pin_ID, firstTime = false, scrollToPin = false) {
+function openPinWindow(pin_ID, firstTime, scrollToPin) {
+
+
+	// Defaults
+	firstTime = assignDefault(firstTime, false);
+	scrollToPin = assignDefault(scrollToPin, false);
 
 
 	console.log('OPEN WINDOW PIN #' + pin_ID, firstTime);
@@ -2653,7 +2658,7 @@ function openPinWindow(pin_ID, firstTime = false, scrollToPin = false) {
 				// If it's untouched DOM
 				if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') ) {
 
-					originalImageSrc = iframeElement(theIndex).attr('src');
+					originalImageSrc = iframeElement(theIndex).prop('src');
 
 					// Default image preview
 					changedImageSrc = originalImageSrc;
@@ -2663,11 +2668,6 @@ function openPinWindow(pin_ID, firstTime = false, scrollToPin = false) {
 				// Add the original image URL
 				else if (pin && pin.pin_modification_original != null)
 					originalImageSrc = pin.pin_modification_original;
-
-
-				// Update if the image is a relative path
-				if (originalImageSrc.indexOf('http://') !== 0 && originalImageSrc.indexOf('https://') !== 0)
-					originalImageSrc = remote_URL + originalImageSrc;
 
 
 				// Get the new image

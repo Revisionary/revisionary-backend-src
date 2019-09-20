@@ -8,22 +8,20 @@ $status = "initiated";
 
 
 // Get the pin info
+if ( !is_numeric(request('pin_ID')) ) return;
 $pin_ID = request('pin_ID');
-
-
-// Are they numbers?
-if ( !is_numeric($pin_ID) )
-	return;
 
 
 // DO THE SECURITY CHECKS !!!
 // a. Current user can edit this pin?
 
 
+$pinData = Pin::ID($pin_ID);
+if (!$pinData) return;
+
 
 // Delete the pin
-$pin_deleted = Pin::ID($pin_ID)->remove();
-
+$pin_deleted = $pinData->remove();
 if ($pin_deleted) $status = "Pin deleted: $pin_ID";
 
 

@@ -4,13 +4,10 @@
 // SECURITY CHECKS
 
 // If not logged in, go login page
-if ( !userLoggedIn() ) {
+if ( !$User ) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }
-
-// Current user level ID
-$currentUserLevel_ID = getUserInfo()['userLevelID'];
 
 
 // If no project specified or not numeric, go projects page
@@ -23,21 +20,18 @@ if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 // Get the project ID
 $project_ID = intval($_url[1]);
 
-
 // If the specified project doesn't exist, go projects page
 $project = Project::ID($project_ID);
 if ( !$project ) {
 	header('Location: '.site_url('projects?projectdoesntexist'));
 	die();
 }
-
-
-// PROJECT INFO
 $projectInfo = $project->getInfo();
-//die_to_print($projectInfo);
 
 
 
+// Data Type
+$dataType = "page";
 
 // Get the order
 $order = get('order');
@@ -50,66 +44,30 @@ $catFilter = isset($_url[2]) ? $_url[2] : '';
 
 
 
-// PAGES DATA MODEL
-$dataType = "page";
-$allMyPagesList = User::ID()->getMy("pages", $catFilter, $order, $project_ID, null, true);
-//die_to_print($allMyPagesList);
-
-$theCategorizedData = categorize($allMyPagesList, $dataType);
-//die_to_print($theCategorizedData);
-
-
-
-
-// All Pages
-$mySharedPages = User::ID()->getMy('pages', "", "", null, null, true);
-$mySharedProjectsFromPages = array_unique(array_column($mySharedPages, 'project_ID'));
-
-
-// All Pages (Not filtered)
-$allPages = array_column($mySharedPages, 'page_name', 'page_ID');
-//die_to_print($allPages);
-
-
-// All Projects (Not filtered)
-$allProjects = array_column($mySharedPages, 'project_name', 'project_ID');
-//die_to_print($allProjects);
-
-
-
-// MY PAGES IN THIS PROJECT
-$allMyPages = $thePreparedData; // Comes globally from 'categorize.php'
+// PAGES IN THIS PROJECT
+$allMyPages = $User->getPages($project_ID, null, '');
 //die_to_print($allMyPages);
 
 
-// MY PHASES IN THIS PROJECT
-$allMyPhases = $phases; // Comes globally from 'categorize.php'
-//die_to_print($allMyPhases);
 
-
-// MY DEVICES IN THIS PROJECT
-$allMyDevices = $devices; // Comes globally from 'categorize.php'
-//die_to_print($allMyDevices);
-
-
-
-// PROJECT SHARES QUERY
-
+// PROJECT SHARES QUERY:
 // Exlude other types
 $db->where('share_type', 'project');
 $db->where('shared_object_ID', $project_ID);
 $projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
-//echo "<pre>"; print_r($projectShares); echo "</pre>"; die();
+//die_to_print($projectShares);
 
+
+// Check project access
 $projectSharedMe = array_search(currentUserID(), array_column($projectShares, 'share_to')) !== false;
 
 // If project doesn't belong to me and if no page belong to me
 if (
 	$projectInfo['user_ID'] != currentUserID() // If the project isn't belong to me
 	&& !$projectSharedMe // And, if the project isn't shared to me
-	&& count($allMyPagesList) == 0 // And, if there is no my page in it
+	&& count( $allMyPages ) === 0 // And, if there is no my page in it
 	&& $catFilter != "mine"
-	&& $currentUserLevel_ID != 1
+	&& $User->getInfo('user_level_ID') != 1
 ) {
 
 	// Redirect to "Projects" page
@@ -120,105 +78,63 @@ if (
 
 
 
-// COUNT ALL THE PINS
+// Project Last Modified
+$pagesOrderedModification = $allMyPages;
+array_multisort(array_column($pagesOrderedModification, 'page_modified'), SORT_DESC, $pagesOrderedModification);
+$project_modified = reset($pagesOrderedModification)['page_modified'];
+
+
+
+// PINS IN THIS PROJECT
+$allMyPins = $User->getPins(null, null, null, $project_ID);
+//die_to_print($allMyPins);
+
+
+// Count all the pin types
 $totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = $totalCompletePinCount = 0;
 
-$allMyPins = array();
-if ($allMyPages && $allMyPhases) {
+if ($allMyPins) {
 
-	$db->join("phases p", "pin.phase_ID = p.phase_ID", "LEFT");
+	$totalLivePinCount = count(array_filter($allMyPins, function($value) {
 
-	$phase_IDs = array_column($allMyPhases, "phase_ID"); //print_r($page_IDs);
-	$db->where('p.phase_ID', $phase_IDs, 'IN');
-	$allMyPins = $db->get('pins pin', null, "pin.pin_type, pin.pin_private, pin.pin_complete, pin.user_ID, p.phase_ID");
-	//die_to_print($allMyPins);
+		return $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
+	}));
 
-	if ($allMyPins) {
+	$totalStandardPinCount = count(array_filter($allMyPins, function($value) {
 
-		$totalLivePinCount = count(array_filter($allMyPins, function($value) {
+		return $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 
-			return $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+	}));
 
-		}));
-		$totalStandardPinCount = count(array_filter($allMyPins, function($value) {
+	$totalPrivatePinCount = count(array_filter($allMyPins, function($value) {
 
-			return $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+		return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
 
-		}));
-		$totalPrivatePinCount = count(array_filter($allMyPins, function($value) {
+	}));
 
-			return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
+	$totalCompletePinCount = count(array_filter($allMyPins, function($value) {
 
-		}));
-		$totalCompletePinCount = count(array_filter($allMyPins, function($value) {
+		return $value['pin_complete'] == "1";
 
-			return $value['pin_complete'] == "1";
-
-		}));
-
-	}
-
+	}));
 
 }
-
-
-
-// Project last modified
-$db->where('project_ID', $project_ID);
-$db->orderBy('page_modified', 'desc');
-$project_modified = $db->getValue("pages", "page_modified");
 
 
 
 // Detect the available screens
 $available_screens = array();
-foreach($theCategorizedData as $categories) {
+//die_to_print( $User->getDevices(null, null, $project_ID) );
+foreach ($User->getDevices(null, null, $project_ID) as $device) {
 
-	if ( isset($categories['theData']) ) {
-
-		foreach($categories['theData'] as $page) {
-
-			if ( isset($page['phasesData']) ) {
-
-				foreach ($page['phasesData'] as $phase) {
-
-					if ( isset($phase['devicesData']) ) {
-
-
-						foreach ($phase['devicesData'] as $device) {
-
-							$available_screens[$device['screen_cat_ID']] = array(
-								"screen_cat_ID" => $device['screen_cat_ID'],
-								"screen_cat_name" => $device['screen_cat_name'],
-								"screen_cat_icon" => $device['screen_cat_icon']
-							);
-
-						}
-
-
-					}
-
-				}
-
-			}
-
-
-		}
-
-	}
+	$available_screens[$device['screen_cat_ID']] = array(
+		"screen_cat_ID" => $device['screen_cat_ID'],
+		"screen_cat_name" => $device['screen_cat_name'],
+		"screen_cat_icon" => $device['screen_cat_icon']
+	);
 
 }
-
-
-// CATEGORY INFO
-$categories = User::ID()->getCategories($dataType, $order, $project_ID);
-//die_to_print($categories);
-
-
-// SCREEN INFO
-$screen_data = User::ID()->getScreenData();
-//die_to_print($screen_data);
 
 
 

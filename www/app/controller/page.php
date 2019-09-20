@@ -4,13 +4,10 @@
 // SECURITY CHECKS
 
 // If not logged in, go login page !!! Change when public revising available
-if (!userLoggedIn()) {
+if (!$User) {
 	header('Location: '.site_url('login?redirect='.urlencode( current_url() )));
 	die();
 }
-
-// Current user level ID
-$currentUserLevel_ID = getUserInfo()['userLevelID'];
 
 
 // If no page specified or not numeric, go projects page
@@ -21,52 +18,37 @@ if ( !isset($_url[1]) || !is_numeric($_url[1]) ) {
 
 
 
-// THE PAGE INFO
-
+// THE PAGE INFO:
 // Get the page ID
-$page_ID = $_url[1];
+$page_ID = intval($_url[1]);
 
-
-
-// All my pages
-$allMyPages = User::ID()->getMy('pages');
-$allMyPages = categorize($allMyPages, 'page', true);
-//die_to_print($allMyPages);
-
-
-
-// Find the current page
-$page = array_filter($allMyPages, function($pageFound) use ($page_ID) {
-    return ($pageFound['page_ID'] == $page_ID);
-});
-$page = end($page);
-
-// If current user is admin
-if ($currentUserLevel_ID == 1) {
-
-	$pageData = Page::ID($page_ID);
-	$page = $pageData ? $pageData->getInfo() : false;
-
-}
-//die_to_print($page);
+// Current page data
+$pageData = Page::ID($page_ID);
 
 // Check if page not exists, redirect to the projects page
-if ( !$page ) {
+if ( !$pageData ) {
 	header('Location: '.site_url('projects?pagedoesntexist'));
 	die();
 }
+$page = $pageData->getInfo();
+//die_to_print($page);
 
+// All my pages
+$allMyPages = $User->getPages(null, null, '');
+//die_to_print($allMyPages);
 
 // Get project ID
 $project_ID = $page['project_ID'];
 
 
 
-// THE VERSION INFO
+// THE PHASE INFO:
 
 // All my phases
-$db->where('page_ID', $page_ID);
-$allMyPhases = $db->get('phases');
+$allMyPhases = $User->getPhases($page_ID);
+//die_to_print($allMyPhases);
+
+// The last phase
 $lastPhase = end($allMyPhases);
 //die_to_print($lastPhase);
 
@@ -82,6 +64,7 @@ if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redire
 if ( get('privatepin') == "1" ) $url_to_redirect = queryArg('privatepin=1', $url_to_redirect);
 if ( get('filter') == "incomplete" || get('filter') == "complete" ) $url_to_redirect = queryArg('filter='.get('filter'), $url_to_redirect);
 if ( get('new') == "page" ) $url_to_redirect = queryArg('new=page', $url_to_redirect);
+//die_to_print($url_to_redirect);
 
 
 // If nothing goes wrong, open the first device

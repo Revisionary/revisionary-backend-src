@@ -20,6 +20,9 @@ class Pin {
 
 		$this->phase_ID = self::$pinInfo['phase_ID'];
 		$this->phaseData = Phase::ID( $this->phase_ID );
+		if (!$this->phaseData) {
+			return false;
+		}
 		$this->page_ID = $this->phaseData->getInfo('page_ID');
 		$this->device_ID = self::$pinInfo['device_ID'];
 
@@ -33,7 +36,7 @@ class Pin {
 
 
 	    // Set the pin ID
-		if ($pin_ID != null && is_numeric($pin_ID)) {
+		if (is_int($pin_ID) || is_numeric($pin_ID)) {
 
 
 			// Bring the user level info
@@ -53,7 +56,7 @@ class Pin {
 
 
 	    // For the new pin
-		if ($pin_ID == "new" || $pin_ID == 0) {
+		if ($pin_ID = null || $pin_ID == "new") {
 
 			self::$pin_ID = "new";
 			return new static;

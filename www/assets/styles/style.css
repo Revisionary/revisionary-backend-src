@@ -6944,6 +6944,8 @@ input.share-email.error {
     display: none; }
   .popup-window#share[data-iamowner="no"] .hide-if-not-owner {
     display: none; }
+  .popup-window#share[data-confirmed="no"] .hide-if-not-confirmed {
+    display: none; }
   .popup-window#share[data-iamowner="yes"] [data-my-share="no"] .change-access {
     display: inline-block; }
   .popup-window#share[data-iamowner="yes"] [data-itsme="yes"] .change-access {
@@ -6980,6 +6982,8 @@ input.share-email.error {
       display: none; }
     .members > .member[data-itsme="yes"] .change-access {
       display: inline-block; }
+    .members > .member[data-confirmed="no"] .hide-if-not-confirmed {
+      display: none; }
     .members > .member .email {
       white-space: nowrap;
       color: gray;

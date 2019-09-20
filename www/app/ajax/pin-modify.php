@@ -8,7 +8,8 @@ $status = "initiated";
 
 
 // Get the pin info
-$pin_ID = request('pin_ID');
+if ( !is_numeric(request('pin_ID')) ) return;
+$pin_ID = intval(request('pin_ID'));
 $modification = htmlentities(request('modification', true), ENT_QUOTES);
 
 
@@ -17,20 +18,17 @@ if ($modification == "{%null%}")
 	$modification = null;
 
 
-// Are they numbers?
-if ( !is_numeric($pin_ID) )
-	return;
-
-
 
 // DO THE SECURITY CHECKS !!!
 // a. Current user can edit this pin?
 
 
+$pinData = Pin::ID($pin_ID);
+if (!$pinData) return;
+
 
 // Modify the pin
-$pin_modified = Pin::ID($pin_ID)->modify($modification);
-
+$pin_modified = $pinData->modify($modification);
 if ($pin_modified) $status = "Pin Modified: $pin_ID";
 else $status = "error";
 

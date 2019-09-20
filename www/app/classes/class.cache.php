@@ -34,7 +34,7 @@ class Cache {
 
 		// Add tags
 		$key_split = explode(':', $key);
-		if ( count($key_split) == 2 && !is_numeric( $key_split[0] ) ) {
+		if ( count($key_split) > 1 && !is_numeric( $key_split[0] ) ) {
 			$tag = $key_split[0];
 
 			if ( !self::$mc->set($key, $value, $timeout) ) return false;

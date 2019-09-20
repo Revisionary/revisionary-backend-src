@@ -8,32 +8,23 @@ $status = "initiated";
 
 
 // Get the pin info
-$pin_ID = request('pin_ID');
+if ( !is_numeric(request('pin_ID')) ) return;
+$pin_ID = intval(request('pin_ID'));
+
 $complete = request('complete') == "complete" ? true : false;
-
-
-// Are they numbers?
-if ( !is_numeric($pin_ID) )
-	return;
 
 
 // DO THE SECURITY CHECKS !!!
 // a. Current user can edit this pin?
 
 
-
 $pinData = Pin::ID($pin_ID);
-
+if (!$pinData) return;
 
 
 // Complete/Incomplete the pin
 $pin_completed = $complete ? $pinData->complete() : $pinData->inComplete();
-
-if ($pin_completed) {
-
-	$status = "Pin ".($complete ? "completed" : "incompleted").": $pin_ID";
-
-}
+if ($pin_completed) $status = "Pin ".($complete ? "completed" : "incompleted").": $pin_ID";
 
 
 // CREATE THE RESPONSE

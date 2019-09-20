@@ -41,7 +41,7 @@
 			var loggedIn = <?=userLoggedIn() ? "true" : "false"?>;
 			<?=userLoggedIn() ? "var user_ID = ".currentUserID().";" : ""?>
 			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
-			<?=isset($dataType) && $dataType == "page" && isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
+			<?=isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
 			var myPages = [];
 			<?php
 

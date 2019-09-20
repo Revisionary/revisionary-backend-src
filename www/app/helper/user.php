@@ -17,11 +17,8 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 
 	// Check the cache first
 	$cached_user_info = $cache->get('user:'.$user_ID);
-	if ( $cached_user_info !== false && !$nocache && !$full ) {
-
-		return $cached_user_info;
-
-	} else { // If not exist in the cache, pull data from DB
+	if ( $cached_user_info !== false && !$nocache && !$full ) return $cached_user_info;
+	else { // If not exist in the cache, pull data from DB
 
 
 		// Bring the user level info
@@ -60,9 +57,11 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 
 
 		// Set the cache
-		if ($userInfo && !$full) {
-			$cache->set('user:'.$user_ID, $userInfo);
+		if ($userInfo) {
+
+			if (!$full) $cache->set('user:'.$user_ID, $userInfo);
 			return $userInfo;
+
 		}
 
 
@@ -71,10 +70,9 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 
 	return false;
 
-
 }
 
-function getUserInfo($user_ID = 0) {
+function getUserInfo($user_ID = false) {
 
 
 	// Get the User ID
@@ -107,7 +105,7 @@ function getUserInfo($user_ID = 0) {
 
 
 	// Get user information
-	$userInfo = User::ID($user_ID)->getInfo();
+	$userInfo = getUserInfoDB($user_ID);
 	if ( !$userInfo ) return false;
 
 
@@ -131,6 +129,7 @@ function getUserInfo($user_ID = 0) {
 
 
 	return $extendedUserInfo;
+
 }
 
 function checkAvailableEmail($user_email) {

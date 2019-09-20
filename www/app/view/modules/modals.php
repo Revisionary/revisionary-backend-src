@@ -37,7 +37,7 @@
 					<a href="#" class="add-screen"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
 					<ul class="xl-left screen-adder">
 						<?php
-						foreach ($screen_data as $screen_cat) {
+						foreach ($User->getScreenData() as $screen_cat) {
 						?>
 
 						<li class="screen-cat" <?=$screen_cat['screen_cat_name'] == "Custom" ? "style='display:none;'" : ""?>>

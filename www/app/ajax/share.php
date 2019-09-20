@@ -91,7 +91,7 @@ $objectInfo = $object->getInfo();
 
 
 // Do I access this object?
-if ( ! User::ID()->canAccess($object_ID, $type) ) {
+if ( ! $User->canAccess($object_ID, $type) ) {
 
 	$data['status'] = "no-access";
 
@@ -160,7 +160,6 @@ if ( $user !== null ) {
 // If different type selected
 if ( $type == "page" && $add_type == "project" ) {
 
-
 	// Find the project ID
 	$object_ID = intval($objectInfo['project_ID']);
 	$type = "project";
@@ -227,7 +226,7 @@ if ($share_ID) { // If successful
 
 
 		$object_link = site_url($type.'/'.$object_ID);
-		$objectData = ucfirst($type)::ID($object_ID);
+		$objectData = ucfirst($type)::ID($object_ID, currentUserID());
 		$objectName = $objectData->getInfo($type."_name");
 
 		$projectName = "";

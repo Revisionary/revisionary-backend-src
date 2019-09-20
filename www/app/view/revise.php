@@ -2,11 +2,11 @@
 
 <script>
 
-	user_ID = '<?=currentUserID()?>';
-	device_ID = '<?=$device_ID?>';
-	phase_ID = '<?=$phase_ID?>';
-	page_ID = '<?=$page_ID?>';
-	project_ID = '<?=$project_ID?>';
+	user_ID = <?=currentUserID()?>;
+	project_ID = <?=$project_ID?>;
+	page_ID = <?=$page_ID?>;
+	phase_ID = <?=$phase_ID?>;
+	device_ID = <?=$device_ID?>;
 	remote_URL = '<?=$phaseData->remoteUrl?>';
 
 </script>
@@ -72,8 +72,8 @@
 				<div class="col account dropdown" style="margin-right: 15px;">
 
 					<a href="#">
-						<picture class="profile-picture white-border thin-border" <?=getUserInfo()['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
-							<span><?=getUserInfo()['nameAbbr']?></span>
+						<picture class="profile-picture white-border thin-border" <?=$userInfo['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
+							<span><?=$userInfo['nameAbbr']?></span>
 						</picture>
 					</a>
 					<ul class="user-menu xl-left">
@@ -111,28 +111,28 @@
 
 					<span class="dropdown">
 						<a href="<?=site_url('project/'.$project_ID, true)?>">
-							<?=$projectInfo['project_name']?> <i class="fa fa-caret-down"></i>
+							<?=$project['project_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
 <?php
-foreach ($allMyProjects as $project) {
+foreach ($allMyProjects as $myProject) {
 
-	$selected = $project['project_ID'] == $project_ID ? "selected" : "";
+	$selected = $myProject['project_ID'] == $project_ID ? "selected" : "";
 
 
-	$pages_of_project = array_filter($allMyPages, function($pageFound) use ($project) {
-	    return ($pageFound['project_ID'] == $project['project_ID']);
+	// Bring the pages in this project
+	$pages_of_project = array_filter($allMyPages, function($pageFound) use ($myProject) {
+	    return ($pageFound['project_ID'] == $myProject['project_ID']);
 	});
-	$pages_of_project = categorize($pages_of_project, 'page', true);
 	//die_to_print($pages_of_project, false);
 
 
-	$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$project['project_ID'];
+	$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$myProject['project_ID'];
 
 ?>
-<li class="item <?=$selected?>" data-type="project" data-id="<?=$project['project_ID']?>">
+<li class="item <?=$selected?>" data-type="project" data-id="<?=$myProject['project_ID']?>">
 
-	<a href="<?=site_url('project/'.$project['project_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$project['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ""?></a>
+	<a href="<?=site_url('project/'.$myProject['project_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$myProject['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ""?></a>
 
 	<?php
 	if ( count($pages_of_project) ) {
@@ -299,6 +299,13 @@ foreach ($allMyProjects as $project) {
 						<ul>
 <?php
 
+// Find the other pages from this project ???
+$other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) {
+	return ($pageFound['project_ID'] == $project_ID);
+});
+//die_to_print($other_pages);
+
+
 foreach ($other_pages as $pageOther) {
 
 	$selected = $pageOther['page_ID'] == $page_ID ? "selected" : "";
@@ -419,7 +426,7 @@ foreach ($other_pages as $pageOther) {
 ?>
 							<li>
 
-								<a href="#" data-modal="add-new" data-object-name="<?=$projectInfo['project_name']?>" data-type="page" data-id="<?=$projectInfo['project_ID']?>"><i class="fa fa-plus"></i> <b>Add New Page</b></a>
+								<a href="#" data-modal="add-new" data-object-name="<?=$project['project_name']?>" data-type="page" data-id="<?=$project['project_ID']?>"><i class="fa fa-plus"></i> <b>Add New Page</b></a>
 
 							</li>
 						</ul>
@@ -439,6 +446,13 @@ foreach ($other_pages as $pageOther) {
 					<span class="dropdown">
 
 					<?php
+
+					// Find the other phases from this device
+					$other_phases = array_filter($allMyPhases, function($phaseFound) use ($page_ID) {
+						return $phaseFound['page_ID'] == $page_ID;
+					});
+					$other_phases = array_values($other_phases); // Reset the keys to get phase numbers
+					//die_to_print($other_phases);
 
 					$currentPhaseNumber = array_search($phase, $other_phases) + 1;
 
@@ -548,7 +562,7 @@ foreach ($other_pages as $pageOther) {
 								<a href="#" class="add-screen"><i class="fa fa-plus"></i> <b>Add New Screen</b></a>
 								<ul class="xl-left screen-adder">
 									<?php
-									foreach ($screen_data as $screen_cat) {
+									foreach ($User->getScreenData() as $screen_cat) {
 									?>
 
 									<li>
@@ -560,20 +574,15 @@ foreach ($other_pages as $pageOther) {
 											<?php
 											foreach ($screen_cat['screens'] as $screen) {
 
-
 												$screen_link = site_url("projects?new_screen=".$screen['screen_ID']."&phase_ID=".$phase_ID, true);
 												$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
 												if ($screen['screen_ID'] == 11) {
 													$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
 													$screen_link = queryArg('page_height='.$screen['screen_height'], $screen_link);
-													$screen_label = $screen['screen_name']." (<span class='screen-width'>".$screen['screen_width']."</span>x<span class='screen-height'>".$screen['screen_height']."</span>)";
+													$screen_label = "Current Window (<span class='screen-width'>".$screen['screen_width']."</span>x<span class='screen-height'>".$screen['screen_height']."</span>)";
 												}
 
 												//$screen_link = queryArg('nonce='.$_SESSION["new_screen_nonce"], $screen_link);
-
-
-
-
 											?>
 											<li>
 												<a href="<?=$screen_link?>"
@@ -622,6 +631,7 @@ foreach ($other_pages as $pageOther) {
 					<li class="bottom-tooltip <?=$pin_mode == "live" && $pin_private == "0" ? "selected" : ""?>" data-pin-type="live" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes."><a href="#"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a></li>
 					<li class="bottom-tooltip <?=$pin_mode == "standard" && $pin_private == "0" ? "selected" : ""?>" data-pin-type="standard" data-pin-private="0" data-tooltip="You can only do the visual changes."><a href="#"><i class="fa fa-dot-circle"></i> ONLY VIEW CHANGES</a></li>
 					<li class="bottom-tooltip <?=$pin_mode == "live" && $pin_private == "1" ? "selected" : ""?>" data-pin-type="live" data-pin-private="1" data-tooltip="Only you can see the changes you made."><a href="#"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a></li>
+					<li class="bottom-tooltip <?=$pin_mode == "comment" && $pin_private == "0" ? "selected" : ""?>" data-pin-type="comment" data-pin-private="0" data-tooltip="In development..."><a href="#"><i class="fa fa-comment"></i> ONLY COMMENT MODE</a></li>
 					<li class="bottom-tooltip <?=$pin_mode == "browse" && $pin_private == "0" ? "selected" : ""?>" data-pin-type="browse" data-pin-private="0" data-tooltip="Use this mode to be able to do something like opening a menu, closing popups, skipping slides, and navigating to different pages."><a href="#"><i class="fa fa-mouse-pointer"></i> BROWSE MODE [Shift Key]</a></li>
 				</ul>
 			</div>
@@ -864,7 +874,7 @@ foreach ($other_pages as $pageOther) {
 
 							    <img class="new-image" src=""/>
 							    <div class="info"><span><span style="text-decoration: underline;">Click here</span> or drag here your image for preview</span></div>
-							    <input type="file" name="image" id="filePhoto" data-max-size="3145728" />
+							    <input type="file" name="image" id="filePhoto" accept=".gif,.jpg,.jpeg,.png" data-max-size="3145728" />
 
 							</div>
 							<div class="edit-content original">

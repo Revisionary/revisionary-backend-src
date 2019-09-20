@@ -9,7 +9,7 @@ $status = "initiated";
 
 
 // If not logged in
-if ( !userLoggedIn() ) {
+if ( !$User ) {
 
 	$status = "not-logged-in";
 

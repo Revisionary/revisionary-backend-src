@@ -16,16 +16,20 @@ class Page {
 
 
 	// ID Setter
-    public static function ID($page_ID = null) {
+    public static function ID($page_ID = null, $user_ID = null) {
 	    global $db;
 
 
-	    // Set the page ID
-		if ($page_ID != null && is_numeric($page_ID)) {
+	    // If specific page
+		if ( is_int($page_ID) ) {
 
 
-			$db->where('page_ID', $page_ID);
-			$pageInfo = $db->getOne("pages");
+			$pages = User::ID($user_ID)->getPages();
+			$pages = array_filter($pages, function($pageFound) use ($page_ID) {
+				return $pageFound['page_ID'] == $page_ID;
+			});
+			$pageInfo = end($pages);
+
 
 			if ( $pageInfo ) {
 
@@ -211,6 +215,11 @@ class Page {
 
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pages');
+
+
+
 			$page_link = site_url('page/'.$page_ID);
 			$project_name = " [".Project::ID($project_ID)->getInfo('project_name')."]";
 
@@ -279,11 +288,6 @@ class Page {
 
 
 
-			// INVALIDATE THE CACHES
-			$cache->deleteKeysByTag('pages');
-
-
-
 		}
 
 
@@ -298,7 +302,7 @@ class Page {
 	    string $column,
 	    $new_value
     ) {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -307,7 +311,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -348,7 +352,7 @@ class Page {
 
     // Archive a page
     public function archive() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -357,7 +361,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -380,7 +384,7 @@ class Page {
 
     // Delete a page
     public function delete() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -389,7 +393,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -412,7 +416,7 @@ class Page {
 
     // Recover a page
     public function recover() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -421,7 +425,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -456,7 +460,7 @@ class Page {
 
     // Remove a page
     public function remove() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -465,7 +469,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -530,7 +534,7 @@ class Page {
     public function rename(
 	    string $text
     ) {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -539,7 +543,7 @@ class Page {
 
 
     	// Return if no access
-    	if ( !User::ID()->canAccess(self::$page_ID, 'page') ) return false;
+    	if ( !$User->canAccess(self::$page_ID, 'page') ) return false;
 
 
 
@@ -607,7 +611,6 @@ class Page {
 
 		// Site log
 		if ($ownership_changed) $log->info("Page #".self::$page_ID." Ownership Changed: '$old_owner_ID => $user_ID' | Project #".$this->getInfo('project_ID')." | User #".currentUserID());
-
 
 
 		// INVALIDATE THE CACHES

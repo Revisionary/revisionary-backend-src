@@ -67,16 +67,20 @@ class Phase {
 
 
 	// ID Setter
-    public static function ID($phase_ID = null) {
+    public static function ID($phase_ID = null, $user_ID = null) {
 	    global $db;
 
 
-	    // Set the phase ID
-		if ($phase_ID != null && is_numeric($phase_ID)) {
+	    // If specific phase
+		if ( is_int($phase_ID) || is_numeric($phase_ID) ) {
 
 
-			$db->where('phase_ID', $phase_ID);
-			$phaseInfo = $db->getOne("phases");
+			$phases = User::ID($user_ID)->getPhases();
+			$phases = array_filter($phases, function($phaseFound) use ($phase_ID) {
+				return $phaseFound['phase_ID'] == $phase_ID;
+			});
+			$phaseInfo = end($phases);
+
 
 			if ( $phaseInfo ) {
 
@@ -91,7 +95,7 @@ class Phase {
 
 
 	    // For the new phase
-		if ($phase_ID == null) {
+		if ($phase_ID == null || $phase_ID == "new") {
 
 			self::$phase_ID = "new";
 			return new static;
@@ -376,7 +380,7 @@ class Phase {
 
     // Remove a phase
     public function remove() {
-	    global $db, $log, $cache;
+	    global $db, $log, $cache, $User;
 
 
 
@@ -397,7 +401,7 @@ class Phase {
 
 
 
-    	if ( !User::ID()->canAccess( self::$phase_ID, 'phase') ) return false;
+    	if ( !$User->canAccess( self::$phase_ID, 'phase') ) return false;
 
 
 
