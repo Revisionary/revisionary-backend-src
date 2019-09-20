@@ -1,6 +1,3 @@
-<?php
-$categories = $dataType == "project" ? $User->getProjectCategories($catFilter, $order) : $User->getPageCategories($project_ID, $catFilter, $order);
-?>
 <?php require view('static/header_html'); ?>
 <?php require view('static/header_frontend'); ?>
 
@@ -148,12 +145,13 @@ $categories = $dataType == "project" ? $User->getProjectCategories($catFilter, $
 
 
 			<!-- Blocks -->
-			<ol class="wrap categories <?=$order == "" ? "cat-sortable" : ""?>" data-filter="<?=$catFilter?>">
+			<ol class="wrap categories <?=$order == "" && $catFilter != "shared" ? "cat-sortable" : ""?>" data-filter="<?=$catFilter?>">
 
 			<?php
 
 			// THE CATEGORY LOOP
 			$data_count = 0;
+			$categories = $dataType == "project" ? $User->getProjectCategories($catFilter, $order) : $User->getPageCategories($project_ID, $catFilter, $order);
 			foreach ($categories as $category) {
 
 
@@ -192,7 +190,7 @@ $categories = $dataType == "project" ? $User->getProjectCategories($catFilter, $
 					</div>
 
 
-					<ol class="wrap dpl-xl-gutter-30 xl-6 blocks <?=$order == "" ? "object-sortable" : ""?>">
+					<ol class="wrap dpl-xl-gutter-30 xl-6 blocks <?=$order == "" && $catFilter != "shared" ? "object-sortable" : ""?>">
 
 					<?php
 

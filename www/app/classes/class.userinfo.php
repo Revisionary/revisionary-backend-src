@@ -124,11 +124,11 @@ class User {
 
 
 				// Show all categories if no filter
-				if ($catFilter == "" || $catFilter == "mine" || $catFilter == "shared") return true;
+				if ($catFilter == "" || $catFilter == "mine") return true;
 
 
 				// Show only Uncategorized when on deleted and archived
-				if ($catFilter == "archived" || $catFilter == "deleted") return $catFound['cat_ID'] == 0;
+				if ($catFilter == "archived" || $catFilter == "deleted" || $catFilter == "shared") return $catFound['cat_ID'] == 0;
 
 
 				// Category Filter
@@ -253,7 +253,7 @@ class User {
 
 
 		// Do filters
-		if ($project_cat_ID !== null && $catFilter != "archived" && $catFilter != "deleted") {
+		if ($project_cat_ID !== null && $catFilter != "archived" && $catFilter != "deleted" && $catFilter != "shared") {
 
 			$projects = array_filter($projects, function($projectFound) use ($project_cat_ID) {
 
@@ -358,11 +358,11 @@ class User {
 
 
 				// Show all categories if no filter
-				if ($catFilter == "" || $catFilter == "mine" || $catFilter == "shared") return true;
+				if ($catFilter == "" || $catFilter == "mine") return true;
 
 
 				// Show only Uncategorized when on deleted and archived
-				if ($catFilter == "archived" || $catFilter == "deleted") return $catFound['cat_ID'] == 0;
+				if ($catFilter == "archived" || $catFilter == "deleted" || $catFilter == "shared") return $catFound['cat_ID'] == 0;
 
 
 				// Category Filter
@@ -490,7 +490,7 @@ class User {
 
 		}
 		
-		if ($page_cat_ID !== null && $catFilter != "archived" && $catFilter != "deleted") {
+		if ($page_cat_ID !== null && $catFilter != "archived" && $catFilter != "deleted" && $catFilter != "shared") {
 
 			$pages = array_filter($pages, function($pageFound) use ($page_cat_ID) {
 
