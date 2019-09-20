@@ -72,7 +72,7 @@ $allMyPhases = $User->getPhases();
 $page_ID = $phase['page_ID'];
 
 // Current page data
-$pageData = Page::ID($page_ID);
+$pageData = Page::ID($page_ID, currentUserID());
 
 // Check if page not exists, redirect to the projects page
 if ( !$pageData ) {
@@ -83,7 +83,7 @@ $page = $pageData->getInfo();
 //die_to_print($page);
 
 // All my pages
-$allMyPages = $User->getPages();
+$allMyPages = $User->getPages(null, null, '');
 //die_to_print($allMyPages);
 
 
@@ -126,7 +126,7 @@ $project_image = $project['project_image_device_ID'];
 if ($project_image == null) $projectData->edit('project_image_device_ID', $device_ID);
 
 // All my projects
-$allMyProjects = $User->getProjects();
+$allMyProjects = $User->getProjects(null, '');
 //die_to_print($allMyProjects);
 
 

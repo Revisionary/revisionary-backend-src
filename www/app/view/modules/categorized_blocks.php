@@ -221,7 +221,7 @@ $categories = $dataType == "project" ? $User->getProjectCategories($catFilter, $
 								if ($block['project_image_device_ID'] != null) {
 
 
-									$blockDeviceData = Device::ID( $block['project_image_device_ID'] );
+									$blockDeviceData = Device::ID( $block['project_image_device_ID'], currentUserID() );
 									if ($blockDeviceData) {
 
 										$blockDeviceInfo = $blockDeviceData->getInfo();
@@ -256,7 +256,8 @@ $categories = $dataType == "project" ? $User->getProjectCategories($catFilter, $
 
 								$blockPhases = array_values( $User->getPhases( $block['page_ID'] ) );
 								$blockPhase = end($blockPhases);
-								$blockDevices = $User->getDevices( $blockPhase['phase_ID'] );
+								$blockPhaseID = isset($blockPhase['phase_ID']) ? $blockPhase['phase_ID'] : false;
+								$blockDevices = $User->getDevices( $blockPhaseID );
 
 
 								// Screen filter
@@ -540,7 +541,7 @@ if ($dataType == "page" && $allMyPins) {
 											}
 											?>
 
-											<span class="dropdown">
+											<span class="dropdown <?=!$blockPhaseID ? "xl-hidden" : ""?>">
 												<a href="#" class="add-screen"><span style="font-family: Arial;">+</span></a>
 												<?php require view('modules/add-screen'); ?>
 											</span>

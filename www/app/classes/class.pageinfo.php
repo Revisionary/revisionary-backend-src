@@ -215,6 +215,11 @@ class Page {
 
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('pages');
+
+
+
 			$page_link = site_url('page/'.$page_ID);
 			$project_name = " [".Project::ID($project_ID)->getInfo('project_name')."]";
 
@@ -280,11 +285,6 @@ class Page {
 
 			// Site log
 			$log->info("Page #$page_ID Added: $page_name($page_url) | Project #$project_ID | Project Name:$project_name | User #".currentUserID());
-
-
-
-			// INVALIDATE THE CACHES
-			$cache->deleteKeysByTag('pages');
 
 
 

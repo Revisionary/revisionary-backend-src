@@ -205,6 +205,11 @@ class Project {
 
 
 
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('projects');
+
+
+
 			// Get the already shared users
 			$users = $this->getUsers();
 
@@ -279,11 +284,6 @@ class Project {
 				));
 
 			}
-
-
-
-			// INVALIDATE THE CACHES
-			$cache->deleteKeysByTag('projects');
 
 
 

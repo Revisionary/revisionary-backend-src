@@ -16,7 +16,7 @@ $(function() {
 
 
 	// Links with confirmation
-	$(document).on('click', 'a[data-confirm]:not([data-action])', function(e) { console.log('Clicked');
+	$(document).on('click', '[data-confirm]:not([data-action])', function(e) { console.log('Clicked');
 
 		var confirmation = $(this).attr('data-confirm');
 

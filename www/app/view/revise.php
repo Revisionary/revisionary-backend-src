@@ -873,7 +873,7 @@ foreach ($other_pages as $pageOther) {
 
 							    <img class="new-image" src=""/>
 							    <div class="info"><span><span style="text-decoration: underline;">Click here</span> or drag here your image for preview</span></div>
-							    <input type="file" name="image" id="filePhoto" data-max-size="3145728" />
+							    <input type="file" name="image" id="filePhoto" accept=".gif,.jpg,.jpeg,.png" data-max-size="3145728" />
 
 							</div>
 							<div class="edit-content original">

@@ -45,7 +45,7 @@ $catFilter = isset($_url[2]) ? $_url[2] : '';
 
 
 // PAGES IN THIS PROJECT
-$allMyPages = $User->getPages($project_ID);
+$allMyPages = $User->getPages($project_ID, null, '');
 //die_to_print($allMyPages);
 
 
