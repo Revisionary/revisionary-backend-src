@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: May 31, 2019 at 01:44 PM
--- Server version: 8.0.16
--- PHP Version: 7.2.14
+-- Generation Time: Sep 20, 2019 at 02:17 PM
+-- Server version: 8.0.17
+-- PHP Version: 7.2.22
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -359,7 +359,9 @@ INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `use
 (12, 'salih-onder', 'irtibat@dijitem.com', '$2y$10$jEJa3JTjFQq.e3p2WWC1Y.TG6EoO1x0zHG0rmo3wx8/3rRxdqQYbi', 'Salih', 'ÖNDER', NULL, NULL, NULL, NULL, 0, 1, '176.43.81.234', 2),
 (13, 'abraham', 'abraham@twelve12.com', '$2y$10$7TfH8RKyKfSrXe8BNMDpjuALoIjYjktxBAEDW42LDXwck3H/qUWwi', 'Abraham', 'Kiziltepe', NULL, NULL, NULL, 'avr11tcshd.jpg', 0, 1, '5.177.182.139', 2),
 (14, 'jeremy-king', 'jeremy@twelve12.com', '$2y$10$3cKu7TvcsGrzWgj8VJUoPucdfRCqGjGQVdpbo/XeeL86UT5IqczqK', 'Jeremy', 'King', NULL, NULL, NULL, NULL, 0, 1, '98.186.237.146', 2),
-(15, 'dilekuzulmez', 'dilekuzulmez@gmail.com', '$2y$10$snwtYOys3NT8kKNpQgyPt.LwXg2Gsv2BafD9ZTFRXX4tVHopFn5eW', 'Dilek', 'TAŞ', NULL, NULL, NULL, NULL, 0, 1, '95.8.108.37', 2);
+(15, 'dilekuzulmez', 'dilekuzulmez@gmail.com', '$2y$10$snwtYOys3NT8kKNpQgyPt.LwXg2Gsv2BafD9ZTFRXX4tVHopFn5eW', 'Dilek', 'TAŞ', NULL, NULL, NULL, NULL, 0, 1, '95.8.108.37', 2),
+(16, 'm-f', 'mo@twelve12.com', '$2y$10$QR2Oi9h0yqQ04SGO.71CuOEMWOmHf3yNzhUMZCjVW9MR1CpO/tfCW', 'Mo', 'Fidanoglu', 'Digital Marketing Manager', '', 'Twelve12', NULL, 0, 1, '98.186.237.146', 2),
+(17, 'salih-onder_1', 'salih@twelve12.com', '$2y$10$n0.5srt7NNNG8tHWGmX6eOofTDRJEDWO4JeomBbxniCNleYDu9Ml6', 'Salih', 'ÖNDER', 'Web Expert', 'WEB', 'Twelve12', 'b90jz7pgyg.jpg', 0, 1, '176.239.37.151', 2);
 
 -- --------------------------------------------------------
 
@@ -387,7 +389,7 @@ CREATE TABLE `user_levels` (
 
 INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_description`, `user_level_max_project`, `user_level_max_page`, `user_level_max_live_pin`, `user_level_max_standard_pin`, `user_level_max_client`, `user_level_max_load`, `user_level_price`, `user_level_color`) VALUES
 (1, 'Admin', 'Admin Description', 99999, 99999, 99999, 99999, 99999, 99999, 99999, 'black'),
-(2, 'Basic', 'Free for all users', 3, 6, 30, 99999, 0, 30, 0, 'black'),
+(2, 'Free', 'Free for all users', 3, 6, 30, 99999, 0, 30, 0, 'black'),
 (3, 'Plus', 'Plus description', 12, 24, 99999, 99999, 3, 120, 9.99, 'green'),
 (4, 'Enterprise', 'Enterprise description.', 99999, 99999, 99999, 99999, 99999, 2048, 19.99, 'gold');
 
