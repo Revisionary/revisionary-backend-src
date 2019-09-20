@@ -308,7 +308,7 @@ $(function() {
 
 	// Stop scrolling on content editor
 	var scrollOnContent = false;
-	$(document).on('mousewheel', '#pin-window [contenteditable], #pin-window .pin-comments', function(e) {
+	$(document).on('mousewheel', '#pin-window .edit-content, #pin-window .pin-comments', function(e) {
 
 		scrollOnContent = true;
 		//console.log('SCROLL ON CONTENT');
