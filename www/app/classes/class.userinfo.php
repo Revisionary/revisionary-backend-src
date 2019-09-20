@@ -893,18 +893,6 @@ class User {
 		$notificationsCount = count($notifications);
 
 
-		// If there is no notifications
-		if ($notificationsCount == 0) {
-
-			$notificationHTML .= "<li>There's nothing to mention now. <br>Your notifications will be here.</li>";
-
-		} else {
-
-			//$notificationHTML .= "<li style='background-color: black; color: white;'>Notifications</li>";
-
-		}
-
-
 		// List the notifications
 		$realNotificationsCount = 0;
 		foreach ($notifications as $notification) {
