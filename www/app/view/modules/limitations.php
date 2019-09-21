@@ -27,56 +27,16 @@ $pinsCount = count( $allMyPins );
 $pinsPercentage = intval((100 * $pinsCount) / $maxPins);
 
 
-// LOAD
-function GetDirectorySize($path){
-    $bytestotal = 0;
-    $path = realpath($path);
-    if($path!==false && $path!='' && file_exists($path)){
-        foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
-            $bytestotal += $object->getSize();
-        }
-    }
-    return $bytestotal;
-}
-
-function human_filesize($bytes, $decimals = 2) {
-	$sz = 'BKMGTP';
-	$factor = floor((strlen($bytes) - 1) / 3);
-	return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
-}
-
-function formatBytes($bytes, $precision = 2) { 
-    $units = array('B', 'KB', 'MB', 'GB', 'TB'); 
-
-    $bytes = max($bytes, 0); 
-    $pow = floor(($bytes ? log($bytes) : 0) / log(1024)); 
-    $pow = min($pow, count($units) - 1); 
-
-    // Uncomment one of the following alternatives
-    // $bytes /= pow(1024, $pow);
-    // $bytes /= (1 << (10 * $pow)); 
-
-    return round($bytes, $precision) . ' ' . $units[$pow]; 
-} 
-
+// LOAD !!! CACHE THIS
 $maxLoad = getUserInfo()['userLevelMaxLoad'];
-$filesLoadByte = 0;
 $filesLoadMb = 0;
 foreach ($allMyPhases as $phaseFound) {
 
 	$phaseDirectory = Phase::ID($phaseFound['phase_ID'])->phaseDir;
 
-	// Method 1
-    // $io = popen( '/usr/bin/du -sk ' . $phaseDirectory, 'r' );
-    // $sizeByte = fgets( $io, 4096);
-    // $sizeByte = substr( $sizeByte, 0, strpos ( $sizeByte, "\t" ) );
-	// pclose( $io );
-
-	$sizeByte = GetDirectorySize($phaseDirectory);
+	$sizeByte = getDirectorySize($phaseDirectory);
 	$sizeMb = number_format($sizeByte / 1048576, 1);
-
-	$filesLoadByte = $filesLoadByte + $sizeByte;
-	$filesLoadMb = $filesLoadMb + $sizeMb;
+	$filesLoadMb += $sizeMb;
 
 }
 $loadCount = $filesLoadMb;
@@ -108,7 +68,7 @@ $loadPercentage = intval((100 * $loadCount) / $maxLoad);
 				</a>
 				<ul class="right">
 					<li>
-						<a href="#" class="left-tooltip" data-tooltip="In development...">
+						<a href="#">
 
 							<div class="wrap xl-center xl-4">
 								<div class="col total <?=$projectsPercentage >= 100 ? "exceed" : ""?>">
@@ -128,7 +88,7 @@ $loadPercentage = intval((100 * $loadCount) / $maxLoad);
 								</div>
 								<div class="col total <?=$loadPercentage >= 100 ? "exceed" : ""?>">
 
-									<?="<span class='current'>$loadCount</span>/<span class='max'>$maxLoad</span><span class='desc'>MB</span>"?>
+									<?="<span class='current'>$loadCount</span>/<span class='max'>$maxLoad</span><span class='desc'>MB Files</span>"?>
 
 								</div>
 							</div>
