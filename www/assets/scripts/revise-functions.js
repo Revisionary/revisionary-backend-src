@@ -59,7 +59,7 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 
 			// Update the global page URL
 			page_URL = data.phaseUrl + '?v=' + data.internalized;
-			console.log('PAGE URL: ', page_URL)
+			console.log('PAGE URL: ', page_URL);
 
 
 			// Redirects
@@ -339,10 +339,10 @@ function runTheInspector() {
 				// REFOCUS WORKS:
 				// Re-focus if only child element has no child and has content: <p><b focused>Lorem ipsum</b></p>
 				if (
-					focused_element_text == "" // Focused element has no content
-					&& focused_element_children.length == 1 // Has only one child
-					&& focused_element_grand_children.length == 0 // No grand child
-					&& focused_element_children.first().text().trim() != "" // Grand child should have content
+					focused_element_text == "" && // Focused element has no content
+					focused_element_children.length == 1 && // Has only one child
+					focused_element_grand_children.length == 0 && // No grand child
+					focused_element_children.first().text().trim() != "" // Grand child should have content
 				) {
 
 					// Re-focus to the child element
@@ -390,10 +390,10 @@ function runTheInspector() {
 				// Directly editable:
 				// Check element text editable: <p>Lorem ipsum dolor sit amet...
 		        if (
-			        easy_html_elements.indexOf( focused_element.prop('tagName').toUpperCase() ) != -1 // In easy HTML elements?
-		        	&& focused_element_text.trim() != "" // If not empty
-		        	&& focused_element.html() != "&nbsp;"  // If really not empty
-		        	&& focused_element_children.length == 0 // If doesn't have any child
+			        easy_html_elements.indexOf( focused_element.prop('tagName').toUpperCase() ) != -1 && // In easy HTML elements?
+		        	focused_element_text.trim() != "" && // If not empty
+		        	focused_element.html() != "&nbsp;"  && // If really not empty
+		        	focused_element_children.length == 0 // If doesn't have any child
 		        ) {
 
 					hoveringText = true;
@@ -420,10 +420,10 @@ function runTheInspector() {
 
 				// Check if element has children but doesn't have grand children: <p>Lorem ipsum <a href="#">dolor</a> sit amet...
 				if (
-					focused_element_children.length > 0 // Has child
-					&& focused_element_grand_children.length == 0 // No grand child
-					&& focused_element_text.trim() != "" // And, also have to have text
-					&& focused_element.html() != "&nbsp;" // And, also have to have text
+					focused_element_children.length > 0 && // Has child
+					focused_element_grand_children.length == 0 && // No grand child
+					focused_element_text.trim() != "" && // And, also have to have text
+					focused_element.html() != "&nbsp;" // And, also have to have text
 				) {
 
 
@@ -451,10 +451,10 @@ function runTheInspector() {
 
 				// Chech if element has only one grand child and it doesn't have any child: <p>Lorem ipsum <a href="#"><strong>dolor</strong></a> sit amet...
 				if (
-					focused_element_children.length > 0 // Has child
-					&& focused_element_grand_children.length > 0 // Has grand child
-					&& focused_element_text.trim() != "" // And, also have to have text
-					&& focused_element.html() != "&nbsp;" // And, also have to have text
+					focused_element_children.length > 0 && // Has child
+					focused_element_grand_children.length > 0 && // Has grand child
+					focused_element_text.trim() != "" && // And, also have to have text
+					focused_element.html() != "&nbsp;" // And, also have to have text
 				) {
 
 
@@ -467,9 +467,9 @@ function runTheInspector() {
 
 
 						if (
-							easy_with_br.indexOf( child.prop('tagName').toUpperCase() ) != -1 // Child is easy to edit
-							&& grandChildren.length == 1 // Grand child has no more than 1 child !!! ???
-							&& easy_with_br.indexOf( grandChildren.first().prop('tagName').toUpperCase() ) != -1 // And that guy is easy to edit as well
+							easy_with_br.indexOf( child.prop('tagName').toUpperCase() ) != -1 && // Child is easy to edit
+							grandChildren.length == 1 && // Grand child has no more than 1 child !!! ???
+							easy_with_br.indexOf( grandChildren.first().prop('tagName').toUpperCase() ) != -1 // And that guy is easy to edit as well
 						)
 
 							easyToEdit = true;
@@ -495,12 +495,12 @@ function runTheInspector() {
 		        if (
 		        	focused_element.prop('tagName').toUpperCase() == "INPUT" &&
 		        	(
-		        		focused_element.attr("type") == "text"
-		        		|| focused_element.attr("type") == "email"
-		        		|| focused_element.attr("type") == "url"
-		        		|| focused_element.attr("type") == "tel"
-		        		|| focused_element.attr("type") == "submit"
-		        		|| focused_element.attr("type") == "reset"
+						focused_element.attr("type") == "text" || 
+						focused_element.attr("type") == "email" || 
+						focused_element.attr("type") == "url" || 
+						focused_element.attr("type") == "tel" || 
+						focused_element.attr("type") == "submit" || 
+						focused_element.attr("type") == "reset"
 		        	)
 		        ) {
 
@@ -657,9 +657,9 @@ function runTheInspector() {
 
 					// Open the new pin window if already open one or clicking an image editable
 					if (
-						pinWindowOpen
-						|| focused_element_pin.attr('data-pin-modification-type') == "image"
-						|| focused_element.attr('data-revisionary-showing-changes') == "0"
+						pinWindowOpen || 
+						focused_element_pin.attr('data-pin-modification-type') == "image" || 
+						focused_element.attr('data-revisionary-showing-changes') == "0"
 					)
 						openPinWindow( focused_element_pin.attr('data-pin-id') );
 
@@ -833,9 +833,9 @@ function runTheInspector() {
 
 			// Open the new pin window if already open
 			if (
-				pinWindowOpen
-				&& focused_element_live_pin != null && focused_element_live_pin.length
-				&& pinWindow().attr('data-revisionary-index') != focused_element_index
+				pinWindowOpen && 
+				focused_element_live_pin != null && focused_element_live_pin.length && 
+				pinWindow().attr('data-revisionary-index') != focused_element_index
 			)
 				openPinWindow( focused_element_live_pin.attr('data-pin-id') );
 
@@ -869,9 +869,9 @@ function runTheInspector() {
 
 			// Record the clicked link
 			if (
-				currentPinType == "browse"
-				&& !link.startsWith('#')
-				&& !link.startsWith('javascript:')
+				currentPinType == "browse" && 
+				!link.startsWith('#') && 
+				!link.startsWith('javascript:')
 			) {
 
 
@@ -999,7 +999,11 @@ function detectColors() {
 
 // TABS:
 // Tab Toggler
-function toggleTab(opener, forceClose = false) {
+function toggleTab(opener, forceClose) {
+
+
+	forceClose = assignDefault(forceClose, false);
+
 
 	var sideElement = opener.parent();
 
@@ -1047,7 +1051,11 @@ function updatePinsList() {
 
 // OUTLINES:
 // Color the element
-function outline(element, private_pin, pin_type = "live") {
+function outline(element, private_pin, pin_type) {
+
+
+	pin_type = assignDefault(pin_type, "live");
+
 
 	if (iframeLoaded == false) return false;
 
@@ -1152,7 +1160,12 @@ function switchPinType(pinType, pinPrivate) {
 
 
 // Switch to a different cursor mode
-function switchCursorType(cursorType, pinPrivate = currentPinPrivate, existing = false) {
+function switchCursorType(cursorType, pinPrivate, existing) {
+
+
+	pinPrivate = assignDefault(pinPrivate, currentPinPrivate);
+	existing = assignDefault(existing, false);
+
 
 	//console.log(cursorType);
 
@@ -1176,7 +1189,11 @@ function switchCursorType(cursorType, pinPrivate = currentPinPrivate, existing =
 
 
 // Toggle Inspect Mode
-function toggleCursorActive(forceClose = false, forceOpen = false) {
+function toggleCursorActive(forceClose, forceOpen) {
+
+
+	forceClose = assignDefault(forceClose, false);
+	forceOpen = assignDefault(forceOpen, false);
 
 
 	//cursor.stop();
@@ -1251,7 +1268,11 @@ function hideCursor() {
 
 // AUTO REFRESH:
 // Start auto-refresh
-function startAutoRefresh(interval = autoRefreshInterval) {
+function startAutoRefresh(interval) {
+
+
+	interval = assignDefault(interval, autoRefreshInterval);
+
 
 	console.log('AUTO-REFRESH PINS STARTED');
 
@@ -1291,7 +1312,11 @@ function stopAutoRefresh() {
 
 // PINS:
 // DB: Get up-to-date pins and changes
-function getPins(firstRetrieve = false, goToPin = null) {
+function getPins(firstRetrieve, goToPin) {
+
+
+	firstRetrieve = assignDefault(firstRetrieve, false);
+	goToPin = assignDefault(goToPin, null);
 
 
 	console.log('GETTING PINS...');
@@ -1741,7 +1766,10 @@ function makeForAllDevices(pin_ID) {
 
 
 // DB: Complete/Incomplete a pin
-function completePin(pin_ID, complete, imgData = null) {
+function completePin(pin_ID, complete, imgData) {
+
+
+	imgData = assignDefault(imgData, null);
 
 
 
@@ -1883,7 +1911,11 @@ function convertPin(pin_ID, targetPin) {
 
 
 // Scroll to a pin
-function scrollToPin(pin_ID, openWindow = false, noDelay = false) {
+function scrollToPin(pin_ID, openWindow, noDelay) {
+
+
+	openWindow = assignDefault(openWindow, false);
+	noDelay = assignDefault(noDelay, false);
 
 
 	console.log('SCROLL TO PIN #' + pin_ID);
@@ -1941,11 +1973,11 @@ function updatePinCount() {
 
 
 	var incompletePins = Pins.filter(function(pin) {
-		return pin.pin_complete == 0
+		return pin.pin_complete == 0;
 	});
 
 	var completePins = Pins.filter(function(pin) {
-		return pin.pin_complete == 1
+		return pin.pin_complete == 1;
 	});
 
 
@@ -1999,7 +2031,11 @@ function changePinNumber(pinNumber) {
 
 
 // Relocate a pin
-function relocatePin(pin_ID, x = null, y = null) {
+function relocatePin(pin_ID, x, y) {
+
+
+	x = assignDefault(x, null);
+	y = assignDefault(y, null);
 
 
 	// Pin info
@@ -2043,7 +2079,10 @@ function relocatePin(pin_ID, x = null, y = null) {
 
 
 // Relocate the pin window
-function relocatePinWindow(pin_ID = null) {
+function relocatePinWindow(pin_ID) {
+
+
+	pin_ID = assignDefault(pin_ID, null);
 
 
 	if (pin_ID == null) pin_ID = parseInt(pinWindow().attr('data-pin-id'));
@@ -2134,7 +2173,10 @@ function relocatePinWindow(pin_ID = null) {
 
 
 // Get real pin location
-function locationsByElement(element_index, pin_x, pin_y, noScroll = false) {
+function locationsByElement(element_index, pin_x, pin_y, noScroll) {
+
+
+	noScroll = assignDefault(noScroll, false);
 
 
 	// Update the location and size values
@@ -2255,8 +2297,10 @@ function relocatePins() {
 
 
 // Activate Pins Drag
-function makeDraggable(pin = $('#pins > pin:not([temporary])')) {
+function makeDraggable(pin) {
 
+
+	pin = assignDefault(pin, $('#pins > pin:not([temporary])'));
 
 
 	// Make pins draggable
@@ -2766,7 +2810,10 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 // Close pin window
-function closePinWindow(removePinIfEmpty = true) {
+function closePinWindow(removePinIfEmpty) {
+
+
+	removePinIfEmpty = assignDefault(removePinIfEmpty, true);
 
 
 	// Don't close the pin window if it's currently adding a
@@ -2822,13 +2869,13 @@ function closePinWindow(removePinIfEmpty = true) {
 	if ( pinWindow(pin_ID).hasClass('removing') ) pinRemoved = true;
 
 	if (
-		removePinIfEmpty
-		&& !pinRemoved
-		&& pinWindow(pin_ID).attr('data-pin-new') == "yes"
-		&& pinWindow(pin_ID).attr('data-revisionary-edited') == "0"
-		&& pinWindow(pin_ID).attr('data-changed') == "no"
-		&& pinWindow(pin_ID).attr('data-has-comments') == "no"
-		&& pinWindow(pin_ID).attr('temporary') != ""
+		removePinIfEmpty && 
+		!pinRemoved && 
+		pinWindow(pin_ID).attr('data-pin-new') == "yes" && 
+		pinWindow(pin_ID).attr('data-revisionary-edited') == "0" && 
+		pinWindow(pin_ID).attr('data-changed') == "no" && 
+		pinWindow(pin_ID).attr('data-has-comments') == "no" && 
+		pinWindow(pin_ID).attr('temporary') != ""
 	) {
 
 		console.log('REMOVE THIS PIN', pin_ID);
@@ -2898,7 +2945,10 @@ function togglePinWindow(pin_ID) {
 
 // MODIFICATIONS:
 // Update originals
-function updateOriginals(pinsList = [], oldPinsList) {
+function updateOriginals(pinsList, oldPinsList) {
+
+
+	pinsList = assignDefault(pinsList, []);
 
 
 	$(pinsList).each(function(i, pin) {
@@ -2963,9 +3013,9 @@ function updateOriginals(pinsList = [], oldPinsList) {
 
 
 // Apply the pins
-function applyPins(oldPins = []) {
+function applyPins(oldPins) {
 
-
+	oldPins = assignDefault(oldPins, []);
 
 	console.log('APPLYING PINS...');
 
@@ -3039,7 +3089,10 @@ function stickPin(pin_ID) {
 
 
 // Apply changes
-function applyChanges(showingOriginal = []) {
+function applyChanges(showingOriginal) {
+
+
+	showingOriginal = assignDefault(showingOriginal, []);
 
 
 	$(Pins).each(function(i, pin) {
@@ -3156,7 +3209,13 @@ function applyChanges(showingOriginal = []) {
 
 
 // Revert changes
-function revertChanges(element_indexes = [], pinsList = Pins, CSSrevert = true) {
+function revertChanges(element_indexes, pinsList, CSSrevert) {
+
+
+	element_indexes = assignDefault(element_indexes, []);
+	pinsList = assignDefault(pinsList, Pins);
+	CSSrevert = assignDefault(CSSrevert, true);
+
 
 	if ( element_indexes.length ) console.log('REVERTING CHANGES FOR: ', element_indexes);
 
@@ -3535,7 +3594,10 @@ function saveCSS(pin_ID, css) {
 
 
 // Update CSS
-function updateCSS(pin_ID, cssCodes = null) {
+function updateCSS(pin_ID, cssCodes) {
+
+
+	cssCodes = assignDefault(cssCodes, null);
 
 
 	var pin = getPin(pin_ID);
@@ -3669,10 +3731,10 @@ function getCSS(pin_ID) {
 
 // COMMENTS:
 // DB: Get Comments
-function getComments(pin_ID, commentsWrapper = null) {
+function getComments(pin_ID, commentsWrapper) {
 
 
-	if (commentsWrapper == null) commentsWrapper = $('#pin-window[data-pin-id="'+ pin_ID +'"] .pin-comments');
+	commentsWrapper = assignDefault(commentsWrapper, $('#pin-window[data-pin-id="'+ pin_ID +'"] .pin-comments'));
 
 
 	// Remove dummy comments and add loading indicator
@@ -3998,7 +4060,9 @@ function iframeElement(selector) {
 
 
 // Find pin element
-function pinElement(selector, byElementIndex = false) {
+function pinElement(selector, byElementIndex) {
+
+	byElementIndex = assignDefault(byElementIndex, false);
 
 	if ( $.isNumeric(selector) ) {
 
@@ -4017,7 +4081,9 @@ function pinElement(selector, byElementIndex = false) {
 
 
 // Get pin from the Pins global
-function getPin(pin_ID, byElementIndex = false) {
+function getPin(pin_ID, byElementIndex) {
+
+	byElementIndex = assignDefault(byElementIndex, false);
 
 	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID || (byElementIndex && pin.pin_element_index == pin_ID ) ? true : false; });
 	if (typeof pin === 'undefined') return false;
@@ -4027,7 +4093,11 @@ function getPin(pin_ID, byElementIndex = false) {
 
 
 // Get the specific pin's window
-function pinWindow(selector = "", byElementIndex = false) {
+function pinWindow(selector, byElementIndex) {
+
+
+	selector = assignDefault(selector, "");
+	byElementIndex = assignDefault(byElementIndex, false);
 
 
 	if ( $.isNumeric(selector) ) {
@@ -4048,7 +4118,12 @@ function pinWindow(selector = "", byElementIndex = false) {
 
 
 // Get the specific pin's window
-function isPinWindowOpen(selector = "", byElementIndex = false) {
+function isPinWindowOpen(selector, byElementIndex) {
+
+
+	selector = assignDefault(selector, "");
+	byElementIndex = assignDefault(byElementIndex, false);
+
 
 	var pin_window = pinWindow(selector, byElementIndex);
 
@@ -4060,7 +4135,11 @@ function isPinWindowOpen(selector = "", byElementIndex = false) {
 
 // TEMPLATES:
 // Pin template
-function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary = false, size = "big") {
+function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary, size) {
+
+
+	temporary = assignDefault(temporary, false);
+	size = assignDefault(size, "big");
 
 
 	var pinLocation = locationsByElement(pin_element_index, pin_x, pin_y);
@@ -4136,7 +4215,11 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 
 
 // Comment template
-function commentTemplate(comment, left = true, hide = false, sameTime = false) {
+function commentTemplate(comment, left, hide, sameTime) {
+
+	left = assignDefault(left, true);
+	hide = assignDefault(hide, false);
+	sameTime = assignDefault(sameTime, false);
 
 	var date = new Date(comment.comment_modified);
 	var picture = comment.user_picture;
@@ -4275,298 +4358,298 @@ function get_html_translation_table(table, quote_style) {
 
   var entities = {},
     hash_map = {},
-    decimal
+    decimal;
   var constMappingTable = {},
-    constMappingQuoteStyle = {}
+    constMappingQuoteStyle = {};
   var useTable = {},
-    useQuoteStyle = {}
+    useQuoteStyle = {};
 
   // Translate arguments
-  constMappingTable[0] = 'HTML_SPECIALCHARS'
-  constMappingTable[1] = 'HTML_ENTITIES'
-  constMappingQuoteStyle[0] = 'ENT_NOQUOTES'
-  constMappingQuoteStyle[2] = 'ENT_COMPAT'
-  constMappingQuoteStyle[3] = 'ENT_QUOTES'
+  constMappingTable[0] = 'HTML_SPECIALCHARS';
+  constMappingTable[1] = 'HTML_ENTITIES';
+  constMappingQuoteStyle[0] = 'ENT_NOQUOTES';
+  constMappingQuoteStyle[2] = 'ENT_COMPAT';
+  constMappingQuoteStyle[3] = 'ENT_QUOTES';
 
-  useTable = !isNaN(table) ? constMappingTable[table] : table ? table.toUpperCase() : 'HTML_SPECIALCHARS'
+  useTable = !isNaN(table) ? constMappingTable[table] : table ? table.toUpperCase() : 'HTML_SPECIALCHARS';
   useQuoteStyle = !isNaN(quote_style) ? constMappingQuoteStyle[quote_style] : quote_style ? quote_style.toUpperCase() :
-    'ENT_COMPAT'
+    'ENT_COMPAT';
 
   if (useTable !== 'HTML_SPECIALCHARS' && useTable !== 'HTML_ENTITIES') {
-    throw new Error('Table: ' + useTable + ' not supported')
+    throw new Error('Table: ' + useTable + ' not supported');
     // return false;
   }
 
-  entities['38'] = '&amp;'
+  entities['38'] = '&amp;';
   if (useTable === 'HTML_ENTITIES') {
-	entities['38'] = '&amp;'
-	entities['60'] = '&lt;'
-	entities['62'] = '&gt;'
-	entities['160'] = '&nbsp;'
-	entities['161'] = '&iexcl;'
-	entities['162'] = '&cent;'
-	entities['163'] = '&pound;'
-	entities['164'] = '&curren;'
-	entities['165'] = '&yen;'
-	entities['166'] = '&brvbar;'
-	entities['167'] = '&sect;'
-	entities['168'] = '&uml;'
-	entities['169'] = '&copy;'
-	entities['170'] = '&ordf;'
-	entities['171'] = '&laquo;'
-	entities['172'] = '&not;'
-	entities['173'] = '&shy;'
-	entities['174'] = '&reg;'
-	entities['175'] = '&macr;'
-	entities['176'] = '&deg;'
-	entities['177'] = '&plusmn;'
-	entities['178'] = '&sup2;'
-	entities['179'] = '&sup3;'
-	entities['180'] = '&acute;'
-	entities['181'] = '&micro;'
-	entities['182'] = '&para;'
-	entities['183'] = '&middot;'
-	entities['184'] = '&cedil;'
-	entities['185'] = '&sup1;'
-	entities['186'] = '&ordm;'
-	entities['187'] = '&raquo;'
-	entities['188'] = '&frac14;'
-	entities['189'] = '&frac12;'
-	entities['190'] = '&frac34;'
-	entities['191'] = '&iquest;'
-	entities['192'] = '&Agrave;'
-	entities['193'] = '&Aacute;'
-	entities['194'] = '&Acirc;'
-	entities['195'] = '&Atilde;'
-	entities['196'] = '&Auml;'
-	entities['197'] = '&Aring;'
-	entities['198'] = '&AElig;'
-	entities['199'] = '&Ccedil;'
-	entities['200'] = '&Egrave;'
-	entities['201'] = '&Eacute;'
-	entities['202'] = '&Ecirc;'
-	entities['203'] = '&Euml;'
-	entities['204'] = '&Igrave;'
-	entities['205'] = '&Iacute;'
-	entities['206'] = '&Icirc;'
-	entities['207'] = '&Iuml;'
-	entities['208'] = '&ETH;'
-	entities['209'] = '&Ntilde;'
-	entities['210'] = '&Ograve;'
-	entities['211'] = '&Oacute;'
-	entities['212'] = '&Ocirc;'
-	entities['213'] = '&Otilde;'
-	entities['214'] = '&Ouml;'
-	entities['215'] = '&times;'
-	entities['216'] = '&Oslash;'
-	entities['217'] = '&Ugrave;'
-	entities['218'] = '&Uacute;'
-	entities['219'] = '&Ucirc;'
-	entities['220'] = '&Uuml;'
-	entities['221'] = '&Yacute;'
-	entities['222'] = '&THORN;'
-	entities['223'] = '&szlig;'
-	entities['224'] = '&agrave;'
-	entities['225'] = '&aacute;'
-	entities['226'] = '&acirc;'
-	entities['227'] = '&atilde;'
-	entities['228'] = '&auml;'
-	entities['229'] = '&aring;'
-	entities['230'] = '&aelig;'
-	entities['231'] = '&ccedil;'
-	entities['232'] = '&egrave;'
-	entities['233'] = '&eacute;'
-	entities['234'] = '&ecirc;'
-	entities['235'] = '&euml;'
-	entities['236'] = '&igrave;'
-	entities['237'] = '&iacute;'
-	entities['238'] = '&icirc;'
-	entities['239'] = '&iuml;'
-	entities['240'] = '&eth;'
-	entities['241'] = '&ntilde;'
-	entities['242'] = '&ograve;'
-	entities['243'] = '&oacute;'
-	entities['244'] = '&ocirc;'
-	entities['245'] = '&otilde;'
-	entities['246'] = '&ouml;'
-	entities['247'] = '&divide;'
-	entities['248'] = '&oslash;'
-	entities['249'] = '&ugrave;'
-	entities['250'] = '&uacute;'
-	entities['251'] = '&ucirc;'
-	entities['252'] = '&uuml;'
-	entities['253'] = '&yacute;'
-	entities['254'] = '&thorn;'
-	entities['255'] = '&yuml;'
-	entities['402'] = '&fnof;'
-	entities['913'] = '&Alpha;'
-	entities['914'] = '&Beta;'
-	entities['915'] = '&Gamma;'
-	entities['916'] = '&Delta;'
-	entities['917'] = '&Epsilon;'
-	entities['918'] = '&Zeta;'
-	entities['919'] = '&Eta;'
-	entities['920'] = '&Theta;'
-	entities['921'] = '&Iota;'
-	entities['922'] = '&Kappa;'
-	entities['923'] = '&Lambda;'
-	entities['924'] = '&Mu;'
-	entities['925'] = '&Nu;'
-	entities['926'] = '&Xi;'
-	entities['927'] = '&Omicron;'
-	entities['928'] = '&Pi;'
-	entities['929'] = '&Rho;'
-	entities['931'] = '&Sigma;'
-	entities['932'] = '&Tau;'
-	entities['933'] = '&Upsilon;'
-	entities['934'] = '&Phi;'
-	entities['935'] = '&Chi;'
-	entities['936'] = '&Psi;'
-	entities['937'] = '&Omega;'
-	entities['945'] = '&alpha;'
-	entities['946'] = '&beta;'
-	entities['947'] = '&gamma;'
-	entities['948'] = '&delta;'
-	entities['949'] = '&epsilon;'
-	entities['950'] = '&zeta;'
-	entities['951'] = '&eta;'
-	entities['952'] = '&theta;'
-	entities['953'] = '&iota;'
-	entities['954'] = '&kappa;'
-	entities['955'] = '&lambda;'
-	entities['956'] = '&mu;'
-	entities['957'] = '&nu;'
-	entities['958'] = '&xi;'
-	entities['959'] = '&omicron;'
-	entities['960'] = '&pi;'
-	entities['961'] = '&rho;'
-	entities['962'] = '&sigmaf;'
-	entities['963'] = '&sigma;'
-	entities['964'] = '&tau;'
-	entities['965'] = '&upsilon;'
-	entities['966'] = '&phi;'
-	entities['967'] = '&chi;'
-	entities['968'] = '&psi;'
-	entities['969'] = '&omega;'
-	entities['977'] = '&thetasym;'
-	entities['978'] = '&upsih;'
-	entities['982'] = '&piv;'
-	entities['8226'] = '&bull;'
-	entities['8230'] = '&hellip;'
-	entities['8242'] = '&prime;'
-	entities['8243'] = '&Prime;'
-	entities['8254'] = '&oline;'
-	entities['8260'] = '&frasl;'
-	entities['8472'] = '&weierp;'
-	entities['8465'] = '&image;'
-	entities['8476'] = '&real;'
-	entities['8482'] = '&trade;'
-	entities['8501'] = '&alefsym;'
-	entities['8592'] = '&larr;'
-	entities['8593'] = '&uarr;'
-	entities['8594'] = '&rarr;'
-	entities['8595'] = '&darr;'
-	entities['8596'] = '&harr;'
-	entities['8629'] = '&crarr;'
-	entities['8656'] = '&lArr;'
-	entities['8657'] = '&uArr;'
-	entities['8658'] = '&rArr;'
-	entities['8659'] = '&dArr;'
-	entities['8660'] = '&hArr;'
-	entities['8704'] = '&forall;'
-	entities['8706'] = '&part;'
-	entities['8707'] = '&exist;'
-	entities['8709'] = '&empty;'
-	entities['8711'] = '&nabla;'
-	entities['8712'] = '&isin;'
-	entities['8713'] = '&notin;'
-	entities['8715'] = '&ni;'
-	entities['8719'] = '&prod;'
-	entities['8721'] = '&sum;'
-	entities['8722'] = '&minus;'
-	entities['8727'] = '&lowast;'
-	entities['8730'] = '&radic;'
-	entities['8733'] = '&prop;'
-	entities['8734'] = '&infin;'
-	entities['8736'] = '&ang;'
-	entities['8743'] = '&and;'
-	entities['8744'] = '&or;'
-	entities['8745'] = '&cap;'
-	entities['8746'] = '&cup;'
-	entities['8747'] = '&int;'
-	entities['8756'] = '&there4;'
-	entities['8764'] = '&sim;'
-	entities['8773'] = '&cong;'
-	entities['8776'] = '&asymp;'
-	entities['8800'] = '&ne;'
-	entities['8801'] = '&equiv;'
-	entities['8804'] = '&le;'
-	entities['8805'] = '&ge;'
-	entities['8834'] = '&sub;'
-	entities['8835'] = '&sup;'
-	entities['8836'] = '&nsub;'
-	entities['8838'] = '&sube;'
-	entities['8839'] = '&supe;'
-	entities['8853'] = '&oplus;'
-	entities['8855'] = '&otimes;'
-	entities['8869'] = '&perp;'
-	entities['8901'] = '&sdot;'
-	entities['8968'] = '&lceil;'
-	entities['8969'] = '&rceil;'
-	entities['8970'] = '&lfloor;'
-	entities['8971'] = '&rfloor;'
-	entities['9001'] = '&lang;'
-	entities['9002'] = '&rang;'
-	entities['9674'] = '&loz;'
-	entities['9824'] = '&spades;'
-	entities['9827'] = '&clubs;'
-	entities['9829'] = '&hearts;'
-	entities['9830'] = '&diams;'
-	entities['338'] = '&OElig;'
-	entities['339'] = '&oelig;'
-	entities['352'] = '&Scaron;'
-	entities['353'] = '&scaron;'
-	entities['376'] = '&Yuml;'
-	entities['710'] = '&circ;'
-	entities['732'] = '&tilde;'
-	entities['8194'] = '&ensp;'
-	entities['8195'] = '&emsp;'
-	entities['8201'] = '&thinsp;'
-	entities['8204'] = '&zwnj;'
-	entities['8205'] = '&zwj;'
-	entities['8206'] = '&lrm;'
-	entities['8207'] = '&rlm;'
-	entities['8211'] = '&ndash;'
-	entities['8212'] = '&mdash;'
-	entities['8216'] = '&lsquo;'
-	entities['8217'] = '&rsquo;'
-	entities['8218'] = '&sbquo;'
-	entities['8220'] = '&ldquo;'
-	entities['8221'] = '&rdquo;'
-	entities['8222'] = '&bdquo;'
-	entities['8224'] = '&dagger;'
-	entities['8225'] = '&Dagger;'
-	entities['8240'] = '&permil;'
-	entities['8249'] = '&lsaquo;'
-	entities['8250'] = '&rsaquo;'
-	entities['8364'] = '&euro;'
+	entities['38'] = '&amp;';
+	entities['60'] = '&lt;';
+	entities['62'] = '&gt;';
+	entities['160'] = '&nbsp;';
+	entities['161'] = '&iexcl;';
+	entities['162'] = '&cent;';
+	entities['163'] = '&pound;';
+	entities['164'] = '&curren;';
+	entities['165'] = '&yen;';
+	entities['166'] = '&brvbar;';
+	entities['167'] = '&sect;';
+	entities['168'] = '&uml;';
+	entities['169'] = '&copy;';
+	entities['170'] = '&ordf;';
+	entities['171'] = '&laquo;';
+	entities['172'] = '&not;';
+	entities['173'] = '&shy;';
+	entities['174'] = '&reg;';
+	entities['175'] = '&macr;';
+	entities['176'] = '&deg;';
+	entities['177'] = '&plusmn;';
+	entities['178'] = '&sup2;';
+	entities['179'] = '&sup3;';
+	entities['180'] = '&acute;';
+	entities['181'] = '&micro;';
+	entities['182'] = '&para;';
+	entities['183'] = '&middot;';
+	entities['184'] = '&cedil;';
+	entities['185'] = '&sup1;';
+	entities['186'] = '&ordm;';
+	entities['187'] = '&raquo;';
+	entities['188'] = '&frac14;';
+	entities['189'] = '&frac12;';
+	entities['190'] = '&frac34;';
+	entities['191'] = '&iquest;';
+	entities['192'] = '&Agrave;';
+	entities['193'] = '&Aacute;';
+	entities['194'] = '&Acirc;';
+	entities['195'] = '&Atilde;';
+	entities['196'] = '&Auml;';
+	entities['197'] = '&Aring;';
+	entities['198'] = '&AElig;';
+	entities['199'] = '&Ccedil;';
+	entities['200'] = '&Egrave;';
+	entities['201'] = '&Eacute;';
+	entities['202'] = '&Ecirc;';
+	entities['203'] = '&Euml;';
+	entities['204'] = '&Igrave;';
+	entities['205'] = '&Iacute;';
+	entities['206'] = '&Icirc;';
+	entities['207'] = '&Iuml;';
+	entities['208'] = '&ETH;';
+	entities['209'] = '&Ntilde;';
+	entities['210'] = '&Ograve;';
+	entities['211'] = '&Oacute;';
+	entities['212'] = '&Ocirc;';
+	entities['213'] = '&Otilde;';
+	entities['214'] = '&Ouml;';
+	entities['215'] = '&times;';
+	entities['216'] = '&Oslash;';
+	entities['217'] = '&Ugrave;';
+	entities['218'] = '&Uacute;';
+	entities['219'] = '&Ucirc;';
+	entities['220'] = '&Uuml;';
+	entities['221'] = '&Yacute;';
+	entities['222'] = '&THORN;';
+	entities['223'] = '&szlig;';
+	entities['224'] = '&agrave;';
+	entities['225'] = '&aacute;';
+	entities['226'] = '&acirc;';
+	entities['227'] = '&atilde;';
+	entities['228'] = '&auml;';
+	entities['229'] = '&aring;';
+	entities['230'] = '&aelig;';
+	entities['231'] = '&ccedil;';
+	entities['232'] = '&egrave;';
+	entities['233'] = '&eacute;';
+	entities['234'] = '&ecirc;';
+	entities['235'] = '&euml;';
+	entities['236'] = '&igrave;';
+	entities['237'] = '&iacute;';
+	entities['238'] = '&icirc;';
+	entities['239'] = '&iuml;';
+	entities['240'] = '&eth;';
+	entities['241'] = '&ntilde;';
+	entities['242'] = '&ograve;';
+	entities['243'] = '&oacute;';
+	entities['244'] = '&ocirc;';
+	entities['245'] = '&otilde;';
+	entities['246'] = '&ouml;';
+	entities['247'] = '&divide;';
+	entities['248'] = '&oslash;';
+	entities['249'] = '&ugrave;';
+	entities['250'] = '&uacute;';
+	entities['251'] = '&ucirc;';
+	entities['252'] = '&uuml;';
+	entities['253'] = '&yacute;';
+	entities['254'] = '&thorn;';
+	entities['255'] = '&yuml;';
+	entities['402'] = '&fnof;';
+	entities['913'] = '&Alpha;';
+	entities['914'] = '&Beta;';
+	entities['915'] = '&Gamma;';
+	entities['916'] = '&Delta;';
+	entities['917'] = '&Epsilon;';
+	entities['918'] = '&Zeta;';
+	entities['919'] = '&Eta;';
+	entities['920'] = '&Theta;';
+	entities['921'] = '&Iota;';
+	entities['922'] = '&Kappa;';
+	entities['923'] = '&Lambda;';
+	entities['924'] = '&Mu;';
+	entities['925'] = '&Nu;';
+	entities['926'] = '&Xi;';
+	entities['927'] = '&Omicron;';
+	entities['928'] = '&Pi;';
+	entities['929'] = '&Rho;';
+	entities['931'] = '&Sigma;';
+	entities['932'] = '&Tau;';
+	entities['933'] = '&Upsilon;';
+	entities['934'] = '&Phi;';
+	entities['935'] = '&Chi;';
+	entities['936'] = '&Psi;';
+	entities['937'] = '&Omega;';
+	entities['945'] = '&alpha;';
+	entities['946'] = '&beta;';
+	entities['947'] = '&gamma;';
+	entities['948'] = '&delta;';
+	entities['949'] = '&epsilon;';
+	entities['950'] = '&zeta;';
+	entities['951'] = '&eta;';
+	entities['952'] = '&theta;';
+	entities['953'] = '&iota;';
+	entities['954'] = '&kappa;';
+	entities['955'] = '&lambda;';
+	entities['956'] = '&mu;';
+	entities['957'] = '&nu;';
+	entities['958'] = '&xi;';
+	entities['959'] = '&omicron;';
+	entities['960'] = '&pi;';
+	entities['961'] = '&rho;';
+	entities['962'] = '&sigmaf;';
+	entities['963'] = '&sigma;';
+	entities['964'] = '&tau;';
+	entities['965'] = '&upsilon;';
+	entities['966'] = '&phi;';
+	entities['967'] = '&chi;';
+	entities['968'] = '&psi;';
+	entities['969'] = '&omega;';
+	entities['977'] = '&thetasym;';
+	entities['978'] = '&upsih;';
+	entities['982'] = '&piv;';
+	entities['8226'] = '&bull;';
+	entities['8230'] = '&hellip;';
+	entities['8242'] = '&prime;';
+	entities['8243'] = '&Prime;';
+	entities['8254'] = '&oline;';
+	entities['8260'] = '&frasl;';
+	entities['8472'] = '&weierp;';
+	entities['8465'] = '&image;';
+	entities['8476'] = '&real;';
+	entities['8482'] = '&trade;';
+	entities['8501'] = '&alefsym;';
+	entities['8592'] = '&larr;';
+	entities['8593'] = '&uarr;';
+	entities['8594'] = '&rarr;';
+	entities['8595'] = '&darr;';
+	entities['8596'] = '&harr;';
+	entities['8629'] = '&crarr;';
+	entities['8656'] = '&lArr;';
+	entities['8657'] = '&uArr;';
+	entities['8658'] = '&rArr;';
+	entities['8659'] = '&dArr;';
+	entities['8660'] = '&hArr;';
+	entities['8704'] = '&forall;';
+	entities['8706'] = '&part;';
+	entities['8707'] = '&exist;';
+	entities['8709'] = '&empty;';
+	entities['8711'] = '&nabla;';
+	entities['8712'] = '&isin;';
+	entities['8713'] = '&notin;';
+	entities['8715'] = '&ni;';
+	entities['8719'] = '&prod;';
+	entities['8721'] = '&sum;';
+	entities['8722'] = '&minus;';
+	entities['8727'] = '&lowast;';
+	entities['8730'] = '&radic;';
+	entities['8733'] = '&prop;';
+	entities['8734'] = '&infin;';
+	entities['8736'] = '&ang;';
+	entities['8743'] = '&and;';
+	entities['8744'] = '&or;';
+	entities['8745'] = '&cap;';
+	entities['8746'] = '&cup;';
+	entities['8747'] = '&int;';
+	entities['8756'] = '&there4;';
+	entities['8764'] = '&sim;';
+	entities['8773'] = '&cong;';
+	entities['8776'] = '&asymp;';
+	entities['8800'] = '&ne;';
+	entities['8801'] = '&equiv;';
+	entities['8804'] = '&le;';
+	entities['8805'] = '&ge;';
+	entities['8834'] = '&sub;';
+	entities['8835'] = '&sup;';
+	entities['8836'] = '&nsub;';
+	entities['8838'] = '&sube;';
+	entities['8839'] = '&supe;';
+	entities['8853'] = '&oplus;';
+	entities['8855'] = '&otimes;';
+	entities['8869'] = '&perp;';
+	entities['8901'] = '&sdot;';
+	entities['8968'] = '&lceil;';
+	entities['8969'] = '&rceil;';
+	entities['8970'] = '&lfloor;';
+	entities['8971'] = '&rfloor;';
+	entities['9001'] = '&lang;';
+	entities['9002'] = '&rang;';
+	entities['9674'] = '&loz;';
+	entities['9824'] = '&spades;';
+	entities['9827'] = '&clubs;';
+	entities['9829'] = '&hearts;';
+	entities['9830'] = '&diams;';
+	entities['338'] = '&OElig;';
+	entities['339'] = '&oelig;';
+	entities['352'] = '&Scaron;';
+	entities['353'] = '&scaron;';
+	entities['376'] = '&Yuml;';
+	entities['710'] = '&circ;';
+	entities['732'] = '&tilde;';
+	entities['8194'] = '&ensp;';
+	entities['8195'] = '&emsp;';
+	entities['8201'] = '&thinsp;';
+	entities['8204'] = '&zwnj;';
+	entities['8205'] = '&zwj;';
+	entities['8206'] = '&lrm;';
+	entities['8207'] = '&rlm;';
+	entities['8211'] = '&ndash;';
+	entities['8212'] = '&mdash;';
+	entities['8216'] = '&lsquo;';
+	entities['8217'] = '&rsquo;';
+	entities['8218'] = '&sbquo;';
+	entities['8220'] = '&ldquo;';
+	entities['8221'] = '&rdquo;';
+	entities['8222'] = '&bdquo;';
+	entities['8224'] = '&dagger;';
+	entities['8225'] = '&Dagger;';
+	entities['8240'] = '&permil;';
+	entities['8249'] = '&lsaquo;';
+	entities['8250'] = '&rsaquo;';
+	entities['8364'] = '&euro;';
   }
 
   if (useQuoteStyle !== 'ENT_NOQUOTES') {
-    entities['34'] = '&quot;'
+    entities['34'] = '&quot;';
   }
   if (useQuoteStyle === 'ENT_QUOTES') {
-    entities['39'] = '&#39;'
+    entities['39'] = '&#39;';
   }
 
   // ascii decimals to real symbols
   for (decimal in entities) {
     if (entities.hasOwnProperty(decimal)) {
-      hash_map[String.fromCharCode(decimal)] = entities[decimal]
+      hash_map[String.fromCharCode(decimal)] = entities[decimal];
     }
   }
 
-  return hash_map
+  return hash_map;
 }
 
 function htmlentities(string, quote_style, charset, double_encode) {
@@ -4589,34 +4672,34 @@ function htmlentities(string, quote_style, charset, double_encode) {
   //   returns 2: 'foo&#039;bar'
 
   var hash_map = this.get_html_translation_table('HTML_ENTITIES', quote_style),
-    symbol = ''
+    symbol = '';
 
-  string = string == null ? '' : string + ''
+  string = string == null ? '' : string + '';
 
   if (!hash_map) {
-    return false
+    return false;
   }
 
   if (quote_style && quote_style === 'ENT_QUOTES') {
-    hash_map["'"] = '&#039;'
+    hash_map["'"] = '&#039;';
   }
 
-  double_encode = double_encode == null || !!double_encode
+  double_encode = double_encode == null || !!double_encode;
 
   var regex = new RegExp('&(?:#\\d+|#x[\\da-f]+|[a-zA-Z][\\da-z]*);|[' +
     Object.keys(hash_map)
     .join('')
     // replace regexp special chars
     .replace(/([()[\]{}\-.*+?^$|\/\\])/g, '\\$1') + ']',
-    'g')
+    'g');
 
   return string.replace(regex, function (ent) {
     if (ent.length > 1) {
-      return double_encode ? hash_map['&'] + ent.substr(1) : ent
+      return double_encode ? hash_map['&'] + ent.substr(1) : ent;
     }
 
-    return hash_map[ent]
-  })
+    return hash_map[ent];
+  });
 }
 
 function html_entity_decode(string, quote_style) {
@@ -4641,27 +4724,27 @@ function html_entity_decode(string, quote_style) {
   var hash_map = {},
     symbol = '',
     tmp_str = '',
-    entity = ''
-  tmp_str = string.toString()
+    entity = '';
+  tmp_str = string.toString();
 
   if (false === (hash_map = this.get_html_translation_table('HTML_ENTITIES', quote_style))) {
-    return false
+    return false;
   }
 
   // fix &amp; problem
   // http://phpjs.org/functions/get_html_translation_table:416#comment_97660
-  delete (hash_map['&'])
-  hash_map['&'] = '&amp;'
+  delete (hash_map['&']);
+  hash_map['&'] = '&amp;';
 
   for (symbol in hash_map) {
-    entity = hash_map[symbol]
+    entity = hash_map[symbol];
     tmp_str = tmp_str.split(entity)
-      .join(symbol)
+      .join(symbol);
   }
   tmp_str = tmp_str.split('&#039;')
-    .join("'")
+    .join("'");
 
-  return tmp_str
+  return tmp_str;
 }
 
 function canAccessIFrame(iframe) {
