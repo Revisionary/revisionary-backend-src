@@ -495,11 +495,11 @@ function runTheInspector() {
 		        if (
 		        	focused_element.prop('tagName').toUpperCase() == "INPUT" &&
 		        	(
-						focused_element.attr("type") == "text" || 
-						focused_element.attr("type") == "email" || 
-						focused_element.attr("type") == "url" || 
-						focused_element.attr("type") == "tel" || 
-						focused_element.attr("type") == "submit" || 
+						focused_element.attr("type") == "text" ||
+						focused_element.attr("type") == "email" ||
+						focused_element.attr("type") == "url" ||
+						focused_element.attr("type") == "tel" ||
+						focused_element.attr("type") == "submit" ||
 						focused_element.attr("type") == "reset"
 		        	)
 		        ) {
@@ -657,8 +657,8 @@ function runTheInspector() {
 
 					// Open the new pin window if already open one or clicking an image editable
 					if (
-						pinWindowOpen || 
-						focused_element_pin.attr('data-pin-modification-type') == "image" || 
+						pinWindowOpen ||
+						focused_element_pin.attr('data-pin-modification-type') == "image" ||
 						focused_element.attr('data-revisionary-showing-changes') == "0"
 					)
 						openPinWindow( focused_element_pin.attr('data-pin-id') );
@@ -833,8 +833,8 @@ function runTheInspector() {
 
 			// Open the new pin window if already open
 			if (
-				pinWindowOpen && 
-				focused_element_live_pin != null && focused_element_live_pin.length && 
+				pinWindowOpen &&
+				focused_element_live_pin != null && focused_element_live_pin.length &&
 				pinWindow().attr('data-revisionary-index') != focused_element_index
 			)
 				openPinWindow( focused_element_live_pin.attr('data-pin-id') );
@@ -869,8 +869,8 @@ function runTheInspector() {
 
 			// Record the clicked link
 			if (
-				currentPinType == "browse" && 
-				!link.startsWith('#') && 
+				currentPinType == "browse" &&
+				!link.startsWith('#') &&
 				!link.startsWith('javascript:')
 			) {
 
@@ -2869,12 +2869,12 @@ function closePinWindow(removePinIfEmpty) {
 	if ( pinWindow(pin_ID).hasClass('removing') ) pinRemoved = true;
 
 	if (
-		removePinIfEmpty && 
-		!pinRemoved && 
-		pinWindow(pin_ID).attr('data-pin-new') == "yes" && 
-		pinWindow(pin_ID).attr('data-revisionary-edited') == "0" && 
-		pinWindow(pin_ID).attr('data-changed') == "no" && 
-		pinWindow(pin_ID).attr('data-has-comments') == "no" && 
+		removePinIfEmpty &&
+		!pinRemoved &&
+		pinWindow(pin_ID).attr('data-pin-new') == "yes" &&
+		pinWindow(pin_ID).attr('data-revisionary-edited') == "0" &&
+		pinWindow(pin_ID).attr('data-changed') == "no" &&
+		pinWindow(pin_ID).attr('data-has-comments') == "no" &&
 		pinWindow(pin_ID).attr('temporary') != ""
 	) {
 
