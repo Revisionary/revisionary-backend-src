@@ -1,8 +1,11 @@
 <pre>
 <?php
-//$cache->flush();
+$flush = false;
 
 
+
+
+if ($flush) $cache->flush();
 echo "
 <details>
 	<summary><h2 style='display: inline;'>CACHES (".count($cache->getAllKeys()).")</h2></summary>";
@@ -112,8 +115,7 @@ if ($user) {
 
 }
 echo "<br><br>";
-
-//$cache->flush();
+if ($flush) $cache->flush();
 
 
 
