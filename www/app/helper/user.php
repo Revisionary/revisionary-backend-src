@@ -95,7 +95,9 @@ function getUserInfo($user_ID = false) {
 			'userLevelName' => "",
 			'userLevelID' => "",
 			'userLevelMaxProject' => "",
-			'userLevelMaxPage' => ""
+			'userLevelMaxPage' => "",
+			'userLevelMaxLivePin' => "",
+			'userLevelMaxStandardPin' => ""
 		);
 
 
@@ -124,6 +126,8 @@ function getUserInfo($user_ID = false) {
 		'userLevelID' => $userInfo['user_level_ID'],
 		'userLevelMaxProject' => $userInfo['user_level_max_project'],
 		'userLevelMaxPage' => $userInfo['user_level_max_page'],
+		'userLevelMaxLivePin' => $userInfo['user_level_max_live_pin'],
+		'userLevelMaxStandardPin' => $userInfo['user_level_max_standard_pin']
 	);
 	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';
 

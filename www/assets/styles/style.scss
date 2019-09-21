@@ -2522,10 +2522,34 @@ header {
 .limit-wrapper {
 
 	ul {
+		padding-top: 12px !important;
+		min-width: 180px;
+		right: -22px !important;
+		box-shadow: 0px 30px 20px 0px rgba(0,0,0,0.5);
 
 		& > li {
-			padding-top: 20px;
+			padding-top: 10px;
 			padding-bottom: 20px;
+			margin-bottom: -1px !important;
+			border: none !important;
+
+			& > a {
+				padding: 5px 20px !important;
+
+				& > .limit-bar {
+					margin-bottom: 0;
+				}
+
+				&.button {
+					border-radius: 8px;
+					background-color: $color;
+					color: white;
+					text-align: center;
+					width: auto;
+					margin: 0 auto;
+					display: inline-block;
+				}
+			}
 		}
 
 	}
@@ -2574,7 +2598,7 @@ header {
 				display: inline-block;
 				background-color: white;
 				position: absolute;
-				z-index: 1;
+				z-index: 0;
 				left: 100%;
 				top: 100%;
 				text-align: center;
@@ -2599,6 +2623,7 @@ header {
 
 	    & > .total {
 		    position: absolute;
+		    z-index: 0;
 		    bottom: 100%;
 		    left: 100%;
 		    transform: translate(-50%, -50%);
@@ -2607,23 +2632,24 @@ header {
 		    line-height: 9px;
 		    text-align: center;
 	    }
-	}
 
-	&.exceed {
+		&.exceed {
 
-		.limit-bar::after {
-			background-color: red;
-			height: 15px;
-			width: 15px;
-			border-radius: 50%;
-			transform: translate(-50%, -50%);
-		}
+			&::after {
+				background-color: red;
+				height: 15px;
+				width: 15px;
+				border-radius: 50%;
+				transform: translate(-50%, -50%);
+			}
 
-		.current-status {
-			background: rgb(0,0,0);
-		    background: -webkit-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
-		    background: -o-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
-		    background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
+			.current-status {
+				background: rgb(0,0,0);
+			    background: -webkit-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
+			    background: -o-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
+			    background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
+			}
+
 		}
 
 	}

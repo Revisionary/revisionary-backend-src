@@ -6530,9 +6530,28 @@ header {
   .title .dropdown > ul {
     min-width: 220px; }
 
-.limit-wrapper ul > li {
-  padding-top: 20px;
-  padding-bottom: 20px; }
+.limit-wrapper ul {
+  padding-top: 12px !important;
+  min-width: 180px;
+  right: -22px !important;
+  box-shadow: 0px 30px 20px 0px rgba(0, 0, 0, 0.5); }
+  .limit-wrapper ul > li {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    margin-bottom: -1px !important;
+    border: none !important; }
+    .limit-wrapper ul > li > a {
+      padding: 5px 20px !important; }
+      .limit-wrapper ul > li > a > .limit-bar {
+        margin-bottom: 0; }
+      .limit-wrapper ul > li > a.button {
+        border-radius: 8px;
+        background-color: black;
+        color: white;
+        text-align: center;
+        width: auto;
+        margin: 0 auto;
+        display: inline-block; }
 
 .limit-wrapper .limit-bar {
   display: inline-block;
@@ -6570,7 +6589,7 @@ header {
       display: inline-block;
       background-color: white;
       position: absolute;
-      z-index: 1;
+      z-index: 0;
       left: 100%;
       top: 100%;
       text-align: center;
@@ -6584,6 +6603,7 @@ header {
         opacity: 1; }
   .limit-wrapper .limit-bar > .total {
     position: absolute;
+    z-index: 0;
     bottom: 100%;
     left: 100%;
     transform: translate(-50%, -50%);
@@ -6591,19 +6611,17 @@ header {
     font-size: 10px;
     line-height: 9px;
     text-align: center; }
-
-.limit-wrapper.exceed .limit-bar::after {
-  background-color: red;
-  height: 15px;
-  width: 15px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%); }
-
-.limit-wrapper.exceed .current-status {
-  background: black;
-  background: -webkit-linear-gradient(left, black 0%, red 100%);
-  background: -o-linear-gradient(left, black 0%, red 100%);
-  background: linear-gradient(to right, black 0%, red 100%); }
+  .limit-wrapper .limit-bar.exceed::after {
+    background-color: red;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%); }
+  .limit-wrapper .limit-bar.exceed .current-status {
+    background: black;
+    background: -webkit-linear-gradient(left, black 0%, red 100%);
+    background: -o-linear-gradient(left, black 0%, red 100%);
+    background: linear-gradient(to right, black 0%, red 100%); }
 
 .under-main-title {
   margin-bottom: 10px; }
