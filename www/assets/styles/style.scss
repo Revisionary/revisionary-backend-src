@@ -2523,16 +2523,14 @@ header {
 
 	ul {
 		padding-top: 12px !important;
-		min-width: 180px;
+		min-width: 280px;
 		right: -22px !important;
 		box-shadow: 0px 30px 20px 0px rgba(0,0,0,0.5);
-		overflow: hidden !important;
+		//overflow: hidden !important;
 
 		& > li {
-			padding-top: 10px;
-			padding-bottom: 20px;
 			margin-bottom: -1px !important;
-			border: none !important;
+			border: 1px solid !important;
 
 			& > a {
 				padding: 5px 20px !important;
@@ -2549,6 +2547,29 @@ header {
 					width: auto;
 					margin: 0 auto;
 					display: inline-block;
+					margin-top: 15px;
+					margin-bottom: 15px;
+				}
+
+				.total {
+					margin-top: 5px;
+					margin-bottom: 10px;
+					font-size: 15px;
+					color: $color;
+
+					&.exceed {
+						color: red;
+					}
+
+					.current {
+						font-weight: bold;
+					}
+
+					.desc {
+						display: block;
+						font-size: 12px;
+					}
+
 				}
 			}
 		}
