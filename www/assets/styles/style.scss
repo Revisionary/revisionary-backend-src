@@ -2565,6 +2565,7 @@ header {
 			height: inherit;
 			position: relative;
 			width: 10px;
+			min-width: 10px;
 			max-width: 100%;
 
 			& > span {

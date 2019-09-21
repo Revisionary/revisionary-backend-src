@@ -6562,6 +6562,7 @@ header {
     height: inherit;
     position: relative;
     width: 10px;
+    min-width: 10px;
     max-width: 100%; }
     .limit-wrapper .limit-bar > .current-status > span {
       display: inline-block;
