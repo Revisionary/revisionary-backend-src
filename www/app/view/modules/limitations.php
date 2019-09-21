@@ -42,7 +42,7 @@ $pinsPercentage = intval((100 * $pinsCount) / $maxPins);
 				
 					<div class="limit-bar <?=$projectsPercentage >= 100 ? "exceed" : ""?>">
 						<div class="current-status" style="width: <?=$projectsPercentage?>%;">
-							<span class="percentage bottom-tooltip" data-tooltip="You have <?="$projectsCount project".($projectsCount > 1 ? "s" : "")?>"><?=$projectsPercentage?>%</span>
+							<span class="percentage bottom-tooltip" data-tooltipp="You have <?="$projectsCount project".($projectsCount > 1 ? "s" : "")?>"><?=$projectsPercentage?>%</span>
 						</div>
 						<div class="total">
 							<?="$projectsCount/$maxProjects<br>Project".($maxProjects > 1 ? "s" : "")?>
@@ -56,7 +56,7 @@ $pinsPercentage = intval((100 * $pinsCount) / $maxPins);
 
 							<div class="limit-bar <?=$phasesPercentage >= 100 ? "exceed" : ""?>">
 								<div class="current-status" style="width: <?=$phasesPercentage?>%;">
-									<span class="percentage bottom-tooltip" data-tooltip="You have <?="$phasesCount page".($phasesCount > 1 ? "s" : "")?>"><?=$phasesPercentage?>%</span>
+									<span class="percentage bottom-tooltip" data-tooltipp="You have <?="$phasesCount page".($phasesCount > 1 ? "s" : "")?>"><?=$phasesPercentage?>%</span>
 								</div>
 								<div class="total">
 									<?="$phasesCount/$maxPhases<br>Page".($maxPhases > 1 ? "s" : "")?>
@@ -71,7 +71,7 @@ $pinsPercentage = intval((100 * $pinsCount) / $maxPins);
 
 							<div class="limit-bar <?=$pinsPercentage >= 100 ? "exceed" : ""?>">
 								<div class="current-status" style="width: <?=$pinsPercentage?>%;">
-									<span class="percentage bottom-tooltip" data-tooltip="You have <?="$pinsCount pin".($pinsCount > 1 ? "s" : "")?>"><?=$pinsPercentage?>%</span>
+									<span class="percentage bottom-tooltip" data-tooltipp="You have <?="$pinsCount pin".($pinsCount > 1 ? "s" : "")?>"><?=$pinsPercentage?>%</span>
 								</div>
 								<div class="total">
 									<?="$pinsCount/$maxPins<br>Pin".($maxPins > 1 ? "s" : "")?>
