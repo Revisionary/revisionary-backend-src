@@ -275,6 +275,7 @@ function runTheInspector() {
 			/* Auto-height edited images */ \
 			img[data-revisionary-showing-changes="1"] { height: auto !important; } \
 			iframe { pointer-events: none !important; } \
+			.revisionary-show { position: absolute !important; width: 0 !important; height: 0 !important; display: inline-block !important; } \
 		</style> \
 		');
 
@@ -2210,15 +2211,23 @@ function getElementOffset(element_index) {
 	// Check if hidden
 	if ( selectedElement.css('display') == 'none' ) {
 
-		// Disabled temporarily !!!
-		//disableCSS(pin_ID);
+
+		// Disabled temporarily
+		disableCSS(pin_ID);
+		selectedElement.addClass('revisionary-show');
+
 		elementOffset = selectedElement.offset();
-		//activateCSS(pin_ID);
+
+		selectedElement.removeClass('revisionary-show');
+		activateCSS(pin_ID);
+
+		//console.log('1. Element Offset for element #' + element_index, elementOffset);
 
 
 	} else {
 
 		elementOffset = selectedElement.offset();
+		//console.log('2. Element Offset for element #' + element_index, elementOffset);
 
 	}
 
