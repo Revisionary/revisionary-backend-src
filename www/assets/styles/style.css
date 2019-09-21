@@ -5765,8 +5765,6 @@ ul.user-header-menu {
     font-weight: bold !important;
     letter-spacing: normal;
     display: inline-table;
-    width: 120px;
-    min-height: 15px;
     white-space: normal;
     text-align: center;
     box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
@@ -5774,7 +5772,11 @@ ul.user-header-menu {
     bottom: calc(100% + 5px);
     right: auto;
     left: 50%;
-    transform: translateX(-50%); }
+    transform: translateX(-50%);
+    width: 120px;
+    min-height: -webkit-fit-content;
+    min-height: -moz-fit-content;
+    min-height: fit-content; }
   [data-tooltip].bottom-tooltip:after {
     bottom: auto;
     top: calc(100% + 5px); }
