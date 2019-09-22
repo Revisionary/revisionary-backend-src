@@ -117,7 +117,7 @@ $maxLoad = $maxLoad == 99999 ? "∞" : $maxLoad;
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> File Size Limits</h4>
+						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> Web Page Size Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
