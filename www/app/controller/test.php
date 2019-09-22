@@ -1,6 +1,6 @@
 <pre>
 <?php
-$flush = false;
+$flush = true;
 
 
 
