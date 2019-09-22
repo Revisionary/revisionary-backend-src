@@ -87,3 +87,7 @@ if ($html_filtred) $css_filtred = $internalize->filterAndUpdateCSSfiles();
 
 // 5. Complete the job!
 if ($css_filtred) $iframeLink = $internalize->completeTheJob();
+
+
+// INVALIDATE THE CACHES
+$cache->deleteKeysByTag(['phases', 'userload']);

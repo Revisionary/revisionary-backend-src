@@ -56,7 +56,12 @@ ob_end_flush();
 
 if ($_url[0] != "ajax" && $debug_mode) {
 
-	echo "TRACE COUNT: ".count($db->trace);
-	die_to_print($db->trace, false);
+	echo "
+	<pre>
+		<details>
+			<summary><h2 style='display: inline;'>TRACE COUNT (".count($db->trace).")</h2></summary>
+			<p style='padding-left: 20px;'>".print_r( $db->trace, true )."</p>
+		</details>
+	</pre>";
 
 }

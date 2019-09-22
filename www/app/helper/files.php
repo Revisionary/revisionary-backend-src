@@ -29,15 +29,6 @@ function getDirectorySize($path){
     $bytestotal = 0;
     $path = realpath($path);
 
-
-    // Method 1
-    // $io = popen( '/usr/bin/du -sk ' . $path, 'r' );
-    // $sizeByte = fgets( $io, 4096);
-    // $sizeByte = substr( $sizeByte, 0, strpos ( $sizeByte, "\t" ) );
-    // pclose( $io );
-    // return $sizeByte;
-
-
     // Method 2
     if($path!==false && $path!='' && file_exists($path)){
         foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){

@@ -76,3 +76,11 @@ if ( userLoggedIn() && !$User ) {
 
 
 }
+
+
+// Get limitations
+if ($User) {
+
+	require model('limitations');
+
+}
