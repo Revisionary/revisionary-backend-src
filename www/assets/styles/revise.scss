@@ -358,6 +358,25 @@ html, body {
 		padding: 3px;
 	}
 
+	[data-pin-status] {
+
+		.notif-no {
+			position: static;
+			display: inline-block;
+			transform: translateY(-2px);
+			opacity: 0.7;
+		}
+
+		&[data-pin-status="done"] .notif-no {
+			background-color: green;
+		}
+
+		&[data-pin-status="no-tasks"] .notif-no {
+			display: none;
+		}
+
+	}
+
 }
 
 #page {

@@ -17,7 +17,7 @@
 				if ($screen['screen_ID'] == 11) {
 					$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
 					$screen_link = queryArg('page_height='.$screen['screen_height'], $screen_link);
-					$screen_label = $screen['screen_name']." (<span class='screen-width'>".$screen['screen_width']."</span>x<span class='screen-height'>".$screen['screen_height']."</span>)";
+					$screen_label = "Current Window (<span class='screen-width'>".$screen['screen_width']."</span>x<span class='screen-height'>".$screen['screen_height']."</span>)";
 				}
 
 				//$screen_link = queryArg('nonce='.$_SESSION["new_screen_nonce"], $screen_link);

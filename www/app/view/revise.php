@@ -152,10 +152,37 @@ foreach ($allMyProjects as $myProject) {
 			//$firstPhase = reset($phases_of_page);
 			//die_to_print($phases_of_page);
 
+			// Phase IDs
+			$phaseIDsOfPage = array_column($phases_of_page, "phase_ID");
+
+
+			// Get pins count
+			$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseIDsOfPage) {
+
+				return in_array($pinFound['phase_ID'], $phaseIDsOfPage) && $pinFound['pin_complete'] == "0";
+
+			}));
+			$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseIDsOfPage) {
+
+				return in_array($pinFound['phase_ID'], $phaseIDsOfPage) && $pinFound['pin_complete'] == "1";
+
+			}));
+
+
+			// Get page status
+			$pinStatus = "no-tasks";
+			if ($inCompletePinCount)
+				$pinStatus = "has-tasks";
+
+			if ($completePinCount && !$inCompletePinCount)
+				$pinStatus = "done";
+
+			$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
 
 		?>
-		<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageFromProject['page_ID']?>">
-			<a href="<?=site_url('page/'.$pageFromProject['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?> <i class="fa fa-caret-right"></i></a>
+		<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageFromProject['page_ID']?>" data-pin-status="<?=$pinStatus?>">
+			<a href="<?=site_url('page/'.$pageFromProject['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']." <span class='notif-no'>".$statusCount."</span>"?> <i class="fa fa-caret-right"></i></a>
 
 			<?php
 			if ( count($phases_of_page) > 1 ) {
@@ -175,9 +202,33 @@ foreach ($allMyProjects as $myProject) {
 					//$firstDevice = reset($devices_of_phase);
 					//die_to_print($devices_of_phase);
 
+
+					// Get pins count
+					$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseFromPage) {
+
+						return $pinFound['phase_ID'] == $phaseFromPage['phase_ID'] && $pinFound['pin_complete'] == "0";
+
+					}));
+					$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseFromPage) {
+
+						return $pinFound['phase_ID'] == $phaseFromPage['phase_ID'] && $pinFound['pin_complete'] == "1";
+
+					}));
+
+
+					// Get page status
+					$pinStatus = "no-tasks";
+					if ($inCompletePinCount)
+						$pinStatus = "has-tasks";
+
+					if ($completePinCount && !$inCompletePinCount)
+						$pinStatus = "done";
+
+					$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
 				?>
-				<li class="item <?=$selected?>" data-type="phase" data-id="<?=$phaseFromPage['phase_ID']?>">
-					<a href="<?=site_url('phase/'.$phaseFromPage['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?></a>
+				<li class="item <?=$selected?>" data-type="phase" data-id="<?=$phaseFromPage['phase_ID']?>" data-pin-status="<?=$pinStatus?>">
+					<a href="<?=site_url('phase/'.$phaseFromPage['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber."<span class='notif-no'>".$statusCount."</span>"?></a>
 
 					<?php
 					if ( count($devices_of_phase) ) {
@@ -299,7 +350,7 @@ foreach ($allMyProjects as $myProject) {
 						<ul>
 <?php
 
-// Find the other pages from this project ???
+// Find the other pages from this project
 $other_pages = array_filter($allMyPages, function($pageFound) use ($project_ID) {
 	return ($pageFound['project_ID'] == $project_ID);
 });
@@ -319,13 +370,40 @@ foreach ($other_pages as $pageOther) {
 	//$firstPhase = reset($phases_of_page);
 	//die_to_print($phases_of_page);
 
+	// Phase IDs
+	$phaseIDsOfPage = array_column($phases_of_page, "phase_ID");
+
+
+	// Get pins count
+	$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseIDsOfPage) {
+
+		return in_array($pinFound['phase_ID'], $phaseIDsOfPage) && $pinFound['pin_complete'] == "0";
+
+	}));
+	$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseIDsOfPage) {
+
+		return in_array($pinFound['phase_ID'], $phaseIDsOfPage) && $pinFound['pin_complete'] == "1";
+
+	}));
+
+
+	// Get page status
+	$pinStatus = "no-tasks";
+	if ($inCompletePinCount)
+		$pinStatus = "has-tasks";
+
+	if ($completePinCount && !$inCompletePinCount)
+		$pinStatus = "done";
+
+	$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
 
 	$action_url = 'ajax?type=data-action&data-type=page&nonce='.$_SESSION['js_nonce'].'&id='.$pageOther['page_ID'];
 
 ?>
-<li class="item deletable <?=$selected?>" data-type="page" data-id="<?=$pageOther['page_ID']?>">
+<li class="item deletable <?=$selected?>" data-type="page" data-id="<?=$pageOther['page_ID']?>" data-pin-status="<?=$pinStatus?>">
 
-	<a href="<?=site_url('page/'.$pageOther['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?></a>
+	<a href="<?=site_url('page/'.$pageOther['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']." <span class='notif-no'>".$statusCount."</span>"?></a>
 	<?php
 	if ( count($phases_of_page) > 1 ) {
 	?>
@@ -344,9 +422,33 @@ foreach ($other_pages as $pageOther) {
 			//$firstDevice = reset($devices_of_phase);
 			//die_to_print($devices_of_phase);
 
+
+			// Get pins count
+			$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseFromPage) {
+
+				return $pinFound['phase_ID'] == $phaseFromPage['phase_ID'] && $pinFound['pin_complete'] == "0";
+
+			}));
+			$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseFromPage) {
+
+				return $pinFound['phase_ID'] == $phaseFromPage['phase_ID'] && $pinFound['pin_complete'] == "1";
+
+			}));
+
+
+			// Get page status
+			$pinStatus = "no-tasks";
+			if ($inCompletePinCount)
+				$pinStatus = "has-tasks";
+
+			if ($completePinCount && !$inCompletePinCount)
+				$pinStatus = "done";
+
+			$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
 		?>
-		<li class="item <?=$selected?>" data-type="phase" data-id="<?=$phaseFromPage['phase_ID']?>">
-			<a href="<?=site_url('phase/'.$phaseFromPage['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?></a>
+		<li class="item <?=$selected?>" data-type="phase" data-id="<?=$phaseFromPage['phase_ID']?>" data-pin-status="<?=$pinStatus?>">
+			<a href="<?=site_url('phase/'.$phaseFromPage['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber." <span class='notif-no'>".$statusCount."</span>"?></a>
 
 			<?php
 			if ( count($devices_of_phase) ) {
@@ -476,11 +578,35 @@ foreach ($other_pages as $pageOther) {
 								//die_to_print($devices_of_page);
 
 
+								// Get pins count
+								$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseFound) {
+
+									return $pinFound['phase_ID'] == $phaseFound['phase_ID'] && $pinFound['pin_complete'] == "0";
+
+								}));
+								$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseFound) {
+
+									return $pinFound['phase_ID'] == $phaseFound['phase_ID'] && $pinFound['pin_complete'] == "1";
+
+								}));
+
+
+								// Get page status
+								$pinStatus = "no-tasks";
+								if ($inCompletePinCount)
+									$pinStatus = "has-tasks";
+
+								if ($completePinCount && !$inCompletePinCount)
+									$pinStatus = "done";
+
+								$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
+
 								$action_url = 'ajax?type=data-action&data-type=phase&nonce='.$_SESSION['js_nonce'].'&id='.$phaseFound['phase_ID'];
 							?>
 
-							<li class="item deletable" data-type="phase" data-id="<?=$phaseFound['phase_ID']?>">
-								<a href="<?=site_url('revise/'.$firstDevice['device_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?> (<?=timeago($phaseFound['phase_created'])?>)</a>
+							<li class="item deletable" data-type="phase" data-id="<?=$phaseFound['phase_ID']?>" data-pin-status="<?=$pinStatus?>">
+								<a href="<?=site_url('revise/'.$firstDevice['device_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?> (<?=timeago($phaseFound['phase_created'])?>) <span class="notif-no"><?=$statusCount?></span></a>
 
 								<?php
 								if ( count($devices_of_phase) ) {

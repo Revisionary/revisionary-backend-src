@@ -206,7 +206,7 @@
 						foreach ($blocks as $block) {
 							
 							$livePinCount = $standardPinCount = $privatePinCount = $completePinCount = 0;
-							$blockStatus = "no-tasks";
+							$blockPinStatus = "no-tasks";
 
 
 							if ($dataType == "project") {
@@ -299,44 +299,37 @@
 									$phase_IDs = array_column($blockPhases, "phase_ID");
 								
 								
-									$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+									$livePinCount = count(array_filter($allMyPins, function($value) use ($phase_IDs) {
 								
-										$pageCondition = in_array($value['phase_ID'], $phase_IDs);
-								
-										return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+										return in_array($value['phase_ID'], $phase_IDs) && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 								
 									}));
-									$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+									$standardPinCount = count(array_filter($allMyPins, function($value) use ($phase_IDs) {
 								
-										$pageCondition = in_array($value['phase_ID'], $phase_IDs);
-								
-										return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+										return in_array($value['phase_ID'], $phase_IDs) && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
 								
 									}));
-									$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+									$privatePinCount = count(array_filter($allMyPins, function($value) use ($phase_IDs) {
 								
-										$pageCondition = in_array($value['phase_ID'], $phase_IDs);
-								
-										return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
+										return in_array($value['phase_ID'], $phase_IDs) && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
 								
 									}));
-									$completePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+									$completePinCount = count(array_filter($allMyPins, function($value) use ($phase_IDs) {
 								
-										$pageCondition = in_array($value['phase_ID'], $phase_IDs);
-								
-										return $pageCondition && $value['pin_complete'] == "1";
+										return in_array($value['phase_ID'], $phase_IDs) && $value['pin_complete'] == "1";
 								
 									}));
+									$inCompletePinCount = $livePinCount + $standardPinCount + $privatePinCount;
 								
 								}
 
 
 								// Get block status
-								if ($livePinCount + $standardPinCount + $privatePinCount)
-									$blockStatus = "has-tasks";
+								if ($inCompletePinCount)
+									$blockPinStatus = "has-tasks";
 
-								if ($completePinCount && $completePinCount > $livePinCount + $standardPinCount + $privatePinCount)
-									$blockStatus = "done";
+								if ($completePinCount && !$inCompletePinCount)
+									$blockPinStatus = "done";
 
 
 							}
@@ -353,7 +346,7 @@
 
 					?>
 
-						<li class="col block item" data-order="<?=$block['order_number']?>" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>" data-block-status="<?=$blockStatus?>">
+						<li class="col block item" data-order="<?=$block['order_number']?>" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>" data-pin-status="<?=$blockPinStatus?>">
 
 
 							<div class="box object-handle xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">

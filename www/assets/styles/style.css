@@ -7225,11 +7225,11 @@ ol.categories {
         opacity: 1; }
     ol.categories > li.category > ol.blocks > .block {
       margin-bottom: 50px; }
-      ol.categories > li.category > ol.blocks > .block[data-block-status="done"] > .box {
+      ol.categories > li.category > ol.blocks > .block[data-pin-status="done"] > .box {
         box-shadow: 0px 0px 5px 0px rgba(20, 148, 64, 0.8); }
-      ol.categories > li.category > ol.blocks > .block[data-block-status="has-tasks"] > .box {
+      ol.categories > li.category > ol.blocks > .block[data-pin-status="has-tasks"] > .box {
         box-shadow: 0px 0px 5px 0px rgba(252, 15, 179, 0.8);
-        box-shadow: 0px 0px 5px 0px rgba(252, 15, 66, 0.8); }
+        box-shadow: 0px 0px 5px rgba(252, 15, 66, 0.8); }
       ol.categories > li.category > ol.blocks > .block.add-new-block .box {
         border-radius: 50%;
         border-color: #007acc;

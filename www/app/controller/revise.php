@@ -334,6 +334,12 @@ die();
 
 
 
+// PINS IN THIS PROJECT
+$allMyPins = $User->getPins();
+//die_to_print($allMyPins);
+
+
+
 // FILTERS
 $pin_filter = "all";
 if (

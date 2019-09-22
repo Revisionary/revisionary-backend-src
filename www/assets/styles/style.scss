@@ -3595,13 +3595,13 @@ ol.categories {
 			& > .block {
 				margin-bottom: 50px;
 
-				&[data-block-status="done"] > .box{
+				&[data-pin-status="done"] > .box {
 					box-shadow: 0px 0px 5px 0px rgba(20,148,64,0.8);
 				}
 
-				&[data-block-status="has-tasks"] > .box{
+				&[data-pin-status="has-tasks"] > .box {
 					box-shadow: 0px 0px 5px 0px rgba(252,15,179,0.8);
-					box-shadow: 0px 0px 5px 0px rgba(252,15,66,0.8);
+					box-shadow: 0px 0px 5px rgba(252,15,66,0.8);
 				}
 
 				&.add-new-block {
