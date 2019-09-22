@@ -389,7 +389,7 @@ CREATE TABLE `user_levels` (
 
 INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_description`, `user_level_max_project`, `user_level_max_page`, `user_level_max_live_pin`, `user_level_max_standard_pin`, `user_level_max_client`, `user_level_max_load`, `user_level_price`, `user_level_color`) VALUES
 (1, 'Admin', 'Admin Description', 99999, 99999, 99999, 99999, 99999, 99999, 99999, 'black'),
-(2, 'Free', 'Free for all users', 3, 6, 30, 99999, 0, 30, 0, 'black'),
+(2, 'Free', 'Free for all users', 3, 6, 30, 99999, 0, 20, 0, 'black'),
 (3, 'Plus', 'Plus description', 12, 24, 99999, 99999, 3, 120, 9.99, 'green'),
 (4, 'Enterprise', 'Enterprise description.', 99999, 99999, 99999, 99999, 99999, 2048, 19.99, 'gold');
 
