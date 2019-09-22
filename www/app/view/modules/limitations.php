@@ -7,6 +7,7 @@ $allMyProjects = array_filter($User->getProjects(), function($projectFound) {
 });
 $projectsCount = count( $allMyProjects );
 $projectsPercentage = intval((100 * $projectsCount) / $maxProjects);
+$maxProjects = $maxProjects == 99999 ? "∞" : $maxProjects;
 
 
 // PAGES (PHASES)
@@ -16,6 +17,7 @@ $allMyPhases = array_filter($User->getPhases(), function($phaseFound) {
 });
 $phasesCount = count( $allMyPhases );
 $phasesPercentage = intval((100 * $phasesCount) / $maxPhases);
+$maxPhases = $maxPhases == 99999 ? "∞" : $maxPhases;
 
 
 // PINS
@@ -25,6 +27,7 @@ $allMyPins = array_filter($User->getPins(), function($pinFound) {
 });
 $pinsCount = count( $allMyPins );
 $pinsPercentage = intval((100 * $pinsCount) / $maxPins);
+$maxPins = $maxPins == 99999 ? "∞" : $maxPins;
 
 
 // LOAD !!! CACHE THIS
@@ -41,97 +44,89 @@ foreach ($allMyPhases as $phaseFound) {
 }
 $loadCount = $filesLoadMb;
 $loadPercentage = intval((100 * $loadCount) / $maxLoad);
+$maxLoad = $maxLoad == 99999 ? "∞" : $maxLoad;
 
 ?>
 
 
 <div class="limit-wrapper">
-	<div class="wrap xl-2 xl-table xl-middle xl-gutter-8">
-		<div class="col xl-right" style="font-size: 12px; line-height: 12px;">
-			<b><?=getUserInfo()['userLevelName']?></b><br>Account
+
+	<div class="wrap xl-center xl-flexbox xl-between">
+		<div class="col xl-1-1 xl-right">
+		
+			<b><?=getUserInfo()['userLevelName']?></b> Account Usage:<br>
+		
 		</div>
-		<div class="col">
+		<div class="col total <?=$projectsPercentage >= 100 ? "exceed" : ""?> dropdown">
 
-
-			<div class="dropdown">
-				<a href="<?=site_url('upgrade')?>" class="dropdown-opener">
-				
-					<div class="limit-bar <?=$projectsPercentage >= 100 ? "exceed" : ""?>">
-						<div class="current-status" style="width: <?=$projectsPercentage?>%;">
-							<span class="percentage bottom-tooltip" data-tooltipp="You have <?="$projectsCount project".($projectsCount > 1 ? "s" : "")?>"><?=$projectsPercentage?>%</span>
-						</div>
-						<div class="total">
-							<?="$projectsCount/$maxProjects<br>Project".($maxProjects > 1 ? "s" : "")?>
-						</div>
+			<a href="#" class="dropdown-opener">
+				<span class='current'><?=$projectsCount?></span>/<span class='max'><?=$maxProjects?></span>
+				<span class='desc'>Project<?=$maxProjects > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
+			</a>
+			<ul class="right xl-left no-delay">
+				<li class="notice">
+					<div>
+						<h4>Project Limits</h4>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
-				
-				</a>
-				<ul class="right">
-					<li>
-						<a href="#">
+				</li>
+				<li><a href="<?=site_url('upgrade')?>" class="button" data-tooltip="In development...">INCREASE PROJECT LIMIT</a></li>
+			</ul>
 
-							<div class="wrap xl-center xl-4">
-								<div class="col total <?=$projectsPercentage >= 100 ? "exceed" : ""?>">
+		</div>
+		<div class="col total <?=$phasesPercentage >= 100 ? "exceed" : ""?> dropdown">
 
-									<?="<span class='current'>$projectsCount</span>/<span class='max'>$maxProjects</span><span class='desc'>Project".($maxProjects > 1 ? "s" : "")."</span>"?>
+			<a href="#" class="dropdown-opener">
+				<span class='current'><?=$phasesCount?></span>/<span class='max'><?=$maxPhases?></span>
+				<span class='desc'>Page<?=$maxPhases > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
+			</a>
+			<ul class="right xl-left no-delay">
+				<li class="notice">
+					<div>
+						<h4>Page/Phase Limits</h4>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
+					</div>
+				</li>
+				<li><a href="<?=site_url('upgrade')?>" class="button" data-tooltip="In development...">INCREASE PAGE/PHASE LIMIT</a></li>
+			</ul>
 
-								</div>
-								<div class="col total <?=$phasesPercentage >= 100 ? "exceed" : ""?>">
+		</div>
+		<div class="col total <?=$pinsPercentage >= 100 ? "exceed" : ""?> dropdown">
 
-									<?="<span class='current'>$phasesCount</span>/<span class='max'>$maxPhases</span><span class='desc'>Page".($maxPhases > 1 ? "s" : "")."</span>"?>
+			<a href="#" class="dropdown-opener">
+				<span class='current'><?=$pinsCount?></span>/<span class='max'><?=$maxPins?></span>
+				<span class='desc'>Live Pin<?=$maxPins > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
+			</a>
+			<ul class="right xl-left no-delay">
+				<li class="notice">
+					<div>
+						<h4>Live Pin Limits</h4>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
+					</div>
+				</li>
+				<li><a href="<?=site_url('upgrade')?>" class="button" data-tooltip="In development...">INCREASE LIVE PIN LIMIT</a></li>
+			</ul>
 
-								</div>
-								<div class="col total <?=$pinsPercentage >= 100 ? "exceed" : ""?>">
+		</div>
+		<div class="col total <?=$loadPercentage >= 100 ? "exceed" : ""?> dropdown">
 
-									<?="<span class='current'>$pinsCount</span>/<span class='max'>$maxPins</span><span class='desc'>Pin".($maxPins > 1 ? "s" : "")."</span>"?>
-
-								</div>
-								<div class="col total <?=$loadPercentage >= 100 ? "exceed" : ""?>">
-
-									<?="<span class='current'>$loadCount</span>/<span class='max'>$maxLoad</span><span class='desc'>MB Files</span>"?>
-
-								</div>
-							</div>
-
-						</a>
-					</li>
-
-					<!-- <li>
-						<a href="#">
-
-							<div class="limit-bar <?=$phasesPercentage >= 100 ? "exceed" : ""?>">
-								<div class="current-status" style="width: <?=$phasesPercentage?>%;">
-									<span class="percentage bottom-tooltip" data-tooltipp="You have <?="$phasesCount page".($phasesCount > 1 ? "s" : "")?>"><?=$phasesPercentage?>%</span>
-								</div>
-								<div class="total">
-									<?="$phasesCount/$maxPhases<br>Page".($maxPhases > 1 ? "s" : "")?>
-								</div>
-							</div>
-
-						</a>
-					</li>
-					
-					<li>
-						<a href="#">
-
-							<div class="limit-bar <?=$pinsPercentage >= 100 ? "exceed" : ""?>">
-								<div class="current-status" style="width: <?=$pinsPercentage?>%;">
-									<span class="percentage bottom-tooltip" data-tooltipp="You have <?="$pinsCount pin".($pinsCount > 1 ? "s" : "")?>"><?=$pinsPercentage?>%</span>
-								</div>
-								<div class="total">
-									<?="$pinsCount/$maxPins<br>Pin".($maxPins > 1 ? "s" : "")?>
-								</div>
-							</div>
-
-						</a>
-					</li> -->
-					<li><a href="<?=site_url('upgrade')?>" class="button" data-tooltip="In development...">UPGRADE TO PRO</a></li>
-				</ul>
-			</div>
-
+			<a href="#" class="dropdown-opener">
+				<span class='current'><?=$loadCount?></span>/<span class='max'><?=$maxLoad?></span>
+				<span class='desc'>MB File<?=$maxLoad > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
+			</a>
+			<ul class="right xl-left no-delay">
+				<li class="notice">
+					<div>
+						<h4>File Size Limits</h4>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
+					</div>
+				</li>
+				<li><a href="<?=site_url('upgrade')?>" class="button" data-tooltip="In development...">INCREASE SIZE LIMIT</a></li>
+			</ul>
 
 		</div>
 	</div>
+
 </div>
 
 

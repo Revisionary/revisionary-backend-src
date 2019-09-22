@@ -6530,19 +6530,52 @@ header {
   .title .dropdown > ul {
     min-width: 220px; }
 
+.upgrade-button {
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 5px 10px;
+  background-color: black;
+  color: white !important; }
+  .upgrade-button:hover {
+    background-color: white;
+    color: black !important; }
+
+.limit-wrapper .notice {
+  font-size: 14px; }
+  .limit-wrapper .notice h4 {
+    margin-top: 5px;
+    margin-bottom: 5px; }
+
+.limit-wrapper .total {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 15px;
+  color: black; }
+  .limit-wrapper .total.exceed {
+    color: red; }
+  .limit-wrapper .total .current {
+    font-weight: bold; }
+  .limit-wrapper .total .desc {
+    display: block;
+    font-size: 12px; }
+
 .limit-wrapper ul {
   padding-top: 12px !important;
-  min-width: 280px;
+  width: 280px;
   right: -22px !important;
   box-shadow: 0px 30px 20px 0px rgba(0, 0, 0, 0.5); }
   .limit-wrapper ul > li {
     margin-bottom: -1px !important;
+    padding: 5px 10px !important;
+    white-space: normal !important;
     border: 1px solid !important; }
     .limit-wrapper ul > li > a {
-      padding: 5px 20px !important; }
+      padding: 5px 10px !important;
+      white-space: normal !important; }
       .limit-wrapper ul > li > a > .limit-bar {
         margin-bottom: 0; }
       .limit-wrapper ul > li > a.button {
+        border: 2px solid;
         border-radius: 8px;
         background-color: black;
         color: white;
@@ -6552,18 +6585,9 @@ header {
         display: inline-block;
         margin-top: 15px;
         margin-bottom: 15px; }
-      .limit-wrapper ul > li > a .total {
-        margin-top: 5px;
-        margin-bottom: 10px;
-        font-size: 15px;
-        color: black; }
-        .limit-wrapper ul > li > a .total.exceed {
-          color: red; }
-        .limit-wrapper ul > li > a .total .current {
-          font-weight: bold; }
-        .limit-wrapper ul > li > a .total .desc {
-          display: block;
-          font-size: 12px; }
+        .limit-wrapper ul > li > a.button:hover {
+          background-color: white;
+          color: black !important; }
 
 .limit-wrapper .limit-bar {
   display: inline-block;
