@@ -2,30 +2,30 @@
 
 // PROJECTS
 $maxProjects = getUserInfo()['userLevelMaxProject'];
-$allMyProjects = array_filter($User->getProjects(), function($projectFound) {
+$myProjects = array_filter($User->getProjects(), function($projectFound) {
 	return $projectFound['user_ID'] == currentUserID();
 });
-$projectsCount = count( $allMyProjects );
+$projectsCount = count( $myProjects );
 $projectsPercentage = intval((100 * $projectsCount) / $maxProjects);
 $maxProjects = $maxProjects == 99999 ? "∞" : $maxProjects;
 
 
 // PAGES (PHASES)
 $maxPhases = getUserInfo()['userLevelMaxPage'];
-$allMyPhases = array_filter($User->getPhases(), function($phaseFound) {
+$myPhases = array_filter($User->getPhases(), function($phaseFound) {
 	return $phaseFound['user_ID'] == currentUserID();
 });
-$phasesCount = count( $allMyPhases );
+$phasesCount = count( $myPhases );
 $phasesPercentage = intval((100 * $phasesCount) / $maxPhases);
 $maxPhases = $maxPhases == 99999 ? "∞" : $maxPhases;
 
 
 // PINS
 $maxPins = getUserInfo()['userLevelMaxLivePin'];
-$allMyPins = array_filter($User->getPins(), function($pinFound) {
+$myPins = array_filter($User->getPins(), function($pinFound) {
 	return $pinFound['user_ID'] == currentUserID() && $pinFound['pin_type'] == 'live';
 });
-$pinsCount = count( $allMyPins );
+$pinsCount = count( $myPins );
 $pinsPercentage = intval((100 * $pinsCount) / $maxPins);
 $maxPins = $maxPins == 99999 ? "∞" : $maxPins;
 
@@ -33,7 +33,7 @@ $maxPins = $maxPins == 99999 ? "∞" : $maxPins;
 // LOAD !!! CACHE THIS
 $maxLoad = getUserInfo()['userLevelMaxLoad'];
 $filesLoadMb = 0;
-foreach ($allMyPhases as $phaseFound) {
+foreach ($myPhases as $phaseFound) {
 
 	$phaseDirectory = Phase::ID($phaseFound['phase_ID'])->phaseDir;
 
