@@ -204,6 +204,9 @@
 					$object_count = 0;
 					if ( isset($blocks) && count($blocks) > 0 ) {
 						foreach ($blocks as $block) {
+							
+							$livePinCount = $standardPinCount = $privatePinCount = $completePinCount = 0;
+							$blockStatus = "no-tasks";
 
 
 							if ($dataType == "project") {
@@ -290,6 +293,52 @@
 								$block_url = site_url('revise/'.$firstDevice['device_ID']);
 
 
+								// Count the pins
+								if ($allMyPins) {
+								
+									$phase_IDs = array_column($blockPhases, "phase_ID");
+								
+								
+									$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+								
+										$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+								
+										return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+								
+									}));
+									$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+								
+										$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+								
+										return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+								
+									}));
+									$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+								
+										$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+								
+										return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
+								
+									}));
+									$completePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
+								
+										$pageCondition = in_array($value['phase_ID'], $phase_IDs);
+								
+										return $pageCondition && $value['pin_complete'] == "1";
+								
+									}));
+								
+								}
+
+
+								// Get block status
+								if ($livePinCount + $standardPinCount + $privatePinCount)
+									$blockStatus = "has-tasks";
+
+								if ($completePinCount && $completePinCount > $livePinCount + $standardPinCount + $privatePinCount)
+									$blockStatus = "done";
+
+
 							}
 
 
@@ -304,7 +353,7 @@
 
 					?>
 
-						<li class="col block item" data-order="<?=$block['order_number']?>" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>">
+						<li class="col block item" data-order="<?=$block['order_number']?>" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>" data-block-status="<?=$blockStatus?>">
 
 
 							<div class="box object-handle xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
@@ -407,47 +456,6 @@
 
 									</div>
 									<div class="col xl-8-12 xl-right xl-top pins">
-
-<?php
-
-$livePinCount = $standardPinCount = $privatePinCount = $completePinCount = 0;
-
-if ($dataType == "page" && $allMyPins) {
-
-	$phase_IDs = array_column($blockPhases, "phase_ID");
-
-
-	$livePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
-
-		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
-
-		return $pageCondition && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
-
-	}));
-	$standardPinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
-
-		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
-
-		return $pageCondition && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
-
-	}));
-	$privatePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
-
-		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
-
-		return $pageCondition && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
-
-	}));
-	$completePinCount = count(array_filter($allMyPins, function($value) use ($block, $screenFilter, $phase_IDs) {
-
-		$pageCondition = in_array($value['phase_ID'], $phase_IDs);
-
-		return $pageCondition && $value['pin_complete'] == "1";
-
-	}));
-
-}
-?>
 
 										<?php
 										if ($livePinCount > 0) {
