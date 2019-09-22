@@ -6545,6 +6545,8 @@ header {
   .limit-wrapper .notice h4 {
     margin-top: 5px;
     margin-bottom: 5px; }
+    .limit-wrapper .notice h4 > b {
+      color: #007acc; }
 
 .limit-wrapper .total {
   margin-top: 5px;

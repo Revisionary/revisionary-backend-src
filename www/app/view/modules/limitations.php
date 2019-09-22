@@ -52,7 +52,7 @@ $maxLoad = $maxLoad == 99999 ? "∞" : $maxLoad;
 <div class="limit-wrapper">
 
 	<div class="wrap xl-center xl-flexbox xl-between">
-		<div class="col xl-1-1 xl-right">
+		<div class="col xl-1-1 xl-right xl-hidden">
 		
 			<b><?=getUserInfo()['userLevelName']?></b> Account Usage:<br>
 		
@@ -66,7 +66,7 @@ $maxLoad = $maxLoad == 99999 ? "∞" : $maxLoad;
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4>Project Limits</h4>
+						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> Project Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
@@ -83,7 +83,7 @@ $maxLoad = $maxLoad == 99999 ? "∞" : $maxLoad;
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4>Page/Phase Limits</h4>
+						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> Page/Phase Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
@@ -100,7 +100,7 @@ $maxLoad = $maxLoad == 99999 ? "∞" : $maxLoad;
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4>Live Pin Limits</h4>
+						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> Live Pin Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
@@ -117,7 +117,7 @@ $maxLoad = $maxLoad == 99999 ? "∞" : $maxLoad;
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4>File Size Limits</h4>
+						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> File Size Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
