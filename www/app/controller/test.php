@@ -42,10 +42,11 @@ if ($user) {
 
 
 	// NOTIFICATIONS
+	$notifications = $user->getNotifications();
 	echo "
 	<details>
-		<summary><h2 style='display: inline;'>NOTIFICATIONS (".$user->getNotifications()['totalCount'].")</h2></summary>
-		<p style='padding-left: 20px;'>".print_r( $user->getNotifications()['notifications'], true )."</p>
+		<summary><h2 style='display: inline;'>NOTIFICATIONS (".$notifications['totalCount'].")</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( $notifications['notifications'], true )."</p>
 	</details>";
 
 
