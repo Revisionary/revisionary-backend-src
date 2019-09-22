@@ -319,12 +319,12 @@
 										return in_array($value['phase_ID'], $phase_IDs) && $value['pin_complete'] == "1";
 								
 									}));
-									$inCompletePinCount = $livePinCount + $standardPinCount + $privatePinCount;
 								
 								}
 
 
 								// Get block status
+								$inCompletePinCount = $livePinCount + $standardPinCount + $privatePinCount;
 								if ($inCompletePinCount)
 									$blockPinStatus = "has-tasks";
 
