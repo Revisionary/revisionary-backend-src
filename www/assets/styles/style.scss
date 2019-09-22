@@ -2553,8 +2553,12 @@ header {
 		font-size: 15px;
 		color: $color;
 
-		&.exceed {
+		&.exceed > a {
 			color: red;
+
+			i {
+				color: $color;
+			}
 		}
 
 		.current {

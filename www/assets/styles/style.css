@@ -6553,8 +6553,10 @@ header {
   margin-bottom: 10px;
   font-size: 15px;
   color: black; }
-  .limit-wrapper .total.exceed {
+  .limit-wrapper .total.exceed > a {
     color: red; }
+    .limit-wrapper .total.exceed > a i {
+      color: black; }
   .limit-wrapper .total .current {
     font-weight: bold; }
   .limit-wrapper .total .desc {
