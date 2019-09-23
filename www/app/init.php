@@ -35,7 +35,7 @@ $db = new MysqliDb(array(
 	'username' 	=> $config['db']['user'],
 	'password' 	=> $config['db']['pass'],
 	'db'		=> $config['db']['name'],
-	'port'		=> 3306,
+	'port'		=> $config['db']['port'],
 	'prefix' 	=> '',
 	'charset' 	=> 'utf8mb4'
 ));

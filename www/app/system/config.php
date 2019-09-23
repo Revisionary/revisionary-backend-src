@@ -11,6 +11,7 @@ $config['env'] = [
 	'subdomain' => $_ENV['SUBDOMAIN'],
 	'insecure_subdomain' => $_ENV['INSECURE_SUBDOMAIN'],
 	'db_host' 	=> $_ENV['DB_HOST'],
+	'db_port' 	=> $_ENV['DB_PORT'],
 	'db_name' 	=> $_ENV['DB_NAME'],
 	'db_user' 	=> $_ENV['DB_USER'],
 	'db_pass' 	=> $_ENV['DB_PASSWORD'],
@@ -38,6 +39,7 @@ if ($config['env']['name'] == 'local-dev') {
 // Database Info
 $config['db'] = [
   'host' => $config['env']['db_host'],
+  'port' => $config['env']['db_port'],
   'name' => $config['env']['db_name'],
   'user' => $config['env']['db_user'],
   'pass' => $config['env']['db_pass']
