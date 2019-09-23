@@ -34,13 +34,13 @@ if ($config['env']['name'] == 'local-dev') {
 	// SSL Check (because of CloudFlare)
 	$_https = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https" ? true : false;
 
-	// // Cloud DB connection
-	// $config['env']['db_host'] = $_ENV['DB_CLOUD_HOST'];
-	// $config['env']['db_port'] = $_ENV['DB_CLOUD_PORT'];
-	// $config['env']['db_name'] = $_ENV['DB_CLOUD_NAME'];
-	// $config['env']['db_user'] = $_ENV['DB_CLOUD_USER'];
-	// $config['env']['db_pass'] = $_ENV['DB_CLOUD_PASSWORD'];
-	// $config['env']['timezone'] = $_ENV['DB_CLOUD_TIMEZONE'];
+	// Cloud DB connection
+	$config['env']['db_host'] = $_ENV['DB_CLOUD_HOST'];
+	$config['env']['db_port'] = $_ENV['DB_CLOUD_PORT'];
+	$config['env']['db_name'] = $_ENV['DB_CLOUD_NAME'];
+	$config['env']['db_user'] = $_ENV['DB_CLOUD_USER'];
+	$config['env']['db_pass'] = $_ENV['DB_CLOUD_PASSWORD'];
+	$config['env']['timezone'] = $_ENV['DB_CLOUD_TIMEZONE'];
 
 }
 

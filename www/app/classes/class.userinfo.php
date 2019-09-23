@@ -204,12 +204,12 @@ class User {
 				}
 
 
-				$db->where('(
-					p.user_ID = '.self::$user_ID.'
-					OR s.share_to = '.self::$user_ID.'
-					OR s.share_to = "'.self::$userInfo['user_email'].'"
-					'.$find_in.'
-				)');
+				$db->where("(
+					p.user_ID = ".self::$user_ID."
+					OR s.share_to = ".self::$user_ID."
+					OR s.share_to = '".self::$userInfo['user_email']."'
+					".$find_in."
+				)");
 
 			}
 
@@ -422,14 +422,14 @@ class User {
 			// Check access if not admin
 			if ( self::$userInfo['user_level_ID'] != 1 ) {
 
-				$db->where('(
-					p.user_ID = '.self::$user_ID.'
-					OR s.share_to = '.self::$user_ID.'
-					OR s.share_to = "'.self::$userInfo['user_email'].'"
-					OR pr.user_ID = '.self::$user_ID.'
-					OR sp.share_to = '.self::$user_ID.'
-					OR sp.share_to = "'.self::$userInfo['user_email'].'"
-				)');
+				$db->where("(
+					p.user_ID = ".self::$user_ID."
+					OR s.share_to = ".self::$user_ID."
+					OR s.share_to = '".self::$userInfo['user_email']."'
+					OR pr.user_ID = ".self::$user_ID."
+					OR sp.share_to = ".self::$user_ID."
+					OR sp.share_to = '".self::$userInfo['user_email']."'
+				)");
 
 			}
 
