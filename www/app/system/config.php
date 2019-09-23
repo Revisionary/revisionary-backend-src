@@ -23,14 +23,26 @@ $config['env'] = [
 
 
 
-// SSL Check
+
 if ($config['env']['name'] == 'local-dev') {
 
+	// SSL Check
 	$_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? true : false;
 
-} elseif ($config['env']['name'] == 'remote-dev') { // Because of CloudFlare
+} elseif ($config['env']['name'] == 'remote-dev') {
 
+	// SSL Check (because of CloudFlare)
 	$_https = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https" ? true : false;
+
+	// Cloud DB connection
+	$config['env'] = [
+		'db_host' 	=> $_ENV['DB_CLOUD_HOST'],
+		'db_port' 	=> $_ENV['DB_CLOUD_PORT'],
+		'db_name' 	=> $_ENV['DB_CLOUD_NAME'],
+		'db_user' 	=> $_ENV['DB_CLOUD_USER'],
+		'db_pass' 	=> $_ENV['DB_CLOUD_PASSWORD'],
+		'timezone'  => $_ENV['DB_CLOUD_TIMEZONE'],
+	];
 
 }
 
