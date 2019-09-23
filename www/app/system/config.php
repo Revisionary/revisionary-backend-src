@@ -45,15 +45,6 @@ if ($config['env']['name'] == 'local-dev') {
 }
 
 
-// Cloud DB connection
-$config['env']['db_host'] = $_ENV['DB_CLOUD_HOST'];
-$config['env']['db_port'] = $_ENV['DB_CLOUD_PORT'];
-$config['env']['db_name'] = $_ENV['DB_CLOUD_NAME'];
-$config['env']['db_user'] = $_ENV['DB_CLOUD_USER'];
-$config['env']['db_pass'] = $_ENV['DB_CLOUD_PASSWORD'];
-$config['env']['timezone'] = $_ENV['DB_CLOUD_TIMEZONE'];
-
-
 
 // Database Info
 $config['db'] = [
