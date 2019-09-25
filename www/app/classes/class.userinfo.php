@@ -1027,6 +1027,7 @@ class User {
 				$pin_type = $object_data->getInfo('pin_type');
 				$pin_complete = $object_data->getInfo('pin_complete');
 				$phase_ID = $object_data->getInfo('phase_ID');
+				$device_ID = $object_data->getInfo('device_ID');
 				$phaseData = Phase::ID($phase_ID);
 
 				// Skip if the phase not found
@@ -1061,7 +1062,10 @@ class User {
 				}
 
 				$project_name = $project_data->getInfo('project_name');
-				$object_link = site_url("page/$page_ID#$object_ID");
+
+
+				$object_link = site_url("phase/$phase_ID#$object_ID");
+				if ( $device_ID != null ) $object_link = site_url("revise/$device_ID#$object_ID");
 
 
 
