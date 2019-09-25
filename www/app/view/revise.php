@@ -149,7 +149,6 @@ foreach ($allMyProjects as $myProject) {
 			    return ($phaseFound['page_ID'] == $pageFromProject['page_ID']);
 			});
 			$phases_of_page = array_values($phases_of_page); // Reset the keys to get phase numbers
-			//$firstPhase = reset($phases_of_page);
 			//die_to_print($phases_of_page);
 
 			// Phase IDs
@@ -199,7 +198,6 @@ foreach ($allMyProjects as $myProject) {
 					$devices_of_phase = array_filter($allMyDevices, function($deviceFound) use ($phaseFromPage) {
 					    return ($deviceFound['phase_ID'] == $phaseFromPage['phase_ID']);
 					});
-					//$firstDevice = reset($devices_of_phase);
 					//die_to_print($devices_of_phase);
 
 
@@ -266,7 +264,6 @@ foreach ($allMyProjects as $myProject) {
 				$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageFromProject) {
 				    return ($deviceFound['page_ID'] == $pageFromProject['page_ID']);
 				});
-				//$firstDevice = reset($devices_of_page);
 				//die_to_print($devices_of_page);
 
 
@@ -367,7 +364,6 @@ foreach ($other_pages as $pageOther) {
 	    return ($phaseFound['page_ID'] == $pageOther['page_ID']);
 	});
 	$phases_of_page = array_values($phases_of_page); // Reset the keys to get phase numbers
-	//$firstPhase = reset($phases_of_page);
 	//die_to_print($phases_of_page);
 
 	// Phase IDs
@@ -419,7 +415,6 @@ foreach ($other_pages as $pageOther) {
 			$devices_of_phase = array_filter($allMyDevices, function($deviceFound) use ($phaseFromPage) {
 			    return ($deviceFound['phase_ID'] == $phaseFromPage['phase_ID']);
 			});
-			//$firstDevice = reset($devices_of_phase);
 			//die_to_print($devices_of_phase);
 
 
@@ -486,7 +481,6 @@ foreach ($other_pages as $pageOther) {
 	$devices_of_page = array_filter($allMyDevices, function($deviceFound) use ($pageOther) {
 	    return ($deviceFound['page_ID'] == $pageOther['page_ID']);
 	});
-	$firstDevice = reset($devices_of_page);
 	//die_to_print($devices_of_page);
 
 
@@ -574,7 +568,6 @@ foreach ($other_pages as $pageOther) {
 								$devices_of_phase = array_filter($allMyDevices, function($deviceFound) use ($phaseFound) {
 								    return ($deviceFound['phase_ID'] == $phaseFound['phase_ID']);
 								});
-								$firstDevice = reset($devices_of_phase);
 								//die_to_print($devices_of_page);
 
 
@@ -606,7 +599,7 @@ foreach ($other_pages as $pageOther) {
 							?>
 
 							<li class="item deletable" data-type="phase" data-id="<?=$phaseFound['phase_ID']?>" data-pin-status="<?=$pinStatus?>">
-								<a href="<?=site_url('revise/'.$firstDevice['device_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?> (<?=timeago($phaseFound['phase_created'])?>) <span class="notif-no"><?=$statusCount?></span></a>
+								<a href="<?=site_url('phase/'.$phaseFound['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?> (<?=timeago($phaseFound['phase_created'])?>) <span class="notif-no"><?=$statusCount?></span></a>
 
 								<?php
 								if ( count($devices_of_phase) ) {
