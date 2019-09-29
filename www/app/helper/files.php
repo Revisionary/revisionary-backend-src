@@ -25,7 +25,7 @@ function deleteDirectory($dir) {
 }
 
 
-function getDirectorySize($path){
+function getDirectorySize($path, $inMB = false){
     $bytestotal = 0;
     $path = realpath($path);
 
@@ -35,6 +35,11 @@ function getDirectorySize($path){
             $bytestotal += $object->getSize();
         }
     }
+
+    // MB Format
+    if ($inMB) return number_format($bytestotal / 1048576, 1); 
+
+    // Byte Format
     return $bytestotal;
 }
 

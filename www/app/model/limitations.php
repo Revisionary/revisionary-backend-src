@@ -46,8 +46,7 @@ else {
 
 		$phaseDirectory = Phase::ID($phaseFound['phase_ID'])->phaseDir;
 
-		$sizeByte = getDirectorySize($phaseDirectory);
-		$sizeMb = number_format($sizeByte / 1048576, 1);
+		$sizeMb = getDirectorySize($phaseDirectory, true); // True for the MB conversion
 		$filesLoadMb += $sizeMb;
 
 	}
