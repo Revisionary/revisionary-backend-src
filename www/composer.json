@@ -6,7 +6,7 @@
         "katzgrau/klogger": "1.2.1",
         "drewm/mailchimp-api": "2.5",
         "phpmailer/phpmailer": "6.0.7",
-        "sociallydev/spaces-api": "dev-master#ad0726e",
+        "sociallydev/spaces-api": "dev-master",
         "cheprasov/php-memcached-tags": "^1.0"
     }
 }
