@@ -2,7 +2,7 @@
 
 // Composer Autoloader
 $autoload_file = realpath('.')."/vendor/autoload.php";
-if ( !file_exists($autoload_file) ) die('Please try again in a few minutes...');
+if ( !file_exists($autoload_file) ) die('C: Please try again in a few minutes...');
 require $autoload_file;
 
 

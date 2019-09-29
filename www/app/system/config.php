@@ -42,6 +42,8 @@ if ($config['env']['name'] == 'local-dev') {
 	$config['env']['db_pass'] = $_ENV['DB_CLOUD_PASSWORD'];
 	$config['env']['timezone'] = $_ENV['DB_CLOUD_TIMEZONE'];
 
+	if ( !file_exists( realpath('.').'/cache/lost+found' ) ) die('V: Please try again in a few minutes...');
+
 }
 
 
