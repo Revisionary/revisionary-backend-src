@@ -1,10 +1,10 @@
 <pre>
 <?php
+
+
+
+
 $flush = true;
-
-
-
-
 if ($flush) $cache->flush();
 echo "
 <details>
@@ -24,12 +24,8 @@ echo "</p>
 </details>";
 
 
-
-
-$user = User::ID();
-
-
 // If logged in
+$user = User::ID();
 if ($user) {
 
 
