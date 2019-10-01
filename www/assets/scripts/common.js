@@ -94,10 +94,11 @@ $(function() {
 
 		// Other pages check
 		var pageExists = false;
+		var pageFound = false;
 		if (project_ID != "new" && project_ID != "autodetect") {
 
 
-			var pageFound = myPages.find(function(page) {
+			pageFound = myPages.find(function(page) {
 				return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID == project_ID ? true : false;
 			});
 
@@ -119,16 +120,17 @@ $(function() {
 		var otherProjectDomains = {};
 
 
-		// Reccomend adding different project
+		// Recommend adding different project
 		var newProject = false;
+		var pageFoundByDomain = false;
 		if (project_ID != "new" && project_ID != "autodetect") {
 
 
-			var pageFound = myPages.find(function(page) {
+			pageFoundByDomain = myPages.find(function(page) {
 				return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID ? true : false;
 			});
 
-			if (!pageFound) {
+			if (!pageFoundByDomain) {
 				newProject = true;
 			}
 
@@ -1716,7 +1718,10 @@ function currentUrl() {
 
 }
 
-function urlStandardize(url, removeProtocol = false) {
+function urlStandardize(url, removeProtocol) {
+
+
+	removeProtocol = assignDefault(removeProtocol, false);
 
 
 	// Remove hash
@@ -1735,7 +1740,7 @@ function urlStandardize(url, removeProtocol = false) {
 
 
 		// Remove slash from the end of the string before query
-		url = url.split('?')[0].replace(/\/$/,'') + '?' + url.split('?')[1]
+		url = url.split('?')[0].replace(/\/$/,'') + '?' + url.split('?')[1];
 
 	}
 
