@@ -129,11 +129,11 @@ class Project {
 
     // Add a new project
     public function addNew(
+		string $page_url = '',
     	string $project_name = '',
     	array $project_shares = array(), // Array of users that needs to be shared to
     	int $category_ID = 0, // The category_ID that new page is belong to
-    	int $order_number = 0, // The order number
-		string $page_url = ''
+    	int $order_number = 0 // The order number
     ) {
 	    global $db, $log, $cache;
 
@@ -201,7 +201,7 @@ class Project {
 
 
 		// If the project added
-		if ($project_ID) {
+		if ( is_int($project_ID) ) {
 
 
 
@@ -493,7 +493,7 @@ class Project {
 
 
 		// INVALIDATE THE CACHES
-		if ($project_removed) $cache->deleteKeysByTag(['projects', 'pages']);
+		if ($project_removed) $cache->deleteKeysByTag(['projects', 'pages', 'phases']);
 
 
 		return $project_removed;
@@ -583,7 +583,7 @@ class Project {
 
 
 		// INVALIDATE THE CACHES
-		if ($ownership_changed) $cache->deleteKeysByTag('projects');
+		if ($ownership_changed) $cache->deleteKeysByTag(['projects', 'pages', 'phases']);
 
 
 		return $ownership_changed;

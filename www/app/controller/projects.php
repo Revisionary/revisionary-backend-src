@@ -50,11 +50,11 @@ if (
 		$new_project = true;
 
 		$project_ID = Project::ID($project_ID)->addNew(
+			$page_url,
 			request('project-name'),
 			is_array(request('project_shares')) ? request('project_shares') : array(),
 			request('category'),
-			request('order'),
-			$page_url
+			request('order')
 		);
 
 	}
@@ -132,7 +132,7 @@ if (
 
 	// Add the Devices
 	$device_ID = Device::ID()->addNew(
-		$phase_ID,
+		intval($phase_ID),
 		is_array(request('screens')) ? request('screens') : array(), // Screen IDs array
 		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
 		request('page_height') != "" && is_numeric(request('page_height')) ? request('page_height') : null,
@@ -224,7 +224,7 @@ if (
 
 	// Add the Devices
 	$device_ID = Device::ID()->addNew(
-		$phase_ID,
+		intval($phase_ID),
 		array(11), // Add custom for now !!!
 		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
 		request('page_height') != "" && is_numeric(request('page_height')) ? request('page_height') : null,

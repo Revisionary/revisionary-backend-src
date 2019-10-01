@@ -165,15 +165,9 @@ class Page {
 
 
 		// Create a project
-		if ($project_ID == 0) {
+		if ($project_ID === 0) {
 
-			$project_ID = Project::ID()->addNew(
-				$project_name,
-				$project_shares,
-				$project_category_ID,
-				$project_order_number,
-				$page_url
-			);
+			$project_ID = Project::ID()->addNew($page_url);
 
 		}
 
@@ -211,7 +205,7 @@ class Page {
 
 
 		// If page added
-		if ($page_ID) {
+		if ( is_int($page_ID) ) {
 
 
 
@@ -522,7 +516,7 @@ class Page {
 
 
 		// INVALIDATE THE CACHES
-		if ($page_removed) $cache->deleteKeysByTag(['pages', 'projects']);
+		if ($page_removed) $cache->deleteKeysByTag(['pages', 'projects', 'phases']);
 
 
 		return $page_removed;
@@ -614,7 +608,7 @@ class Page {
 
 
 		// INVALIDATE THE CACHES
-		if ($ownership_changed) $cache->deleteKeysByTag(['pages', 'projects']);
+		if ($ownership_changed) $cache->deleteKeysByTag(['pages', 'projects', 'phases']);
 
 
 		return $ownership_changed;
