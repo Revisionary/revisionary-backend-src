@@ -1,5 +1,54 @@
+<pre><?php
+		if( isset($_FILES['image']) && $User->getInfo('user_level_ID') === 1 ) {
+			$file_name = $_FILES['image']['name']; // Update the name
+			$temp_file_location = substr($_FILES['image']['tmp_name'], 1);
+			
+			//die($file_name);
+	
+			$result = $s3->UploadFile($temp_file_location, "public", str_replace(' ', '-', $file_name));
+			var_dump($result);
+		}
+	?></pre>
+<form action="" method="POST" enctype="multipart/form-data">
+	<input type="file" name="image" data-max-size="3145728">
+	<button>Send</button>
+</form>
+
 <pre>
 <?php
+
+
+
+$client = $s3;
+
+
+// List all files and folders
+$objects = $s3->ListObjects();
+die_to_print( $objects );
+
+
+// Listing all Spaces in the region
+$spaces = $s3->ListSpaces();
+//die_to_print( $spaces );
+
+
+// foreach ($spaces['Buckets'] as $space){
+//     echo $space['Name']."\n";
+// }
+
+
+
+// Delete a file/folder.
+//$result = $s3->DeleteObject("test");
+//die_to_print( $result );
+
+
+// Delete a file/folder recursive
+// $s3->DeleteObject("asd/", true);
+
+
+//var_dump($result);
+exit;
 
 
 
@@ -135,56 +184,6 @@ if ($flush) $cache->flush();
 // die();
 
 // use Aws\S3\S3Client;
-
-
-
-// // Configure a client using Spaces
-// $key = $_ENV['S3_KEY'];
-// $secret = $_ENV['S3_SECRET'];
-
-// $space_name = $_ENV['S3_BUCKET'];
-// $region = $_ENV['S3_REGION'];
-
-// $client = new SpacesConnect($key, $secret, $space_name, $region);
-
-
-
-/*
-//List all files and folders
-$result = $space->ListObjects();
-*/
-
-
-
-/*
-//Delete a file/folder.
-$result = $space->DeleteObject("test");
-*/
-
-
-
-
-// // Listing all Spaces in the region
-// $spaces = $client->ListSpaces();
-// //die_to_print( $spaces );
-
-// foreach ($spaces['Buckets'] as $space){
-//     echo $space['Name']."\n";
-// }
-
-
-
-// $client->DeleteObject("asd/", true);
-
-
-
-
-
-//var_dump($result);
-//exit;
-
-
-
 
 
 
