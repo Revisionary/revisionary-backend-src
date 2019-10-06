@@ -1,14 +1,27 @@
 <pre><?php
-		if( isset($_FILES['image']) && $User->getInfo('user_level_ID') === 1 ) {
-			$file_name = $_FILES['image']['name']; // Update the name
-			$temp_file_location = substr($_FILES['image']['tmp_name'], 1);
-			
-			//die($file_name);
-	
-			$result = $s3->UploadFile($temp_file_location, "public", str_replace(' ', '-', $file_name));
-			var_dump($result);
-		}
-	?></pre>
+
+// $file = new File(
+// 	//"b.jpg", "s3"
+// 	cache."/test/"
+// );
+// var_dump( $file->delete() );
+
+exit;
+
+if( isset($_FILES['image']) && $User->getInfo('user_level_ID') === 1 ) {
+
+	$temp_file_location = $_FILES['image']['tmp_name'];	
+	$file_name = str_replace(' ', '-', basename($_FILES['image']['name'])); // Update the name
+	//die_to_print([$file_name, $temp_file_location, basename($temp_file_location)]);
+
+	$file = new File($temp_file_location);
+	$result = $file->upload($file_name, "s3", true);
+
+	var_dump($result);
+
+}
+
+?></pre>
 <form action="" method="POST" enctype="multipart/form-data">
 	<input type="file" name="image" data-max-size="3145728">
 	<button>Send</button>
