@@ -1,21 +1,22 @@
 <pre><?php
 
 // $file = new File(
-// 	//"b.jpg", "s3"
-// 	cache."/test/"
+// 	//"test-folder/", "s3"
+// 	cache."/b.jpg"
 // );
 // var_dump( $file->delete() );
-
-exit;
+// exit;
 
 if( isset($_FILES['image']) && $User->getInfo('user_level_ID') === 1 ) {
 
 	$temp_file_location = $_FILES['image']['tmp_name'];	
 	$file_name = str_replace(' ', '-', basename($_FILES['image']['name'])); // Update the name
+
 	//die_to_print([$file_name, $temp_file_location, basename($temp_file_location)]);
+	//die_to_print( dirname(cache."/$file_name") );
 
 	$file = new File($temp_file_location);
-	$result = $file->upload($file_name, "s3", true);
+	$result = $file->upload(cache."/asdasd/dsa/$file_name", "local", true);
 
 	var_dump($result);
 

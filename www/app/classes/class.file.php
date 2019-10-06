@@ -66,6 +66,7 @@ class File {
 	}
 
 
+	// This can upload a file
 	public function upload(
 		string $file_destination = null, // This also includes the file name
 		string $destination_location = "local", // Or use "s3"
@@ -95,7 +96,11 @@ class File {
 		
 		if ($destination_location == "local") {
 
-			$result = true;
+			// Create destination folder if not exists
+			$destination_directory = dirname($file_destination);
+			if ( !file_exists($destination_directory) ) mkdir($destination_directory, 0755, true);
+
+			$result = move_uploaded_file($this->file_path, $file_destination);
 
 		}
 
@@ -105,6 +110,7 @@ class File {
 	}
 
 
+	// This can delete file or folder
 	public function delete(
 		string $file_path = null,
 		string $file_location = null // Or use "s3"
@@ -124,20 +130,50 @@ class File {
 		// Do action
 		if ($file_location == "local") {
 
-			if ( is_file($file_path) ) $result = unlink($file_path);
-			if ( is_dir($file_path) ) $result = deleteDirectory($file_path);
+			$result = $this->deleteLocal($file_path);
 
 		}
 
 		if ($file_location == "s3") {
 
-			$result = $s3->DeleteObject($file_path, true) ? true : false;
+			$delete = $s3->DeleteObject($file_path, true);
+			$result = $delete || $delete === null ? true : false;
 
 		}
 
 
 		return $result;
 
+	}
+
+
+	public function deleteLocal(
+		string $file_path = null // Can be file or directory path
+	) {
+
+		
+		// By default, use initial file info
+		if ($file_path == null) $file_path = $this->file_path;
+	
+
+		// Early exit if no file
+		if ( !file_exists($file_path) ) return true;
+	
+
+		// Directly delete if this is a file
+		if ( !is_dir($file_path) ) return unlink($file_path);
+	
+
+		// Check the sub directories
+		foreach (scandir($file_path) as $item) {
+	
+			if ($item == '.' || $item == '..') continue;
+	
+			if ( !$this->deleteLocal($file_path . DIRECTORY_SEPARATOR . $item) ) return false;
+	
+		}
+	
+		return rmdir($file_path);
 	}
 
 
