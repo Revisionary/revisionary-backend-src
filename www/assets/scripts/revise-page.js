@@ -21,13 +21,13 @@ $(function() {
 
 		// Remove current page if no pins added
 		if (
-			currentPinType == "browse"
-			&& !link.startsWith('#')
-			&& !link.startsWith('javascript:')
-			&& target == "_self"
-			&& queryParameter(currentUrl(), 'new') == "page"
-			&& queryParameter(linkAbsolute, 'new_screen') == null
-			&& Pins.length == 0
+			currentPinType == "browse" &&
+			!link.startsWith('#') &&
+			!link.startsWith('javascript:') && // jshint ignore:line
+			target == "_self" &&
+			queryParameter(currentUrl(), 'new') == "page" &&
+			queryParameter(linkAbsolute, 'new_screen') == null &&
+			Pins.length == 0
 		) {
 
 
@@ -220,8 +220,10 @@ $(function() {
 
 
 	// Iframe Fit to the screen
-	var maxWidth  = iframeWidth = $('#the-page').width();
-	var maxHeight = iframeHeight = $('#the-page').height();
+	var maxWidth = $('#the-page').width();
+	iframeWidth = maxWidth;
+	var maxHeight = $('#the-page').height();
+	iframeHeight = maxHeight;
 	$('.iframe-container').css({ width: maxWidth, height: maxHeight });
 
 	$(window).resize(function(e) {
@@ -369,10 +371,10 @@ $(function() {
 
 		// Delete it from DB
 		if (
-			pinWindow(pin_ID).attr('data-revisionary-edited') == "0"
-			&& pinWindow(pin_ID).attr('data-changed') == "no"
-			&& pinWindow(pin_ID).attr('data-has-comments') == "no"
-			&& pinWindow(pin_ID).attr('temporary') != ""
+			pinWindow(pin_ID).attr('data-revisionary-edited') == "0" &&
+			pinWindow(pin_ID).attr('data-changed') == "no" &&
+			pinWindow(pin_ID).attr('data-has-comments') == "no" &&
+			pinWindow(pin_ID).attr('temporary') != ""
 		) removePin(pin_ID);
 
 		else if ( confirm('Are you sure you want to delete this pin and its modifications and comments?') )
@@ -535,7 +537,7 @@ $(function() {
 
 
 			// Difference check
-			var diffContent = diffCheck(originalContent, changedContent)
+			var diffContent = diffCheck(originalContent, changedContent);
 
 
 			// Add the differences content
@@ -646,7 +648,7 @@ $(function() {
 
 			//console.log('Content changed.');
 
-	    }
+	    };
 
 
 		// If a file selected
@@ -881,9 +883,9 @@ $(function() {
 
 		// Confirm if converting to standard pin
 		if (
-			pinWindow(pin_ID).attr('data-pin-type') == "live"
-			&& targetPin.attr('data-pin-type') == "standard"
-			&& !confirm('Are you sure you want to convert this live pin to a standard comment pin? All your changes will be reverted.')
+			pinWindow(pin_ID).attr('data-pin-type') == "live" &&
+			targetPin.attr('data-pin-type') == "standard" &&
+			!confirm('Are you sure you want to convert this live pin to a standard comment pin? All your changes will be reverted.')
 		) return false;
 
 
