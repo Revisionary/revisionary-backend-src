@@ -23,9 +23,10 @@ RUN echo "ServerName revisionaryapp.com" >> /etc/apache2/apache2.conf
 
 # Install necessary PHP Extensions (intl for intljeremykendall/php-domain-parser, libmemcached-dev zlib1g-dev for Memcached)
 RUN apt-get -y update \
-    && apt-get install -y libicu-dev libmemcached-dev zlib1g-dev\
+    && apt-get install -y libicu-dev libmemcached-dev zlib1g-dev libjpeg62-turbo-dev libpng-dev \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install intl mysqli \
+    && docker-php-ext-configure gd --with-gd --with-jpeg-dir \
+    && docker-php-ext-install intl mysqli gd \
     && pecl install memcached-3.1.3 \
     && docker-php-ext-enable memcached
 

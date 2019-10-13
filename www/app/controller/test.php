@@ -1,11 +1,28 @@
 <pre><?php
 
-// $file = new File(
-// 	//"test-folder/", "s3"
-// 	cache."/b.jpg"
-// );
-// var_dump( $file->delete() );
+
+// if(extension_loaded('gd')) {
+//     print_r(gd_info());
+// }
+// else {
+//     echo 'GD is not available.';
+// }
+
+// if(extension_loaded('imagick')) {
+//     $imagick = new Imagick();
+//     print_r($imagick->queryFormats());
+// }
+// else {
+//     echo 'ImageMagick is not available.';
+// }
+
 // exit;
+
+
+// // Resizer
+// $img = resize_image(cache."/screen.png", 200, 200);
+// die($img);
+
 
 if( isset($_FILES['image']) && $User->getInfo('user_level_ID') === 1 ) {
 
@@ -15,14 +32,18 @@ if( isset($_FILES['image']) && $User->getInfo('user_level_ID') === 1 ) {
 	//die_to_print([$file_name, $temp_file_location, basename($temp_file_location)]);
 	//die_to_print( dirname(cache."/$file_name") );
 
+	resize_image("$temp_file_location", 250, 250);
+
+	//die_to_print($img);
+
 	$file = new File($temp_file_location);
 	$result = $file->upload(
-		//cache."/$file_name", "local",
-		"avatars/$file_name", "s3",
+		cache."/$file_name", "local",
+		//"avatars/$file_name", "s3",
 		true
 	);
 
-	echo parse_url($result, PHP_URL_PATH)."<br>";
+	//echo parse_url($result, PHP_URL_PATH)."<br>";
 
 	var_dump($result);
 

@@ -85,6 +85,9 @@ if ( !in_array($image_extension, array('jpeg', 'jpg', 'png')) ) {
 }
 
 
+// Resize to 250x250
+resize_image($temp_file_location, 250, 250);
+
 
 // UPLOAD
 $file = new File($temp_file_location);
