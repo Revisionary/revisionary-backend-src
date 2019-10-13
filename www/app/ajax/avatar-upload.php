@@ -92,7 +92,7 @@ resize_image($temp_file_location, 250, 250);
 // UPLOAD
 $file = new File($temp_file_location);
 $result = $file->upload(
-	//cache."/users/user-$user_ID/$image_name", "local" // For local upload
+	//cache."/avatars/$image_name", "local" // For local upload
 	"avatars/$image_name", "s3"
 	//true
 );
@@ -103,7 +103,7 @@ if (!$result) {
 	// Rename
 	$image_name = generateRandomString().".".$image_extension;
 	$result = $file->upload(
-		//cache."/users/user-$user_ID/$image_name", "local" // For local upload
+		//cache."/avatars/$image_name", "local" // For local upload
 		"avatars/$image_name", "s3",
 		true
 	);
