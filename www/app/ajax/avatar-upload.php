@@ -107,9 +107,8 @@ if(move_uploaded_file($temporary, $image_path)) {
 
 	// Update on DB
 	User::ID($user_ID)->edit('user_picture', $image_name);
-
-
 	$status = "success";
+
 
 } else {
 

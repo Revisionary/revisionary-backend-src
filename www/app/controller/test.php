@@ -16,7 +16,11 @@ if( isset($_FILES['image']) && $User->getInfo('user_level_ID') === 1 ) {
 	//die_to_print( dirname(cache."/$file_name") );
 
 	$file = new File($temp_file_location);
-	$result = $file->upload(cache."/asdasd/dsa/$file_name", "local", true);
+	$result = $file->upload(
+		//cache."/asdasd/dsa/$file_name", "local",
+		"asdasd/dsa/$file_name", "s3",
+		true
+	);
 
 	var_dump($result);
 

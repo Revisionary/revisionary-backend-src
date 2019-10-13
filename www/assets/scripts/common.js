@@ -842,7 +842,6 @@ $(function() {
         if ( $(this).get(0).files.length ) {
 
 
-
             var fileSize = $(this).get(0).files[0].size; // in bytes
             if (fileSize > maxSize) {
 
@@ -851,8 +850,8 @@ $(function() {
 
             } else {
 
-                console.log('File size is correct - '+formatBytes(fileSize)+', no more than '+formatBytes(maxSize));
-	        	reader.readAsDataURL($(this).get(0).files[0]);
+                console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
+	        	reader.readAsDataURL( $(this).get(0).files[0] );
 
             }
 
@@ -906,7 +905,7 @@ $(function() {
                         if ( evt.lengthComputable ) {
 
                             var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-                            //Do something with upload progress
+                            // Do something with upload progress
                             console.log( 'Uploaded percent', percentComplete );
 
                         }
@@ -920,7 +919,7 @@ $(function() {
                         if ( evt.lengthComputable ) {
 
                             var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-                            //Do something with download progress
+                            // Do something with download progress
                             console.log( 'Downloaded percent', percentComplete );
 
                         }
@@ -949,31 +948,33 @@ $(function() {
 			});
 			e.preventDefault();
 
-	   } else { //for olden browsers
+
+	   } else { // for older browsers
 
 
-	        //generate a random id
-	        var iframeId = 'unique' + (new Date().getTime());
+	        // generate a random id
+	        var iframeId = 'unique' + ( new Date().getTime() );
 
-	        //create an empty iframe
+	        // create an empty iframe
 	        var iframe = $('<iframe src="javascript:false;" name="'+iframeId+'" />');
 
-	        //hide it
+	        // hide it
 	        iframe.hide();
 
-	        //set form target to iframe
+	        // set form target to iframe
 	        formObj.attr('target',iframeId);
 
-	        //Add iframe to body
+	        // Add iframe to body
 	        iframe.appendTo('body');
 	        iframe.load(function(e) {
 
 	            var doc = getDoc(iframe[0]);
 	            var docRoot = doc.body ? doc.body : doc.documentElement;
 	            var data = docRoot.innerHTML;
-	            //data is returned from server.
+	            // data is returned from server.
 
-	        });
+			});
+
 
 	    }
 
