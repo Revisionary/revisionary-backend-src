@@ -112,6 +112,20 @@ function getUserInfo($user_ID = false) {
 	if ( !$userInfo ) return false;
 
 
+	// Avatar
+	if ( $userInfo['user_picture'] != "" ) {
+		
+		// S3 or Local
+		$userPicUrl = strpos($userInfo['user_picture'], '://') !== false ? $userInfo['user_picture'] : cache_url("users/user-$user_ID/".$userInfo['user_picture']);
+
+	} else {
+		
+		// Gravatar
+		$userPicUrl = get_gravatar($userInfo['user_email'], 250);
+
+	}
+
+
 	// The extended user data
 	$extendedUserInfo = array(
 		'userName' => $userInfo['user_name'],
@@ -121,7 +135,7 @@ function getUserInfo($user_ID = false) {
 		'nameAbbr' => mb_substr($userInfo['user_first_name'], 0, 1).mb_substr($userInfo['user_last_name'], 0, 1),
 		'email' => $userInfo['user_email'],
 		'userPic' => $userInfo['user_picture'],
-		'userPicUrl' => $userInfo['user_picture'] != "" ? cache_url("users/user-$user_ID/".$userInfo['user_picture']) : get_gravatar($userInfo['user_email'], 250),
+		'userPicUrl' => $userPicUrl,
 		'emailNotifications' => $userInfo['user_email_notifications'],
 		'userLevelName' => $userInfo['user_level_name'],
 		'userLevelID' => $userInfo['user_level_ID'],

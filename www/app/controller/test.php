@@ -17,10 +17,12 @@ if( isset($_FILES['image']) && $User->getInfo('user_level_ID') === 1 ) {
 
 	$file = new File($temp_file_location);
 	$result = $file->upload(
-		//cache."/asdasd/dsa/$file_name", "local",
-		"asdasd/dsa/$file_name", "s3",
+		//cache."/$file_name", "local",
+		"avatars/$file_name", "s3",
 		true
 	);
+
+	echo parse_url($result, PHP_URL_PATH)."<br>";
 
 	var_dump($result);
 

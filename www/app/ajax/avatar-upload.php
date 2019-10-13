@@ -64,12 +64,10 @@ if ($_FILES['image']['size'] > 3145728) {
 
 
 // File info
-$directory = cache."/users/user-$user_ID/";
 $image = $_FILES['image']['name'];
-$temporary = $_FILES['image']['tmp_name'];
+$temp_file_location = $_FILES['image']['tmp_name'];	
 $image_extension = strtolower(pathinfo($image, PATHINFO_EXTENSION));
 $image_name = generateRandomString().".".$image_extension;
-$image_path = $directory.$image_name;
 
 
 // Extension check
@@ -88,26 +86,76 @@ if ( !in_array($image_extension, array('jpeg', 'jpg', 'png')) ) {
 
 
 
-// Create user directory if not exist
-if (!file_exists($directory)) {
-	mkdir($directory);
+// UPLOAD
+$file = new File($temp_file_location);
+$result = $file->upload(
+	//cache."/users/user-$user_ID/$image_name", "local" // For local upload
+	"avatars/$image_name", "s3"
+	//true
+);
+
+// Quick retry, if file already exists
+if (!$result) {
+
+	// Rename
+	$image_name = generateRandomString().".".$image_extension;
+	$result = $file->upload(
+		//cache."/users/user-$user_ID/$image_name", "local" // For local upload
+		"avatars/$image_name", "s3",
+		true
+	);
+
 }
 
 
 
 // Move the file
-if(move_uploaded_file($temporary, $image_path)) {
+if($result) {
+
+
+	// New local URL
+	$new_url = cache_url("users/user-$user_ID/$image_name");
+
+
+	// Detect whether or not new avatar on S3
+	if ( is_string($result) && strpos($result, '://') !== false ) { // On S3
+
+		$image_name = $new_url = $result;
+
+	}
+
+
+	// Update on DB
+	if ( User::ID($user_ID)->edit('user_picture', $image_name) ) $status = "success";
+
 
 
 	// Delete the old one
 	$old_image_name = $userInfo['userPic'];
-	$old_image = $directory.$old_image_name;
-	if ( $old_image_name != null && file_exists($old_image) ) unlink($old_image);
+	$old_image = cache."/users/user-$user_ID/$old_image_name";
+	$location = "local";
 
 
-	// Update on DB
-	User::ID($user_ID)->edit('user_picture', $image_name);
-	$status = "success";
+	// Detect whether or not old avatar on S3
+	if ( strpos($old_image_name, '://') !== false ) { // On S3
+
+		$old_image = substr(parse_url($old_image_name, PHP_URL_PATH), 1);
+		$location = "s3";
+
+	}
+
+
+	// Delete old ımage
+	$file = new File($old_image, $location);
+	$file->delete();
+
+
+	// Site log
+	$log->info("User #$user_ID Changed Avatar: '$image_name'");
+
+
+	// INVALIDATE THE CACHE
+	$cache->delete('user:'.$user_ID);
 
 
 } else {
@@ -120,6 +168,6 @@ if(move_uploaded_file($temporary, $image_path)) {
 die(json_encode(array(
 	'status' => $status,
 	'user_ID' => $user_ID,
-	'new_url' => cache_url("users/user-$user_ID/$image_name"),
+	'new_url' => $new_url,
 	'files' => $_FILES
 )));
