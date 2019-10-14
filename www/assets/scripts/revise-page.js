@@ -608,9 +608,10 @@ $(function() {
 	});
 
 
-	// Uploader
-	$('#filePhoto').change(function() {
+	// Image Uploader
+	$('.pin-image').change(function() {
 
+		var formElement = $(this).parent('form');
 		var maxSize = $(this).attr('data-max-size');
 
 
@@ -618,17 +619,13 @@ $(function() {
 	    reader.onload = function(event) {
 
 
-
 			var pin_ID = pinWindow().attr('data-pin-id');
 			var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
-			var imageSrc = event.target.result;
 			var changedElement = iframeElement(elementIndex);
-			var changedElementOriginal = changedElement.prop('src');
-
+			var imageSrc = event.target.result;
 
 
 			//console.log('REGISTERED CHANGES', changes);
-
 
 
 			// Stop the auto-refresh
@@ -636,24 +633,20 @@ $(function() {
 
 
 			// Apply the change
-			$('.uploader img').attr('src', imageSrc);
-			changedElement.attr('src', imageSrc).attr('srcset', '').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+			//changedElement.attr('src', imageSrc).attr('srcset', '').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+			pinWindow(pin_ID).find('.uploader img').attr('src', imageSrc); // !!! PUT LOADING CLASS
 			pinWindow(pin_ID).attr('data-revisionary-edited', "1");
 
 
+			// Submit the form
+			formElement.submit();
 
-			// Send changes to DB
-			saveChange(pin_ID, imageSrc);
-
-
-			//console.log('Content changed.');
 
 	    };
 
 
 		// If a file selected
         if ( $(this).get(0).files.length ) {
-
 
 
             var fileSize = $(this).get(0).files[0].size; // in bytes
@@ -683,12 +676,117 @@ $(function() {
 	});
 
 
+	// Image uploader AJAX
+	$('#pin-image-form').submit(function(e) {
+
+	    var formObj = $(this);
+		var pin_ID = pinWindow().attr('data-pin-id');
+		var pin = getPin(pin_ID);
+		var pinIndex = Pins.indexOf(pin);
+		var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
+		var changedElement = iframeElement(elementIndex);
+
+
+		// Start the process
+		var uploadImageProcessID = newProcess(null, "uploadImageProcess");
+
+
+		$.ajax({
+			url: ajax_url+'?type=pin-photo-upload&pin_ID=' + pin_ID,
+			type: 'POST',
+			data:  new FormData(this),
+			mimeType: "multipart/form-data",
+			contentType: false,
+			cache: false,
+			processData: false,
+			dataType: 'json',
+			xhr: function() {
+
+
+				var jqXHR = null;
+				if ( window.ActiveXObject ) {
+
+					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+
+				} else {
+
+					jqXHR = new window.XMLHttpRequest();
+
+				}
+
+
+				// Upload progress
+				jqXHR.upload.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Uploaded percent', percentComplete );
+
+					}
+
+				}, false );
+
+
+				// Download progress
+				jqXHR.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Downloaded percent', percentComplete );
+
+					}
+
+				}, false );
+
+
+				return jqXHR;
+			},
+			success: function(data, textStatus, jqXHR) {
+				
+				var imageUrl = data.new_url;
+
+
+				console.log('SUCCESS!', imageUrl, data, textStatus, jqXHR);
+
+
+				// Update the global
+				Pins[pinIndex].pin_modification = imageUrl;
+
+
+				// Update the images
+				pinWindow(pin_ID).find('.uploader img').attr('src', imageUrl);
+				changedElement.attr('src', imageUrl).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+				pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+				pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+
+				console.log('Image changed.');
+
+
+				// Finish the process
+				endProcess(uploadImageProcessID);
+
+
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+
+				console.log('FAILED!!', errorThrown);
+
+			}
+		});
+		
+
+		e.preventDefault();
+
+	});
+
+
 	// Select File
 	$('.select-file').click(function(e) {
 
-
-		$('#filePhoto').click();
-
+		$('.pin-image').click();
 
 		e.preventDefault();
 

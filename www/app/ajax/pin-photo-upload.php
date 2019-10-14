@@ -21,10 +21,55 @@ if ( !userLoggedIn() ) {
 	)));
 
 }
+$user_ID = currentUserID();
 
 
-$user_ID = getUserInfo()['userLevelID'] == 1 && is_numeric(get('user_ID')) ? intval(get('user_ID')) : currentUserID();
-$userInfo = getUserInfo($user_ID);
+// Invalid pin_ID
+if ( !is_numeric(get('pin_ID')) ) {
+
+	$status = "invalid";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
+}
+$pin_ID = intval(get('pin_ID'));
+
+
+// Check pin
+$pinData = Pin::ID($pin_ID);
+if ( !$pinData ) {
+
+	$status = "no-pin";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
+}
+$pinInfo = $pinData->getInfo();
+
+
+// Check pin modification type
+if ( $pinInfo['pin_modification_type'] != "image" ) {
+
+	$status = "invalid-pin-type";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
+}
 
 
 // File check
@@ -44,6 +89,7 @@ if (
 	)));
 
 }
+
 
 
 // Size check
@@ -83,8 +129,8 @@ if ( !in_array($image_extension, array('jpeg', 'jpg', 'png')) ) {
 }
 
 
-// Resize to 250x250
-resize_image($temp_file_location, 250, 250);
+// Resize
+resize_image($temp_file_location, 1920, 1920);
 
 
 // Select file to upload
@@ -92,13 +138,13 @@ $file = new File($temp_file_location);
 
 
 // Rename if exists
-while ( $file->fileExists("avatars/$image_name") )
+while ( $file->fileExists("pin-images/pin-$pin_ID/$image_name") )
 	$image_name = generateRandomString().".".$image_extension;
 
 
 // Upload
-$result = $file->upload("avatars/$image_name", "s3");
-if ( !$result ) {
+$pin_image_url = $file->upload("pin-images/pin-$pin_ID/$image_name", "s3");
+if ( !$pin_image_url ) {
 
 	$status = "not-uploaded";
 
@@ -111,24 +157,15 @@ if ( !$result ) {
 
 }
 
-
 // New local URL
-$new_url = cache_url("users/user-$user_ID/$image_name");
+$new_url = is_string($pin_image_url) && strpos($pin_image_url, '://') !== false ? $pin_image_url : cache_url("pin-images/pin-$pin_ID/$image_name");
 
 
-// Detect whether or not new avatar on S3
-if ( is_string($result) && strpos($result, '://') !== false ) { // On S3
+// Modify the pin
+$pin_modified = $pinData->modify($new_url);
+if ( !$pin_modified ) {
 
-	$image_name = $new_url = $result;
-
-}
-
-
-// Update on DB
-$user_updated = User::ID($user_ID)->edit('user_picture', $image_name);
-if ( !$user_updated ) {
-
-	$status = "not-updated";
+	$status = "not-modified";
 
 	// CREATE THE RESPONSE
 	die(json_encode(array(
@@ -140,39 +177,37 @@ if ( !$user_updated ) {
 }
 
 
-// Delete the old one
-$old_image_name = $userInfo['userPic'];
-$old_image = cache."/users/user-$user_ID/$old_image_name";
-$location = "local";
+// Delete the old Image
+$old_image = $pinInfo['pin_modification'];
+if ( strpos($old_image, '://') !== false ) { // On S3
 
+	$old_image_path = substr(parse_url($old_image, PHP_URL_PATH), 1);
 
-// Detect whether or not old avatar on S3
-if ( strpos($old_image_name, '://') !== false ) { // On S3
-
-	$old_image = substr(parse_url($old_image_name, PHP_URL_PATH), 1);
-	$location = "s3";
+	// Delete old ımage
+	$file = new File($old_image_path, "s3");
+	$file->delete();
 
 }
 
 
-// Delete old ımage
-$file = new File($old_image, $location);
-$file->delete();
 
 
 $status = "success";
 
 
 // Site log
-$log->info("User #$user_ID Changed Avatar: '$image_name'");
+$log->info("User #$user_ID Uploaded a Pin #$pin_ID image: '$new_url'");
 
 
-// INVALIDATE THE CACHE
-$cache->delete('user:'.$user_ID);
+// INVALIDATE THE CACHES
+$cache->deleteKeysByTag('pins');
+
+
 
 
 die(json_encode(array(
 	'status' => $status,
+	'pin_ID' => $pin_ID,
 	'user_ID' => $user_ID,
 	'new_url' => $new_url,
 	'files' => $_FILES

@@ -3479,7 +3479,8 @@ function toggleChange(pin_ID) {
 
 
 // Remove Image
-function removeImage(pin_ID, element_index) {
+function removeImage(pin_ID) {
+
 
 	console.log('DELETE THE IMAGE');
 

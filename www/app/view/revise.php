@@ -992,8 +992,10 @@ foreach ($other_pages as $pageOther) {
 							<div class="edit-content changes uploader">
 
 							    <img class="new-image" src=""/>
-							    <div class="info"><span><span style="text-decoration: underline;">Click here</span> or drag here your image for preview</span></div>
-							    <input type="file" name="image" id="filePhoto" accept=".gif,.jpg,.jpeg,.png" data-max-size="3145728" />
+								<div class="info"><span><span style="text-decoration: underline;">Click here</span> or drag here your image for preview</span></div>
+								<form action="" id="pin-image-form" method="POST" enctype="multipart/form-data">
+									<input type="file" name="image" id="filePhoto" class="pin-image" accept=".gif,.jpg,.jpeg,.png" data-max-size="3145728" />
+								</form>
 
 							</div>
 							<div class="edit-content original">

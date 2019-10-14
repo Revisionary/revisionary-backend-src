@@ -870,113 +870,80 @@ $(function() {
 	$('#avatar-form').submit(function(e) {
 
 	    var formObj = $(this);
-	    var formURL = formObj.attr("action");
 	    var userID = formObj.find('.avatar-changer').attr('data-id');
 
-	    if(window.FormData !== undefined) {  // for HTML5 browsers
 
-	        $.ajax({
-	            url: ajax_url+'?type=avatar-upload&user_ID='+userID,
-	            type: 'POST',
-	            data:  new FormData(this),
-	            mimeType: "multipart/form-data",
-	            contentType: false,
-	            cache: false,
-	            processData: false,
-				dataType: 'json',
-                xhr: function() {
-
-
-                    var jqXHR = null;
-                    if ( window.ActiveXObject ) {
-
-                        jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
-
-                    } else {
-
-                        jqXHR = new window.XMLHttpRequest();
-
-                    }
+		$.ajax({
+			url: ajax_url+'?type=avatar-upload&user_ID='+userID,
+			type: 'POST',
+			data:  new FormData(this),
+			mimeType: "multipart/form-data",
+			contentType: false,
+			cache: false,
+			processData: false,
+			dataType: 'json',
+			xhr: function() {
 
 
-                    // Upload progress
-                    jqXHR.upload.addEventListener( "progress", function ( evt ) {
+				var jqXHR = null;
+				if ( window.ActiveXObject ) {
 
-                        if ( evt.lengthComputable ) {
+					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
 
-                            var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-                            // Do something with upload progress
-                            console.log( 'Uploaded percent', percentComplete );
+				} else {
 
-                        }
+					jqXHR = new window.XMLHttpRequest();
 
-                    }, false );
+				}
 
 
-                    // Download progress
-                    jqXHR.addEventListener( "progress", function ( evt ) {
+				// Upload progress
+				jqXHR.upload.addEventListener( "progress", function ( evt ) {
 
-                        if ( evt.lengthComputable ) {
+					if ( evt.lengthComputable ) {
 
-                            var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-                            // Do something with download progress
-                            console.log( 'Downloaded percent', percentComplete );
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Uploaded percent', percentComplete );
 
-                        }
+					}
 
-                    }, false );
-
-
-                    return jqXHR;
-                },
-	            success: function(data, textStatus, jqXHR) {
-
-					console.log('SUCCESS!!', data, textStatus, jqXHR);
-
-					// Update the image
-					$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').attr('style', 'background-image: url('+ data.new_url +');');
-					$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').removeClass('loading');
-
-	            },
-	            error: function(jqXHR, textStatus, errorThrown) {
-
-		            console.log('FAILED!!', errorThrown);
-
-		            $('.profile-picture[data-type="user"][data-id="'+ userID +'"]').removeClass('loading');
-
-	            }
-			});
-			e.preventDefault();
+				}, false );
 
 
-	   } else { // for older browsers
+				// Download progress
+				jqXHR.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Downloaded percent', percentComplete );
+
+					}
+
+				}, false );
 
 
-	        // generate a random id
-	        var iframeId = 'unique' + ( new Date().getTime() );
+				return jqXHR;
+			},
+			success: function(data, textStatus, jqXHR) {
 
-	        // create an empty iframe
-	        var iframe = $('<iframe src="javascript:false;" name="'+iframeId+'" />');
+				console.log('SUCCESS!', data, textStatus, jqXHR);
 
-	        // hide it
-	        iframe.hide();
+				// Update the image
+				$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').attr('style', 'background-image: url('+ data.new_url +');').removeClass('loading');
 
-	        // set form target to iframe
-	        formObj.attr('target',iframeId);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
 
-	        // Add iframe to body
-	        iframe.appendTo('body');
-	        iframe.load(function(e) {
+				console.log('FAILED!!', errorThrown);
 
-	            var doc = getDoc(iframe[0]);
-	            var docRoot = doc.body ? doc.body : doc.documentElement;
-	            var data = docRoot.innerHTML;
-	            // data is returned from server.
+				$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').removeClass('loading');
 
-			});
+			}
+		});
 
 
-	    }
+		e.preventDefault();
 
 	});
 

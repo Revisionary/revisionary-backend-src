@@ -19,9 +19,12 @@
 // exit;
 
 
-// // Resizer
-// $img = resize_image(cache."/screen.png", 200, 200);
-// die($img);
+// Resizer
+$img = resize_image(cache."/bill.png", 1920, 1920);
+die($img);
+
+
+//die_to_print( getimagesize(cache."/bill.png") );
 
 
 if( isset($_FILES['image']) && $User->getInfo('user_level_ID') === 1 ) {
