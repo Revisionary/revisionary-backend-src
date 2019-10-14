@@ -10,7 +10,13 @@ function resize_image($file, $w, $h, $crop = false) {
 	if ($mime_type != "image/jpeg" && $mime_type != "image/png") return false;
 
 
-    list($width, $height) = getimagesize($file);
+	list($width, $height) = getimagesize($file);
+	
+
+	// Early exit if image size is smaller than the crop
+	if ( $w >= $width && $h >= $height ) return "Smaller image";
+
+
     $r = $width / $height;
     if ($crop) {
         if ($width > $height) {
