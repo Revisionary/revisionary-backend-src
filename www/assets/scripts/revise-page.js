@@ -614,14 +614,15 @@ $(function() {
 		var formElement = $(this).parent('form');
 		var maxSize = $(this).attr('data-max-size');
 
+		var pin_ID = pinWindow().attr('data-pin-id');
+		var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
+		var changedElement = iframeElement(elementIndex);
+
 
 	    var reader = new FileReader();
 	    reader.onload = function(event) {
 
 
-			var pin_ID = pinWindow().attr('data-pin-id');
-			var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
-			var changedElement = iframeElement(elementIndex);
 			var imageSrc = event.target.result;
 
 
@@ -658,7 +659,9 @@ $(function() {
             } else {
 
                 console.log('File size is correct - '+formatBytes(fileSize)+', no more than '+formatBytes(maxSize));
-	        	reader.readAsDataURL($(this).get(0).files[0]);
+				reader.readAsDataURL($(this).get(0).files[0]);
+				
+				pinWindow(pin_ID).find('.uploader').addClass('uploading');
 
             }
 
@@ -723,6 +726,8 @@ $(function() {
 						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
 						console.log( 'Uploaded percent', percentComplete );
 
+						pinWindow(pin_ID).find('.uploader .bar').css('width', percentComplete + '%');
+
 					}
 
 				}, false );
@@ -760,6 +765,9 @@ $(function() {
 				changedElement.attr('src', imageUrl).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 				pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 				pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+
+				pinWindow(pin_ID).find('.uploader').removeClass('uploading');
 
 
 				console.log('Image changed.');

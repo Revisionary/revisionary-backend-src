@@ -435,6 +435,23 @@ textarea {
 	position: relative;
 	z-index: 0;
 
+	.bar {
+		position: absolute;
+		z-index: 2;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 10px;
+		background-color: black;
+		pointer-events: none;
+		opacity: 0;
+		transition: 500ms;
+	}
+
+	&.uploading .bar {
+		opacity: 0.3;
+	}
+
 	img {
 	    //position:absolute;
 	    max-width: 100%;
