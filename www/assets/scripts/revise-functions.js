@@ -413,7 +413,7 @@ function runTheInspector() {
 					hoveringImage = true;
 					focused_element_editable = true; // Obviously Image Editable
 					//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
-					//console.log( 'Focused Element Image: ' + focused_element.attr('src') );
+					//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
 
 				}
 
@@ -1478,7 +1478,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		modificationType = selectedElement.prop('tagName').toUpperCase() == 'IMG' ? "image" : "html";
 		if (modificationType == "html") selectedElement.attr('contenteditable', "true");
 
-		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.attr('src');
+		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.prop('src');
 
 
 	}
@@ -2995,7 +2995,7 @@ function updateOriginals(pinsList, oldPinsList) {
 
 			} else if (pin.pin_modification_type == "image") {
 
-				theOriginal = element.attr('src');
+				theOriginal = element.prop('src');
 
 			}
 

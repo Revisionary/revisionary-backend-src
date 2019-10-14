@@ -623,7 +623,7 @@ $(function() {
 			var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
 			var imageSrc = event.target.result;
 			var changedElement = iframeElement(elementIndex);
-			var changedElementOriginal = changedElement.attr('src');
+			var changedElementOriginal = changedElement.prop('src');
 
 
 
