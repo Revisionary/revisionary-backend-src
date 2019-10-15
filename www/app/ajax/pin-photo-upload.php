@@ -93,7 +93,7 @@ if (
 
 
 // Size check
-if ($_FILES['image']['size'] > 3145728) {
+if ($_FILES['image']['size'] > 15000000) {
 
 	$status = "large-file";
 

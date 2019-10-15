@@ -995,7 +995,7 @@ foreach ($other_pages as $pageOther) {
 							    <img class="new-image" src=""/>
 								<div class="info"><span><span style="text-decoration: underline;">Click here</span> or drag here your image for preview</span></div>
 								<form action="" id="pin-image-form" method="POST" enctype="multipart/form-data">
-									<input type="file" name="image" id="filePhoto" class="pin-image" accept=".gif,.jpg,.jpeg,.png" data-max-size="3145728" />
+									<input type="file" name="image" id="filePhoto" class="pin-image" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000" />
 								</form>
 
 							</div>
