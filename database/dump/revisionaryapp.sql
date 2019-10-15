@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: Oct 13, 2019 at 02:19 AM
+-- Generation Time: Oct 15, 2019 at 09:26 AM
 -- Server version: 8.0.17
 -- PHP Version: 7.2.22
 
@@ -76,7 +76,7 @@ CREATE TABLE `notification_user_connection` (
 CREATE TABLE `pages` (
   `page_ID` bigint(20) NOT NULL,
   `page_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `page_url` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `page_url` varchar(2083) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `page_user` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `page_pass` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `page_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -146,8 +146,8 @@ CREATE TABLE `pins` (
   `pin_y` decimal(20,5) NOT NULL,
   `pin_element_index` bigint(20) NOT NULL,
   `pin_modification_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `pin_modification` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `pin_modification_original` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `pin_modification` varchar(2083) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pin_modification_original` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pin_css` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `phase_ID` bigint(20) NOT NULL,
   `device_ID` bigint(20) DEFAULT NULL,
@@ -332,7 +332,7 @@ CREATE TABLE `users` (
   `user_job_title` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_department` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_company` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_picture` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `user_picture` varchar(2083) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_has_public_profile` tinyint(1) NOT NULL DEFAULT '0',
   `user_email_notifications` tinyint(1) NOT NULL DEFAULT '1',
   `user_registered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -345,23 +345,23 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_job_title`, `user_department`, `user_company`, `user_picture`, `user_has_public_profile`, `user_email_notifications`, `user_registered`, `user_IP`, `user_level_ID`) VALUES
-(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Bilal', 'TAŞ', NULL, NULL, NULL, 'pyatg6xfw3.jpg', 1, 1, '2019-06-11 11:59:52', '127.0.0.1', 1),
-(2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', NULL, NULL, NULL, 'ike.png', 0, 1, '2019-06-11 11:59:52', '127.0.0.1', 3),
-(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', NULL, NULL, NULL, 'sara.png', 0, 1, '2019-06-11 11:59:52', '127.0.0.1', 3),
-(4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', NULL, NULL, NULL, 'matt.png', 0, 1, '2019-06-11 11:59:52', '127.0.0.1', 2),
-(5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', NULL, NULL, NULL, '6zls9hq69a.jpg', 0, 1, '2019-06-11 11:59:52', '127.0.0.1', 3),
-(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$d39kS46ZfdS9x4Vhzqp3mebAq17UD31qLl6ogC6RPHzwM1bG0.0hK', 'Bill', 'TAS', 'Lead Web Developer', 'Web Department', 'Twelve12', 'a8xsl0r7lt.png', 0, 1, '2019-06-11 11:59:52', '127.0.0.1', 2),
-(7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, NULL, NULL, NULL, 0, 1, '2019-06-11 11:59:52', '127.0.0.1', 2),
-(8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', NULL, NULL, NULL, 'sara.png', 0, 1, '2019-06-11 11:59:52', '127.0.0.1', 3),
-(9, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, NULL, NULL, NULL, 0, 1, '2019-06-11 11:59:52', '127.0.0.1', 2),
-(10, 'dmytro', 'dmytro@twelve12.com', '$2y$10$5B902tsYAx8y8OVkDiREmeps44Vy6lOaLE5.trmsYBCQXm33uFtva', 'Dmytro', 'Korol', 'Art Director', 'Design', 'Twelve12', 'dmytro.jpg', 0, 1, '2019-06-11 11:59:52', '127.0.0.1', 2),
-(11, 'dmytro-korol', 'korol.dmitry@gmail.com', '$2y$10$uIAeohwy2hJpWIbGsFTwcuRPGpLOCT7HADfv6jKo50YjIekJPoT9W', 'Dmytro', 'Korol', NULL, NULL, NULL, NULL, 0, 1, '2019-06-11 11:59:52', '127.0.0.1', 2),
-(12, 'salih-onder', 'irtibat@dijitem.com', '$2y$10$jEJa3JTjFQq.e3p2WWC1Y.TG6EoO1x0zHG0rmo3wx8/3rRxdqQYbi', 'Salih', 'ÖNDER', NULL, NULL, NULL, NULL, 0, 1, '2019-06-11 11:59:52', '176.43.81.234', 3),
-(13, 'abraham', 'abraham@twelve12.com', '$2y$10$7TfH8RKyKfSrXe8BNMDpjuALoIjYjktxBAEDW42LDXwck3H/qUWwi', 'Abraham', 'Kiziltepe', '', '', '', 'xlksojn4bw.jpg', 0, 1, '2019-06-11 11:59:52', '5.177.182.139', 3),
-(14, 'jeremy-king', 'jeremy@twelve12.com', '$2y$10$3cKu7TvcsGrzWgj8VJUoPucdfRCqGjGQVdpbo/XeeL86UT5IqczqK', 'Jeremy', 'King', NULL, NULL, NULL, NULL, 0, 1, '2019-06-11 11:59:52', '98.186.237.146', 2),
-(15, 'dilekuzulmez', 'dilekuzulmez@gmail.com', '$2y$10$snwtYOys3NT8kKNpQgyPt.LwXg2Gsv2BafD9ZTFRXX4tVHopFn5eW', 'Dilek', 'TAŞ', NULL, NULL, NULL, NULL, 0, 1, '2019-06-11 11:59:52', '95.8.108.37', 2),
-(16, 'm-f', 'mo@twelve12.com', '$2y$10$QR2Oi9h0yqQ04SGO.71CuOEMWOmHf3yNzhUMZCjVW9MR1CpO/tfCW', 'Mo', 'Fidanoglu', 'Digital Marketing Manager', '', 'Twelve12', '2tnekiysnw.png', 0, 1, '2019-07-31 08:16:13', '98.186.237.146', 3),
-(17, 'salih-onder_1', 'salih@twelve12.com', '$2y$10$n0.5srt7NNNG8tHWGmX6eOofTDRJEDWO4JeomBbxniCNleYDu9Ml6', 'Salih', 'ÖNDER', 'Web Expert', 'WEB', 'Twelve12', 'b90jz7pgyg.jpg', 0, 1, '2019-08-19 21:00:34', '176.239.37.151', 3);
+(1, 'bilaltas', 'bilaltas@me.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Bilal', 'TAŞ', NULL, NULL, NULL, 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/w1muiw2xx3.jpg', 1, 1, '2019-09-22 21:55:20', '127.0.0.1', 1),
+(2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', NULL, NULL, NULL, 'ike.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 3),
+(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', NULL, NULL, NULL, 'sara.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 3),
+(4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', NULL, NULL, NULL, 'matt.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
+(5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', NULL, NULL, NULL, '6zls9hq69a.jpg', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 3),
+(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$d39kS46ZfdS9x4Vhzqp3mebAq17UD31qLl6ogC6RPHzwM1bG0.0hK', 'Bill', 'TAS', 'Lead Web Developer', 'Web Department', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/jdd2rxz5qz.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
+(7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, NULL, NULL, NULL, 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
+(8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', NULL, NULL, NULL, 'sara.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 3),
+(9, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, NULL, NULL, NULL, 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
+(10, 'dmytro', 'dmytro@twelve12.com', '$2y$10$5B902tsYAx8y8OVkDiREmeps44Vy6lOaLE5.trmsYBCQXm33uFtva', 'Dmytro', 'Korol', 'Art Director', 'Design', 'Twelve12', 'dmytro.jpg', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
+(11, 'dmytro-korol', 'korol.dmitry@gmail.com', '$2y$10$uIAeohwy2hJpWIbGsFTwcuRPGpLOCT7HADfv6jKo50YjIekJPoT9W', 'Dmytro', 'Korol', NULL, NULL, NULL, NULL, 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
+(12, 'salih-onder', 'irtibat@dijitem.com', '$2y$10$jEJa3JTjFQq.e3p2WWC1Y.TG6EoO1x0zHG0rmo3wx8/3rRxdqQYbi', 'Salih', 'ÖNDER', NULL, NULL, NULL, NULL, 0, 1, '2019-09-22 21:55:20', '176.43.81.234', 3),
+(13, 'abraham', 'abraham@twelve12.com', '$2y$10$7TfH8RKyKfSrXe8BNMDpjuALoIjYjktxBAEDW42LDXwck3H/qUWwi', 'Abraham', 'Kiziltepe', '', '', '', 'xlksojn4bw.jpg', 0, 1, '2019-09-22 21:55:20', '5.177.182.139', 3),
+(14, 'jeremy-king', 'jeremy@twelve12.com', '$2y$10$3cKu7TvcsGrzWgj8VJUoPucdfRCqGjGQVdpbo/XeeL86UT5IqczqK', 'Jeremy', 'King', NULL, NULL, NULL, NULL, 0, 1, '2019-09-22 21:55:20', '98.186.237.146', 2),
+(15, 'dilekuzulmez', 'dilekuzulmez@gmail.com', '$2y$10$snwtYOys3NT8kKNpQgyPt.LwXg2Gsv2BafD9ZTFRXX4tVHopFn5eW', 'Dilek', 'TAŞ', NULL, NULL, NULL, NULL, 0, 1, '2019-09-22 21:55:20', '95.8.108.37', 2),
+(16, 'm-f', 'mo@twelve12.com', '$2y$10$QR2Oi9h0yqQ04SGO.71CuOEMWOmHf3yNzhUMZCjVW9MR1CpO/tfCW', 'Mo', 'Fidanoglu', 'Digital Marketing Manager', '', 'Twelve12', '2tnekiysnw.png', 0, 1, '2019-09-22 21:55:20', '98.186.237.146', 3),
+(17, 'salih-onder_1', 'salih@twelve12.com', '$2y$10$n0.5srt7NNNG8tHWGmX6eOofTDRJEDWO4JeomBbxniCNleYDu9Ml6', 'Salih', 'ÖNDER', 'Web Expert', 'WEB', 'Twelve12', 'b90jz7pgyg.jpg', 0, 1, '2019-09-22 21:55:20', '176.239.37.151', 3);
 
 -- --------------------------------------------------------
 
