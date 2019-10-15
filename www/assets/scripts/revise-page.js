@@ -634,8 +634,7 @@ $(function() {
 
 
 			// Apply the change
-			//changedElement.attr('src', imageSrc).attr('srcset', '').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-			pinWindow(pin_ID).find('.uploader img').attr('src', imageSrc); // !!! PUT LOADING CLASS
+			pinWindow(pin_ID).find('.uploader img').attr('src', imageSrc);
 			pinWindow(pin_ID).attr('data-revisionary-edited', "1");
 
 
@@ -762,7 +761,7 @@ $(function() {
 
 				// Update the images
 				pinWindow(pin_ID).find('.uploader img').attr('src', imageUrl);
-				changedElement.attr('src', imageUrl).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+				changedElement.attr('src', imageUrl).removeAttr('srcset').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 				pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 				pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 
