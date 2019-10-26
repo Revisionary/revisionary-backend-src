@@ -926,6 +926,15 @@ $(function() {
 				return jqXHR;
 			},
 			success: function(data, textStatus, jqXHR) {
+				
+				var status = data.status;
+
+				if (status != "success") {
+
+					console.error('ERROR: ', status, data, textStatus, jqXHR);
+					return false;
+
+				}
 
 				console.log('SUCCESS!', data, textStatus, jqXHR);
 

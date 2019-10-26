@@ -36,12 +36,8 @@ function newProcess(preventWindowClose, processDescription) { // Add timeout fun
 
 
 	// Stop auto-refresh, and abort the current request
-	if (typeof stopAutoRefresh === "function") {
-
-		if (autoRefreshRequest) autoRefreshRequest.abort();
-		stopAutoRefresh();
-
-	}
+	if (typeof stopAutoRefresh === "function") stopAutoRefresh();
+	if (typeof stopNotificationAutoRefresh === "function") stopNotificationAutoRefresh();
 
 
 	// Add the new process
@@ -113,6 +109,7 @@ function endProcess(processID) {
 
 		// Restart auto-refresh
 		if (typeof startAutoRefresh === "function" && page_ready) startAutoRefresh();
+		if (typeof startNotificationAutoRefresh === "function" && page_ready) startNotificationAutoRefresh();
 
 	}
 

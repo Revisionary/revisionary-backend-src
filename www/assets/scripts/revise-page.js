@@ -750,10 +750,17 @@ $(function() {
 			success: function(data, textStatus, jqXHR) {
 				
 				var imageUrl = data.new_url;
+				var status = data.status;
+
+				if (status != "success") {
+
+					console.error('ERROR: ', status, data, imageUrl, textStatus, jqXHR);
+					return false;
+
+				}
 
 
 				console.log('SUCCESS!', imageUrl, data, textStatus, jqXHR);
-
 
 				// Update the global
 				Pins[pinIndex].pin_modification = imageUrl;

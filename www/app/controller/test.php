@@ -19,15 +19,18 @@
 // exit;
 
 
-// Resizer
-$img = resize_image(cache."/bill.png", 1920, 1920);
-die($img);
+// // Resizer
+// $img = resize_image(cache."/bill.png", 1920, 1920);
+// die($img);
 
 
 //die_to_print( getimagesize(cache."/bill.png") );
 
 
 if( isset($_FILES['image']) && $User->getInfo('user_level_ID') === 1 ) {
+
+	// print_r( $_FILES );
+	// exit;
 
 	$temp_file_location = $_FILES['image']['tmp_name'];	
 	$file_name = str_replace(' ', '-', basename($_FILES['image']['name'])); // Update the name
