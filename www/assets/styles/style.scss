@@ -446,6 +446,10 @@ textarea {
 		pointer-events: none;
 		opacity: 0;
 		transition: 500ms;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
 	}
 
 	&.uploading .bar {

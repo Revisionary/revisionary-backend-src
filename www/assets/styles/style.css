@@ -5336,7 +5336,11 @@ textarea {
     background-color: black;
     pointer-events: none;
     opacity: 0;
-    transition: 500ms; }
+    transition: 500ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white; }
   .uploader.uploading .bar {
     opacity: 0.3; }
   .uploader img {

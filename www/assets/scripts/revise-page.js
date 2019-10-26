@@ -721,7 +721,9 @@ $(function() {
 						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
 						console.log( 'Uploaded percent', percentComplete );
 
-						pinWindow(pin_ID).find('.uploader .bar').css('width', percentComplete + '%');
+						pinWindow(pin_ID).find('.uploader .bar').css('width', percentComplete + '%').text(percentComplete +'%');
+
+						if (percentComplete == 100) pinWindow(pin_ID).find('.uploader .bar').text('Processing...');
 
 					}
 
@@ -770,6 +772,7 @@ $(function() {
 
 
 				pinWindow(pin_ID).find('.uploader').removeClass('uploading');
+				pinWindow(pin_ID).find('.uploader .bar').text('');
 
 
 				console.log('Image changed.');
@@ -783,6 +786,8 @@ $(function() {
 			error: function(jqXHR, textStatus, errorThrown) {
 
 				console.log('FAILED!!', errorThrown);
+
+				pinWindow(pin_ID).find('.uploader .bar').text('ERROR');
 
 			}
 		});
