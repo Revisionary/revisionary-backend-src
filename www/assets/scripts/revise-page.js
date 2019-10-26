@@ -629,10 +629,6 @@ $(function() {
 			//console.log('REGISTERED CHANGES', changes);
 
 
-			// Stop the auto-refresh
-			stopAutoRefresh();
-
-
 			// Apply the temporary change
 			pinWindow(pin_ID).find('.uploader img').attr('src', imageSrc);
 			pinWindow(pin_ID).attr('data-revisionary-edited', "1");
