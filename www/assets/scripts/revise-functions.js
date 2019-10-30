@@ -2871,6 +2871,7 @@ function closePinWindow(removePinIfEmpty) {
 	if (
 		removePinIfEmpty &&
 		!pinRemoved &&
+		pinWindow(pin_ID).find('.comment-input').val() == "" &&
 		pinWindow(pin_ID).attr('data-pin-new') == "yes" &&
 		pinWindow(pin_ID).attr('data-revisionary-edited') == "0" &&
 		pinWindow(pin_ID).attr('data-changed') == "no" &&
