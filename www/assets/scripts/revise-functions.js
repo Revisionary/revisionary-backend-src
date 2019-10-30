@@ -4225,7 +4225,7 @@ function commentTemplate(comment, left, hide, sameTime) {
 
 	var date = new Date(comment.comment_modified);
 	var picture = comment.user_picture;
-	var printPic = picture != null ? " style='background-image: url(/cache/users/user-"+ comment.user_ID +"/"+ comment.user_picture +");'" : "";
+	var printPic = picture != null ? " style='background-image: url("+ comment.user_picture +");'" : "";
 	var direction = left ? "left" : "right";
 	var itsMe = comment.user_ID == user_ID ? true : false;
 	var linkedComment = Autolinker.link( comment.pin_comment, {
