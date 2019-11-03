@@ -108,7 +108,7 @@ class Notify {
 	    string $notification_type = "text",
 	    string $object_type,
 	    int $object_ID,
-	    string $notification = null
+	    $notification = null
     ) {
 	    global $db;
 

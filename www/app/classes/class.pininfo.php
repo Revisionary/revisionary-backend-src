@@ -1027,7 +1027,7 @@ class Pin {
 					    background-repeat: no-repeat;
 					    background-size: cover;
 					    background-position: 50% 50%;
-					    background-image: ".($has_photo ? "url(".cache_url('users/user-'.$comment['user_ID'].'/'.$comment['user_picture']).")" : "none").";
+					    background-image: ".($has_photo ? "url(".$comment['user_picture'].")" : "none").";
 
 					'>".($has_photo ? "" : mb_substr($comment['user_first_name'], 0, 1).mb_substr($comment['user_last_name'], 0, 1))."</div>
 				";
