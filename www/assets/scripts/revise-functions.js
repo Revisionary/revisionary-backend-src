@@ -2285,7 +2285,7 @@ function relocatePins() {
 
 
 	// Relocate all the pins
-    $('#pins > pin').each(function() {
+    $('#pins > pin:visible').each(function() {
 
 	    var pin_ID = parseInt($(this).attr('data-pin-id'));
 	    relocatePin(pin_ID);
