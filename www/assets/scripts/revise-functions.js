@@ -2583,6 +2583,24 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"))
 			.attr('data-has-comments', 'no');
 
+		
+		// Open tabs
+		if (!firstTime) {
+
+			// Close all first
+			pinWindow().find('.section-title').addClass('collapsed');
+
+			// Content
+			if ( thePinModified == "1" ) pinWindow().find('.content-editor .section-title, .image-editor .section-title').removeClass('collapsed');
+
+			// Styles
+			if (styleElement.length) pinWindow().find('.visual-editor .section-title').removeClass('collapsed');
+
+			// Always open the comments
+			pinWindow().find('.comments .section-title').removeClass('collapsed');
+
+		}
+
 
 		// Remove changed marks
 		options.find('.main-option').removeClass('changed');
