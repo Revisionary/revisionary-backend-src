@@ -3201,6 +3201,11 @@ function applyChanges(showingOriginal) {
 	// Hide the loading overlay
 	$('#loading').fadeOut();
 
+
+	// Re-Locate all the pins
+	relocatePins();
+
+
 	// Page is ready now
 	page_ready = true;
 	$('body').addClass('ready');
