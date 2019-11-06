@@ -2243,6 +2243,7 @@ function getElementOffset(element_index) {
 
 
 		// Check the cache first
+		//if ( hiddenElementOffsets[element_index] !== undefined ) console.log('0. Element Offset for element #' + element_index, hiddenElementOffsets[element_index]);
 		if ( hiddenElementOffsets[element_index] !== undefined ) return hiddenElementOffsets[element_index];
 
 
@@ -2267,7 +2268,7 @@ function getElementOffset(element_index) {
 	}
 
 
-	//console.log('2. Element Offset for element #' + element_index, elementOffset);
+	//console.log('2. Element Offset for element #' + element_index, selectedElement.offset());
 	return selectedElement.offset();
 
 }
@@ -4905,9 +4906,13 @@ function nl2br(str, is_xhtml) {
 
 jQuery.fn.onPositionChanged = function(trigger, millis) {
 
+
     if (millis == null) millis = 100;
-    var o = $(this[0]); // our jquery object
-    if (o.length < 1) return o;
+    var o = $(this[0]); // Our object
+	if (o.length < 1) return o;
+	var element_index = o.attr('data-revisionary-index');
+	//console.log('INDEX: ', element_index);
+
     var lastPos = null;
     var lastOff = null;
     var lastWidth = null;
@@ -4915,7 +4920,9 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
     setInterval(function() {
 
-        if (o == null || o.length < 1) return o; // abort if element is non existend eny more
+        if (o == null || o.length < 1) return o; // Abort if element is not exist anymore
+		if ( o.css('display') == "none" ) o = o.parent(); // If this hidden element
+
         if (lastPos == null) lastPos = o.position();
         if (lastOff == null) lastOff = o.offset();
         if (lastWidth == null) lastWidth = o.width();
@@ -4927,28 +4934,56 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
         var newOffWidth = o[0].offsetWidth;
 
         if (lastPos.top != newPos.top || lastPos.left != newPos.left) {
+
+			console.log('Position changed');
+
             $(this).trigger('onPositionChanged', { lastPos: lastPos, newPos: newPos });
             if (typeof (trigger) == "function") trigger(lastPos, newPos);
-            lastPos = o.position();
-        }
+			lastPos = o.position();
+
+			delete hiddenElementOffsets[element_index];
+
+		}
+
         if (lastOff.top != newOff.top || lastOff.left != newOff.left) {
+
+			console.log('Offset changed');
+
             $(this).trigger('onPositionChanged', { lastOff: lastOff, newOff: newOff});
             if (typeof (trigger) == "function") trigger(lastOff, newOff);
-            lastOff= o.offset();
-        }
+			lastOff = o.offset();
+
+			delete hiddenElementOffsets[element_index];
+
+		}
+
         if (lastWidth != newWidth) {
+
+			console.log('Size changed');
+
             $(this).trigger('onPositionChanged', { lastWidth: lastWidth, newWidth: newWidth});
             if (typeof (trigger) == "function") trigger(lastWidth, newWidth);
-            lastWidth= o.width();
-        }
+			lastWidth = o.width();
+
+			delete hiddenElementOffsets[element_index];
+
+		}
+
         if (lastOffWidth != newOffWidth) {
+
+			console.log('Offset Size changed', lastOffWidth, newOffWidth);
+
             $(this).trigger('onPositionChanged', { lastOffWidth: lastOffWidth, newOffWidth: newOffWidth});
             if (typeof (trigger) == "function") trigger(lastOffWidth, newOffWidth);
-            lastWidth= o.width();
+			lastOffWidth = o[0].offsetWidth;
+
+			delete hiddenElementOffsets[element_index];
+
         }
 
     }, millis);
 
 
-    return o;
+	return o;
+
 };
