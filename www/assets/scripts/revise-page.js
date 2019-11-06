@@ -161,6 +161,8 @@ $(function() {
 		$('#pins, .pins-list').attr('data-filter', filter);
 
 
+		relocatePins();
+
 
 		if (history.pushState) {
 		    var newurl = queryParameter(currentUrl(), 'filter', (filter == "all" ? '' : filter));
