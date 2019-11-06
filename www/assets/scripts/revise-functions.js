@@ -2182,6 +2182,8 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll) {
 
 
 	var elementOffset = getElementOffset(element_index);
+	if (!elementOffset) return false;
+
 	var elementTop = elementOffset.top;
 	var elementLeft = elementOffset.left;
 	var elementWidth = element.width();
@@ -2232,7 +2234,6 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll) {
 function getElementOffset(element_index) {
 
 
-	var elementOffset;
 	var selectedElement = iframeElement(element_index);
 	if (!selectedElement.length) return false;
 
@@ -2241,32 +2242,33 @@ function getElementOffset(element_index) {
 	if ( selectedElement.css('display') == 'none' ) {
 
 
+		// Check the cache first
+		if ( hiddenElementOffsets[element_index] !== undefined ) return hiddenElementOffsets[element_index];
+
+
+		// Find the pin
 		var pin = getPin(element_index, true);
 		if (!pin) return false;
-		var pin_ID = pin.pin_ID;
 
 
 		// Disabled temporarily
-		disableCSS(pin_ID);
+		disableCSS(pin.pin_ID);
 		selectedElement.addClass('revisionary-show');
 
-		elementOffset = selectedElement.offset();
+		hiddenElementOffsets[element_index] = selectedElement.offset();
 
 		selectedElement.removeClass('revisionary-show');
-		activateCSS(pin_ID);
-
-		//console.log('1. Element Offset for element #' + element_index, elementOffset);
+		activateCSS(pin.pin_ID);
 
 
-	} else {
-
-		elementOffset = selectedElement.offset();
-		//console.log('2. Element Offset for element #' + element_index, elementOffset);
+		//console.log('1. Element Offset for element #' + element_index, hiddenElementOffsets[element_index]);
+		return hiddenElementOffsets[element_index];
 
 	}
 
 
-	return elementOffset;
+	//console.log('2. Element Offset for element #' + element_index, elementOffset);
+	return selectedElement.offset();
 
 }
 

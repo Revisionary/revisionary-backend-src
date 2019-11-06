@@ -159,6 +159,7 @@ var pinAnimation, pinAnimationTimeout;
 var commentsGetRequest = null;
 var removePinProcess = [];
 var openPin = null;
+var hiddenElementOffsets = {};
 
 
 // When document is ready, fill the variables
