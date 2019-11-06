@@ -536,17 +536,17 @@ function runTheInspector() {
 
 
 
-/*
-				// See what am I focusing
-				console.log("###############################");
-				console.log("CURRENT FOCUSED: ", focused_element.prop('tagName').toUpperCase(), focused_element_index );
-				console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable, focused_element_html_editable );
-				//console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
-				console.log("HOVERING ON A TEXT?: ", hoveringText );
-				console.log("HOVERING ON AN IMAGE?: ", hoveringImage );
-				console.log("HOVERING ON A BUTTON?: ", hoveringButton );
-				console.log("###############################");
-*/
+
+				// // See what am I focusing
+				// console.log("###############################");
+				// console.log("CURRENT FOCUSED: ", focused_element.prop('tagName').toUpperCase(), focused_element_index );
+				// console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable, focused_element_html_editable );
+				// //console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
+				// console.log("HOVERING ON A TEXT?: ", hoveringText );
+				// console.log("HOVERING ON AN IMAGE?: ", hoveringImage );
+				// console.log("HOVERING ON A BUTTON?: ", hoveringButton );
+				// console.log("###############################");
+
 
 
 
