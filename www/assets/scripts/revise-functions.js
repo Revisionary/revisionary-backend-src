@@ -2173,15 +2173,12 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll) {
 	noScroll = assignDefault(noScroll, false);
 
 
+	var element = iframeElement(element_index);
+	if (!element.length) return false;
+
+
 	// Update the location and size values
 	updateLocationValues();
-
-
-	var element = iframeElement(element_index);
-
-
-	// Check if element exists
-	if (!element.length) return false;
 
 
 	var elementOffset = getElementOffset(element_index);
@@ -2235,18 +2232,18 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll) {
 function getElementOffset(element_index) {
 
 
+	var elementOffset;
 	var selectedElement = iframeElement(element_index);
 	if (!selectedElement.length) return false;
-
-	var pin = getPin(element_index, true);
-	if (!pin) return false;
-
-	var pin_ID = pin.pin_ID;
-	var elementOffset;
 
 
 	// Check if hidden
 	if ( selectedElement.css('display') == 'none' ) {
+
+
+		var pin = getPin(element_index, true);
+		if (!pin) return false;
+		var pin_ID = pin.pin_ID;
 
 
 		// Disabled temporarily
