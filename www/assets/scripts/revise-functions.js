@@ -2034,10 +2034,6 @@ function changePinNumber(pinNumber) {
 function relocatePin(pin_ID, x, y) {
 
 
-	x = assignDefault(x, null);
-	y = assignDefault(y, null);
-
-
 	// Pin info
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
@@ -2045,10 +2041,8 @@ function relocatePin(pin_ID, x, y) {
 
 
 	// Use the registered locations if not specified
-	if ( x == null || y == null ) {
-		x = pin.pin_x;
-		y = pin.pin_y;
-	}
+	x = assignDefault(x, pin.pin_x);
+	y = assignDefault(y, pin.pin_y);
 
 
 	// Get the locations
