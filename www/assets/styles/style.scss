@@ -1455,6 +1455,10 @@ pin {
 
     }
 
+    &[data-revisionary-showing-changes="0"] {
+	    opacity: 0.5;
+    }
+
     &.mouse-cursor {
 	    position: absolute;
 	    cursor: none !important;

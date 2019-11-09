@@ -5987,6 +5987,8 @@ pin {
     pin[data-pin-complete="1"]:hover:before,
     pin[data-pin-complete="1"].show-number:before {
       opacity: 0; }
+  pin[data-revisionary-showing-changes="0"] {
+    opacity: 0.5; }
   pin.mouse-cursor {
     position: absolute;
     cursor: none !important;
