@@ -481,6 +481,7 @@
 
 										<span class="pin-count remaining tooltip" data-tooltip="Incomplete Tasks" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span>
 										<span class="pin-count done tooltip" data-tooltip="Solved Tasks" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>
+										<?=$inCompletePinCount + $completePinCount == 0 ? "<span class='no-task'>No Tasks</span>" : ""?>
 
 										<?php
 										/*

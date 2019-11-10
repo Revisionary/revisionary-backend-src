@@ -4,6 +4,7 @@
 					<span class="title"><b><?=$dataType == "page" ? "Project Status:" : "Tasks Status:"?></b></span>
 					<span class="pin-count middle remaining tooltip" data-tooltip="Incomplete Tasks" data-count="<?=$inCompletePinsCount?>"><?=$inCompletePinsCount?></span>
 					<span class="pin-count middle done tooltip" data-tooltip="Solved Tasks" data-count="<?=$completePinsCount?>"><?=$completePinsCount?></span>
+					<?=$inCompletePinsCount + $completePinsCount == 0 ? "<span class='no-task'>No Tasks Added Yet</span>" : ""?>
 
 				</div>
 

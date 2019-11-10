@@ -7345,6 +7345,9 @@ ol.categories {
           ol.categories > li.category > ol.blocks > .block .box .overlay .modes a {
             font-size: 30px;
             padding: 0 2px; }
+          ol.categories > li.category > ol.blocks > .block .box .overlay .no-task {
+            color: white;
+            font-size: 12px; }
           ol.categories > li.category > ol.blocks > .block .box .overlay .pins {
             padding: 4px !important; }
             ol.categories > li.category > ol.blocks > .block .box .overlay .pins pin {
