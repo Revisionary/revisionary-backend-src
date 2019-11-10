@@ -95,31 +95,34 @@ $totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = $totalComp
 
 if ($allMyPins) {
 
-	$totalLivePinCount = count(array_filter($allMyPins, function($value) {
+	$totalLivePinCount = count(array_filter($allMyPins, function($pin) {
 
-		return $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
-
-	}));
-
-	$totalStandardPinCount = count(array_filter($allMyPins, function($value) {
-
-		return $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+		return $pin['pin_type'] == "live" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
 
 	}));
 
-	$totalPrivatePinCount = count(array_filter($allMyPins, function($value) {
+	$totalStandardPinCount = count(array_filter($allMyPins, function($pin) {
 
-		return ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
+		return $pin['pin_type'] == "standard" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
 
 	}));
 
-	$totalCompletePinCount = count(array_filter($allMyPins, function($value) {
+	$totalPrivatePinCount = count(array_filter($allMyPins, function($pin) {
 
-		return $value['pin_complete'] == "1";
+		return ($pin['pin_type'] == "live" || $pin['pin_type'] == "standard") && $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID() && $pin['pin_complete'] == "0";
+
+	}));
+
+	$totalCompletePinCount = count(array_filter($allMyPins, function($pin) {
+
+		return $pin['pin_complete'] == "1";
 
 	}));
 
 }
+
+$inCompletePinsCount = $totalLivePinCount + $totalStandardPinCount + $totalPrivatePinCount;
+$completePinsCount = $totalCompletePinCount;
 
 
 

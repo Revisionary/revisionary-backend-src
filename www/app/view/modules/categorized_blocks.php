@@ -479,7 +479,11 @@
 									</div>
 									<div class="col xl-8-12 xl-right xl-top pins">
 
+										<span class="pin-count remaining tooltip" data-tooltip="Incomplete Tasks" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span>
+										<span class="pin-count done tooltip" data-tooltip="Solved Tasks" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>
+
 										<?php
+										/*
 										if ($livePinCount > 0) {
 										?>
 										<pin data-pin-type="live"><?=$livePinCount?>
@@ -506,7 +510,7 @@
 											<div class="pin-title">Solved</div>
 										</pin>
 										<?php
-										}
+										}*/
 										?>
 
 									</div>

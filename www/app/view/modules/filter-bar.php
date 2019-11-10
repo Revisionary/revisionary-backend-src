@@ -1,5 +1,9 @@
 			<div class="toolbar wrap xl-flexbox xl-middle">
-				<div class="col xl-3-12 xl-left">
+				<div class="col xl-3-12 xl-left tasks">
+
+					<span class="title"><b><?=$dataType == "page" ? "Project Status:" : "Tasks Status:"?></b></span>
+					<span class="pin-count middle remaining tooltip" data-tooltip="Incomplete Tasks" data-count="<?=$inCompletePinsCount?>"><?=$inCompletePinsCount?></span>
+					<span class="pin-count middle done tooltip" data-tooltip="Solved Tasks" data-count="<?=$completePinsCount?>"><?=$completePinsCount?></span>
 
 				</div>
 

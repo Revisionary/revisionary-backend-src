@@ -6013,6 +6013,31 @@ pin {
       background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAALElEQVQYV2NkwAJEptr7MqKLgwTfZB/cjCIBEwQphksgC8Il0AXBEtgEQRIAbs0VPBlQrL8AAAAASUVORK5CYII=);
       background-color: #fff; }
 
+/* Pin Counts */
+.pin-count {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 50%;
+  color: white;
+  letter-spacing: 0;
+  font-size: 10px;
+  width: 25px;
+  height: 25px;
+  background-color: #D0011B;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.8);
+  margin: 1px; }
+  .pin-count.done {
+    background-color: green; }
+  .pin-count.middle {
+    font-size: 12px;
+    width: 32px;
+    height: 32px;
+    margin: 3px; }
+  .pin-count[data-count="0"] {
+    display: none; }
+
 /* Pin Window */
 #pin-window {
   pointer-events: none;
@@ -6539,6 +6564,11 @@ header {
 
 .toolbar {
   margin-bottom: 35px; }
+  .toolbar .tasks {
+    display: flex;
+    align-items: center; }
+    .toolbar .tasks .title {
+      margin-right: 5px; }
 
 .title {
   white-space: nowrap; }
