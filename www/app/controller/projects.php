@@ -269,6 +269,11 @@ $pageCounts = array_count_values($pageCounts);
 
 
 
+// PINS DATA AND COUNTS
+$allMyPins = $User->getPins();
+
+
+
 // Additional Scripts and Styles
 $additionalCSS = [
 	'vendor/jquery.mCustomScrollbar.css'

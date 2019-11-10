@@ -249,6 +249,35 @@
 								$block_image_url = cache_url($block_image_path);
 
 
+								// Count the pins
+								if ($allMyPins) {
+								
+									$project_ID = $block['project_ID'];
+								
+									$livePinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
+								
+										return $pin['project_ID'] == $project_ID && $pin['pin_type'] == "live" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
+								
+									}));
+									$standardPinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
+								
+										return $pin['project_ID'] == $project_ID && $pin['pin_type'] == "standard" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
+								
+									}));
+									$privatePinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
+								
+										return $pin['project_ID'] == $project_ID && ($pin['pin_type'] == "live" || $pin['pin_type'] == "standard") && $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID() && $pin['pin_complete'] == "0";
+								
+									}));
+									$completePinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
+								
+										return $pin['project_ID'] == $project_ID && $pin['pin_complete'] == "1";
+								
+									}));
+								
+								}
+
+
 							}
 
 
@@ -296,43 +325,43 @@
 								// Count the pins
 								if ($allMyPins) {
 								
-									$phase_IDs = array_column($blockPhases, "phase_ID");
+									$page_ID = $block['page_ID'];
 								
 								
-									$livePinCount = count(array_filter($allMyPins, function($value) use ($phase_IDs) {
+									$livePinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
 								
-										return in_array($value['phase_ID'], $phase_IDs) && $value['pin_type'] == "live" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
-								
-									}));
-									$standardPinCount = count(array_filter($allMyPins, function($value) use ($phase_IDs) {
-								
-										return in_array($value['phase_ID'], $phase_IDs) && $value['pin_type'] == "standard" && $value['pin_private'] == "0" && $value['pin_complete'] == "0";
+										return $pin['page_ID'] == $page_ID && $pin['pin_type'] == "live" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
 								
 									}));
-									$privatePinCount = count(array_filter($allMyPins, function($value) use ($phase_IDs) {
+									$standardPinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
 								
-										return in_array($value['phase_ID'], $phase_IDs) && ($value['pin_type'] == "live" || $value['pin_type'] == "standard") && $value['pin_private'] == "1" && $value['user_ID'] == currentUserID() && $value['pin_complete'] == "0";
+										return $pin['page_ID'] == $page_ID && $pin['pin_type'] == "standard" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
 								
 									}));
-									$completePinCount = count(array_filter($allMyPins, function($value) use ($phase_IDs) {
+									$privatePinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
 								
-										return in_array($value['phase_ID'], $phase_IDs) && $value['pin_complete'] == "1";
+										return $pin['page_ID'] == $page_ID && ($pin['pin_type'] == "live" || $pin['pin_type'] == "standard") && $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID() && $pin['pin_complete'] == "0";
+								
+									}));
+									$completePinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
+								
+										return $pin['page_ID'] == $page_ID && $pin['pin_complete'] == "1";
 								
 									}));
 								
 								}
 
 
-								// Get block status
-								$inCompletePinCount = $livePinCount + $standardPinCount + $privatePinCount;
-								if ($inCompletePinCount)
-									$blockPinStatus = "has-tasks";
-
-								if ($completePinCount && !$inCompletePinCount)
-									$blockPinStatus = "done";
-
-
 							}
+
+
+							// Get block status
+							$inCompletePinCount = $livePinCount + $standardPinCount + $privatePinCount;
+							if ($inCompletePinCount)
+								$blockPinStatus = "has-tasks";
+
+							if ($completePinCount && !$inCompletePinCount)
+								$blockPinStatus = "done";
 
 
 							// Image style bg code
