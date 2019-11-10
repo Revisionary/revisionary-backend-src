@@ -1532,15 +1532,23 @@ pin {
 		background-color: green;
 	}
 
+	&.small {
+		font-size: 8px;
+		line-height: 14px;
+		width: 14px;
+		height: 14px;
+	}
+
 	&.middle {
 		font-size: 12px;
+		line-height: 12px;
 		width: 32px;
 		height: 32px;
 		margin: 3px;
 	}
 
 	&[data-count="0"] {
-		display: none;
+		display: none !important;
 	}
 
 	&-wrapper {

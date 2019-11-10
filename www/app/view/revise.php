@@ -127,12 +127,26 @@ foreach ($allMyProjects as $myProject) {
 	//die_to_print($pages_of_project, false);
 
 
+	// Get pins count
+	$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($myProject) {
+
+		return $pinFound['project_ID'] == $myProject['project_ID'] && $pinFound['pin_complete'] == "0";
+
+	}));
+	$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($myProject) {
+
+		return $pinFound['project_ID'] == $myProject['project_ID'] && $pinFound['pin_complete'] == "1";
+
+	}));
+
+
 	$action_url = 'ajax?type=data-action&data-type=project&nonce='.$_SESSION['js_nonce'].'&id='.$myProject['project_ID'];
 
 ?>
 <li class="item <?=$selected?>" data-type="project" data-id="<?=$myProject['project_ID']?>">
 
-	<a href="<?=site_url('project/'.$myProject['project_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$myProject['project_name']?><?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ""?></a>
+	<a href="<?=site_url('project/'.$myProject['project_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$myProject['project_name']?>
+			<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span> <?=count($pages_of_project) ? '<i class="fa fa-caret-right"></i>' : ''?></a>
 
 	<?php
 	if ( count($pages_of_project) ) {
@@ -151,19 +165,16 @@ foreach ($allMyProjects as $myProject) {
 			$phases_of_page = array_values($phases_of_page); // Reset the keys to get phase numbers
 			//die_to_print($phases_of_page);
 
-			// Phase IDs
-			$phaseIDsOfPage = array_column($phases_of_page, "phase_ID");
-
 
 			// Get pins count
-			$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseIDsOfPage) {
+			$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($pageFromProject) {
 
-				return in_array($pinFound['phase_ID'], $phaseIDsOfPage) && $pinFound['pin_complete'] == "0";
+				return $pinFound['page_ID'] == $pageFromProject['page_ID'] && $pinFound['pin_complete'] == "0";
 
 			}));
-			$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseIDsOfPage) {
+			$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($pageFromProject) {
 
-				return in_array($pinFound['phase_ID'], $phaseIDsOfPage) && $pinFound['pin_complete'] == "1";
+				return $pinFound['page_ID'] == $pageFromProject['page_ID'] && $pinFound['pin_complete'] == "1";
 
 			}));
 
@@ -181,7 +192,8 @@ foreach ($allMyProjects as $myProject) {
 
 		?>
 		<li class="item <?=$selected?>" data-type="page" data-id="<?=$pageFromProject['page_ID']?>" data-pin-status="<?=$pinStatus?>">
-			<a href="<?=site_url('page/'.$pageFromProject['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']." <span class='notif-no'>".$statusCount."</span>"?> <i class="fa fa-caret-right"></i></a>
+			<a href="<?=site_url('page/'.$pageFromProject['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageFromProject['page_name']?>
+			<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span> <?=count($phases_of_page) > 1 ? '<i class="fa fa-caret-right"></i>' : ''?></a>
 
 			<?php
 			if ( count($phases_of_page) > 1 ) {
@@ -226,16 +238,19 @@ foreach ($allMyProjects as $myProject) {
 
 				?>
 				<li class="item <?=$selected?>" data-type="phase" data-id="<?=$phaseFromPage['phase_ID']?>" data-pin-status="<?=$pinStatus?>">
-					<a href="<?=site_url('phase/'.$phaseFromPage['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber."<span class='notif-no'>".$statusCount."</span>"?></a>
+					<a href="<?=site_url('phase/'.$phaseFromPage['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?>
+					<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span></a>
 
 					<?php
-					if ( count($devices_of_phase) ) {
+					if ( count($devices_of_phase) > 1 ) {
 					?>
 					<ul>
 						<?php
 						foreach ($devices_of_phase as $deviceFromPage) {
 
 							$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
+
+							$deviceFromPage['screen_cat_name'] = $deviceFromPage['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPage['screen_cat_name'];
 						?>
 						<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
 							<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
@@ -267,13 +282,15 @@ foreach ($allMyProjects as $myProject) {
 				//die_to_print($devices_of_page);
 
 
-				if ( count($devices_of_page) ) {
+				if ( count($devices_of_page) > 1 ) {
 				?>
 				<ul>
 					<?php
 					foreach ($devices_of_page as $deviceFromPage) {
 
 						$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
+
+						$deviceFromPage['screen_cat_name'] = $deviceFromPage['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPage['screen_cat_name'];
 					?>
 					<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
 						<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
@@ -366,19 +383,16 @@ foreach ($other_pages as $pageOther) {
 	$phases_of_page = array_values($phases_of_page); // Reset the keys to get phase numbers
 	//die_to_print($phases_of_page);
 
-	// Phase IDs
-	$phaseIDsOfPage = array_column($phases_of_page, "phase_ID");
-
 
 	// Get pins count
-	$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseIDsOfPage) {
+	$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($pageOther) {
 
-		return in_array($pinFound['phase_ID'], $phaseIDsOfPage) && $pinFound['pin_complete'] == "0";
+		return $pinFound['page_ID'] == $pageOther['page_ID'] && $pinFound['pin_complete'] == "0";
 
 	}));
-	$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($phaseIDsOfPage) {
+	$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($pageOther) {
 
-		return in_array($pinFound['phase_ID'], $phaseIDsOfPage) && $pinFound['pin_complete'] == "1";
+		return $pinFound['page_ID'] == $pageOther['page_ID'] && $pinFound['pin_complete'] == "1";
 
 	}));
 
@@ -399,7 +413,9 @@ foreach ($other_pages as $pageOther) {
 ?>
 <li class="item deletable <?=$selected?>" data-type="page" data-id="<?=$pageOther['page_ID']?>" data-pin-status="<?=$pinStatus?>">
 
-	<a href="<?=site_url('page/'.$pageOther['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']." <span class='notif-no'>".$statusCount."</span>"?></a>
+	<a href="<?=site_url('page/'.$pageOther['page_ID'], true)?>"><i class="fa fa-sign-in-alt"></i> <?=$pageOther['page_name']?>
+	<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span></a>
+
 	<?php
 	if ( count($phases_of_page) > 1 ) {
 	?>
@@ -443,16 +459,19 @@ foreach ($other_pages as $pageOther) {
 
 		?>
 		<li class="item <?=$selected?>" data-type="phase" data-id="<?=$phaseFromPage['phase_ID']?>" data-pin-status="<?=$pinStatus?>">
-			<a href="<?=site_url('phase/'.$phaseFromPage['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber." <span class='notif-no'>".$statusCount."</span>"?></a>
+			<a href="<?=site_url('phase/'.$phaseFromPage['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?>
+			<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span></a>
 
 			<?php
-			if ( count($devices_of_phase) ) {
+			if ( count($devices_of_phase) > 1 ) {
 			?>
 			<ul>
 				<?php
 				foreach ($devices_of_phase as $deviceFromPage) {
 
 					$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
+
+					$deviceFromPage['screen_cat_name'] = $deviceFromPage['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPage['screen_cat_name'];
 				?>
 				<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
 					<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
@@ -484,13 +503,15 @@ foreach ($other_pages as $pageOther) {
 	//die_to_print($devices_of_page);
 
 
-	if ( count($devices_of_page) ) {
+	if ( count($devices_of_page) > 1 ) {
 	?>
 	<ul>
 		<?php
 		foreach ($devices_of_page as $deviceFromPage) {
 
 			$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
+
+			$deviceFromPage['screen_cat_name'] = $deviceFromPage['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPage['screen_cat_name'];
 		?>
 		<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
 			<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
@@ -568,7 +589,7 @@ foreach ($other_pages as $pageOther) {
 								$devices_of_phase = array_filter($allMyDevices, function($deviceFound) use ($phaseFound) {
 								    return ($deviceFound['phase_ID'] == $phaseFound['phase_ID']);
 								});
-								//die_to_print($devices_of_page);
+								//die_to_print($devices_of_phase, false);
 
 
 								// Get pins count
@@ -599,16 +620,19 @@ foreach ($other_pages as $pageOther) {
 							?>
 
 							<li class="item deletable" data-type="phase" data-id="<?=$phaseFound['phase_ID']?>" data-pin-status="<?=$pinStatus?>">
-								<a href="<?=site_url('phase/'.$phaseFound['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?> (<?=timeago($phaseFound['phase_created'])?>) <span class="notif-no"><?=$statusCount?></span></a>
+								<a href="<?=site_url('phase/'.$phaseFound['phase_ID'], true)?>"><i class="fa fa-code-branch"></i> v<?=$phaseNumber?> (<?=timeago($phaseFound['phase_created'])?>)
+								<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span></a>
 
 								<?php
-								if ( count($devices_of_phase) ) {
+								if ( count($devices_of_phase) > 1 ) {
 								?>
 								<ul>
 									<?php
 									foreach ($devices_of_phase as $deviceFromPhase) {
 
 										$selected = $deviceFromPhase['device_ID'] == $device_ID ? "selected" : "";
+
+										$deviceFromPhase['screen_cat_name'] = $deviceFromPhase['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPhase['screen_cat_name'];
 									?>
 									<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPhase['device_ID']?>">
 										<a href="<?=site_url('revise/'.$deviceFromPhase['device_ID'], true)?>"><i class="fa <?=$deviceFromPhase['screen_cat_icon']?>"></i> <?=$deviceFromPhase['screen_cat_name']?></a>

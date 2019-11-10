@@ -6036,13 +6036,19 @@ pin {
   user-select: none; }
   .pin-count.done {
     background-color: green; }
+  .pin-count.small {
+    font-size: 8px;
+    line-height: 14px;
+    width: 14px;
+    height: 14px; }
   .pin-count.middle {
     font-size: 12px;
+    line-height: 12px;
     width: 32px;
     height: 32px;
     margin: 3px; }
   .pin-count[data-count="0"] {
-    display: none; }
+    display: none !important; }
   .pin-count-wrapper {
     position: relative; }
     .pin-count-wrapper > .count-title {

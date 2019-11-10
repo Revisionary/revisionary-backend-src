@@ -181,7 +181,7 @@ html, body {
         top: -4px; }
   #top-bar .page-info {
     padding: 3px; }
-  #top-bar [data-pin-status] .notif-no {
+  #top-bar [data-pin-status] .notif-no, #top-bar [data-pin-status] .pin-count {
     position: static;
     display: inline-block;
     transform: translateY(-2px);
