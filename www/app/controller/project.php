@@ -132,25 +132,25 @@ if ($allMyPins) {
 	// Modification Check
 	$totalContentChangeCount = count(array_filter($inCompletePins, function($pin) {
 
-		return $pin['pin_type'] == "live" && $pin['pin_modification'] != "" && $pin['pin_complete'] == "0";
+		return $pin['pin_type'] == "live" && $pin['pin_modification'] != "";
 
 	}));
 
 	$totalStyleChangeCount = count(array_filter($inCompletePins, function($pin) {
 
-		return $pin['pin_type'] == "live" && $pin['pin_css'] != "" && $pin['pin_complete'] == "0";
+		return $pin['pin_type'] == "live" && $pin['pin_css'] != "";
 
 	}));
 
 	$totalCompleteContentChangeCount = count(array_filter($completePins, function($pin) {
 
-		return $pin['pin_type'] == "live" && $pin['pin_modification'] != "" && $pin['pin_complete'] == "0";
+		return $pin['pin_type'] == "live" && $pin['pin_modification'] != "";
 
 	}));
 
 	$totalCompleteStyleChangeCount = count(array_filter($completePins, function($pin) {
 
-		return $pin['pin_type'] == "live" && $pin['pin_css'] != "" && $pin['pin_complete'] == "0";
+		return $pin['pin_type'] == "live" && $pin['pin_css'] != "";
 
 	}));
 
