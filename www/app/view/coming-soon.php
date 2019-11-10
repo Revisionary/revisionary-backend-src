@@ -70,7 +70,7 @@ require view('static/header_html');
 <div id="page">
 	<main>
 		<div class="vertical-middle" style="text-align: center;">
-			<img src="<?=asset_url('images/revisionary-logo.png')?>" width="402" height="136" alt="Revisionary Logo"/>
+			<img src="<?=asset_url('images/revisionary-logo.png')?>" width="400" height="90" alt="Revisionary Logo"/>
 			<h1>We are coming soon</h1>
 			<p>Would you like to be notified when we're ready?</p>
 

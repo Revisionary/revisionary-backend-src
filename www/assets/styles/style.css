@@ -5055,6 +5055,13 @@ ul.full {
   letter-spacing: 1px; }
 
 /* Logo */
+.branding-side .logo {
+  position: relative; }
+  .branding-side .logo > img {
+    max-width: 100%; }
+  .branding-side .logo .version {
+    font-size: 15px; }
+
 .site-title {
   margin: 0;
   line-height: 10px; }

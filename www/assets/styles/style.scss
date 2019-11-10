@@ -143,6 +143,22 @@ ul {
 
 
 /* Logo */
+.branding-side {
+
+	.logo {
+		position: relative;
+
+		& > img {
+			max-width: 100%;
+		}
+
+		.version {
+			font-size: 15px;
+		}
+	}
+
+}
+
 .site-title {
 	margin: 0;
 	line-height: 10px;

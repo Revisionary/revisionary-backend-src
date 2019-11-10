@@ -19,11 +19,10 @@
 
 			<div class="col branding-side xl-left">
 
-				<?php if ( isset($_url[0]) && $_url[0] == "index" ) : ?>
-					<h1 class="site-title"><a href="<?php echo site_url(); ?>" rel="home">REVISIONARY APP <span>ALPHA</span></a></h1>
-				<?php else : ?>
-					<p class="site-title"><a href="<?php echo site_url(); ?>" rel="home">REVISIONARY APP <span>ALPHA</span></a></p>
-				<?php endif; ?>
+				<a href="<?php echo site_url(); ?>" rel="home" class="logo">
+					<img src="<?=asset_url('images/revisionary-app-logo.png')?>" srcset="<?=asset_url('images/revisionary-app-logo.png')?> 1x, <?=asset_url('images/revisionary-app-logo@2x.png')?> 2x" alt="Revisionary Logo" width="405" height="70" />
+					<span class="version bottom-tooltip" data-tooltip="Updated <?=timeago( $config['last_update'] )?>">ALPHA</span>
+				</a>
 
 			</div><!-- .branding-side -->
 
