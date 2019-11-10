@@ -1503,6 +1503,8 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		pin_x: elementPinX.toString(),
 		pin_y: elementPinY.toString(),
 		user_ID: parseInt(user_ID),
+		project_ID: parseInt(project_ID),
+		page_ID: parseInt(page_ID),
 		phase_ID: parseInt(phase_ID),
 		device_ID: null
 	};

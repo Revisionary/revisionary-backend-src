@@ -792,6 +792,8 @@ class User {
 				pin.pin_x,
 				pin.pin_y,
 				pin.user_ID,
+				project.project_ID,
+				page.page_ID,
 				pin.phase_ID,
 				pin.device_ID
 			');
