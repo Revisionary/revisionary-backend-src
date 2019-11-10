@@ -783,19 +783,25 @@
 			<div class="wrap xl-1 xl-center">
 				<div class="col" style="margin-bottom: 60px;">
 
-					<div class="pin-statistics">
+					<div class="pin-statistics xl-hidden">
 						<?php
-						if ($totalLivePinCount > 0) {
+						if ($totalContentChangeCount > 0) {
 						?>
-						<pin class="mid" data-pin-type="live"><?=$totalLivePinCount?>
+						<pin class="mid" data-pin-type="live"><?=$totalContentChangeCount?>
 							<!-- <div class="notif-no">3</div> -->
-							<div class="pin-title dark-color">Live</div>
+							<div class="pin-title dark-color">Content</div>
 						</pin>
 						<?php
-						} if ($totalStandardPinCount > 0) {
+						} if ($totalStyleChangeCount > 0) {
 						?>
-						<pin class="mid" data-pin-type="standard"><?=$totalStandardPinCount?>
-							<div class="pin-title dark-color">Standard</div>
+						<pin class="mid" data-pin-type="style"><?=$totalStyleChangeCount?>
+							<div class="pin-title dark-color">Style</div>
+						</pin>
+						<?php
+						} if ($inCompletePinsCount - $totalContentChangeCount - $totalStyleChangeCount > 0) {
+						?>
+						<pin class="mid" data-pin-type="comment"><?=$inCompletePinsCount - $totalContentChangeCount - $totalStyleChangeCount?>
+							<div class="pin-title dark-color">Comment</div>
 						</pin>
 						<?php
 						} if ($totalPrivatePinCount > 0) {
