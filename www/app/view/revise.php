@@ -1028,8 +1028,11 @@ foreach ($other_pages as $pageOther) {
 							</div>
 						</div>
 					</div>
-					<div class="wrap xl-1 xl-right difference-switch-wrap">
-						<a href="#" class="col switch remove-image">
+					<div class="wrap xl-2 difference-switch-wrap">
+						<a href="#" target="_blank" class="col xl-left switch image-url">
+							<i class="fa fa-link"></i> OPEN IMAGE
+						</a>
+						<a href="#" class="col xl-right switch remove-image">
 							<i class="fa fa-unlink"></i> REMOVE IMAGE
 						</a>
 					</div>

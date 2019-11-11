@@ -2750,6 +2750,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 				// Add the new image
 				pinWindow().find('.image-editor .edit-content.changes img.new-image').attr('src', changedImageSrc);
+				pinWindow().find('.image-editor a.image-url').attr('href', changedImageSrc);
 
 			}
 

@@ -810,6 +810,15 @@ $(function() {
 	});
 
 
+	// Open Image !!! Add Lightbox
+	$('.image-url').click(function(e) {
+
+		window.open( $(this).attr('href') , '_blank' );
+		e.preventDefault();
+
+	});
+
+
 	// Remove Image
 	$('.remove-image').click(function(e) {
 
