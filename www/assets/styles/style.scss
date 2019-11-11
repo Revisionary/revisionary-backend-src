@@ -468,8 +468,16 @@ textarea {
 		color: white;
 	}
 
-	&.uploading .bar {
-		opacity: 0.3;
+	&.uploading {
+
+		.bar {
+			opacity: 0.3;
+		}
+
+		.info {
+			display: none !important;
+		}
+
 	}
 
 	img {

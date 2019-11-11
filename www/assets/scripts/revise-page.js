@@ -632,8 +632,7 @@ $(function() {
 
 
 			// Apply the temporary change
-			pinWindow(pin_ID).find('.uploader img').attr('src', imageSrc);
-			pinWindow(pin_ID).attr('data-revisionary-edited', "1");
+			pinWindow(pin_ID).find('.image-editor .uploader img').attr('src', imageSrc);
 
 
 			// Submit the form
@@ -767,7 +766,9 @@ $(function() {
 
 
 				// Update the images
-				pinWindow(pin_ID).find('.uploader img').attr('src', imageUrl);
+				pinWindow(pin_ID).find('.image-editor .uploader img').attr('src', imageUrl);
+				pinWindow(pin_ID).find('.image-editor a.image-url').attr('href', imageUrl);
+
 				changedElement.attr('src', imageUrl).removeAttr('srcset').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 				pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
 				pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
@@ -789,6 +790,7 @@ $(function() {
 
 				console.log('FAILED!!', errorThrown);
 
+				pinWindow(pin_ID).find('.uploader').removeClass('uploading');
 				pinWindow(pin_ID).find('.uploader .bar').text('ERROR');
 
 			}

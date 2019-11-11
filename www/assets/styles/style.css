@@ -5350,6 +5350,8 @@ textarea {
     color: white; }
   .uploader.uploading .bar {
     opacity: 0.3; }
+  .uploader.uploading .info {
+    display: none !important; }
   .uploader img {
     max-width: 100%;
     max-height: 100%;
