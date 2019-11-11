@@ -424,7 +424,7 @@ $(function() {
 
 
 		completePin(pin_ID, !isComplete);
-		closePinWindow();
+		if (!isComplete) closePinWindow();
 
 
 		e.preventDefault();
