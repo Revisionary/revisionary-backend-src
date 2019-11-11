@@ -93,7 +93,7 @@ $allMyPins = $User->getPins(null, null, null, $project_ID);
 // Count all the pin types
 $totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = $totalCompletePinCount = 0;
 
-if ($allMyPins) {
+if ( is_array($allMyPins) ) {
 
 	$completePins = array_filter($allMyPins, function($pin) {
 

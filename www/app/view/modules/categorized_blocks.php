@@ -250,7 +250,7 @@
 
 
 								// Count the pins
-								if ($allMyPins) {
+								if ( is_array($allMyPins) ) {
 								
 									$project_ID = $block['project_ID'];
 								
@@ -323,7 +323,7 @@
 
 
 								// Count the pins
-								if ($allMyPins) {
+								if ( is_array($allMyPins) ) {
 								
 									$page_ID = $block['page_ID'];
 								
