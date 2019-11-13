@@ -903,7 +903,7 @@ foreach ($other_pages as $pageOther) {
 		data-pin-x="30"
 		data-pin-y="30"
 		data-pin-modification-type=""
-		data-revisionary-edited="0"
+		data-revisionary-content-edited="0"
 		data-changed="no"
 		data-revisionary-showing-style-changes="no"
 		data-has-comments="no"

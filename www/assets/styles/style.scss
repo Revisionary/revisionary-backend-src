@@ -1637,7 +1637,7 @@ pin {
 
     }
 
-    &[data-revisionary-edited="0"] {
+    &[data-revisionary-content-edited="0"] {
 
 	    .content-editor,
 	    .image-editor {
@@ -2264,7 +2264,7 @@ pin {
 
 	}
 
-	&[data-revisionary-edited="0"] {
+	&[data-revisionary-content-edited="0"] {
 
 		& .edits-switch-wrap > .col:not(.title),
 		& .difference-switch-wrap {
@@ -2273,7 +2273,7 @@ pin {
 
 	}
 
-	&[data-revisionary-edited="1"] {
+	&[data-revisionary-content-edited="1"] {
 
 		& .uploader .info {
 			display: none !important;

@@ -6102,12 +6102,12 @@ pin {
   #pin-window[data-pin-mine="no"] .convert-to-private-live,
   #pin-window[data-pin-mine="no"] .convert-to-private {
     display: none; }
-  #pin-window[data-revisionary-edited="0"] .content-editor .new-image,
-  #pin-window[data-revisionary-edited="0"] .image-editor .new-image {
+  #pin-window[data-revisionary-content-edited="0"] .content-editor .new-image,
+  #pin-window[data-revisionary-content-edited="0"] .image-editor .new-image {
     opacity: 0.3;
     border: 1px dotted red; }
-  #pin-window[data-revisionary-edited="0"] .content-editor .edited-sign,
-  #pin-window[data-revisionary-edited="0"] .image-editor .edited-sign {
+  #pin-window[data-revisionary-content-edited="0"] .content-editor .edited-sign,
+  #pin-window[data-revisionary-content-edited="0"] .image-editor .edited-sign {
     display: none; }
   #pin-window[data-changed="no"] .reset-css,
   #pin-window[data-changed="no"] .show-original-css {
@@ -6399,10 +6399,10 @@ pin {
     display: none !important; }
   #pin-window[data-pin-complete="0"] .incomplete-pin {
     display: none !important; }
-  #pin-window[data-revisionary-edited="0"] .edits-switch-wrap > .col:not(.title),
-  #pin-window[data-revisionary-edited="0"] .difference-switch-wrap {
+  #pin-window[data-revisionary-content-edited="0"] .edits-switch-wrap > .col:not(.title),
+  #pin-window[data-revisionary-content-edited="0"] .difference-switch-wrap {
     display: none !important; }
-  #pin-window[data-revisionary-edited="1"] .uploader .info {
+  #pin-window[data-revisionary-content-edited="1"] .uploader .info {
     display: none !important; }
   #pin-window[data-revisionary-showing-content-changes="0"] .edits-switch-wrap.changes,
   #pin-window[data-revisionary-showing-content-changes="0"] .edit-content.changes {

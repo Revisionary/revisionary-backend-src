@@ -373,7 +373,7 @@ $(function() {
 
 		// Delete it from DB
 		if (
-			pinWindow(pin_ID).attr('data-revisionary-edited') == "0" &&
+			pinWindow(pin_ID).attr('data-revisionary-content-edited') == "0" &&
 			pinWindow(pin_ID).attr('data-changed') == "no" &&
 			pinWindow(pin_ID).attr('data-has-comments') == "no" &&
 			pinWindow(pin_ID).attr('temporary') != ""
@@ -560,9 +560,9 @@ $(function() {
 
 
 		var pin_ID = pinWindow().attr('data-pin-id');
-		var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
+		var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
 		var modification = $(this).html();
-		var changedElement = iframeElement(elementIndex);
+		var changedElement = iframeElement(element_index);
 
 
 		//console.log('REGISTERED CHANGES', changes);
@@ -595,15 +595,15 @@ $(function() {
 
 
 		// Update the element, pin and pin window status
-		updateAttributes(pin_ID, 'data-revisionary-edited', "1");
+		updateAttributes(pin_ID, 'data-revisionary-content-edited', "1");
 		updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
 
 
 		// Remove unsent job
-		if (doChange[elementIndex]) clearTimeout(doChange[elementIndex]);
+		if (doChange[element_index]) clearTimeout(doChange[element_index]);
 
 		// Send changes to DB after 1 second
-		doChange[elementIndex] = setTimeout(function(){
+		doChange[element_index] = setTimeout(function(){
 
 			saveChange(pin_ID, modification);
 
@@ -621,8 +621,8 @@ $(function() {
 		var maxSize = $(this).attr('data-max-size');
 
 		var pin_ID = pinWindow().attr('data-pin-id');
-		var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
-		var changedElement = iframeElement(elementIndex);
+		var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
+		var changedElement = iframeElement(element_index);
 
 
 	    var reader = new FileReader();
@@ -686,8 +686,8 @@ $(function() {
 		var pin_ID = pinWindow().attr('data-pin-id');
 		var pin = getPin(pin_ID);
 		var pinIndex = Pins.indexOf(pin);
-		var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
-		var changedElement = iframeElement(elementIndex);
+		var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
+		var changedElement = iframeElement(element_index);
 
 
 		// Start the process
@@ -776,7 +776,7 @@ $(function() {
 
 				// Update the element, pin and pin window status
 				changedElement.attr('src', imageUrl).removeAttr('srcset');
-				updateAttributes(pin_ID, 'data-revisionary-edited', "1");
+				updateAttributes(pin_ID, 'data-revisionary-content-edited', "1");
 				updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
 
 
@@ -869,11 +869,11 @@ $(function() {
 
 
 		var pin_ID = pinWindow().attr('data-pin-id');
-		var elementIndex = pinWindow(pin_ID).attr('data-revisionary-index');
+		var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
 		var options = pinWindow(pin_ID).find('ul.options');
 
 
-		console.log('EDIT CSS: ', property, value, elementIndex);
+		console.log('EDIT CSS: ', property, value, element_index);
 
 
 		// Stop the auto-refresh
@@ -927,10 +927,10 @@ $(function() {
 
 
 		// Remove unsent job
-		if (doChangeCSS[elementIndex]) clearTimeout(doChangeCSS[elementIndex]);
+		if (doChangeCSS[element_index]) clearTimeout(doChangeCSS[element_index]);
 
 		// Send changes to DB after 1 second
-		doChangeCSS[elementIndex] = setTimeout(function(){
+		doChangeCSS[element_index] = setTimeout(function(){
 
 			saveCSS(pin_ID, css);
 
