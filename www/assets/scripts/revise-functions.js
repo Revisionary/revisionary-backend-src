@@ -273,7 +273,7 @@ function runTheInspector() {
 		iframeElement('body').append(' \
 		<style> \
 			/* Auto-height edited images */ \
-			img[data-revisionary-showing-changes="1"] { height: auto !important; } \
+			img[data-revisionary-showing-content-changes="1"] { height: auto !important; } \
 			iframe { pointer-events: none !important; } \
 			* { -webkit-user-select: none !important; -moz-user-select: none !important;user-select: none !important; } \
 			.revisionary-show { position: absolute !important; width: 0 !important; height: 0 !important; display: inline-block !important; } \
@@ -659,7 +659,7 @@ function runTheInspector() {
 					if (
 						pinWindowOpen ||
 						focused_element_pin.attr('data-pin-modification-type') == "image" ||
-						focused_element.attr('data-revisionary-showing-changes') == "0"
+						focused_element.attr('data-revisionary-showing-content-changes') == "0"
 					)
 						openPinWindow( focused_element_pin.attr('data-pin-id') );
 
@@ -778,9 +778,9 @@ function runTheInspector() {
 			stopAutoRefresh();
 
 
-			// Instant apply the change
-			pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-			pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+			// Update the element, pin and pin window status
+			updateAttributes(pin_ID, 'data-revisionary-edited', "1");
+			updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
 
 
 			// Instant apply the change on pin window
@@ -2359,12 +2359,10 @@ function makeDraggable(pin) {
 			elementPinY = parseFloat(pinY - elementTop).toFixed(5);
 
 
-/*
-			console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
-			console.log('PinX: ' + pinX, ' PinY: ' + pinY);
-			console.log('TO REGISTER', elementPinX, elementPinY);
-*/
 
+			// console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
+			// console.log('PinX: ' + pinX, ' PinY: ' + pinY);
+			// console.log('TO REGISTER', elementPinX, elementPinY);
 
 
 
@@ -2479,7 +2477,8 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		var thePinText = thePinPrivate == '1' ? 'PRIVATE VIEW' : 'ONLY VIEW';
 		var thePinModificationType = thePin.attr('data-pin-modification-type');
 		var thePinModified = thePin.attr('data-revisionary-edited');
-		var thePinShowingChanges = thePin.attr('data-revisionary-showing-changes');
+		var thePinShowingContentChanges = thePin.attr('data-revisionary-showing-content-changes');
+		var thePinShowingStyleChanges = thePin.attr('data-revisionary-showing-style-changes');
 		var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
 
 
@@ -2513,11 +2512,13 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			.attr('data-pin-modification-type', thePinModificationType)
 			.attr('data-pin-id', pin_ID)
 			.attr('data-revisionary-edited', thePinModified)
-			.attr('data-revisionary-showing-changes', thePinShowingChanges)
+			.attr('data-revisionary-showing-content-changes', thePinShowingContentChanges)
+			.attr('data-revisionary-showing-style-changes', thePinShowingStyleChanges)
 			.attr('data-revisionary-index', theIndex)
 			.attr('data-pin-mine', (thePinMine ? "yes" : "no"))
 			.attr('data-pin-new', (firstTime ? "yes" : "no"))
-			.attr('data-new-notification', "no");
+			.attr('data-new-notification', "no")
+			.attr('data-has-comments', 'no');
 
 
 		// Reset the differences fields
@@ -2542,7 +2543,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		// CSS OPTIONS:
 		var styleElement = iframeElement('style[data-pin-id="'+ pin_ID +'"]');
 		var pinCSS = styleElement.text();
-		var isShowingCSS = styleElement.html() == "" ? false : true;
+		var isShowingCSS = styleElement.is('[media]') ? false : true;
 		var options = pinWindow().find('ul.options');
 
 
@@ -2574,33 +2575,16 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 		// Changed status
-		pinWindow()
-			.attr('data-changed', (styleElement.length ? "yes" : "no"))
-			.attr('data-showing-changes', (isShowingCSS ? "yes" : "no"))
-			.attr('data-has-comments', 'no');
-
-		
-		// Open tabs
-		if (!firstTime) {
-
-			// Close all first
-			pinWindow().find('.section-title').addClass('collapsed');
-
-			// Content
-			if ( thePinModified == "1" ) pinWindow().find('.content-editor .section-title, .image-editor .section-title').removeClass('collapsed');
-
-			// Styles
-			if (styleElement.length) pinWindow().find('.visual-editor .section-title').removeClass('collapsed');
-
-			// Always open the comments
-			pinWindow().find('.comments .section-title').removeClass('collapsed');
-
-		}
+		pinWindow().attr('data-changed', (styleElement.length ? "yes" : "no"));
 
 
 		// Remove changed marks
 		options.find('.main-option').removeClass('changed');
 		options.find('[data-edit-css][data-changed]').removeAttr('data-changed');
+
+
+		// Temporarily activate the registered changes
+		if (!isShowingCSS && pin.pin_css != null) activateCSS(pin_ID);
 
 
 		// Update the CSS properties
@@ -2651,6 +2635,28 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		});
 
 
+		// Temporarily activate the registered changes
+		if (!isShowingCSS && pin.pin_css != null) disableCSS(pin_ID);
+
+		
+		// Open tabs
+		if (!firstTime) {
+
+			// Close all first
+			pinWindow().find('.section-title').addClass('collapsed');
+
+			// Content
+			if ( thePinModified == "1" ) pinWindow().find('.content-editor .section-title, .image-editor .section-title').removeClass('collapsed');
+
+			// Styles
+			if (styleElement.length) pinWindow().find('.visual-editor .section-title').removeClass('collapsed');
+
+			// Always open the comments
+			pinWindow().find('.comments .section-title').removeClass('collapsed');
+
+		}
+
+
 
 		// If on 'Live' mode
 		if (thePinType == 'live') {
@@ -2669,7 +2675,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 				// If it's untouched DOM
-				if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') ) {
+				if ( iframeElement(theIndex).is(':not([data-revisionary-showing-content-changes])') ) {
 
 					originalContent = iframeElement(theIndex).html();
 
@@ -2724,7 +2730,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 				// If it's untouched DOM
-				if ( iframeElement(theIndex).is(':not([data-revisionary-showing-changes])') ) {
+				if ( iframeElement(theIndex).is(':not([data-revisionary-showing-content-changes])') ) {
 
 					originalImageSrc = iframeElement(theIndex).prop('src');
 
@@ -2986,7 +2992,7 @@ function updateOriginals(pinsList, oldPinsList) {
 
 
 		// Check if it's an untouched dom
-		else if ( element.is(':not([data-revisionary-showing-changes = "1"])') ) {
+		else if ( element.is(':not([data-revisionary-showing-content-changes = "1"])') ) {
 
 			if (pin.pin_modification_type == "html") {
 
@@ -3117,7 +3123,7 @@ function applyChanges(showingOriginal) {
 		// Find the element
 		var element_index = pin.pin_element_index;
 		var element = iframeElement(element_index);
-		var thePin = pinElement(pin.pin_ID);
+		var pin_ID = pin.pin_ID;
 
 
 
@@ -3143,11 +3149,8 @@ function applyChanges(showingOriginal) {
 			element.attr('contenteditable', (isShowingOriginal ? "false" : "true"));
 
 
-		if (pin.pin_modification == null ) return true;
-
-
 		// If it was showing changes
-		if (!isShowingOriginal) {
+		if (!isShowingOriginal && pin.pin_modification != null) {
 
 
 			// If the type is HTML content change
@@ -3195,13 +3198,10 @@ function applyChanges(showingOriginal) {
 		}
 
 
-
-		// Update the element and pin status
-		element.attr('data-revisionary-edited', "1")
-			.attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
-		thePin.attr('data-revisionary-edited', "1")
-			.attr('data-revisionary-showing-changes', (isShowingOriginal ? "0" : "1"));
-
+		// Update the element, pin and pin window status
+		updateAttributes(pin_ID, 'data-revisionary-edited', "1");
+		updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', (isShowingOriginal ? "0" : "1"));
+		if (pin.pin_css != null) updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "yes");
 
 
 	});
@@ -3260,15 +3260,14 @@ function revertChanges(element_indexes, pinsList, CSSrevert) {
 		console.log('REVERTING PIN: ', pin);
 
 
-
 		// Find the element
 		var element_index = pin.pin_element_index;
 		var element = iframeElement(element_index);
-		var thePin = pinElement(pin.pin_ID);
+		var pin_ID = pin.pin_ID;
 
 
 		// Is currently showing the edits?
-		var isShowingOriginal = element.is('[data-revisionary-edited="1"][data-revisionary-showing-changes="0"]') ? true : false;
+		var isShowingOriginal = element.is('[data-revisionary-edited="1"][data-revisionary-showing-content-changes="0"]') ? true : false;
 
 		// Add this element as showingOriginal element, if not currently showing changes
 		if (isShowingOriginal) showingOriginal.push(element_index);
@@ -3316,12 +3315,15 @@ function revertChanges(element_indexes, pinsList, CSSrevert) {
 		}
 
 
-		// Update the element and pin status
+		// Update the element, pin and pin window status
+		updateAttributes(pin_ID, 'data-revisionary-edited', "0");
+		updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "0");
+		updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "no");
 		element
 			.removeAttr('data-revisionary-edited')
-			.removeAttr('data-revisionary-showing-changes')
+			.removeAttr('data-revisionary-showing-content-changes')
+			.removeAttr('data-revisionary-showing-style-changes')
 			.removeAttr('contenteditable');
-		thePin.attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "0");
 
 
 	});
@@ -3387,15 +3389,20 @@ function saveChange(pin_ID, modification) {
 		// Update the status
 		if (modification != "{%null%}") {
 
-			changedElement.attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-			pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-			pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+			// Update the element, pin and pin window status
+			updateAttributes(pin_ID, 'data-revisionary-edited', "1");
+			updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
+
 
 		} else {
 
-			changedElement.removeAttr('data-revisionary-showing-changes').removeAttr('data-revisionary-edited');
-			pinElement(pin_ID).attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
-			pinWindow(pin_ID).attr('data-revisionary-edited', "0").attr('data-revisionary-showing-changes', "1");
+
+			// Update the element, pin and pin window status
+			updateAttributes(pin_ID, 'data-revisionary-edited', "0");
+			updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
+			changedElement.removeAttr('data-revisionary-showing-content-changes').removeAttr('data-revisionary-edited');
+
 
 		}
 
@@ -3437,7 +3444,7 @@ function toggleChange(pin_ID) {
 
 
 	// Check if this is currently showing the changed content
-	var isShowingChanges = pinWindow(pin_ID).attr('data-revisionary-showing-changes') == "1" ? true : false;
+	var isShowingChanges = pinWindow(pin_ID).attr('data-revisionary-showing-content-changes') == "1" ? true : false;
 
 
     // Get the pin from the Pins global
@@ -3470,12 +3477,10 @@ function toggleChange(pin_ID) {
 			// Change the content on DOM
 			iframeElement(pin.pin_element_index)
 				.html( html_entity_decode( (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) ) )
-				.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1") )
 				.attr('contenteditable', (isShowingChanges ? "false" : "true"));
 
-			// Update the Pin Window and Pin info
-			pinWindow(pin_ID).attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
-			pinElement(pin_ID).attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+			// Update the element, pin and pin window status
+			updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', (isShowingChanges ? "0" : "1"));
 
 
 		} else if (pin.pin_modification_type == "image") {
@@ -3483,12 +3488,10 @@ function toggleChange(pin_ID) {
 
 			// Change the content on DOM
 			iframeElement(pin.pin_element_index)
-				.attr('src', (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) )
-				.attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1") );
+				.attr('src', (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) );
 
-			// Update the Pin Window and Pin info
-			pinWindow(pin_ID).attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
-			pinElement(pin_ID).attr('data-revisionary-showing-changes', (isShowingChanges ? "0" : "1"));
+			// Update the element, pin and pin window status
+			updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', (isShowingChanges ? "0" : "1"));
 
 
 		}
@@ -3523,9 +3526,9 @@ function removeImage(pin_ID) {
 	Pins[pinIndex].pin_modification = null;
 
 
-	// Update the pin and pin window info
-	pinElement(pin_ID).attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
-	pinWindow(pin_ID).attr('data-revisionary-edited', '0').attr('data-revisionary-showing-changes', '1');
+	// Update the element, pin and pin window status
+	updateAttributes(pin_ID, 'data-revisionary-edited', '0');
+	updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', '1'); // !!! ???
 
 
 	// Remove from DB
@@ -3696,8 +3699,8 @@ function toggleCSS(pin_ID) {
 		}
 
 
-		// Toggle the option
-		pinWindow(pin_ID).attr('data-showing-changes', (isShowingCSS ? "no" : "yes"));
+		// Update the element, pin and pin window status
+		updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', (isShowingCSS ? "no" : "yes"));
 
 
 	}
@@ -4049,6 +4052,24 @@ function inCompleteNotification(pin_ID) {
 }
 
 
+// Update attributes
+function updateAttributes(pin_ID, attribute, value) {
+
+
+	// Get the pin from the Pins global
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+	var element_index = pin.pin_element_index;
+
+
+	iframeElement(element_index).attr(attribute, value);
+	pinElement(pin_ID).attr(attribute, value);
+	pinWindow(pin_ID).attr(attribute, value);
+
+
+}
+
+
 
 // SELECTORS:
 // Find iframe element
@@ -4180,7 +4201,8 @@ function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_mo
 			data-pin-modification-type="'+pin_modification_type+'" \
 			data-revisionary-index="'+pin_element_index+'" \
 			data-revisionary-edited="'+ ( pin_modification != null ? '1' : '0' ) +'" \
-			data-revisionary-showing-changes="1" \
+			data-revisionary-showing-content-changes="1" \
+			data-revisionary-showing-style-changes="yes" \
 			style="left: '+ pinLocation.x +'px; top: '+ pinLocation.y +'px;" \
 		>'+pin_number+'</pin> \
 	';
@@ -4221,7 +4243,7 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 			data-pin-modification-type="'+pin_modification_type+'" \
 			data-revisionary-index="'+pin_element_index+'" \
 			data-revisionary-edited="'+( pin_modification != null ? '1' : '0' )+'" \
-			data-revisionary-showing-changes="1"> \
+			data-revisionary-showing-content-changes="1"> \
 			<a href="#" class="pin-locator"> \
 				'+ pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, false, 'mid') +' \
 			</a> \

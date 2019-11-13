@@ -6001,7 +6001,8 @@ pin {
     pin[data-pin-complete="1"]:hover:before,
     pin[data-pin-complete="1"].show-number:before {
       opacity: 0; }
-  pin[data-revisionary-showing-changes="0"] {
+  pin[data-revisionary-showing-content-changes="0"],
+  pin[data-revisionary-showing-style-changes="no"] {
     opacity: 0.5; }
   pin.mouse-cursor {
     position: absolute;
@@ -6115,12 +6116,12 @@ pin {
     display: none; }
   #pin-window[data-has-comments="no"] .comments .edited-sign {
     display: none; }
-  #pin-window[data-showing-changes="yes"] .show-original-css > .changes {
+  #pin-window[data-revisionary-showing-style-changes="yes"] .show-original-css > .changes {
     display: none; }
-  #pin-window[data-showing-changes="no"] ul.options > li:not(:first-child) {
+  #pin-window[data-revisionary-showing-style-changes="no"] ul.options > li:not(:first-child) {
     opacity: 0.2;
     pointer-events: none; }
-  #pin-window[data-showing-changes="no"] .show-original-css > .original {
+  #pin-window[data-revisionary-showing-style-changes="no"] .show-original-css > .original {
     display: none; }
   #pin-window[data-pin-new="yes"] .pin-complete {
     display: none; }
@@ -6403,11 +6404,11 @@ pin {
     display: none !important; }
   #pin-window[data-revisionary-edited="1"] .uploader .info {
     display: none !important; }
-  #pin-window[data-revisionary-showing-changes="0"] .edits-switch-wrap.changes,
-  #pin-window[data-revisionary-showing-changes="0"] .edit-content.changes {
+  #pin-window[data-revisionary-showing-content-changes="0"] .edits-switch-wrap.changes,
+  #pin-window[data-revisionary-showing-content-changes="0"] .edit-content.changes {
     display: none !important; }
-  #pin-window[data-revisionary-showing-changes="1"] .edits-switch-wrap.original,
-  #pin-window[data-revisionary-showing-changes="1"] .edit-content.original {
+  #pin-window[data-revisionary-showing-content-changes="1"] .edits-switch-wrap.original,
+  #pin-window[data-revisionary-showing-content-changes="1"] .edit-content.original {
     display: none !important; }
   #pin-window.loading::after {
     content: "Please wait...";

@@ -1488,7 +1488,8 @@ pin {
 
     }
 
-    &[data-revisionary-showing-changes="0"] {
+    &[data-revisionary-showing-content-changes="0"],
+    &[data-revisionary-showing-style-changes="no"] {
 	    opacity: 0.5;
     }
 
@@ -1684,7 +1685,7 @@ pin {
 
 	}
 
-	&[data-showing-changes="yes"] {
+	&[data-revisionary-showing-style-changes="yes"] {
 
 		.show-original-css > .changes {
 			display: none;
@@ -1692,7 +1693,7 @@ pin {
 
 	}
 
-	&[data-showing-changes="no"] {
+	&[data-revisionary-showing-style-changes="no"] {
 
 		ul.options > li:not(:first-child) {
 			opacity: 0.2;
@@ -2280,7 +2281,7 @@ pin {
 
 	}
 
-	&[data-revisionary-showing-changes="0"] {
+	&[data-revisionary-showing-content-changes="0"] {
 
 		& .edits-switch-wrap.changes,
 		& .edit-content.changes {
@@ -2289,7 +2290,7 @@ pin {
 
 	}
 
-	&[data-revisionary-showing-changes="1"] {
+	&[data-revisionary-showing-content-changes="1"] {
 
 		& .edits-switch-wrap.original,
 		& .edit-content.original {

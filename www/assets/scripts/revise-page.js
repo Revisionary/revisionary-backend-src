@@ -592,8 +592,11 @@ $(function() {
 		// Instant apply the change
 		changedElement.html(modification);
 		changedElement.attr('contenteditable', "true");
-		pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-		pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+
+		// Update the element, pin and pin window status
+		updateAttributes(pin_ID, 'data-revisionary-edited', "1");
+		updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
 
 
 		// Remove unsent job
@@ -770,9 +773,11 @@ $(function() {
 				pinWindow(pin_ID).find('.image-editor .uploader img').attr('src', imageUrl);
 				pinWindow(pin_ID).find('.image-editor a.image-url').attr('href', imageUrl);
 
-				changedElement.attr('src', imageUrl).removeAttr('srcset').attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-				pinElement(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
-				pinWindow(pin_ID).attr('data-revisionary-edited', "1").attr('data-revisionary-showing-changes', "1");
+
+				// Update the element, pin and pin window status
+				changedElement.attr('src', imageUrl).removeAttr('srcset');
+				updateAttributes(pin_ID, 'data-revisionary-edited', "1");
+				updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
 
 
 				pinWindow(pin_ID).find('.uploader').removeClass('uploading');

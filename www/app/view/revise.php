@@ -905,9 +905,9 @@ foreach ($other_pages as $pageOther) {
 		data-pin-modification-type=""
 		data-revisionary-edited="0"
 		data-changed="no"
-		data-showing-changes="no"
+		data-revisionary-showing-style-changes="no"
 		data-has-comments="no"
-		data-revisionary-showing-changes="0"
+		data-revisionary-showing-content-changes="0"
 		data-revisionary-index="0"
 	>
 
