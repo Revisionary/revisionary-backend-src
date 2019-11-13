@@ -6109,10 +6109,10 @@ pin {
   #pin-window[data-revisionary-content-edited="0"] .content-editor .edited-sign,
   #pin-window[data-revisionary-content-edited="0"] .image-editor .edited-sign {
     display: none; }
-  #pin-window[data-changed="no"] .reset-css,
-  #pin-window[data-changed="no"] .show-original-css {
+  #pin-window[data-revisionary-style-changed="no"] .reset-css,
+  #pin-window[data-revisionary-style-changed="no"] .show-original-css {
     display: none; }
-  #pin-window[data-changed="no"] .visual-editor .edited-sign {
+  #pin-window[data-revisionary-style-changed="no"] .visual-editor .edited-sign {
     display: none; }
   #pin-window[data-has-comments="no"] .comments .edited-sign {
     display: none; }

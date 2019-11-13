@@ -4,7 +4,7 @@
 				Standard View Pin <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="252" data-pin-type="standard" data-pin-private="0" data-pin-complete="0" data-pin-x="104.00000" data-pin-y="43.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="252" data-pin-type="standard" data-pin-private="0" data-pin-complete="0" data-pin-x="104.00000" data-pin-y="43.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -474,7 +474,7 @@
 				Standard View Pin Private <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="253" data-pin-type="standard" data-pin-private="1" data-pin-complete="0" data-pin-x="74.00000" data-pin-y="88.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="253" data-pin-type="standard" data-pin-private="1" data-pin-complete="0" data-pin-x="74.00000" data-pin-y="88.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -944,7 +944,7 @@
 				Standard View Pin with Comments <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="253" data-pin-type="standard" data-pin-private="0" data-pin-complete="0" data-pin-x="74.00000" data-pin-y="88.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="comment">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="253" data-pin-type="standard" data-pin-private="0" data-pin-complete="0" data-pin-x="74.00000" data-pin-y="88.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="comment">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -1425,7 +1425,7 @@
 				Live Content Pin Window Default <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="0" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -1894,7 +1894,7 @@
 				Live Content Pin Window Changed <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -2363,7 +2363,7 @@
 				Live Content Pin Window Showing Difference <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active show-differences" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active show-differences" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -2832,7 +2832,7 @@
 				Live Content Pin Window Showing Original <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="0" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="0" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -3301,7 +3301,7 @@
 				Live Content Pin Window with Comments <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="156.01943" data-pin-y="30.67504" data-pin-modification-type="html" data-revisionary-content-edited="1" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="156.01943" data-pin-y="30.67504" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -3770,7 +3770,7 @@
 				Live Content Pin Window Private <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="1" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="0" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="1" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -4250,7 +4250,7 @@
 				Live Image Pin Window Default <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="0" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -4719,7 +4719,7 @@
 				Live Image Pin Window Changed <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -5188,7 +5188,7 @@
 				Live Image Pin Window Showing Original <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="0" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="0" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -5657,7 +5657,7 @@
 				Live Image Pin Window Private <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="1" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="1" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -6126,7 +6126,7 @@
 				Live Image Pin Window with Comments <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">

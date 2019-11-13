@@ -1039,7 +1039,7 @@ function updatePinsList() {
 
 		// Add the pin to the list
 		$('.pins-list').append(
-			listedPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y, pin.pin_css)
+			listedPinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_css, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y)
 		);
 
 
@@ -1517,7 +1517,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 	// Add the temporary pin to the DOM
 	$('#pins').append(
-		pinTemplate(currentPinNumber, temporaryPinID, '0', element_index, null, modificationType, pinPrivate, cursorType, elementPinX, elementPinY, true)
+		pinTemplate(currentPinNumber, temporaryPinID, '0', element_index, null, null, modificationType, pinPrivate, cursorType, elementPinX, elementPinY, true)
 	);
 
 
@@ -2575,12 +2575,12 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 		// Changed status
-		pinWindow().attr('data-changed', (styleElement.length ? "yes" : "no"));
+		pinWindow().attr('data-revisionary-style-changed', (styleElement.length ? "yes" : "no"));
 
 
 		// Remove changed marks
 		options.find('.main-option').removeClass('changed');
-		options.find('[data-edit-css][data-changed]').removeAttr('data-changed');
+		options.find('[data-edit-css][data-revisionary-style-changed]').removeAttr('data-revisionary-style-changed');
 
 
 		// Temporarily activate the registered changes
@@ -2630,7 +2630,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			// Check for the changed status
 			var editedSign = '<i class="fa fa-circle edited-sign particular"></i>';
 			if ( pinCSS.includes(property + ":" + value) || pinCSS.includes(property + ":url(" + value + ")") )
-				$(propertyElement).attr('data-changed', 'yes').parents('.main-option').addClass('changed');
+				$(propertyElement).attr('data-revisionary-style-changed', 'yes').parents('.main-option').addClass('changed');
 
 		});
 
@@ -2895,7 +2895,7 @@ function closePinWindow(removePinIfEmpty) {
 		pinWindow(pin_ID).find('.comment-input').val() == "" &&
 		pinWindow(pin_ID).attr('data-pin-new') == "yes" &&
 		pinWindow(pin_ID).attr('data-revisionary-content-edited') == "0" &&
-		pinWindow(pin_ID).attr('data-changed') == "no" &&
+		pinWindow(pin_ID).attr('data-revisionary-style-changed') == "no" &&
 		pinWindow(pin_ID).attr('data-has-comments') == "no" &&
 		pinWindow(pin_ID).attr('temporary') != ""
 	) {
@@ -3064,7 +3064,7 @@ function applyPins(oldPins) {
 
 		// Add the pin to the list
 		$('#pins').append(
-			pinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y)
+			pinTemplate(pin_number, pin.pin_ID, pin.pin_complete, pin.pin_element_index, pin.pin_modification, pin.pin_css, pin.pin_modification_type, pin.pin_private, pin.pin_type, pin.pin_x, pin.pin_y)
 		);
 
 
@@ -3128,7 +3128,7 @@ function applyChanges(showingOriginal) {
 
 
 		// CSS CODES:
-		if ( pin.pin_css != null ) updateCSS(pin.pin_ID);
+		if ( pin.pin_css != null ) updateCSS(pin_ID);
 
 
 
@@ -3199,9 +3199,8 @@ function applyChanges(showingOriginal) {
 
 
 		// Update the element, pin and pin window status
-		updateAttributes(pin_ID, 'data-revisionary-content-edited', pin.pin_modification != null ? "1" : "0");
 		if (pin.pin_modification != null) updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', (isShowingOriginal ? "0" : "1"));
-		if (pin.pin_css != null) updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "yes");
+		if (pin.pin_css != null) updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', (isShowingOriginal ? "no" : "yes"));
 
 
 	});
@@ -3318,12 +3317,21 @@ function revertChanges(element_indexes, pinsList, CSSrevert) {
 		// Update the element, pin and pin window status
 		updateAttributes(pin_ID, 'data-revisionary-content-edited', "0");
 		updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "0");
-		updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "no");
 		element
+			.removeAttr('contenteditable')
 			.removeAttr('data-revisionary-content-edited')
-			.removeAttr('data-revisionary-showing-content-changes')
-			.removeAttr('data-revisionary-showing-style-changes')
-			.removeAttr('contenteditable');
+			.removeAttr('data-revisionary-showing-content-changes');
+		
+
+		if (CSSrevert) {
+
+			updateAttributes(pin_ID, 'data-revisionary-style-changed', "no");
+			updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "no");
+			element
+				.removeAttr('data-revisionary-style-changed')
+				.removeAttr('data-revisionary-showing-style-changes');
+
+		}
 
 
 	});
@@ -3401,9 +3409,7 @@ function saveChange(pin_ID, modification) {
 			// Update the element, pin and pin window status
 			updateAttributes(pin_ID, 'data-revisionary-content-edited', "0");
 			updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
-			changedElement
-				.removeAttr('data-revisionary-content-edited')
-				.removeAttr('data-revisionary-showing-content-changes');
+			changedElement.removeAttr('data-revisionary-showing-content-changes');
 
 
 		}
@@ -3428,7 +3434,6 @@ function resetContent(pin_ID) {
     // Update from the Pins global
 	var pin = getPin(pin_ID);
 	var element_index = pin.pin_element_index;
-
 
 
 	// Revert the changes
@@ -3597,15 +3602,20 @@ function saveCSS(pin_ID, css) {
 		Pins[pinIndex].pin_css = cssCode; //console.log('FILTERED: ', filtered_css);
 
 
-		// Update the changed status
-		pinWindow(pin_ID).attr('data-changed', (cssCode != null ? "yes" : "no"));
-
-
 		// Remove changed marks if null
 		if (cssCode == null) {
 
+			updateAttributes(pin_ID, 'data-revisionary-style-changed', "no");
+			updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "yes");
+			changedElement.removeAttr('data-revisionary-showing-style-changes');
+
 			pinWindow(pin_ID).find('ul.options .main-option').removeClass('changed');
-			pinWindow(pin_ID).find('ul.options [data-edit-css][data-changed]').removeAttr('data-changed');
+			pinWindow(pin_ID).find('ul.options [data-edit-css][data-revisionary-style-changed]').removeAttr('data-revisionary-style-changed');
+
+		} else {
+
+			updateAttributes(pin_ID, 'data-revisionary-style-changed', "yes");
+			updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "yes");
 
 		}
 
@@ -3625,15 +3635,15 @@ function saveCSS(pin_ID, css) {
 
 
 // Update CSS
-function updateCSS(pin_ID, cssCodes) {
+function updateCSS(pin_ID, cssCode) {
 
 
-	cssCodes = assignDefault(cssCodes, null);
+	cssCode = assignDefault(cssCode, null);
 
 
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
-	if (cssCodes == null) cssCodes = pin.pin_css;
+	if (cssCode == null) cssCode = pin.pin_css;
 
 
 	// Mark the old one
@@ -3641,15 +3651,31 @@ function updateCSS(pin_ID, cssCodes) {
 
 
 	// Add the new CSS codes
-	iframeElement('body').append('<style data-index="'+ pin.pin_element_index +'" data-pin-id="'+ pin_ID +'">[data-revisionary-index="'+ pin.pin_element_index +'"]{'+ cssCodes +'}</style>');
+	iframeElement('body').append('<style data-index="'+ pin.pin_element_index +'" data-pin-id="'+ pin_ID +'">[data-revisionary-index="'+ pin.pin_element_index +'"]{'+ cssCode +'}</style>');
 
 
 	// Remove the old ones
 	iframeElement('style.old[data-pin-id="'+ pin_ID +'"]').remove();
 
 
-	// Update the changed status
-	pinWindow(pin.pin_element_index, true).attr('data-changed', (cssCodes != null ? "yes" : "no"));
+	// Remove changed marks if null
+	if (cssCode == null) {
+
+		pinWindow(pin.pin_element_index, true).attr('data-revisionary-style-changed', "no"); // For all other same element pins
+		updateAttributes(pin_ID, 'data-revisionary-style-changed', "no");
+		updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "yes");
+		changedElement.removeAttr('data-revisionary-showing-style-changes');
+
+		pinWindow(pin_ID).find('ul.options .main-option').removeClass('changed');
+		pinWindow(pin_ID).find('ul.options [data-edit-css][data-revisionary-style-changed]').removeAttr('data-revisionary-style-changed');
+
+	} else {
+
+		pinWindow(pin.pin_element_index, true).attr('data-revisionary-style-changed', "yes"); // For all other same element pins
+		updateAttributes(pin_ID, 'data-revisionary-style-changed', "yes");
+		updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "yes");
+
+	}
 
 
 	// Relocate the pin
@@ -3664,6 +3690,15 @@ function resetCSS(pin_ID) {
 
 
     console.log( 'Reset CSS for the pin #' + pin_ID + ' on DB!!');
+
+
+	// Update the element, pin and pin window status
+	updateAttributes(pin_ID, 'data-revisionary-style-changed', 'no');
+	updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', 'yes');
+	changedElement.removeAttr('data-revisionary-showing-style-changes');
+
+	pinWindow(pin_ID).find('ul.options .main-option').removeClass('changed');
+	pinWindow(pin_ID).find('ul.options [data-edit-css][data-revisionary-style-changed]').removeAttr('data-revisionary-style-changed');
 
 
 	// Reset the codes
@@ -4184,7 +4219,7 @@ function isPinWindowOpen(selector, byElementIndex) {
 
 // TEMPLATES:
 // Pin template
-function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary, size) {
+function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_css, pin_modification_type, pin_private, pin_type, pin_x, pin_y, temporary, size) {
 
 
 	temporary = assignDefault(temporary, false);
@@ -4208,6 +4243,7 @@ function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_mo
 			data-revisionary-index="'+pin_element_index+'" \
 			data-revisionary-content-edited="'+ ( pin_modification != null ? '1' : '0' ) +'" \
 			data-revisionary-showing-content-changes="1" \
+			data-revisionary-style-changed="'+ ( pin_css != null ? 'yes' : 'no' ) +'" \
 			data-revisionary-showing-style-changes="yes" \
 			style="left: '+ pinLocation.x +'px; top: '+ pinLocation.y +'px;" \
 		>'+pin_number+'</pin> \
@@ -4217,7 +4253,7 @@ function pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_mo
 
 
 // Listed pin template
-function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, pin_css) {
+function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_css, pin_modification_type, pin_private, pin_type, pin_x, pin_y) {
 
 	// Pin description
 	var pinText = "Comment Pin";
@@ -4251,7 +4287,7 @@ function listedPinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, 
 			data-revisionary-content-edited="'+( pin_modification != null ? '1' : '0' )+'" \
 			data-revisionary-showing-content-changes="1"> \
 			<a href="#" class="pin-locator"> \
-				'+ pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_modification_type, pin_private, pin_type, pin_x, pin_y, false, 'mid') +' \
+				'+ pinTemplate(pin_number, pin_ID, pin_complete, pin_element_index, pin_modification, pin_css, pin_modification_type, pin_private, pin_type, pin_x, pin_y, false, 'mid') +' \
 			</a> \
 			<a href="#" class="pin-title close"> \
 				'+pinText+' <i class="fa fa-caret-up" aria-hidden="true"></i> \

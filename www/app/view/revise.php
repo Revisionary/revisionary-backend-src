@@ -904,7 +904,7 @@ foreach ($other_pages as $pageOther) {
 		data-pin-y="30"
 		data-pin-modification-type=""
 		data-revisionary-content-edited="0"
-		data-changed="no"
+		data-revisionary-style-changed="no"
 		data-revisionary-showing-style-changes="no"
 		data-has-comments="no"
 		data-revisionary-showing-content-changes="0"

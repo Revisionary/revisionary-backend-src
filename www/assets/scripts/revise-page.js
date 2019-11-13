@@ -374,7 +374,7 @@ $(function() {
 		// Delete it from DB
 		if (
 			pinWindow(pin_ID).attr('data-revisionary-content-edited') == "0" &&
-			pinWindow(pin_ID).attr('data-changed') == "no" &&
+			pinWindow(pin_ID).attr('data-revisionary-style-changed') == "no" &&
 			pinWindow(pin_ID).attr('data-has-comments') == "no" &&
 			pinWindow(pin_ID).attr('temporary') != ""
 		) removePin(pin_ID);
@@ -854,7 +854,7 @@ $(function() {
 
 
 		// Mark as changed
-		$(this).attr('data-changed', 'yes');
+		$(this).attr('data-revisionary-style-changed', 'yes');
 		$(this).parents('.main-option').addClass('changed');
 
 
@@ -891,7 +891,7 @@ $(function() {
 
 		// Prepare the CSS data
 		var css = {};
-		var properties = options.find('[data-edit-css][data-changed="yes"]');
+		var properties = options.find('[data-edit-css][data-revisionary-style-changed="yes"]');
 		$(properties).each(function(i, propertyElement) { //console.log('PROPERTIES: ', propertyElement);
 
 			var propertyName = $(propertyElement).attr('data-edit-css');
