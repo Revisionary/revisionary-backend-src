@@ -3072,7 +3072,7 @@ function closePinWindow(removePinIfEmpty) {
 	delete Notifications[pin_ID];
 
 
-	if (cursorWasActive && !hoveringPin) toggleCursorActive(false, true); // Force Open
+	if (cursorWasActive) toggleCursorActive(false, true); // Force Open
 
 
 	// Enable the iframe

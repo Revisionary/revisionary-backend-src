@@ -1075,6 +1075,7 @@ $(function() {
 
 
 		focusedPin = $(this);
+		hoveringPin = parseInt(focusedPin.attr('data-pin-id'));
 		pinClicked = true;
 		pinDragging = false;
 
@@ -1114,7 +1115,7 @@ $(function() {
 
 
 			pinClicked = false;
-			hoveringPin = parseInt(focusedPin.attr('data-pin-id'));
+			hoveringPin = false;
 
 
 			// Enable the iframe
