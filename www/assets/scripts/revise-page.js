@@ -1041,7 +1041,6 @@ $(function() {
 
 
 	// PIN HOVERING
-	hoveringPin = false;
 	var pinClicked = false;
 	$(document).on('mouseover', '#pins > pin', function(e) {
 
@@ -1124,7 +1123,7 @@ $(function() {
 
 			// Toggle the pin window even if just a little dragging
 		    if (!pinDragging)
-				togglePinWindow(focusedPin.attr('data-pin-id'));
+				togglePinWindow( parseInt(focusedPin.attr('data-pin-id')) );
 
 
 			focusedPin = null;
@@ -1132,12 +1131,21 @@ $(function() {
 			e.preventDefault();
 		}
 
+	}).on('mousewheel', '#pins > pin', function(e) {
+		
+		
+		//console.log('SCROLLING ON PIN!');
+		scrollOnPin = true;
+
 	}).on('mouseout', '#pins > pin', function(e) {
 
 		//console.log('MOUSE OUT FROM PIN!', pinDragging);
-
-
 		hoveringPin = false;
+		scrollOnPin = false;
+
+
+		var pin_ID = parseInt($(this).attr('data-pin-id'));
+		if (!pinWindowOpen) relocatePin(pin_ID);
 
 
 		// Clear all outlines

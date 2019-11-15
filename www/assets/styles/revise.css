@@ -293,8 +293,7 @@ html, body {
     pointer-events: auto;
     cursor: pointer;
     left: 0;
-    top: 0;
-    transition: opacity 1000ms, transform 200ms; }
+    top: 0; }
     #pins > pin:hover {
       opacity: 0.5; }
 

@@ -296,6 +296,7 @@ function runTheInspector() {
 
 		// MOUSE ACTIONS:
 		var mouseDownOnContentEdit = false;
+		var scrollTimer, scrollFlag = false;
 	    iframe.on('mousemove', function(e) { // Detect the mouse moves in frame
 
 
@@ -702,8 +703,20 @@ function runTheInspector() {
 			//console.log('SCROLLIIIIIIIING');
 
 
+			// Add scrolling class to the body
+			if (!scrollFlag) {
+				scrollFlag = true;
+				$('body').addClass('scrolling');
+			}
+			clearTimeout(scrollTimer);
+			scrollTimer = setTimeout(function() {
+				$('body').removeClass('scrolling');
+				scrollFlag = false;
+			}, 200);
+
+
 		    // Re-Locate all the pins
-		    relocatePins();
+			relocatePins();
 
 
 		}).on('keydown', function(e) { // Detect the scroll to re-position pins
@@ -929,6 +942,18 @@ function runTheInspector() {
 		$(window).on('resize', function(e) { // Detect the window resizing to re-position pins
 
 			//console.log('RESIZIIIIIIIING');
+
+
+			// Add scrolling class to the body
+			if (!scrollFlag) {
+				scrollFlag = true;
+				$('body').addClass('scrolling');
+			}
+			clearTimeout(scrollTimer);
+			scrollTimer = setTimeout(function() {
+				$('body').removeClass('scrolling');
+				scrollFlag = false;
+			}, 200);
 
 
 		    // Re-Locate all the pins
@@ -2041,6 +2066,9 @@ function relocatePin(pin_ID, x, y) {
 	if (!pin) return false;
 	var pinIndex = Pins.indexOf(pin);
 
+	var element_index = pin.pin_element_index;
+	var element = iframeElement(element_index);
+
 
 	// Use the registered locations if not specified
 	x = assignDefault(x, pin.pin_x);
@@ -2049,6 +2077,29 @@ function relocatePin(pin_ID, x, y) {
 
 	// Get the locations
 	var pinLocation = locationsByElement(pin.pin_element_index, x, y);
+
+
+	// If not on the screen
+	if ( !element.is(':visible') ) {
+
+
+		//console.log('Element invisible');
+
+		// Make the pin smaller and undraggable
+		pinElement(pin_ID).addClass('hidden');
+		disableDraggable( pinElement(pin_ID) );
+
+
+	} else if ( pinElement(pin_ID).hasClass('hidden') ) {
+
+		pinElement(pin_ID).removeClass('hidden');
+		enableDraggable( pinElement(pin_ID) );
+
+	}
+
+
+	// Do not relocate if hovering that pin
+	if ( pinElement(pin_ID).is(':hover') && !pinDragging && !scrollOnPin ) return false;
 
 
 
@@ -2069,19 +2120,21 @@ function relocatePin(pin_ID, x, y) {
 
 
 
-	if (pinWindowOpen) relocatePinWindow(pin_ID);
+	if (pinWindowOpen) relocatePinWindow(pin_ID, pinLocation);
 
 }
 
 
 // Relocate the pin window
-function relocatePinWindow(pin_ID) {
+function relocatePinWindow(pin_ID, pinLocation) {
 
 
-	pin_ID = assignDefault(pin_ID, null);
-
-
-	if (pin_ID == null) pin_ID = parseInt(pinWindow().attr('data-pin-id'));
+	pin_ID = assignDefault(pin_ID, parseInt(pinWindow().attr('data-pin-id')));
+	pinLocation = assignDefault(pinLocation, {
+		x: parseInt( pinElement('[data-pin-id="'+ pin_ID +'"]').css('left') ),
+		y: parseInt( pinElement('[data-pin-id="'+ pin_ID +'"]').css('top') )
+	});
+	//var pinLocation = locationsByElement(pin.pin_element_index, pin.pin_x, pin.pin_y);
 
 
 	// Pin info
@@ -2096,13 +2149,6 @@ function relocatePinWindow(pin_ID) {
 	// Update the location and size values
 	updateLocationValues();
 
-
-
-	// Get the pin locations
-	var pinLocation = {
-		x : parseFloat(pinElement('[data-pin-id="'+ pin_ID +'"]').css('left')),
-		y : parseFloat(pinElement('[data-pin-id="'+ pin_ID +'"]').css('top'))
-	};
 
 
 	//console.log('RELOCATING PIN WINDOW #' + pin_ID, pinLocation );
@@ -2128,7 +2174,7 @@ function relocatePinWindow(pin_ID) {
 		scrolled_window_y >= spaceHeight - pinWindowHeight
 	) {
 
-		console.log('OUCH!');
+		//console.log('OUCH!');
 		new_scrolled_window_x = scrolled_window_x - pinWindowWidth - 55;
 
 
@@ -2144,7 +2190,7 @@ function relocatePinWindow(pin_ID) {
 	// Y: Make the pin window stay after scrolling up
 	if (scrolled_window_y > new_scrolled_window_y + pinWindowHeight) {
 
-		console.log('GOODBYE!');
+		//console.log('GOODBYE!');
 		new_scrolled_window_y = scrolled_window_y - pinWindowHeight;
 
 	}
@@ -2153,7 +2199,12 @@ function relocatePinWindow(pin_ID) {
 
 
 	//console.log('SPACE #' + new_scrolled_window_x, new_scrolled_window_y );
-	//console.log('PIN WINDOW RELOCATING #' + pin_ID, new_scrolled_window_x, new_scrolled_window_y );
+	//console.log('PIN WINDOW RELOCATING #' + pin_ID, pinLocation, new_scrolled_window_x, new_scrolled_window_y );
+
+
+
+	// Do not relocate if hovering that pin
+	//if ( pinElement(pin_ID).is(':hover') && !pinDragging && !scrollOnPin ) return false;
 
 
 
@@ -2240,6 +2291,17 @@ function getElementOffset(element_index) {
 	if (!selectedElement.length) return false;
 
 
+	var pin = getPin(element_index, true);
+	if (!pin) return false;
+	var pin_ID = pin.pin_ID;
+
+
+
+	//console.log('ELEMENT OFFSET: ', selectedElement.offset() );
+	//console.log('VISIBILITY: ', selectedElement.is(':visible') );
+
+
+
 	// Check if hidden
 	if ( selectedElement.css('display') == 'none' ) {
 
@@ -2249,23 +2311,40 @@ function getElementOffset(element_index) {
 		if ( hiddenElementOffsets[element_index] !== undefined ) return hiddenElementOffsets[element_index];
 
 
-		// Find the pin
-		var pin = getPin(element_index, true);
-		if (!pin) return false;
-
-
 		// Disabled temporarily
-		disableCSS(pin.pin_ID);
+		disableCSS(pin_ID);
 		selectedElement.addClass('revisionary-show');
 
 		hiddenElementOffsets[element_index] = selectedElement.offset();
 
 		selectedElement.removeClass('revisionary-show');
-		activateCSS(pin.pin_ID);
+		activateCSS(pin_ID);
 
 
 		//console.log('1. Element Offset for element #' + element_index, hiddenElementOffsets[element_index]);
 		return hiddenElementOffsets[element_index];
+
+	}
+
+
+	// If not on the screen
+	else if ( !selectedElement.is(':visible') ) {
+
+		// console.log('Element invisible');
+
+		// Temporary location
+		var parentElement = selectedElement.parents(':visible');
+		var parentOffset = parentElement.offset();
+		parentOffset.top = parentOffset.top + parentElement.height() - 25;
+
+		return parentOffset;
+
+	}
+
+	else if ( pinElement(pin_ID).hasClass('hidden') ) {
+
+		// pinElement(pin_ID).removeClass('hidden');
+		// enableDraggable( pinElement(pin_ID) );
 
 	}
 
@@ -2296,7 +2375,7 @@ function relocatePins() {
 function makeDraggable(pin) {
 
 
-	pin = assignDefault(pin, $('#pins > pin:not([temporary])'));
+	pin = assignDefault(pin, $('#pins > pin:not([temporary]):not(.hidden)'));
 
 
 	// Make pins draggable
@@ -2442,6 +2521,24 @@ function makeDraggable(pin) {
 		}
 	});
 
+
+}
+
+
+// Disable pin dragging
+function disableDraggable(pin) {
+
+	if (!pin.length) return false;
+	pin.draggable( "option", "disabled", true );
+
+}
+
+
+// Enable pin dragging
+function enableDraggable(pin) {
+
+	if (!pin.length) return false;
+	pin.draggable( "option", "disabled", false );
 
 }
 
@@ -2962,11 +3059,15 @@ function closePinWindow(removePinIfEmpty) {
 	delete Notifications[pin_ID];
 
 
-	if (cursorWasActive) toggleCursorActive(false, true); // Force Open
+	if (cursorWasActive && !hoveringPin) toggleCursorActive(false, true); // Force Open
 
 
 	// Enable the iframe
 	//$('#the-page').css('pointer-events', '');
+
+
+	// Relocate pin after closing the pin window
+	relocatePin(pin_ID);
 
 
 }

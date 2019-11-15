@@ -136,6 +136,7 @@ var oldScrollOffset_top = 0;
 var oldScrollOffset_left = 0;
 var scrollX;
 var scrollY;
+var scrollOnPin = false;
 
 // Initial Scale
 var iframeScale = 1;
