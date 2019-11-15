@@ -1477,14 +1477,21 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	var elementLeft = elementOffset.left;
 
 
-	// Float value
+	// Clicked location value
 	pinX = parseFloat(pinX).toFixed(5);
 	pinY = parseFloat(pinY).toFixed(5);
 
 
 	// The coordinates by the element
-	elementPinX = parseFloat(pinX - elementLeft).toFixed(5);
-	elementPinY = parseFloat(pinY - elementTop).toFixed(5);
+	// elementPinX = parseFloat(pinX - elementLeft).toFixed(5);
+	// elementPinY = parseFloat(pinY - elementTop).toFixed(5);
+	elementPinX = -10;
+	elementPinY = -10;
+
+
+	// Detect exceeds
+	if (elementLeft < -elementPinX ) elementPinX = pinSize / 2;
+	if (elementTop < -elementPinY ) elementPinY = pinSize / 2;
 
 
 	console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
@@ -1974,8 +1981,8 @@ function scrollToPin(pin_ID, openWindow, noDelay) {
 		pinAnimation = iframeElement('html, body').stop().animate({
 
 
-			scrollTop: parseInt( pinLocation.y / iframeScale ) - ($('.iframe-container').height() / 2) + 22.5
-			//scrollLeft: parseInt( pinLocation.x ) - ($('.iframe-container').width() / 2) + 22.5
+			scrollTop: parseInt( pinLocation.y / iframeScale ) - ($('.iframe-container').height() / 2) + (pinSize / 2)
+			//scrollLeft: parseInt( pinLocation.x ) - ($('.iframe-container').width() / 2) + (pinSize / 2)
 
 
 		}, delay, 'swing').promise().then(function() {
@@ -2099,7 +2106,12 @@ function relocatePin(pin_ID, x, y) {
 
 
 	// Do not relocate if hovering that pin
-	if ( pinElement(pin_ID).is(':hover') && !pinDragging && !scrollOnPin ) return false;
+	if ( hoveringPin === pin_ID && !pinDragging && !scrollOnPin ) {
+
+		//console.log('HOVERING ON PIN:', pinElement(pin_ID).text() );
+		return false;
+
+	}
 
 
 
@@ -2262,8 +2274,8 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll) {
 
 
 	// Middle of the pin
-	elementPinX = elementPinX - (45 / 2);
-	elementPinY = elementPinY - (45 / 2);
+	elementPinX = elementPinX - (pinSize / 2);
+	elementPinY = elementPinY - (pinSize / 2);
 
 
 	// Scroll
@@ -2292,7 +2304,7 @@ function getElementOffset(element_index) {
 
 
 	var pin = getPin(element_index, true);
-	if (!pin) return false;
+	//if (!pin) return false;
 	var pin_ID = pin.pin_ID;
 
 
@@ -2336,6 +2348,7 @@ function getElementOffset(element_index) {
 		var parentElement = selectedElement.parents(':visible');
 		var parentOffset = parentElement.offset();
 		parentOffset.top = parentOffset.top + parentElement.height() - 25;
+		parentOffset.left = parentOffset.left + 25;
 
 		return parentOffset;
 
@@ -2424,8 +2437,8 @@ function makeDraggable(pin) {
 
 
 			// Get the final positions
-			var pinX = (ui.position.left + scrollX + 45 / 2 ) / iframeScale;
-			var pinY = (ui.position.top + scrollY + 45 / 2 ) / iframeScale;
+			var pinX = (ui.position.left + scrollX + pinSize / 2 ) / iframeScale;
+			var pinY = (ui.position.top + scrollY + pinSize / 2 ) / iframeScale;
 
 
 			// Float value
@@ -4314,7 +4327,7 @@ function pinTemplate(pin_number, pin, temporary, size) {
 
 
 	temporary = assignDefault(temporary, false);
-	size = assignDefault(size, "big");
+	size = assignDefault(size, "mid");
 
 
 	var pinLocation = locationsByElement(pin.pin_element_index, pin.pin_x, pin.pin_y);

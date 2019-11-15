@@ -117,7 +117,7 @@ $(function() {
 		var pin_private = $(this).find('pin').attr('data-pin-private');
 		var element_index = $(this).find('pin').attr('data-revisionary-index');
 		var pinX =  pinElement(pin_ID).attr('data-pin-x');
-		var pinY =  pinElement(pin_ID).attr('data-pin-y'); console.log(pinY, ($('.iframe-container').height() / 2), 22.5, parseInt( pinY ) - ($('.iframe-container').height() / 2) - 22.5);
+		var pinY =  pinElement(pin_ID).attr('data-pin-y'); console.log(pinY, ($('.iframe-container').height() / 2), pinSize / 2, parseInt( pinY ) - ($('.iframe-container').height() / 2) - (pinSize / 2));
 
 		// Outline
 		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
@@ -1047,7 +1047,7 @@ $(function() {
 		//console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-revisionary-index") );
 
 
-		hoveringPin = true;
+		hoveringPin = parseInt( $(this).attr("data-pin-id") );
 
 
 		// Reset the pin opacity
@@ -1114,7 +1114,7 @@ $(function() {
 
 
 			pinClicked = false;
-			hoveringPin = true;
+			hoveringPin = parseInt(focusedPin.attr('data-pin-id'));
 
 
 			// Enable the iframe

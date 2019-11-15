@@ -161,6 +161,7 @@ var commentsGetRequest = null;
 var removePinProcess = [];
 var openPin = null;
 var hiddenElementOffsets = {};
+var pinSize = 35;
 
 
 // When document is ready, fill the variables

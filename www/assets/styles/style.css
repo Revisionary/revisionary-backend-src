@@ -5924,7 +5924,8 @@ pin {
   color: white;
   user-select: none;
   box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5);
-  transition: width 500ms, height 500ms, font-size 500ms, line-height 500ms, opacity 1000ms, transform 200ms, left 500ms, top 500ms; }
+  transition: width 500ms, height 500ms, font-size 500ms, line-height 500ms, opacity 1000ms, transform 200ms, left 500ms, top 500ms;
+  transition: width 500ms, height 500ms, font-size 500ms, line-height 500ms, opacity 1000ms, transform 200ms; }
   pin.mouse-cursor,
   pin.ui-draggable-dragging,
   body.scrolling pin {
@@ -5948,8 +5949,7 @@ pin {
   pin.mid {
     width: 35px;
     height: 35px;
-    line-height: 35px;
-    margin: 0 10px !important; }
+    line-height: 35px; }
     pin.mid[data-pin-private="1"] {
       box-shadow: 0px 0px 18px 1px #FC0F42; }
     pin.mid[data-pin-type="live"] {
@@ -5973,23 +5973,17 @@ pin {
       font-size: 11px; }
   pin.hidden {
     opacity: 0.5;
-    transform: scale(0.5);
     position: relative;
-    /*
-		width: 25px;
-		height: 25px;
-		line-height: 25px;
-		font-size: 10px;
-
-		&[data-pin-complete="1"] {
-
-			&:before {
-				font-size: 12px !important;
-			}
-
-		}
-*/ }
+    transition: 0 !important;
+    text-indent: -999px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 10px; }
+    pin.hidden[data-pin-complete="1"]:before {
+      font-size: 12px !important; }
     pin.hidden:after {
+      transition: 0s !important;
       content: "";
       position: absolute;
       opacity: 0;
@@ -6000,7 +5994,9 @@ pin {
       display: block;
       background-color: red;
       width: 200%;
-      height: 200%; }
+      height: 200%;
+      width: 35px;
+      height: 35px; }
   pin.add-new {
     background-color: white;
     color: black;
