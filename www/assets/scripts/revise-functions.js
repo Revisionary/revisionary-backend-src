@@ -404,7 +404,6 @@ function runTheInspector() {
 				// 	focused_element.css('background-image').match(/url\(/g).length === 1 // Only one url()
 				// ) {
 
-				// 	//hoveringImage = true;
 				// 	//focused_element_editable = true; // Obviously Image Editable
 				// 	//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 				// 	//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
@@ -557,7 +556,7 @@ function runTheInspector() {
 
 
 				// If current element already has a live pin
-				if ( focused_element_live_pin.length ) {
+				if ( focused_element_has_live_pin ) {
 
 
 					// Point to the pin
@@ -576,6 +575,8 @@ function runTheInspector() {
 				} else {
 
 
+					// UPDATE CURSOR ACCORDING TO PIN MODES (currentPinType: live | standard | browse)
+
 					// Re-update the cursor number
 					currentPinNumber = $('#pins > pin').length + 1;
 					changePinNumber(currentPinNumber);
@@ -586,7 +587,7 @@ function runTheInspector() {
 
 
 						switchCursorType('live');
-						outline(focused_element, currentPinPrivate, currentPinType);
+						if (focused_element_has_index) outline(focused_element, currentPinPrivate, currentPinType);
 
 
 					} else {
@@ -594,9 +595,7 @@ function runTheInspector() {
 
 						// If not editable, switch back to the standard pin
 						switchCursorType('standard');
-
-						if (focused_element_has_index)
-							outline(focused_element, currentPinPrivate, (focused_element_editable && currentPinType == "live" ? "live" : "standard"));
+						if (focused_element_has_index) outline(focused_element, currentPinPrivate, "standard");
 
 
 					}
@@ -839,7 +838,7 @@ function runTheInspector() {
 			// Open the new pin window if already open
 			if (
 				pinWindowOpen &&
-				focused_element_live_pin != null && focused_element_live_pin.length &&
+				focused_element_live_pin != null && focused_element_has_live_pin &&
 				pinWindow().attr('data-revisionary-index') != focused_element_index
 			)
 				openPinWindow( focused_element_live_pin.attr('data-pin-id') );
