@@ -1962,6 +1962,7 @@ function scrollToPin(pin_ID, openWindow, noDelay) {
 
 		// Show pin does not exist message
 		showAlert('no-pin');
+		history.pushState("", document.title, window.location.pathname + window.location.search);
 		return false;
 
 	}
