@@ -2168,8 +2168,8 @@ function relocatePinWindow(pin_ID, pinLocation) {
 
 
 	// Pin window location
-    var scrolled_window_x = offset.left + pinLocation.x + 50;
-    var scrolled_window_y = offset.top + pinLocation.y + 50;
+    var scrolled_window_x = offset.left + pinLocation.x + pinSize + 5;
+    var scrolled_window_y = offset.top + pinLocation.y + pinSize + 5;
 
 
 	var spaceWidth = offset.left + iframeWidth + offset.left - 15;
