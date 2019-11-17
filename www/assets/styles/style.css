@@ -6128,7 +6128,10 @@ pin {
   padding: 20px;
   position: absolute;
   width: 300px;
-  box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5); }
+  box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5);
+  transition: opacity 500ms; }
+  #pin-window.dragging {
+    opacity: 0.7 !important; }
   #pin-window[data-pin-mine="no"] .convert-to-private-live,
   #pin-window[data-pin-mine="no"] .convert-to-private {
     display: none; }

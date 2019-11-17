@@ -315,20 +315,9 @@ function runTheInspector() {
 
 
 			// FOCUSING:
-		    // Focused Element is the mouse pointed element as default
-	        focused_element = $(e.target);
-
-	        focused_element_index = focused_element.attr('data-revisionary-index');
-	        focused_element_has_index = focused_element_index != null ? true : false;
-		    focused_element_index = focused_element_index != null ? focused_element_index : 0;
-	        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
-			focused_element_html = focused_element.html();
-	        focused_element_children = focused_element.children();
-	        focused_element_grand_children = focused_element_children.children();
-			focused_element_pin = pinElement(focused_element_index, true);
-			focused_element_live_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
-			focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-content-edited]');
-			focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-content-edited]').length;
+			// Focused Element is the mouse pointed element as default
+			focused_element = $(e.target);
+			reFocus(focused_element);
 
 
 
@@ -368,17 +357,7 @@ function runTheInspector() {
 
 
 				// Update refocused sub elements
-		        focused_element_index = focused_element.attr('data-revisionary-index');
-		        focused_element_has_index = focused_element_index != null ? true : false;
-		        focused_element_index = focused_element_index != null ? focused_element_index : 0;
-		        focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
-				focused_element_html = focused_element.html();
-		        focused_element_children = focused_element.children();
-		        focused_element_grand_children = focused_element_children.children();
-				focused_element_pin = pinElement(focused_element_index, true);
-				focused_element_live_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
-				focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-content-edited]');
-				focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-content-edited]').length;
+				reFocus(focused_element);
 
 
 
@@ -2414,6 +2393,8 @@ function makeDraggable(pin) {
 
 			//console.log('STARTED!');
 
+			if (pinWindowOpen) pinWindow().addClass('dragging');
+
 
 		},
 		drag: function( event, ui ) {
@@ -2486,6 +2467,9 @@ function makeDraggable(pin) {
 
 
 			//console.log('STOPPED.');
+
+
+			pinWindow().removeClass('dragging');
 
 
 			var pinWasDragging = pinDragging;
@@ -4217,6 +4201,26 @@ function updateAttributes(pin_ID, attribute, value) {
 	iframeElement(element_index).attr(attribute, value);
 	pinElement(pin_ID).attr(attribute, value);
 	pinWindow(pin_ID).attr(attribute, value);
+
+
+}
+
+
+// Update focused element
+function reFocus(focused_element) {
+
+
+	focused_element_index = focused_element.attr('data-revisionary-index');
+	focused_element_has_index = focused_element_index != null ? true : false;
+	focused_element_index = focused_element_index != null ? focused_element_index : 0;
+	focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+	focused_element_html = focused_element.html();
+	focused_element_children = focused_element.children();
+	focused_element_grand_children = focused_element_children.children();
+	focused_element_pin = pinElement(focused_element_index, true);
+	focused_element_live_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
+	focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-content-edited]');
+	focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-content-edited]').length;
 
 
 }
