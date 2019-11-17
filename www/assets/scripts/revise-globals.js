@@ -102,7 +102,7 @@ var currentCursorType = "standard";
 
 var currentPinType = "live";
 var currentPinPrivate = 0;
-var currentPinLabel = pinModes.live;
+var currentPinLabel = pinModes[currentPinType];
 var currentPinTypeWas;
 var currentPinPrivateWas;
 var shifted = false;

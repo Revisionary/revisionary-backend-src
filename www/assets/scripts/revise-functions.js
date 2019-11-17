@@ -1118,9 +1118,7 @@ function switchPinType(pinType, pinPrivate) {
 
 
 	// Change the activator color and label
-	if (pinType == "browse") currentPinLabel = pinModes.browse;
-	if (pinType == "live") currentPinLabel = pinModes.live;
-	if (pinType == "standard") currentPinLabel = pinModes.standard;
+	currentPinLabel = pinModes[pinType];
 	if (currentPinPrivate == "1") currentPinLabel = pinModes['private-live'];
 
 
@@ -1186,20 +1184,14 @@ function switchCursorType(cursorType, pinPrivate, existing) {
 	//console.log(cursorType);
 
 
-	// Showing an existing pin on cursor?
-	if (existing) {
-
-		cursor.addClass('existing');
-
-	} else {
-
-		cursor.removeClass('existing');
-
-	}
-
-
+	// Update cursor
 	cursor.attr('data-pin-type', cursorType).attr('data-pin-private', pinPrivate);
 	currentCursorType = cursorType;
+
+
+	// Showing an existing pin on cursor?
+	if (existing) cursor.addClass('existing');
+	else cursor.removeClass('existing');
 
 }
 
