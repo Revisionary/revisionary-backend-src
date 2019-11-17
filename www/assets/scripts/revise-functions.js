@@ -317,7 +317,7 @@ function runTheInspector() {
 			// FOCUSING:
 			// Focused Element is the mouse pointed element as default
 			focused_element = $(e.target);
-			reFocus(focused_element);
+			reFocus();
 
 
 
@@ -357,7 +357,7 @@ function runTheInspector() {
 
 
 				// Update refocused sub elements
-				reFocus(focused_element);
+				reFocus();
 
 
 
@@ -583,19 +583,35 @@ function runTheInspector() {
 
 
 					// Editable check
-					if (focused_element_editable && currentPinType == "live") {
+					if (currentPinType == "live") {
 
 
-						switchCursorType('live');
-						if (focused_element_has_index) outline(focused_element, currentPinPrivate, currentPinType);
+						if (focused_element_editable) {
+
+							switchCursorType('live');
+							if (focused_element_has_index) outline(focused_element, currentPinPrivate, "live");
+
+						} else { // If not editable, switch back to the standard pin
+
+							switchCursorType('standard');
+							if (focused_element_has_index) outline(focused_element, currentPinPrivate, "standard");
+
+						}
 
 
-					} else {
+					} else if (currentPinType == "standard") {
 
 
-						// If not editable, switch back to the standard pin
 						switchCursorType('standard');
 						if (focused_element_has_index) outline(focused_element, currentPinPrivate, "standard");
+
+
+					} else if (currentPinType == "comment") {
+
+
+						focused_element = iframeElement('[data-revisionary-index="0"]');
+						reFocus();
+						switchCursorType('comment');
 
 
 					}
@@ -4202,8 +4218,7 @@ function updateAttributes(pin_ID, attribute, value) {
 
 
 // Update focused element
-function reFocus(focused_element) {
-
+function reFocus() {
 
 	focused_element_index = focused_element.attr('data-revisionary-index');
 	focused_element_has_index = focused_element_index != null ? true : false;
@@ -4216,7 +4231,6 @@ function reFocus(focused_element) {
 	focused_element_live_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
 	focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-content-edited]');
 	focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-content-edited]').length;
-
 
 }
 

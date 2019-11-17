@@ -25,7 +25,7 @@ $pin_element_index = intval(request('pin_element_index'));
 
 
 // Pin type validation
-if ( request('pin_type') != "standard" && request('pin_type') != "live" ) return;
+if ( request('pin_type') != "live" && request('pin_type') != "standard" && request('pin_type') != "comment" ) return;
 $pin_type = request('pin_type');
 
 

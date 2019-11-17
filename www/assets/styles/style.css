@@ -6327,7 +6327,8 @@ pin {
   #pin-window > .bottom-actions .action nav > ul > li > a {
     width: 100%; }
   #pin-window .image-editor,
-  #pin-window .content-editor {
+  #pin-window .content-editor,
+  #pin-window .visual-editor {
     display: none; }
   #pin-window .differences {
     display: none; }
@@ -6410,10 +6411,14 @@ pin {
     box-shadow: 0px 0px 18px 1px #FFFFFF; }
   #pin-window[data-pin-type="live"][data-pin-private="1"] {
     box-shadow: 0px 0px 18px 1px #FC0FB3; }
-  #pin-window[data-pin-modification-type="html"] > .content-editor {
+  #pin-window[data-pin-modification-type="html"] > .content-editor,
+  #pin-window[data-pin-modification-type="html"] > .visual-editor {
     display: block; }
-  #pin-window[data-pin-modification-type="image"] > .image-editor {
+  #pin-window[data-pin-modification-type="image"] > .image-editor,
+  #pin-window[data-pin-modification-type="image"] > .visual-editor {
     display: block; }
+  #pin-window[data-pin-type="comment"] > .comments .section-title {
+    display: none; }
   #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private,
   #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private-live {
     display: none !important; }

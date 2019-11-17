@@ -2064,7 +2064,8 @@ pin {
 
 
 	.image-editor,
-	.content-editor {
+	.content-editor,
+	.visual-editor {
 		display: none;
 	}
 
@@ -2249,7 +2250,8 @@ pin {
 
 	&[data-pin-modification-type="html"] {
 
-		& > .content-editor {
+		& > .content-editor,
+		& > .visual-editor {
 			display: block;
 		}
 
@@ -2257,8 +2259,17 @@ pin {
 
 	&[data-pin-modification-type="image"] {
 
-		& > .image-editor {
+		& > .image-editor,
+		& > .visual-editor {
 			display: block;
+		}
+
+	}
+
+	&[data-pin-type="comment"] {
+
+		& > .comments .section-title {
+			display: none;
 		}
 
 	}

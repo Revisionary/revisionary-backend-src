@@ -112,7 +112,7 @@ class Pin {
 
 
     	// Security check !!!
-		if ($pin_type != "standard" && $pin_type != "live") return false;
+		if ($pin_type != "live" && $pin_type != "standard" && $pin_type != "comment") return false;
 
 
 

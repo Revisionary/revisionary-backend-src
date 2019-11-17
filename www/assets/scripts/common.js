@@ -1590,10 +1590,10 @@ function closeModal(modalElement) {
 
 
 // TEMPLATES
-function boxMemberTemplate(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, unremoveable) {
+function boxMemberTemplate(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID) {
 
-	var printPic = 'style="background-image: url('+userImageUrl+');"';
-	var ownerBadge = '';
+	var printPic = 'style="background-image: url('+ userImageUrl +');"';
+	var ownerBadge = ''; // !!!
 
 	if (mStatus != 'email' ) email = '('+email+')';
 	if (mStatus == 'email' ) nameAbbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
