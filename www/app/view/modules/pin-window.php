@@ -343,50 +343,50 @@
 
 									<div class="layer positions">
 
-<div class="main-option sub input top"><input type="text" data-edit-css="top" data-default="initial"/></div>
-<div class="main-option sub input right"><input type="text" data-edit-css="right" data-default="initial"/></div>
-<div class="main-option sub input bottom"><input type="text" data-edit-css="bottom" data-default="initial"/></div>
-<div class="main-option sub input left"><input type="text" data-edit-css="left" data-default="initial"/></div>
+										<div class="main-option sub input top"><input type="text" data-edit-css="top" data-default="initial"/></div>
+										<div class="main-option sub input right"><input type="text" data-edit-css="right" data-default="initial"/></div>
+										<div class="main-option sub input bottom"><input type="text" data-edit-css="bottom" data-default="initial"/></div>
+										<div class="main-option sub input left"><input type="text" data-edit-css="left" data-default="initial"/></div>
 
 
 										<div class="layer margins">
 
-<div class="main-option sub input top"><input type="text" data-edit-css="margin-top" data-default="initial"/></div>
-<div class="main-option sub input right"><input type="text" data-edit-css="margin-right" data-default="initial"/></div>
-<div class="main-option sub input bottom"><input type="text" data-edit-css="margin-bottom" data-default="initial"/></div>
-<div class="main-option sub input left"><input type="text" data-edit-css="margin-left" data-default="initial"/></div>
+											<div class="main-option sub input top"><input type="text" data-edit-css="margin-top" data-default="initial"/></div>
+											<div class="main-option sub input right"><input type="text" data-edit-css="margin-right" data-default="initial"/></div>
+											<div class="main-option sub input bottom"><input type="text" data-edit-css="margin-bottom" data-default="initial"/></div>
+											<div class="main-option sub input left"><input type="text" data-edit-css="margin-left" data-default="initial"/></div>
 
 
 											<div class="layer borders">
 
-<div class="main-option sub input top"><input type="text" data-edit-css="border-top-width" data-default="initial"/></div>
-<div class="main-option sub input right"><input type="text" data-edit-css="border-right-width" data-default="initial"/></div>
-<div class="main-option sub input bottom"><input type="text" data-edit-css="border-bottom-width" data-default="initial"/></div>
-<div class="main-option sub input left"><input type="text" data-edit-css="border-left-width" data-default="initial"/></div>
+												<div class="main-option sub input top"><input type="text" data-edit-css="border-top-width" data-default="initial"/></div>
+												<div class="main-option sub input right"><input type="text" data-edit-css="border-right-width" data-default="initial"/></div>
+												<div class="main-option sub input bottom"><input type="text" data-edit-css="border-bottom-width" data-default="initial"/></div>
+												<div class="main-option sub input left"><input type="text" data-edit-css="border-left-width" data-default="initial"/></div>
 
 
 
-<div class="main-option sub input top left middle"><input type="text" data-edit-css="border-style" data-default="initial"></div>
-<div class="main-option sub input top right middle"><input type="color" data-edit-css="border-color" data-default="initial"></div>
+												<div class="main-option sub input top left middle"><input type="text" data-edit-css="border-style" data-default="initial"></div>
+												<div class="main-option sub input top right middle"><input type="color" data-edit-css="border-color" data-default="initial"></div>
 
-<div class="main-option sub input top left"><input type="text" data-edit-css="border-top-left-radius" data-default="initial"/><span>Radius</span></div>
-<div class="main-option sub input top right"><input type="text" data-edit-css="border-top-right-radius" data-default="initial"/><span>Radius</span></div>
-<div class="main-option sub input bottom left"><span>Radius</span><input type="text" data-edit-css="border-bottom-left-radius" data-default="initial"/></div>
-<div class="main-option sub input bottom right"><span>Radius</span><input type="text" data-edit-css="border-bottom-right-radius" data-default="initial"/></div>
+												<div class="main-option sub input top left"><input type="text" data-edit-css="border-top-left-radius" data-default="initial"/><span>Radius</span></div>
+												<div class="main-option sub input top right"><input type="text" data-edit-css="border-top-right-radius" data-default="initial"/><span>Radius</span></div>
+												<div class="main-option sub input bottom left"><span>Radius</span><input type="text" data-edit-css="border-bottom-left-radius" data-default="initial"/></div>
+												<div class="main-option sub input bottom right"><span>Radius</span><input type="text" data-edit-css="border-bottom-right-radius" data-default="initial"/></div>
 
 
 												<div class="layer paddings">
 
-<div class="main-option sub input top"><input type="text" data-edit-css="padding-top" data-default="initial"/></div>
-<div class="main-option sub input right"><input type="text" data-edit-css="padding-right" data-default="initial"/></div>
-<div class="main-option sub input bottom"><input type="text" data-edit-css="padding-bottom" data-default="initial"/></div>
-<div class="main-option sub input left"><input type="text" data-edit-css="padding-left" data-default="initial"/></div>
+													<div class="main-option sub input top"><input type="text" data-edit-css="padding-top" data-default="initial"/></div>
+													<div class="main-option sub input right"><input type="text" data-edit-css="padding-right" data-default="initial"/></div>
+													<div class="main-option sub input bottom"><input type="text" data-edit-css="padding-bottom" data-default="initial"/></div>
+													<div class="main-option sub input left"><input type="text" data-edit-css="padding-left" data-default="initial"/></div>
 
 
 													<div class="layer sizes">
 
-<input type="text" data-edit-css="width" data-default="initial"/> x
-<input type="text" data-edit-css="height" data-default="initial"/>
+														<input type="text" data-edit-css="width" data-default="initial"/> x
+														<input type="text" data-edit-css="height" data-default="initial"/>
 
 													</div>
 
