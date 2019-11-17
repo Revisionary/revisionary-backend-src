@@ -246,8 +246,12 @@ html, body {
 
 			}
 
-			& > a > i.fa-mouse-pointer {
+			& > a:not(.pin-type-selector) > i {
 				display: none;
+
+				&.fa-dot-circle {
+					display: inline-block;
+				}
 			}
 
 			.mode-label {
@@ -258,7 +262,7 @@ html, body {
 
 		[data-pin-type="live"][data-pin-private="0"] {
 
-			& > a > i {
+			& > a:not(.pin-type-selector) > i {
 				color: $color-live;
 			}
 
@@ -266,15 +270,15 @@ html, body {
 
 		[data-pin-type="standard"][data-pin-private="0"] {
 
-			& > a > i {
-				//color: $color-live;
+			& > a:not(.pin-type-selector) > i {
+				color: $color-style;
 			}
 
 		}
 
 		[data-pin-type="live"][data-pin-private="1"] {
 
-			& > a > i {
+			& > a:not(.pin-type-selector) > i {
 				color: $color-private-live;
 			}
 
@@ -282,20 +286,32 @@ html, body {
 
 		[data-pin-type="standard"][data-pin-private="1"] {
 
-			& > a > i {
+			& > a:not(.pin-type-selector) > i {
 				color: $color-private;
+			}
+
+		}
+
+		[data-pin-type="comment"] {
+
+			& > a:not(.pin-type-selector) > i {
+				display: none !important;
+
+				&.fa-comment {
+					display: inline-block !important;
+				}
 			}
 
 		}
 
 		[data-pin-type="browse"] {
 
-			& > a > i.fa-dot-circle {
-				display: none;
-			}
+			& > a:not(.pin-type-selector) > i {
+				display: none !important;
 
-			& > a > i.fa-mouse-pointer {
-				display: inline-block;
+				&.fa-mouse-pointer {
+					display: inline-block !important;
+				}
 			}
 
 		}

@@ -473,7 +473,7 @@
 			<div class="col action pin-complete">
 				<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
 					<pin
-						data-pin-type="standard"
+						data-pin-type="comment"
 						data-pin-private="0"
 						data-pin-complete="1"
 					></pin>
@@ -481,7 +481,7 @@
 				</a>
 				<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
 					<pin
-						data-pin-type="standard"
+						data-pin-type="comment"
 						data-pin-private="0"
 						data-pin-complete="0"
 					></pin>

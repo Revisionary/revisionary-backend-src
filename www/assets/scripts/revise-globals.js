@@ -87,6 +87,7 @@ var cursorWasActive;
 var pinModes = {
 	'live' 			: 'Content and View Changes',
 	'standard' 		: 'View Changes',
+	'comment' 		: 'Comment',
 	'private-live'	: 'Private Content and View Changes',
 	'private'		: 'Private View Changes',
 	'browse'		: 'Browse Mode'

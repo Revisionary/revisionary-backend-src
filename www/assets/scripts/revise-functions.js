@@ -1124,17 +1124,16 @@ function switchPinType(pinType, pinPrivate) {
 
 
 	// Activator updates
-	activator.attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate).find('.mode-label').text(currentPinLabel);
+	activator.attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate);
+	activator.find('.mode-label').text(currentPinLabel);
 
 
 
 	// Hide the dropdown
 	$('ul.pin-types').hide();
 
-	// Reset the list
-	$('ul.pin-types > li').removeClass('selected');
-
 	// Select on the list
+	$('ul.pin-types > li').removeClass('selected');
 	$('ul.pin-types > li[data-pin-type="'+ currentPinType +'"][data-pin-private="'+ currentPinPrivate +'"]').addClass('selected');
 
 
@@ -1167,7 +1166,7 @@ function switchPinType(pinType, pinPrivate) {
 
 
 
-	// Close the open pin window
+	// Close the pin window
 	if (pinWindowOpen && iframeLoaded) closePinWindow();
 
 }
@@ -1181,7 +1180,7 @@ function switchCursorType(cursorType, pinPrivate, existing) {
 	existing = assignDefault(existing, false);
 
 
-	//console.log(cursorType);
+	//console.log("New Cursor Type: ", cursorType, "Private: " + pinPrivate);
 
 
 	// Update cursor

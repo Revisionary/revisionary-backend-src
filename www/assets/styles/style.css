@@ -5930,14 +5930,14 @@ pin {
   pin.ui-draggable-dragging,
   body.scrolling pin {
     transition: 0s; }
-  pin[data-pin-private="1"] {
-    box-shadow: 0px 0px 8px 1px #FC0F42; }
   pin[data-pin-type="live"] {
     box-shadow: 0px 0px 8px 1px #149440; }
   pin[data-pin-type="style"], pin[data-pin-type="standard"] {
     box-shadow: 0px 0px 8px 1px #1DBCC9; }
   pin[data-pin-type="comment"] {
-    box-shadow: 0px 0px 8px 1px #4A4A4A; }
+    box-shadow: 0px 0px 8px 1px #FFFFFF; }
+  pin[data-pin-private="1"] {
+    box-shadow: 0px 0px 8px 1px #FC0F42; }
   pin[data-pin-type="live"][data-pin-private="1"] {
     box-shadow: 0px 0px 8px 1px #FC0FB3; }
   pin .pin-title {
@@ -6404,10 +6404,10 @@ pin {
     box-shadow: 0px 0px 18px 1px #FC0F42; }
   #pin-window[data-pin-type="live"] {
     box-shadow: 0px 0px 18px 1px #149440; }
-  #pin-window[data-pin-type="style"] {
+  #pin-window[data-pin-type="style"], #pin-window[data-pin-type="standard"] {
     box-shadow: 0px 0px 18px 1px #1DBCC9; }
   #pin-window[data-pin-type="comment"] {
-    box-shadow: 0px 0px 18px 1px #4A4A4A; }
+    box-shadow: 0px 0px 18px 1px #FFFFFF; }
   #pin-window[data-pin-type="live"][data-pin-private="1"] {
     box-shadow: 0px 0px 18px 1px #FC0FB3; }
   #pin-window[data-pin-modification-type="html"] > .content-editor {
