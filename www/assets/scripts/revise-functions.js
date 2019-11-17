@@ -1950,7 +1950,6 @@ function scrollToPin(pin_ID, openWindow, noDelay) {
 		return false;
 
 	}
-
 	var element_index = pin.pin_element_index;
 
 
@@ -1964,23 +1963,15 @@ function scrollToPin(pin_ID, openWindow, noDelay) {
 		var pinLocation = locationsByElement(element_index, pin.pin_x, pin.pin_y, true);
 
 
-
-		console.log('SCROLLING TO PIN #' + pin_ID, pinLocation );
-
-
-
+		// Scroll to pin
 		pinAnimation = iframeElement('html, body').stop().animate({
 
-
 			scrollTop: parseInt( pinLocation.y / iframeScale ) - ($('.iframe-container').height() / 2) + (pinSize / 2)
-			//scrollLeft: parseInt( pinLocation.x ) - ($('.iframe-container').width() / 2) + (pinSize / 2)
-
+			//scrollLeft: parseInt( pinLocation.x ) - ($('.iframe-container').width() / 2) + (pinSize / 2) !!!
 
 		}, delay, 'swing').promise().then(function() {
 
-
 			if (openWindow && !pinWindowOpen) openPinWindow(pin_ID);
-
 
 		});
 
@@ -2137,7 +2128,6 @@ function relocatePinWindow(pin_ID, pinLocation) {
 		x: parseInt( pinElement('[data-pin-id="'+ pin_ID +'"]').css('left') ),
 		y: parseInt( pinElement('[data-pin-id="'+ pin_ID +'"]').css('top') )
 	});
-	//var pinLocation = locationsByElement(pin.pin_element_index, pin.pin_x, pin.pin_y);
 
 
 	// Pin info
@@ -4407,7 +4397,7 @@ function listedPinTemplate(pin_number, pin) {
 			data-revisionary-content-edited="'+( pin.pin_modification != null ? '1' : '0' )+'" \
 			data-revisionary-showing-content-changes="1"> \
 			<a href="#" class="pin-locator"> \
-				'+ pinTemplate(pin_number, pin, false, 'mid') +' \
+				'+ pinTemplate(pin_number, pin) +' \
 			</a> \
 			<a href="#" class="pin-title close"> \
 				'+pinText+' <i class="fa fa-caret-up" aria-hidden="true"></i> \
