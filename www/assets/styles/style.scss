@@ -1376,7 +1376,7 @@ pin {
 	    box-shadow: 0px 0px 8px 1px $color-live;
     }
 
-    &[data-pin-type="style"] {
+    &[data-pin-type="style"], &[data-pin-type="standard"] {
 	    box-shadow: 0px 0px 8px 1px $color-style;
     }
 

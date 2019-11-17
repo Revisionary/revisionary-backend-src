@@ -1474,13 +1474,13 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 	// The coordinates by the element
-	// elementPinX = parseFloat(pinX - elementLeft).toFixed(5);
-	// elementPinY = parseFloat(pinY - elementTop).toFixed(5);
+	elementPinX = parseFloat(pinX - elementLeft).toFixed(5);
+	elementPinY = parseFloat(pinY - elementTop).toFixed(5);
 
 
-	// Put the pin at the top-left of the element
-	elementPinX = -10;
-	elementPinY = -10;
+	// // Put the pin at the top-left of the element
+	// elementPinX = -10;
+	// elementPinY = -10;
 
 
 	// Detect exceeds
@@ -1507,12 +1507,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	if (cursorType == "live") {
 
 		modificationType = selectedElement.prop('tagName').toUpperCase() == 'IMG' ? "image" : "html";
-		if (modificationType == "html") {
-
-			if (selectedElement.css() != "none") 
-			
-			selectedElement.attr('contenteditable', "true");
-		}
+		if (modificationType == "html") selectedElement.attr('contenteditable', "true");
 
 		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.prop('src');
 
