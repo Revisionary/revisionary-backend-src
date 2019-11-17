@@ -6411,27 +6411,32 @@ pin {
     box-shadow: 0px 0px 18px 1px #FFFFFF; }
   #pin-window[data-pin-type="live"][data-pin-private="1"] {
     box-shadow: 0px 0px 18px 1px #FC0FB3; }
-  #pin-window[data-pin-modification-type="html"] > .content-editor,
-  #pin-window[data-pin-modification-type="html"] > .visual-editor {
+  #pin-window[data-pin-type="live"][data-pin-modification-type="html"] > .content-editor,
+  #pin-window[data-pin-type="live"][data-pin-modification-type="html"] > .visual-editor {
     display: block; }
-  #pin-window[data-pin-modification-type="image"] > .image-editor,
-  #pin-window[data-pin-modification-type="image"] > .visual-editor {
+  #pin-window[data-pin-type="live"][data-pin-modification-type="image"] > .image-editor,
+  #pin-window[data-pin-type="live"][data-pin-modification-type="image"] > .visual-editor {
     display: block; }
+  #pin-window[data-pin-type="live"][data-pin-private="0"] .type-convertor > .convert-to-live,
+  #pin-window[data-pin-type="live"][data-pin-private="0"] .type-convertor > .convert-to-private {
+    display: none !important; }
+  #pin-window[data-pin-type="standard"] > .visual-editor {
+    display: block; }
+  #pin-window[data-pin-type="standard"] .type-convertor > .convert-to-live,
+  #pin-window[data-pin-type="standard"] .type-convertor > .convert-to-private-live {
+    display: none !important; }
+  #pin-window[data-pin-type="standard"][data-pin-private="0"] .type-convertor > .convert-to-standard,
+  #pin-window[data-pin-type="standard"][data-pin-private="0"] .type-convertor > .convert-to-live {
+    display: none !important; }
+  #pin-window[data-pin-type="comment"] .pin-label {
+    cursor: default; }
+  #pin-window[data-pin-type="comment"] .pin-label + i,
+  #pin-window[data-pin-type="comment"] .type-convertor {
+    display: none; }
   #pin-window[data-pin-type="comment"] > .comments .section-title {
     display: none; }
   #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private,
   #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private-live {
-    display: none !important; }
-  #pin-window[data-pin-type="live"][data-pin-private="0"] .type-convertor > .convert-to-live,
-  #pin-window[data-pin-type="live"][data-pin-private="0"] .type-convertor > .convert-to-private {
-    display: none !important; }
-  #pin-window[data-pin-type="standard"] .type-convertor > .convert-to-live,
-  #pin-window[data-pin-type="standard"] .type-convertor > .convert-to-private-live,
-  #pin-window[data-pin-type="standard"] > .content-editor,
-  #pin-window[data-pin-type="standard"] > .image-editor {
-    display: none !important; }
-  #pin-window[data-pin-type="standard"][data-pin-private="0"] .type-convertor > .convert-to-standard,
-  #pin-window[data-pin-type="standard"][data-pin-private="0"] .type-convertor > .convert-to-live {
     display: none !important; }
   #pin-window[data-pin-complete="1"] .complete-pin {
     display: none !important; }

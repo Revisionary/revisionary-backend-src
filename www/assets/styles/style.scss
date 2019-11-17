@@ -2248,25 +2248,69 @@ pin {
 	}
 
 
-	&[data-pin-modification-type="html"] {
+	&[data-pin-type="live"] {
 
-		& > .content-editor,
-		& > .visual-editor {
-			display: block;
+		&[data-pin-modification-type="html"] {
+
+			& > .content-editor,
+			& > .visual-editor {
+				display: block;
+			}
+
+		}
+
+		&[data-pin-modification-type="image"] {
+
+			& > .image-editor,
+			& > .visual-editor {
+				display: block;
+			}
+
+		}
+
+		&[data-pin-private="0"] {
+
+			& .type-convertor > .convert-to-live,
+			& .type-convertor > .convert-to-private {
+				display: none !important;
+			}
+
 		}
 
 	}
 
-	&[data-pin-modification-type="image"] {
+	&[data-pin-type="standard"] {
 
-		& > .image-editor,
 		& > .visual-editor {
 			display: block;
+		}
+
+		& .type-convertor > .convert-to-live,
+		& .type-convertor > .convert-to-private-live {
+			display: none !important;
+		}
+
+		&[data-pin-private="0"] {
+
+			& .type-convertor > .convert-to-standard,
+			& .type-convertor > .convert-to-live {
+				display: none !important;
+			}
+
 		}
 
 	}
 
 	&[data-pin-type="comment"] {
+
+		.pin-label {
+			cursor: default;
+		}
+
+		.pin-label + i,
+		.type-convertor {
+			display: none;
+		}
 
 		& > .comments .section-title {
 			display: none;
@@ -2278,35 +2322,6 @@ pin {
 
 		& .type-convertor > .convert-to-private,
 		& .type-convertor > .convert-to-private-live {
-			display: none !important;
-		}
-
-	}
-
-	&[data-pin-type="live"][data-pin-private="0"] {
-
-		& .type-convertor > .convert-to-live,
-		& .type-convertor > .convert-to-private {
-			display: none !important;
-		}
-
-	}
-
-	&[data-pin-type="standard"] {
-
-		& .type-convertor > .convert-to-live,
-		& .type-convertor > .convert-to-private-live,
-		& > .content-editor,
-		& > .image-editor {
-			display: none !important;
-		}
-
-	}
-
-	&[data-pin-type="standard"][data-pin-private="0"] {
-
-		& .type-convertor > .convert-to-standard,
-		& .type-convertor > .convert-to-live {
 			display: none !important;
 		}
 

@@ -2604,6 +2604,8 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		var theIndex = thePin.attr('data-revisionary-index');
 		var theElement = iframeElement(theIndex);
 		var thePinText = thePinPrivate == '1' ? 'PRIVATE VIEW' : 'ONLY VIEW';
+		if (thePinType == "live") thePinText = thePinPrivate == '1' ? 'PRIVATE LIVE' : 'LIVE EDIT';
+		if (thePinType == "comment") thePinText = thePinPrivate == '1' ? 'PRIVATE COMMENT' : 'COMMENT';
 		var thePinModificationType = thePin.attr('data-pin-modification-type');
 		var thePinModified = thePin.attr('data-revisionary-content-edited');
 		var thePinShowingContentChanges = thePin.attr('data-revisionary-showing-content-changes');
@@ -2789,11 +2791,6 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 		// If on 'Live' mode
 		if (thePinType == 'live') {
-
-
-			// Update the pin type section
-			thePinText = thePinPrivate == '1' ? 'PRIVATE LIVE' : 'LIVE EDIT';
-			pinWindow().find('.pin-label').text(thePinText);
 
 
 			// TEXT
