@@ -2597,15 +2597,14 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 	scrollToPin = assignDefault(scrollToPin, false);
 
 
-	console.log('OPEN WINDOW PIN #' + pin_ID, firstTime);
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+
+	console.log('OPEN PIN WINDOW #' + pin_ID, firstTime);
 
 
 	try {
-
-
-		var pin = getPin(pin_ID);
-		if (!pin) return false;
-		//var pinIndex = Pins.indexOf(pin);
 
 
 		var thePin = pinElement('[data-pin-id="'+pin_ID+'"]');
@@ -2634,10 +2633,6 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 		// Close the previous window
 		if (pinWindowOpen) closePinWindow();
-
-
-		// Disable the iframe
-		//$('#the-page').css('pointer-events', 'none');
 
 
 		// Disable the inspector
@@ -2777,7 +2772,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		});
 
 
-		// Temporarily activate the registered changes
+		// Temporarily deactivate the registered changes
 		if (!isShowingCSS && pin.pin_css != null) disableCSS(pin_ID);
 
 		
@@ -2806,6 +2801,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 			// TEXT
 			if ( thePinModificationType == "html" ) {
+
 
 				var originalContent = "";
 				var changedContent = "";
@@ -2862,6 +2858,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			// IMAGE
 			if ( thePinModificationType == "image" && theElement.prop('tagName').toUpperCase() == "IMG" ) {
 
+
 				var originalImageSrc = "";
 				var changedImageSrc = "";
 
@@ -2873,6 +2870,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 					// Default image preview
 					changedImageSrc = originalImageSrc;
+
 				}
 
 
@@ -2899,10 +2897,11 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 
-		}
+		} // Live Pin
 
 
-		// Live pin error check
+
+		// Live pin error check !!! Add more
 		if (
 			(thePinModificationType == "image" && theElement.prop('tagName').toUpperCase() != "IMG") ||
 			(thePinModificationType == "html" && theElement.prop('tagName').toUpperCase() == "IMG")
@@ -2927,7 +2926,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		relocatePinWindow(pin_ID);
 
 
-		// Reveal it
+		// Show pin window
 		pinWindow().addClass('active');
 		pinWindowOpen = true;
 		window.location.hash = "#" + pin_ID;
@@ -2939,14 +2938,12 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 
-		// COMMENTS
-		// If new pin added
-		if (firstTime)
-			$('.pin-comments').html('<div class="xl-center">Add your comment:</div>'); // Write a message
+		// COMMENTS:
+		// If new pin added, write a message
+		if (firstTime) $('.pin-comments').html('<div class="xl-center">Add your comment:</div>');
 
-		// If this is an already registered pin
-		else
-			getComments(pin_ID); // Bring the comments
+		// If this is an already registered pin, bring the comments
+		else getComments(pin_ID);
 
 
 		// Clean the existing comment in the input
@@ -2954,7 +2951,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 
-		// Show the pin
+		// Reveal the pin
 		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
 
 
