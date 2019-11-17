@@ -60,7 +60,7 @@
 
 </div>
 
-<div class="alerts">
+<div class="alerts hidden">
 
 	<div id="no-pin" class="alert error autoclose hidden">
 		Pin does not exist anymore.

@@ -4191,6 +4191,11 @@ body.dragging, body.dragging * {
 	left: 50%;
 	transform: translateX(-50%);
 
+	&.hidden {
+		opacity: 0;
+		pointer-events: none;
+	}
+
 	& > .alert {
 		background-color: $color;
 		color: white;

@@ -7562,6 +7562,9 @@ body.dragging, body.dragging * {
   top: 5px;
   left: 50%;
   transform: translateX(-50%); }
+  .alerts.hidden {
+    opacity: 0;
+    pointer-events: none; }
   .alerts > .alert {
     background-color: black;
     color: white;

@@ -364,7 +364,6 @@ function runTheInspector() {
 				// EDITABLE CHECKS:
 				hoveringText = false;
 		        focused_element_editable = false;
-		        focused_element_html_editable = false;
 
 
 				// Directly editable:
@@ -378,7 +377,6 @@ function runTheInspector() {
 
 					hoveringText = true;
 					focused_element_editable = true; // Obviously Text Editable
-					focused_element_html_editable = true;
 					//console.log( '* Obviously Text Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 					//console.log( 'Focused Element Text: ' + focused_element_text );
 
@@ -399,10 +397,11 @@ function runTheInspector() {
 
 
 				// // Background Image editable:
-				// // Check element image editable: <img src="#">...
+				// // Check element background image editable
 		        // if (
 				// 	focused_element.prop('tagName').toUpperCase() != "IMG" &&
-				// 	focused_element.css('background-image') != "none"
+				// 	focused_element.css('background-image').substring(0, 4) == "url(" &&
+				// 	focused_element.css('background-image').match(/url\(/g).length === 1 // Only one url()
 				// ) {
 
 				// 	//hoveringImage = true;
@@ -410,7 +409,8 @@ function runTheInspector() {
 				// 	//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 				// 	//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
 
-				// 	//console.log( focused_element.css('background-image').replace(/^url\(['"](.+)['"]\)/, '$1') );
+				// 	//console.log( "BGIMAGE: ", focused_element.css('background-image').replace(/^url\(['"](.+)['"]\)/, '$1') );
+				// 	console.log( "BGIMAGE: ", focused_element.css('background-image') );
 
 				// }
 
@@ -437,7 +437,6 @@ function runTheInspector() {
 
 						hoveringText = true;
 						focused_element_editable = true;
-						focused_element_html_editable = true;
 						//console.log( '* Text Editable (No Grand Child): ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 						//console.log( 'Focused Element Text: ' + focused_element_text );
 
@@ -477,7 +476,6 @@ function runTheInspector() {
 
 						hoveringText = true;
 						focused_element_editable = true;
-						focused_element_html_editable = true;
 						//console.log( '* Text Editable (One Grand Child): ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 						//console.log( 'Focused Element Text: ' + focused_element_text );
 
@@ -516,7 +514,6 @@ function runTheInspector() {
 				if (focused_element_editable && !focused_element_has_index) {
 
 					focused_element_editable = false;
-					focused_element_html_editable = false;
 					//console.log( '* Element editable but NO INDEX: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 
 				}
@@ -526,7 +523,6 @@ function runTheInspector() {
 				if (focused_element_has_edited_child > 1 ) {
 
 					focused_element_editable = false;
-					focused_element_html_editable = false;
 					//console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
 
 				}
@@ -536,12 +532,12 @@ function runTheInspector() {
 
 				// // See what am I focusing
 				// console.log("###############################");
-				// console.log("CURRENT FOCUSED: ", focused_element.prop('tagName').toUpperCase(), focused_element_index );
-				// console.log("CURRENT FOCUSED EDITABLE: ", focused_element_editable, focused_element_html_editable );
+				// console.log(focused_element.prop('tagName').toUpperCase(), 'Index: ' + focused_element_index );
+				// if (focused_element_editable) console.log("ELEMENT EDITABLE");
 				// //console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
-				// console.log("HOVERING ON A TEXT?: ", hoveringText );
-				// console.log("HOVERING ON AN IMAGE?: ", hoveringImage );
-				// console.log("HOVERING ON A BUTTON?: ", hoveringButton );
+				// if (hoveringText) console.log("HOVERING ON A TEXT");
+				// if (hoveringImage) console.log("HOVERING ON AN IMAGE");
+				// if (hoveringButton) console.log("HOVERING ON A BUTTON");
 				// console.log("###############################");
 
 
@@ -1512,7 +1508,12 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	if (cursorType == "live") {
 
 		modificationType = selectedElement.prop('tagName').toUpperCase() == 'IMG' ? "image" : "html";
-		if (modificationType == "html") selectedElement.attr('contenteditable', "true");
+		if (modificationType == "html") {
+
+			if (selectedElement.css() != "none") 
+			
+			selectedElement.attr('contenteditable', "true");
+		}
 
 		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.prop('src');
 

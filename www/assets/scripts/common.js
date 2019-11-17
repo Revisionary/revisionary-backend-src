@@ -1542,7 +1542,7 @@ function stopNotificationAutoRefresh() {
 // Show an alert
 function showAlert(alert_ID) {
 
-	var alert = $('.alerts > #' + alert_ID);
+	var alert = $('.alerts, .alerts > #' + alert_ID);
 	alert.removeClass('hidden');
 
 	if ( alert.hasClass('autoclose') ) {
