@@ -370,10 +370,10 @@ function runTheInspector() {
 				// Directly editable:
 				// Check element text editable: <p>Lorem ipsum dolor sit amet...
 		        if (
-			        easy_html_elements.indexOf( focused_element.prop('tagName').toUpperCase() ) != -1 && // In easy HTML elements?
-		        	focused_element_text.trim() != "" && // If not empty
-		        	focused_element.html() != "&nbsp;"  && // If really not empty
-		        	focused_element_children.length == 0 // If doesn't have any child
+			        easy_html_elements.includes( focused_element.prop('tagName').toUpperCase() ) && // In easy HTML elements?
+		        	focused_element_text.trim() != "" && // Has to have text
+		        	focused_element.html() != "&nbsp;"  && // Text shouldn't be blank
+		        	focused_element_children.length == 0 // No child element
 		        ) {
 
 					hoveringText = true;
@@ -398,12 +398,29 @@ function runTheInspector() {
 				}
 
 
+				// // Background Image editable:
+				// // Check element image editable: <img src="#">...
+		        // if (
+				// 	focused_element.prop('tagName').toUpperCase() != "IMG" &&
+				// 	focused_element.css('background-image') != "none"
+				// ) {
+
+				// 	//hoveringImage = true;
+				// 	//focused_element_editable = true; // Obviously Image Editable
+				// 	//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+				// 	//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
+
+				// 	//console.log( focused_element.css('background-image').replace(/^url\(['"](.+)['"]\)/, '$1') );
+
+				// }
+
+
 				// Check if element has children but doesn't have grand children: <p>Lorem ipsum <a href="#">dolor</a> sit amet...
 				if (
 					focused_element_children.length > 0 && // Has child
 					focused_element_grand_children.length == 0 && // No grand child
-					focused_element_text.trim() != "" && // And, also have to have text
-					focused_element.html() != "&nbsp;" // And, also have to have text
+					focused_element_text.trim() != "" && // Has to have text
+					focused_element.html() != "&nbsp;" // Text shouldn't be blank
 				) {
 
 
@@ -412,7 +429,7 @@ function runTheInspector() {
 					focused_element_children.each(function() {
 
 						// In easy HTML elements?
-						if ( easy_with_br.indexOf( $(this).prop('tagName').toUpperCase() ) != -1 ) hardToEdit = false;
+						if ( easy_with_br.includes( $(this).prop('tagName').toUpperCase() ) ) hardToEdit = false;
 
 					});
 
@@ -429,7 +446,7 @@ function runTheInspector() {
 				}
 
 
-				// Chech if element has only one grand child and it doesn't have any child: <p>Lorem ipsum <a href="#"><strong>dolor</strong></a> sit amet...
+				// Chech if element has only one grand child and it doesn't have any child: <p>Lorem ipsum <a href="#"><strong>dolor</strong></a> sit amet... !!!
 				if (
 					focused_element_children.length > 0 && // Has child
 					focused_element_grand_children.length > 0 && // Has grand child
@@ -447,9 +464,9 @@ function runTheInspector() {
 
 
 						if (
-							easy_with_br.indexOf( child.prop('tagName').toUpperCase() ) != -1 && // Child is easy to edit
+							easy_with_br.includes( child.prop('tagName').toUpperCase() ) && // Child is easy to edit
 							grandChildren.length == 1 && // Grand child has no more than 1 child !!! ???
-							easy_with_br.indexOf( grandChildren.first().prop('tagName').toUpperCase() ) != -1 // And that guy is easy to edit as well
+							easy_with_br.includes( grandChildren.first().prop('tagName').toUpperCase() ) // And that guy is easy to edit as well
 						)
 
 							easyToEdit = true;
@@ -1464,6 +1481,9 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	// The coordinates by the element
 	// elementPinX = parseFloat(pinX - elementLeft).toFixed(5);
 	// elementPinY = parseFloat(pinY - elementTop).toFixed(5);
+
+
+	// Put the pin at the top-left of the element
 	elementPinX = -10;
 	elementPinY = -10;
 
@@ -1473,6 +1493,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	if (elementTop < -elementPinY ) elementPinY = pinSize / 2;
 
 
+	// Debug
 	console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
 	console.log('PinX: ' + pinX, ' PinY: ' + pinY);
 	console.log('TO REGISTER', elementPinX, elementPinY, selectedElement.prop('tagName'));
@@ -1486,17 +1507,14 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	var modificationType = null;
 	var modificationOriginal = null;
 
+
+	// If pin mode is "Live"
 	if (cursorType == "live") {
-
-
-		// Add edited status to the DOM
-		selectedElement.attr('data-revisionary-content-edited', "0");
 
 		modificationType = selectedElement.prop('tagName').toUpperCase() == 'IMG' ? "image" : "html";
 		if (modificationType == "html") selectedElement.attr('contenteditable', "true");
 
 		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.prop('src');
-
 
 	}
 
@@ -1563,6 +1581,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 		console.log(result.data);
+
 
 		var realPinID = result.data.real_pin_ID; //console.log('REAL PIN ID: '+realPinID);
 		var newPin = pinElement('[data-pin-id="'+ temporaryPinID +'"]');
