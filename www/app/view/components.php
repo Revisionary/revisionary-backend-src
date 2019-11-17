@@ -464,28 +464,28 @@
 		<div class="wrap xl-gutter-24">
 			<div class="col xl-center">
 
-				Standard Complete Pin <br/><br/>
-				<pin class="small" data-pin-type="standard" data-pin-complete="1">1</pin> <br/><br/>
-				<pin class="mid" data-pin-type="standard" data-pin-complete="1">1</pin> <br/><br/>
-				<pin class="big" data-pin-type="standard" data-pin-complete="1">1</pin> <br/><br/><br/>
+				Style Complete Pin <br/><br/>
+				<pin class="small" data-pin-type="style" data-pin-complete="1">1</pin> <br/><br/>
+				<pin class="mid" data-pin-type="style" data-pin-complete="1">1</pin> <br/><br/>
+				<pin class="big" data-pin-type="style" data-pin-complete="1">1</pin> <br/><br/><br/>
 
-				Standard Pin <br/><br/>
-				<pin class="big" data-pin-type="standard">1</pin> <br/><br/>
-				<pin class="mid" data-pin-type="standard">1</pin> <br/><br/>
-				<pin class="small" data-pin-type="standard">1</pin>
+				Style Pin <br/><br/>
+				<pin class="big" data-pin-type="style">1</pin> <br/><br/>
+				<pin class="mid" data-pin-type="style">1</pin> <br/><br/>
+				<pin class="small" data-pin-type="style">1</pin>
 
 			</div>
 			<div class="col xl-center">
 
-				Standard Private Complete Pin <br/><br/>
-				<pin class="small" data-pin-type="standard" data-pin-private="1" data-pin-complete="1">2</pin> <br/><br/>
-				<pin class="mid" data-pin-type="standard" data-pin-private="1" data-pin-complete="1">2</pin> <br/><br/>
-				<pin class="big" data-pin-type="standard" data-pin-private="1" data-pin-complete="1">2</pin> <br/><br/><br/>
+				Style Private Complete Pin <br/><br/>
+				<pin class="small" data-pin-type="style" data-pin-private="1" data-pin-complete="1">2</pin> <br/><br/>
+				<pin class="mid" data-pin-type="style" data-pin-private="1" data-pin-complete="1">2</pin> <br/><br/>
+				<pin class="big" data-pin-type="style" data-pin-private="1" data-pin-complete="1">2</pin> <br/><br/><br/>
 
-				Standard Private Pin <br/><br/>
-				<pin class="big" data-pin-type="standard" data-pin-private="1">2</pin> <br/><br/>
-				<pin class="mid" data-pin-type="standard" data-pin-private="1">2</pin> <br/><br/>
-				<pin class="small" data-pin-type="standard" data-pin-private="1">2</pin>
+				Style Private Pin <br/><br/>
+				<pin class="big" data-pin-type="style" data-pin-private="1">2</pin> <br/><br/>
+				<pin class="mid" data-pin-type="style" data-pin-private="1">2</pin> <br/><br/>
+				<pin class="small" data-pin-type="style" data-pin-private="1">2</pin>
 
 			</div>
 			<div class="col xl-center">
@@ -528,15 +528,15 @@
 			<div class="col xl-center">
 
 				Mouse Cursor <br/><br/>
-				<pin class="mouse-cursor big active" data-pin-type="standard" data-pin-private="0" style="position: static;">1</pin> <br/><br/>
-				<pin class="mouse-cursor active" data-pin-type="standard" data-pin-private="0" style="position: static;">1</pin>
+				<pin class="mouse-cursor big active" data-pin-type="style" data-pin-private="0" style="position: static;">1</pin> <br/><br/>
+				<pin class="mouse-cursor active" data-pin-type="style" data-pin-private="0" style="position: static;">1</pin>
 
 			</div>
 			<div class="col xl-center">
 
 				Mouse Cursor Existing <br/><br/>
-				<pin class="mouse-cursor big active existing" data-pin-type="standard" data-pin-private="0" style="position: static;">2</pin> <br/><br/>
-				<pin class="mouse-cursor active existing" data-pin-type="standard" data-pin-private="0" style="position: static;">2</pin>
+				<pin class="mouse-cursor big active existing" data-pin-type="style" data-pin-private="0" style="position: static;">2</pin> <br/><br/>
+				<pin class="mouse-cursor active existing" data-pin-type="style" data-pin-private="0" style="position: static;">2</pin>
 
 			</div>
 		</div>

@@ -10,7 +10,7 @@ $status = "initiated";
 // Check the values
 if (
 	!is_numeric(request('pin_ID')) ||
-	(request('pin_type') != "standard" && request('pin_type') != "live" ) ||
+	(request('pin_type') != "style" && request('pin_type') != "live" ) ||
 	(request('pin_private') != '0' && request('pin_private') != '1' )
 )
 	return;

@@ -47,7 +47,7 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 				l.user_level_max_project,
 				l.user_level_max_page,
 				l.user_level_max_live_pin,
-				l.user_level_max_standard_pin,
+				l.user_level_max_style_pin,
 				l.user_level_max_client,
 				l.user_level_max_load,
 				l.user_level_price,
@@ -97,7 +97,7 @@ function getUserInfo($user_ID = false) {
 			'userLevelMaxProject' => "",
 			'userLevelMaxPage' => "",
 			'userLevelMaxLivePin' => "",
-			'userLevelMaxStandardPin' => "",
+			'userLevelMaxStylePin' => "",
 			'userLevelMaxLoad' => ""
 		);
 
@@ -142,7 +142,7 @@ function getUserInfo($user_ID = false) {
 		'userLevelMaxProject' => $userInfo['user_level_max_project'],
 		'userLevelMaxPage' => $userInfo['user_level_max_page'],
 		'userLevelMaxLivePin' => $userInfo['user_level_max_live_pin'],
-		'userLevelMaxStandardPin' => $userInfo['user_level_max_standard_pin'],
+		'userLevelMaxStylePin' => $userInfo['user_level_max_style_pin'],
 		'userLevelMaxLoad' => $userInfo['user_level_max_load']
 	);
 	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';

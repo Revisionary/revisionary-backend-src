@@ -356,7 +356,7 @@ if (
 $pin_mode = "live";
 if (
 	get('pinmode') == "live" ||
-	get('pinmode') == "standard" ||
+	get('pinmode') == "style" ||
 	get('pinmode') == "browse"
 ) $pin_mode = get('pinmode');
 

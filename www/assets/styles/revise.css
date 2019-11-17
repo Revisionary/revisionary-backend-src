@@ -146,11 +146,11 @@ html, body {
     text-transform: uppercase; }
   #top-bar .pin-mode [data-pin-type="live"][data-pin-private="0"] > a:not(.pin-type-selector) > i {
     color: #149440; }
-  #top-bar .pin-mode [data-pin-type="standard"][data-pin-private="0"] > a:not(.pin-type-selector) > i {
+  #top-bar .pin-mode [data-pin-type="style"][data-pin-private="0"] > a:not(.pin-type-selector) > i {
     color: #1DBCC9; }
   #top-bar .pin-mode [data-pin-type="live"][data-pin-private="1"] > a:not(.pin-type-selector) > i {
     color: #FC0FB3; }
-  #top-bar .pin-mode [data-pin-type="standard"][data-pin-private="1"] > a:not(.pin-type-selector) > i {
+  #top-bar .pin-mode [data-pin-type="style"][data-pin-private="1"] > a:not(.pin-type-selector) > i {
     color: #FC0F42; }
   #top-bar .pin-mode [data-pin-type="comment"] > a:not(.pin-type-selector) > i {
     display: none !important; }

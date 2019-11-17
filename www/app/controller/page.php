@@ -60,7 +60,7 @@ if ( !isset($lastPhase) ) {
 
 
 $url_to_redirect = site_url('phase/'.$lastPhase['phase_ID']);
-if ( get('pinmode') == "standard" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
+if ( get('pinmode') == "style" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
 if ( get('privatepin') == "1" ) $url_to_redirect = queryArg('privatepin=1', $url_to_redirect);
 if ( get('filter') == "incomplete" || get('filter') == "complete" ) $url_to_redirect = queryArg('filter='.get('filter'), $url_to_redirect);
 if ( get('new') == "page" ) $url_to_redirect = queryArg('new=page', $url_to_redirect);

@@ -1,10 +1,10 @@
 		<div class="wrap xl-gutter-24">
 			<div class="col xl-center">
 
-				Standard View Pin <br/><br/>
+				Style View Pin <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="252" data-pin-type="standard" data-pin-private="0" data-pin-complete="0" data-pin-x="104.00000" data-pin-y="43.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="252" data-pin-type="style" data-pin-private="0" data-pin-complete="0" data-pin-x="104.00000" data-pin-y="43.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -15,7 +15,7 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="standard" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="style" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">ONLY VIEW</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
@@ -27,9 +27,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -43,7 +43,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -452,11 +452,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -471,10 +471,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Standard View Pin Private <br/><br/>
+				Style View Pin Private <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="253" data-pin-type="standard" data-pin-private="1" data-pin-complete="0" data-pin-x="74.00000" data-pin-y="88.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="253" data-pin-type="style" data-pin-private="1" data-pin-complete="0" data-pin-x="74.00000" data-pin-y="88.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -485,7 +485,7 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="standard" data-pin-private="1"></pin>
+						<pin class="chosen-pin" data-pin-type="style" data-pin-private="1"></pin>
 						<a href="#"><span class="pin-label">Private View</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
@@ -497,9 +497,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -513,7 +513,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -922,11 +922,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -941,10 +941,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Standard View Pin with Comments <br/><br/>
+				Style View Pin with Comments <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="253" data-pin-type="standard" data-pin-private="0" data-pin-complete="0" data-pin-x="74.00000" data-pin-y="88.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="comment">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="253" data-pin-type="style" data-pin-private="0" data-pin-complete="0" data-pin-x="74.00000" data-pin-y="88.40625" data-pin-modification-type="null" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="57" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="comment">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -955,7 +955,7 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="standard" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="style" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">ONLY VIEW</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
@@ -967,9 +967,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -983,7 +983,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -1392,11 +1392,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -1448,9 +1448,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -1464,7 +1464,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -1873,11 +1873,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -1917,9 +1917,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -1933,7 +1933,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -2342,11 +2342,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -2386,9 +2386,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -2402,7 +2402,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -2811,11 +2811,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -2855,9 +2855,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -2871,7 +2871,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -3280,11 +3280,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -3324,9 +3324,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -3340,7 +3340,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -3749,11 +3749,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -3793,9 +3793,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -3809,7 +3809,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -4218,11 +4218,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -4273,9 +4273,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -4289,7 +4289,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -4698,11 +4698,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -4742,9 +4742,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -4758,7 +4758,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -5167,11 +5167,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -5211,9 +5211,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -5227,7 +5227,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -5636,11 +5636,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -5680,9 +5680,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -5696,7 +5696,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -6105,11 +6105,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>
@@ -6149,9 +6149,9 @@
 								</a>
 							</li>
 
-							<li class="convert-to-standard">
+							<li class="convert-to-style">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 									<span>Only View</span>
 								</a>
 							</li>
@@ -6165,7 +6165,7 @@
 
 							<li class="convert-to-private">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+									<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 									<span>Private View</span>
 								</a>
 							</li>
@@ -6574,11 +6574,11 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
-						<pin data-pin-type="standard" data-pin-private="0" data-pin-complete="0"></pin>
+						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="0"></pin>
 						INCOMPLETE
 					</a>
 				</div>

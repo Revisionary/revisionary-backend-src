@@ -205,7 +205,7 @@
 					if ( isset($blocks) && count($blocks) > 0 ) {
 						foreach ($blocks as $block) {
 							
-							$livePinCount = $standardPinCount = $privatePinCount = $completePinCount = 0;
+							$livePinCount = $stylePinCount = $privatePinCount = $completePinCount = 0;
 							$blockPinStatus = "no-tasks";
 
 
@@ -259,14 +259,14 @@
 										return $pin['project_ID'] == $project_ID && $pin['pin_type'] == "live" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
 								
 									}));
-									$standardPinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
+									$stylePinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
 								
-										return $pin['project_ID'] == $project_ID && $pin['pin_type'] == "standard" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
+										return $pin['project_ID'] == $project_ID && $pin['pin_type'] == "style" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
 								
 									}));
 									$privatePinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
 								
-										return $pin['project_ID'] == $project_ID && ($pin['pin_type'] == "live" || $pin['pin_type'] == "standard") && $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID() && $pin['pin_complete'] == "0";
+										return $pin['project_ID'] == $project_ID && ($pin['pin_type'] == "live" || $pin['pin_type'] == "style") && $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID() && $pin['pin_complete'] == "0";
 								
 									}));
 									$completePinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
@@ -333,14 +333,14 @@
 										return $pin['page_ID'] == $page_ID && $pin['pin_type'] == "live" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
 								
 									}));
-									$standardPinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
+									$stylePinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
 								
-										return $pin['page_ID'] == $page_ID && $pin['pin_type'] == "standard" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
+										return $pin['page_ID'] == $page_ID && $pin['pin_type'] == "style" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
 								
 									}));
 									$privatePinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
 								
-										return $pin['page_ID'] == $page_ID && ($pin['pin_type'] == "live" || $pin['pin_type'] == "standard") && $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID() && $pin['pin_complete'] == "0";
+										return $pin['page_ID'] == $page_ID && ($pin['pin_type'] == "live" || $pin['pin_type'] == "style") && $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID() && $pin['pin_complete'] == "0";
 								
 									}));
 									$completePinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
@@ -356,7 +356,7 @@
 
 
 							// Get block status
-							$inCompletePinCount = $livePinCount + $standardPinCount + $privatePinCount;
+							$inCompletePinCount = $livePinCount + $stylePinCount + $privatePinCount;
 							if ($inCompletePinCount)
 								$blockPinStatus = "has-tasks";
 
@@ -492,10 +492,10 @@
 											<div class="pin-title">Live</div>
 										</pin>
 										<?php
-										} if ($standardPinCount > 0) {
+										} if ($stylePinCount > 0) {
 										?>
-										<pin data-pin-type="standard"><?=$standardPinCount?>
-											<div class="pin-title">Standard</div>
+										<pin data-pin-type="style"><?=$stylePinCount?>
+											<div class="pin-title">Style</div>
 										</pin>
 										<?php
 										} if ($privatePinCount > 0) {

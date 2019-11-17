@@ -268,7 +268,7 @@ html, body {
 
 		}
 
-		[data-pin-type="standard"][data-pin-private="0"] {
+		[data-pin-type="style"][data-pin-private="0"] {
 
 			& > a:not(.pin-type-selector) > i {
 				color: $color-style;
@@ -284,7 +284,7 @@ html, body {
 
 		}
 
-		[data-pin-type="standard"][data-pin-private="1"] {
+		[data-pin-type="style"][data-pin-private="1"] {
 
 			& > a:not(.pin-type-selector) > i {
 				color: $color-private;

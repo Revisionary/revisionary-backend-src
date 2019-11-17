@@ -100,7 +100,7 @@ class Pin {
     // Add a new pin
     public function addNew(
 	    int $pin_phase_ID,
-    	string $pin_type = 'standard',
+    	string $pin_type = 'style',
     	bool $pin_private = false,
     	float $pin_x = 50,
     	float $pin_y = 50,
@@ -112,7 +112,7 @@ class Pin {
 
 
     	// Security check !!!
-		if ($pin_type != "live" && $pin_type != "standard" && $pin_type != "comment") return false;
+		if ($pin_type != "live" && $pin_type != "style" && $pin_type != "comment") return false;
 
 
 
@@ -446,8 +446,8 @@ class Pin {
 			'pin_private' => $pin_private,
 		);
 
-		// If the new type is standard, reset the modifications
-		if ($pin_type == 'standard') {
+		// If the new type is style, reset the modifications
+		if ($pin_type == 'style') {
 			$pin_data['pin_modification'] = null;
 			$pin_data['pin_modification_type'] = null;
 		}

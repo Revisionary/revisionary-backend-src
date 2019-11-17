@@ -86,7 +86,7 @@ var cursorWasActive;
 // PINS
 var pinModes = {
 	'live' 			: 'Content and View Changes',
-	'standard' 		: 'View Changes',
+	'style' 		: 'View Changes',
 	'comment' 		: 'Comment',
 	'private-live'	: 'Private Content and View Changes',
 	'private'		: 'Private View Changes',
@@ -99,7 +99,7 @@ var pinTypeSelectorOpen;
 
 // Detect initial cursor mode
 var cursor;
-var currentCursorType = "standard";
+var currentCursorType = "style";
 
 var currentPinType = "live";
 var currentPinPrivate = 0;

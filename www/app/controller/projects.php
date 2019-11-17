@@ -275,7 +275,7 @@ $allMyPins = $User->getPins();
 
 
 // Count all the pin types
-$totalLivePinCount = $totalStandardPinCount = $totalPrivatePinCount = $totalCompletePinCount = 0;
+$totalLivePinCount = $totalStylePinCount = $totalPrivatePinCount = $totalCompletePinCount = 0;
 
 if ( is_array($allMyPins) ) {
 
@@ -299,9 +299,9 @@ if ( is_array($allMyPins) ) {
 
 	}));
 
-	$totalStandardPinCount = count(array_filter($inCompletePins, function($pin) {
+	$totalStylePinCount = count(array_filter($inCompletePins, function($pin) {
 
-		return $pin['pin_type'] == "standard" && $pin['pin_private'] == "0";
+		return $pin['pin_type'] == "style" && $pin['pin_private'] == "0";
 
 	}));
 
@@ -340,7 +340,7 @@ if ( is_array($allMyPins) ) {
 
 }
 
-$inCompletePinsCount = $totalLivePinCount + $totalStandardPinCount + $totalPrivatePinCount;
+$inCompletePinsCount = $totalLivePinCount + $totalStylePinCount + $totalPrivatePinCount;
 $completePinsCount = $totalCompletePinCount;
 
 

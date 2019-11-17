@@ -541,7 +541,7 @@ function runTheInspector() {
 
 				} // Live Pin
 
-				else if (currentPinType == "standard") {
+				else if (currentPinType == "style") {
 
 
 					// Clean Other Outlines
@@ -551,7 +551,7 @@ function runTheInspector() {
 					$('#pins > pin').css('opacity', '');
 				
 
-				} // Standard Pin
+				} // Style Pin
 					
 				else if (currentPinType == "comment") {
 
@@ -601,7 +601,7 @@ function runTheInspector() {
 				} else {
 
 
-					// UPDATE CURSOR ACCORDING TO PIN MODES (currentPinType: live | standard | browse)
+					// UPDATE CURSOR ACCORDING TO PIN MODES (currentPinType: live | style | browse)
 
 					// Re-update the cursor number
 					currentPinNumber = $('#pins > pin').length + 1;
@@ -612,15 +612,15 @@ function runTheInspector() {
 					if (currentPinType == "live") {
 
 
-						switchCursorType(focused_element_editable ? 'live' : 'standard');
-						if (focused_element_has_index) outline(focused_element, currentPinPrivate, focused_element_editable ? 'live' : 'standard');
+						switchCursorType(focused_element_editable ? 'live' : 'style');
+						if (focused_element_has_index) outline(focused_element, currentPinPrivate, focused_element_editable ? 'live' : 'style');
 
 
-					} else if (currentPinType == "standard") {
+					} else if (currentPinType == "style") {
 
 
-						switchCursorType('standard');
-						if (focused_element_has_index) outline(focused_element, currentPinPrivate, "standard");
+						switchCursorType('style');
+						if (focused_element_has_index) outline(focused_element, currentPinPrivate, "style");
 
 
 					} else if (currentPinType == "comment") {
@@ -1168,7 +1168,7 @@ function switchPinType(pinType, pinPrivate) {
 
 
 	// Change the cursor color
-	switchCursorType(pinType == 'live' ? 'standard' : pinType, currentPinPrivate);
+	switchCursorType(pinType == 'live' ? 'style' : pinType, currentPinPrivate);
 
 
 
@@ -1893,8 +1893,8 @@ function convertPin(pin_ID, targetPin) {
 	var pinIndex = Pins.indexOf(pin);
 
 
-	// If the new type is standard, reset the modifications
-	if (pinType == "standard") {
+	// If the new type is style, reset the modifications
+	if (pinType == "style") {
 
 		revertChange(pin_ID);
 
@@ -2908,8 +2908,8 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			(thePinModificationType == "html" && theElement.prop('tagName').toUpperCase() == "IMG")
 		) {
 
-			// Act like a standard pin (Hide content changers)
-			pinWindow().attr('data-pin-type', 'standard');
+			// Act like a style pin (Hide content changers)
+			pinWindow().attr('data-pin-type', 'style');
 
 		}
 
@@ -3117,7 +3117,7 @@ function updateOriginals(pinsList, oldPinsList) {
 	$(pinsList).each(function(i, pin) {
 
 
-		// Skip standard and unmodified pins
+		// Skip style and unmodified pins
 		if ( pin.pin_type != "live" || pin.pin_modification_original != null ) return true;
 
 
@@ -3198,7 +3198,7 @@ function revertChanges(pinsList) {
 		}
 
 
-		// Revert the content changes, skip standard and unmodified pins
+		// Revert the content changes, skip style and unmodified pins
 		if ( pin.pin_modification != null ) {
 
 			var isShowingOriginalContent = changedElement.is('[data-revisionary-showing-content-changes="0"]');

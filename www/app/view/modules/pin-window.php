@@ -39,9 +39,9 @@
 							</a>
 						</li>
 
-						<li class="convert-to-standard">
+						<li class="convert-to-style">
 							<a href="#" class="xl-flexbox xl-middle">
-								<pin data-pin-type="standard" data-pin-private="0" data-pin-modification-type="null"></pin>
+								<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
 								<span>Only View</span>
 							</a>
 						</li>
@@ -55,7 +55,7 @@
 
 						<li class="convert-to-private">
 							<a href="#" class="xl-flexbox xl-middle">
-								<pin data-pin-type="standard" data-pin-private="1" data-pin-modification-type="null"></pin>
+								<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
 								<span>Private View</span>
 							</a>
 						</li>
