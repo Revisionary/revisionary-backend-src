@@ -60,6 +60,15 @@
 
 </div>
 
+<div class="alerts">
+
+	<div id="no-pin" class="alert error autoclose hidden">
+		Pin does not exist anymore.
+		<a href="#" class="close"><i class="fa fa-times"></i></a>
+	</div>
+
+</div>
+
 
 
 <div id="top-bar">

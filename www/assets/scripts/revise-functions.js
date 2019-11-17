@@ -1951,14 +1951,20 @@ function scrollToPin(pin_ID, openWindow, noDelay) {
 	openWindow = assignDefault(openWindow, false);
 	noDelay = assignDefault(noDelay, false);
 
-
-	console.log('SCROLL TO PIN #' + pin_ID);
-
 	var delay = noDelay ? 0 : 500;
 
 
+	console.log('SCROLL TO PIN #' + pin_ID);
+
+
 	var pin = getPin(pin_ID);
-	if (!pin) return false;
+	if (!pin) {
+
+		// Show pin does not exist message
+		showAlert('no-pin');
+		return false;
+
+	}
 
 	var element_index = pin.pin_element_index;
 

@@ -4211,6 +4211,15 @@ body.dragging, body.dragging * {
 		&.error {
 		    background-color: #670000;
 		}
+
+		&.hidden {
+			opacity: 0;
+			pointer-events: none;
+		}
+	}
+
+	.revise & {
+		top: 60px;
 	}
 
 }

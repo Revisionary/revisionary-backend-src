@@ -7578,6 +7578,11 @@ body.dragging, body.dragging * {
         opacity: 0.8; }
     .alerts > .alert.error {
       background-color: #670000; }
+    .alerts > .alert.hidden {
+      opacity: 0;
+      pointer-events: none; }
+  .revise .alerts {
+    top: 60px; }
 
 /* Color */
 .color-primary {

@@ -1539,6 +1539,25 @@ function stopNotificationAutoRefresh() {
 }
 
 
+// Show an alert
+function showAlert(alert_ID) {
+
+	var alert = $('.alerts > #' + alert_ID);
+	alert.removeClass('hidden');
+
+	if ( alert.hasClass('autoclose') ) {
+
+		setTimeout(function() {
+
+			alert.addClass('hidden');
+
+		}, 4000);
+
+	}
+
+}
+
+
 // Dismiss alerts
 function dismissAlert(selector) {
 
