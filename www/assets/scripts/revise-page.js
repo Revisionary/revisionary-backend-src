@@ -1063,8 +1063,10 @@ $(function() {
 
 
 		// Outline the element
+		var hoveringPinType = $(this).attr("data-pin-type");
 		var hoveringPinPrivate = $(this).attr("data-pin-private");
-		outline(iframeElement($(this).attr("data-revisionary-index")), hoveringPinPrivate, $(this).attr("data-pin-type"));
+		var hoveringPinIndex = $(this).attr("data-revisionary-index");
+		if (hoveringPinType == "live" || hoveringPinType == "style" ) outline(iframeElement(hoveringPinIndex), hoveringPinPrivate, hoveringPinType);
 
 
 		e.preventDefault();
