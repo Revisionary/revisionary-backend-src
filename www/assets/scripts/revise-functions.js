@@ -2642,7 +2642,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		var thePinText = 'CONTENT PIN';
 		if (thePinType == "style") thePinText = 'STYLE PIN';
 		if (thePinType == "comment") thePinText = 'COMMENT PIN';
-		if (thePinPrivate == '1') thePinText = 'PRIVATE ' + thePinText;
+		if (thePinPrivate == '1') thePinText = 'PRIVATE PIN';
 
 		var thePinModificationType = thePin.attr('data-pin-modification-type');
 		var thePinModified = thePin.attr('data-revisionary-content-edited');
