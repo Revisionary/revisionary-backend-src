@@ -774,8 +774,16 @@ class User {
 			$db->join("projects project", "page.project_ID = project.project_ID", "LEFT");
 
 
+			// Bring the user info
+			$db->join("users u", "pin.user_ID = u.user_ID", "LEFT");
+
+
 			// Hide private pins to other people
 			$db->where ("(pin.user_ID = ".self::$user_ID." or (pin.user_ID != ".self::$user_ID." and pin.pin_private = 0))");
+
+
+			// Default Sorting
+			$db->orderBy("pin.pin_ID", "asc");
 
 
 			// GET THE DATA
@@ -791,7 +799,10 @@ class User {
 				pin.pin_css,
 				pin.pin_x,
 				pin.pin_y,
-				pin.user_ID,
+				u.user_ID,
+				u.user_first_name,
+				u.user_last_name,
+				u.user_picture,
 				project.project_ID,
 				page.page_ID,
 				pin.phase_ID,

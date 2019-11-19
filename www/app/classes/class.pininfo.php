@@ -446,16 +446,28 @@ class Pin {
 			'pin_private' => $pin_private,
 		);
 
-		// If the new type is style, reset the modifications
-		if ($pin_type == 'style') {
-			$pin_data['pin_modification'] = null;
-			$pin_data['pin_modification_type'] = null;
+
+		// Pin type conversion
+		if ($current_pin_type != $pin_type) {
+
+
+			// If the new type is style, reset the modifications
+			if ($pin_type == 'style' || $pin_type == 'comment') {
+				$pin_data['pin_modification'] = null;
+				$pin_data['pin_modification_type'] = null;
+			}
+	
+	
+			// If the new type is comment, reset the CSS
+			if ($pin_type == 'comment') {
+				$pin_data['pin_css'] = null;
+			}
+
+
 		}
 
+
 		$pin_updated = $db->update('pins', $pin_data);
-
-
-
 		if ($pin_updated) {
 
 

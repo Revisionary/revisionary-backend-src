@@ -3,6 +3,9 @@
 <script>
 
 	user_ID = <?=currentUserID()?>;
+	user_first_name = '<?=$User->getInfo('user_first_name')?>';
+	user_last_name = '<?=$User->getInfo('user_last_name')?>';
+	user_picture = '<?=$User->getInfo('user_picture')?>';
 	project_ID = <?=$project_ID?>;
 	page_ID = <?=$page_ID?>;
 	phase_ID = <?=$phase_ID?>;

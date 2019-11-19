@@ -1551,6 +1551,9 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		pin_x: elementPinX.toString(),
 		pin_y: elementPinY.toString(),
 		user_ID: parseInt(user_ID),
+		user_first_name: user_first_name,
+		user_last_name: user_last_name,
+		user_picture: user_picture,
 		project_ID: parseInt(project_ID),
 		page_ID: parseInt(page_ID),
 		phase_ID: parseInt(phase_ID),
@@ -1874,14 +1877,14 @@ function completePin(pin_ID, complete, imgData) {
 }
 
 
-// DB: Convert pin !!!
+// DB: Convert pin
 function convertPin(pin_ID, targetPin) {
 
 
 	// New values
-	var pinType = targetPin.attr('data-pin-type');
+	var pinType = targetPin.attr('data-pin-type') || pinWindow(pin_ID).attr('data-pin-type');
 	var pinPrivate = targetPin.attr('data-pin-private');
-	var pinLabel = targetPin.next().text();
+	var pinLabel = targetPin.next().find('span').text();
 	var element_index = parseInt( pinElement(pin_ID).attr('data-revisionary-index') );
 
 
@@ -1909,6 +1912,28 @@ function convertPin(pin_ID, targetPin) {
 		removeOutline();
 
 	}
+
+
+	// If the new type is comment, reset the modifications
+	if (pinType == "comment") {
+
+		revertChange(pin_ID);
+		revertCSS(pin_ID);
+
+		Pins[pinIndex].pin_modification_type = null;
+		Pins[pinIndex].pin_modification = null;
+		Pins[pinIndex].pin_modification_original = null;
+		Pins[pinIndex].pin_css = null;
+
+		pinElement(pin_ID).attr('data-pin-modification-type', 'null');
+		pinWindow(pin_ID).attr('data-pin-modification-type', 'null');
+
+
+		// Remove outlines from iframe
+		removeOutline();
+
+	}
+
 
 	Pins[pinIndex].pin_type = pinType;
 	Pins[pinIndex].pin_private = parseInt(pinPrivate);
@@ -2613,9 +2638,12 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		var thePinComplete = thePin.attr('data-pin-complete');
 		var theIndex = thePin.attr('data-revisionary-index');
 		var theElement = iframeElement(theIndex);
-		var thePinText = thePinPrivate == '1' ? 'PRIVATE VIEW' : 'ONLY VIEW';
-		if (thePinType == "live") thePinText = thePinPrivate == '1' ? 'PRIVATE LIVE' : 'LIVE EDIT';
-		if (thePinType == "comment") thePinText = thePinPrivate == '1' ? 'PRIVATE COMMENT' : 'COMMENT';
+	
+		var thePinText = 'CONTENT PIN';
+		if (thePinType == "style") thePinText = 'STYLE PIN';
+		if (thePinType == "comment") thePinText = 'COMMENT PIN';
+		if (thePinPrivate == '1') thePinText = 'PRIVATE ' + thePinText;
+
 		var thePinModificationType = thePin.attr('data-pin-modification-type');
 		var thePinModified = thePin.attr('data-revisionary-content-edited');
 		var thePinShowingContentChanges = thePin.attr('data-revisionary-showing-content-changes');
@@ -2938,16 +2966,25 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 
-		// COMMENTS:
-		// If new pin added, write a message
-		if (firstTime) $('.pin-comments').html('<div class="xl-center">Add your comment:</div>');
+		// CREATOR INFO:
+		var picture = pin.user_picture;
+		var printPic = picture != null ? "background-image: url("+ picture +");" : "";
+		pinWindow().find('.createdby .profile-picture').attr('style', printPic);
 
+		var nameAbbr = pin.user_first_name.charAt(0) + pin.user_last_name.charAt(0);
+		pinWindow().find('.createdby .profile-picture span').text(nameAbbr);
+		pinWindow().find('.createdby .activity-info span').text(pin.user_first_name + ' ' + pin.user_last_name);
+
+
+
+		// COMMENTS:
 		// If this is an already registered pin, bring the comments
+		if (firstTime) pinWindow().find('.pin-comments').html('<div class="add-comment">Add your comments:</div>');
 		else getComments(pin_ID);
 
 
 		// Clean the existing comment in the input
-		$('#pin-window .comment-input').val('');
+		$('#pin-window .comment-input').val('').focus();
 
 
 
@@ -3936,14 +3973,13 @@ function getComments(pin_ID, commentsWrapper) {
 
 
 		// Clean the loading
-		commentsWrapper.html('<div class="no-comments xl-center">No comments yet.</div>');
+		//commentsWrapper.html('<div class="no-comments">No comments added yet.</div>');
+		commentsWrapper.html('');
 
 
 		// Print the comments
 		var previousCommenter = "";
-		var previousDirectionLeft = true;
 		var previousTime = "";
-		var directionLeft = true;
 
 		$(comments).each(function(i, comment) {
 
@@ -3953,7 +3989,6 @@ function getComments(pin_ID, commentsWrapper) {
 
 			// Detect if the same person comment
 			if (previousCommenter == comment.user_ID) {
-				directionLeft = !directionLeft;
 				hide = true;
 
 				// Detect same time comments
@@ -3974,21 +4009,19 @@ function getComments(pin_ID, commentsWrapper) {
 
 			// Append the comments
 			commentsWrapper.append(
-				commentTemplate(comment, directionLeft, hide, sameTime)
+				commentTemplate(comment, hide, sameTime)
 			);
 
 
 			// Record the previous commenter
-			previousDirectionLeft = directionLeft;
-			directionLeft = !directionLeft;
 			previousCommenter = comment.user_ID;
 			previousTime = timeSince(date);
 
 		});
 
 
-		// Scroll down to the latest comment
-		commentsWrapper.scrollTop(9999);
+		// Scroll down to the latest comment !!!
+		commentsWrapper.parents('.activities').scrollTop(9999);
 
 
 		// Enable comment sender
@@ -4023,7 +4056,7 @@ function sendComment(pin_ID, message) {
 
 	// Write sending
 	var commentsWrapper = $('#pin-window[data-pin-id="'+ pin_ID +'"] .pin-comments');
-	commentsWrapper.html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Sending...</span></div>');
+	commentsWrapper.html('<div class="comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Sending...</span></div>');
 
 
 	// Disable the inputs
@@ -4422,7 +4455,7 @@ function listedPinTemplate(pin_number, pin) {
 				'+pinText+' <i class="fa fa-caret-up" aria-hidden="true"></i> \
 				'+ editSummary +' \
 			</a> \
-			<div class="pin-comments" data-pin-id="'+ pin.pin_ID +'"><div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div></div> \
+			<div class="pin-comments" data-pin-id="'+ pin.pin_ID +'"><div class="comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div></div> \
 		</div> \
 	';
 
@@ -4430,16 +4463,15 @@ function listedPinTemplate(pin_number, pin) {
 
 
 // Comment template
-function commentTemplate(comment, left, hide, sameTime) {
+function commentTemplate(comment, hide, sameTime) {
 
-	left = assignDefault(left, true);
 	hide = assignDefault(hide, false);
 	sameTime = assignDefault(sameTime, false);
 
 	var date = new Date(comment.comment_modified);
 	var picture = comment.user_picture;
-	var printPic = picture != null ? " style='background-image: url("+ comment.user_picture +");'" : "";
-	var direction = left ? "left" : "right";
+	var printPic = picture != null ? " style='background-image: url("+ picture +");'" : "";
+	var nameAbbr = comment.user_first_name.charAt(0) + comment.user_last_name.charAt(0);
 	var itsMe = comment.user_ID == user_ID ? true : false;
 	var linkedComment = Autolinker.link( comment.pin_comment, {
 		truncate: 25,
@@ -4448,17 +4480,17 @@ function commentTemplate(comment, left, hide, sameTime) {
 
 	return '\
 			<div class="comment wrap xl-flexbox xl-top '+ (hide ? "recurring" : "") +' '+ (sameTime ? "sametime" : "") +'"> \
-				<a class="col xl-2-12 xl-'+ direction +' xl-'+ (left ? "first" : "last") +' profile-image" href="#"> \
-					<picture class="profile-picture big square" '+ printPic +'> \
-						<span>'+ comment.user_first_name.charAt(0) + comment.user_last_name.charAt(0) +'</span> \
+				<a class="col xl-1-9 profile-image" href="#"> \
+					<picture class="profile-picture" '+ printPic +'> \
+						<span>'+ nameAbbr +'</span> \
 					</picture> \
 				</a> \
-				<div class="col xl-10-12 comment-inner-wrapper"> \
-					<div class="wrap xl-flexbox xl-'+ direction +' xl-bottom comment-title"> \
-						<a href="#" class="col xl-'+ (left ? "first" : "last") +' comment-user-name">'+comment.user_first_name+' '+comment.user_last_name+'</a> \
+				<div class="col xl-8-9 comment-inner-wrapper"> \
+					<div class="wrap xl-flexbox xl-bottom comment-title"> \
+						<a href="#" class="col comment-user-name">'+comment.user_first_name+' '+comment.user_last_name+'</a> \
 						<span class="col comment-date">'+timeSince(date)+' ago</span> \
 					</div> \
-					<div class="comment-text xl-'+ direction +'"> \
+					<div class="comment-text"> \
 						'+nl2br(linkedComment)+' \
 						'+ (itsMe ? ' <a href="#" class="delete-comment" data-comment-id="'+comment.comment_ID+'" data-tooltip="Delete this comment">&times;</a>' : '') +' \
 					</div> \

@@ -5834,6 +5834,7 @@ ul.user-header-menu {
   align-items: center;
   justify-content: center;
   background-size: cover;
+  background-repeat: no-repeat;
   border-radius: 50%;
   box-sizing: border-box; }
   .profile-picture::before {
@@ -6133,7 +6134,6 @@ pin {
   transition: opacity 500ms; }
   #pin-window.dragging {
     opacity: 0.7 !important; }
-  #pin-window[data-pin-mine="no"] .convert-to-private-live,
   #pin-window[data-pin-mine="no"] .convert-to-private {
     display: none; }
   #pin-window[data-revisionary-content-edited="0"] .content-editor .new-image,
@@ -6282,15 +6282,125 @@ pin {
     #pin-window .image-editor .edit-content img {
       max-width: 100%;
       max-height: 100%; }
-  #pin-window .pin-comments {
-    max-height: 180px;
-    max-width: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll; }
-  #pin-window .comment-actions .comment-input-col {
+  #pin-window .visual-editor .css-box {
+    width: 100%; }
+    #pin-window .visual-editor .css-box .layer {
+      padding: 20px 39px;
+      position: relative;
+      white-space: nowrap; }
+      #pin-window .visual-editor .css-box .layer:before {
+        content: "Title";
+        font-size: 10px;
+        position: absolute;
+        top: 0;
+        left: 2px;
+        pointer-events: none; }
+      #pin-window .visual-editor .css-box .layer > .input {
+        position: absolute;
+        width: 35px; }
+        #pin-window .visual-editor .css-box .layer > .input > span {
+          font-size: 10px;
+          text-align: center;
+          display: block; }
+        #pin-window .visual-editor .css-box .layer > .input > input {
+          display: block; }
+        #pin-window .visual-editor .css-box .layer > .input.top {
+          left: 50%;
+          transform: translateX(-50%);
+          top: 2px; }
+        #pin-window .visual-editor .css-box .layer > .input.right {
+          top: 50%;
+          transform: translateY(-50%);
+          right: 2px; }
+          #pin-window .visual-editor .css-box .layer > .input.right.bottom {
+            bottom: 2px;
+            transform: translateY(0);
+            transform: translateX(0);
+            top: auto;
+            left: auto; }
+          #pin-window .visual-editor .css-box .layer > .input.right.top {
+            top: 2px;
+            transform: translateY(0);
+            transform: translateX(0);
+            bottom: auto;
+            left: auto; }
+            #pin-window .visual-editor .css-box .layer > .input.right.top.middle {
+              right: 50px;
+              width: auto; }
+              #pin-window .visual-editor .css-box .layer > .input.right.top.middle .sp-replacer {
+                margin-top: -6px; }
+                #pin-window .visual-editor .css-box .layer > .input.right.top.middle .sp-replacer .sp-preview {
+                  height: 14px; }
+        #pin-window .visual-editor .css-box .layer > .input.bottom {
+          left: 50%;
+          transform: translateX(-50%);
+          bottom: 2px; }
+        #pin-window .visual-editor .css-box .layer > .input.left {
+          top: 50%;
+          transform: translateY(-50%);
+          left: 2px; }
+          #pin-window .visual-editor .css-box .layer > .input.left.bottom {
+            bottom: 2px;
+            transform: translateY(0);
+            transform: translateX(0);
+            top: auto;
+            right: auto; }
+          #pin-window .visual-editor .css-box .layer > .input.left.top {
+            top: 15px;
+            transform: translateY(0);
+            transform: translateX(0);
+            bottom: auto;
+            right: auto; }
+            #pin-window .visual-editor .css-box .layer > .input.left.top.middle {
+              top: 2px;
+              left: 55px;
+              width: auto; }
+              #pin-window .visual-editor .css-box .layer > .input.left.top.middle .sp-preview {
+                height: 14px; }
+    #pin-window .visual-editor .css-box > .positions:before {
+      content: "Position"; }
+    #pin-window .visual-editor .css-box > .positions > .margins {
+      border: 1px dashed #bababa; }
+      #pin-window .visual-editor .css-box > .positions > .margins:before {
+        content: "Margin"; }
+      #pin-window .visual-editor .css-box > .positions > .margins > .borders {
+        border: 1px solid #d7d7d7;
+        background-color: #f6f6f6; }
+        #pin-window .visual-editor .css-box > .positions > .margins > .borders:before {
+          content: "Border"; }
+        #pin-window .visual-editor .css-box > .positions > .margins > .borders > .paddings {
+          border: 1px solid #d7d7d7;
+          background-color: #ebebeb; }
+          #pin-window .visual-editor .css-box > .positions > .margins > .borders > .paddings:before {
+            content: "Padding"; }
+          #pin-window .visual-editor .css-box > .positions > .margins > .borders > .paddings > .sizes {
+            padding: 8px 4px 13px;
+            border: 1px solid #bababa; }
+            #pin-window .visual-editor .css-box > .positions > .margins > .borders > .paddings > .sizes:before {
+              content: "Size"; }
+    #pin-window .visual-editor .css-box input {
+      padding: 0;
+      font-size: 10px;
+      border: 1px solid;
+      height: auto;
+      letter-spacing: -0.3px;
+      display: inline-block;
+      width: 48px;
+      max-width: 100%;
+      text-align: center;
+      margin: 0 !important; }
+  #pin-window .visual-editor hr {
+    position: absolute;
+    background-color: black;
+    width: calc(100% + 38px);
+    height: 1px;
+    left: -20px;
+    bottom: -23px;
+    border: none; }
+  #pin-window .comments .comment-actions .comment-input-col {
     width: calc(100% - 30px);
     height: 35px; }
-    #pin-window .comment-actions .comment-input-col .comment-input {
+    #pin-window .comments .comment-actions .comment-input-col .comment-input {
       outline: none;
       border: 3px solid black;
       border-radius: 5px;
@@ -6301,11 +6411,11 @@ pin {
       min-height: 30px;
       max-height: 61px;
       width: 100%; }
-  #pin-window .comment-actions .send-comment {
+  #pin-window .comments .comment-actions .send-comment {
     font-size: 20px;
     display: block;
     margin-top: -5px; }
-    #pin-window .comment-actions .send-comment:hover {
+    #pin-window .comments .comment-actions .send-comment:hover {
       color: #007acc; }
   #pin-window > .bottom-actions .action > a {
     font-size: 14px;
@@ -6423,21 +6533,21 @@ pin {
     display: none !important; }
   #pin-window[data-pin-type="style"] > .visual-editor {
     display: block; }
-  #pin-window[data-pin-type="style"] .type-convertor > .convert-to-live,
-  #pin-window[data-pin-type="style"] .type-convertor > .convert-to-private-live {
+  #pin-window[data-pin-type="style"] .type-convertor > .convert-to-live {
     display: none !important; }
   #pin-window[data-pin-type="style"][data-pin-private="0"] .type-convertor > .convert-to-style,
   #pin-window[data-pin-type="style"][data-pin-private="0"] .type-convertor > .convert-to-live {
     display: none !important; }
-  #pin-window[data-pin-type="comment"] .pin-label {
-    cursor: default; }
-  #pin-window[data-pin-type="comment"] .pin-label + i,
-  #pin-window[data-pin-type="comment"] .type-convertor {
-    display: none; }
+  #pin-window[data-pin-type="comment"] .type-convertor > .convert-to-live,
+  #pin-window[data-pin-type="comment"] .type-convertor > .convert-to-style {
+    display: none !important; }
+  #pin-window[data-pin-type="comment"][data-pin-private="0"] .type-convertor > .convert-to-comment {
+    display: none !important; }
   #pin-window[data-pin-type="comment"] > .comments .section-title {
     display: none; }
-  #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private,
-  #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private-live {
+  #pin-window[data-pin-private="1"] .type-convertor > .convert-to-private {
+    display: none !important; }
+  #pin-window[data-pin-private="0"] .type-convertor .public {
     display: none !important; }
   #pin-window[data-pin-complete="1"] .complete-pin {
     display: none !important; }
@@ -6476,113 +6586,6 @@ pin {
     background-color: white;
     top: 0;
     left: 0; }
-  #pin-window .css-box {
-    width: 100%; }
-    #pin-window .css-box .layer {
-      padding: 20px 39px;
-      position: relative;
-      white-space: nowrap; }
-      #pin-window .css-box .layer:before {
-        content: "Title";
-        font-size: 10px;
-        position: absolute;
-        top: 0;
-        left: 2px;
-        pointer-events: none; }
-      #pin-window .css-box .layer > .input {
-        position: absolute;
-        width: 35px; }
-        #pin-window .css-box .layer > .input > span {
-          font-size: 10px;
-          text-align: center;
-          display: block; }
-        #pin-window .css-box .layer > .input > input {
-          display: block; }
-        #pin-window .css-box .layer > .input.top {
-          left: 50%;
-          transform: translateX(-50%);
-          top: 2px; }
-        #pin-window .css-box .layer > .input.right {
-          top: 50%;
-          transform: translateY(-50%);
-          right: 2px; }
-          #pin-window .css-box .layer > .input.right.bottom {
-            bottom: 2px;
-            transform: translateY(0);
-            transform: translateX(0);
-            top: auto;
-            left: auto; }
-          #pin-window .css-box .layer > .input.right.top {
-            top: 2px;
-            transform: translateY(0);
-            transform: translateX(0);
-            bottom: auto;
-            left: auto; }
-            #pin-window .css-box .layer > .input.right.top.middle {
-              right: 50px;
-              width: auto; }
-              #pin-window .css-box .layer > .input.right.top.middle .sp-replacer {
-                margin-top: -6px; }
-                #pin-window .css-box .layer > .input.right.top.middle .sp-replacer .sp-preview {
-                  height: 14px; }
-        #pin-window .css-box .layer > .input.bottom {
-          left: 50%;
-          transform: translateX(-50%);
-          bottom: 2px; }
-        #pin-window .css-box .layer > .input.left {
-          top: 50%;
-          transform: translateY(-50%);
-          left: 2px; }
-          #pin-window .css-box .layer > .input.left.bottom {
-            bottom: 2px;
-            transform: translateY(0);
-            transform: translateX(0);
-            top: auto;
-            right: auto; }
-          #pin-window .css-box .layer > .input.left.top {
-            top: 15px;
-            transform: translateY(0);
-            transform: translateX(0);
-            bottom: auto;
-            right: auto; }
-            #pin-window .css-box .layer > .input.left.top.middle {
-              top: 2px;
-              left: 55px;
-              width: auto; }
-              #pin-window .css-box .layer > .input.left.top.middle .sp-preview {
-                height: 14px; }
-    #pin-window .css-box > .positions:before {
-      content: "Position"; }
-    #pin-window .css-box > .positions > .margins {
-      border: 1px dashed #bababa; }
-      #pin-window .css-box > .positions > .margins:before {
-        content: "Margin"; }
-      #pin-window .css-box > .positions > .margins > .borders {
-        border: 1px solid #d7d7d7;
-        background-color: #f6f6f6; }
-        #pin-window .css-box > .positions > .margins > .borders:before {
-          content: "Border"; }
-        #pin-window .css-box > .positions > .margins > .borders > .paddings {
-          border: 1px solid #d7d7d7;
-          background-color: #ebebeb; }
-          #pin-window .css-box > .positions > .margins > .borders > .paddings:before {
-            content: "Padding"; }
-          #pin-window .css-box > .positions > .margins > .borders > .paddings > .sizes {
-            padding: 8px 4px 13px;
-            border: 1px solid #bababa; }
-            #pin-window .css-box > .positions > .margins > .borders > .paddings > .sizes:before {
-              content: "Size"; }
-    #pin-window .css-box input {
-      padding: 0;
-      font-size: 10px;
-      border: 1px solid;
-      height: auto;
-      letter-spacing: -0.3px;
-      display: inline-block;
-      width: 48px;
-      max-width: 100%;
-      text-align: center;
-      margin: 0 !important; }
 
 .dark-color {
   color: black; }
@@ -6594,14 +6597,26 @@ pin {
   line-height: 18px; }
 
 /* Pin Comments */
+.activities {
+  margin-top: 10px;
+  max-height: 180px;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll; }
+  .activities .profile-picture {
+    margin: 0; }
+  .activities .activity-info {
+    font-size: 14px; }
+
 .pin-comments {
   padding-top: 10px;
   padding-bottom: 25px; }
-  .pin-comments > *:not(.comment) {
-    margin-left: -10px; }
+  .pin-comments .add-comment {
+    margin-top: 20px;
+    margin-bottom: -20px; }
   .pin-comments .comment {
     margin-top: 10px;
-    margin-bottom: 25px; }
+    margin-bottom: 18px; }
     .pin-comments .comment:first-child {
       margin-top: 0; }
     .pin-comments .comment:last-child {

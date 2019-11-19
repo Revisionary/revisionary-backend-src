@@ -1017,7 +1017,21 @@ $(function() {
 		if (
 			pinWindow(pin_ID).attr('data-pin-type') == "live" &&
 			targetPin.attr('data-pin-type') == "style" &&
-			!confirm('Are you sure you want to convert this live pin to a style comment pin? All your changes will be reverted.')
+			!confirm('Are you sure you want to convert this live pin to a style pin? All your changes will be reverted.')
+		) return false;
+
+
+		// Confirm if converting to comment pin
+		if (
+			pinWindow(pin_ID).attr('data-pin-type') == "live" &&
+			targetPin.attr('data-pin-type') == "comment" &&
+			!confirm('Are you sure you want to convert this live pin to a comment pin? All your changes will be reverted.')
+		) return false;
+
+		if (
+			pinWindow(pin_ID).attr('data-pin-type') == "style" &&
+			targetPin.attr('data-pin-type') == "comment" &&
+			!confirm('Are you sure you want to convert this style pin to a comment pin? All your changes will be reverted.')
 		) return false;
 
 

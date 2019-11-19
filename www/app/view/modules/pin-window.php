@@ -20,7 +20,7 @@
 		</div>
 		<div class="col">
 
-			<div class="wrap xl-flexbox actions">
+			<div class="wrap xl-flexbox xl-between actions">
 				<div class="col action dropdown">
 
 					<pin
@@ -35,42 +35,46 @@
 						<li class="convert-to-live">
 							<a href="#" class="xl-flexbox xl-middle">
 								<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-								<span>Live Edit</span>
+								<div>Make <b class="public">Public</b> <span>Content Pin</span></div>
 							</a>
 						</li>
 
 						<li class="convert-to-style">
 							<a href="#" class="xl-flexbox xl-middle">
 								<pin data-pin-type="style" data-pin-private="0" data-pin-modification-type="null"></pin>
-								<span>Only View</span>
+								<div>Make <b class="public">Public</b> <span>Style Pin</span></div>
 							</a>
 						</li>
 
-						<li class="convert-to-private-live">
+						<li class="convert-to-comment">
 							<a href="#" class="xl-flexbox xl-middle">
-								<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-								<span>Private Live</span>
+								<pin data-pin-type="comment" data-pin-private="0" data-pin-modification-type="null"></pin>
+								<div>Make <b class="public">Public</b> <span>Comment Pin</span></div>
 							</a>
 						</li>
 
 						<li class="convert-to-private">
 							<a href="#" class="xl-flexbox xl-middle">
-								<pin data-pin-type="style" data-pin-private="1" data-pin-modification-type="null"></pin>
-								<span>Private View</span>
+								<pin data-pin-private="1" data-pin-modification-type="null"></pin>
+								<div>Make <span>Private Pin</span></div>
 							</a>
 						</li>
 
 					</ul>
 
 				</div>
-				<div class="col action">
-					<a href="#" class="center-tooltip bottom-tooltip device-specific" data-tooltip="Only For Current Device"><i class="fa fa-thumbtack"></i></a>
-				</div>
 				<div class="col action" data-tooltip="Coming soon." style="display: none !important;">
 
-					<i class="fa fa-user-o"></i>
-					<span>ASSIGNEE</span>
+					<!-- <i class="fa fa-user-o"></i> -->
+					<i class="fa fa-tag"></i>
+					<span>TAGS</span>
 
+				</div>
+				<div class="col action" style="display: none !important;">
+					<a href="#" class="center-tooltip bottom-tooltip device-specific" data-tooltip="Private Pin"><i class="fa fa-user"></i></a>
+				</div>
+				<div class="col action">
+					<a href="#" class="center-tooltip bottom-tooltip device-specific" data-tooltip="Only For Current Device"><i class="fa fa-thumbtack"></i></a>
 				</div>
 			</div>
 
@@ -413,16 +417,36 @@
 	<div class="comments">
 
 		<div class="wrap xl-1">
-			<div class="col section-title">
+			<div class="col section-title xl-hiddenn">
 
 				<i class="fa fa-comment-dots"></i> COMMENTS <i class="fa fa-circle edited-sign"></i>
 
 			</div>
 			<div class="col section-content">
 
-				<div class="pin-comments">
+				<div class="activities">
+					<div class="wrap xl-flexbox xl-middle createdby">
+						<div class="col xl-1-9 profile-image">
+	
+							<a href="#">
+								<picture class="profile-picture" style="background-image: url(https://revisionary.sfo2.digitaloceanspaces.com/avatars/jdd2rxz5qz.png);">
+									<span>BT</span>
+								</picture>
+							</a>
+	
+						</div>
+						<div class="col xl-8-9 activity-info">
+							<b><span>Bill TAS</span></b> created this pin.
+						</div>
+					</div>
+	
+					<div class="pin-comments">
+	
+					</div>
 
 				</div>
+
+
 				<div class="comment-actions">
 
 					<form action="" method="post" id="comment-sender">
