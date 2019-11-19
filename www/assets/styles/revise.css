@@ -99,6 +99,7 @@ html, body {
     #top-bar .pins .pins-list .pin:hover pin:before {
       opacity: 0; }
   #top-bar .pins .pins-list .pin-title {
+    margin-left: 5px;
     text-transform: uppercase;
     font-size: 14px;
     letter-spacing: 1.7px; }
@@ -125,6 +126,10 @@ html, body {
         max-height: 50px;
         width: auto;
         height: auto; }
+      #top-bar .pins .pins-list .pin-title i.edit-summary.createdby {
+        position: relative;
+        left: -15px;
+        top: -10px; }
   #top-bar .pin-mode .current-mode > a.browse-switcher {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0; }

@@ -3952,7 +3952,7 @@ function getComments(pin_ID, commentsWrapper) {
 
 
 	// Remove dummy comments and add loading indicator
-	commentsWrapper.html('<div class="xl-center comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div>');
+	commentsWrapper.html('<div class="comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div>');
 
 
 	// Disable comment sender
@@ -3973,8 +3973,7 @@ function getComments(pin_ID, commentsWrapper) {
 
 
 		// Clean the loading
-		//commentsWrapper.html('<div class="no-comments">No comments added yet.</div>');
-		commentsWrapper.html('');
+		commentsWrapper.html('<div class="no-comments">No comments added yet.</div>');
 
 
 		// Print the comments
@@ -4418,10 +4417,12 @@ function pinTemplate(pin_number, pin, temporary, size) {
 function listedPinTemplate(pin_number, pin) {
 
 	// Pin description
-	var pinText = "Comment Pin";
-	if (pin.pin_type == "live") pinText = "Live Edit and " + pinText;
-	if (pin.pin_modification_type == "image") pinText = pinText.replace('Live Edit', 'Image Edit');
+	var pinText = "Content Pin";
+	if (pin.pin_modification_type == "image") pinText = "Image Pin";
+	if (pin.pin_type == "style") pinText = "Style Pin";
+	if (pin.pin_type == "comment") pinText = "Comment Pin";
 	if (pin.pin_private == "1") pinText = "Private " + pinText;
+
 
 	var editSummary = "";
 	if (pin.pin_modification == null && pin.pin_css == null) editSummary = '<br /><i class="edit-summary">-No change yet.-</i>';
@@ -4434,6 +4435,8 @@ function listedPinTemplate(pin_number, pin) {
 
 	if (pin.pin_modification_type == "image" && pin.pin_modification != null && pin.pin_modification != "")
 		editSummary = '<br /><i class="edit-summary"><img src="'+ pin.pin_modification +'" alt="" /></i>';
+
+	if (pin.pin_type == "comment") editSummary = '<br /><i class="edit-summary createdby">'+ pin.user_first_name +' '+ pin.user_last_name +' created.</i>';
 
 
 	return ' \

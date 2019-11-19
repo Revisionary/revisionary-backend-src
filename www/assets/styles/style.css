@@ -6397,6 +6397,8 @@ pin {
     left: -20px;
     bottom: -23px;
     border: none; }
+  #pin-window .comments .no-comments {
+    display: none; }
   #pin-window .comments .comment-actions .comment-input-col {
     width: calc(100% - 30px);
     height: 35px; }
