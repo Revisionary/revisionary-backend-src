@@ -2630,6 +2630,10 @@ pin {
 
 	.activity-info {
 		font-size: 14px;
+
+		b > span {
+			letter-spacing: 1.5px;
+		}
 	}
 
 }

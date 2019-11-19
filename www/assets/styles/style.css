@@ -6609,6 +6609,8 @@ pin {
     margin: 0; }
   .activities .activity-info {
     font-size: 14px; }
+    .activities .activity-info b > span {
+      letter-spacing: 1.5px; }
 
 .pin-comments {
   padding-top: 10px;
