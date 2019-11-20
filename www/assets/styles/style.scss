@@ -1243,7 +1243,8 @@ ul.user-header-menu {
 	}
 
 	// Overlay Text
-	&::after {
+	&.avatar-changer::after,
+	&.loading::after {
 		color: white;
 		content: "";
 		font-family: 'Roboto Condensed', sans-serif;

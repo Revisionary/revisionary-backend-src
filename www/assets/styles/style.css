@@ -5849,7 +5849,8 @@ ul.user-header-menu {
     background-image: inherit;
     background-size: inherit;
     background-position: inherit; }
-  .profile-picture::after {
+  .profile-picture.avatar-changer::after,
+  .profile-picture.loading::after {
     color: white;
     content: "";
     font-family: 'Roboto Condensed', sans-serif;
