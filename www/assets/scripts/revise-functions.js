@@ -327,37 +327,43 @@ function runTheInspector() {
 
 
 				// REFOCUS WORKS:
-				// Re-focus if only child element has no child and has content: <p><b focused>Lorem ipsum</b></p>
-				if (
-					focused_element_text == "" && // Focused element has no content
-					focused_element_children.length == 1 && // Has only one child
-					focused_element_grand_children.length == 0 && // No grand child
-					focused_element_children.first().text().trim() != "" // Grand child should have content
-				) {
-
-					// Re-focus to the child element
-					focused_element = focused_element_children.first();
+				if (currentPinType == "live" || currentPinType == "style") {
 
 
-					//console.log('REFOCUS - Only child element has no child and has content: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
+					// Re-focus if only child element has no child and has content: <p><b focused>Lorem ipsum</b></p>
+					if (
+						focused_element_text == "" && // Focused element has no content
+						focused_element_children.length == 1 && // Has only one child
+						focused_element_grand_children.length == 0 && // No grand child
+						focused_element_children.first().text().trim() != "" // Grand child should have content
+					) {
+
+						// Re-focus to the child element
+						focused_element = focused_element_children.first();
+
+
+						//console.log('REFOCUS - Only child element has no child and has content: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
+
+					}
+
+
+					// Re-focus to the edited element if this is child of it: <p data-edited="1" focused><b>Lorem
+					if (focused_element_edited_parents.length) {
+
+						// Re-focus to the parent edited element
+						focused_element = focused_element_edited_parents.first();
+
+
+						//console.log('REFOCUS - Already edited closest parent: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
+
+					}
+
+
+					// Update refocused sub elements
+					reFocus();
+
 
 				}
-
-
-				// Re-focus to the edited element if this is child of it: <p data-edited="1" focused><b>Lorem
-				if (focused_element_edited_parents.length) {
-
-					// Re-focus to the parent edited element
-					focused_element = focused_element_edited_parents.first();
-
-
-					//console.log('REFOCUS - Already edited closest parent: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
-
-				}
-
-
-				// Update refocused sub elements
-				reFocus();
 
 
 
@@ -2641,6 +2647,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		var thePinType = thePin.attr('data-pin-type');
 		var thePinPrivate = thePin.attr('data-pin-private');
 		var thePinComplete = thePin.attr('data-pin-complete');
+
 		var theIndex = thePin.attr('data-revisionary-index');
 		var theElement = iframeElement(theIndex);
 	
@@ -2652,7 +2659,10 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		var thePinModificationType = thePin.attr('data-pin-modification-type');
 		var thePinModified = thePin.attr('data-revisionary-content-edited');
 		var thePinShowingContentChanges = thePin.attr('data-revisionary-showing-content-changes');
+
+		var styleElement = iframeElement('style[data-pin-id="'+ pin_ID +'"]');
 		var thePinShowingStyleChanges = thePin.attr('data-revisionary-showing-style-changes');
+
 		var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
 
 
@@ -2707,124 +2717,6 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		// Device specific pin
 		pinWindow().find('.device-specific').removeClass('loading').removeClass('active');
 		if ( pin.device_ID != null ) pinWindow().find('.device-specific').addClass('active');
-
-
-
-		// CSS OPTIONS:
-		var styleElement = iframeElement('style[data-pin-id="'+ pin_ID +'"]');
-		var pinCSS = styleElement.text();
-		var isShowingCSS = styleElement.is('[media]') ? false : true;
-		var options = pinWindow().find('ul.options');
-
-
-
-		// Update the current element section
-		$('.element-tag, .element-id, .element-class').text('');
-
-		// Tag Name
-		var tagName = theElement.prop('tagName').toUpperCase();
-		$('.element-tag').text(tagName);
-
-		// Classes
-		var classes = "";
-		var classList = theElement.attr('class');
-		if (classList != null) {
-
-			$.each(classList.split(/\s+/), function(index, className) {
-
-				classes = classes + "."+className;
-
-			});
-			$('.element-class').text(classes);
-
-		}
-
-		// ID Name
-		var idName = theElement.attr("id");
-		if (idName != null) $('.element-id').text('#'+idName);
-
-
-		// Changed status
-		pinWindow().attr('data-revisionary-style-changed', (styleElement.length ? "yes" : "no"));
-
-
-		// Remove changed marks
-		options.find('.main-option').removeClass('changed');
-		options.find('[data-edit-css][data-revisionary-style-changed]').removeAttr('data-revisionary-style-changed');
-
-
-		// Temporarily activate the registered changes
-		if (!isShowingCSS && pin.pin_css != null) activateCSS(pin_ID);
-
-
-		// Update the CSS properties
-		var properties = options.find('[data-edit-css]');
-		$(properties).each(function(i, propertyElement) {
-
-
-			// Get the property name and values
-			var property = $(propertyElement).attr('data-edit-css');
-			var value = theElement.css(property);
-
-			if (typeof value === 'undefined') return true;
-
-
-			// Display exception
-			if (property == "display" && value != "none") value = 'block';
-
-
-			// Color exception
-			if ( property.includes("color") ) {
-				$('input[type="color"][data-edit-css="'+ property +'"]').spectrum("set", value);
-			}
-
-
-			// Background Image
-			if (property == "background-image")
-				value = value.replace('url(','').replace(')','').replace(/\"/gi, "");
-
-
-			// Update the main options
-			options.attr('data-'+property, value);
-
-
-			// Update the choices
-			options.find('a[data-edit-css="'+ property +'"]').removeClass('active');
-			options.find('a[data-edit-css="'+ property +'"][data-value="'+ value +'"]').addClass('active');
-
-
-			// Inputs
-			options.find('input[data-edit-css="'+ property +'"]').val(value).trigger('change');
-
-
-			// Check for the changed status
-			var editedSign = '<i class="fa fa-circle edited-sign particular"></i>';
-			if ( pinCSS.includes(property + ":" + value) || pinCSS.includes(property + ":url(" + value + ")") )
-				$(propertyElement).attr('data-revisionary-style-changed', 'yes').parents('.main-option').addClass('changed');
-
-		});
-
-
-		// Temporarily deactivate the registered changes
-		if (!isShowingCSS && pin.pin_css != null) disableCSS(pin_ID);
-
-		
-		// Open tabs
-		if (!firstTime) {
-
-			// Close all first
-			pinWindow().find('.section-title').addClass('collapsed');
-
-			// Content
-			if ( thePinModified == "1" ) pinWindow().find('.content-editor .section-title, .image-editor .section-title').removeClass('collapsed');
-
-			// Styles
-			if (styleElement.length) pinWindow().find('.visual-editor .section-title').removeClass('collapsed');
-
-			// Always open the comments
-			pinWindow().find('.comments .section-title').removeClass('collapsed');
-
-		}
 
 
 
@@ -2934,6 +2826,112 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 
+		// If on 'Live' or 'Style' mode
+		if (thePinType == 'live' || thePinType == 'style') {
+
+
+			// CSS OPTIONS:
+			var pinCSS = styleElement.text();
+			var isShowingCSS = styleElement.is('[media]') ? false : true;
+			var options = pinWindow().find('ul.options');
+
+
+
+			// Update the current element section
+			$('.element-tag, .element-id, .element-class').text('');
+
+			// Tag Name
+			var tagName = theElement.prop('tagName').toUpperCase();
+			$('.element-tag').text(tagName);
+
+			// Classes
+			var classes = "";
+			var classList = theElement.attr('class');
+			if (classList != null) {
+
+				$.each(classList.split(/\s+/), function(index, className) {
+
+					classes = classes + "."+className;
+
+				});
+				$('.element-class').text(classes);
+
+			}
+
+			// ID Name
+			var idName = theElement.attr("id");
+			if (idName != null) $('.element-id').text('#'+idName);
+
+
+			// Changed status
+			pinWindow().attr('data-revisionary-style-changed', (styleElement.length ? "yes" : "no"));
+
+
+			// Remove changed marks
+			options.find('.main-option').removeClass('changed');
+			options.find('[data-edit-css][data-revisionary-style-changed]').removeAttr('data-revisionary-style-changed');
+
+
+			// Temporarily activate the registered changes
+			if (!isShowingCSS && pin.pin_css != null) activateCSS(pin_ID);
+
+
+			// Update the CSS properties
+			var properties = options.find('[data-edit-css]');
+			$(properties).each(function(i, propertyElement) {
+
+
+				// Get the property name and values
+				var property = $(propertyElement).attr('data-edit-css');
+				var value = theElement.css(property);
+
+				if (typeof value === 'undefined') return true;
+
+
+				// Display exception
+				if (property == "display" && value != "none") value = 'block';
+
+
+				// Color exception
+				if ( property.includes("color") ) {
+					$('input[type="color"][data-edit-css="'+ property +'"]').spectrum("set", value);
+				}
+
+
+				// Background Image
+				if (property == "background-image")
+					value = value.replace('url(','').replace(')','').replace(/\"/gi, "");
+
+
+				// Update the main options
+				options.attr('data-'+property, value);
+
+
+				// Update the choices
+				options.find('a[data-edit-css="'+ property +'"]').removeClass('active');
+				options.find('a[data-edit-css="'+ property +'"][data-value="'+ value +'"]').addClass('active');
+
+
+				// Inputs
+				options.find('input[data-edit-css="'+ property +'"]').val(value).trigger('change');
+
+
+				// Check for the changed status
+				var editedSign = '<i class="fa fa-circle edited-sign particular"></i>';
+				if ( pinCSS.includes(property + ":" + value) || pinCSS.includes(property + ":url(" + value + ")") )
+					$(propertyElement).attr('data-revisionary-style-changed', 'yes').parents('.main-option').addClass('changed');
+
+			});
+
+
+			// Temporarily deactivate the registered changes
+			if (!isShowingCSS && pin.pin_css != null) disableCSS(pin_ID);
+
+
+		} // Style Pin
+
+
+
 		// Live pin error check !!! Add more
 		if (
 			(thePinModificationType == "image" && theElement.prop('tagName').toUpperCase() != "IMG") ||
@@ -2945,29 +2943,25 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 		}
 
-
-		// Add the temporary attribute at the first time adding pin
-		pinWindow().removeAttr('temporary');
-		if (firstTime) pinWindow().attr('temporary', '');
-
-
-		// Remove the removing text
-		pinWindow().removeClass('removing');
+		
+		// Open tabs
+		if (!firstTime) {
 
 
-		// Relocate the window
-		relocatePinWindow(pin_ID);
+			// Close all first
+			pinWindow().find('.section-title').addClass('collapsed');
+
+			// Content
+			if ( thePinModified == "1" ) pinWindow().find('.content-editor .section-title, .image-editor .section-title').removeClass('collapsed');
+
+			// Styles
+			if (styleElement.length) pinWindow().find('.visual-editor .section-title').removeClass('collapsed');
+
+			// Always open the comments
+			pinWindow().find('.comments .section-title').removeClass('collapsed');
 
 
-		// Show pin window
-		pinWindow().addClass('active');
-		pinWindowOpen = true;
-		window.location.hash = "#" + pin_ID;
-
-
-		// If the new pin registered, remove the loading message
-		if ( $.isNumeric(pin_ID) )
-			pinWindow().removeClass('loading');
+		}
 
 
 
@@ -2993,6 +2987,32 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 		// Clean the existing comment in the input
 		$('#pin-window .comment-input').val('').focus();
+
+
+
+		// PIN WINDOW ACTIONS:
+		// Add the temporary attribute at the first time adding pin
+		pinWindow().removeAttr('temporary');
+		if (firstTime) pinWindow().attr('temporary', '');
+
+
+		// Remove the removing text
+		pinWindow().removeClass('removing');
+
+
+		// Relocate the window
+		relocatePinWindow(pin_ID);
+
+
+		// Show pin window
+		pinWindow().addClass('active');
+		pinWindowOpen = true;
+		window.location.hash = "#" + pin_ID;
+
+
+		// If the new pin registered, remove the loading message
+		if ( $.isNumeric(pin_ID) )
+			pinWindow().removeClass('loading');
 
 
 
@@ -3417,7 +3437,7 @@ function saveChange(pin_ID, modification) {
 
 
 		// Update the status
-		updateChange(pin_ID, modification);
+		updateChange(pin_ID, modification, false);
 
 
 		// Finish the process
@@ -3430,7 +3450,7 @@ function saveChange(pin_ID, modification) {
 
 
 // Update a modification
-function updateChange(pin_ID, modification) {
+function updateChange(pin_ID, modification, applyHTML) {
 
 
 	var pin = getPin(pin_ID);
@@ -3440,6 +3460,7 @@ function updateChange(pin_ID, modification) {
 	var changedElement = iframeElement(element_index);
 
 	modification = assignDefault(modification, pin.pin_modification);
+	applyHTML = assignDefault(applyHTML, true);
 
 
 
@@ -3465,7 +3486,7 @@ function updateChange(pin_ID, modification) {
 
 				// Apply the change
 				var newHTML = html_entity_decode(modification);
-				changedElement.html( newHTML ) ;
+				if (applyHTML) changedElement.html( newHTML ) ;
 
 
 				// If edited element is a submit or reset input button
