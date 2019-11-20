@@ -2666,11 +2666,12 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
 
 
-		// Previous state of window
+
+		// Record previous state of window
 		pinWindowWasOpen = pinWindowOpen;
 
 
-		// Previous state of cursor
+		// Record previous state of cursor
 		if (!pinWindowWasOpen) cursorWasActive = cursorActive;
 
 
@@ -2682,7 +2683,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		toggleCursorActive(true); // Force deactivate
 
 
-		// Add the pin window data !!!
+		// Add the pin window data
 		pinWindow()
 			.attr('data-pin-type', thePinType)
 			.attr('data-pin-private', thePinPrivate)
@@ -2830,11 +2831,13 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		if (thePinType == 'live' || thePinType == 'style') {
 
 
+			// BACKGROUND IMAGE DETECTION !!!
+
+
 			// CSS OPTIONS:
 			var pinCSS = styleElement.text();
 			var isShowingCSS = styleElement.is('[media]') ? false : true;
 			var options = pinWindow().find('ul.options');
-
 
 
 			// Update the current element section
