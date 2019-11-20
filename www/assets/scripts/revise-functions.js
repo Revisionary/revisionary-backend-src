@@ -2943,7 +2943,8 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 		}
 
-		
+
+
 		// Open tabs
 		if (!firstTime) {
 

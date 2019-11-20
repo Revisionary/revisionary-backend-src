@@ -6625,6 +6625,8 @@ pin {
   .pin-comments .add-comment {
     margin-top: 20px;
     margin-bottom: -20px; }
+  .pin-comments .comments-loading i {
+    margin-right: 5px; }
   .pin-comments .comment {
     margin-top: 10px;
     margin-bottom: 18px; }
