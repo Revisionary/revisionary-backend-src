@@ -796,6 +796,7 @@ class User {
 				pin.pin_modification_type,
 				pin.pin_modification,
 				pin.pin_modification_original,
+				pin.pin_created,
 				pin.pin_css,
 				pin.pin_x,
 				pin.pin_y,

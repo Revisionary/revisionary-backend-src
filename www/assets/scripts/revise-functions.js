@@ -1587,25 +1587,30 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		'pin_x' 	 			 : elementPinX,
 		'pin_y' 	 			 : elementPinY,
 		'pin_type' 	 			 : cursorType,
-		'pin_modification_type' : modificationType == null ? "{%null%}" : modificationType,
+		'pin_modification_type'  : modificationType == null ? "{%null%}" : modificationType,
 		'pin_private'			 : pinPrivate,
 		'pin_element_index' 	 : element_index,
-		'pin_phase_ID'		 : phase_ID,
+		'pin_phase_ID'		 	 : phase_ID,
 		'pin_device_ID'			 : device_ID
 
 	}).done(function(result){
 
 
-		console.log(result.data);
+		var data = result.data;
+		console.log(data);
 
 
-		var realPinID = result.data.real_pin_ID; //console.log('REAL PIN ID: '+realPinID);
+		var realPinID = data.real_pin_ID; //console.log('REAL PIN ID: ' + realPinID);
+		var dateCreated = data.dateCreated; //console.log('DATE CREATED: ' + dateCreated);
 		var newPin = pinElement('[data-pin-id="'+ temporaryPinID +'"]');
 		if (openPin != null) openPin = realPinID;
 
 
-		// Update the pin ID
-		if (typeof Pins[pinIndex] !== 'undefined') Pins[pinIndex].pin_ID = realPinID;
+		// Update the pin ID and created date
+		if (typeof Pins[pinIndex] !== 'undefined') {
+			Pins[pinIndex].pin_ID = realPinID;
+			Pins[pinIndex].pin_created = dateCreated;
+		}
 		newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
 
 
@@ -2973,7 +2978,10 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 		var nameAbbr = pin.user_first_name.charAt(0) + pin.user_last_name.charAt(0);
 		pinWindow().find('.createdby .profile-picture span').text(nameAbbr);
-		pinWindow().find('.createdby .activity-info span').text(pin.user_first_name + ' ' + pin.user_last_name);
+		pinWindow().find('.createdby .activity-info span.name').text(pin.user_first_name + ' ' + pin.user_last_name);
+
+		var dateCreated = new Date(pin.pin_created);
+		pinWindow().find('.createdby .activity-info span.date').text( timeSince(dateCreated) + ' ago' ).attr('data-date', dateCreated);
 
 
 
@@ -4483,15 +4491,15 @@ function commentTemplate(comment, hide, sameTime) {
 
 	return '\
 			<div class="comment wrap xl-flexbox xl-top '+ (hide ? "recurring" : "") +' '+ (sameTime ? "sametime" : "") +'"> \
-				<a class="col xl-1-9 profile-image" href="#"> \
+				<div class="col xl-1-9 profile-image"> \
 					<picture class="profile-picture" '+ printPic +'> \
 						<span>'+ nameAbbr +'</span> \
 					</picture> \
-				</a> \
+				</div> \
 				<div class="col xl-8-9 comment-inner-wrapper"> \
 					<div class="wrap xl-flexbox xl-bottom comment-title"> \
-						<a href="#" class="col comment-user-name">'+comment.user_first_name+' '+comment.user_last_name+'</a> \
-						<span class="col comment-date">'+timeSince(date)+' ago</span> \
+						<span class="col comment-user-name">'+comment.user_first_name+' '+comment.user_last_name+'</span> \
+						<span class="col comment-date" data-date="'+date+'">'+timeSince(date)+' ago</span> \
 					</div> \
 					<div class="comment-text"> \
 						'+nl2br(linkedComment)+' \

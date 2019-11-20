@@ -428,15 +428,14 @@
 					<div class="wrap xl-flexbox xl-middle createdby">
 						<div class="col xl-1-9 profile-image">
 	
-							<a href="#">
-								<picture class="profile-picture" style="background-image: url(https://revisionary.sfo2.digitaloceanspaces.com/avatars/jdd2rxz5qz.png);">
-									<span>BT</span>
-								</picture>
-							</a>
+							<picture class="profile-picture">
+								<span>BT</span>
+							</picture>
 	
 						</div>
 						<div class="col xl-8-9 activity-info">
-							<b><span>Bill TAS</span></b> created this pin.
+							<b><span class="name">Bill TAS</span></b> created this pin.
+							<span class="date">12 minutes ago</span>
 						</div>
 					</div>
 	
