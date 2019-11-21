@@ -6609,15 +6609,17 @@ pin {
   .activities .profile-picture {
     margin: 0; }
   .activities .activity-info {
-    font-size: 14px; }
+    font-size: 14px;
+    line-height: normal; }
     .activities .activity-info .name {
       font-size: 14px;
       font-weight: bold;
       letter-spacing: 1.5px; }
     .activities .activity-info .date {
       font-size: 10px;
-      line-height: 20px;
-      opacity: 0.4; }
+      line-height: normal;
+      opacity: 0.4;
+      display: inline-block; }
 
 .pin-comments {
   padding-top: 10px;
@@ -6652,7 +6654,8 @@ pin {
       padding-right: 5px;
       font-size: 10px;
       line-height: 20px;
-      opacity: 0.4; }
+      opacity: 0.4;
+      display: inline-block; }
     .pin-comments .comment .comment-inner-wrapper .comment-text {
       font-size: 14px;
       letter-spacing: 0.5px; }

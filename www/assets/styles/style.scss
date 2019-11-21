@@ -2631,6 +2631,7 @@ pin {
 
 	.activity-info {
 		font-size: 14px;
+		line-height: normal;
 
 	    .name {
 		    font-size: 14px;
@@ -2640,8 +2641,9 @@ pin {
 
 	    .date {
 		    font-size: 10px;
-		    line-height: 20px;
+		    line-height: normal;
 		    opacity: 0.4;
+		    display: inline-block;
 	    }
 
 	}
@@ -2702,6 +2704,7 @@ pin {
 			    font-size: 10px;
 			    line-height: 20px;
 			    opacity: 0.4;
+			    display: inline-block;
 		    }
 
 		    .comment-text {
