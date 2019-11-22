@@ -110,10 +110,6 @@ a.learn-more {
 
 ul {
 
-	& > li {
-
-	}
-
 	&.no-bullet {
 		list-style-type: none;
 		padding-left: 0;
@@ -198,27 +194,17 @@ img {
 }
 
 input[type='range'] {
-	-webkit-appearance: none;
+	appearance: none;
 	width: 100%;
 	height: 15px;
 
 	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,0.65+100 */
-	background: -moz-linear-gradient(left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(left, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
 	background: linear-gradient(to right, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=1 ); /* IE6-9 */
 
 	outline: none;
-	//opacity: 0.7;
-	-webkit-transition: .2s;
 	transition: opacity .2s;
 
-	&:hover {
-		//opacity: 1;
-	}
-
 	&::-webkit-slider-thumb {
-		-webkit-appearance: none;
 		appearance: none;
 		width: 25px;
 		height: 25px;
@@ -432,9 +418,6 @@ textarea {
 }
 
 [draggable="true"] {
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
   user-select: none;
   /* Required to make elements draggable in old WebKit */
   -khtml-user-drag: element;
@@ -836,9 +819,6 @@ ul.user-header-menu {
     text-align: center;
     letter-spacing: 0;
     border-radius: 50%;
-
-    -webkit-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
-	-moz-box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
 	box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.5);
 
 	&.hide {
@@ -1175,8 +1155,6 @@ ul.user-header-menu {
 	    transform: translateX(-50%);
 	    //white-space: nowrap;
 	    width: 120px;
-		min-height: -webkit-fit-content;
-		min-height: -moz-fit-content;
 		min-height: fit-content;
 	}
 
@@ -1500,10 +1478,6 @@ pin {
 	    border: 1px solid $color;
 
 	    &.active {
-			-moz-transform: rotate(45deg);
-		    -webkit-transform: rotate(45deg);
-		    -ms-transform: rotate(45deg);
-		    -o-transform: rotate(45deg);
 		    transform: rotate(45deg);
 			opacity: 0.4;
 	    }
@@ -2218,12 +2192,7 @@ pin {
 			& > a {
 				font-size: 14px;
 				line-height: 20px;
-				display: -webkit-flex;
-				display: -moz-flex;
-				display: -ms-flex;
-				display: -o-flex;
 				display: flex;
-				-ms-align-items: center;
 				align-items: center;
 
 				& > i:first-child,
@@ -2274,10 +2243,6 @@ pin {
 				text-decoration: line-through;
 				color: #b30000;
 				background: #fadad7;
-			}
-
-			&.grey {
-
 			}
 
 		}
@@ -3030,8 +2995,6 @@ header {
 
 			.current-status {
 				background: rgb(0,0,0);
-			    background: -webkit-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
-			    background: -o-linear-gradient(left, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
 			    background: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(255,0,0,1) 100%);
 			}
 
@@ -3713,10 +3676,7 @@ input.share-email {
 			width: 30px;
 
 			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&1+13,0+100 */
-			background: -moz-linear-gradient(45deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 13%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
-			background: -webkit-linear-gradient(45deg, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 13%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
-			background: linear-gradient(45deg, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 13%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+			background: linear-gradient(45deg, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 13%,rgba(0,0,0,0) 100%);
 		}
 	}
 
