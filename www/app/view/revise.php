@@ -98,6 +98,7 @@
 								<li><a href="#" data-modal="video">Advanced Features</a></li>
 								<li><a href="#" data-modal="video">Keyboard Shortcuts</a></li>
 								<li><a href="#" data-modal="video">Integrations Help</a></li>
+								<li><a href="#" data-modal="video">Feedback</a></li>
 								<li><a href="#" data-modal="video">Contact Support</a></li>
 							</ul>
 						</li>
@@ -860,6 +861,7 @@ foreach ($other_pages as $pageOther) {
 						<li><a href="#" data-modal="video">Advanced Features</a></li>
 						<li><a href="#" data-modal="video">Keyboard Shortcuts</a></li>
 						<li><a href="#" data-modal="video">Integrations Help</a></li>
+						<li><a href="#" data-modal="video">Feedback</a></li>
 						<li><a href="#" data-modal="video">Contact Support</a></li>
 					</ul>
 
