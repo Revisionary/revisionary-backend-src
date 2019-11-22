@@ -1124,57 +1124,89 @@ ul.user-header-menu {
 [data-tooltip] {
 	position: relative;
 
-
 	&.tooltip {
 		cursor: help;
 	}
 
-	&.tooltip-active:after,
-	&:hover:after{
-		pointer-events: none;
-	    padding: 4px;
-	    background-color: $color;
-	    color: white;
+	&::after {
 	    content: attr(data-tooltip);
+		pointer-events: none;
 	    position: absolute;
 	    z-index: 999;
+        display: inline-table;
+	    padding: 4px;
+	    width: 120px;
+		min-height: fit-content;
+	    border-radius: 5px;
+	    background-color: $color;
+	    color: white;
+	    box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.5);
 	    text-transform: initial;
 	    font-family: 'Roboto Condensed', sans-serif;
 	    font-size: 12px;
 	    line-height: 15px;
 	    font-weight: bold !important;
 	    letter-spacing: normal;
-        display: inline-table;
 	    white-space: normal;
-	    text-align: center;
-	    box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.5);
-	    border-radius: 5px;
-	    bottom: calc(100% + 5px);
+		text-align: center;
+		opacity: 0;
+		transition: 500ms;
+		transition-delay: 0;
+
+	    bottom: 90%;
 		right: auto;
 		left: 50%;
 	    transform: translateX(-50%);
-	    //white-space: nowrap;
-	    width: 120px;
-		min-height: fit-content;
 	}
 
-	&.bottom-tooltip:after {
-		bottom: auto;
-		top: calc(100% + 5px);
+	&.tooltip-active:after,
+	&:hover:after{
+		opacity: 1;
+		bottom: calc(100% + 5px);
+		transition-delay: 500ms;
 	}
 
-	&.left-tooltip:after {
-		right: calc(100% + 5px);
-		left: auto;
-		top: 50%;
-		transform: translateY(-50%);
+	&.bottom-tooltip {
+
+		&::after {
+			bottom: auto;
+			top: 90%;
+		}
+
+		&:hover::after {
+			top: calc(100% + 5px);
+		}
+
 	}
 
-	&.right-tooltip:after {
-		right: auto;
-		left: calc(100% + 5px);
-		top: 50%;
-		transform: translateY(-50%);
+	&.left-tooltip {
+
+		&::after {
+			right: 90%;
+			left: auto;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		&:hover::after {
+			right: calc(100% + 5px);
+		}
+
+	}
+
+	&.right-tooltip {
+
+		&::after {
+			right: auto;
+			left: 90%;
+			top: 50%;
+			transform: translateY(-50%);
+		}
+
+		&:hover::after {
+			left: calc(100% + 5px);
+		}
+
 	}
 
 }
