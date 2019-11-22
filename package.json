@@ -22,12 +22,12 @@
   "dependencies": {},
   "devDependencies": {
     "gulp": "latest",
-    "gulp-sass": "latest",
     "gulp-autoprefixer": "latest",
+    "gulp-cli": "latest",
     "gulp-plumber": "latest",
+    "gulp-sass": "latest",
     "gulp-sass-lint": "latest",
-    "gulp-sourcemaps": "latest",
-    "gulp-cli": "latest"
+    "gulp-sourcemaps": "latest"
   },
   "browserslist": [
     "ff > 2",
