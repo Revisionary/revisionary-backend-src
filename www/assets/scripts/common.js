@@ -92,32 +92,49 @@ $(function() {
 		var page_height = $(this).find('input[name="page_height"]').val();
 
 
-		// Other pages check
+		// Pages check in this paroject
 		var pageExists = false;
 		var pageFound = false;
 		if (project_ID != "new" && project_ID != "autodetect") {
 
 
 			pageFound = myPages.find(function(page) {
-				return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID == project_ID ? true : false;
+				return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID == project_ID;
 			});
-
-			if (pageFound) {
-				pageExists = true;
-			}
+			if (pageFound) pageExists = true;
 
 
 		}
 
 
-		// Other pages in other projects
+		// Pages check in other projects
 		var pageExistsInOtherProject = false;
-		var urlsInOtherProjects = {};
+		var pageFoundInOtherProject = false;
+		if (project_ID != "new" && project_ID != "autodetect") {
+
+
+			pageFoundInOtherProject = myPages.find(function(page) {
+				return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID != project_ID;
+			});
+			if (pageFoundInOtherProject) pageExistsInOtherProject = true;
+
+
+		}
 
 
 		// Check other project domains
 		var projectExists = false;
-		var otherProjectDomains = {};
+		var pageFoundByDomainInOtherProject = false;
+		if (project_ID != "new" && project_ID != "autodetect") {
+
+
+			pageFoundByDomainInOtherProject = myPages.find(function(page) {
+				return getDomainName(page.page_url) == getDomainName(url) && page.project_ID != project_ID;
+			});
+			if (pageFoundByDomainInOtherProject) projectExists = true;
+
+
+		}
 
 
 		// Recommend adding different project
@@ -127,12 +144,10 @@ $(function() {
 
 
 			pageFoundByDomain = myPages.find(function(page) {
-				return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID ? true : false;
+				return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID;
 			});
 
-			if (!pageFoundByDomain) {
-				newProject = true;
-			}
+			if (!pageFoundByDomain) newProject = true;
 
 
 		}
@@ -158,13 +173,18 @@ $(function() {
 			e.preventDefault();
 
 
-		} else if (pageExistsInOtherProject) { // URL found in different project_ID
+		} else if (pageExistsInOtherProject) { // URL found in different project_ID !!!
 
 
 			// Confirm: Should we add a new phase?
-			if ( confirm("The URL you entered already has a page in a project. Should we add a new phase on that page?") ) {
+			if ( confirm("The URL you entered already has a page in another project. Should we add a new phase on that page?") ) {
 
-				console.log('Redirect to a new phase URL...');
+				var newPhaseUrlOtherProject = "/projects?new_phase="+ pageFoundInOtherProject.page_ID +"&page_width="+page_width+"&page_height="+page_height;
+				console.log('Redirect to a new phase URL...', newPhaseUrlOtherProject);
+
+
+				// Redirect
+				window.location = newPhaseUrlOtherProject;
 
 			}
 
@@ -180,10 +200,16 @@ $(function() {
 
 				console.log('Update the project number...');
 
+
+				// Update the project id as new
+				$(this).find('input[name="project_ID"]').attr('value', pageFoundByDomainInOtherProject.project_ID);
+
+
+			} else { // If not confirmed
+
+				e.preventDefault();
+
 			}
-
-
-			e.preventDefault();
 
 
 		} else if (newProject) { // URL or Domain not found in this project_ID and other projects (Only in a specific Project)
@@ -196,13 +222,14 @@ $(function() {
 
 
 				// Update the project id as new
-				$(this).find('input[name="project_ID"]').attr('value', 'autodetect');
+				$(this).find('input[name="project_ID"]').attr('value', pageFoundByDomain.project_ID);
 
+
+			} else { // If not confirmed
+
+				e.preventDefault();
 
 			}
-
-
-			e.preventDefault();
 
 
 		}

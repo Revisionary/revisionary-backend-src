@@ -43,6 +43,11 @@ $screenFilter = get('screen');
 $catFilter = isset($_url[2]) ? $_url[2] : '';
 
 
+// ALL THE PAGES
+$pages = $User->getPages();
+//die_to_print($pages);
+
+
 
 // PAGES IN THIS PROJECT
 $allMyPages = $User->getPages($project_ID, null, '');

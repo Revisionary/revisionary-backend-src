@@ -45,8 +45,8 @@
 			var myPages = [];
 			<?php
 
-			if ( isset($allMyPages) ) {
-				foreach ($allMyPages as $myPage) {
+			if ( isset($pages) ) {
+				foreach ($pages as $myPage) {
 
 					// Skip archived and deleted
 					if ($myPage['page_deleted'] || $myPage['page_archived']) continue;

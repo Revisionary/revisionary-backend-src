@@ -83,7 +83,7 @@ $page = $pageData->getInfo();
 //die_to_print($page);
 
 // All my pages
-$allMyPages = $User->getPages(null, null, '');
+$allMyPages = $pages = $User->getPages();
 //die_to_print($allMyPages);
 
 
