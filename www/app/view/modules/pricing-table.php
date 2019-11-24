@@ -54,6 +54,12 @@
 		<td class="align-center">Yes</td>
 	</tr>
 	<tr>
+		<td>Comment on Design Files</td>
+		<td class="align-center">-</td>
+		<td class="align-center">Yes</td>
+		<td class="align-center">Yes</td>
+	</tr>
+	<tr>
 		<td>FreeHand Draw (Coming Soon)</td>
 		<td class="align-center">-</td>
 		<td class="align-center">Yes</td>
@@ -61,6 +67,12 @@
 	</tr>
 	<tr>
 		<td>Site Backup (Coming Soon)</td>
+		<td class="align-center">-</td>
+		<td class="align-center">-</td>
+		<td class="align-center">Yes</td>
+	</tr>
+	<tr>
+		<td>Integrations (Coming Soon)</td>
 		<td class="align-center">-</td>
 		<td class="align-center">-</td>
 		<td class="align-center">Yes</td>
@@ -73,24 +85,37 @@
 		<td class="align-center">
 			$<?=$user_level['user_level_price']?><span><?=$user_level['user_level_price'] != 0 ? "/m" : ""?></span><br><br>
 			<?php
-			if ( getUserInfo()['userLevelName'] == $user_level['user_level_name'] ) {
+
+			if ($page_title == "Upgrade") {
 
 
-				echo "<b>Your Current Plan</b>";
+				if ( getUserInfo()['userLevelName'] == $user_level['user_level_name'] ) {
 
 
-			} elseif ( getUserInfo()['userLevelName'] != 'Free' && $user_level['user_level_name'] != 'Enterprise' ) {
+					echo "<b>Your Current Plan</b>";
 
 
-				echo "<a href='#' class='cancel-plan' data-tooltip='In development...'>Downgrade to ".$user_level['user_level_name']."</a>";
+				} elseif ( getUserInfo()['userLevelName'] != 'Free' && $user_level['user_level_name'] != 'Enterprise' ) {
 
 
-			} elseif ( getUserInfo()['userLevelName'] != $user_level['user_level_name'] ) {
+					echo "<a href='#' class='cancel-plan' data-tooltip='In development...'>Downgrade to ".$user_level['user_level_name']."</a>";
+
+
+				} elseif ( getUserInfo()['userLevelName'] != $user_level['user_level_name'] ) {
+				?>
+
+				<a href='#' class='upgrade-button <?=$user_level['user_level_name'] == "Free" ? "invisible" : ""?>' data-tooltip='In development...'>Upgrade to <?=strtoupper($user_level['user_level_name'])?></a>
+
+			<?php
+				}
+
+			} elseif ($page_title == "Pricing") {
+
+				if ($user_level['user_level_name'] == "Free") echo "<a href='".site_url('signup')."' class='upgrade-button'>Get Started</a>";
+				else echo "<a href='".site_url('signup?trial='.$user_level['user_level_name'])."' class='upgrade-button' data-tooltip='In development...'>Try ".$user_level['user_level_name']."</a>";
+
+			}
 			?>
-
-			<a href='#' class='upgrade-button <?=$user_level['user_level_name'] == "Free" ? "invisible" : ""?>' data-tooltip='In development...'>Upgrade to <?=strtoupper($user_level['user_level_name'])?></a>
-
-			<?php } ?>
 		</td>
 		<?php } ?>
 	</tr>

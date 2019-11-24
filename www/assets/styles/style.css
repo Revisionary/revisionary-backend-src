@@ -10102,55 +10102,55 @@ body.dragging, body.dragging * {
 }
 
 /* Pricing */
-.pricing {
+table.pricing {
   width: 100%;
   margin-top: 60px;
   margin-bottom: 60px;
   border-spacing: 0;
 }
 
-.pricing th, .pricing td {
+table.pricing th, table.pricing td {
   padding: 10px 5px;
 }
 
-.pricing th.align-center, .pricing td.align-center {
+table.pricing th.align-center, table.pricing td.align-center {
   text-align: center;
 }
 
-.pricing th {
+table.pricing th {
   text-transform: uppercase;
 }
 
-.pricing th.feature {
+table.pricing th.feature {
   width: 25%;
 }
 
-.pricing th.feature span {
+table.pricing th.feature span {
   display: none;
 }
 
-.pricing th:not(.feature) {
+table.pricing th:not(.feature) {
   width: 17%;
 }
 
-.pricing tr:not(:last-child) td:first-child {
+table.pricing tr:not(:last-child) td:first-child {
   border-right: 1px solid black;
 }
 
-.pricing tr:not(:last-child) th, .pricing tr:not(:last-child) td {
+table.pricing tr:not(:last-child) th, table.pricing tr:not(:last-child) td {
   border-bottom: 1px solid black;
 }
 
-.pricing tr:last-child th, .pricing tr:last-child td {
+table.pricing tr:last-child th, table.pricing tr:last-child td {
   font-weight: bold;
   position: relative;
 }
 
-.pricing tr:last-child th a, .pricing tr:last-child td a {
+table.pricing tr:last-child th a, table.pricing tr:last-child td a {
   font-weight: normal;
 }
 
-.pricing .cancel-plan {
+table.pricing .cancel-plan {
   display: block;
   font-size: 10px;
   position: absolute;
