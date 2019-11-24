@@ -619,14 +619,14 @@
 		<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$otherPhaseNumber?> (<?=timeago($otherPhase['phase_created'])?>)</a>
 
 		<?php
-		if ( count($devices_of_phase) ) {
+		if ( count($devices_of_phase) > 1 ) {
 		?>
 		<ul>
 			<?php
 			foreach ($devices_of_phase as $deviceFromPhase) {
 			?>
 			<li class="item" data-type="device" data-id="<?=$deviceFromPhase['device_ID']?>">
-				<a href="<?=site_url('revise/'.$deviceFromPhase['device_ID'])?>"><i class="fa <?=$deviceFromPhase['screen_cat_icon']?>"></i> <?=$deviceFromPhase['screen_cat_name']?></a>
+				<a href="<?=site_url('revise/'.$deviceFromPhase['device_ID'])?>"><i class="fa <?=$deviceFromPhase['screen_cat_icon']?>"></i> <?=$deviceFromPhase['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPhase['screen_cat_name']?></a>
 			</li>
 			<?php
 			}
