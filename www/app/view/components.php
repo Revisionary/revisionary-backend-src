@@ -89,7 +89,7 @@
 			<div class="col">
 
 				<b>Logo </b><br/><br/>
-				<img src="<?=asset_url("images/revisionary-logo.png")?>" width="402" height="136" alt=""/>
+				<img src="<?=asset_url("images/revisionary-app-logo@2x.png")?>" width="405" height="70" alt=""/>
 
 			</div>
 			<div class="col">
@@ -534,9 +534,16 @@
 			</div>
 			<div class="col xl-center">
 
+				Mouse Cursor Editable <br/><br/>
+				<pin class="mouse-cursor big active" data-pin-type="live" data-pin-private="0" style="position: static;">2</pin> <br/><br/>
+				<pin class="mouse-cursor active" data-pin-type="live" data-pin-private="0" style="position: static;">2</pin>
+
+			</div>
+			<div class="col xl-center">
+
 				Mouse Cursor Existing <br/><br/>
-				<pin class="mouse-cursor big active existing" data-pin-type="style" data-pin-private="0" style="position: static;">2</pin> <br/><br/>
-				<pin class="mouse-cursor active existing" data-pin-type="style" data-pin-private="0" style="position: static;">2</pin>
+				<pin class="mouse-cursor big active existing" data-pin-type="live" data-pin-private="0" style="position: static;">3</pin> <br/><br/>
+				<pin class="mouse-cursor active existing" data-pin-type="live" data-pin-private="0" style="position: static;">3</pin>
 
 			</div>
 		</div>
