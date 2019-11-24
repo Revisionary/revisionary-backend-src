@@ -8809,7 +8809,7 @@ header {
 
 .limit-wrapper .total {
   margin-top: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-size: 15px;
   color: black;
 }
@@ -8828,7 +8828,7 @@ header {
 
 .limit-wrapper .total .desc {
   display: block;
-  font-size: 12px;
+  font-size: 10px;
 }
 
 .limit-wrapper ul {
@@ -9816,12 +9816,10 @@ ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit .lim
   color: red;
   text-transform: uppercase;
   font-size: 30px;
-  letter-spacing: 1px;
 }
 
 ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit .limit-message .upgrade-button {
   font-size: 14px;
-  letter-spacing: 0;
 }
 
 ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit .box {

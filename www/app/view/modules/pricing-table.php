@@ -14,13 +14,13 @@
 	<tr>
 		<td># of Pages & Phases & Design Uploads</td>
 		<?php foreach ($user_levels as $user_level) { ?>
-		<td class="align-center"><?=$user_level['user_level_max_page'] == 99999 ? "Unlimited" : $user_level['user_level_max_project']?></td>
+		<td class="align-center"><?=$user_level['user_level_max_page'] == 99999 ? "Unlimited" : $user_level['user_level_max_page']?></td>
 		<?php } ?>
 	</tr>
 	<tr>
 		<td># of Screens</td>
 		<?php foreach ($user_levels as $user_level) { ?>
-		<td class="align-center">Unlimited</td>
+		<td class="align-center"><?=$user_level['user_level_max_screen'] == 99999 ? "Unlimited" : $user_level['user_level_max_screen']?></td>
 		<?php } ?>
 	</tr>
 	<tr>

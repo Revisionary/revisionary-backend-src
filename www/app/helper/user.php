@@ -96,8 +96,9 @@ function getUserInfo($user_ID = false) {
 			'userLevelID' => "",
 			'userLevelMaxProject' => "",
 			'userLevelMaxPage' => "",
+			'userLevelMaxScreen' => "",
 			'userLevelMaxLivePin' => "",
-			'userLevelMaxStylePin' => "",
+			'userLevelMaxCommentPin' => "",
 			'userLevelMaxLoad' => ""
 		);
 
@@ -141,8 +142,9 @@ function getUserInfo($user_ID = false) {
 		'userLevelID' => $userInfo['user_level_ID'],
 		'userLevelMaxProject' => $userInfo['user_level_max_project'],
 		'userLevelMaxPage' => $userInfo['user_level_max_page'],
+		'userLevelMaxScreen' => $userInfo['user_level_max_screen'],
 		'userLevelMaxLivePin' => $userInfo['user_level_max_live_pin'],
-		'userLevelMaxStylePin' => $userInfo['user_level_max_comment_pin'],
+		'userLevelMaxCommentPin' => $userInfo['user_level_max_comment_pin'],
 		'userLevelMaxLoad' => $userInfo['user_level_max_load']
 	);
 	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';

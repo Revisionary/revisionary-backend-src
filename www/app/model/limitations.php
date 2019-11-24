@@ -25,7 +25,17 @@ $phasesPercentage = intval((100 * $phasesCount) / $maxPhases);
 $maxPhases = $maxPhases == 99999 ? "∞" : $maxPhases;
 
 
-// PINS
+// SCREENS
+$maxScreens = getUserInfo($limit_user_ID)['userLevelMaxScreen'];
+$myScreens = array_filter($limitUser->getDevices(), function($screenFound) use ($limit_user_ID) {
+	return $screenFound['user_ID'] == $limit_user_ID;
+});
+$screensCount = count( $myScreens );
+$screensPercentage = intval((100 * $screensCount) / $maxScreens);
+$maxScreens = $maxScreens == 99999 ? "∞" : $maxScreens;
+
+
+// LIVE PINS
 $maxPins = getUserInfo($limit_user_ID)['userLevelMaxLivePin'];
 $myPins = array_filter($limitUser->getPins(), function($pinFound) use ($limit_user_ID) {
 	return $pinFound['user_ID'] == $limit_user_ID && ($pinFound['pin_type'] == 'live' || $pinFound['pin_type'] == 'style');
@@ -33,6 +43,16 @@ $myPins = array_filter($limitUser->getPins(), function($pinFound) use ($limit_us
 $pinsCount = count( $myPins );
 $pinsPercentage = intval((100 * $pinsCount) / $maxPins);
 $maxPins = $maxPins == 99999 ? "∞" : $maxPins;
+
+
+// LIVE PINS
+$maxCommentPins = getUserInfo($limit_user_ID)['userLevelMaxCommentPin'];
+$myCommentPins = array_filter($limitUser->getPins(), function($pinFound) use ($limit_user_ID) {
+	return $pinFound['user_ID'] == $limit_user_ID && $pinFound['pin_type'] == 'comment';
+});
+$commentPinsCount = count( $myCommentPins );
+$commentPinsPercentage = intval((100 * $commentPinsCount) / $maxCommentPins);
+$maxCommentPins = $maxCommentPins == 99999 ? "∞" : $maxCommentPins;
 
 
 // LOAD

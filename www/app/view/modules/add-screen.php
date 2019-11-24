@@ -1,6 +1,14 @@
 <ul class="xl-left screen-adder">
+
+
+	<?php if ($screensPercentage >= 100) { ?>
+	<li><a href="<?=site_url("upgrade")?>" class="add-phase"><i class="fa fa-exclamation-circle"></i> <b>Increase Screen Limit Now</b></a></li>
+	<?php } ?>
+
+
 	<?php
 	foreach ($User->getScreenData() as $screen_cat) {
+		if ($screensPercentage >= 100) break;
 	?>
 
 	<li>

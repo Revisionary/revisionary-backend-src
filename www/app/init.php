@@ -79,7 +79,7 @@ if ( userLoggedIn() && !$User ) {
 }
 
 
-// Get limitations
+// If logged in
 if ($User) {
 
 
