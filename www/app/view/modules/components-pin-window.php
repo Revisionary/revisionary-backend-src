@@ -452,7 +452,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -922,7 +922,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -1342,7 +1342,7 @@
 				</div>
 				<div class="col section-content">
 
-					<div class="pin-comments">			<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-2-12 xl-left xl-first profile-image" href="#"> 					<picture class="profile-picture big square" style="background-image: url(/cache/users/user-2/ike.png);"> 						<span>IE</span> 					</picture> 				</a> 				<div class="col xl-10-12 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-left xl-bottom comment-title"> 						<a href="#" class="col xl-first comment-user-name">Ike Elimsa</a> 						<span class="col comment-date">about a minute ago</span> 					</div> 					<div class="comment-text xl-left"> 						We should add a contact form here. 						 					</div> 				</div> 			</div> 				<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-2-12 xl-right xl-last profile-image" href="#"> 					<picture class="profile-picture big square" style="background-image: url(/cache/users/user-6/asd.png);"> 						<span>BT</span> 					</picture> 				</a> 				<div class="col xl-10-12 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-right xl-bottom comment-title"> 						<a href="#" class="col xl-last comment-user-name">Bill TAS</a> 						<span class="col comment-date">about a minute ago</span> 					</div> 					<div class="comment-text xl-right"> 						Which fields we'll add there? 						 <a href="#" class="delete-comment" data-comment-id="25" data-tooltip="Delete this comment">×</a> 					</div> 				</div> 			</div> 	</div>
+					<div class="pin-comments">			<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-1-9 xl-left xl-first profile-image" href="#"> 					<picture class="profile-picture" style="background-image: url(/cache/users/user-2/ike.png);"> 						<span>IE</span> 					</picture> 				</a> 				<div class="col xl-8-9 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-left xl-bottom comment-title"> 						<a href="#" class="col xl-first comment-user-name">Ike Elimsa</a> 						<span class="col comment-date">about a minute ago</span> 					</div> 					<div class="comment-text xl-left"> 						We should add a contact form here. 						 					</div> 				</div> 			</div> 				<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-1-9 profile-image" href="#"> 					<picture class="profile-picture" style="background-image: url(/cache/users/user-6/asd.png);"> 						<span>BT</span> 					</picture> 				</a> 				<div class="col xl-8-9 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-bottom comment-title"> 						<a href="#" class="col comment-user-name">Bill TAS</a> 						<span class="col comment-date">about a minute ago</span> 					</div> 					<div class="comment-text"> 						Which fields we'll add there? 						 <a href="#" class="delete-comment" data-comment-id="25" data-tooltip="Delete this comment">×</a> 					</div> 				</div> 			</div> 	</div>
 					<div class="comment-actions">
 
 						<form action="" method="post" id="comment-sender">
@@ -1392,7 +1392,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -1873,7 +1873,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -2342,7 +2342,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -2811,7 +2811,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -3280,7 +3280,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -3699,7 +3699,7 @@
 				</div>
 				<div class="col section-content">
 
-					<div class="pin-comments">			<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-2-12 xl-left xl-first profile-image" href="#"> 					<picture class="profile-picture big square" style="background-image: url(/cache/users/user-2/ike.png);"> 						<span>IE</span> 					</picture> 				</a> 				<div class="col xl-10-12 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-left xl-bottom comment-title"> 						<a href="#" class="col xl-first comment-user-name">Ike Elimsa</a> 						<span class="col comment-date">57 minutes ago</span> 					</div> 					<div class="comment-text xl-left"> 						This needs to be corrected. 						 					</div> 				</div> 			</div> 				<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-2-12 xl-right xl-last profile-image" href="#"> 					<picture class="profile-picture big square" style="background-image: url(/cache/users/user-6/asd.png);"> 						<span>BT</span> 					</picture> 				</a> 				<div class="col xl-10-12 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-right xl-bottom comment-title"> 						<a href="#" class="col xl-last comment-user-name">Bill TAS</a> 						<span class="col comment-date">57 minutes ago</span> 					</div> 					<div class="comment-text xl-right"> 						Sure! 						 <a href="#" class="delete-comment" data-comment-id="13" data-tooltip="Delete this comment">×</a> 					</div> 				</div> 			</div> 	</div>
+					<div class="pin-comments">			<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-1-9 xl-left xl-first profile-image" href="#"> 					<picture class="profile-picture" style="background-image: url(/cache/users/user-2/ike.png);"> 						<span>IE</span> 					</picture> 				</a> 				<div class="col xl-8-9 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-left xl-bottom comment-title"> 						<a href="#" class="col xl-first comment-user-name">Ike Elimsa</a> 						<span class="col comment-date">57 minutes ago</span> 					</div> 					<div class="comment-text xl-left"> 						This needs to be corrected. 						 					</div> 				</div> 			</div> 				<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-1-9 profile-image" href="#"> 					<picture class="profile-picture" style="background-image: url(/cache/users/user-6/asd.png);"> 						<span>BT</span> 					</picture> 				</a> 				<div class="col xl-8-9 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-bottom comment-title"> 						<a href="#" class="col comment-user-name">Bill TAS</a> 						<span class="col comment-date">57 minutes ago</span> 					</div> 					<div class="comment-text"> 						Sure! 						 <a href="#" class="delete-comment" data-comment-id="13" data-tooltip="Delete this comment">×</a> 					</div> 				</div> 			</div> 	</div>
 					<div class="comment-actions">
 
 						<form action="" method="post" id="comment-sender">
@@ -3749,7 +3749,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -4218,7 +4218,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -4698,7 +4698,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -5167,7 +5167,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -5636,7 +5636,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -6105,7 +6105,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
@@ -6524,7 +6524,7 @@
 				</div>
 				<div class="col section-content">
 
-					<div class="pin-comments">			<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-2-12 xl-left xl-first profile-image" href="#"> 					<picture class="profile-picture big square" style="background-image: url(/cache/users/user-6/asd.png);"> 						<span>BT</span> 					</picture> 				</a> 				<div class="col xl-10-12 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-left xl-bottom comment-title"> 						<a href="#" class="col xl-first comment-user-name">Bill TAS</a> 						<span class="col comment-date">about a minute ago</span> 					</div> 					<div class="comment-text xl-left"> 						That's the better photo! 						 <a href="#" class="delete-comment" data-comment-id="21" data-tooltip="Delete this comment">×</a> 					</div> 				</div> 			</div> 				<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-2-12 xl-right xl-last profile-image" href="#"> 					<picture class="profile-picture big square" style="background-image: url(/cache/users/user-2/ike.png);"> 						<span>IE</span> 					</picture> 				</a> 				<div class="col xl-10-12 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-right xl-bottom comment-title"> 						<a href="#" class="col xl-last comment-user-name">Ike Elimsa</a> 						<span class="col comment-date">about a minute ago</span> 					</div> 					<div class="comment-text xl-right"> 						Absolutely. 						 					</div> 				</div> 			</div> 	</div>
+					<div class="pin-comments">			<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-1-9 xl-left xl-first profile-image" href="#"> 					<picture class="profile-picture" style="background-image: url(/cache/users/user-6/asd.png);"> 						<span>BT</span> 					</picture> 				</a> 				<div class="col xl-8-9 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-left xl-bottom comment-title"> 						<a href="#" class="col xl-first comment-user-name">Bill TAS</a> 						<span class="col comment-date">about a minute ago</span> 					</div> 					<div class="comment-text xl-left"> 						That's the better photo! 						 <a href="#" class="delete-comment" data-comment-id="21" data-tooltip="Delete this comment">×</a> 					</div> 				</div> 			</div> 				<div class="comment wrap xl-flexbox xl-top  "> 				<a class="col xl-1-9 profile-image" href="#"> 					<picture class="profile-picture" style="background-image: url(/cache/users/user-2/ike.png);"> 						<span>IE</span> 					</picture> 				</a> 				<div class="col xl-8-9 comment-inner-wrapper"> 					<div class="wrap xl-flexbox xl-bottom comment-title"> 						<a href="#" class="col comment-user-name">Ike Elimsa</a> 						<span class="col comment-date">about a minute ago</span> 					</div> 					<div class="comment-text"> 						Absolutely. 						 					</div> 				</div> 			</div> 	</div>
 					<div class="comment-actions">
 
 						<form action="" method="post" id="comment-sender">
@@ -6574,7 +6574,7 @@
 				</div>
 				<div class="col action pin-complete">
 					<a href="#" class="complete-pin" data-tooltip="Mark as resolved">
-						<pin data-pin-type="style" data-pin-private="0" data-pin-complete="1"></pin>
+						<pin data-pin-type="comment" data-pin-private="0" data-pin-complete="1"></pin>
 						DONE
 					</a>
 					<a href="#" class="incomplete-pin" data-tooltip="Mark as unresolved">
