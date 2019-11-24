@@ -60,6 +60,7 @@ load_session();
 
 // Debug Mode
 $debug_mode = $config['env']['debug'] == "TRUE";
+$debug_mode = false;
 if ($debug_mode) $db->setTrace(true);
 
 
