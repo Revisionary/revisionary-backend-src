@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: Oct 15, 2019 at 09:26 AM
--- Server version: 8.0.17
--- PHP Version: 7.2.22
+-- Generation Time: Nov 24, 2019 at 06:53 AM
+-- Server version: 8.0.18
+-- PHP Version: 7.2.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -376,7 +376,7 @@ CREATE TABLE `user_levels` (
   `user_level_max_project` int(5) NOT NULL,
   `user_level_max_page` int(5) NOT NULL,
   `user_level_max_live_pin` int(5) NOT NULL,
-  `user_level_max_style_pin` int(5) NOT NULL,
+  `user_level_max_comment_pin` int(5) NOT NULL,
   `user_level_max_client` int(5) NOT NULL,
   `user_level_max_load` int(5) NOT NULL,
   `user_level_price` float NOT NULL,
@@ -387,11 +387,11 @@ CREATE TABLE `user_levels` (
 -- Dumping data for table `user_levels`
 --
 
-INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_description`, `user_level_max_project`, `user_level_max_page`, `user_level_max_live_pin`, `user_level_max_style_pin`, `user_level_max_client`, `user_level_max_load`, `user_level_price`, `user_level_color`) VALUES
+INSERT INTO `user_levels` (`user_level_ID`, `user_level_name`, `user_level_description`, `user_level_max_project`, `user_level_max_page`, `user_level_max_live_pin`, `user_level_max_comment_pin`, `user_level_max_client`, `user_level_max_load`, `user_level_price`, `user_level_color`) VALUES
 (1, 'Admin', 'Admin Description', 99999, 99999, 99999, 99999, 99999, 99999, 99999, 'black'),
-(2, 'Free', 'Free for all users', 3, 6, 30, 99999, 0, 20, 0, 'black'),
-(3, 'Plus', 'Plus description', 12, 24, 99999, 99999, 3, 120, 9.99, 'green'),
-(4, 'Enterprise', 'Enterprise description.', 99999, 99999, 99999, 99999, 99999, 2048, 19.99, 'gold');
+(2, 'Free', 'Free for all users', 3, 6, 30, 50, 0, 20, 0, 'black'),
+(3, 'Plus', 'Plus description', 12, 24, 99999, 99999, 3, 120, 29, 'green'),
+(4, 'Enterprise', 'Enterprise description.', 99999, 99999, 99999, 99999, 99999, 2048, 99, 'gold');
 
 --
 -- Indexes for dumped tables

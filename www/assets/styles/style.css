@@ -8786,6 +8786,7 @@ header {
   padding: 5px 10px;
   background-color: black;
   color: white !important;
+  white-space: nowrap;
 }
 
 .upgrade-button:hover {
@@ -10098,6 +10099,62 @@ body.dragging, body.dragging * {
 
 .color-private {
   color: #FC0F42;
+}
+
+/* Pricing */
+.pricing {
+  width: 100%;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  border-spacing: 0;
+}
+
+.pricing th, .pricing td {
+  padding: 10px 5px;
+}
+
+.pricing th.align-center, .pricing td.align-center {
+  text-align: center;
+}
+
+.pricing th {
+  text-transform: uppercase;
+}
+
+.pricing th.feature {
+  width: 25%;
+}
+
+.pricing th.feature span {
+  display: none;
+}
+
+.pricing th:not(.feature) {
+  width: 17%;
+}
+
+.pricing tr:not(:last-child) td:first-child {
+  border-right: 1px solid black;
+}
+
+.pricing tr:not(:last-child) th, .pricing tr:not(:last-child) td {
+  border-bottom: 1px solid black;
+}
+
+.pricing tr:last-child th, .pricing tr:last-child td {
+  font-weight: bold;
+  position: relative;
+}
+
+.pricing tr:last-child th a, .pricing tr:last-child td a {
+  font-weight: normal;
+}
+
+.pricing .cancel-plan {
+  display: block;
+  font-size: 10px;
+  position: absolute;
+  width: 100%;
 }
 
 /**

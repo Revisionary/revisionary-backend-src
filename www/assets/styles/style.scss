@@ -2845,7 +2845,8 @@ header {
     border-radius: 8px;
     padding: 5px 10px;
     background-color: $color;
-    color: white !important;
+	color: white !important;
+	white-space: nowrap;
 
     &:hover {
 	    background-color: white;
@@ -4326,6 +4327,80 @@ body.dragging, body.dragging * {
 
 	&-private {
 		color: $color-private;
+	}
+
+}
+
+
+/* Pricing */
+.pricing {
+	width: 100%;
+	margin-top: 60px;
+	margin-bottom: 60px;
+	border-spacing: 0;
+	
+
+	th, td {
+		padding: 10px 5px;
+
+		&.align-center {
+			text-align: center;
+		}
+
+	}
+
+	th {
+		text-transform: uppercase;
+
+		&.feature {
+			width: 25%;
+
+			span {
+				display: none;
+			}
+
+		}
+
+		&:not(.feature) {
+			width: 17%;
+		}
+
+	}
+
+	tr {
+
+		&:not(:last-child) {
+
+			td:first-child {
+				border-right: 1px solid $color;
+			}
+			
+			th, td {
+				border-bottom: 1px solid $color;
+			}
+
+		}
+
+		&:last-child {
+			
+			th, td {
+				font-weight: bold;
+				position: relative;
+
+				a {
+					font-weight: normal;
+				}
+			}
+
+		}
+
+	}
+
+	.cancel-plan {
+		display: block;
+		font-size: 10px;
+		position: absolute;
+		width: 100%;
 	}
 
 }

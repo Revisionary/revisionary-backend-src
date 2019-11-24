@@ -19,7 +19,7 @@
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
-				<li><a href="<?=site_url('upgrade')?>" class="button" data-tooltip="In development...">INCREASE PROJECT LIMIT</a></li>
+				<li><a href="<?=site_url('upgrade')?>" class="button">INCREASE PROJECT LIMIT</a></li>
 			</ul>
 
 		</div>
@@ -36,7 +36,7 @@
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
-				<li><a href="<?=site_url('upgrade')?>" class="button" data-tooltip="In development...">INCREASE PAGE/PHASE LIMIT</a></li>
+				<li><a href="<?=site_url('upgrade')?>" class="button">INCREASE PAGE/PHASE LIMIT</a></li>
 			</ul>
 
 		</div>
@@ -53,7 +53,7 @@
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
-				<li><a href="<?=site_url('upgrade')?>" class="button" data-tooltip="In development...">INCREASE LIVE PIN LIMIT</a></li>
+				<li><a href="<?=site_url('upgrade')?>" class="button">INCREASE LIVE PIN LIMIT</a></li>
 			</ul>
 
 		</div>
@@ -70,7 +70,7 @@
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
-				<li><a href="<?=site_url('upgrade')?>" class="button" data-tooltip="In development...">INCREASE SIZE LIMIT</a></li>
+				<li><a href="<?=site_url('upgrade')?>" class="button">INCREASE SIZE LIMIT</a></li>
 			</ul>
 
 		</div>

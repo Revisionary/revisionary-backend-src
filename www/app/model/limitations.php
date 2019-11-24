@@ -28,7 +28,7 @@ $maxPhases = $maxPhases == 99999 ? "∞" : $maxPhases;
 // PINS
 $maxPins = getUserInfo($limit_user_ID)['userLevelMaxLivePin'];
 $myPins = array_filter($limitUser->getPins(), function($pinFound) use ($limit_user_ID) {
-	return $pinFound['user_ID'] == $limit_user_ID && $pinFound['pin_type'] == 'live';
+	return $pinFound['user_ID'] == $limit_user_ID && ($pinFound['pin_type'] == 'live' || $pinFound['pin_type'] == 'style');
 });
 $pinsCount = count( $myPins );
 $pinsPercentage = intval((100 * $pinsCount) / $maxPins);

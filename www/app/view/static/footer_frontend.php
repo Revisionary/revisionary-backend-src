@@ -6,8 +6,8 @@
 			</div>
 			<div class="col xl-right footer-links">
 				<nav style="margin-bottom: 10px;">
-					<a href="/help">Get Started</a> | 
-					<a href="/pricing">Use Cases</a> | 
+					<a href="/help/get-started">Get Started</a> | 
+					<a href="/use-cases">Use Cases</a> | 
 					<a href="/pricing">Pricing</a> | 
 					<a href="/contact">Contact</a>
 				</nav>
