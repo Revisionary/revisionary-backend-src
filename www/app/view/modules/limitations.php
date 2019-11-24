@@ -74,7 +74,7 @@
 			</ul>
 
 		</div>
-		<div class="col total comment-pins-limit <?=$pinsPercentage >= 100 ? "exceed" : ""?> dropdown">
+		<div class="col total comment-pins-limit <?=$commentPinsPercentage >= 100 ? "exceed" : ""?> dropdown">
 
 			<a href="#" class="dropdown-opener">
 				<span class='current'><?=$commentPinsCount?></span>/<span class='max'><?=$maxCommentPins?></span>
