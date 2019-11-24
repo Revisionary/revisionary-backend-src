@@ -330,6 +330,19 @@ function runTheInspector() {
 				if (currentPinType == "live" || currentPinType == "style") {
 
 
+					// Re-focus if the focused element has no index
+					if (!focused_element_has_index && focused_element.parents('[data-revisionary-index]').length) {
+
+
+						// Re-focus to the closest indexed element
+						focused_element = focused_element.parents('[data-revisionary-index]').first();
+
+
+						//console.log('REFOCUS - if the focused element has no index: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
+
+					}
+
+
 					// Re-focus if only child element has no child and has content: <p><b focused>Lorem ipsum</b></p>
 					if (
 						focused_element_text == "" && // Focused element has no content
@@ -405,7 +418,7 @@ function runTheInspector() {
 					}
 
 
-					// // Background Image editable:
+					// // Background Image editable: !!!
 					// // Check element background image editable
 					// if (
 					// 	focused_element.prop('tagName').toUpperCase() != "IMG" &&
@@ -562,9 +575,7 @@ function runTheInspector() {
 				else if (currentPinType == "comment") {
 
 
-					// Focus to the highest level element
-					focused_element = iframeElement('[data-revisionary-index="0"]');
-					reFocus();
+					// Nothing to do...
 
 
 				} // Comment Pin
@@ -584,7 +595,7 @@ function runTheInspector() {
 
 
 				// REACTIONS:
-				focused_element_has_live_pin = focused_element_live_pin.length ? true : false;
+				focused_element_has_live_pin = focused_element_live_pin.length;
 
 
 				// If current element already has a live pin
@@ -4292,7 +4303,7 @@ function reFocus() {
 
 	focused_element_index = focused_element.attr('data-revisionary-index');
 	focused_element_has_index = focused_element_index != null ? true : false;
-	focused_element_index = focused_element_index != null ? focused_element_index : 0;
+	focused_element_index = focused_element_has_index ? focused_element_index : 0;
 	focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 	focused_element_html = focused_element.html();
 	focused_element_children = focused_element.children();
