@@ -73,15 +73,23 @@
 		<td class="align-center">
 			$<?=$user_level['user_level_price']?><span><?=$user_level['user_level_price'] != 0 ? "/m" : ""?></span><br><br>
 			<?php
-			if ( getUserInfo()['userLevelName'] == $user_level['user_level_name'] && $page_title == "Upgrade" ) {
-				
+			if ( getUserInfo()['userLevelName'] == $user_level['user_level_name'] ) {
+
+
 				echo "<b>Your Current Plan</b>";
 
-				if (getUserInfo()['userLevelName'] != "Free") echo "<a href='#' class='cancel-plan' data-tooltip='In development...'>Cancel</a>";
 
-			} else {
+			} elseif ( getUserInfo()['userLevelName'] != 'Free' && $user_level['user_level_name'] != 'Enterprise' ) {
+
+
+				echo "<a href='#' class='cancel-plan' data-tooltip='In development...'>Downgrade to ".$user_level['user_level_name']."</a>";
+
+
+			} elseif ( getUserInfo()['userLevelName'] != $user_level['user_level_name'] ) {
 			?>
+
 			<a href='#' class='upgrade-button <?=$user_level['user_level_name'] == "Free" ? "invisible" : ""?>' data-tooltip='In development...'>Upgrade to <?=strtoupper($user_level['user_level_name'])?></a>
+
 			<?php } ?>
 		</td>
 		<?php } ?>
