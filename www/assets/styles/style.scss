@@ -3928,6 +3928,11 @@ ol.categories {
 				&.add-new-block {
 
 
+					.limit-message {
+						display: none;
+					}
+
+
 					.box {
 						border-radius: 50%;
 						border-color: $color-secondary;
@@ -3951,6 +3956,36 @@ ol.categories {
 						.new {
 							min-height: inherit;
 							text-transform: capitalize;
+						}
+
+					}
+
+					&.exceed-limit {
+						position: relative;
+
+
+						.limit-message {
+							display: block;
+							position: absolute;
+							top: 50%;
+							left: 0;
+							transform: translateY(-50%);
+							width: 100%;
+							text-align: center;
+							color: red;
+							text-transform: uppercase;
+							font-size: 30px;
+							letter-spacing: 1px;
+
+							.upgrade-button {
+								font-size: 14px;
+								letter-spacing: 0;
+							}
+						}
+
+						.box {
+							pointer-events: none;
+							opacity: 0.1;
 						}
 
 					}

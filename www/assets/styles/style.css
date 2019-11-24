@@ -9770,6 +9770,10 @@ ol.categories > li.category > ol.blocks > .block[data-pin-status="has-tasks"] > 
        box-shadow: 0px 0px 5px rgba(252, 15, 66, 0.8);
 }
 
+ol.categories > li.category > ol.blocks > .block.add-new-block .limit-message {
+  display: none;
+}
+
 ol.categories > li.category > ol.blocks > .block.add-new-block .box {
   -moz-border-radius: 50%;
        border-radius: 50%;
@@ -9794,6 +9798,35 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box a .plus-icon
 ol.categories > li.category > ol.blocks > .block.add-new-block .box .new {
   min-height: inherit;
   text-transform: capitalize;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit {
+  position: relative;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit .limit-message {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -moz-transform: translateY(-50%);
+       transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+  color: red;
+  text-transform: uppercase;
+  font-size: 30px;
+  letter-spacing: 1px;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit .limit-message .upgrade-button {
+  font-size: 14px;
+  letter-spacing: 0;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit .box {
+  pointer-events: none;
+  opacity: 0.1;
 }
 
 ol.categories > li.category > ol.blocks > .block .box {

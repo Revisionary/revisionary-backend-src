@@ -42,26 +42,37 @@
 			<?=userLoggedIn() ? "var user_ID = ".currentUserID().";" : ""?>
 			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
 			<?=isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
-			var myPages = [];
-			<?php
 
+			var limitations = {
+				'max' : {},
+				'current' : {},
+			};
+			<?=isset($maxProjects) ? "limitations.max.project = ".$maxProjects.";" : ""?>
+			<?=isset($maxPhases) ? "limitations.max.page = ".$maxPhases.";" : ""?>
+			<?=isset($maxPins) ? "limitations.max.pin = ".$maxPins.";" : ""?>
+			<?=isset($maxLoad) ? "limitations.max.load = ".$maxLoad.";" : ""?>
+
+			<?php
 			if ( isset($pages) ) {
+
+				echo "var myPages = [];";
+
 				foreach ($pages as $myPage) {
 
 					// Skip archived and deleted
 					if ($myPage['page_deleted'] || $myPage['page_archived']) continue;
 			?>
 
-				myPages.push({
-					page_url : '<?=$myPage['page_url']?>',
-					page_ID : <?=$myPage['page_ID']?>,
-					project_ID : <?=$myPage['project_ID']?>
-				});
+			myPages.push({
+				page_url : '<?=$myPage['page_url']?>',
+				page_ID : <?=$myPage['page_ID']?>,
+				project_ID : <?=$myPage['project_ID']?>
+			});
 
 			<?php
 				}
-			}
 
+			}
 			?>
 		</script>
 

@@ -6,7 +6,7 @@
 			<b><?=getUserInfo()['userLevelName']?></b> Account Usage:<br>
 		
 		</div>
-		<div class="col total <?=$projectsPercentage >= 100 ? "exceed" : ""?> dropdown">
+		<div class="col total projects-limit <?=$projectsPercentage >= 100 ? "exceed" : ""?> dropdown">
 
 			<a href="#" class="dropdown-opener">
 				<span class='current'><?=$projectsCount?></span>/<span class='max'><?=$maxProjects?></span>
@@ -23,7 +23,7 @@
 			</ul>
 
 		</div>
-		<div class="col total <?=$phasesPercentage >= 100 ? "exceed" : ""?> dropdown">
+		<div class="col total pages-limit <?=$phasesPercentage >= 100 ? "exceed" : ""?> dropdown">
 
 			<a href="#" class="dropdown-opener">
 				<span class='current'><?=$phasesCount?></span>/<span class='max'><?=$maxPhases?></span>
@@ -40,7 +40,7 @@
 			</ul>
 
 		</div>
-		<div class="col total <?=$pinsPercentage >= 100 ? "exceed" : ""?> dropdown">
+		<div class="col total pins-limit <?=$pinsPercentage >= 100 ? "exceed" : ""?> dropdown">
 
 			<a href="#" class="dropdown-opener">
 				<span class='current'><?=$pinsCount?></span>/<span class='max'><?=$maxPins?></span>
@@ -57,7 +57,7 @@
 			</ul>
 
 		</div>
-		<div class="col total <?=$loadPercentage >= 100 ? "exceed" : ""?> dropdown">
+		<div class="col total load-limit <?=$loadPercentage >= 100 ? "exceed" : ""?> dropdown">
 
 			<a href="#" class="dropdown-opener">
 				<span class='current'><?=$loadCount?></span>/<span class='max'><?=$maxLoad?></span>

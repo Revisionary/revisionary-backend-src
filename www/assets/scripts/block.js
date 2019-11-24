@@ -340,8 +340,27 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 	order = assignDefault(order, 0);
 
 
+	var limitExceed = false;
+	var limitExceedBy = dataType;
+
+	if ( dataType == "project" && $('.limit-wrapper .projects-limit.exceed').length ) {
+		limitExceed = true;
+	}
+
+	else if ( $('.limit-wrapper .pages-limit.exceed').length ) {
+		limitExceed = true;
+		limitExceedBy = "page";
+	}
+
+	var currentLimit = limitations.max[limitExceedBy];
+
+
 	return '\
-	<li class="col xl-3-12 block add-new-block">\
+	<li class="col xl-3-12 block add-new-block '+ (limitExceed ? 'exceed-limit' : '') +'">\
+		<div class="limit-message">\
+			<span>You have reached <br> the '+ currentLimit +' '+ limitExceedBy +' limit.</span>\
+			<a href="/upgrade" class="upgrade-button">Increase the '+ limitExceedBy +' Limit Now</a>\
+		</div>\
 		<div class="box xl-center">\
 			<div class="wrap xl-flexbox xl-middle xl-left new">\
 				<div class="col xl-8-12 xl-outside-24 xl-center">\

@@ -651,7 +651,13 @@
 
 	<?php } ?>
 
-	<li><a href="<?=site_url("projects?new_phase=".$block['page_ID']."&page_width=1440&page_height=774")?>" class="add-phase"><i class="fa fa-plus"></i> <b>Add New Phase</b></a></li>
+	<li>
+		<?php if ($phasesPercentage >= 100) { ?>
+		<a href="<?=site_url("upgrade")?>" class="add-phase"><i class="fa fa-exclamation-circle"></i> <b>Increase Page/Phase Limit Now</b></a>	
+		<?php } else { ?>
+		<a href="<?=site_url("projects?new_phase=".$block['page_ID']."&page_width=1440&page_height=774")?>" class="add-phase"><i class="fa fa-plus"></i> <b>Add New Phase</b></a>
+		<?php } ?>
+	</li>
 </ul>
 
 										<?php } ?>

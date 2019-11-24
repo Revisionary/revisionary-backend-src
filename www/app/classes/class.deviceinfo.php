@@ -100,10 +100,15 @@ class Device {
     // Get device image
     public function getImage() {
 
-	    $phase_ID = $this->getInfo('phase_ID');
-	    $page_ID = Phase::ID($phase_ID)->getInfo('page_ID');
+		$phase_ID = $this->getInfo('phase_ID');
+		$phase = Phase::ID($phase_ID);
+		if (!$phase) return false;
 
-	    $image_dir = Page::ID($page_ID)->getDir()."/phase-$phase_ID/screenshots/device-".self::$device_ID.".jpg";
+		$page_ID = $phase->getInfo('page_ID');
+		$page = Page::ID($page_ID);
+		if (!$page) return false;
+
+	    $image_dir = $page->getDir()."/phase-$phase_ID/screenshots/device-".self::$device_ID.".jpg";
 
 		return $image_dir;
 
