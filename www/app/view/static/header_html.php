@@ -45,7 +45,7 @@
 
 			var limitations = {
 				'max' : {},
-				'current' : {},
+				'current' : {}
 			};
 			<?=isset($maxProjects) ? "limitations.max.project = '".$maxProjects."';" : ""?>
 			<?=isset($maxPhases) ? "limitations.max.page = '".$maxPhases."';" : ""?>
