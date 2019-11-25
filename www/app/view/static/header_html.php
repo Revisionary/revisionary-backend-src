@@ -49,8 +49,19 @@
 			};
 			<?=isset($maxProjects) ? "limitations.max.project = '".$maxProjects."';" : ""?>
 			<?=isset($maxPhases) ? "limitations.max.page = '".$maxPhases."';" : ""?>
+			<?=isset($maxPhases) ? "limitations.max.phase = '".$maxPhases."';" : ""?>
+			<?=isset($maxScreens) ? "limitations.max.screen = '".$maxScreens."';" : ""?>
 			<?=isset($maxPins) ? "limitations.max.pin = '".$maxPins."';" : ""?>
+			<?=isset($maxCommentPins) ? "limitations.max.commentpin = '".$maxCommentPins."';" : ""?>
 			<?=isset($maxLoad) ? "limitations.max.load = '".$maxLoad."';" : ""?>
+
+			<?=isset($projectsCount) ? "limitations.current.project = '".$projectsCount."';" : ""?>
+			<?=isset($phasesCount) ? "limitations.current.page = '".$phasesCount."';" : ""?>
+			<?=isset($phasesCount) ? "limitations.current.phase = '".$phasesCount."';" : ""?>
+			<?=isset($screensCount) ? "limitations.current.screen = '".$screensCount."';" : ""?>
+			<?=isset($pinsCount) ? "limitations.current.pin = '".$pinsCount."';" : ""?>
+			<?=isset($commentPinsCount) ? "limitations.current.commentpin = '".$commentPinsCount."';" : ""?>
+			<?=isset($loadCount) ? "limitations.current.load = '".$loadCount."';" : ""?>
 
 			<?php
 			if ( isset($pages) ) {

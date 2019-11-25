@@ -1184,6 +1184,11 @@ function switchPinType(pinType, pinPrivate) {
 
 
 
+	// Update the limitation notice
+	updateLimitations(pinType);
+
+
+
 	// Change the cursor color
 	switchCursorType(pinType == 'live' ? 'style' : pinType, currentPinPrivate);
 
@@ -1214,6 +1219,39 @@ function switchPinType(pinType, pinPrivate) {
 
 	// Close the pin window
 	if (pinWindowOpen && iframeLoaded) closePinWindow();
+
+}
+
+
+// Update Limitations
+function updateLimitations(pinType) {
+
+
+	pinType = assignDefault(pinType, currentPinType);
+
+
+	// Update the limitation notice
+	var pinCount = $(".pin-limits > .pins-count");
+	var pinLimitText = $(".pin-limits > .pin-limit-text");
+	if (pinType == "live" || pinType == "style") {
+
+		pinCount.text( limitations.current.pin );
+		pinLimitText.text("Live Pins Left");
+
+	}
+	else if (pinType == "comment") {
+
+		pinCount.text( limitations.current.commentpin );
+		pinLimitText.text("Comment Pins Left");
+
+	}
+	else if (pinType == "browse") {
+
+		pinCount.text( limitations.current.phase );
+		pinLimitText.text("Pages Left");
+
+	}
+
 
 }
 
@@ -1631,6 +1669,13 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
 
 
+		// Update the limitations
+		var pinType = newPin.attr('data-pin-type');
+		if (pinType == "live" || pinType == "style") limitations.current.pin--;
+		else if (pinType == "comment") limitations.current.commentpin--;
+		updateLimitations();
+
+
 		if (pinWindowOpen) {
 
 			// Remove the loading text on pin window
@@ -1674,10 +1719,12 @@ function removePin(pin_ID) {
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
 	var pinIndex = Pins.indexOf(pin);
+	var pinUserID = pin.user_ID;
+	var pinType = pin.pin_type;
 
 
     // Add pin to the DB
-    console.log('Remove the pin #' + pin_ID + ' from DB!!');
+    console.log('Remove the pin #' + pin_ID + ' from DB!!', pinUserID);
 
 
     // Add removing message
@@ -1719,7 +1766,7 @@ function removePin(pin_ID) {
 
 
 	// Start the process
-	removePinProcess[pin_ID] = newProcess(null, "removePin"+pin_ID);
+	removePinProcess[pin_ID] = newProcess(null, "removePin" + pin_ID);
 
     ajax('pin-remove',
     {
@@ -1728,7 +1775,18 @@ function removePin(pin_ID) {
 
 	}).done(function(result){
 
+
 		console.log("PIN REMOVED: ", result.data);
+
+
+		// Update the limitations
+		if (pinUserID == user_ID) {
+
+			if (pinType == "live" || pinType == "style") limitations.current.pin++;
+			else if (pinType == "comment") limitations.current.commentpin++;
+			updateLimitations();
+
+		}
 
 
 		// Finish the process
