@@ -55,13 +55,13 @@
 			<?=isset($maxCommentPins) ? "limitations.max.commentpin = '".$maxCommentPins."';" : ""?>
 			<?=isset($maxLoad) ? "limitations.max.load = '".$maxLoad."';" : ""?>
 
-			<?=isset($projectsCount) ? "limitations.current.project = '".($maxProjects - $projectsCount)."';" : ""?>
-			<?=isset($phasesCount) ? "limitations.current.page = '".($maxPhases - $phasesCount)."';" : ""?>
-			<?=isset($phasesCount) ? "limitations.current.phase = '".($maxPhases - $phasesCount)."';" : ""?>
-			<?=isset($screensCount) ? "limitations.current.screen = '".($maxScreens - $screensCount)."';" : ""?>
-			<?=isset($pinsCount) ? "limitations.current.pin = '".($maxPins - $pinsCount)."';" : ""?>
-			<?=isset($commentPinsCount) ? "limitations.current.commentpin = '".($maxCommentPins - $commentPinsCount)."';" : ""?>
-			<?=isset($loadCount) ? "limitations.current.load = '".($maxLoad - $loadCount)."';" : ""?>
+			<?=isset($projectsCount) ? "limitations.current.project = '".($maxProjects == "∞" ? "Unlimited" : $maxProjects - $projectsCount)."';" : ""?>
+			<?=isset($phasesCount) ? "limitations.current.page = '".($maxPhases == "∞" ? "Unlimited" : $maxPhases - $phasesCount)."';" : ""?>
+			<?=isset($phasesCount) ? "limitations.current.phase = '".($maxPhases == "∞" ? "Unlimited" : $maxPhases - $phasesCount)."';" : ""?>
+			<?=isset($screensCount) ? "limitations.current.screen = '".($maxScreens == "∞" ? "Unlimited" : $maxScreens - $screensCount)."';" : ""?>
+			<?=isset($pinsCount) ? "limitations.current.pin = '".($maxPins == "∞" ? "Unlimited" : $maxPins - $pinsCount)."';" : ""?>
+			<?=isset($commentPinsCount) ? "limitations.current.commentpin = '".($maxCommentPins == "∞" ? "Unlimited" : $maxCommentPins - $commentPinsCount)."';" : ""?>
+			<?=isset($loadCount) ? "limitations.current.load = '".($maxLoad == "∞" ? "Unlimited" : $maxLoad - $loadCount)."';" : ""?>
 
 			<?php
 			if ( isset($pages) ) {
