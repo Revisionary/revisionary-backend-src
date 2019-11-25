@@ -55,13 +55,13 @@
 			<?=isset($maxCommentPins) ? "limitations.max.commentpin = '".$maxCommentPins."';" : ""?>
 			<?=isset($maxLoad) ? "limitations.max.load = '".$maxLoad."';" : ""?>
 
-			<?=isset($projectsCount) ? "limitations.current.project = '".$projectsCount."';" : ""?>
-			<?=isset($phasesCount) ? "limitations.current.page = '".$phasesCount."';" : ""?>
-			<?=isset($phasesCount) ? "limitations.current.phase = '".$phasesCount."';" : ""?>
-			<?=isset($screensCount) ? "limitations.current.screen = '".$screensCount."';" : ""?>
-			<?=isset($pinsCount) ? "limitations.current.pin = '".$pinsCount."';" : ""?>
-			<?=isset($commentPinsCount) ? "limitations.current.commentpin = '".$commentPinsCount."';" : ""?>
-			<?=isset($loadCount) ? "limitations.current.load = '".$loadCount."';" : ""?>
+			<?=isset($projectsCount) ? "limitations.current.project = '".($maxProjects - $projectsCount)."';" : ""?>
+			<?=isset($phasesCount) ? "limitations.current.page = '".($maxPhases - $phasesCount)."';" : ""?>
+			<?=isset($phasesCount) ? "limitations.current.phase = '".($maxPhases - $phasesCount)."';" : ""?>
+			<?=isset($screensCount) ? "limitations.current.screen = '".($maxScreens - $screensCount)."';" : ""?>
+			<?=isset($pinsCount) ? "limitations.current.pin = '".($maxPins - $pinsCount)."';" : ""?>
+			<?=isset($commentPinsCount) ? "limitations.current.commentpin = '".($maxCommentPins - $commentPinsCount)."';" : ""?>
+			<?=isset($loadCount) ? "limitations.current.load = '".($maxLoad - $loadCount)."';" : ""?>
 
 			<?php
 			if ( isset($pages) ) {
