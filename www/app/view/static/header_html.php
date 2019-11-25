@@ -47,10 +47,10 @@
 				'max' : {},
 				'current' : {},
 			};
-			<?=isset($maxProjects) ? "limitations.max.project = ".$maxProjects.";" : ""?>
-			<?=isset($maxPhases) ? "limitations.max.page = ".$maxPhases.";" : ""?>
-			<?=isset($maxPins) ? "limitations.max.pin = ".$maxPins.";" : ""?>
-			<?=isset($maxLoad) ? "limitations.max.load = ".$maxLoad.";" : ""?>
+			<?=isset($maxProjects) ? "limitations.max.project = '".$maxProjects."';" : ""?>
+			<?=isset($maxPhases) ? "limitations.max.page = '".$maxPhases."';" : ""?>
+			<?=isset($maxPins) ? "limitations.max.pin = '".$maxPins."';" : ""?>
+			<?=isset($maxLoad) ? "limitations.max.load = '".$maxLoad."';" : ""?>
 
 			<?php
 			if ( isset($pages) ) {
