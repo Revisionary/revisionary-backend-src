@@ -10152,6 +10152,14 @@ table.pricing th.align-center, table.pricing td.align-center {
   text-align: center;
 }
 
+table.pricing th.exceed, table.pricing td.exceed {
+  color: red;
+}
+
+table.pricing th.exceed span, table.pricing td.exceed span {
+  color: inherit;
+}
+
 table.pricing th {
   text-transform: uppercase;
 }
@@ -10183,6 +10191,11 @@ table.pricing tr:last-child th, table.pricing tr:last-child td {
 
 table.pricing tr:last-child th a, table.pricing tr:last-child td a {
   font-weight: normal;
+}
+
+table.pricing span.current {
+  color: gray;
+  font-size: 10px;
 }
 
 table.pricing .cancel-plan {

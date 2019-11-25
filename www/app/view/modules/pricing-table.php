@@ -6,45 +6,75 @@
 		<?php } ?>
 	</tr>
 	<tr>
+		<td>Max Load</td>
+		<?php foreach ($user_levels as $user_level) { ?>
+		<td class="align-center <?=$loadPercentage >= 100 && getUserInfo()['userLevelName'] == $user_level['user_level_name'] ? "exceed" : ""?>">
+			<?php if ( getUserInfo()['userLevelName'] == $user_level['user_level_name']) { ?>
+				<span class="current tooltip" data-tooltip="Current Load"><?=$loadCount?> /</span>
+			<?php } ?>
+			<?=$user_level['user_level_max_load'] == 2048 ? "2GB" : $user_level['user_level_max_load']."MB"?>
+		</td>
+		<?php } ?>
+	</tr>
+	<tr>
 		<td># of Projects</td>
 		<?php foreach ($user_levels as $user_level) { ?>
-		<td class="align-center"><?=$user_level['user_level_max_project'] == 99999 ? "Unlimited" : $user_level['user_level_max_project']?></td>
+		<td class="align-center <?=$projectsPercentage >= 100 && getUserInfo()['userLevelName'] == $user_level['user_level_name'] ? "exceed" : ""?>">
+			<?php if ( getUserInfo()['userLevelName'] == $user_level['user_level_name']) { ?>
+				<span class="current tooltip" data-tooltip="Current Project Count"><?=$projectsCount?> /</span>
+			<?php } ?>
+			<?=$user_level['user_level_max_project'] == 99999 ? "Unlimited" : $user_level['user_level_max_project']?>
+		</td>
 		<?php } ?>
 	</tr>
 	<tr>
 		<td># of Pages & Phases & Design Uploads</td>
 		<?php foreach ($user_levels as $user_level) { ?>
-		<td class="align-center"><?=$user_level['user_level_max_page'] == 99999 ? "Unlimited" : $user_level['user_level_max_page']?></td>
+		<td class="align-center <?=$phasesPercentage >= 100 && getUserInfo()['userLevelName'] == $user_level['user_level_name'] ? "exceed" : ""?>">
+			<?php if ( getUserInfo()['userLevelName'] == $user_level['user_level_name']) { ?>
+				<span class="current tooltip" data-tooltip="Current Page/Phase Count"><?=$phasesCount?> /</span>
+			<?php } ?>
+			<?=$user_level['user_level_max_page'] == 99999 ? "Unlimited" : $user_level['user_level_max_page']?>
+		</td>
 		<?php } ?>
 	</tr>
 	<tr>
 		<td># of Screens</td>
 		<?php foreach ($user_levels as $user_level) { ?>
-		<td class="align-center"><?=$user_level['user_level_max_screen'] == 99999 ? "Unlimited" : $user_level['user_level_max_screen']?></td>
+		<td class="align-center <?=$screensPercentage >= 100 && getUserInfo()['userLevelName'] == $user_level['user_level_name'] ? "exceed" : ""?>">
+			<?php if ( getUserInfo()['userLevelName'] == $user_level['user_level_name']) { ?>
+				<span class="current tooltip" data-tooltip="Current Screen Count"><?=$screensCount?> /</span>
+			<?php } ?>
+			<?=$user_level['user_level_max_screen'] == 99999 ? "Unlimited" : $user_level['user_level_max_screen']?>
+		</td>
 		<?php } ?>
 	</tr>
 	<tr>
 		<td># of Live Content & Style Pins</td>
 		<?php foreach ($user_levels as $user_level) { ?>
-		<td class="align-center"><?=$user_level['user_level_max_live_pin'] == 99999 ? "Unlimited" : $user_level['user_level_max_live_pin']?></td>
+		<td class="align-center <?=$pinsPercentage >= 100 && getUserInfo()['userLevelName'] == $user_level['user_level_name'] ? "exceed" : ""?>">
+			<?php if ( getUserInfo()['userLevelName'] == $user_level['user_level_name']) { ?>
+				<span class="current tooltip" data-tooltip="Current Live Pins Count"><?=$pinsCount?> /</span>
+			<?php } ?>
+			<?=$user_level['user_level_max_live_pin'] == 99999 ? "Unlimited" : $user_level['user_level_max_live_pin']?>
+		</td>
 		<?php } ?>
 	</tr>
 	<tr>
 		<td># of Only Comment Pins</td>
 		<?php foreach ($user_levels as $user_level) { ?>
-		<td class="align-center"><?=$user_level['user_level_max_comment_pin'] == 99999 ? "Unlimited" : $user_level['user_level_max_comment_pin']?></td>
+		<td class="align-center <?=$commentPinsPercentage >= 100 && getUserInfo()['userLevelName'] == $user_level['user_level_name'] ? "exceed" : ""?>">
+			<?php if ( getUserInfo()['userLevelName'] == $user_level['user_level_name']) { ?>
+				<span class="current tooltip" data-tooltip="Current Comment Pins Count"><?=$commentPinsCount?> /</span>
+			<?php } ?>
+			<?=$user_level['user_level_max_comment_pin'] == 99999 ? "Unlimited" : $user_level['user_level_max_comment_pin']?>
+		</td>
 		<?php } ?>
 	</tr>
-	<tr>
+	<tr class="xl-hidden">
 		<td># of Users</td>
 		<?php foreach ($user_levels as $user_level) { ?>
 		<td class="align-center">Unlimited</td>
-		<?php } ?>
-	</tr>
-	<tr>
-		<td>Max Load</td>
-		<?php foreach ($user_levels as $user_level) { ?>
-		<td class="align-center"><?=$user_level['user_level_max_load'] == 2048 ? "2GB" : $user_level['user_level_max_load']."MB"?></td>
 		<?php } ?>
 	</tr>
 	<tr>

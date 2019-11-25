@@ -4384,6 +4384,14 @@ table.pricing {
 			text-align: center;
 		}
 
+		&.exceed {
+			color: red;
+
+			span {
+				color: inherit;
+			}
+		}
+
 	}
 
 	th {
@@ -4431,6 +4439,11 @@ table.pricing {
 
 		}
 
+	}
+
+	span.current {
+		color: lighten($color, 50%);
+		font-size: 10px;
 	}
 
 	.cancel-plan {
