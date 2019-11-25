@@ -7,6 +7,8 @@ var progressBar;
 var processes;
 
 
+var page_ready = page_ready === undefined ? true : page_ready;
+
 
 
 

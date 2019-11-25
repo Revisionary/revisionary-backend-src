@@ -2891,6 +2891,10 @@ header {
 			display: block;
 			font-size: 10px;
 		}
+			
+		.dropdown-opener {
+			display: inline-block;
+		}
 
 	}
 
@@ -3013,7 +3017,7 @@ header {
 		    white-space: nowrap;
 		    font-size: 10px;
 		    line-height: 9px;
-		    text-align: center;
+			text-align: center;
 	    }
 
 		&.exceed {

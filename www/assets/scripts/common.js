@@ -1231,6 +1231,29 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 					items.remove();
 
 
+					// Update limits
+					var limitWrapper = $('.'+ object_type + 's-limit');
+					var currentLimit = limitWrapper.find('.current');
+					var maxLimit = parseInt( limitWrapper.find('.max').text() );
+					if ( action == "remove" && currentLimit.length ) {
+
+
+						var newLimit = parseInt( currentLimit.text() ) - 1;
+						currentLimit.text( newLimit );
+						if ( newLimit < maxLimit ) limitWrapper.removeClass('exceed');
+
+
+						// Update the add new blocks
+						addNewPageButtons();
+
+
+						// Refresh the page
+						if (object_type == "project" || object_type == "page" || object_type == "phase") location.reload();
+
+
+					}
+
+
 					// Remove from myPages variable
 					if (object_type == "page") {
 

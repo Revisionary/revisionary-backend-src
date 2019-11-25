@@ -23,7 +23,7 @@
 			</ul>
 
 		</div>
-		<div class="col total pages-limit <?=$phasesPercentage >= 100 ? "exceed" : ""?> dropdown">
+		<div class="col total pages-limit phases-limit <?=$phasesPercentage >= 100 ? "exceed" : ""?> dropdown">
 
 			<a href="#" class="dropdown-opener">
 				<span class='current'><?=$phasesCount?></span>/<span class='max'><?=$maxPhases?></span>
@@ -40,7 +40,7 @@
 			</ul>
 
 		</div>
-		<div class="col total screens-limit <?=$screensPercentage >= 100 ? "exceed" : ""?> dropdown">
+		<div class="col total screens-limit devices-limit <?=$screensPercentage >= 100 ? "exceed" : ""?> dropdown">
 
 			<a href="#" class="dropdown-opener">
 				<span class='current'><?=$screensCount?></span>/<span class='max'><?=$maxScreens?></span>
