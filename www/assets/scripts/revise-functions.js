@@ -3054,12 +3054,12 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 		// COMMENTS:
 		// If this is an already registered pin, bring the comments
-		if (firstTime) pinWindow().find('.pin-comments').html('<div class="add-comment">Add your comments:</div>');
-		else getComments(pin_ID);
+		pinWindow().find('.pin-comments').html(firstTime ? '<div class="add-comment">Add your comments:</div>' : '');
+		if (!firstTime) getComments(pin_ID);
 
 
 		// Clean the existing comment in the input
-		$('#pin-window .comment-input').val('').focus();
+		$('#pin-window .comment-input').val('');
 
 
 
@@ -3091,6 +3091,10 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 		// Reveal the pin
 		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
+
+
+		// Focus to the comment input
+		$('#pin-window .comment-input').focus();
 
 
 	} catch (e) {
