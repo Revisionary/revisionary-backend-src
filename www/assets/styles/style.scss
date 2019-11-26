@@ -2840,6 +2840,11 @@ header {
 
 }
 
+.enterprise-badge {
+	margin-right: 10px;
+	color: #D4AF37;
+}
+
 .upgrade-button {
 	border: 2px solid;
     border-radius: 8px;
@@ -2855,6 +2860,21 @@ header {
 }
 
 .limit-wrapper {
+
+	&[data-current-plan="Enterprise"] {
+
+		li.notice {
+			border-bottom-left-radius: 6px;
+			border-bottom-right-radius: 6px;
+			padding-bottom: 10px !important;
+
+			& + li {
+				display: none;
+			}
+
+		}
+
+	}
 
 	.notice {
 		font-size: 14px;

@@ -49,7 +49,15 @@
 				?>
 				<nav id="main-navigation">
 					<ul class="user-header-menu">
-						<li class="menu-item"><a href="<?=site_url('upgrade')?>" class="upgrade-button">UPGRADE</a></li>
+						<li class="menu-item">
+							
+							<?php if ( getUserInfo()['userLevelName'] == "Enterprise" ) { ?>
+							<span class="enterprise-badge" data-tooltip="You are on Unlimited <?=getUserInfo()['userLevelName']?> Plan"><i class="fa fa-award"></i></span>
+							<?php } else { ?>
+							<a href="<?=site_url('upgrade')?>" class="upgrade-button">UPGRADE</a>
+							<?php } ?>
+						
+						</li>
 						<li class="menu-item notifications-wrapper">
 
 

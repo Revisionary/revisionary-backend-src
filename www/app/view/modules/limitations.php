@@ -1,4 +1,4 @@
-<div class="limit-wrapper">
+<div class="limit-wrapper" data-current-plan="<?=getUserInfo()['userLevelName']?>">
 
 	<div class="wrap xl-3 xl-right xl-flexbox xl-between">
 		<div class="col xl-1-1 xl-right xl-hidden">
