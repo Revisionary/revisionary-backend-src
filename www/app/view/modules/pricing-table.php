@@ -10,7 +10,7 @@
 		<?php foreach ($user_levels as $user_level) { ?>
 		<td class="align-center <?=$loadPercentage >= 100 && getUserInfo()['userLevelName'] == $user_level['user_level_name'] ? "exceed" : ""?>">
 			<?php if ( getUserInfo()['userLevelName'] == $user_level['user_level_name']) { ?>
-				<span class="current tooltip" data-tooltip="Current Load"><?=$loadCount?> /</span>
+				<span class="current tooltip" data-tooltip="Current Load"><?=$loadCount?>MB /</span>
 			<?php } ?>
 			<?=$user_level['user_level_max_load'] == 2048 ? "2GB" : $user_level['user_level_max_load']."MB"?>
 		</td>
