@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: Nov 24, 2019 at 10:53 PM
+-- Generation Time: Nov 26, 2019 at 05:10 AM
 -- Server version: 8.0.18
 -- PHP Version: 7.2.23
 
@@ -347,12 +347,12 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_job_title`, `user_department`, `user_company`, `user_picture`, `user_has_public_profile`, `user_email_notifications`, `user_registered`, `user_IP`, `user_level_ID`) VALUES
 (1, 'bilaltas', 'bilaltas@me.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Bilal', 'TAŞ', NULL, NULL, NULL, 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/w1muiw2xx3.jpg', 1, 1, '2019-09-22 21:55:20', '127.0.0.1', 1),
 (2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', NULL, NULL, NULL, 'ike.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 3),
-(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', NULL, NULL, NULL, 'sara.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 3),
+(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', NULL, NULL, NULL, 'sara.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 4),
 (4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', NULL, NULL, NULL, 'matt.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
 (5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', NULL, NULL, NULL, '6zls9hq69a.jpg', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 3),
 (6, 'bill-tas', 'bill@twelve12.com', '$2y$10$d39kS46ZfdS9x4Vhzqp3mebAq17UD31qLl6ogC6RPHzwM1bG0.0hK', 'Bill', 'TAS', 'Lead Web Developer', 'Web Department', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/jdd2rxz5qz.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
 (7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, NULL, NULL, NULL, 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
-(8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', NULL, NULL, NULL, 'sara.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 3),
+(8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', NULL, NULL, NULL, 'sara.png', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 4),
 (9, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, NULL, NULL, NULL, 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
 (10, 'dmytro', 'dmytro@twelve12.com', '$2y$10$5B902tsYAx8y8OVkDiREmeps44Vy6lOaLE5.trmsYBCQXm33uFtva', 'Dmytro', 'Korol', 'Art Director', 'Design', 'Twelve12', 'dmytro.jpg', 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
 (11, 'dmytro-korol', 'korol.dmitry@gmail.com', '$2y$10$uIAeohwy2hJpWIbGsFTwcuRPGpLOCT7HADfv6jKo50YjIekJPoT9W', 'Dmytro', 'Korol', NULL, NULL, NULL, NULL, 0, 1, '2019-09-22 21:55:20', '127.0.0.1', 2),
