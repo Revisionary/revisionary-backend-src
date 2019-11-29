@@ -5237,7 +5237,7 @@ function nl2br(str, is_xhtml) {
 jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 
-    if (millis == null) millis = 200;
+    if (millis == null) millis = 100;
     var o = $(this[0]); // Our object
 	if (o.length < 1) return o;
 	var element_index = o.attr('data-revisionary-index');
