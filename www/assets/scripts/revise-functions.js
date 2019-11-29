@@ -2220,7 +2220,7 @@ function relocatePin(pin_ID, x, y) {
 
 
 	// Do not relocate if hovering that pin
-	if ( hoveringPin === pin_ID && !pinDragging && !scrollOnPin ) {
+	if ( hoveringPin === pin_ID && !pinDragging && !scrollOnPin && !$('body').hasClass('scrolling') ) {
 
 		//console.log('HOVERING ON PIN:', pinElement(pin_ID).text() );
 		return false;
@@ -5237,7 +5237,7 @@ function nl2br(str, is_xhtml) {
 jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 
-    if (millis == null) millis = 100;
+    if (millis == null) millis = 200;
     var o = $(this[0]); // Our object
 	if (o.length < 1) return o;
 	var element_index = o.attr('data-revisionary-index');
