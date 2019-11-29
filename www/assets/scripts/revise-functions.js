@@ -314,15 +314,15 @@ function runTheInspector() {
 
 
 
-			// FOCUSING:
-			// Focused Element is the mouse pointed element as default
-			focused_element = $(e.target);
-			reFocus();
-
-
-
 			// Work only if cursor is active
 			if (cursorActive && !hoveringPin) {
+
+
+
+				// FOCUSING:
+				// Focused Element is the mouse pointed element as default
+				focused_element = $(e.target);
+				reFocus();
 
 
 
