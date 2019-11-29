@@ -2322,15 +2322,8 @@ function relocatePinWindow(pin_ID, pinLocation) {
 
 
 
-
 	//console.log('SPACE #' + new_scrolled_window_x, new_scrolled_window_y );
 	//console.log('PIN WINDOW RELOCATING #' + pin_ID, pinLocation, new_scrolled_window_x, new_scrolled_window_y );
-
-
-
-	// Do not relocate if hovering that pin
-	//if ( pinElement(pin_ID).is(':hover') && !pinDragging && !scrollOnPin ) return false;
-
 
 
 

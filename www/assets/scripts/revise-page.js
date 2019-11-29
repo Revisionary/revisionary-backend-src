@@ -1065,7 +1065,7 @@ $(function() {
 		//console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-revisionary-index") );
 
 
-		hoveringPin = parseInt( $(this).attr("data-pin-id") );
+		if (!scrollFlag) hoveringPin = parseInt( $(this).attr("data-pin-id") );
 
 
 		// Reset the pin opacity
@@ -1157,6 +1157,7 @@ $(function() {
 		
 		//console.log('SCROLLING ON PIN!');
 		scrollOnPin = true;
+
 
 	}).on('mouseout', '#pins > pin', function(e) {
 
