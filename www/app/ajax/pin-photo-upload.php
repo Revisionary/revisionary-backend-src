@@ -115,7 +115,7 @@ $image_name = generateRandomString().".".$image_extension;
 
 
 // Extension check
-if ( !in_array($image_extension, array('jpeg', 'jpg', 'png')) ) {
+if ( !in_array($image_extension, array('jpeg', 'jpg', 'png', 'gif')) ) {
 
 	$status = "invalid-extension";
 
