@@ -6121,11 +6121,10 @@ template {
   }
 }
 
-/**
- * General
- */
+/* General */
 html, body {
   margin: 0;
+  height: 100%;
   color: black;
 }
 
@@ -6148,9 +6147,7 @@ html .popup-open, body .popup-open {
   visibility: hidden;
 }
 
-/**
- * Typography
- */
+/* Typography */
 body {
   font-family: 'Roboto Condensed', sans-serif;
   font-size: 20px;
@@ -6158,17 +6155,13 @@ body {
   letter-spacing: 1px;
 }
 
-body *:not(.fa) {
+body *:not(.fa):not(.fas) {
   font-family: 'Roboto Condensed', sans-serif;
 }
 
 body.index p {
   font-size: 20px;
   line-height: 25px;
-}
-
-body.revise #page {
-  background-color: transparent;
 }
 
 h1 {
@@ -6192,14 +6185,6 @@ h2 div {
   font-size: 36px;
   line-height: 42px;
   letter-spacing: 4px;
-}
-
-a {
-  letter-spacing: 1px;
-}
-
-a.learn-more {
-  font-weight: bold;
 }
 
 .text-uppercase {
@@ -6276,9 +6261,7 @@ ul.full {
   }
 }
 
-/**
- * Elements
- */
+/* Elements */
 img {
   max-width: 100%;
   height: auto;
@@ -6563,13 +6546,9 @@ textarea {
 [disabled] {
   opacity: 0.5;
   cursor: default;
-  /*
-	&:hover {
-		background-color: $color !important;
-	}
-*/
 }
 
+/* Draggable */
 [draggable="true"] {
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -6648,9 +6627,7 @@ textarea {
   cursor: pointer;
 }
 
-/**
- * Navigation
- */
+/* Navigation */
 nav#main-navigation > ul {
   list-style: none;
 }
@@ -6715,12 +6692,11 @@ nav#main-navigation > ul > li > a:hover {
   }
 }
 
-/**
- * Links
- */
+/* Links */
 a {
   color: black;
   text-decoration: none;
+  letter-spacing: 1px;
 }
 
 a.invert-hover {
@@ -6729,6 +6705,10 @@ a.invert-hover {
 
 a.invert-hover:hover {
   color: #007acc;
+}
+
+a.learn-more {
+  font-weight: bold;
 }
 
 .invert-hover a {
@@ -6757,9 +6737,7 @@ a.invert-hover:hover {
   padding-right: 20px;
 }
 
-/**
- * Menus
- */
+/* Menus */
 .user-link {
   font-weight: bold;
   font-size: 24px;
@@ -7247,31 +7225,6 @@ ul.user-header-menu > li:last-child {
   visibility: visible;
 }
 
-.screen-adder * {
-  color: black !important;
-}
-
-.screen-adder *:hover {
-  color: #007acc !important;
-}
-
-.screen-adder a {
-  font-size: 15px;
-  line-height: 18px;
-  letter-spacing: 0;
-}
-
-/* Alignments */
-.vertical-middle {
-  position: absolute;
-  top: 50%;
-  -moz-transform: translateY(-50%);
-       transform: translateY(-50%);
-  width: 100%;
-  right: 0;
-  left: 0;
-}
-
 /* Tooltips */
 [data-tooltip] {
   position: relative;
@@ -7360,6 +7313,32 @@ ul.user-header-menu > li:last-child {
 [data-tooltip].right-tooltip:hover::after {
   left: -moz-calc(100% + 5px);
   left: calc(100% + 5px);
+}
+
+/* Screen Adder */
+.screen-adder * {
+  color: black !important;
+}
+
+.screen-adder *:hover {
+  color: #007acc !important;
+}
+
+.screen-adder a {
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: 0;
+}
+
+/* Alignments */
+.vertical-middle {
+  position: absolute;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+       transform: translateY(-50%);
+  width: 100%;
+  right: 0;
+  left: 0;
 }
 
 /* Profile Pictures */
@@ -7972,16 +7951,12 @@ pin.mouse-cursor.existing {
   display: none;
 }
 
-/**
- * 11.0 - Content
- */
+/* Content */
 #content {
   padding-top: 30px;
 }
 
-/**
- * 11.1 - Header
- */
+/* Header */
 header {
   margin-top: 25px;
 }
@@ -8295,9 +8270,7 @@ header {
   margin-bottom: -4px;
 }
 
-/**
- * 11.2 - Sections
- */
+/* Sections */
 main,
 section {
   position: relative;
@@ -8338,8 +8311,7 @@ footer {
   margin-top: 12px;
 }
 
-section:before,
-section:after {
+section:before, section:after {
   content: "";
   position: absolute;
   left: 80px;
@@ -8357,8 +8329,7 @@ section:after {
   background-color: white;
 }
 
-section.left-dark:before,
-section.left-dark:after {
+section.left-dark:before, section.left-dark:after {
   background-color: white;
 }
 
@@ -8405,6 +8376,13 @@ section > div.dark-side:after {
   background-color: white;
 }
 
+section > div:last-child .side-content {
+  right: auto;
+  left: 0;
+  padding-left: 25px;
+  padding-right: 0;
+}
+
 .dark-side {
   background-color: black;
 }
@@ -8437,16 +8415,7 @@ section > div.dark-side:after {
   margin-top: 0;
 }
 
-section > div:last-child .side-content {
-  right: auto;
-  left: 0;
-  padding-left: 25px;
-  padding-right: 0;
-}
-
-/**
- * 11.4 - Comments
- */
+/* Comments */
 .shares {
   display: inline-block;
   list-style-type: none;
@@ -8500,9 +8469,7 @@ input.share-email.error {
   border-color: red !important;
 }
 
-/**
- * Misc
- */
+/* Misc */
 .dpl-xl-gutter-30 {
   width: -moz-calc(100% + 30px);
   width: calc(100% + 30px);
@@ -8863,9 +8830,7 @@ input.share-email.error {
   line-height: 13px;
 }
 
-/**
- * 11.6 - Footer
- */
+/* Footer */
 footer .site-title a {
   font-size: 18px;
   letter-spacing: 2px;
@@ -8887,9 +8852,7 @@ footer .footer-links a:hover {
   color: #007acc;
 }
 
-/**
- * 12 - Home
- */
+/* Home */
 .home-questions {
   width: 800px;
   text-transform: uppercase;
@@ -9002,9 +8965,7 @@ body.index .enter-url input[type="submit"] {
   margin-top: 5px;
 }
 
-/**
- *  Blocks
- */
+/* Blocks */
 ol.categories {
   padding: 0;
 }
@@ -9536,9 +9497,7 @@ table.pricing .cancel-plan {
   }
 }
 
-/**
- * 14.0 - Media Queries
- */
+/* Media Queries */
 @media only screen and (max-width: 1420px) {
   #page section:before {
     left: 40px;

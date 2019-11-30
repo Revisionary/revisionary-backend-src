@@ -1,5 +1,4 @@
 html, body {
-  height: 100vh;
   overflow: hidden;
 }
 
@@ -428,7 +427,7 @@ html, body {
        align-items: center;
   height: -moz-calc(100vh - 45px - 2px);
   height: calc(100vh - 45px - 2px);
-  overflow: hidden;
+  background-color: transparent;
 }
 
 #page .iframe-container {
@@ -1309,6 +1308,7 @@ html, body {
   display: none;
 }
 
+/* Text Editor */
 .popline {
   -moz-border-radius: 0;
        border-radius: 0;
@@ -1327,6 +1327,7 @@ html, body {
   height: auto;
 }
 
+/* Color Picker */
 .sp-replacer {
   border: none;
   background: none;

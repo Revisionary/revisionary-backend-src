@@ -4,11 +4,8 @@ $topbar-height: 45px;
 
 
 html, body {
-	height: 100vh;
 	overflow: hidden;
 }
-
-//.overlay { display: none !important;}
 
 #top-bar {
 	position: relative;
@@ -527,7 +524,7 @@ html, body {
 	justify-content: center;
 	align-items: center;
 	height: calc(100vh - #{$topbar-height} - 2px);
-	overflow: hidden;
+	background-color: transparent;
 
 	.iframe-container {
 	    position: fixed;
@@ -1479,6 +1476,8 @@ html, body {
 
 	}
 
+
+
 	&.loading::after {
 	    content: "Please wait...";
 	    position: absolute;
@@ -1546,6 +1545,7 @@ html, body {
 }
 
 
+/* Text Editor */
 .popline {
     border-radius: 0;
     background: $color;
@@ -1568,39 +1568,43 @@ html, body {
 }
 
 
-.sp-replacer {
-    border: none;
-    background: none;
-}
+/* Color Picker */
+.sp {
 
+	&-replacer {
+		border: none;
+		background: none;
+	}
 
-.sp-container {
-    border-color: $color;
-    background-color: white;
+	&-container {
+		border-color: $color;
+		background-color: white;
+	
+		.sp-cancel {
+			color: $color !important;
+			visibility: hidden !important;
+	
+			&:hover {
+				color: $color-secondary !important;
+			}
+		}
+	
+		.sp-choose,
+		.sp-palette-toggle {
+			border: 2px solid $color;
+			background: none !important;
+			background-color: white !important;
+			text-shadow: none !important;
+			text-transform: capitalize !important;
+			outline: none !important;
+	
+			&:hover {
+				border: 2px solid $color;
+				color: $color-secondary;
+			}
+		}
+	}
 
-    .sp-cancel {
-	    color: $color !important;
-	    visibility: hidden !important;
-
-	    &:hover {
-		    color: $color-secondary !important;
-	    }
-    }
-
-    .sp-choose,
-    .sp-palette-toggle {
-	    border: 2px solid $color;
-	    background: none !important;
-	    background-color: white !important;
-	    text-shadow: none !important;
-	    text-transform: capitalize !important;
-	    outline: none !important;
-
-	    &:hover {
-		    border: 2px solid $color;
-		    color: $color-secondary;
-	    }
-    }
 }
 
 
