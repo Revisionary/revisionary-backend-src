@@ -524,11 +524,12 @@ html, body {
 }
 
 #page {
-	position: fixed;
-	right: 0;
-	left: 1px;
-	width: calc(100% - 2px);
-	bottom: 1px;
+	// position: fixed;
+	// right: 0;
+	// left: 1px;
+	// width: calc(100% - 2px);
+	// bottom: 1px;
+	padding-top: calc(#{$topbar-height} + 1px);
 	height: calc(100% - #{$topbar-height} - 2px);
 	display: flex;
 	justify-content: center;

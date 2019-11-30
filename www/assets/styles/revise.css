@@ -423,12 +423,8 @@ html, body {
 }
 
 #page {
-  position: fixed;
-  right: 0;
-  left: 1px;
-  width: -moz-calc(100% - 2px);
-  width: calc(100% - 2px);
-  bottom: 1px;
+  padding-top: -moz-calc(45px + 1px);
+  padding-top: calc(45px + 1px);
   height: -moz-calc(100% - 45px - 2px);
   height: calc(100% - 45px - 2px);
   display: -moz-box;
