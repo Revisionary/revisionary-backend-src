@@ -3,8 +3,12 @@ html, body {
 }
 
 #top-bar {
-  position: relative;
+  position: fixed;
   z-index: 1;
+  left: 0;
+  top: 0;
+  right: 0;
+  width: 100%;
   background-color: black;
   color: white;
   font-size: 12px;
@@ -419,14 +423,20 @@ html, body {
 }
 
 #page {
+  position: fixed;
+  right: 0;
+  left: 1px;
+  width: -moz-calc(100% - 2px);
+  width: calc(100% - 2px);
+  bottom: 1px;
+  height: -moz-calc(100% - 45px - 2px);
+  height: calc(100% - 45px - 2px);
   display: -moz-box;
   display: flex;
   -moz-box-pack: center;
        justify-content: center;
   -moz-box-align: center;
        align-items: center;
-  height: -moz-calc(100vh - 45px - 2px);
-  height: calc(100vh - 45px - 2px);
   background-color: transparent;
 }
 
