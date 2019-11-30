@@ -2061,11 +2061,12 @@ function convertPin(pin_ID, targetPin) {
 
 
 // Scroll to a pin
-function scrollToPin(pin_ID, openWindow, noDelay) {
+function scrollToPin(pin_ID, openWindow, noDelay, animation) {
 
 
 	openWindow = assignDefault(openWindow, false);
 	noDelay = assignDefault(noDelay, false);
+	animation = assignDefault(animation, true);
 
 	var delay = noDelay ? 0 : 500;
 
@@ -2101,9 +2102,14 @@ function scrollToPin(pin_ID, openWindow, noDelay) {
 			scrollTop: parseInt( pinLocation.y / iframeScale ) - ($('.iframe-container').height() / 2) + (pinSize / 2)
 			//scrollLeft: parseInt( pinLocation.x ) - ($('.iframe-container').width() / 2) + (pinSize / 2) !!!
 
-		}, delay, 'swing').promise().then(function() {
+		}, {
+			duration: animation ? 400 : 0,
+			step: function() {
+				//console.log('ANIMATIIIIIING');
+			}
+		}, 'swing').promise().then(function() {
 
-			if (openWindow && !pinWindowOpen) openPinWindow(pin_ID);
+			if (openWindow) openPinWindow(pin_ID);
 
 		});
 
@@ -2316,7 +2322,7 @@ function relocatePinWindow(pin_ID, pinLocation) {
 	if (scrolled_window_y > new_scrolled_window_y + pinWindowHeight) {
 
 		//console.log('GOODBYE!');
-		new_scrolled_window_y = scrolled_window_y - pinWindowHeight;
+		if (pinWindowOpen) new_scrolled_window_y = scrolled_window_y - pinWindowHeight;
 
 	}
 
@@ -4550,7 +4556,7 @@ function listedPinTemplate(pin_number, pin) {
 			data-revisionary-index="'+pin.pin_element_index+'" \
 			data-revisionary-content-edited="'+( pin.pin_modification != null ? '1' : '0' )+'" \
 			data-revisionary-showing-content-changes="1"> \
-			<a href="#" class="pin-locator"> \
+			<a href="#" class="pin-locator" data-go-pin="'+pin.pin_ID+'"> \
 				'+ pinTemplate(pin_number, pin) +' \
 			</a> \
 			<a href="#" class="pin-title close"> \

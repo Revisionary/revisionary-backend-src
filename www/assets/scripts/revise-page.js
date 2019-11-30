@@ -95,19 +95,6 @@ $(function() {
 	});
 
 
-	// Pin Window Opener
-	$(document).on('click', '.pins-list .pin', function(e) {
-
-
-		var pin_ID = parseInt( $(this).attr('data-pin-id') );
-		openPinWindow(pin_ID);
-
-
-		e.preventDefault();
-		return false;
-	});
-
-
 	// Hovering a pin from the pins list tab
 	$(document).on('mouseover', '.pins-list > .pin', function(e) {
 
@@ -116,12 +103,12 @@ $(function() {
 		var pin_type = $(this).find('pin').attr('data-pin-type');
 		var pin_private = $(this).find('pin').attr('data-pin-private');
 		var element_index = $(this).find('pin').attr('data-revisionary-index');
-		var pinX =  pinElement(pin_ID).attr('data-pin-x');
-		var pinY =  pinElement(pin_ID).attr('data-pin-y'); console.log(pinY, ($('.iframe-container').height() / 2), pinSize / 2, parseInt( pinY ) - ($('.iframe-container').height() / 2) - (pinSize / 2));
+
 
 		// Outline
 		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
 		outline(iframeElement(element_index), pin_private, pin_type);
+
 
 		// Scroll
 		scrollToPin(pin_ID);
@@ -1205,17 +1192,15 @@ $(function() {
 	autosize($('textarea.resizeable'));
 
 
+	// Pin links
 	$(document).on('click', '[data-go-pin]', function(e) {
 
-
 		var pin_ID = parseInt( $(this).attr('data-go-pin') );
+		if ( !getPin(pin_ID) ) return false;
 
-		if ( getPin(pin_ID) ) {
 
-			scrollToPin(pin_ID, true, true);
-			e.preventDefault();
-
-		}
+		scrollToPin(pin_ID, true, true);
+		e.preventDefault();
 
 	});
 
