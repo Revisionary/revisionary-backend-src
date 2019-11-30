@@ -1205,13 +1205,12 @@ $(function() {
 	});
 
 
-	// Shift key toggle browse mode
+	// Keyboard bindings
     $(document).keydown(function(e) {
 
 
+		// Shift key toggle browse mode
 		if (e.shiftKey) shifted = true;
-
-
 		if (shifted && !pinWindowOpen && currentPinType != "browse") {
 
 			shiftToggle = true;
@@ -1224,6 +1223,17 @@ $(function() {
 			currentPinPrivate = 0;
 
 		}
+
+
+		// Escape
+	    if(e.keyCode == 27 && pinWindowOpen) { 
+
+			console.log('CLOSE PIN WINDOW via ESC');
+			closePinWindow();
+
+		    e.preventDefault();
+		    return false;
+	    }
 
 
     });

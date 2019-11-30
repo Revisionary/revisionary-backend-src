@@ -49,9 +49,9 @@ $(function() {
 	// Close Modal via Escape key
 	$(document).keydown(function (e){
 
-	    if(e.keyCode == 27) { // Escape
+	    if( e.keyCode == 27 && $('.popup-window.active').length ) {
 
-			console.log('GET OUT!!!!');
+			console.log('CLOSE POPUP via ESC');
 			$('.popup-window.active .cancel-button').trigger('click');
 
 		    e.preventDefault();
