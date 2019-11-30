@@ -344,7 +344,7 @@ foreach ($allMyProjects as $myProject) {
 							<li>
 
 							<?php if ($projectsPercentage >= 100) { ?>
-								<a href="<?=site_url("upgrade")?>"><i class="fa fa-exclamation-circle"></i> <b>Increase Projects Limit Now</b></a>	
+								<a href="<?=site_url("upgrade")?>" data-modal="upgrade"><i class="fa fa-exclamation-circle"></i> <b>Increase Projects Limit Now</b></a>	
 							<?php } else { ?>
 								<a href="#" data-modal="add-new" data-type="project" data-id="new"><i class="fa fa-plus"></i> <b>Add New Project</b></a>
 							<?php } ?>
@@ -565,7 +565,7 @@ foreach ($other_pages as $pageOther) {
 							<li>
 
 							<?php if ($phasesPercentage >= 100) { ?>
-								<a href="<?=site_url("upgrade")?>"><i class="fa fa-exclamation-circle"></i> <b>Increase Pages Limit Now</b></a>	
+								<a href="<?=site_url("upgrade")?>" data-modal="upgrade"><i class="fa fa-exclamation-circle"></i> <b>Increase Pages Limit Now</b></a>	
 							<?php } else { ?>
 								<a href="#" data-modal="add-new" data-object-name="<?=$project['project_name']?>" data-type="page" data-id="<?=$project['project_ID']?>"><i class="fa fa-plus"></i> <b>Add New Page</b></a>
 							<?php } ?>
@@ -681,7 +681,7 @@ foreach ($other_pages as $pageOther) {
 							<li>
 
 							<?php if ($phasesPercentage >= 100) { ?>
-								<a href="<?=site_url("upgrade")?>"><i class="fa fa-exclamation-circle"></i> <b>Increase Pages/Phases Limit Now</b></a>	
+								<a href="<?=site_url("upgrade")?>" data-modal="upgrade"><i class="fa fa-exclamation-circle"></i> <b>Increase Pages/Phases Limit Now</b></a>	
 							<?php } else { ?>
 								<a href="<?=site_url("projects?new_phase=$page_ID&page_width=1440&page_height=774", true)?>" class="add-phase bottom-tooltip" data-tooltip="When you are done with the changes mentioned here, add new phase to download latest state of the page and revise again in a new scope."><i class="fa fa-plus"></i> <b>Add New Phase</b></a>
 							<?php } ?>
@@ -747,7 +747,7 @@ foreach ($other_pages as $pageOther) {
 							<li>
 
 							<?php if ($screensPercentage >= 100) { ?>
-								<a href="<?=site_url("upgrade")?>"><i class="fa fa-exclamation-circle"></i> <b>Increase Screens Limit Now</b></a>	
+								<a href="<?=site_url("upgrade")?>" data-modal="upgrade"><i class="fa fa-exclamation-circle"></i> <b>Increase Screens Limit Now</b></a>	
 							<?php } else { ?>
 								<a href="#" class="add-screen bottom-tooltip" data-tooltip="To see this page on different device sizes."><i class="fa fa-plus"></i> <b>Add New Screen</b></a>
 								<ul class="xl-left screen-adder">

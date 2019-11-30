@@ -32,6 +32,13 @@
 
 					<ul class="xl-left type-convertor">
 
+						<li class="convert-to-private">
+							<a href="#" class="xl-flexbox xl-middle">
+								<pin data-pin-private="1" data-pin-modification-type="null"></pin>
+								<div>Make <span>Private Pin</span></div>
+							</a>
+						</li>
+
 						<li class="convert-to-live">
 							<a href="#" class="xl-flexbox xl-middle">
 								<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
@@ -50,13 +57,6 @@
 							<a href="#" class="xl-flexbox xl-middle">
 								<pin data-pin-type="comment" data-pin-private="0" data-pin-modification-type="null"></pin>
 								<div>Make <b class="public">Public</b> <span>Comment Pin</span></div>
-							</a>
-						</li>
-
-						<li class="convert-to-private">
-							<a href="#" class="xl-flexbox xl-middle">
-								<pin data-pin-private="1" data-pin-modification-type="null"></pin>
-								<div>Make <span>Private Pin</span></div>
 							</a>
 						</li>
 
