@@ -509,47 +509,769 @@ html, body {
   opacity: 0.8;
 }
 
-.gps_ring {
+/* Pin Window */
+#pin-window {
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  background-color: white;
+  border: 5px solid black;
+  -moz-border-radius: 10px;
+       border-radius: 10px;
+  padding: 20px;
+  position: absolute;
+  width: 300px;
+  -moz-box-shadow: 0px 0px 18px 1px red;
+       box-shadow: 0px 0px 18px 1px red;
+  -moz-transition: opacity 500ms;
+  transition: opacity 500ms;
+}
+
+#pin-window.dragging {
+  opacity: 0.7 !important;
+}
+
+#pin-window.active {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  display: block;
+}
+
+#pin-window > div {
+  margin-bottom: 25px;
+  position: relative;
+}
+
+#pin-window > div:last-child {
+  margin-bottom: 0;
+}
+
+#pin-window .section-title {
+  margin-bottom: 0;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed gray;
+  border-top: 1px dashed gray;
+  padding-top: 5px;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+#pin-window .section-title::after {
+  content: "\f068";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  -moz-transform: translateY(-50%);
+       transform: translateY(-50%);
+}
+
+#pin-window .section-title.collapsed::after {
+  content: "\f067";
+}
+
+#pin-window .section-title.collapsed + .section-content {
+  display: none;
+}
+
+#pin-window .section-title .edited-sign {
+  color: red;
+  font-size: 5px;
+  -moz-transform: translateY(-3px);
+       transform: translateY(-3px);
+}
+
+#pin-window .section-content {
+  padding-left: 10px;
+}
+
+#pin-window > .top-actions .close-button {
+  font-family: Arial;
+}
+
+#pin-window > .top-actions .device-specific.loading {
+  opacity: 0.5;
+}
+
+#pin-window > .top-actions .device-specific.active {
+  color: #007acc;
+  position: relative;
+}
+
+#pin-window > .top-actions .action {
+  display: -moz-box;
+  display: flex;
+  -moz-box-pack: center;
+       justify-content: center;
+  -moz-box-align: center;
+       align-items: center;
+  margin-left: 20px;
+}
+
+#pin-window > .top-actions .action > *:first-child {
+  margin-right: 5px;
+}
+
+#pin-window > .top-actions .action:first-child {
+  margin-left: 0;
+}
+
+#pin-window .move-window {
+  cursor: move;
+}
+
+#pin-window .switch {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0;
+}
+
+#pin-window .difference-switch-wrap {
+  position: absolute;
+  right: 0;
+}
+
+#pin-window .action.dropdown {
+  text-transform: uppercase;
+}
+
+#pin-window .action.dropdown > ul {
+  left: -4px;
+}
+
+#pin-window .action.dropdown > ul > li > a {
+  padding: 2px 3px;
+  font-size: 12px;
+}
+
+#pin-window .edit-content {
+  outline: none;
+  display: block;
+  width: 100%;
+  height: 90px;
+  border: 3px solid black;
+  -moz-border-radius: 5px;
+       border-radius: 5px;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+  padding: 4px 5px;
+  font-size: 14px;
+  overflow: scroll;
+  letter-spacing: normal;
+}
+
+#pin-window .edit-content.original {
+  opacity: 0.5;
+}
+
+#pin-window .edit-content p {
+  font-size: 14px;
+  letter-spacing: inherit;
+}
+
+#pin-window .edit-content a {
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-decoration: underline;
+}
+
+#pin-window .edit-content h6 {
+  font-size: 16px;
+}
+
+#pin-window .edit-content h5 {
+  font-size: 17px;
+}
+
+#pin-window .edit-content h4 {
+  font-size: 18px;
+}
+
+#pin-window .edit-content h3 {
+  font-size: 19px;
+}
+
+#pin-window .edit-content h2 {
+  font-size: 20px;
+}
+
+#pin-window .edit-content h1 {
+  font-size: 21px;
+}
+
+#pin-window .image-editor .select-file {
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#pin-window .image-editor .edit-content {
+  overflow: hidden;
+  height: 150px;
+  max-height: 150px;
+  min-height: 90px;
+  display: -moz-box;
+  display: flex;
+  -moz-box-pack: center;
+       justify-content: center;
+  -moz-box-align: center;
+       align-items: center;
+  border-style: dashed;
+  background-color: #eee;
+  background-image: -moz-linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1)), -moz-linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1));
+  background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1)), linear-gradient(45deg, rgba(0, 0, 0, 0.1) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.1) 75%, rgba(0, 0, 0, 0.1));
+  -moz-background-size: 20px 20px;
+       background-size: 20px 20px;
+  background-position: 0 0, 30px 30px;
+}
+
+#pin-window .image-editor .edit-content img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#pin-window .visual-editor .css-box {
+  width: 100%;
+}
+
+#pin-window .visual-editor .css-box .layer {
+  padding: 20px 39px;
+  position: relative;
+  white-space: nowrap;
+}
+
+#pin-window .visual-editor .css-box .layer:before {
+  content: "Title";
+  font-size: 10px;
+  position: absolute;
+  top: 0;
+  left: 2px;
+  pointer-events: none;
+}
+
+#pin-window .visual-editor .css-box .layer > .input {
+  position: absolute;
+  width: 35px;
+}
+
+#pin-window .visual-editor .css-box .layer > .input > span {
+  font-size: 10px;
+  text-align: center;
+  display: block;
+}
+
+#pin-window .visual-editor .css-box .layer > .input > input {
+  display: block;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.top {
+  left: 50%;
+  -moz-transform: translateX(-50%);
+       transform: translateX(-50%);
+  top: 2px;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.right {
+  top: 50%;
+  -moz-transform: translateY(-50%);
+       transform: translateY(-50%);
+  right: 2px;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.right.bottom {
+  bottom: 2px;
+  -moz-transform: translateY(0);
+       transform: translateY(0);
+  -moz-transform: translateX(0);
+       transform: translateX(0);
+  top: auto;
+  left: auto;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.right.top {
+  top: 2px;
+  -moz-transform: translateY(0);
+       transform: translateY(0);
+  -moz-transform: translateX(0);
+       transform: translateX(0);
+  bottom: auto;
+  left: auto;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.right.top.middle {
+  right: 50px;
+  width: auto;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.right.top.middle .sp-replacer {
+  margin-top: -6px;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.right.top.middle .sp-replacer .sp-preview {
+  height: 14px;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.bottom {
+  left: 50%;
+  -moz-transform: translateX(-50%);
+       transform: translateX(-50%);
+  bottom: 2px;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.left {
+  top: 50%;
+  -moz-transform: translateY(-50%);
+       transform: translateY(-50%);
+  left: 2px;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.left.bottom {
+  bottom: 2px;
+  -moz-transform: translateY(0);
+       transform: translateY(0);
+  -moz-transform: translateX(0);
+       transform: translateX(0);
+  top: auto;
+  right: auto;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.left.top {
+  top: 15px;
+  -moz-transform: translateY(0);
+       transform: translateY(0);
+  -moz-transform: translateX(0);
+       transform: translateX(0);
+  bottom: auto;
+  right: auto;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.left.top.middle {
+  top: 2px;
+  left: 55px;
+  width: auto;
+}
+
+#pin-window .visual-editor .css-box .layer > .input.left.top.middle .sp-preview {
+  height: 14px;
+}
+
+#pin-window .visual-editor .css-box > .positions:before {
+  content: "Position";
+}
+
+#pin-window .visual-editor .css-box > .positions > .margins {
+  border: 1px dashed #bababa;
+}
+
+#pin-window .visual-editor .css-box > .positions > .margins:before {
+  content: "Margin";
+}
+
+#pin-window .visual-editor .css-box > .positions > .margins > .borders {
+  border: 1px solid #d7d7d7;
+  background-color: #f6f6f6;
+}
+
+#pin-window .visual-editor .css-box > .positions > .margins > .borders:before {
+  content: "Border";
+}
+
+#pin-window .visual-editor .css-box > .positions > .margins > .borders > .paddings {
+  border: 1px solid #d7d7d7;
+  background-color: #ebebeb;
+}
+
+#pin-window .visual-editor .css-box > .positions > .margins > .borders > .paddings:before {
+  content: "Padding";
+}
+
+#pin-window .visual-editor .css-box > .positions > .margins > .borders > .paddings > .sizes {
+  padding: 8px 4px 13px;
+  border: 1px solid #bababa;
+}
+
+#pin-window .visual-editor .css-box > .positions > .margins > .borders > .paddings > .sizes:before {
+  content: "Size";
+}
+
+#pin-window .visual-editor .css-box input {
+  padding: 0;
+  font-size: 10px;
+  border: 1px solid;
+  height: auto;
+  letter-spacing: -0.3px;
   display: inline-block;
-  border: 3px solid #999;
-  -moz-border-radius: 30px;
-       border-radius: 30px;
-  margin-bottom: -5px;
-  height: 18px;
-  width: 18px;
-  -moz-animation: pulsate 1s ease-out;
-       animation: pulsate 1s ease-out;
-  -moz-animation-iteration-count: infinite;
-       animation-iteration-count: infinite;
-  opacity: 0.0;
+  width: 48px;
+  max-width: 100%;
+  text-align: center;
+  margin: 0 !important;
 }
 
-@-moz-keyframes pulsate {
-  0% {
-    -webkit-transform: scale(0.1, 0.1);
-    opacity: 0.0;
-  }
-  50% {
-    opacity: 1.0;
-  }
-  100% {
-    -webkit-transform: scale(1.2, 1.2);
-    opacity: 0.0;
-  }
+#pin-window .visual-editor hr {
+  position: absolute;
+  background-color: black;
+  width: -moz-calc(100% + 38px);
+  width: calc(100% + 38px);
+  height: 1px;
+  left: -20px;
+  bottom: -23px;
+  border: none;
 }
 
-@keyframes pulsate {
-  0% {
-    -webkit-transform: scale(0.1, 0.1);
-    opacity: 0.0;
-  }
-  50% {
-    opacity: 1.0;
-  }
-  100% {
-    -webkit-transform: scale(1.2, 1.2);
-    opacity: 0.0;
-  }
+#pin-window .comments .no-comments {
+  display: none;
+}
+
+#pin-window .comments .comment-actions .comment-input-col {
+  width: -moz-calc(100% - 30px);
+  width: calc(100% - 30px);
+  height: 35px;
+}
+
+#pin-window .comments .comment-actions .comment-input-col .comment-input {
+  outline: none;
+  border: 3px solid black;
+  -moz-border-radius: 5px;
+       border-radius: 5px;
+  font-size: 14px;
+  line-height: 15px;
+  padding: 5px;
+  height: 30px;
+  min-height: 30px;
+  max-height: 61px;
+  width: 100%;
+}
+
+#pin-window .comments .comment-actions .send-comment {
+  font-size: 20px;
+  display: block;
+  margin-top: -5px;
+}
+
+#pin-window .comments .comment-actions .send-comment:hover {
+  color: #007acc;
+}
+
+#pin-window > .bottom-actions .action > a {
+  font-size: 14px;
+  line-height: 20px;
+  display: -moz-box;
+  display: flex;
+  -moz-box-align: center;
+       align-items: center;
+}
+
+#pin-window > .bottom-actions .action > a > i:first-child,
+#pin-window > .bottom-actions .action > a > pin:first-child {
+  font-size: 22px;
+  margin-right: 2px;
+}
+
+#pin-window > .bottom-actions .action > a > pin:first-child {
+  margin-right: 4px;
+}
+
+#pin-window > .bottom-actions .action > a > pin:first-child:hover::before {
+  opacity: 1;
+}
+
+#pin-window > .bottom-actions .action nav > ul > li > a {
+  width: 100%;
+}
+
+#pin-window .differences {
+  display: none;
+}
+
+#pin-window .differences .diff.green {
+  background: #eaf2c2;
+  color: #406619;
+  text-decoration: none;
+}
+
+#pin-window .differences .diff.red {
+  text-decoration: line-through;
+  color: #b30000;
+  background: #fadad7;
+}
+
+#pin-window.show-differences .edits-switch-wrap.differences {
+  display: -moz-box;
+  display: flex;
+}
+
+#pin-window.show-differences .edit-content.differences {
+  display: block;
+}
+
+#pin-window.show-differences .edits-switch-wrap.changes,
+#pin-window.show-differences .edit-content.changes,
+#pin-window.show-differences .edits-switch-wrap.original,
+#pin-window.show-differences .edit-content.original {
+  display: none !important;
+}
+
+#pin-window ul.options {
+  font-weight: 100;
+  letter-spacing: normal;
+}
+
+#pin-window ul.options[data-display="none"] .hide-when-hidden {
+  display: none;
+}
+
+#pin-window ul.options[data-background-image="none"] .hide-when-no-image {
+  display: none;
+}
+
+#pin-window ul.options a {
+  letter-spacing: inherit;
+}
+
+#pin-window ul.options input {
+  margin: 2px;
+}
+
+#pin-window ul.options .main-option.changed::before {
+  position: absolute;
+  content: "\f111";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  color: red;
+  font-size: 5px;
+  top: 50%;
+  right: 100%;
+  -moz-transform: translateY(-50%);
+       transform: translateY(-50%);
+}
+
+#pin-window ul.options .main-option.sub.changed::before {
+  right: 0;
+  top: 4px;
+}
+
+#pin-window ul.options .main-option.changed:not(div) {
+  position: relative;
+}
+
+#pin-window ul.options > li {
+  margin-bottom: 5px;
+}
+
+#pin-window ul.options > li:last-child {
+  margin-bottom: 0;
+}
+
+#pin-window ul.options > li i {
+  width: 22px;
+  text-align: center;
+}
+
+#pin-window ul.options .choice > a {
+  border: 1px solid white;
+  padding: 2px 5px;
+  -moz-border-radius: 10px;
+       border-radius: 10px;
+  text-align: center;
+  width: auto;
+}
+
+#pin-window ul.options .choice > a.active {
+  background-color: black;
+  color: white;
+  border-color: white;
+  outline-color: black;
+}
+
+#pin-window ul.options .current-element {
+  position: relative;
+  padding-right: 100px;
+}
+
+#pin-window ul.options .current-element .css-selector {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+#pin-window[data-pin-private="0"] .type-convertor .public {
+  display: none !important;
+}
+
+#pin-window[data-pin-private="1"] {
+  -moz-box-shadow: 0px 0px 18px 1px #FC0F42;
+       box-shadow: 0px 0px 18px 1px #FC0F42;
+}
+
+#pin-window[data-pin-private="1"] .type-convertor > .convert-to-private, #pin-window[data-pin-private="1"][data-pin-mine="no"] .type-convertor > .convert-to-private {
+  display: none;
+}
+
+#pin-window[data-pin-complete="0"] .incomplete-pin {
+  display: none !important;
+}
+
+#pin-window[data-pin-complete="1"] .complete-pin {
+  display: none !important;
+}
+
+#pin-window .image-editor,
+#pin-window .content-editor,
+#pin-window .visual-editor {
+  display: none;
+}
+
+#pin-window[data-pin-type="live"] {
+  -moz-box-shadow: 0px 0px 18px 1px #149440;
+       box-shadow: 0px 0px 18px 1px #149440;
+}
+
+#pin-window[data-pin-type="live"][data-pin-modification-type="html"] > .content-editor,
+#pin-window[data-pin-type="live"][data-pin-modification-type="html"] > .visual-editor {
+  display: block;
+}
+
+#pin-window[data-pin-type="live"][data-pin-modification-type="image"] > .image-editor,
+#pin-window[data-pin-type="live"][data-pin-modification-type="image"] > .visual-editor {
+  display: block;
+}
+
+#pin-window[data-pin-type="live"][data-pin-private="1"] {
+  -moz-box-shadow: 0px 0px 18px 1px #FC0FB3;
+       box-shadow: 0px 0px 18px 1px #FC0FB3;
+}
+
+#pin-window[data-pin-type="live"][data-pin-private="0"] .type-convertor > .convert-to-live {
+  display: none !important;
+}
+
+#pin-window[data-pin-type="style"] {
+  -moz-box-shadow: 0px 0px 18px 1px #1DBCC9;
+       box-shadow: 0px 0px 18px 1px #1DBCC9;
+}
+
+#pin-window[data-pin-type="style"] > .visual-editor {
+  display: block;
+}
+
+#pin-window[data-pin-type="style"] .type-convertor > .convert-to-live,
+#pin-window[data-pin-type="style"][data-pin-private="0"] .type-convertor > .convert-to-style {
+  display: none !important;
+}
+
+#pin-window[data-pin-type="comment"] {
+  -moz-box-shadow: 0px 0px 18px 1px #FFFFFF;
+       box-shadow: 0px 0px 18px 1px #FFFFFF;
+}
+
+#pin-window[data-pin-type="comment"] .type-convertor > .convert-to-live,
+#pin-window[data-pin-type="comment"] .type-convertor > .convert-to-style,
+#pin-window[data-pin-type="comment"][data-pin-private="0"] .type-convertor > .convert-to-comment {
+  display: none !important;
+}
+
+#pin-window[data-pin-type="comment"] > .comments .section-title {
+  display: none;
+}
+
+#pin-window[data-revisionary-style-changed="no"] .reset-css,
+#pin-window[data-revisionary-style-changed="no"] .show-original-css {
+  display: none;
+}
+
+#pin-window[data-revisionary-style-changed="no"] .visual-editor .edited-sign {
+  display: none;
+}
+
+#pin-window[data-has-comments="no"] .comments .edited-sign {
+  display: none;
+}
+
+#pin-window[data-revisionary-showing-style-changes="no"] ul.options > li:not(:first-child) {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+#pin-window[data-revisionary-showing-style-changes="no"] .show-original-css > .original {
+  display: none;
+}
+
+#pin-window[data-revisionary-showing-style-changes="yes"] .show-original-css > .changes {
+  display: none;
+}
+
+#pin-window[data-pin-new="yes"] .pin-complete {
+  display: none;
+}
+
+#pin-window[data-revisionary-content-edited="0"] .content-editor .new-image,
+#pin-window[data-revisionary-content-edited="0"] .image-editor .new-image {
+  opacity: 0.3;
+  border: 1px dotted red;
+}
+
+#pin-window[data-revisionary-content-edited="0"] .content-editor .edited-sign,
+#pin-window[data-revisionary-content-edited="0"] .image-editor .edited-sign {
+  display: none;
+}
+
+#pin-window[data-revisionary-content-edited="0"] .edits-switch-wrap > .col:not(.title),
+#pin-window[data-revisionary-content-edited="0"] .difference-switch-wrap {
+  display: none !important;
+}
+
+#pin-window[data-revisionary-content-edited="1"] .uploader .info {
+  display: none !important;
+}
+
+#pin-window[data-revisionary-showing-content-changes="0"] .edits-switch-wrap.changes,
+#pin-window[data-revisionary-showing-content-changes="0"] .edit-content.changes {
+  display: none !important;
+}
+
+#pin-window[data-revisionary-showing-content-changes="1"] .edits-switch-wrap.original,
+#pin-window[data-revisionary-showing-content-changes="1"] .edit-content.original {
+  display: none !important;
+}
+
+#pin-window.loading::after {
+  content: "Please wait...";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: -moz-box;
+  display: flex;
+  -moz-box-align: center;
+       align-items: center;
+  -moz-box-pack: center;
+       justify-content: center;
+  background-color: white;
+  top: 0;
+  left: 0;
+}
+
+#pin-window.removing::after {
+  content: "Removing...";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: -moz-box;
+  display: flex;
+  -moz-box-align: center;
+       align-items: center;
+  -moz-box-pack: center;
+       justify-content: center;
+  background-color: white;
+  top: 0;
+  left: 0;
 }
 
 /* Pins */
