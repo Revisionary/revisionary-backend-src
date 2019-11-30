@@ -238,9 +238,9 @@ html, body {
 					border-bottom-left-radius: 0;
 					letter-spacing: 0;
 
-					& > i {
-						//opacity: 0.5;
-					}
+					// & > i {
+					// 	opacity: 0.5;
+					// }
 				}
 
 				&:hover {
@@ -319,6 +319,32 @@ html, body {
 				&.fa-mouse-pointer {
 					display: inline-block !important;
 				}
+			}
+
+		}
+
+	}
+
+	.pin-limits {
+
+		.upgrade {
+			display: none;
+			background-color: green;
+			color: white;
+		}
+
+		&.exceed {
+
+			.desc {
+				text-align: center;
+			}
+
+			.pins-count, .pin-limit-text {
+				display: none;
+			}
+
+			.upgrade {
+				display: inline-block;
 			}
 
 		}
@@ -495,12 +521,12 @@ html, body {
 .gps_ring {
 	display: inline-block;
     border: 3px solid #999;
-    -webkit-border-radius: 30px;
+    border-radius: 30px;
     margin-bottom: -5px;
     height: 18px;
     width: 18px;
-    -webkit-animation: pulsate 1s ease-out;
-    -webkit-animation-iteration-count: infinite;
+    animation: pulsate 1s ease-out;
+    animation-iteration-count: infinite;
     opacity: 0.0
 }
 @keyframes pulsate {

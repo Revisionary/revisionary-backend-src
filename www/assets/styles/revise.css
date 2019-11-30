@@ -265,6 +265,24 @@ html, body {
   display: inline-block !important;
 }
 
+#top-bar .pin-limits .upgrade {
+  display: none;
+  background-color: green;
+  color: white;
+}
+
+#top-bar .pin-limits.exceed .desc {
+  text-align: center;
+}
+
+#top-bar .pin-limits.exceed .pins-count, #top-bar .pin-limits.exceed .pin-limit-text {
+  display: none;
+}
+
+#top-bar .pin-limits.exceed .upgrade {
+  display: inline-block;
+}
+
 #top-bar .breadcrumbs {
   font-weight: lighter;
 }
@@ -427,12 +445,15 @@ html, body {
 .gps_ring {
   display: inline-block;
   border: 3px solid #999;
-  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+       border-radius: 30px;
   margin-bottom: -5px;
   height: 18px;
   width: 18px;
-  -webkit-animation: pulsate 1s ease-out;
-  -webkit-animation-iteration-count: infinite;
+  -moz-animation: pulsate 1s ease-out;
+       animation: pulsate 1s ease-out;
+  -moz-animation-iteration-count: infinite;
+       animation-iteration-count: infinite;
   opacity: 0.0;
 }
 

@@ -303,3 +303,17 @@
 
 
 </div>
+
+
+
+
+
+<div id="upgrade" class="popup-window xl-11-12">
+	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
+
+	<h2 class="xl-center">Choose Your Plan</h2>
+
+	<?php require view('modules/pricing-table'); ?>
+
+
+</div>

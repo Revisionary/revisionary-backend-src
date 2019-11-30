@@ -810,10 +810,10 @@ foreach ($other_pages as $pageOther) {
 							<i class="fa fa-dot-circle"></i>
 							<i class="fa fa-comment"></i>
 							<i class="fa fa-mouse-pointer"></i>
-							<span class="mode-label"></span></span>
+							<span class="mode-label"></span>
 						</a>
 						<a href="#" class="button pin-type-selector">
-							<i class="fa fa-caret-down"></i></span>
+							<i class="fa fa-caret-down"></i>
 						</a>
 						<ul class="pin-types">
 							<li class="bottom-tooltip <?=$pin_mode == "live" && $pin_private == "0" ? "selected" : ""?>" data-pin-type="live" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes."><a href="#"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a></li>
@@ -827,9 +827,10 @@ foreach ($other_pages as $pageOther) {
 				</div>
 				<div class="col xl-right pin-limits">
 
-					<div class="desc nomargin"><?=getUserInfo()['userLevelName']?> Account</div>
-
+					<div class="desc nomargin"><?=getUserInfo()['userLevelName']?> Account <span>Limits</span></div>
 					<span class="pins-count"><?=$pinsCount?></span> <span class="pin-limit-text">Live Pins Left</span>
+
+					<a href="<?=site_url('upgrade')?>" class="button upgrade bottom-tooltip" data-modal="upgrade"><i class="fa fa-angle-double-up"></i> UPGRADE NOW</a>
 
 				</div>
 			</div>

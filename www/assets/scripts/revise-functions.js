@@ -130,6 +130,7 @@ function runTheInspector() {
 	// WHEN IFRAME DOCUMENT READY !!! ?
 	$('#the-page').contents().ready(function() {
 
+		console.log('IFRAME DOCUMENT READY!');
 
 	});
 
@@ -969,8 +970,6 @@ function runTheInspector() {
 
 
 		});
-
-
 		$(window).on('resize', function(e) { // Detect the window resizing to re-position pins
 
 			//console.log('RESIZIIIIIIIING');
@@ -1230,26 +1229,52 @@ function updateLimitations(pinType) {
 
 
 	// Update the limitation notice
-	var pinCount = $(".pin-limits > .pins-count");
-	var pinLimitText = $(".pin-limits > .pin-limit-text");
+	var currentCount = 0;
+	var currentLabel = "";
+
 	if (pinType == "live" || pinType == "style") {
 
-		pinCount.text( limitations.current.pin );
-		pinLimitText.text("Live Pins Left");
+
+		currentCount = limitations.current.pin;
+		currentLabel = "Live Pins Left";
 
 	}
 	else if (pinType == "comment") {
 
-		pinCount.text( limitations.current.commentpin );
-		pinLimitText.text("Comment Pins Left");
+
+		currentCount = limitations.current.commentpin;
+		currentLabel = "Comment Pins Left";
 
 	}
 	else if (pinType == "browse") {
 
-		pinCount.text( limitations.current.phase );
-		pinLimitText.text("Pages Left");
+
+		currentCount = limitations.current.phase;
+		currentLabel = "Pages Left";
 
 	}
+
+
+	// Unlimited Counts
+	if (currentCount == "Unlimited") currentLabel = currentLabel.replace(' Left', '');
+
+
+	// If exceed
+	if (currentCount < 1) {
+		
+		$('.pin-limits .desc span').text('Limits Exceeded');
+		$('.pin-limits').addClass('exceed');
+
+	} else {
+
+		$('.pin-limits .desc span').text('Limits');
+		$('.pin-limits').removeClass('exceed');
+
+	}
+
+
+	$(".pin-limits > .pins-count").text(currentCount);
+	$(".pin-limits > .pin-limit-text").text(currentLabel);
 
 
 }

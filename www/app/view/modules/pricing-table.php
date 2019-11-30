@@ -1,3 +1,15 @@
+<?php
+
+$user_levels = $db->get('user_levels');
+//die_to_print($user_levels);
+
+
+// Delete the admin one
+unset($user_levels[0]);
+//die_to_print($user_levels);
+
+?>
+
 <table class="pricing">
 	<tr>
 		<th class="feature"><span>Features</span></th>
@@ -116,7 +128,16 @@
 			$<?=$user_level['user_level_price']?><span><?=$user_level['user_level_price'] != 0 ? "/m" : ""?></span><br><br>
 			<?php
 
-			if ($page_title == "Upgrade") {
+			if ($page_title == "Pricing") {
+
+
+				if ($user_level['user_level_name'] == "Free") 
+					echo "<a href='".site_url('signup')."' class='upgrade-button'>Get Started</a>";
+				else 
+					echo "<a href='".site_url('signup?trial='.$user_level['user_level_name'])."' class='upgrade-button' data-tooltip='In development...'>Try ".$user_level['user_level_name']."</a>";
+
+
+			} else {
 
 
 				if ( getUserInfo()['userLevelName'] == $user_level['user_level_name'] ) {
@@ -132,19 +153,16 @@
 
 
 				} elseif ( getUserInfo()['userLevelName'] != $user_level['user_level_name'] ) {
-				?>
 
-				<a href='#' class='upgrade-button <?=$user_level['user_level_name'] == "Free" ? "invisible" : ""?>' data-tooltip='In development...'>Upgrade to <?=strtoupper($user_level['user_level_name'])?></a>
 
-			<?php
+					echo "<a href='#' class='upgrade-button ".($user_level['user_level_name'] == "Free" ? "invisible" : "")."' data-tooltip='In development...'>Upgrade to ".strtoupper($user_level['user_level_name'])."</a>";
+
+
 				}
 
-			} elseif ($page_title == "Pricing") {
-
-				if ($user_level['user_level_name'] == "Free") echo "<a href='".site_url('signup')."' class='upgrade-button'>Get Started</a>";
-				else echo "<a href='".site_url('signup?trial='.$user_level['user_level_name'])."' class='upgrade-button' data-tooltip='In development...'>Try ".$user_level['user_level_name']."</a>";
 
 			}
+
 			?>
 		</td>
 		<?php } ?>
