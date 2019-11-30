@@ -283,9 +283,8 @@ function runTheInspector() {
 
 
 	    // Update the title
-		if ( iframeElement('title').length ) {
+		if ( iframeElement('title').length ) 
 			$('title').text( "Revise Page: " + iframeElement('title').text() );
-		}
 
 
 
@@ -295,6 +294,7 @@ function runTheInspector() {
 
 
 		// MOUSE ACTIONS:
+		var doChangeOnPage = {};
 		var mouseDownOnContentEdit = false;
 		var scrollTimer, scrollFlag = false;
 	    iframe.on('mousemove', function(e) { // Detect the mouse moves in frame
@@ -314,15 +314,15 @@ function runTheInspector() {
 
 
 
+			// FOCUSING:
+			// Focused Element is the mouse pointed element as default
+			focused_element = $(e.target);
+			reFocus();
+
+
+
 			// Work only if cursor is active
 			if (cursorActive && !hoveringPin) {
-
-
-
-				// FOCUSING:
-				// Focused Element is the mouse pointed element as default
-				focused_element = $(e.target);
-				reFocus();
 
 
 
@@ -791,12 +791,7 @@ function runTheInspector() {
 			shifted = false;
 
 
-		});
-
-
-		// Detect changes on page text
-		var doChangeOnPage = {};
-		iframe.on('input', '[contenteditable="true"][data-revisionary-index]', function(e) {
+		}).on('input', '[contenteditable="true"][data-revisionary-index]', function(e) { // Detect changes on page text
 
 
 			var element_index = $(this).attr('data-revisionary-index');
@@ -997,6 +992,10 @@ function runTheInspector() {
 		    relocatePins();
 
 		});
+
+
+		// Focus to the iframe
+		$(this).focus();
 
 
 	});
