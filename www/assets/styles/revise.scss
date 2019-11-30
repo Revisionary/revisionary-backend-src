@@ -18,6 +18,17 @@ html, body {
 	font-size: 12px;
 	line-height: normal;
 
+	& > .wrap {
+		height: $topbar-height;
+		padding: 5px;
+		padding-bottom: 10px;
+
+		& > .col {
+			font-size: 12px;
+			line-height: normal;
+		}
+	}
+
 	a {
 		font-size: 12px;
 		line-height: normal;
@@ -422,41 +433,11 @@ html, body {
 
 	}
 
-	& > .wrap {
-		height: $topbar-height;
-		padding: 5px;
-		padding-bottom: 10px;
+	.share {
 
-		& > .col {
-			font-size: 12px;
-			line-height: normal;
+		& > .button {
+			background-color: $color-secondary;
 		}
-	}
-
-	.share > .tab {
-		letter-spacing: 1.5px;
-
-		& > * {
-			margin-bottom: 15px;
-
-			& > a {
-				font-size: 14px;
-			}
-		}
-
-		.shared-members {
-			margin-top: 2px;
-
-			a {
-				display: inline-block;
-			}
-
-			.member-selector {
-				position: relative;
-				top: -4px;
-			}
-		}
-
 
 	}
 

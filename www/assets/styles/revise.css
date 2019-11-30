@@ -12,6 +12,17 @@ html, body {
   line-height: normal;
 }
 
+#top-bar > .wrap {
+  height: 45px;
+  padding: 5px;
+  padding-bottom: 10px;
+}
+
+#top-bar > .wrap > .col {
+  font-size: 12px;
+  line-height: normal;
+}
+
 #top-bar a {
   font-size: 12px;
   line-height: normal;
@@ -346,40 +357,8 @@ html, body {
   margin: 0 8px;
 }
 
-#top-bar > .wrap {
-  height: 45px;
-  padding: 5px;
-  padding-bottom: 10px;
-}
-
-#top-bar > .wrap > .col {
-  font-size: 12px;
-  line-height: normal;
-}
-
-#top-bar .share > .tab {
-  letter-spacing: 1.5px;
-}
-
-#top-bar .share > .tab > * {
-  margin-bottom: 15px;
-}
-
-#top-bar .share > .tab > * > a {
-  font-size: 14px;
-}
-
-#top-bar .share > .tab .shared-members {
-  margin-top: 2px;
-}
-
-#top-bar .share > .tab .shared-members a {
-  display: inline-block;
-}
-
-#top-bar .share > .tab .shared-members .member-selector {
-  position: relative;
-  top: -4px;
+#top-bar .share > .button {
+  background-color: #007acc;
 }
 
 #top-bar .page-info {
