@@ -141,92 +141,10 @@ html, body {
 
 	}
 
-	.pins {
+	.screen {
 
-		.pins-filter {
-		    text-align: center;
-			font-size: 10px;
-		    font-weight: lighter;
-		    letter-spacing: 2px;
-		    margin-top: -5px;
-			margin-bottom: 5px;
-
-		    a {
-			    font-size: 10px;
-				font-weight: lighter;
-				letter-spacing: 1.2px;
-
-				&.selected {
-					text-decoration: underline;
-				}
-		    }
-		}
-
-		.pins-list {
-
-			& *:not(i) {
-				font-weight: lighter;
-			}
-
-			.pin {
-				margin-bottom: 15px;
-				position: static !important;
-
-				&:hover pin:before {
-					opacity: 0;
-				}
-			}
-
-			.pin-title {
-				margin-left: 5px;
-				text-transform: uppercase;
-				font-size: 14px;
-				letter-spacing: 1.7px;
-
-				&.close {
-
-					i {
-						-moz-transform: rotate(180deg);
-					    -webkit-transform: rotate(180deg);
-					    -ms-transform: rotate(180deg);
-					    -o-transform: rotate(180deg);
-					    transform: rotate(180deg);
-					}
-
-					& + .pin-comments {
-						display: none;
-					}
-
-				}
-
-				i.edit-summary {
-				    width: 100%;
-				    display: block;
-				    transform: none !important;
-				    padding-left: 60px;
-				    color: gray;
-				    margin-top: -12px;
-				    font-size: 10px;
-				    text-transform: none;
-				    box-sizing: border-box;
-
-				    & > img {
-					    max-width: 50px;
-					    max-height: 50px;
-					    width: auto;
-					    height: auto;
-				    }
-
-				    &.createdby {
-						position: relative;
-						left: -15px;
-						top: -10px;
-				    }
-				}
-
-			}
-
-
+		.selected {
+			display: none;
 		}
 
 	}
@@ -445,6 +363,96 @@ html, body {
 		padding: 3px;
 	}
 
+	.pins {
+
+		.pins-filter {
+		    text-align: center;
+			font-size: 10px;
+		    font-weight: lighter;
+		    letter-spacing: 2px;
+		    margin-top: -5px;
+			margin-bottom: 5px;
+
+		    a {
+			    font-size: 10px;
+				font-weight: lighter;
+				letter-spacing: 1.2px;
+
+				&.selected {
+					text-decoration: underline;
+				}
+		    }
+		}
+
+		.pins-list {
+
+			& *:not(i) {
+				font-weight: lighter;
+			}
+
+			.pin {
+				margin-bottom: 15px;
+				position: static !important;
+
+				&:hover pin:before {
+					opacity: 0;
+				}
+			}
+
+			.pin-title {
+				margin-left: 5px;
+				text-transform: uppercase;
+				font-size: 14px;
+				letter-spacing: 1.7px;
+
+				&.close {
+
+					i {
+						-moz-transform: rotate(180deg);
+					    -webkit-transform: rotate(180deg);
+					    -ms-transform: rotate(180deg);
+					    -o-transform: rotate(180deg);
+					    transform: rotate(180deg);
+					}
+
+					& + .pin-comments {
+						display: none;
+					}
+
+				}
+
+				i.edit-summary {
+				    width: 100%;
+				    display: block;
+				    transform: none !important;
+				    padding-left: 60px;
+				    color: gray;
+				    margin-top: -12px;
+				    font-size: 10px;
+				    text-transform: none;
+				    box-sizing: border-box;
+
+				    & > img {
+					    max-width: 50px;
+					    max-height: 50px;
+					    width: auto;
+					    height: auto;
+				    }
+
+				    &.createdby {
+						position: relative;
+						left: -15px;
+						top: -10px;
+				    }
+				}
+
+			}
+
+
+		}
+
+	}
+
 	[data-pin-status] {
 
 		.notif-no, .pin-count {
@@ -460,6 +468,54 @@ html, body {
 
 		&[data-pin-status="no-tasks"] .notif-no {
 			display: none;
+		}
+
+	}
+
+	@media only screen and (max-width: 1260px) {
+
+		.notification-opener > span {
+			display: none;
+		}
+
+	}
+
+	@media only screen and (max-width: 1200px) {
+
+		.help-information .dropdown > .button > span {
+			display: none;
+		}
+
+	}
+
+	@media only screen and (max-width: 1150px) {
+
+		.mode-label {
+			display: none;
+		}
+
+	}
+
+	@media only screen and (max-width: 1000px) {
+
+		.share > .button > span {
+			display: none;
+		}
+
+	}
+
+	@media only screen and (max-width: 900px) {
+
+		.select-screen > span {
+			display: none;
+		}
+
+		.screen {
+	
+			.selected {
+				display: flex;
+			}
+	
 		}
 
 	}

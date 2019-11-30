@@ -600,7 +600,7 @@ foreach ($other_pages as $pageOther) {
 
 					?>
 
-						<a href="#" class="button select-phase"><i class="fa fa-code-branch"></i> v<?=$currentPhaseNumber?> <i class="fa fa-caret-down"></i></a>
+						<a href="#" class="button select-phase"><i class="fa fa-code-branch"></i> <span>v<?=$currentPhaseNumber?></span> <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left">
 
 							<?php
@@ -697,7 +697,7 @@ foreach ($other_pages as $pageOther) {
 					<div class="desc nomargin">Screen Size</div>
 					<span class="dropdown">
 
-						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>"></i> <?=$screen_name?> (<?=$width?>x<?=$height?>)  <i class="fa fa-caret-down"></i></a>
+						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>"></i> <span><?=$screen_name?> (<?=$width?>x<?=$height?>)</span>  <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left">
 						<?php
 
@@ -706,7 +706,8 @@ foreach ($other_pages as $pageOther) {
 						    return ($deviceFound['phase_ID'] == $phase_ID);
 						});
 						foreach ($devices_of_mypage as $device) {
-							if ($device['device_ID'] == $device_ID) continue;
+							//if ($device['device_ID'] == $device_ID) continue;
+							$selected = $device['device_ID'] == $device_ID ? "selected" : "";
 
 
 
@@ -726,9 +727,18 @@ foreach ($other_pages as $pageOther) {
 
 						?>
 
-							<li class="item deletable screen-registered" data-type="device" data-id="<?=$device['device_ID']?>">
+							<li class="item deletable screen-registered <?=$selected?>" data-type="device" data-id="<?=$device['device_ID']?>">
 								<a href="<?=site_url('revise/'.$device['device_ID'], true)?>"><i class="fa <?=$device['screen_cat_icon']?>"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
+
+								<?php
+								if ($selected != "selected") {
+								?>
 								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove', true)?>" data-tooltip="Delete This Screen" data-action="remove" data-confirm="Are you sure you want to remove this screen?"></i>
+								<?php
+								}
+								?>
+
+
 							</li>
 
 						<?php
@@ -854,7 +864,7 @@ foreach ($other_pages as $pageOther) {
 		</div>
 		<div class="col share">
 
-			<a href="#" class="button" data-modal="share" data-type="page" data-id="<?=$page_ID?>" data-object-name="<?=$page['page_name']?>" data-iamowner="<?=$page['user_ID'] == currentUserID() ? "yes" : "no"?>"><i class="fa fa-share-alt"></i> SHARE</a>
+			<a href="#" class="button" data-modal="share" data-type="page" data-id="<?=$page_ID?>" data-object-name="<?=$page['page_name']?>" data-iamowner="<?=$page['user_ID'] == currentUserID() ? "yes" : "no"?>"><i class="fa fa-share-alt"></i> <span>SHARE</span></a>
 
 		</div>
 		<div class="col notifications-wrapper">
@@ -864,7 +874,7 @@ foreach ($other_pages as $pageOther) {
 				<i class="fa fa-bell"></i>
 				<div class="notif-no hide">0</div>
 
-				NOTIFICATIONS
+				<span>NOTIFICATIONS</span>
 
 			</a>
 			<div class="notifications">
@@ -879,7 +889,7 @@ foreach ($other_pages as $pageOther) {
 			<div class="wrap xl-gutter-8">
 				<div class="col dropdown info">
 
-					<a href="#" class="button"><i class="fa fa-tools"></i> TOOLS</a>
+					<a href="#" class="button"><i class="fa fa-tools"></i> <span>TOOLS</span></a>
 					<ul class="center xl-left" style="max-width: 300px;">
 						<li>
 							<div class="xl-left page-info" style="font-size: 12px;">
@@ -910,7 +920,7 @@ foreach ($other_pages as $pageOther) {
 				</div>
 				<div class="col dropdown help">
 
-					<a href="#" class="button"><i class="fa fa-question-circle"></i> HELP</a>
+					<a href="#" class="button"><i class="fa fa-question-circle"></i> <span>HELP</span></a>
 					<ul class="xl-left bottom-tooltip" data-tooltip="Coming soon...">
 						<li><a href="#" data-modal="video">Quick Start</a></li>
 						<li><a href="#" data-modal="video">Features Help</a></li>
@@ -928,7 +938,7 @@ foreach ($other_pages as $pageOther) {
 		<div class="col pins tab-container open">
 
 			<a href="#" class="button opener open">
-				PINS <i class="fa fa-list-ul"></i>
+				<span>PINS</span> <i class="fa fa-list-ul"></i>
 				<div class="notif-no left hide">0</div>
 			</a>
 			<div class="tab right wrap">

@@ -132,79 +132,8 @@ html, body {
   background-color: white;
 }
 
-#top-bar .pins .pins-filter {
-  text-align: center;
-  font-size: 10px;
-  font-weight: lighter;
-  letter-spacing: 2px;
-  margin-top: -5px;
-  margin-bottom: 5px;
-}
-
-#top-bar .pins .pins-filter a {
-  font-size: 10px;
-  font-weight: lighter;
-  letter-spacing: 1.2px;
-}
-
-#top-bar .pins .pins-filter a.selected {
-  text-decoration: underline;
-}
-
-#top-bar .pins .pins-list *:not(i) {
-  font-weight: lighter;
-}
-
-#top-bar .pins .pins-list .pin {
-  margin-bottom: 15px;
-  position: static !important;
-}
-
-#top-bar .pins .pins-list .pin:hover pin:before {
-  opacity: 0;
-}
-
-#top-bar .pins .pins-list .pin-title {
-  margin-left: 5px;
-  text-transform: uppercase;
-  font-size: 14px;
-  letter-spacing: 1.7px;
-}
-
-#top-bar .pins .pins-list .pin-title.close i {
-  -moz-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-
-#top-bar .pins .pins-list .pin-title.close + .pin-comments {
+#top-bar .screen .selected {
   display: none;
-}
-
-#top-bar .pins .pins-list .pin-title i.edit-summary {
-  width: 100%;
-  display: block;
-  -moz-transform: none !important;
-       transform: none !important;
-  padding-left: 60px;
-  color: gray;
-  margin-top: -12px;
-  font-size: 10px;
-  text-transform: none;
-  -moz-box-sizing: border-box;
-       box-sizing: border-box;
-}
-
-#top-bar .pins .pins-list .pin-title i.edit-summary > img {
-  max-width: 50px;
-  max-height: 50px;
-  width: auto;
-  height: auto;
-}
-
-#top-bar .pins .pins-list .pin-title i.edit-summary.createdby {
-  position: relative;
-  left: -15px;
-  top: -10px;
 }
 
 #top-bar .pin-mode .current-mode > a.browse-switcher {
@@ -365,6 +294,81 @@ html, body {
   padding: 3px;
 }
 
+#top-bar .pins .pins-filter {
+  text-align: center;
+  font-size: 10px;
+  font-weight: lighter;
+  letter-spacing: 2px;
+  margin-top: -5px;
+  margin-bottom: 5px;
+}
+
+#top-bar .pins .pins-filter a {
+  font-size: 10px;
+  font-weight: lighter;
+  letter-spacing: 1.2px;
+}
+
+#top-bar .pins .pins-filter a.selected {
+  text-decoration: underline;
+}
+
+#top-bar .pins .pins-list *:not(i) {
+  font-weight: lighter;
+}
+
+#top-bar .pins .pins-list .pin {
+  margin-bottom: 15px;
+  position: static !important;
+}
+
+#top-bar .pins .pins-list .pin:hover pin:before {
+  opacity: 0;
+}
+
+#top-bar .pins .pins-list .pin-title {
+  margin-left: 5px;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 1.7px;
+}
+
+#top-bar .pins .pins-list .pin-title.close i {
+  -moz-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+#top-bar .pins .pins-list .pin-title.close + .pin-comments {
+  display: none;
+}
+
+#top-bar .pins .pins-list .pin-title i.edit-summary {
+  width: 100%;
+  display: block;
+  -moz-transform: none !important;
+       transform: none !important;
+  padding-left: 60px;
+  color: gray;
+  margin-top: -12px;
+  font-size: 10px;
+  text-transform: none;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+
+#top-bar .pins .pins-list .pin-title i.edit-summary > img {
+  max-width: 50px;
+  max-height: 50px;
+  width: auto;
+  height: auto;
+}
+
+#top-bar .pins .pins-list .pin-title i.edit-summary.createdby {
+  position: relative;
+  left: -15px;
+  top: -10px;
+}
+
 #top-bar [data-pin-status] .notif-no, #top-bar [data-pin-status] .pin-count {
   position: static;
   display: inline-block;
@@ -379,6 +383,40 @@ html, body {
 
 #top-bar [data-pin-status][data-pin-status="no-tasks"] .notif-no {
   display: none;
+}
+
+@media only screen and (max-width: 1260px) {
+  #top-bar .notification-opener > span {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  #top-bar .help-information .dropdown > .button > span {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1150px) {
+  #top-bar .mode-label {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  #top-bar .share > .button > span {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  #top-bar .select-screen > span {
+    display: none;
+  }
+  #top-bar .screen .selected {
+    display: -moz-box;
+    display: flex;
+  }
 }
 
 #page {
