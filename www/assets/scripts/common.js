@@ -582,8 +582,9 @@ $(function() {
 
 
 		var modalName = $(this).attr('data-modal');
-		var modal = $('#' + modalName);
-		var currentUserId = modal.attr('data-currentuser-id');
+		var modal = $('#' + modalName + '.popup-window');
+		if ( !modal.length ) return;
+		if (modalName == "upgrade" && modal.attr('data-current-plan') == "Enterprise") return;
 
 		var dataType = $(this).attr('data-type');
 		var object_ID = $(this).attr('data-id');

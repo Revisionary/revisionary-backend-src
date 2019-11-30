@@ -52,7 +52,7 @@
 
 </div>
 
-<div class="bg-overlay">
+<div class="bg-overlay modals">
 
 	<?php
 
@@ -815,7 +815,7 @@ foreach ($other_pages as $pageOther) {
 						<a href="#" class="button pin-type-selector">
 							<i class="fa fa-caret-down"></i>
 						</a>
-						<ul class="pin-types">
+						<ul class="right pin-types">
 							<li class="bottom-tooltip <?=$pin_mode == "live" && $pin_private == "0" ? "selected" : ""?>" data-pin-type="live" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes."><a href="#"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a></li>
 							<li class="bottom-tooltip <?=$pin_mode == "style" && $pin_private == "0" ? "selected" : ""?>" data-pin-type="style" data-pin-private="0" data-tooltip="You can only do visual changes."><a href="#"><i class="fa fa-dot-circle"></i> ONLY VIEW CHANGES</a></li>
 							<li class="bottom-tooltip <?=$pin_mode == "live" && $pin_private == "1" ? "selected" : ""?>" data-pin-type="live" data-pin-private="1" data-tooltip="Only you can see the changes you made."><a href="#"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a></li>
@@ -825,10 +825,26 @@ foreach ($other_pages as $pageOther) {
 					</div>
 
 				</div>
-				<div class="col xl-right pin-limits">
+				<div class="col xl-right pin-limits dropdown">
 
-					<div class="desc nomargin"><?=getUserInfo()['userLevelName']?> Account <span>Limits</span></div>
-					<span class="pins-count"><?=$pinsCount?></span> <span class="pin-limit-text">Live Pins Left</span>
+					<div class="dropdown-opener">
+						
+						<div class="desc nomargin"><?=getUserInfo()['userLevelName']?> Account <span>Limits</span></div>
+						<span class="pins-count" data-modal="upgrade"><?=$pinsCount?></span> <span class="pin-limit-text">Live Pins Left</span>
+
+					</div>
+					<ul class="left limit-details">
+						<li>
+							
+							<div class="xl-center dropdown-content">
+								<?php require view('modules/limitations'); ?>
+								<?php if ( getUserInfo()['userLevelName'] != "Enterprise" ): ?>
+								<a href="#" class="button" data-modal="upgrade"><i class="fa fa-angle-double-up"></i> UPGRADE NOW</a>
+								<?php endif; ?>
+							</div>
+
+						</li>
+					</ul>
 
 					<a href="<?=site_url('upgrade')?>" class="button upgrade bottom-tooltip" data-modal="upgrade"><i class="fa fa-angle-double-up"></i> UPGRADE NOW</a>
 

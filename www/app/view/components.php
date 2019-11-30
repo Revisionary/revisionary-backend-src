@@ -2,7 +2,7 @@
 <?php require view('static/header_frontend'); ?>
 
 
-<div class="bg-overlay">
+<div class="bg-overlay modals">
 
 	<?php
 

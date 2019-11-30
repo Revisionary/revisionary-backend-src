@@ -152,11 +152,15 @@
 
 							<br/>
 
-							<div class="level-wrapper" data-tooltip="In Development... Current Plan allows maximum X MB of files (from Y Projects, Z Pages, T Live Pins)">
-								<div class="user-level tooltip">
+							<div class="level-wrapper" data-tooltip="You are on <?=getUserInfo()['userLevelName'] == "Enterprise" ? 'Un' : ""?>limited <?=getUserInfo()['userLevelName']?> Plan">
+								<a href="#" class="user-level" data-modal="upgrade">
+									<?=getUserInfo()['userLevelName'] == "Enterprise" ? '<i class="fa fa-award"></i> ' : ""?>
 									<?=$userInfo['userLevelName']?>
-								</div>
-								<a href="<?=site_url('upgrade')?>">Upgrade to PRO</a>
+								</a>
+								<?php if ( getUserInfo()['userLevelName'] != "Enterprise" ) { ?>
+									<a href="<?=site_url('upgrade')?>" data-modal="upgrade">Upgrade Now</a>
+								<?php } ?>
+								
 							</div>
 
 						</div>
@@ -294,6 +298,19 @@
 
 						</form>
 					</div>
+
+
+				<?php } elseif ($subpage == "billing") { ?>
+
+
+					<div class="wrap xl-1" id="billing-settings">
+						<div class="col xl-center">
+
+							BILLING SETTINGS IN DEVELOPMENT
+
+						</div>
+					</div>
+
 
 
 				<?php } ?>

@@ -1,11 +1,11 @@
 <div id="page" class="site">
 
-	<div class="bg-overlay">
+	<div class="bg-overlay modals">
 
 		<?php
 
 			// Projects and Pages Modals
-			if ($_url[0] == "projects" || $_url[0] == "project") require view('modules/modals');
+			if ($_url[0] == "projects" || $_url[0] == "project" || $_url[0] == "account") require view('modules/modals');
 
 		?>
 
@@ -52,9 +52,9 @@
 						<li class="menu-item">
 							
 							<?php if ( getUserInfo()['userLevelName'] == "Enterprise" ) { ?>
-							<span class="enterprise-badge" data-tooltip="You are on Unlimited <?=getUserInfo()['userLevelName']?> Plan"><i class="fa fa-award"></i></span>
+							<span class="enterprise-badge tooltip" data-tooltip="You are on Unlimited <?=getUserInfo()['userLevelName']?> Plan"><i class="fa fa-award"></i></span>
 							<?php } else { ?>
-							<a href="<?=site_url('upgrade')?>" class="upgrade-button">UPGRADE</a>
+							<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="upgrade-button">UPGRADE</a>
 							<?php } ?>
 						
 						</li>

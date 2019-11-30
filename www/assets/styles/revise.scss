@@ -333,6 +333,63 @@ html, body {
 			color: white;
 		}
 
+		.limit-details {
+			width: 300px;
+
+			.dropdown-content {
+				padding: 10px 5px;
+
+				.limit-wrapper {
+					width: 100%;
+	
+					.xl-hidden {
+						display: block;
+					}
+	
+					* {
+						text-align: center;
+					}
+
+					.exceed {
+						color: red;
+					}
+
+					.total > ul {
+						display: none;
+					}
+
+					.fa-question-circle {
+						display: none;
+					}
+
+					&[data-current-plan="Enterprise"] {
+
+						a {
+							cursor: default;
+							color: $color !important;
+						}
+
+					}
+	
+				}
+
+				.button {
+					background-color: $color;
+					border-color: $color;
+					color: white;
+					text-transform: uppercase;
+
+					&:hover {
+						color: $color-secondary !important;
+						border-color: $color-secondary;
+						background-color: white;
+					}
+				}
+
+			}
+
+		}
+
 		&.exceed {
 
 			.desc {

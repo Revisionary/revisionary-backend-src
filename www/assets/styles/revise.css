@@ -271,6 +271,56 @@ html, body {
   color: white;
 }
 
+#top-bar .pin-limits .limit-details {
+  width: 300px;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content {
+  padding: 10px 5px;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper {
+  width: 100%;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper .xl-hidden {
+  display: block;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper * {
+  text-align: center;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper .exceed {
+  color: red;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper .total > ul {
+  display: none;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper .fa-question-circle {
+  display: none;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper[data-current-plan="Enterprise"] a {
+  cursor: default;
+  color: black !important;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .button {
+  background-color: black;
+  border-color: black;
+  color: white;
+  text-transform: uppercase;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .button:hover {
+  color: #007acc !important;
+  border-color: #007acc;
+  background-color: white;
+}
+
 #top-bar .pin-limits.exceed .desc {
   text-align: center;
 }

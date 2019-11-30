@@ -1273,8 +1273,8 @@ function updateLimitations(pinType) {
 	}
 
 
-	$(".pin-limits > .pins-count").text(currentCount);
-	$(".pin-limits > .pin-limit-text").text(currentLabel);
+	$(".pin-limits .pins-count").text(currentCount);
+	$(".pin-limits .pin-limit-text").text(currentLabel);
 
 
 }
