@@ -6776,6 +6776,10 @@ a.invert-hover:hover {
   opacity: 0.3;
 }
 
+.user-level i {
+  color: #D4AF37;
+}
+
 .user-level + a {
   font-size: 15px;
   margin-top: 5px;
