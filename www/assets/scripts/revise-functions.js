@@ -757,7 +757,7 @@ function runTheInspector() {
 			relocatePins();
 
 
-		}).on('keydown', function(e) { // Detect the scroll to re-position pins
+		}).on('keydown', function(e) { // Detect shift key press to toggle browse mode
 
 
 			if (e.shiftKey) shifted = true;
@@ -775,7 +775,7 @@ function runTheInspector() {
 			}
 
 
-		}).on('keyup', function(e) { // Detect the scroll to re-position pins
+		}).on('keyup', function(e) { // Detect shift key press to toggle browse mode
 
 
 			if (shifted && shiftToggle && !pinWindowOpen && currentPinType == "browse") {
@@ -906,7 +906,7 @@ function runTheInspector() {
 			console.log('PASTED: ', plain_text);
 
 
-		}).on('click', 'a[href]', function(e) { // When pasting rich text
+		}).on('click', 'a[href]', function(e) { // Click to browse on pages
 
 
 			var link = $(this).attr('href');
@@ -921,12 +921,8 @@ function runTheInspector() {
 			) {
 
 
-				// Encoded Link
-				var encodedLink = encodeURIComponent(absoluteLink);
-
-
 				// New page link
-				var newPageLink = "/projects/?add_new=true&pinmode=browse&page_width="+ page_width +"&page_height="+ page_height +"&project_ID=" + project_ID + "&page-url=" + encodedLink;
+				var newPageLink = "/projects/?add_new=true&pinmode=browse&page_width="+ page_width +"&page_height="+ page_height +"&project_ID=" + project_ID + "&page-url=" + encodeURIComponent(absoluteLink);
 
 
 				// Search in my pages registered
@@ -939,8 +935,21 @@ function runTheInspector() {
 				if (pageFound) {
 
 					newPageLink = "/page/" + pageFound.page_ID + "?pinmode=browse";
-
 					console.log('ALREADY DOWNLOADED!!!', newPageLink);
+
+				}
+
+
+				// Prevent adding a new page if no allowed page
+				if (currentAllowed == "0" && !pageFound) {
+
+
+					// Open "No Page/Phase left in your account" modal with "Upgrade Now" button !!!
+
+					
+					e.preventDefault();
+					e.stopPropagation();
+					return false;
 
 				}
 
