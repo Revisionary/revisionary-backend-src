@@ -317,3 +317,19 @@
 
 
 </div>
+
+
+
+
+
+<div id="page-limit" class="popup-window xl-4-12" data-current-plan="<?=getUserInfo()['userLevelName']?>">
+	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
+
+	<div class="xl-center">
+		<p>You have reached your page/phase limit.</p>
+	
+		<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="upgrade-button"><i class="fa fa-angle-double-up"></i> UPGRADE NOW</a>
+	</div>
+
+
+</div>

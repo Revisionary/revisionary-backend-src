@@ -942,6 +942,7 @@ function runTheInspector() {
 
 
 					// Open "No Page/Phase left in your account" modal with "Upgrade Now" button !!!
+					openModal('page-limit');
 
 					
 					e.preventDefault();

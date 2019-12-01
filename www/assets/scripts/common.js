@@ -1621,6 +1621,10 @@ function openModal(modalElement) {
 	if (!modal.length) return false;
 
 
+	// Close other modals
+	$('.popup-window').removeClass('active');
+
+
 	// Open the modal
 	modal.addClass('active');
 	$('body').addClass('popup-open');
