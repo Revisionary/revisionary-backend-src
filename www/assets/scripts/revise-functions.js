@@ -1108,6 +1108,65 @@ function updatePinsList() {
 }
 
 
+// Update Limitations
+function updateLimitations(pinType) {
+
+
+	pinType = assignDefault(pinType, currentPinType);
+
+
+	// Update the limitation notice
+	var currentCount = 0;
+	var currentLabel = "";
+
+	if (pinType == "live" || pinType == "style") {
+
+
+		currentCount = limitations.current.pin;
+		currentLabel = "Live Pins Left";
+
+	}
+	else if (pinType == "comment") {
+
+
+		currentCount = limitations.current.commentpin;
+		currentLabel = "Comment Pins Left";
+
+	}
+	else if (pinType == "browse") {
+
+
+		currentCount = limitations.current.phase;
+		currentLabel = "Pages Left";
+
+	}
+
+
+	// Unlimited Counts
+	if (currentCount == "Unlimited") currentLabel = currentLabel.replace(' Left', '');
+
+
+	// If exceed
+	if (currentCount < 1) {
+		
+		$('.pin-limits .desc span').text('Limits Exceeded');
+		$('.pin-limits').addClass('exceed');
+
+	} else {
+
+		$('.pin-limits .desc span').text('Limits');
+		$('.pin-limits').removeClass('exceed');
+
+	}
+
+
+	$(".pin-limits .pins-count").text(currentCount);
+	$(".pin-limits .pin-limit-text").text(currentLabel);
+
+
+}
+
+
 
 // OUTLINES:
 // Color the element
@@ -1217,65 +1276,6 @@ function switchPinType(pinType, pinPrivate) {
 
 	// Close the pin window
 	if (pinWindowOpen && iframeLoaded) closePinWindow();
-
-}
-
-
-// Update Limitations
-function updateLimitations(pinType) {
-
-
-	pinType = assignDefault(pinType, currentPinType);
-
-
-	// Update the limitation notice
-	var currentCount = 0;
-	var currentLabel = "";
-
-	if (pinType == "live" || pinType == "style") {
-
-
-		currentCount = limitations.current.pin;
-		currentLabel = "Live Pins Left";
-
-	}
-	else if (pinType == "comment") {
-
-
-		currentCount = limitations.current.commentpin;
-		currentLabel = "Comment Pins Left";
-
-	}
-	else if (pinType == "browse") {
-
-
-		currentCount = limitations.current.phase;
-		currentLabel = "Pages Left";
-
-	}
-
-
-	// Unlimited Counts
-	if (currentCount == "Unlimited") currentLabel = currentLabel.replace(' Left', '');
-
-
-	// If exceed
-	if (currentCount < 1) {
-		
-		$('.pin-limits .desc span').text('Limits Exceeded');
-		$('.pin-limits').addClass('exceed');
-
-	} else {
-
-		$('.pin-limits .desc span').text('Limits');
-		$('.pin-limits').removeClass('exceed');
-
-	}
-
-
-	$(".pin-limits .pins-count").text(currentCount);
-	$(".pin-limits .pin-limit-text").text(currentLabel);
-
 
 }
 
