@@ -1758,22 +1758,29 @@ class User {
 
 
 		// Notifications
-		if ($unshared && self::$user_ID != currentUserID()) {
+		if ($unshared) {
 
 
-			// Notify User via web notification
-			if ( is_integer(self::$user_ID) )
-				Notify::ID(self::$user_ID)->web("unshare", $share_type, $shared_object_ID);
+			// Notifications
+			if ( self::$user_ID != currentUserID() ) {
 
 
-			// Notify User via email notification
-			Notify::ID(self::$user_ID)->mail(
-				getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you.",
+				// Notify User via web notification
+				if ( is_integer(self::$user_ID) )
+					Notify::ID(self::$user_ID)->web("unshare", $share_type, $shared_object_ID);
 
-				"Hello, ".
-				getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you on Revisionary App.",
-				true // Important
-			);
+
+				// Notify User via email notification
+				Notify::ID(self::$user_ID)->mail(
+					getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you.",
+
+					"Hello, ".
+					getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you on Revisionary App.",
+					true // Important
+				);
+
+
+			}
 
 
 			// INVALIDATE THE CACHES
