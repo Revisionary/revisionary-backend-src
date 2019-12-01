@@ -7141,6 +7141,7 @@ ul.user-header-menu > li:last-child {
 .dropdown a + ul > li.deletable .delete:hover,
 .dropdown .dropdown-opener + ul > li.deletable .delete:hover {
   visibility: visible;
+  color: #007acc;
 }
 
 .dropdown a + ul > li.deletable:hover .delete,
