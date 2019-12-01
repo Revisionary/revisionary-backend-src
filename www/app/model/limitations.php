@@ -13,6 +13,7 @@ $myProjects = array_filter($limitUser->getProjects(), function($projectFound) us
 $projectsCount = count( $myProjects );
 $projectsPercentage = intval((100 * $projectsCount) / $maxProjects);
 $maxProjects = $maxProjects == 99999 ? "∞" : $maxProjects;
+$projectsLeft = $maxProjects == "∞" ? "Unlimited" : $maxProjects - $projectsCount;
 
 
 // PAGES (PHASES)
@@ -23,6 +24,7 @@ $myPhases = array_filter($limitUser->getPhases(), function($phaseFound) use ($li
 $phasesCount = count( $myPhases );
 $phasesPercentage = intval((100 * $phasesCount) / $maxPhases);
 $maxPhases = $maxPhases == 99999 ? "∞" : $maxPhases;
+$phasesLeft = $maxPhases == "∞" ? "Unlimited" : $maxPhases - $phasesCount;
 
 
 // SCREENS
@@ -33,6 +35,7 @@ $myScreens = array_filter($limitUser->getDevices(), function($screenFound) use (
 $screensCount = count( $myScreens );
 $screensPercentage = intval((100 * $screensCount) / $maxScreens);
 $maxScreens = $maxScreens == 99999 ? "∞" : $maxScreens;
+$screensLeft = $maxScreens == "∞" ? "Unlimited" : $maxScreens - $screensCount;
 
 
 // LIVE PINS
@@ -43,6 +46,7 @@ $myPins = array_filter($limitUser->getPins(), function($pinFound) use ($limit_us
 $pinsCount = count( $myPins );
 $pinsPercentage = intval((100 * $pinsCount) / $maxPins);
 $maxPins = $maxPins == 99999 ? "∞" : $maxPins;
+$pinsLeft = $maxPins == "∞" ? "Unlimited" : $maxPins - $pinsCount;
 
 
 // LIVE PINS
@@ -53,6 +57,7 @@ $myCommentPins = array_filter($limitUser->getPins(), function($pinFound) use ($l
 $commentPinsCount = count( $myCommentPins );
 $commentPinsPercentage = intval((100 * $commentPinsCount) / $maxCommentPins);
 $maxCommentPins = $maxCommentPins == 99999 ? "∞" : $maxCommentPins;
+$commentPinsLeft = $maxCommentPins == "∞" ? "Unlimited" : $maxCommentPins - $commentPinsCount;
 
 
 // LOAD
@@ -78,5 +83,6 @@ else {
 }
 $loadPercentage = intval((100 * $loadCount) / $maxLoad);
 $maxLoad = $maxLoad == 99999 ? "∞" : $maxLoad;
+$loadLeft = $maxLoad == "∞" ? "Unlimited" : $maxLoad - $loadCount;
 
 ?>

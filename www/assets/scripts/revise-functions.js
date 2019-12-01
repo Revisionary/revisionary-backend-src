@@ -941,8 +941,8 @@ function runTheInspector() {
 				if (currentAllowed == "0" && !pageFound) {
 
 
-					// Open "No Page/Phase left in your account" modal with "Upgrade Now" button !!!
-					openModal('page-limit');
+					// Open the limit modal
+					openModal('limit-warning');
 
 					
 					e.preventDefault();
@@ -1287,6 +1287,15 @@ function switchPinType(pinType, pinPrivate) {
 
 	// Close the pin window
 	if (pinWindowOpen && iframeLoaded) closePinWindow();
+
+
+	// Pin limitation popup
+	if (currentAllowed == "0") {
+
+		// Open the modal
+		openModal('limit-warning');
+
+	}
 
 }
 
@@ -2695,8 +2704,9 @@ function makeDraggable(pin) {
 				var pin = getPin(pin_ID);
 				var pinIndex = Pins.indexOf(pin);
 
-				Pins[pinIndex].pin_x = pinX;
-				Pins[pinIndex].pin_y = pinY;
+
+				if (Pins[pinIndex] != undefined) Pins[pinIndex].pin_x = pinX;
+				if (Pins[pinIndex] != undefined) Pins[pinIndex].pin_y = pinY;
 
 
 
@@ -3531,6 +3541,8 @@ function saveChange(pin_ID, modification) {
 
     // Update from the Pins global
 	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
 	var pinIndex = Pins.indexOf(pin);
 	var element_index = pin.pin_element_index;
 	var changedElement = iframeElement(element_index);
@@ -3566,10 +3578,11 @@ function saveChange(pin_ID, modification) {
 
 		var data = result.data; console.log(data);
 		var filtered_modification = data.modification;
+		//console.log('FILTERED: ', filtered_modification);
 
 
 		// Update the global
-		Pins[pinIndex].pin_modification = filtered_modification; //console.log('FILTERED: ', filtered_modification);
+		if (Pins[pinIndex] != undefined) Pins[pinIndex].pin_modification = filtered_modification;
 
 
 		// Update the status
@@ -3907,7 +3920,7 @@ function saveCSS(pin_ID, css) {
 
 
 		// Update the global
-		Pins[pinIndex].pin_css = cssCode; //console.log('FILTERED: ', filtered_css);
+		if (Pins[pinIndex] != undefined) Pins[pinIndex].pin_css = cssCode; //console.log('FILTERED: ', filtered_css);
 
 
 		// Update CSS

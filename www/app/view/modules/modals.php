@@ -322,13 +322,37 @@
 
 
 
-<div id="page-limit" class="popup-window xl-4-12" data-current-plan="<?=getUserInfo()['userLevelName']?>">
+<div id="limit-warning" class="popup-window xl-5-12" data-current-plan="<?=getUserInfo()['userLevelName']?>" data-current-pin-mode="" data-allowed-live-pin="<?=$pinsLeft?>" data-allowed-comment-pin="<?=$commentPinsLeft?>" data-allowed-phase="<?=$phasesLeft?>">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 	<div class="xl-center">
-		<p>You have reached your page/phase limit.</p>
+		<p class="limit-text">
+			<b>You have reached your live pin limit.</b> <br> 
+			To be able to continue changing content of the page, please upgrade your account.
+		</p>
 	
-		<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="upgrade-button"><i class="fa fa-angle-double-up"></i> UPGRADE NOW</a>
+		<div class="wrap xl-2 xl-gutter-16 xl-center">
+			<div class="col">
+
+				<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="upgrade-button" style="background-color: green;"><i class="fa fa-angle-double-up"></i> UPGRADE NOW</a>
+
+			</div>
+			<div class="col recommendation recommend-live-mode">
+
+				<a href="#" class="upgrade-button invert" data-switch-pin-type="live" data-switch-pin-private="0"><i class="fa fa-dot-circle"></i> Continue with Live Mode</a>
+
+			</div>
+			<div class="col recommendation recommend-comment-mode">
+
+				<a href="#" class="upgrade-button invert" data-switch-pin-type="comment" data-switch-pin-private="0"><i class="fa fa-comment"></i> Continue with Comment Mode</a>
+
+			</div>
+			<div class="col recommendation recommend-browse-mode">
+
+				<a href="#" class="upgrade-button invert" data-switch-pin-type="browse" data-switch-pin-private="0"><i class="fa fa-mouse-pointer"></i> Continue with Browse Mode</a>
+
+			</div>
+		</div>
 	</div>
 
 

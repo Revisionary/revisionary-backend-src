@@ -8022,7 +8022,7 @@ header {
 }
 
 .upgrade-button {
-  border: 2px solid;
+  border: 2px solid black;
   -moz-border-radius: 8px;
        border-radius: 8px;
   padding: 5px 10px;
@@ -8034,6 +8034,16 @@ header {
 .upgrade-button:hover {
   background-color: white;
   color: black !important;
+}
+
+.upgrade-button.invert {
+  background-color: white;
+  color: black !important;
+}
+
+.upgrade-button.invert:hover {
+  border-color: #007acc;
+  color: #007acc;
 }
 
 .limit-wrapper[data-current-plan="Enterprise"] li.notice {
@@ -8269,6 +8279,52 @@ header {
 .filter .search img {
   width: 16px;
   margin-bottom: -4px;
+}
+
+#limit-warning .cancel-button {
+  display: none;
+}
+
+#limit-warning[data-allowed-live-pin="0"][data-allowed-comment-pin="0"][data-allowed-phase="0"] .cancel-button {
+  display: block;
+}
+
+#limit-warning[data-allowed-live-pin="0"] .recommend-live-mode {
+  display: none;
+}
+
+#limit-warning[data-allowed-live-pin="0"]:not([data-allowed-comment-pin="0"]):not([data-allowed-phase="0"]) .recommend-browse-mode {
+  display: none;
+}
+
+#limit-warning[data-allowed-comment-pin="0"] .recommend-comment-mode {
+  display: none;
+}
+
+#limit-warning[data-allowed-comment-pin="0"]:not([data-allowed-live-pin="0"]):not([data-allowed-phase="0"]) .recommend-browse-mode {
+  display: none;
+}
+
+#limit-warning[data-allowed-phase="0"] .recommend-browse-mode {
+  display: none;
+}
+
+#limit-warning[data-allowed-phase="0"]:not([data-allowed-live-pin="0"]):not([data-allowed-comment-pin="0"]) .recommend-browse-mode {
+  display: none;
+}
+
+#limit-warning:not([data-allowed-live-pin="0"]):not([data-allowed-comment-pin="0"]):not([data-allowed-phase="0"]) .recommend-comment-mode,
+#limit-warning:not([data-allowed-live-pin="0"]):not([data-allowed-comment-pin="0"]):not([data-allowed-phase="0"]) .recommend-browse-mode {
+  display: none;
+}
+
+#limit-warning[data-current-pin-mode="browse"] .recommend-browse-mode {
+  display: inline-block !important;
+}
+
+#limit-warning[data-current-pin-mode="browse"] .recommend-live-mode,
+#limit-warning[data-current-pin-mode="browse"] .recommend-comment-mode {
+  display: none !important;
 }
 
 /* Sections */

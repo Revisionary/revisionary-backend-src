@@ -825,13 +825,23 @@ foreach ($other_pages as $pageOther) {
 						<a href="#" class="button pin-type-selector">
 							<i class="fa fa-caret-down"></i>
 						</a>
-						<ul class="right pin-types">
-							<li class="bottom-tooltip" data-pin-type="live" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes."><a href="#"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a></li>
-							<li class="bottom-tooltip" data-pin-type="style" data-pin-private="0" data-tooltip="You can only do visual changes."><a href="#"><i class="fa fa-dot-circle"></i> ONLY VIEW CHANGES</a></li>
-							<!-- <li class="bottom-tooltip" data-pin-type="live" data-pin-private="1" data-tooltip="Only you can see the changes you made."><a href="#"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a></li> -->
-							<li class="bottom-tooltip" data-pin-type="comment" data-pin-private="0" data-tooltip="You can only add comments."><a href="#"><i class="fa fa-comment"></i> ONLY COMMENT</a></li>
-							<li class="bottom-tooltip" data-pin-type="browse" data-pin-private="0" data-tooltip="Use this mode to be able to do something like opening a menu, closing popups, skipping slides, and navigating to different pages."><a href="#"><i class="fa fa-mouse-pointer"></i> BROWSE MODE [Shift Key]</a></li>
-						</ul>
+<ul class="right pin-types">
+	<li class="bottom-tooltip" data-pin-type="live" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes.">
+		<a href="#" data-switch-pin-type="live"  data-switch-pin-private="0"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a>
+	</li>
+	<li class="bottom-tooltip" data-pin-type="style" data-pin-private="0" data-tooltip="You can only do visual changes.">
+		<a href="#" data-switch-pin-type="style"  data-switch-pin-private="0"><i class="fa fa-dot-circle"></i> ONLY VIEW CHANGES</a>
+	</li>
+	<!-- <li class="bottom-tooltip" data-pin-type="live" data-pin-private="1" data-tooltip="Only you can see the changes you made.">
+		<a href="#" data-switch-pin-type="live"  data-switch-pin-private="1"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a>
+	</li> -->
+	<li class="bottom-tooltip" data-pin-type="comment" data-pin-private="0" data-tooltip="You can only add comments.">
+		<a href="#" data-switch-pin-type="comment"  data-switch-pin-private="0"><i class="fa fa-comment"></i> ONLY COMMENT</a>
+	</li>
+	<li class="bottom-tooltip" data-pin-type="browse" data-pin-private="0" data-tooltip="Use this mode to be able to do something like opening a menu, closing popups, skipping slides, and navigating to different pages.">
+		<a href="#" data-switch-pin-type="browse"  data-switch-pin-private="0"><i class="fa fa-mouse-pointer"></i> BROWSE MODE [Shift Key]</a>
+	</li>
+</ul>
 					</div>
 
 				</div>

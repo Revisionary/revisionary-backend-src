@@ -165,13 +165,18 @@ $(function() {
 	// PIN MODES:
 
 	// Pin mode change
-	$('.pin-mode ul.pin-types > li > a').click(function(e) {
+	$(document).on('click', '[data-switch-pin-type]', function(e) {
 
-		var selectedPinType = $(this).parent().attr('data-pin-type');
-		var selectedPinPrivate = $(this).parent().attr('data-pin-private');
+		var selectedPinType = $(this).attr('data-switch-pin-type');
+		var selectedPinPrivate = $(this).attr('data-switch-pin-private');
 
 
+		// Change the pin type
 		switchPinType(selectedPinType, selectedPinPrivate);
+
+
+		// Close modal
+		if ( $(this).parent().hasClass('recommendation') ) closeModal();
 
 
 		e.preventDefault();

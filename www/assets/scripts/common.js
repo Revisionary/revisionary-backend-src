@@ -1614,11 +1614,44 @@ function dismissAlert(selector) {
 
 // MODALS:
 // Open modal
-function openModal(modalElement) {
+function openModal(modalName) {
 
 
-	var modal = $('#' + modalElement + '.popup-window');
+	var modal = $('#' + modalName + '.popup-window');
 	if (!modal.length) return false;
+
+	
+	if (modalName == "limit-warning") {
+
+
+		// Update the limitations
+		$('#limit-warning')
+			.attr('data-current-pin-mode', currentPinType)
+			.attr('data-allowed-live-pin', limitations.current.pin)
+			.attr('data-allowed-comment-pin', limitations.current.commentpin)
+			.attr('data-allowed-phase', limitations.current.phase);
+
+
+		// Update the content
+		var limitText = "";
+		if (currentPinType == "live" || currentPinType == "style")
+			limitText = "<b>You have reached your live pin limit.</b><br>To be able to continue changing content of the page, please upgrade your account.";
+
+		if (currentPinType == "comment")
+			limitText = "<b>You have reached your comment pin limit.</b><br>To be able to continue adding comment pins, please upgrade your account.";
+
+		if (currentPinType == "browse")
+			limitText = "<b>You have reached your Page/Phase limit.</b><br>To be able to continue adding pages/phases, please upgrade your account.";
+
+		if (limitations.current.pin == "0" && limitations.current.commentpin == "0" && limitations.current.page == "0")
+			limitText = "<b>You have reached your account limits.</b><br>To be able to continue adding pins, please upgrade your account.";
+
+
+		// Update the text
+		$('#limit-warning .limit-text').html(limitText);
+
+
+	}
 
 
 	// Close other modals
@@ -1643,6 +1676,8 @@ function openModal(modalElement) {
 
 // Close modal
 function closeModal(modalElement) {
+
+	modalElement = assignDefault(modalElement, ".popup-window");
 
 	$(modalElement).removeClass('active');
 	$('body').removeClass('popup-open');
