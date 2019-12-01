@@ -3301,6 +3301,15 @@ function closePinWindow(removePinIfEmpty) {
 	relocatePin(pin_ID);
 
 
+	// Pin limitation popup
+	if (currentAllowed == "0") {
+
+		// Open the modal
+		openModal('limit-warning');
+
+	}
+
+
 }
 
 

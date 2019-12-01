@@ -1213,8 +1213,13 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 
 				// Page redirection
-				if (action == "remove" && firstParameter == "redirect")
+				if (action == "remove" && firstParameter == "redirect") {
+
 					window.open(secondParameter, "_self");
+					return true;
+
+				}
+					
 
 
 				// Hide the item
@@ -1249,7 +1254,7 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 					// Remove from myPages variable
 					if (object_type == "page") {
 
-						var pageFound = myPages.find(function(page) {return page.page_ID == object_ID ? true : false;});
+						var pageFound = myPages.find(function(page) { return page.page_ID == object_ID; });
 
 						if (pageFound) {
 
