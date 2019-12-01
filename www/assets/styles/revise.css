@@ -176,6 +176,10 @@ html, body {
   text-transform: uppercase;
 }
 
+#top-bar .pin-mode .current-mode.exceed .mode-label {
+  text-decoration: line-through;
+}
+
 #top-bar .pin-mode [data-pin-type="live"][data-pin-private="0"] > a:not(.pin-type-selector) > i {
   color: #149440;
 }

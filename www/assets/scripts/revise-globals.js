@@ -162,6 +162,9 @@ var openPin = null;
 var hiddenElementOffsets = {};
 var pinSize = 35;
 
+// Limitations
+var currentAllowed = 0;
+var currentLimitLabel = "";
 
 // When document is ready, fill the variables
 $(function() {

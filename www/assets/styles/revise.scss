@@ -195,6 +195,14 @@ html, body {
 				text-transform: uppercase;
 			}
 
+			&.exceed {
+
+				.mode-label {
+					text-decoration: line-through;
+				}
+
+			}
+
 		}
 
 		[data-pin-type="live"][data-pin-private="0"] {

@@ -1116,52 +1116,49 @@ function updateLimitations(pinType) {
 
 
 	// Update the limitation notice
-	var currentCount = 0;
-	var currentLabel = "";
-
 	if (pinType == "live" || pinType == "style") {
 
 
-		currentCount = limitations.current.pin;
-		currentLabel = "Live Pins Left";
+		currentAllowed = limitations.current.pin;
+		currentLimitLabel = "Live Pins Left";
 
 	}
 	else if (pinType == "comment") {
 
 
-		currentCount = limitations.current.commentpin;
-		currentLabel = "Comment Pins Left";
+		currentAllowed = limitations.current.commentpin;
+		currentLimitLabel = "Comment Pins Left";
 
 	}
 	else if (pinType == "browse") {
 
 
-		currentCount = limitations.current.phase;
-		currentLabel = "Pages Left";
+		currentAllowed = limitations.current.phase;
+		currentLimitLabel = "Pages Left";
 
 	}
 
 
 	// Unlimited Counts
-	if (currentCount == "Unlimited") currentLabel = currentLabel.replace(' Left', '');
+	if (currentAllowed == "Unlimited") currentLimitLabel = currentLimitLabel.replace(' Left', '');
 
 
 	// If exceed
-	if (currentCount < 1) {
+	if (currentAllowed < 1) {
 		
 		$('.pin-limits .desc span').text('Limits Exceeded');
-		$('.pin-limits').addClass('exceed');
+		$('.pin-limits, .current-mode').addClass('exceed');
 
 	} else {
 
 		$('.pin-limits .desc span').text('Limits');
-		$('.pin-limits').removeClass('exceed');
+		$('.pin-limits, .current-mode').removeClass('exceed');
 
 	}
 
 
-	$(".pin-limits .pins-count").text(currentCount);
-	$(".pin-limits .pin-limit-text").text(currentLabel);
+	$(".pin-limits .pins-count").text(currentAllowed);
+	$(".pin-limits .pin-limit-text").text(currentLimitLabel);
 
 
 }
@@ -1209,8 +1206,8 @@ function removeOutline() {
 // Switch to a different pin mode
 function switchPinType(pinType, pinPrivate) {
 
-	log('Switched Pin Type: ', pinType);
-	log('Switched Pin Private: ', pinPrivate);
+
+	console.log("Switched Pin Type: " + pinType, "Private: " + pinPrivate);
 
 
 	currentPinTypeWas = currentPinType;
@@ -1267,10 +1264,10 @@ function switchPinType(pinType, pinPrivate) {
 
 
 	// Deactivate the cursor
-	if (pinType == "browse") toggleCursorActive(true);
+	if (pinType == "browse") deactivateCursor();
 
 	// Activate the cursor
-	else toggleCursorActive(false, true);
+	else activateCursor();
 
 
 
@@ -1315,66 +1312,91 @@ function toggleCursorActive(forceClose, forceOpen) {
 	forceOpen = assignDefault(forceOpen, false);
 
 
-	//cursor.stop();
-	var cursorVisible = cursor.hasClass("active");
-
-
 	// Remove outlines from iframe
 	removeOutline();
 
 
-	if ( (cursorActive || forceClose) && !forceOpen ) {
 
-
-		// Deactivate
-		activator.attr('data-pin-type', 'browse').attr('data-pin-private', '0');
-
-		// Update the label
-		$('.current-mode .mode-label').text(currentPinLabel);
-
-
-		// Hide the cursor
-		if (cursorVisible) cursor.removeClass('active');
-
-		// Show the original cursor
-		iframeElement('#revisionary-cursor').remove();
-
-		// Enable all the links
-	    // ...
-
-
-		cursorActive = false;
-		focused_element = null;
-
-	} else {
-
-
-		// Activate
-		activator.attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate);
-
-		// Update the label
-		$('.current-mode .mode-label').text(currentPinLabel);
-
-
-		// Show the cursor
-		if (!cursorVisible && !pinWindowOpen) cursor.addClass('active');
-
-		// Hide the original cursor
-		if ( !iframeElement('#revisionary-cursor').length )
-			iframeElement('body').append('<style id="revisionary-cursor"> * { cursor: crosshair !important; } </style>');
-
-		// Disable all the links
-	    // ...
-
-
-		cursorActive = true;
-
-	}
+	if ( (cursorActive || forceClose) && !forceOpen ) deactivateCursor();
+	else activateCursor();
 
 
 	// Close the open pin window
 	if (pinWindowOpen && iframeLoaded) closePinWindow();
 
+}
+
+
+// Activate Cursor
+function activateCursor() {
+
+
+	// If hit the limitations
+	if (currentAllowed == "0") {
+
+		deactivateCursor();
+		return false;
+
+	}
+
+
+	console.log('Activate Cursor');
+
+
+	// Activate
+	activator.attr('data-pin-type', currentPinType).attr('data-pin-private', currentPinPrivate);
+
+	// Update the label
+	$('.current-mode .mode-label').text(currentPinLabel);
+
+
+	// Show the cursor
+	if ( !cursor.hasClass("active") && !pinWindowOpen ) cursor.addClass('active');
+
+	// Hide the original cursor
+	if ( !iframeElement('#revisionary-cursor').length )
+		iframeElement('body').append('<style id="revisionary-cursor"> * { cursor: crosshair !important; } </style>');
+
+	// Disable all the links
+	// ...
+
+
+	cursorActive = true;
+
+
+	return true;
+}
+
+
+// Deactivate Cursor
+function deactivateCursor() {
+
+
+	console.log('Deactivate Cursor');
+
+
+	// Deactivate
+	activator.attr('data-pin-type', 'browse').attr('data-pin-private', '0');
+
+	// Update the label
+	$('.current-mode .mode-label').text(currentPinLabel);
+
+
+	// Hide the cursor
+	if ( cursor.hasClass("active") ) cursor.removeClass('active');
+
+	// Show the original cursor
+	iframeElement('#revisionary-cursor').remove();
+
+	// Enable all the links
+	// ...
+
+
+	cursorActive = false;
+	focused_element = null;
+
+
+	return true;
 }
 
 
