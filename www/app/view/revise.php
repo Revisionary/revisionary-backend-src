@@ -553,7 +553,7 @@ foreach ($other_pages as $pageOther) {
 	<?php
 	if ($pageOther['page_ID'] != $page_ID) {
 	?>
-	<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete', true)?>" data-tooltip="Delete This Page" data-action="delete" data-confirm="Are you sure you want to trash this page?"></i>
+	<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=delete', true)?>" data-tooltip="Trash This Page" data-action="delete" data-confirm="Are you sure you want to trash this page?"></i>
 	<?php
 	}
 	?>

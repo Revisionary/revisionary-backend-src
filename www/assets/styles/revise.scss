@@ -288,12 +288,24 @@ html, body {
 						text-align: center;
 					}
 
-					.exceed {
-						color: red;
+					.total {
+
+						a {
+							font-size: 15px;
+						}
+
+						.desc {
+							font-size: 10px;
+						}
+
+						& > ul {
+							display: none;
+						}
+
 					}
 
-					.total > ul {
-						display: none;
+					.exceed {
+						color: red;
 					}
 
 					.fa-question-circle {

@@ -238,12 +238,20 @@ html, body {
   text-align: center;
 }
 
-#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper .exceed {
-  color: red;
+#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper .total a {
+  font-size: 15px;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper .total .desc {
+  font-size: 10px;
 }
 
 #top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper .total > ul {
   display: none;
+}
+
+#top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper .exceed {
+  color: red;
 }
 
 #top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper .fa-question-circle {

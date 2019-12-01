@@ -1236,11 +1236,11 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 
 						// Update the add new blocks
-						addNewPageButtons();
+						if (typeof addNewPageButtons === "function") addNewPageButtons();
 
 
 						// Refresh the page
-						if (object_type == "project" || object_type == "page" || object_type == "phase") location.reload();
+						if (object_type == "project" || object_type == "page" || object_type == "phase" || object_type == "device") location.reload();
 
 
 					}

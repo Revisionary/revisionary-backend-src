@@ -686,7 +686,7 @@
 										<?php
 											}
 										?>
-<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-confirm="<?=$catFilter == "deleted" ? 'Are you sure you want to completely remove this '.$dataType.'? Keep in mind that no one will be able to access this '.$dataType.' anymore!' : 'Are you sure you want to trash this '.$dataType.'?' ?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Delete'?>"><i class="fa fa-trash"></i></a>
+<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-confirm="<?=$catFilter == "deleted" ? 'Are you sure you want to completely remove this '.$dataType.'? Keep in mind that no one will be able to access this '.$dataType.' anymore!' : 'Are you sure you want to trash this '.$dataType.'?' ?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Trash'?>"><i class="fa fa-trash"></i></a>
 									<?php
 										}
 									?>
