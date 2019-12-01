@@ -83,7 +83,7 @@ $page = $pageData->getInfo();
 //die_to_print($page);
 
 // All my pages
-$allMyPages = $pages = $User->getPages();
+$allMyPages = $pages = $User->getPages(null, null, ''); // Excluding archives and deletes
 //die_to_print($allMyPages);
 
 
@@ -111,7 +111,7 @@ if ($forceReInternalize) {
 $project_ID = $page['project_ID'];
 
 // Current project data
-$projectData = Project::ID($project_ID); // !!! ???
+$projectData = Project::ID($project_ID);
 
 // Check if project not exists, redirect to the projects page
 if ( !$projectData ) {
@@ -126,7 +126,7 @@ $project_image = $project['project_image_device_ID'];
 if ($project_image == null) $projectData->edit('project_image_device_ID', $device_ID);
 
 // All my projects
-$allMyProjects = $User->getProjects(null, '');
+$allMyProjects = $User->getProjects(null, ''); // Excluding archives and deletes
 //die_to_print($allMyProjects);
 
 

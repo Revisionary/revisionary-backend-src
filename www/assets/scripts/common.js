@@ -603,7 +603,6 @@ $(function() {
 		modal.find('.data-name').text(objectName);
 
 
-
 		// SHARE MODALS
 		if (modalName == "share") {
 
@@ -672,15 +671,7 @@ $(function() {
 
 
 		// Open the modal
-		openModal('#'+modalName);
-
-
-		// Focus the element
-		setTimeout(function() {
-
-			if (modal.find('input[autofocus]').length) modal.find('input[autofocus]').focus();
-
-		}, 500);
+		openModal(modalName);
 
 
 		e.preventDefault();
@@ -1625,9 +1616,25 @@ function dismissAlert(selector) {
 // Open modal
 function openModal(modalElement) {
 
-	$('body').addClass('popup-open');
-	$(modalElement).addClass('active');
 
+	var modal = $('#' + modalElement + '.popup-window');
+	if (!modal.length) return false;
+
+
+	// Open the modal
+	modal.addClass('active');
+	$('body').addClass('popup-open');
+
+
+	// Focus the element
+	setTimeout(function() {
+
+		if (modal.find('input[autofocus]').length) modal.find('input[autofocus]').focus();
+
+	}, 500);
+
+
+	return true;
 }
 
 // Close modal

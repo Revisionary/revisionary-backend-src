@@ -117,14 +117,12 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 function runTheInspector() {
 
 
-
 	// CLOSE ALL THE OPEN TABS
 	$('.opener').each(function() {
 
 		toggleTab( $(this), true );
 
 	});
-
 
 
 	// WHEN IFRAME DOCUMENT READY !!! ?
@@ -206,7 +204,6 @@ function runTheInspector() {
 
 
 
-
 			// REDIRECT DETECTION
 			documentChild = $(this).prop("contentWindow").document;
 	        childWindow = $(this).prop("contentWindow");
@@ -266,6 +263,7 @@ function runTheInspector() {
 		}
 
 
+
 		console.log('Load Complete', canAccessIFrame( $(this) ));
 
 
@@ -284,8 +282,7 @@ function runTheInspector() {
 
 
 	    // Update the title
-		if ( iframeElement('title').length ) 
-			$('title').text( "Revise Page: " + iframeElement('title').text() );
+		if ( iframeElement('title').length ) $('title').text( "Revise Page: " + iframeElement('title').text() );
 
 
 
@@ -1150,6 +1147,10 @@ function updateLimitations(pinType) {
 
 	// Unlimited Counts
 	if (currentAllowed == "Unlimited") currentLimitLabel = currentLimitLabel.replace(' Left', '');
+
+
+	// Remove plural extension
+	if (currentAllowed == 1)  currentLimitLabel = currentLimitLabel.replace('s', '');
 
 
 	// If exceed
