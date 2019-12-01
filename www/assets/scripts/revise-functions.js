@@ -1154,6 +1154,9 @@ function updateLimitations(pinType) {
 		$('.pin-limits .desc span').text('Limits');
 		$('.pin-limits, .current-mode').removeClass('exceed');
 
+
+		if (!pinWindowOpen && currentPinType != "browse") activateCursor();
+
 	}
 
 
