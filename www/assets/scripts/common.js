@@ -94,63 +94,41 @@ $(function() {
 
 		// Pages check in this paroject
 		var pageExists = false;
-		var pageFound = false;
-		if (project_ID != "new" && project_ID != "autodetect") {
-
-
-			pageFound = myPages.find(function(page) {
-				return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID == project_ID;
-			});
-			if (pageFound) pageExists = true;
-
-
-		}
+		var pageFound = myPages.find(function(page) {
+			return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID == project_ID;
+		});
+		if (pageFound) pageExists = true;
 
 
 		// Pages check in other projects
 		var pageExistsInOtherProject = false;
-		var pageFoundInOtherProject = false;
-		if (project_ID != "new" && project_ID != "autodetect") {
-
-
-			pageFoundInOtherProject = myPages.find(function(page) {
-				return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID != project_ID;
-			});
-			if (pageFoundInOtherProject) pageExistsInOtherProject = true;
-
-
-		}
+		var pageFoundInOtherProject = myPages.find(function(page) {
+			return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID != project_ID;
+		});
+		if (pageFoundInOtherProject) pageExistsInOtherProject = true;
 
 
 		// Check other project domains
 		var projectExists = false;
-		var pageFoundByDomainInOtherProject = false;
-		if (project_ID != "new" && project_ID != "autodetect") {
-
-
-			pageFoundByDomainInOtherProject = myPages.find(function(page) {
-				return getDomainName(page.page_url) == getDomainName(url) && page.project_ID != project_ID;
-			});
-			if (pageFoundByDomainInOtherProject) projectExists = true;
-
-
-		}
+		var pageFoundByDomainInOtherProject = myPages.find(function(page) {
+			return getDomainName(page.page_url) == getDomainName(url) && page.project_ID != project_ID;
+		});
+		if (pageFoundByDomainInOtherProject) projectExists = true;
 
 
 		// Recommend adding different project
 		var newProject = false;
-		var pageFoundByDomain = false;
-		if (project_ID != "new" && project_ID != "autodetect") {
+		var pageFoundByDomain = myPages.find(function(page) {
+			return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID;
+		});
+
+		if (!pageFoundByDomain && project_ID != "new" && project_ID != "autodetect") newProject = true;
 
 
-			pageFoundByDomain = myPages.find(function(page) {
-				return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID;
-			});
 
-			if (!pageFoundByDomain) newProject = true;
-
-
-		}
+		// console.log(pageExists, pageExistsInOtherProject, projectExists, newProject);
+		// e.preventDefault();
+		// return false;
 
 
 
