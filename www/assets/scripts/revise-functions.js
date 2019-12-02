@@ -4089,6 +4089,10 @@ function toggleCSS(pin_ID) {
 		updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', (isShowingCSS ? "no" : "yes"));
 
 
+		// Relocate the pin
+		relocatePin(pin_ID);
+
+
 	}
 
 
