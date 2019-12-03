@@ -225,22 +225,8 @@ require('http').createServer(async (req, res) => {
 				// Update the real page URL
 				if (page.url() != 'about:blank' && realPageURL != page.url()) {
 
-
 					realPageURL = page.url();
-					console.log('🌎 Real Page URL: ', page.url());
-
-
-					// Delete other documents from the list
-					downloadableRequests = downloadableRequests.filter(function(req){
-
-						if (req.fileType == "document") return false;
-					    return true;
-
-					});
-
-
-					console.log('🏠 HOME OLD DOCUMENT REMOVED:', realPageURL);
-
+					console.log('🌎 Real Page URL: ', realPageURL);
 
 				}
 
@@ -485,9 +471,9 @@ require('http').createServer(async (req, res) => {
 
 
 								if (response_url == realPageURL) console.log('🏠 HOME BUFFER ADDED:', response_url);
+								else console.log(`📋✅ BUFFER ADDED: #${bufferCount} ${method} ${resourceType} ${url}`);
 
 								//console.log(`${b} ${response.status()} ${response.url()} ${b.length} bytes`);
-								console.log(`📋✅ BUFFER ADDED: #${bufferCount} ${method} ${resourceType} ${url}`);
 
 
 							} else {
@@ -690,6 +676,44 @@ require('http').createServer(async (req, res) => {
 					fs.mkdirSync(siteDir);
 					try{ fs.chownSync(siteDir, 33, 33); } catch(e) {}
 				}
+
+
+
+
+
+				// Find all the HTMLs
+				var downloadableDocuments = downloadableRequests.filter(function(req){
+
+					if (req.fileType == "document") return true;
+					return false;
+
+				});
+
+
+				// Check if multiple document
+				if (downloadableDocuments.length > 1) {
+
+
+					console.log('HOME - MULTIPLE HTMLS FOUND: ', downloadableDocuments.length);
+					console.log('DOWNLOADABLE COUNT: ', downloadableRequests.length);
+
+
+					// Filter the non-buffered
+					downloadableRequests = downloadableRequests.filter(function(req){
+
+						if (req.fileType == "document" && req.buffer == null) return false;
+					    return true;
+
+					});
+
+
+					console.log('🏠 HOME - NON BUFFERED REMOVED');
+					console.log('DOWNLOADABLE COUNT: ', downloadableRequests.length);
+
+
+				}
+
+
 
 
 				let downloadableTotal = downloadableRequests.length;
