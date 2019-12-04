@@ -72,13 +72,15 @@ var limitations = {
 				foreach ($pages as $myPage) {
 
 					// Skip archived and deleted
-					if ($myPage['page_deleted'] || $myPage['page_archived']) continue;
+					if ($myPage['page_deleted'] || $myPage['page_archived'] || $myPage['project_deleted'] || $myPage['project_archived']) continue;
 			?>
 
 			myPages.push({
 				page_url : '<?=$myPage['page_url']?>',
 				page_ID : <?=$myPage['page_ID']?>,
-				project_ID : <?=$myPage['project_ID']?>
+				page_name : '<?=$myPage['page_name']?>',
+				project_ID : <?=$myPage['project_ID']?>,
+				project_name : '<?=$myPage['project_name']?>'
 			});
 
 			<?php

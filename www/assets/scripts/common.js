@@ -92,115 +92,161 @@ $(function() {
 		var page_height = $(this).find('input[name="page_height"]').val();
 
 
-		// Pages check in this paroject
+
+		// Pages check in current project
 		var pageExists = false;
-		var pageFound = myPages.find(function(page) {
+		var pageFound = myPages.filter(function(page) {
 			return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID == project_ID;
 		});
-		if (pageFound) pageExists = true;
+		if (pageFound.length) {
+
+			pageExists = true;
+			//console.log('pageFound', pageFound);
 
 
-		// Pages check in other projects
-		var pageExistsInOtherProject = false;
-		var pageFoundInOtherProject = myPages.find(function(page) {
-			return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID != project_ID;
-		});
-		if (pageFoundInOtherProject) pageExistsInOtherProject = true;
+			// Multiple
+			if (pageFound.length > 1) {
+
+				console.log('Multiple pages found in current project', pageFound);
+				// Open page selector modal
+				// ... !!!
+
+			} else {
+
+				console.log('Page found in current project', pageFound[0]);
 
 
-		// Check other project domains
-		var projectExists = false;
-		var pageFoundByDomainInOtherProject = myPages.find(function(page) {
-			return getDomainName(page.page_url) == getDomainName(url) && page.project_ID != project_ID;
-		});
-		if (pageFoundByDomainInOtherProject) projectExists = true;
+				// Confirm: Should we add a new phase?
+				if ( confirm("The URL you entered already has a page in this project. Should we add a new phase on this page?") ) {
+
+					var newPhaseUrl = "/projects?new_phase="+ pageFound[0].page_ID +"&page_width="+page_width+"&page_height="+page_height;
+					console.log('Redirect to a new phase URL...', newPhaseUrl);
 
 
-		// Recommend adding different project
-		var newProject = false;
-		var pageFoundByDomain = myPages.find(function(page) {
-			return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID;
-		});
+					// Redirect
+					window.location = newPhaseUrl;
 
-		if (!pageFoundByDomain && project_ID != "new" && project_ID != "autodetect") newProject = true;
-
-
-
-		// console.log(pageExists, pageExistsInOtherProject, projectExists, newProject);
-		// e.preventDefault();
-		// return false;
-
-
-
-		if (pageExists) { // URL found in a page_ID in this project (Only in a specific Project)
-
-
-			// Confirm: Should we add a new phase?
-			if ( confirm("The URL you entered already has a page in this project. Should we add a new phase on this page?") ) {
-
-				var newPhaseUrl = "/projects?new_phase="+ pageFound.page_ID +"&page_width="+page_width+"&page_height="+page_height;
-				console.log('Redirect to a new phase URL...', newPhaseUrl);
-
-
-				// Redirect
-				window.location = newPhaseUrl;
-
-			}
-
-
-			e.preventDefault();
-
-
-		} else if (pageExistsInOtherProject) { // URL found in different project_ID !!!
-
-
-			// Confirm: Should we add a new phase?
-			if ( confirm("The URL you entered already has a page in another project. Should we add a new phase on that page?") ) {
-
-				var newPhaseUrlOtherProject = "/projects?new_phase="+ pageFoundInOtherProject.page_ID +"&page_width="+page_width+"&page_height="+page_height;
-				console.log('Redirect to a new phase URL...', newPhaseUrlOtherProject);
-
-
-				// Redirect
-				window.location = newPhaseUrlOtherProject;
-
-			}
-
-
-			e.preventDefault();
-
-
-		} else if (projectExists) { // Domain found in different project_ID
-
-
-			// Confirm: Should we add a new page in the found Project?
-			if ( confirm("The URL you entered already has a project. Should we add a new page in that Project?") ) {
-
-				console.log('Update the project number...');
-
-
-				// Update the project id as new
-				$(this).find('input[name="project_ID"]').attr('value', pageFoundByDomainInOtherProject.project_ID);
-
-
-			} else { // If not confirmed
+				}
 
 				e.preventDefault();
 
 			}
 
+		}
 
-		} else if (newProject) { // URL or Domain not found in this project_ID and other projects (Only in a specific Project)
+
+
+		// Pages check in other projects
+		var pageExistsInOtherProjects = false;
+		var pageFoundInOtherProject = myPages.filter(function(page) {
+			return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID != project_ID;
+		});
+		if (!pageExists && pageFoundInOtherProject.length) {
+
+			pageExistsInOtherProjects = true;
+			//console.log('pageExistsInOtherProjects', pageFoundInOtherProject);
+
+
+			// Multiple
+			if (pageFoundInOtherProject.length > 1) {
+
+				console.log('Multiple pages found in another projects', pageFoundInOtherProject);
+				// Open page selector modal
+				// ... !!!
+	
+			} else {
+
+				console.log('Page found in another project', pageFoundInOtherProject[0]);
+
+
+				// Confirm: Should we add a new phase?
+				if ( confirm("The URL you entered already has a page in another project. Should we add a new phase on that page?") ) {
+
+					var newPhaseUrlOtherProject = "/projects?new_phase="+ pageFoundInOtherProject[0].page_ID +"&page_width="+page_width+"&page_height="+page_height;
+					console.log('Redirect to a new phase URL...', newPhaseUrlOtherProject);
+
+
+					// Redirect
+					window.location = newPhaseUrlOtherProject;
+
+				}
+
+				e.preventDefault();
+
+			}
+
+		}
+
+
+
+		// Check other project domains
+		var projectExists = false;
+		var projectsFound = [];
+		var pageFoundByDomainInOtherProjects = myPages.filter(function(page) {
+
+			return getDomainName(page.page_url) == getDomainName(url) && page.project_ID != project_ID;
+
+		});
+		pageFoundByDomainInOtherProjects = removeDuplicates(pageFoundByDomainInOtherProjects, 'project_ID'); // Show only unique projects
+		if (!pageExists && !pageExistsInOtherProjects && pageFoundByDomainInOtherProjects.length) {
+
+			projectExists = true;
+			//console.log('pageFoundByDomainInOtherProjects', pageFoundByDomainInOtherProjects);
+
+
+			// Multiple
+			if (pageFoundByDomainInOtherProjects.length > 1) {
+
+				console.log('Multiple projects found with this domain', pageFoundByDomainInOtherProjects);
+				// Open project selector modal
+				// ... !!!
+	
+			} else {
+
+				console.log('Project found with this domain', pageFoundByDomainInOtherProjects[0]);
+
+
+				// Confirm: Should we add a new page in the found Project?
+				if ( confirm("The URL you entered already has a project. Should we add a new page in that Project?") ) {
+
+					console.log('Update the project number...');
+
+
+					// Update the project id as new
+					$(this).find('input[name="project_ID"]').attr('value', pageFoundByDomainInOtherProjects[0].project_ID);
+
+
+				} else { // If not confirmed
+
+					e.preventDefault();
+
+				}
+
+			}
+
+		}
+
+
+
+		// Recommend adding different project
+		var newProject = false;
+		var pageFoundByDomain = myPages.filter(function(page) {
+			return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID;
+		});
+		if (!pageExists && !pageExistsInOtherProjects && !projectExists && !pageFoundByDomain.length && project_ID != "new" && project_ID != "autodetect") {
+
+			newProject = true;
+			console.log('Recommend creating New Project', pageFoundByDomain);
 
 
 			// Confirm: Should we add a new project for this URL?
-			if ( confirm("The URL you entered doesn't look belong to this project. Should we add a new project for this URL?") ) {
+			if ( confirm("The URL you entered doesn't look belong to this project. Should we create a new project for this URL?") ) {
 
 				console.log('Redirect to a new project URL...');
 
 
 				// Update the project id as new
-				$(this).find('input[name="project_ID"]').attr('value', pageFoundByDomain.project_ID);
+				$(this).find('input[name="project_ID"]').attr('value', 'new');
 
 
 			} else { // If not confirmed
@@ -210,7 +256,27 @@ $(function() {
 			}
 
 
+		} else {
+
+
+			// ADD NEW PAGES WITHOUT ANY PROBLEM
+			// e.preventDefault();
+			// return false;
+
+
 		}
+
+
+
+
+		// console.log('pageExists', pageExists);
+		// console.log('pageExistsInOtherProjects', pageExistsInOtherProjects);
+		// console.log('projectExists', projectExists);
+		// console.log('newProject', newProject);
+
+		// e.preventDefault();
+		// return false;
+
 
 
 
@@ -1975,4 +2041,11 @@ function ajax(type, givenData) {
 
 function log(log, arg1) {
 	//console.log(log, arg1);
+}
+
+function removeDuplicates(array, prop) {
+	var arrayMap = array.map( function(el){return el[prop];});
+	return array.filter( function(obj, index) {
+		return arrayMap.indexOf(obj[prop]) === index;
+	});
 }
