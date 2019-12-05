@@ -708,10 +708,10 @@ ul.user-header-menu {
 			}
 
 			a {
-				color: $color-secondary !important;
+				color: $color-secondary;
 			}
 
-			.image {
+			.profile-image {
 				width: 25px;
 
 				picture {
@@ -728,54 +728,25 @@ ul.user-header-menu {
 			    .notif-text {
 				    font-size: 12px;
 					line-height: 15px;
-			    }
+				}
 
-			    span {
-				    display: inline-block;
-				    font-size: 12px;
-					line-height: 15px;
+				.comment {
+					//color: $color;
+					//opacity: 0.5;
+					letter-spacing: 0;
+					font-weight: normal;
+					font-style: italic;
+					overflow: hidden;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
 
-					.comment {
-						color: $color;
-						letter-spacing: 0;
-						font-weight: normal;
-					    font-style: italic;
-					    opacity: 0.5;
-					    overflow: hidden;
-					    display: -webkit-box;
-					    -webkit-line-clamp: 2;
-					    -webkit-box-orient: vertical;
-
-					    &::before, &::after {
-						    content: '"';
-					    }
+					&::before, &::after {
+						content: '"';
 					}
 
-					ul {
-						padding-left: 0px;
-						list-style-type: none;
+				}
 
-						& > li {
-							opacity: 0.5;
-							display: inline-block;
-							margin-right: 8px;
-
-							& > a {
-								color: $color !important;
-							    font-size: 10px !important;
-							    letter-spacing: 0 !important;
-
-								&::before {
-									content: "\2022";
-								}
-
-							    &:hover {
-								    color: $color-secondary !important;
-							    }
-							}
-						}
-					}
-			    }
 			}
 
 			.date {

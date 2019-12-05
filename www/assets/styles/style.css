@@ -6850,14 +6850,14 @@ ul.user-header-menu > li:last-child {
 }
 
 .notifications > ul > li a {
-  color: #007acc !important;
+  color: #007acc;
 }
 
-.notifications > ul > li .image {
+.notifications > ul > li .profile-image {
   width: 25px;
 }
 
-.notifications > ul > li .image picture {
+.notifications > ul > li .profile-image picture {
   margin: 0 !important;
 }
 
@@ -6872,51 +6872,18 @@ ul.user-header-menu > li:last-child {
   line-height: 15px;
 }
 
-.notifications > ul > li .content span {
-  display: inline-block;
-  font-size: 12px;
-  line-height: 15px;
-}
-
-.notifications > ul > li .content span .comment {
-  color: black;
+.notifications > ul > li .content .comment {
   letter-spacing: 0;
   font-weight: normal;
   font-style: italic;
-  opacity: 0.5;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
-.notifications > ul > li .content span .comment::before, .notifications > ul > li .content span .comment::after {
+.notifications > ul > li .content .comment::before, .notifications > ul > li .content .comment::after {
   content: '"';
-}
-
-.notifications > ul > li .content span ul {
-  padding-left: 0px;
-  list-style-type: none;
-}
-
-.notifications > ul > li .content span ul > li {
-  opacity: 0.5;
-  display: inline-block;
-  margin-right: 8px;
-}
-
-.notifications > ul > li .content span ul > li > a {
-  color: black !important;
-  font-size: 10px !important;
-  letter-spacing: 0 !important;
-}
-
-.notifications > ul > li .content span ul > li > a::before {
-  content: "\2022";
-}
-
-.notifications > ul > li .content span ul > li > a:hover {
-  color: #007acc !important;
 }
 
 .notifications > ul > li .date {

@@ -936,20 +936,24 @@ class User {
 			$object_ID = is_numeric($notification['object_ID']) ? intval($notification['object_ID']) : $notification['object_ID'];
 			$object_type = $notification['object_type'];
 			$object_data = ucfirst($object_type)::ID($object_ID, self::$user_ID);
-			$objectFound = $object_data ? "yes" : "no";
 
 
-			// Skip if the object not found
-			if (!$object_data) {
+			if ($notification_type != "unshare") {
 
-				$notificationHTML .= "<li data-id='$notification_ID' data-type='notification' data-error='$object_type-$object_ID-not-found' data-notification-type='$notification_type' class='".($notificationNew ? "new" : "")." xl-hidden'></li> \n";
 
-				continue;
+				// Skip if the object not found
+				if (!$object_data) {
+
+					$notificationHTML .= "<li data-id='$notification_ID' data-type='notification' data-error='$object_type-$object_ID-not-found' data-notification-type='$notification_type' class='".($notificationNew ? "new" : "")." xl-hidden'></li> \n";
+					continue;
+
+				}
+
+				$object_name = $object_type != "device" && $object_type != "pin" ? $object_data->getInfo($object_type.'_name') : "";
+				$object_link = site_url("$object_type/$object_ID");
+
+
 			}
-
-
-			$object_name = $object_type != "device" && $object_type != "pin" ? $object_data->getInfo($object_type.'_name') : "";
-			$object_link = site_url("$object_type/$object_ID");
 
 
 			// Open the list
@@ -959,9 +963,10 @@ class User {
 			$notificationRow .= '
 
 				<div class="wrap xl-table xl-middle">
-					<div class="col image">
+					<div class="col profile-image">
 
-						<picture class="profile-picture" '.$senderInfo['printPicture'].'> 																			<span>'.$senderInfo['nameAbbr'].'</span>
+						<picture class="profile-picture" '.$senderInfo['printPicture'].'>
+							<span>'.$senderInfo['nameAbbr'].'</span>
 						</picture>
 
 					</div>
@@ -969,6 +974,7 @@ class User {
 			';
 
 
+			//$objectFound = $object_data ? "yes" : "no";
 			// $notificationHTML .= "<li data-id='$notification_ID' data-type='notification'>#$notification_ID($realNotificationsCount) | Type: $notification_type | Object Type: $object_type($object_ID) | Object Found: $objectFound | New: $notificationNew | Content: $notificationContent</li> \n";
 			// continue;
 
@@ -980,7 +986,8 @@ class User {
 
 				// Notification Content
 				$notificationRow .= "
-					$sender_full_name ".$notification['notification']."<br>
+					<div class='sender'>$sender_full_name ".$notification['notification']."</div>
+
 					<div class='date'>".timeago($notification['notification_time'])."</div>
 				";
 
@@ -994,7 +1001,7 @@ class User {
 				if ($object_type == "page") {
 
 					$project_ID = $object_data->getInfo('project_ID');
-					$project_name = " [".Project::ID($project_ID)->getInfo('project_name')."]";
+					$project_name = "[".Project::ID($project_ID)->getInfo('project_name')."]";
 
 				}
 
@@ -1002,8 +1009,8 @@ class User {
 				// Notification Content
 				$notificationRow .= "
 
-					$sender_full_name shared a <b>$object_type</b> with you:
-					<span><a href='$object_link'><b>$object_name</b>$project_name</a></span><br>
+					<div class='sender'>$sender_full_name shared a <b>$object_type</b> with you:</div>
+					<div class='notif-text'><a href='$object_link'><b>$object_name</b>$project_name</a></div>
 
 					<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -1015,19 +1022,11 @@ class User {
 
 
 
-				$project_name = "";
-				if ($object_type == "page") {
-
-					$project_ID = $object_data->getInfo('project_ID');
-					$project_name = " [".Project::ID($project_ID)->getInfo('project_name')."]";
-
-				}
-
-
 				// Notification Content
 				$notificationRow .= "
 
-					$sender_full_name unshared the <span><b>$object_name".$project_name."</b> $object_type</span> from you.</span><br>
+					<div class='sender'>$sender_full_name unshared a $object_type from you:</div>
+					<div class='notif-text'><b>".$notification['notification']."</b></div>
 
 					<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -1089,13 +1088,13 @@ class User {
 					// Notification Content
 					$notificationRow .= "
 
-						$sender_full_name completed a <b>$pin_type pin</b>:
+						<div class='sender'>$sender_full_name completed a <b>$pin_type pin</b>:</div>
 						<div class='wrap xl-table xl-middle'>
-							<div class='col' style='width: 30px;'>
+							<div class='col pin' style='width: 30px;'>
 								<a href='$object_link' data-go-pin='$object_ID'><pin class='small' data-pin-complete='1' data-pin-type='$pin_type'>$notificationContent</pin></a>
 							</div>
 							<div class='col notif-text'>
-								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
+								<a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
 							</div>
 						</div>
 
@@ -1110,13 +1109,13 @@ class User {
 					// Notification Content
 					$notificationRow .= "
 
-						$sender_full_name marked a pin <b>incomplete</b>:
+						<div class='sender'>$sender_full_name marked a pin <b>incomplete</b>:</div>
 						<div class='wrap xl-table xl-middle'>
-							<div class='col' style='width: 30px;'>
+							<div class='col pin' style='width: 30px;'>
 								<a href='$object_link' data-go-pin='$object_ID'><pin class='small' data-pin-complete='0' data-pin-type='$pin_type'>$notificationContent</pin></a>
 							</div>
 							<div class='col notif-text'>
-								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
+								<a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a>
 							</div>
 						</div>
 
@@ -1131,10 +1130,8 @@ class User {
 					// Notification Content
 					$notificationRow .= "
 
-						$sender_full_name wrote on a <a href='$object_link' data-go-pin='$object_ID'>$pin_type pin</a>:
-						<span class='wrap xl-table xl-middle'>
-							<a href='$object_link' data-go-pin='$object_ID'><span class='comment'>$notificationContent</span></a>
-						</span><br>
+						<div class='sender'>$sender_full_name wrote on a <b>$pin_type pin</b>:</div>
+						<div class='notif-text'><a href='$object_link' class='comment' data-go-pin='$object_ID'>$notificationContent</a></div>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -1162,19 +1159,14 @@ class User {
 					// Notification Content
 					$notificationRow .= "
 
-						$sender_full_name added a new <b>$pin_type pin</b>:
-						<div class='wrap xl-table xl-middle'>
-							<div class='col' style='width: 30px;'>
-								<a href='$object_link' data-go-pin='$object_ID'><pin class='small' data-pin-complete='$pin_complete' data-pin-type='$pin_type'>$notificationContent</pin></a>
-							</div>
-							<div class='col notif-text'>
-								in <a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a><br>
-								<ul>
-									$content
-									$style
-									$comment
-								</ul>
-							</div>
+						<div class='sender'>$sender_full_name added a new <b>$pin_type pin</b>:</div>
+						<div class='notif-text'>
+							<a href='$object_link' data-go-pin='$object_ID'><b>".$page_name."[".$project_name."]</b></a><br>
+							<ul>
+								$content
+								$style
+								$comment
+							</ul>
 						</div>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
@@ -1215,8 +1207,8 @@ class User {
 					// Notification Content
 					$notificationRow .= "
 
-						$sender_full_name added a <b>new page</b>:
-						<span><a href='$object_link'><b>$object_name</b> [$project_name]</a></span><br>
+						<div class='sender'>$sender_full_name added a <b>new page</b>:</div>
+						<div class='notif-text'><a href='$object_link'><b>$object_name</b>[$project_name]</a></div>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -1256,12 +1248,12 @@ class User {
 
 
 					$title = "$sender_full_name added a <b>new screen</b>:";
-					$content = "<span><a href='$object_link'>$notificationContent</a> in <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a></span>";
+					$content = "<a href='$object_link'><b>$notificationContent</b></a> <div>on <a href='$object_link'>".$page_name."[".$project_name."]</div></a>";
 
 					if ($notificationContent == "new phase") {
 
-						$title = "$sender_full_name created a <b>new phase</b>";
-						$content = "<span>for <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a></span>";
+						$title = "$sender_full_name created a <b>new phase</b>:";
+						$content = "on <a href='$object_link'><b>".$page_name."[".$project_name."]</b></a>";
 
 					}
 
@@ -1270,8 +1262,8 @@ class User {
 					// Notification Content
 					$notificationRow .= "
 
-						$title
-						$content<br>
+						<div class='sender'>$title</div>
+						<div class='notif-text'>$content</div>
 
 						<div class='date'>".timeago($notification['notification_time'])."</div>
 
@@ -1728,6 +1720,7 @@ class User {
     ) {
 		global $db, $log, $cache;
 
+
 	    // Check the ownership
 		$sharedUserID = self::$user_ID;
 		$objectData = ucfirst($share_type)::ID($shared_object_ID, currentUserID());
@@ -1765,17 +1758,20 @@ class User {
 			if ( self::$user_ID != currentUserID() ) {
 
 
+				$project_name = $share_type == "page" ? $project_name = "[".$objectData->getInfo('project_name')."]" : "";
+
+
 				// Notify User via web notification
 				if ( is_integer(self::$user_ID) )
-					Notify::ID(self::$user_ID)->web("unshare", $share_type, $shared_object_ID);
+					Notify::ID(self::$user_ID)->web("unshare", $share_type, $shared_object_ID, "$objectName".$project_name);
 
 
 				// Notify User via email notification
 				Notify::ID(self::$user_ID)->mail(
-					getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you.",
+					getUserInfo()['fullName']." unshared the \"$objectName".$project_name."\" $share_type from you.",
 
 					"Hello, ".
-					getUserInfo()['fullName']." unshared the \"$objectName\" $share_type from you on Revisionary App.",
+					getUserInfo()['fullName']." unshared the \"$objectName".$project_name."\" $share_type from you on Revisionary App.",
 					true // Important
 				);
 
