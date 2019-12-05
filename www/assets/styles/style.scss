@@ -661,7 +661,7 @@ ul.user-header-menu {
     z-index: 2;
     right: 0;
     top: 100%;
-    min-width: 220px;
+    min-width: 240px;
     max-height: 50vh;
     overflow: hidden;
     overflow-y: scroll;
@@ -723,7 +723,11 @@ ul.user-header-menu {
 			.content {
 				padding-left: 5px;
 		    	font-size: 12px;
-			    line-height: 15px;
+				line-height: 15px;
+				
+				ul {
+					padding-left: 17px;
+				}
 
 			    .notif-text {
 				    font-size: 12px;

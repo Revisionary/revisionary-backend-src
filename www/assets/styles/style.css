@@ -6801,7 +6801,7 @@ ul.user-header-menu > li:last-child {
   z-index: 2;
   right: 0;
   top: 100%;
-  min-width: 220px;
+  min-width: 240px;
   max-height: 50vh;
   overflow: hidden;
   overflow-y: scroll;
@@ -6865,6 +6865,10 @@ ul.user-header-menu > li:last-child {
   padding-left: 5px;
   font-size: 12px;
   line-height: 15px;
+}
+
+.notifications > ul > li .content ul {
+  padding-left: 17px;
 }
 
 .notifications > ul > li .content .notif-text {
