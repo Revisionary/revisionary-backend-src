@@ -1201,7 +1201,7 @@ $(function() {
 	$(document).on('click', '[data-go-pin]', function(e) {
 
 		var pin_ID = parseInt( $(this).attr('data-go-pin') );
-		if ( !getPin(pin_ID) ) return false;
+		//if ( !getPin(pin_ID) ) return false; // Pin might be in another page
 
 
 		scrollToPin(pin_ID, true, true);
