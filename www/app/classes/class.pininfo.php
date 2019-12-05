@@ -1024,7 +1024,8 @@ class Pin {
 					<div style='
 
 					    display: inline-block;
-					    border: 1px solid black;
+						border: 1px solid black;
+						border-radius: 50%;
 
 					    background-color: white;
 					    color: black;
