@@ -6850,7 +6850,7 @@ ul.user-header-menu > li:last-child {
 }
 
 .notifications > ul > li a {
-  color: #007acc;
+  color: #007acc !important;
 }
 
 .notifications > ul > li .profile-image {
