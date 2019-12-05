@@ -1,38 +1,37 @@
 <?php
 
-$config = array('last_update' => '2019-11-24');
+$config = array('last_update' => '2019-12-05');
 
 
 
 // Environmental settings
 $config['env'] = [
-	'name' 		=> $_ENV['ENV_NAME'],
-	'domain'	=> $_ENV['DOMAIN'],
-	'subdomain' => $_ENV['SUBDOMAIN'],
+	'name' 				 => $_ENV['ENV_NAME'],
+	'domain'			 => $_ENV['DOMAIN'],
+	'subdomain' 		 => $_ENV['SUBDOMAIN'],
 	'insecure_subdomain' => $_ENV['INSECURE_SUBDOMAIN'],
-	'db_host' 	=> $_ENV['DB_HOST'],
-	'db_port' 	=> $_ENV['DB_PORT'],
-	'db_name' 	=> $_ENV['DB_NAME'],
-	'db_user' 	=> $_ENV['DB_USER'],
-	'db_pass' 	=> $_ENV['DB_PASSWORD'],
-	'timezone'  => $_ENV['DB_TIMEZONE'],
-	'smtp_user' => $_ENV['SMTP_USER'],
-	'smtp_pass' => $_ENV['SMTP_PASS'],
-	'debug'  	=> $_ENV['DEBUG']
+	'db_host' 			 => $_ENV['DB_HOST'],
+	'db_port' 			 => $_ENV['DB_PORT'],
+	'db_name' 			 => $_ENV['DB_NAME'],
+	'db_user' 			 => $_ENV['DB_USER'],
+	'db_pass' 			 => $_ENV['DB_PASSWORD'],
+	'timezone'  		 => $_ENV['DB_TIMEZONE'],
+	'smtp_user' 		 => $_ENV['SMTP_USER'],
+	'smtp_pass' 		 => $_ENV['SMTP_PASS'],
+	'debug'  			 => $_ENV['DEBUG']
 ];
-
 
 
 
 if ($config['env']['name'] == 'local-dev') {
 
 	// SSL Check
-	$_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)) ? true : false;
+	$_https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
 
 } elseif ($config['env']['name'] == 'remote-dev') {
 
 	// SSL Check (because of CloudFlare)
-	$_https = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https" ? true : false;
+	$_https = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https";
 
 	// Cloud DB connection
 	$config['env']['db_host'] = $_ENV['DB_CLOUD_HOST'];
