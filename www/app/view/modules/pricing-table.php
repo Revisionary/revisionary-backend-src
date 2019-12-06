@@ -8,6 +8,11 @@ $user_levels = $db->get('user_levels');
 unset($user_levels[0]);
 //die_to_print($user_levels);
 
+
+$isExceed = false;
+if ( $projectsPercentage >= 100 || $phasesPercentage >= 100 || $screensPercentage >= 100 || $pinsPercentage >= 100 || $commentPinsPercentage >= 100 || $loadPercentage >= 100 )
+	$isExceed = true;
+
 ?>
 
 <table class="pricing">
@@ -143,7 +148,7 @@ unset($user_levels[0]);
 				if ( getUserInfo()['userLevelName'] == $user_level['user_level_name'] ) {
 
 
-					echo "<b>Your Current Plan</b>";
+					echo "<b class='current-plan ".($isExceed ? "exceed" : "")."'>Your Current Plan</b>";
 
 
 				} elseif ( getUserInfo()['userLevelName'] != 'Free' && $user_level['user_level_name'] != 'Enterprise' ) {

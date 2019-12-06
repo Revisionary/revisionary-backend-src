@@ -3598,6 +3598,14 @@ table.pricing {
 		display: none;
 	}
 
+	.current-plan {
+		
+		&.exceed {
+			color: red;
+		}
+
+	}
+
 }
 
 

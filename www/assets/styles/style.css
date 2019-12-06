@@ -9481,6 +9481,10 @@ table.pricing .cancel-plan {
   display: none;
 }
 
+table.pricing .current-plan.exceed {
+  color: red;
+}
+
 /* Animations */
 .gps_ring {
   display: inline-block;
