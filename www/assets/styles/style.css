@@ -8638,8 +8638,6 @@ input.share-email.error {
 
 .popup-window .design-uploader a {
   font-size: 12px;
-  text-decoration: underline;
-  font-weight: bold;
 }
 
 .popup-window .option-toggler,
@@ -9070,6 +9068,9 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box a .plus-icon
 
 ol.categories > li.category > ol.blocks > .block.add-new-block .box .new {
   min-height: inherit;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new label {
   text-transform: capitalize;
 }
 

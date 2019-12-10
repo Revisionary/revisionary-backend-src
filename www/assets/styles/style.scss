@@ -2583,8 +2583,6 @@ input.share-email {
 
 		a {
 			font-size: 12px;
-			text-decoration: underline;
-			font-weight: bold;
 		}
 	}
 
@@ -3103,7 +3101,11 @@ ol.categories {
 
 						.new {
 							min-height: inherit;
-							text-transform: capitalize;
+
+							label {
+								text-transform: capitalize;
+							}
+
 						}
 
 					}

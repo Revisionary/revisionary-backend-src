@@ -19,7 +19,7 @@
 
 				<h3><i class="fa fa-link"></i> First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
 				<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
-				<small class="design-uploader">or <a href="#" data-tooltip="Coming soon...">Upload</a> your page design <i class="fa fa-question-circle tooltip" data-tooltip="Coming soon..." aria-hidden="true"></i></small>
+				<small class="design-uploader">or <a href="#" data-tooltip="In development..."><b><u>Upload</u></b></a> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments." aria-hidden="true"></i></small>
 
 
 				<h3 style="margin-bottom: 0">Screen Size <i class="fa fa-question-circle tooltip" data-tooltip="Add your screen size that you wish to edit your site." aria-hidden="true"></i></h3>
