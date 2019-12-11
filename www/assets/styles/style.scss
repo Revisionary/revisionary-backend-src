@@ -3104,6 +3104,10 @@ ol.categories {
 
 							label {
 								text-transform: capitalize;
+
+								&[for="inline-design-uploader"] {
+									cursor: pointer;
+								}
 							}
 
 						}

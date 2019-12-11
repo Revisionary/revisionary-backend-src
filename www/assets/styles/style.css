@@ -9074,6 +9074,10 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box .new label {
   text-transform: capitalize;
 }
 
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new label[for="inline-design-uploader"] {
+  cursor: pointer;
+}
+
 ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit {
   position: relative;
 }

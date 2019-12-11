@@ -385,9 +385,10 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 						</div>\
 					</form>\
 					<div class="wrap xl-flexbox xl-between">\
-						<div class="col">\
-							<small class="design-uploader">or <a href="#" data-tooltip="In development..."><b><u>Upload</u></b></a> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments."></i></small>\
-						</div>\
+						<form action="" method="post" class="col">\
+							<small class="design-uploader">or <label for="inline-design-uploader" data-tooltip="In development..."><b><u>Upload</u></b></label> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments."></i></small>\
+							<input type="file" name="design-upload" id="inline-design-uploader" class="design-upload xl-hidden" accept=".gif,.jpg,.jpeg,.png" data-max-size="3145728">\
+						</form>\
 						<div class="col" style="width: 55px;">\
 							<a href="#" class="plus-icon" data-modal="add-new" data-type="'+ dataType +'" data-id="'+cat_project_ID+'"><small style="opacity: .3; font-size: 10px; letter-spacing: 0.7px;"><i class="fa fa-ellipsis-v"></i> Advanced</small></a>\
 						</div>\
