@@ -9066,6 +9066,12 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box a .plus-icon
   font-size: 55px;
 }
 
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .uploading-text {
+  display: none;
+  position: relative;
+  letter-spacing: 1px;
+}
+
 ol.categories > li.category > ol.blocks > .block.add-new-block .box .new {
   min-height: inherit;
 }
@@ -9076,6 +9082,40 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box .new label {
 
 ol.categories > li.category > ol.blocks > .block.add-new-block .box .new label[for="inline-design-uploader"] {
   cursor: pointer;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new.uploading {
+  position: relative;
+  overflow: hidden;
+  -moz-border-radius: 50%;
+       border-radius: 50%;
+  -moz-background-size: cover;
+       background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  -moz-transition: 0 !important;
+  transition: 0 !important;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new.uploading::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  opacity: 0.7;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new.uploading .new-form {
+  display: none;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new.uploading .uploading-text {
+  display: block;
 }
 
 ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit {

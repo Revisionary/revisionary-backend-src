@@ -363,7 +363,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 		</div>\
 		<div class="box xl-center">\
 			<div class="wrap xl-flexbox xl-middle xl-left new">\
-				<div class="col xl-8-12 xl-outside-24 xl-center">\
+				<div class="col xl-8-12 xl-outside-24 xl-center new-form">\
 					<form action="/projects" method="post" class="new-project-form">\
 						<input type="hidden" name="add_new" value="true"/>\
 						<input type="hidden" name="project_ID" value="'+cat_project_ID+'"/>\
@@ -385,15 +385,16 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 						</div>\
 					</form>\
 					<div class="wrap xl-flexbox xl-between">\
-						<form action="" method="post" class="col">\
+						<form action="" method="post" class="col design-upload-form">\
 							<small class="design-uploader">or <label for="inline-design-uploader" data-tooltip="In development..."><b><u>Upload</u></b></label> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments."></i></small>\
-							<input type="file" name="design-upload" id="inline-design-uploader" class="design-upload xl-hidden" accept=".gif,.jpg,.jpeg,.png" data-max-size="3145728">\
+							<input type="file" name="design-upload" id="inline-design-uploader" class="design-upload xl-hidden" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">\
 						</form>\
 						<div class="col" style="width: 55px;">\
 							<a href="#" class="plus-icon" data-modal="add-new" data-type="'+ dataType +'" data-id="'+cat_project_ID+'"><small style="opacity: .3; font-size: 10px; letter-spacing: 0.7px;"><i class="fa fa-ellipsis-v"></i> Advanced</small></a>\
 						</div>\
 					</div>\
 				</div>\
+				<div class="col xl-1-1 xl-center uploading-text">UPLOADING...</div>\
 			</div>\
 		</div>\
 	</li>';

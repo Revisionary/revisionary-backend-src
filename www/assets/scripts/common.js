@@ -1020,6 +1020,153 @@ $(function() {
 	});
 
 
+
+	// Design Upload
+	// Uploader
+	$(document).on('change', '.design-upload', function() {
+
+		var wrapper = $(this).parents('.new');
+		var form = $(this).parents('form');
+		var maxSize = $(this).attr('data-max-size');
+
+
+	    var reader = new FileReader();
+	    reader.onload = function(event) {
+
+
+			// Temp data URL
+			var imageSrc = event.target.result;
+
+
+			// Apply the change
+			wrapper.addClass('uploading').attr('style', 'background-image: url('+imageSrc+');');
+
+
+			// Submit data
+			//form.submit();
+
+
+	    };
+
+
+		// If a file selected
+        if ( $(this).get(0).files.length ) {
+
+
+            var fileSize = $(this).get(0).files[0].size; // in bytes
+            if (fileSize > maxSize) {
+
+                alert('File size is more than ' + formatBytes(maxSize));
+                return false;
+
+            } else {
+
+                console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
+	        	reader.readAsDataURL( $(this).get(0).files[0] );
+
+            }
+
+
+		// If no file selected
+        } else {
+
+		    console.log('NO FILE');
+			return false;
+
+        }
+
+
+	});
+
+
+	$(document).on('submit', '.design-upload-form', function(e) {
+
+		var projectID = project_ID !== undefined ? project_ID : 'new';
+
+		$.ajax({
+			url: ajax_url+'?type=design-upload&project_ID=' + projectID,
+			type: 'POST',
+			data:  new FormData(this),
+			mimeType: "multipart/form-data",
+			contentType: false,
+			cache: false,
+			processData: false,
+			dataType: 'json',
+			xhr: function() {
+
+
+				var jqXHR = null;
+				if ( window.ActiveXObject ) {
+
+					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+
+				} else {
+
+					jqXHR = new window.XMLHttpRequest();
+
+				}
+
+
+				// Upload progress
+				jqXHR.upload.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Uploaded percent', percentComplete );
+
+					}
+
+				}, false );
+
+
+				// Download progress
+				jqXHR.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Downloaded percent', percentComplete );
+
+					}
+
+				}, false );
+
+
+				return jqXHR;
+			},
+			success: function(data, textStatus, jqXHR) {
+				
+				var status = data.status;
+
+				if (status != "success") {
+
+					console.error('ERROR: ', status, data, textStatus, jqXHR);
+					return false;
+
+				}
+
+
+				console.log('SUCCESS!', data, textStatus, jqXHR);
+				// Redirect to the revise page
+				
+
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+
+				console.log('FAILED!!', errorThrown);
+
+				//$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').removeClass('loading');
+
+			}
+		});
+
+
+		e.preventDefault();
+
+	});
+
+
 });
 
 
