@@ -924,12 +924,25 @@ function runTheInspector() {
 
 				// Search in my pages registered
 				var pageFound = myPages.find(function(page) {
-					return urlStandardize(page.page_url, true) == urlStandardize(absoluteLink, true) && page.project_ID == project_ID ? true : false;
+					return urlStandardize(page.page_url, true) == urlStandardize(absoluteLink, true) && page.project_ID == project_ID;
 				});
 
 
 				// If the page has already been downloaded, go revising that page
 				if (pageFound) {
+
+
+					// Prevent clicking same page URL
+					if (pageFound.page_ID == page_ID) {
+
+						alert('You are currently editing this page.');
+
+						e.preventDefault();
+						e.stopPropagation();
+						return false;
+
+					}
+
 
 					newPageLink = "/page/" + pageFound.page_ID + "?pinmode=browse";
 					console.log('ALREADY DOWNLOADED!!!', newPageLink);
