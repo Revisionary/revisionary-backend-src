@@ -32,7 +32,7 @@ source .env
 
 if [[ $ACTION == ask ]]; then
 
-	read -ep "Which do you want to do? (install | rebuild | remove-files | prune-docker | reset-all | update-server): " ACTION
+	read -ep "Which do you want to do? (install | rebuild | remove-files | remove-logs | prune-docker | reset-all | update-server): " ACTION
 
 fi
 
@@ -96,6 +96,24 @@ elif [[ $ACTION == remove-files ]]; then
 	echo "Removing the files..."
 	sh helpers/clean-files.sh
 	echo "Files are removed."
+
+
+elif [[ $ACTION == remove-logs ]]; then
+
+
+	echo "Closing the server..."
+	docker-compose down
+	echo "Server became down."
+
+
+	echo "Removing the files..."
+	sh helpers/clean-logs.sh
+	echo "Files are removed."
+
+
+	echo "Starting the server..."
+	docker-compose up -d
+	echo "Server has been started."
 
 
 elif [[ $ACTION == prune-docker ]]; then
