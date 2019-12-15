@@ -815,7 +815,7 @@ foreach ($other_pages as $pageOther) {
 
 					<div class="desc nomargin">Pin Mode</div>
 
-					<div class="dropdown current-mode" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
+					<div class="dropdown current-mode" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>" data-page-type="<?=$page['page_url'] == "image" ? "image" : "url"?>">
 						<a href="#" class="button browse-switcher">
 							<i class="fa fa-dot-circle"></i>
 							<i class="fa fa-comment"></i>

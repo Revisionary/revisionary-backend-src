@@ -212,6 +212,11 @@ html, body {
   display: inline-block !important;
 }
 
+#top-bar .pin-mode [data-page-type="image"] [data-pin-type="live"],
+#top-bar .pin-mode [data-page-type="image"] [data-pin-type="style"] {
+  display: none !important;
+}
+
 #top-bar .pin-limits .upgrade {
   display: none;
   background-color: green;

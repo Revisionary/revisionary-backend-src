@@ -71,6 +71,7 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 
 			// Design Uploads
 			if (data.remoteUrl == 'image') {
+				page_type = "image";
 				page_URL = "/serve-image/?device_ID=" + device_ID;
 				console.log('DESIGN IMAGE: ', page_URL);
 			}
@@ -1246,6 +1247,14 @@ function switchPinType(pinType, pinPrivate) {
 
 	currentPinTypeWas = currentPinType;
 	currentPinPrivateWas = currentPinPrivate;
+
+
+	// Image mode
+	if (
+		page_type == "image" && (pinType == "live" || pinType == "style")
+	) {
+		pinType = "comment";
+	}
 
 	currentPinType = pinType;
 	currentPinPrivate = parseInt(pinPrivate);

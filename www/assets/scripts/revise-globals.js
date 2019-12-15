@@ -10,6 +10,7 @@ var device_ID;
 var page_ID;
 var page_URL;
 var remote_URL;
+var page_type = "url";
 var page_width = 1440;
 var page_height = 900;
 var page_ready = false;

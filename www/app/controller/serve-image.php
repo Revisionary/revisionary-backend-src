@@ -17,5 +17,5 @@ $image_url = cache_url($image_path);
 
 
 
-$page_title = "Page Design";
+$page_title = $device['page_name'];
 require view('serve-image');

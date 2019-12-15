@@ -261,6 +261,15 @@ html, body {
 
 		}
 
+		[data-page-type="image"] {
+
+			[data-pin-type="live"],
+			[data-pin-type="style"] {
+				display: none !important;
+			}
+
+		}
+
 	}
 
 	.pin-limits {
