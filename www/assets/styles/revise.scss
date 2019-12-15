@@ -395,6 +395,18 @@ html, body {
 
 	.pins {
 
+		& > .button {
+
+			&.green {
+				background-color: green;
+			}
+
+			&.red {
+				background-color: #D0011B;
+			}
+
+		}
+
 		.pins-filter {
 		    text-align: center;
 			font-size: 10px;

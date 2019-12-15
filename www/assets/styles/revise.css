@@ -314,6 +314,14 @@ html, body {
   padding: 3px;
 }
 
+#top-bar .pins > .button.green {
+  background-color: green;
+}
+
+#top-bar .pins > .button.red {
+  background-color: #D0011B;
+}
+
 #top-bar .pins .pins-filter {
   text-align: center;
   font-size: 10px;

@@ -2233,9 +2233,22 @@ function updatePinCount() {
 	});
 
 
-	if (incompletePins.length > 0) $('.pins .button .notif-no').removeClass('hide').removeClass('green').text(incompletePins.length);
-	else if (completePins.length > 0 && incompletePins.length == 0) $('.pins .button .notif-no').removeClass('hide').addClass('green').text(completePins.length);
-	else $('.pins .button .notif-no').addClass('hide');
+	if (incompletePins.length > 0) {
+
+		$('.pins .button').removeClass('green').addClass('red');
+		$('.pins .button .notif-no').removeClass('hide').removeClass('green').text(incompletePins.length);
+
+	} else if (completePins.length > 0 && incompletePins.length == 0) {
+
+		$('.pins .button').removeClass('nothing').addClass('green');
+		$('.pins .button .notif-no').removeClass('hide').addClass('green').text(completePins.length);
+
+	} else {
+
+		$('.pins .button').removeClass('green').removeClass('red');
+		$('.pins .button .notif-no').addClass('hide');
+
+	}
 
 	return incompletePins.length;
 

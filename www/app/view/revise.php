@@ -948,7 +948,7 @@ foreach ($other_pages as $pageOther) {
 		<div class="col pins tab-container open">
 
 			<a href="#" class="button opener open">
-				<span>PINS</span> <i class="fa fa-list-ul"></i>
+				<span>TASKS</span> <i class="fa fa-list-ul"></i>
 				<div class="notif-no left hide">0</div>
 			</a>
 			<div class="tab right wrap">
