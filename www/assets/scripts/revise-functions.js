@@ -1150,19 +1150,20 @@ function updateLimitations(pinType) {
 		currentAllowed = limitations.current.pin;
 		currentLimitLabel = "Live Pins Left";
 
-	}
-	else if (pinType == "comment") {
+
+	} else if (pinType == "comment") {
 
 
 		currentAllowed = limitations.current.commentpin;
 		currentLimitLabel = "Comment Pins Left";
 
-	}
-	else if (pinType == "browse") {
+
+	} else if (pinType == "browse") {
 
 
 		currentAllowed = limitations.current.phase;
 		currentLimitLabel = "Pages Left";
+
 
 	}
 
@@ -1769,8 +1770,8 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 		// Update the limitations
 		var pinType = newPin.attr('data-pin-type');
-		if (pinType == "live" || pinType == "style") limitations.current.pin--;
-		else if (pinType == "comment") limitations.current.commentpin--;
+		if ((pinType == "live" || pinType == "style") && limitations.current.pin != "Unlimited") limitations.current.pin--;
+		else if (pinType == "comment" && limitations.current.commentpin != "Unlimited") limitations.current.commentpin--;
 		updateLimitations();
 
 
@@ -1880,8 +1881,8 @@ function removePin(pin_ID) {
 		// Update the limitations
 		if (pinUserID == user_ID) {
 
-			if (pinType == "live" || pinType == "style") limitations.current.pin++;
-			else if (pinType == "comment") limitations.current.commentpin++;
+			if ((pinType == "live" || pinType == "style") && limitations.current.pin != "Unlimited") limitations.current.pin++;
+			else if (pinType == "comment" && limitations.current.commentpin != "Unlimited") limitations.current.commentpin++;
 			updateLimitations();
 
 		}
