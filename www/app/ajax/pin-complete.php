@@ -11,7 +11,7 @@ $status = "initiated";
 if ( !is_numeric(request('pin_ID')) ) return;
 $pin_ID = intval(request('pin_ID'));
 
-$complete = request('complete') == "complete" ? true : false;
+$complete = request('complete') == "complete";
 
 
 // DO THE SECURITY CHECKS !!!

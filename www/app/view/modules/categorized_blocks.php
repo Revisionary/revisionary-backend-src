@@ -235,8 +235,8 @@
 
 											$block_image_path = "projects/project-".$block['project_ID']."/page-".$firstDeviceOfProject['page_ID']."/phase-".$firstDeviceOfProject['phase_ID']."/screenshots/device-".$firstDeviceOfProject['device_ID'].".jpg";
 											
-											print_r($block_image_path);
-											print_r($firstDeviceOfProject);
+											// print_r($block_image_path);
+											// print_r($firstDeviceOfProject);
 
 										}
 

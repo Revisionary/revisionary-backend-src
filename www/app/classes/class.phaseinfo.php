@@ -48,8 +48,8 @@ class Phase {
 
 
         // Set the phase cache directory URL
-        $this->phaseUri = cache_url($fullPath, (substr($this->remoteUrl, 0, 8) == "https://" ? true : false));
-        $this->cachedUrl = $this->phaseUri.$this->phaseFileName;
+        $this->phaseUri = cache_url($fullPath, (substr($this->remoteUrl, 0, 8) == "https://"));
+		$this->cachedUrl = $this->phaseUri.$this->phaseFileName;
 
 
 		// Log directory
@@ -120,7 +120,7 @@ class Phase {
 
 
     // Get the phase download status
-    public function getPhaseStatus($static = false) {
+    public function getPhaseStatus() {
 
 
 		// 0% - WAITING FOR THE QUEUE
@@ -131,29 +131,21 @@ class Phase {
 		];
 
 
+		// 100% - READY
+		if ($this->internalizeCount > 0)
+			return [
+				"status" => "ready",
+				"description" => "Ready! Loading the site",
+				"percentage" => 100
+			];
+
+
 		if (!file_exists($this->logDir))
 			$process_status = [
 				"status" => "Ready to Download",
 				"description" => "Phase needs to be downloaded",
 				"percentage" => 0
 			];
-
-
-		if ($static) {
-
-			// DAMAGED VERSIONS
-			if (
-				!file_exists($this->phaseFile) ||
-				!file_exists($this->logDir."/html-filter.log") ||
-				!file_exists($this->logDir."/css-filter.log")
-			)
-				$process_status = [
-					"status" => "download-needed",
-					"description" => "Download needed",
-					"percentage" => 0
-				];
-
-		}
 
 
 		// 10% - VERSION IS DOWNLOADING

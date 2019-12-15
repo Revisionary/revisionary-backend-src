@@ -416,7 +416,7 @@ $(function() {
 	$('#pin-window .pin-complete > a').click(function(e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
-		var isComplete = pinWindow(pin_ID).attr('data-pin-complete') == "1" ? true : false;
+		var isComplete = pinWindow(pin_ID).attr('data-pin-complete') == "1";
 
 
 		completePin(pin_ID, !isComplete);

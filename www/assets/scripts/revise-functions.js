@@ -69,6 +69,13 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 			) location.reload();
 
 
+			// Design Uploads
+			if (data.remoteUrl == 'image') {
+				page_URL = "/serve-image/?device_ID=" + device_ID;
+				console.log('DESIGN IMAGE: ', page_URL);
+			}
+
+
 			// Update the iframe url
 			$('#the-page').attr('src', page_URL);
 
@@ -672,7 +679,7 @@ function runTheInspector() {
 
 
 			// While editing a content on page
-			mouseDownOnContentEdit = cursorActive && focused_element_has_live_pin ? true : false;
+			mouseDownOnContentEdit = cursorActive && focused_element_has_live_pin;
 
 
 			//$('#the-page').css('pointer-events', 'none');
@@ -3353,7 +3360,7 @@ function updateOriginals(pinsList, oldPinsList) {
 
 		var theOriginal = null;
 		var pin_ID = pin.pin_ID;
-		var oldPin = oldPinsList.find(function(p) { return p.pin_ID == pin_ID ? true : false; });
+		var oldPin = oldPinsList.find(function(p) { return p.pin_ID == pin_ID; });
 		var element = iframeElement(pin.pin_element_index);
 
 
@@ -3810,7 +3817,7 @@ function toggleChange(pin_ID) {
 
 
 	// Check if this is currently showing the changed content
-	var isShowingChanges = pinElement(pin_ID).attr('data-revisionary-showing-content-changes') == "1" ? true : false;
+	var isShowingChanges = pinElement(pin_ID).attr('data-revisionary-showing-content-changes') == "1";
 
 
 
@@ -4462,7 +4469,7 @@ function updateAttributes(pin_ID, attribute, value) {
 function reFocus() {
 
 	focused_element_index = focused_element.attr('data-revisionary-index');
-	focused_element_has_index = focused_element_index != null ? true : false;
+	focused_element_has_index = focused_element_index != null;
 	focused_element_index = focused_element_has_index ? focused_element_index : 0;
 	focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
 	focused_element_html = focused_element.html();
@@ -4534,7 +4541,7 @@ function getPin(pin_ID, byElementIndex) {
 
 	byElementIndex = assignDefault(byElementIndex, false);
 
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID || (byElementIndex && pin.pin_element_index == pin_ID ) ? true : false; });
+	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID || (byElementIndex && pin.pin_element_index == pin_ID ); });
 	if (typeof pin === 'undefined') return false;
 
 	return pin;
@@ -4679,7 +4686,7 @@ function commentTemplate(comment, hide, sameTime) {
 	var picture = comment.user_picture;
 	var printPic = picture != null ? " style='background-image: url("+ picture +");'" : "";
 	var nameAbbr = comment.user_first_name.charAt(0) + comment.user_last_name.charAt(0);
-	var itsMe = comment.user_ID == user_ID ? true : false;
+	var itsMe = comment.user_ID == user_ID;
 	var linkedComment = Autolinker.link( comment.pin_comment, {
 		truncate: 25,
 	    newWindow: true

@@ -137,7 +137,7 @@ class File {
 		if ($file_location == "s3") {
 
 			$delete = $s3->DeleteObject($file_path, true);
-			$result = $delete || $delete === null ? true : false;
+			$result = $delete || $delete === null;
 
 		}
 

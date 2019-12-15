@@ -3,7 +3,7 @@
 use Cocur\BackgroundProcess\BackgroundProcess;
 
 // Force re-internalize
-$forceReInternalize = get('redownload') === "" ? true : false;
+$forceReInternalize = get('redownload') === "";
 $ssr = $forceReInternalize && get('ssr') === "";
 
 
@@ -244,11 +244,13 @@ if (
 
 	!$forceReInternalize &&
 
-	file_exists( $phaseData->phaseDir ) && // Folder is exist
-	file_exists( $phaseData->phaseFile ) && // HTML is downloaded
-	file_exists( $phaseData->logDir."/browser.log" ) && // No error on Browser
-	file_exists( $phaseData->logDir."/html-filter.log" ) && // No error on HTML filtering
-	file_exists( $phaseData->logDir."/css-filter.log" ) // No error on CSS filtering
+	$phase['phase_internalized'] > 0
+
+	// file_exists( $phaseData->phaseDir ) && // Folder is exist
+	// file_exists( $phaseData->phaseFile ) && // HTML is downloaded
+	// file_exists( $phaseData->logDir."/browser.log" ) && // No error on Browser
+	// file_exists( $phaseData->logDir."/html-filter.log" ) && // No error on HTML filtering
+	// file_exists( $phaseData->logDir."/css-filter.log" ) // No error on CSS filtering
 
 ) {
 

@@ -8741,7 +8741,8 @@ input.share-email.error {
   display: none;
 }
 
-.popup-window#add-new[data-type="page"] .project-info {
+.popup-window#add-new[data-type="page"] .project-info,
+.popup-window#add-new[data-type="page"] .first-page {
   display: none;
 }
 

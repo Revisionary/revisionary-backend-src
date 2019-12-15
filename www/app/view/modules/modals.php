@@ -17,7 +17,7 @@
 
 				<h4 class="section-title xl-left">Page Info</h4>
 
-				<h3><i class="fa fa-link"></i> First Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
+				<h3><i class="fa fa-link"></i> <span class="first-page">First</span> Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
 				<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
 				<small class="design-uploader">or <a href="#" data-tooltip="In development..."><b><u>Upload</u></b></a> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments." aria-hidden="true"></i></small>
 

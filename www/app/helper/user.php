@@ -1,7 +1,7 @@
 <?php
 
 function userLoggedIn() {
-	return isset($_SESSION['user_ID']) ? true : false;
+	return isset($_SESSION['user_ID']);
 }
 
 function currentUserID() {

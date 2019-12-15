@@ -1235,7 +1235,7 @@ function updateShares() {
 		$(users).each(function(i, user) {
 
 			if (user.mStatus == "owner") ownerID = user.user_ID;
-			var skipUser = user.mStatus == "projectowner" && ownerID == user.user_ID ? true : false;
+			var skipUser = user.mStatus == "projectowner" && ownerID == user.user_ID;
 
 
 			// Modal info

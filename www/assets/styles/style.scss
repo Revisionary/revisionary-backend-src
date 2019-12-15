@@ -2725,7 +2725,8 @@ input.share-email {
 
 		&[data-type="page"] {
 
-			.project-info {
+			.project-info,
+			.first-page {
 				display: none;
 			}
 
