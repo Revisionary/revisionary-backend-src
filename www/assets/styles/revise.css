@@ -322,6 +322,10 @@ html, body {
   background-color: #D0011B;
 }
 
+#top-bar .pins > .button .task-count.hide {
+  display: none;
+}
+
 #top-bar .pins .pins-filter {
   text-align: center;
   font-size: 10px;

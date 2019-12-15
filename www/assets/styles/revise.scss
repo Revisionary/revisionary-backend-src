@@ -405,6 +405,14 @@ html, body {
 				background-color: #D0011B;
 			}
 
+			.task-count {
+
+				&.hide {
+					display: none;
+				}
+
+			}
+
 		}
 
 		.pins-filter {

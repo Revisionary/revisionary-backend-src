@@ -948,8 +948,7 @@ foreach ($other_pages as $pageOther) {
 		<div class="col pins tab-container open">
 
 			<a href="#" class="button opener open">
-				<span>TASKS</span> <i class="fa fa-list-ul"></i>
-				<div class="notif-no left hide">0</div>
+				<span class="task-count hide">0</span> <span class="tasks-title">TASKS</span> <i class="fa fa-list-ul"></i>
 			</a>
 			<div class="tab right wrap">
 				<div class="col xl-1-1">

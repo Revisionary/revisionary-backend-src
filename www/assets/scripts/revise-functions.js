@@ -2236,17 +2236,22 @@ function updatePinCount() {
 	if (incompletePins.length > 0) {
 
 		$('.pins .button').removeClass('green').addClass('red');
-		$('.pins .button .notif-no').removeClass('hide').removeClass('green').text(incompletePins.length);
+		$('.pins .button .task-count').removeClass('hide').text(incompletePins.length);
+		if (incompletePins.length === 1) $('.pins .button .tasks-title').text('TASK');
+		else $('.pins .button .tasks-title').text('TASKS');
 
 	} else if (completePins.length > 0 && incompletePins.length == 0) {
 
-		$('.pins .button').removeClass('nothing').addClass('green');
-		$('.pins .button .notif-no').removeClass('hide').addClass('green').text(completePins.length);
+		$('.pins .button').removeClass('red').addClass('green');
+		$('.pins .button .task-count').removeClass('hide').text(completePins.length);
+		if (completePins.length === 1) $('.pins .button .tasks-title').text('TASK');
+		else $('.pins .button .tasks-title').text('TASKS');
 
 	} else {
 
 		$('.pins .button').removeClass('green').removeClass('red');
-		$('.pins .button .notif-no').addClass('hide');
+		$('.pins .button .task-count').addClass('hide');
+		$('.pins .button .tasks-title').text('TASKS');
 
 	}
 
