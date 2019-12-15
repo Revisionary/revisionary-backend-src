@@ -1535,6 +1535,14 @@ html, body {
 
 	}
 
+	&[data-page-type="image"] {
+
+		.device-specific {
+			display: none !important;
+		}
+
+	}
+
 
 
 	&.loading::after {

@@ -2884,7 +2884,8 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			.attr('data-pin-mine', (thePinMine ? "yes" : "no"))
 			.attr('data-pin-new', (firstTime ? "yes" : "no"))
 			.attr('data-new-notification', "no")
-			.attr('data-has-comments', 'no');
+			.attr('data-has-comments', 'no')
+			.attr('data-page-type', page_type);
 
 
 		// Reset the differences fields

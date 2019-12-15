@@ -116,12 +116,20 @@ class Pin {
 
 
 
+		$device_ID = $pin_device_ID;
+		$phase_ID = $pin_phase_ID;
+
+		$page_ID = Phase::ID( $phase_ID )->getInfo('page_ID');
+		$pageData = Page::ID( $page_ID );
+
+
+
 		// More DB Checks of arguments !!!
 
 
 
 		// NULL FOR NOW !!!
-		$pin_device_ID = null;
+		$pin_device_ID = $pageData->getInfo('page_url') == "image" ? $pin_device_ID : null;
 
 		// Add the pin
 		$pin_ID = $db->insert('pins', array(
@@ -140,11 +148,6 @@ class Pin {
 		// Notify the users
 		if ($pin_ID) {
 
-			$device_ID = $pin_device_ID;
-			$phase_ID = $pin_phase_ID;
-
-			$page_ID = Phase::ID( $phase_ID )->getInfo('page_ID');
-			$pageData = Page::ID( $page_ID );
 			$pageData->updateModified();
 
 			$project_ID = $pageData->getInfo('project_ID');

@@ -1276,6 +1276,10 @@ html, body {
   display: none !important;
 }
 
+#pin-window[data-page-type="image"] .device-specific {
+  display: none !important;
+}
+
 #pin-window.loading::after {
   content: "Please wait...";
   position: absolute;
