@@ -1044,6 +1044,7 @@ $(function() {
 
 		form.find('.top-option').addClass('xl-hidden');
 		form.find('.page-url').removeClass('xl-hidden');
+		form.find('.page-url input').attr('value', '');
 		
 		form.find('.form-submit, .advanced-options').css('width', 55);
 		form.find('.form-submit input').val('ADD');
@@ -1081,6 +1082,7 @@ $(function() {
 			
 			form.find('.top-option').addClass('xl-hidden');
 			form.find('.selected-image').removeClass('xl-hidden');
+			form.find('.page-url input').attr('value', 'image');
 			
 			form.find('.form-submit, .advanced-options').css('width', 80);
 			form.find('.form-submit input').val('UPLOAD');
