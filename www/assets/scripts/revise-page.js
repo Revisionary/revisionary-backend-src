@@ -464,8 +464,8 @@ $(function() {
 
 		// IFRAME FIT TO THE SCREEN
 
-	    width = width - 2; // -2 for the borders
-		height = height - 2; // -2 for the borders
+	    width = width - 4; // -4 for the borders
+		height = height - 4; // -4 for the borders
 		
 
 		if (page_type == "image") {

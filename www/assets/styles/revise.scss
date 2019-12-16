@@ -609,12 +609,13 @@ html, body {
 	// left: 1px;
 	// width: calc(100% - 2px);
 	// bottom: 1px;
-	padding-top: calc(#{$topbar-height} + 1px);
-	height: calc(100% - #{$topbar-height} - 2px);
+	padding-top: #{$topbar-height};
+	height: calc(100% - #{$topbar-height});
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	background-color: transparent;
+	background-color: $color-light;
 
 	.iframe-container {
 	    position: fixed;

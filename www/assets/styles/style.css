@@ -6125,7 +6125,7 @@ template {
 html, body {
   margin: 0;
   height: 100%;
-  color: black;
+  color: #000000;
 }
 
 html .popup-open, body .popup-open {
@@ -6140,7 +6140,7 @@ html .popup-open, body .popup-open {
 
 #page {
   overflow: hidden;
-  background-color: black;
+  background-color: #000000;
 }
 
 .invisible {
@@ -6235,7 +6235,7 @@ ul.full {
 }
 
 .site-title a {
-  color: black;
+  color: #000000;
   text-decoration: none;
   font-weight: bold;
   font-size: 38px;
@@ -6288,7 +6288,7 @@ input[type='range']::-webkit-slider-thumb {
   width: 25px;
   height: 25px;
   border-radius: 5px;
-  background: black;
+  background: #000000;
   cursor: pointer;
 }
 
@@ -6297,7 +6297,7 @@ input[type='range']::-moz-range-thumb {
   height: 25px;
   -moz-border-radius: 5px;
        border-radius: 5px;
-  background: black;
+  background: #000000;
   cursor: pointer;
 }
 
@@ -6319,7 +6319,7 @@ input[type='submit'],
 button {
   display: block;
   padding: 0 10px;
-  border: 2px solid black;
+  border: 2px solid #000000;
   -moz-border-radius: 8px;
        border-radius: 8px;
   width: auto;
@@ -6381,7 +6381,7 @@ input[type='url'].invert,
 input[type='submit'].invert,
 button.invert {
   color: white;
-  background-color: black;
+  background-color: #000000;
 }
 
 input[type='text'].invert > a,
@@ -6391,7 +6391,7 @@ input[type='url'].invert > a,
 input[type='submit'].invert > a,
 button.invert > a {
   color: white;
-  background-color: black;
+  background-color: #000000;
 }
 
 input[type='text'].invert:hover,
@@ -6401,8 +6401,8 @@ input[type='url'].invert:hover,
 input[type='submit'].invert:hover,
 button.invert:hover {
   background-color: white;
-  color: black;
-  border-color: black;
+  color: #000000;
+  border-color: #000000;
 }
 
 input[type='text'].invert:hover > a,
@@ -6412,8 +6412,8 @@ input[type='url'].invert:hover > a,
 input[type='submit'].invert:hover > a,
 button.invert:hover > a {
   background-color: white;
-  color: black;
-  border-color: black;
+  color: #000000;
+  border-color: #000000;
 }
 
 input[type='text']:focus,
@@ -6429,7 +6429,7 @@ button:focus {
 
 .button-oval {
   display: inline-block;
-  border: 1px solid black;
+  border: 1px solid #000000;
   -moz-border-radius: 30px;
        border-radius: 30px;
   padding: 5px 15px;
@@ -6481,7 +6481,7 @@ button.large {
 
 input[type='submit'].dark,
 button.dark {
-  background-color: black;
+  background-color: #000000;
   color: white;
 }
 
@@ -6494,7 +6494,7 @@ textarea {
   display: block;
   width: 100%;
   height: 90px;
-  border: 3px solid black;
+  border: 3px solid #000000;
   -moz-box-sizing: border-box;
        box-sizing: border-box;
   resize: none;
@@ -6638,7 +6638,7 @@ nav#main-navigation > ul > li {
 
 nav#main-navigation > ul > li > a {
   font-size: 14px;
-  color: black;
+  color: #000000;
   letter-spacing: 3px;
   text-decoration: none;
   text-transform: uppercase;
@@ -6660,7 +6660,7 @@ nav#main-navigation > ul > li > a:hover {
 }
 
 .signup-link a {
-  border: 5px solid black;
+  border: 5px solid #000000;
   -moz-border-radius: 8px;
        border-radius: 8px;
   padding: 6px 36px;
@@ -6694,13 +6694,13 @@ nav#main-navigation > ul > li > a:hover {
 
 /* Links */
 a {
-  color: black;
+  color: #000000;
   text-decoration: none;
   letter-spacing: 1px;
 }
 
 a.invert-hover {
-  color: black;
+  color: #000000;
 }
 
 a.invert-hover:hover {
@@ -6712,7 +6712,7 @@ a.learn-more {
 }
 
 .invert-hover a {
-  color: black;
+  color: #000000;
 }
 
 .invert-hover a:hover {
@@ -6747,7 +6747,7 @@ a.learn-more {
 
 .user-level {
   display: block;
-  border: 1px solid black;
+  border: 1px solid #000000;
   -moz-border-radius: 10px;
        border-radius: 10px;
   padding: 10px;
@@ -6794,7 +6794,7 @@ ul.user-header-menu > li:last-child {
 .notifications {
   display: none;
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid #000000;
   -moz-border-radius: 10px;
        border-radius: 10px;
   position: absolute;
@@ -6818,12 +6818,12 @@ ul.user-header-menu > li:last-child {
 }
 
 .notifications > ul > li {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #000000;
   padding: 5px 10px;
   font-size: 12px;
   line-height: 15px;
   text-align: center;
-  color: black;
+  color: #000000;
 }
 
 .notifications > ul > li:last-child {
@@ -7016,7 +7016,7 @@ ul.user-header-menu > li:last-child {
 .dropdown a + ul.selectable > li.selected,
 .dropdown .dropdown-opener + ul.selectable > li.selected {
   background-color: white;
-  color: black;
+  color: #000000;
 }
 
 .dropdown a + ul.selectable > li.selected > a,
@@ -7059,7 +7059,7 @@ ul.user-header-menu > li:last-child {
 .dropdown .dropdown-opener + ul > li {
   margin-bottom: -2px;
   background-color: #fff;
-  border: 2px solid black;
+  border: 2px solid #000000;
   display: -moz-box;
   display: flex;
   -moz-box-align: center;
@@ -7068,7 +7068,7 @@ ul.user-header-menu > li:last-child {
        justify-content: left;
   white-space: nowrap;
   position: relative;
-  color: black;
+  color: #000000;
 }
 
 .dropdown a + ul > li:first-child,
@@ -7122,7 +7122,7 @@ ul.user-header-menu > li:last-child {
 
 .dropdown a + ul > li.selected,
 .dropdown .dropdown-opener + ul > li.selected {
-  background-color: black;
+  background-color: #000000;
   color: white;
 }
 
@@ -7219,7 +7219,7 @@ ul.user-header-menu > li:last-child {
   min-height: fit-content;
   -moz-border-radius: 5px;
        border-radius: 5px;
-  background-color: black;
+  background-color: #000000;
   color: white;
   -moz-box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
        box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.5);
@@ -7289,7 +7289,7 @@ ul.user-header-menu > li:last-child {
 
 /* Screen Adder */
 .screen-adder * {
-  color: black !important;
+  color: #000000 !important;
 }
 
 .screen-adder *:hover {
@@ -7325,7 +7325,7 @@ ul.user-header-menu > li:last-child {
   height: 25px;
   position: relative;
   margin: 0 2px;
-  border: 2px solid black;
+  border: 2px solid #000000;
   display: -moz-inline-box;
   display: inline-flex;
   -moz-box-align: center;
@@ -7376,7 +7376,7 @@ ul.user-header-menu > li:last-child {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: black;
+  background-color: #000000;
   opacity: 0;
   -moz-transition: 200ms;
   transition: 200ms;
@@ -7458,7 +7458,7 @@ pin {
   line-height: 25px;
   width: 25px;
   height: 25px;
-  background: black;
+  background: #000000;
   -moz-border-radius: 50%;
        border-radius: 50%;
   letter-spacing: 0;
@@ -7604,12 +7604,12 @@ pin.hidden:after {
 
 pin.add-new {
   background-color: white;
-  color: black;
+  color: #000000;
   font-family: -webkit-pictograph;
   font-size: 28px !important;
   -moz-transition: 1s;
   transition: 1s;
-  border: 1px solid black;
+  border: 1px solid #000000;
 }
 
 pin.add-new.active {
@@ -7619,9 +7619,9 @@ pin.add-new.active {
 }
 
 pin[data-pin-complete="1"] {
-  color: black !important;
+  color: #000000 !important;
   background-color: white;
-  border: 1px solid black;
+  border: 1px solid #000000;
 }
 
 pin[data-pin-complete="1"]:before {
@@ -7658,7 +7658,7 @@ pin.mouse-cursor {
   border: 0.5px solid;
   -moz-border-radius-topleft: 0;
        border-top-left-radius: 0;
-  color: black;
+  color: #000000;
   background-color: white;
   -webkit-user-select: none !important;
      -moz-user-select: none !important;
@@ -7767,7 +7767,7 @@ pin.mouse-cursor.existing {
 }
 
 .pin-count-wrapper > .pin-stats pin .pin-title {
-  color: black;
+  color: #000000;
 }
 
 .pin-count-wrapper > .pin-stats pin:first-child {
@@ -7787,7 +7787,7 @@ pin.mouse-cursor.existing {
 }
 
 .dark-color {
-  color: black;
+  color: #000000;
 }
 
 .date-statistics {
@@ -7993,23 +7993,23 @@ header {
 }
 
 .upgrade-button {
-  border: 2px solid black;
+  border: 2px solid #000000;
   -moz-border-radius: 8px;
        border-radius: 8px;
   padding: 5px 10px;
-  background-color: black;
+  background-color: #000000;
   color: white !important;
   white-space: nowrap;
 }
 
 .upgrade-button:hover {
   background-color: white;
-  color: black !important;
+  color: #000000 !important;
 }
 
 .upgrade-button.invert {
   background-color: white;
-  color: black !important;
+  color: #000000 !important;
 }
 
 .upgrade-button.invert:hover {
@@ -8046,7 +8046,7 @@ header {
   margin-top: 5px;
   margin-bottom: 5px;
   font-size: 15px;
-  color: black;
+  color: #000000;
 }
 
 .limit-wrapper .total.exceed > a {
@@ -8054,7 +8054,7 @@ header {
 }
 
 .limit-wrapper .total.exceed > a i {
-  color: black;
+  color: #000000;
 }
 
 .limit-wrapper .total .current {
@@ -8098,7 +8098,7 @@ header {
   border: 2px solid;
   -moz-border-radius: 8px;
        border-radius: 8px;
-  background-color: black;
+  background-color: #000000;
   color: white;
   text-align: center;
   width: auto;
@@ -8110,7 +8110,7 @@ header {
 
 .limit-wrapper ul > li > a.button:hover {
   background-color: white;
-  color: black !important;
+  color: #000000 !important;
 }
 
 .limit-wrapper .limit-bar {
@@ -8137,7 +8137,7 @@ header {
 }
 
 .limit-wrapper .limit-bar::before {
-  background-color: black;
+  background-color: #000000;
   right: 100%;
   height: 24px;
 }
@@ -8147,7 +8147,7 @@ header {
 }
 
 .limit-wrapper .limit-bar > .current-status {
-  background-color: black;
+  background-color: #000000;
   height: inherit;
   position: relative;
   width: 10px;
@@ -8302,7 +8302,7 @@ header {
 main,
 section {
   position: relative;
-  border: 20px solid black;
+  border: 20px solid #000000;
   width: 100%;
   height: 100vh;
   -moz-box-sizing: border-box;
@@ -8329,7 +8329,7 @@ footer {
   left: 0;
   bottom: 60px;
   font-size: 24px;
-  color: black;
+  color: #000000;
   letter-spacing: 3px;
 }
 
@@ -8347,7 +8347,7 @@ section:before, section:after {
   display: block;
   width: 1px;
   height: 100vh;
-  background-color: black;
+  background-color: #000000;
   z-index: 1;
 }
 
@@ -8362,7 +8362,7 @@ section.left-dark:before, section.left-dark:after {
 }
 
 section.left-dark:after {
-  background-color: black;
+  background-color: #000000;
 }
 
 section:after {
@@ -8386,7 +8386,7 @@ section > div:before,
 section > div:after {
   content: "";
   height: 1px;
-  background-color: black;
+  background-color: #000000;
   display: block;
   position: absolute;
   top: 80px;
@@ -8412,7 +8412,7 @@ section > div:last-child .side-content {
 }
 
 .dark-side {
-  background-color: black;
+  background-color: #000000;
 }
 
 .dark-side * {
@@ -8432,7 +8432,7 @@ section > div:last-child .side-content {
 }
 
 .side-content a {
-  color: black;
+  color: #000000;
 }
 
 .side-content a:hover {
@@ -8546,7 +8546,7 @@ input.share-email.error {
   position: absolute;
   top: -100vh;
   background-color: white;
-  border: 5px solid black;
+  border: 5px solid #000000;
   -moz-border-radius: 40px;
        border-radius: 40px;
   padding: 20px 40px 40px;
@@ -8713,7 +8713,7 @@ input.share-email.error {
 }
 
 .popup-window ul.selected-screens > li > a.remove-screen:hover {
-  color: black;
+  color: #000000;
 }
 
 .popup-window .add-screen {
@@ -8765,7 +8765,7 @@ input.share-email.error {
 }
 
 .members > .member .owner-badge {
-  border: 1px solid black;
+  border: 1px solid #000000;
   text-transform: uppercase;
   font-size: 10px;
   line-height: 10px;
@@ -8816,7 +8816,7 @@ input.share-email.error {
 }
 
 .members > .member .remove:hover {
-  color: black;
+  color: #000000;
 }
 
 /* Progress Bar */
@@ -8831,7 +8831,7 @@ input.share-email.error {
 
 .progress-bar .progress {
   position: relative;
-  background-color: black;
+  background-color: #000000;
   -moz-transition: 500ms;
   transition: 500ms;
   width: 0%;
@@ -9132,7 +9132,7 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .select
   width: 20px;
   height: 20px;
   line-height: 0;
-  background-color: black;
+  background-color: #000000;
   -moz-border-radius: 50%;
        border-radius: 50%;
   border: 1px solid white;
@@ -9309,7 +9309,7 @@ ol.categories > li.category > ol.blocks > .block .box.no-thumb .overlay {
 ol.categories > li.category > ol.blocks > .block .date {
   font-size: 10px;
   line-height: 22px;
-  color: #4A4A4A;
+  color: #333333;
   white-space: nowrap;
 }
 
@@ -9460,7 +9460,7 @@ body.dragging, body.dragging * {
 }
 
 .alerts > .alert {
-  background-color: black;
+  background-color: #000000;
   color: white;
   font-size: 12px;
   font-weight: 100;
@@ -9499,7 +9499,7 @@ body.dragging, body.dragging * {
 
 /* Color */
 .color-primary {
-  color: black;
+  color: #000000;
 }
 
 .color-live {
@@ -9562,11 +9562,11 @@ table.pricing th:not(.feature) {
 }
 
 table.pricing tr:not(:last-child) td:first-child {
-  border-right: 1px solid black;
+  border-right: 1px solid #000000;
 }
 
 table.pricing tr:not(:last-child) th, table.pricing tr:not(:last-child) td {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #000000;
 }
 
 table.pricing tr:last-child th, table.pricing tr:last-child td {

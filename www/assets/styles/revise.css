@@ -9,7 +9,7 @@ html, body {
   top: 0;
   right: 0;
   width: 100%;
-  background-color: black;
+  background-color: #000000;
   color: white;
   font-size: 12px;
   line-height: normal;
@@ -67,8 +67,8 @@ html, body {
 
 #top-bar .button.light.open, #top-bar .button.light:hover {
   color: white;
-  border-color: black;
-  background-color: black;
+  border-color: #000000;
+  background-color: #000000;
 }
 
 #top-bar .tab-container.open > .tab {
@@ -81,7 +81,7 @@ html, body {
   top: 45px;
   left: 0;
   z-index: 1;
-  background-color: black;
+  background-color: #000000;
   width: 30vw;
   pointer-events: initial;
   -moz-transition: 500ms;
@@ -264,12 +264,12 @@ html, body {
 
 #top-bar .pin-limits .limit-details .dropdown-content .limit-wrapper[data-current-plan="Enterprise"] a {
   cursor: default;
-  color: black !important;
+  color: #000000 !important;
 }
 
 #top-bar .pin-limits .limit-details .dropdown-content .button {
-  background-color: black;
-  border-color: black;
+  background-color: #000000;
+  border-color: #000000;
   color: white;
   text-transform: uppercase;
 }
@@ -465,10 +465,9 @@ html, body {
 }
 
 #page {
-  padding-top: -moz-calc(45px + 1px);
-  padding-top: calc(45px + 1px);
-  height: -moz-calc(100% - 45px - 2px);
-  height: calc(100% - 45px - 2px);
+  padding-top: 45px;
+  height: -moz-calc(100% - 45px);
+  height: calc(100% - 45px);
   display: -moz-box;
   display: flex;
   -moz-box-pack: center;
@@ -476,6 +475,7 @@ html, body {
   -moz-box-align: center;
        align-items: center;
   background-color: transparent;
+  background-color: #333333;
 }
 
 #page .iframe-container {
@@ -564,7 +564,7 @@ html, body {
   visibility: hidden;
   display: none;
   background-color: white;
-  border: 5px solid black;
+  border: 5px solid #000000;
   -moz-border-radius: 10px;
        border-radius: 10px;
   padding: 20px;
@@ -704,7 +704,7 @@ html, body {
   display: block;
   width: 100%;
   height: 90px;
-  border: 3px solid black;
+  border: 3px solid #000000;
   -moz-border-radius: 5px;
        border-radius: 5px;
   -moz-box-sizing: border-box;
@@ -964,7 +964,7 @@ html, body {
 
 #pin-window .visual-editor hr {
   position: absolute;
-  background-color: black;
+  background-color: #000000;
   width: -moz-calc(100% + 38px);
   width: calc(100% + 38px);
   height: 1px;
@@ -985,7 +985,7 @@ html, body {
 
 #pin-window .comments .comment-actions .comment-input-col .comment-input {
   outline: none;
-  border: 3px solid black;
+  border: 3px solid #000000;
   -moz-border-radius: 5px;
        border-radius: 5px;
   font-size: 14px;
@@ -1132,10 +1132,10 @@ html, body {
 }
 
 #pin-window ul.options .choice > a.active {
-  background-color: black;
+  background-color: #000000;
   color: white;
   border-color: white;
-  outline-color: black;
+  outline-color: #000000;
 }
 
 #pin-window ul.options .current-element {
@@ -1365,7 +1365,7 @@ html, body {
 .popline {
   -moz-border-radius: 0;
        border-radius: 0;
-  background: black;
+  background: #000000;
   outline: 1px solid white;
 }
 
@@ -1387,12 +1387,12 @@ html, body {
 }
 
 .sp-container {
-  border-color: black;
+  border-color: #000000;
   background-color: white;
 }
 
 .sp-container .sp-cancel {
-  color: black !important;
+  color: #000000 !important;
   visibility: hidden !important;
 }
 
@@ -1402,7 +1402,7 @@ html, body {
 
 .sp-container .sp-choose,
 .sp-container .sp-palette-toggle {
-  border: 2px solid black;
+  border: 2px solid #000000;
   background: none !important;
   background-color: white !important;
   text-shadow: none !important;
@@ -1412,7 +1412,7 @@ html, body {
 
 .sp-container .sp-choose:hover,
 .sp-container .sp-palette-toggle:hover {
-  border: 2px solid black;
+  border: 2px solid #000000;
   color: #007acc;
 }
 
@@ -1460,7 +1460,7 @@ html, body {
 
 .ask-showing-correctly .answers .button {
   color: white;
-  background-color: black;
+  background-color: #000000;
   padding: 5px 10px;
   -moz-border-radius: 4px;
        border-radius: 4px;
