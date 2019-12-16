@@ -1054,12 +1054,16 @@ $(function() {
 
 
 			// Apply the change
-			wrapper.addClass('uploading').attr('style', 'background-image: url('+imageSrc+');');
+			form.find('.selected-image img').attr('src', imageSrc);
 
-
-			// Submit data
-			//form.submit();
-
+			
+			form.find('.top-option').addClass('xl-hidden');
+			form.find('.selected-image').removeClass('xl-hidden');
+			
+			
+			
+			
+			form.find('.form-submit input').val('UPLOAD');
 
 	    };
 

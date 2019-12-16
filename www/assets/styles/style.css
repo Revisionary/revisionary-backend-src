@@ -9096,6 +9096,55 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box .new label[f
   cursor: pointer;
 }
 
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image {
+  text-align: left;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image b {
+  font-size: 12px;
+  display: block;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image figure {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  max-height: 60px;
+  overflow: hidden;
+  position: relative;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image figure .reset {
+  position: absolute;
+  z-index: 3;
+  right: 5px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  -moz-border-radius: 50%;
+       border-radius: 50%;
+  border: 1px solid white;
+  color: white;
+  display: -moz-box;
+  display: flex;
+  -moz-box-pack: center;
+       justify-content: center;
+  -moz-box-align: center;
+       align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image figure .reset:hover {
+  opacity: 0.6;
+}
+
 ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label {
   margin-right: 8px;
   font-size: 12px;

@@ -377,11 +377,19 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 						<label for="url-'+category_ID+'">\
 							<b>Add New '+ dataType +'</b><br>\
 						</label>\
-						<div class="wrap xl-table xl-bottom xl-center xl-gutter-8 top-options">\
-							<div class="col">\
+						<div class="wrap xl-table xl-middle xl-center xl-gutter-8 top-options">\
+							<div class="col top-option page-url">\
 								<input id="url-'+category_ID+'" type="url" name="page-url" class="full" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocus/>\
 							</div>\
-							<div class="col" style="width: 55px;">\
+							<div class="col top-option selected-image xl-hidden">\
+								<b>Selected Image:</b> \
+								<figure> \
+								<label for="inline-reset" class="reset">&times;</label>\
+								<input id="inline-reset" type="reset" class="xl-hidden"> \
+									<img src="/cache/projects/project-32/page-66/phase-92/screenshots/device-115.jpg"> \
+								</figure> \
+							</div>\
+							<div class="col form-submit" style="width: 55px;">\
 								<input type="submit" value="Add" class="invert" title="Go Revising!"/>\
 							</div>\
 						</div>\
