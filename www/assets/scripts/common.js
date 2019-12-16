@@ -1035,6 +1035,28 @@ $(function() {
 	});
 
 
+	// New Project form
+	$(document).on('reset', '.new-project-form', function(e) {
+
+
+		var form = $(this);
+
+
+		form.find('.top-option').addClass('xl-hidden');
+		form.find('.page-url').removeClass('xl-hidden');
+		
+		form.find('.form-submit, .advanced-options').css('width', 55);
+		form.find('.form-submit input').val('ADD');
+
+		form.find('.bottom-option').addClass('xl-hidden');
+		form.find('.design-uploader').removeClass('xl-hidden');
+
+		form.find('.page-name input').prop('disabled', true);
+
+
+	});
+
+
 
 	// Design Upload
 	// Uploader
@@ -1060,10 +1082,13 @@ $(function() {
 			form.find('.top-option').addClass('xl-hidden');
 			form.find('.selected-image').removeClass('xl-hidden');
 			
-			
-			
-			
+			form.find('.form-submit, .advanced-options').css('width', 80);
 			form.find('.form-submit input').val('UPLOAD');
+
+			form.find('.bottom-option').addClass('xl-hidden');
+			form.find('.page-name').removeClass('xl-hidden');
+
+			form.find('.page-name input').prop('disabled', false).focus();
 
 	    };
 

@@ -384,9 +384,9 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 							<div class="col top-option selected-image xl-hidden">\
 								<b>Selected Image:</b> \
 								<figure> \
-								<label for="inline-reset" class="reset">&times;</label>\
+								<label for="inline-reset" class="reset left-tooltip" data-tooltip="Cancel">&times;</label>\
 								<input id="inline-reset" type="reset" class="xl-hidden"> \
-									<img src="/cache/projects/project-32/page-66/phase-92/screenshots/device-115.jpg"> \
+									<img src="//:0"> \
 								</figure> \
 							</div>\
 							<div class="col form-submit" style="width: 55px;">\
@@ -414,7 +414,12 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 								</div>\
 								\
 							</div>\
-							<div class="col advanced-options" style="width: 55px;">\
+							<div class="col bottom-option page-name xl-hidden">\
+								\
+								<input type="text" name="page-name" placeholder="Page Name" disabled>\
+								\
+							</div>\
+							<div class="col xl-center advanced-options" style="width: 55px;">\
 								<a href="#" class="plus-icon" data-modal="add-new" data-type="'+ dataType +'" data-id="'+cat_project_ID+'"><small style="opacity: 0.3; font-size: 10px; letter-spacing: 0.7px;"><i class="fa fa-ellipsis-v"></i> Advanced</small></a>\
 							</div>\
 						</div>\

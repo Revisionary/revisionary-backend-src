@@ -9126,6 +9126,7 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .select
   top: 5px;
   width: 20px;
   height: 20px;
+  line-height: 0;
   background-color: black;
   -moz-border-radius: 50%;
        border-radius: 50%;
@@ -9170,6 +9171,10 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-o
   display: block;
   position: absolute;
   left: 10px;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-name {
+  padding-top: 3px;
 }
 
 ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit {

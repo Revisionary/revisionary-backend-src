@@ -3154,6 +3154,7 @@ ol.categories {
 										top: 5px;
 										width: 20px;
 										height: 20px;
+										line-height: 0;
 										background-color: $color;
 										border-radius: 50%;
 										border: 1px solid white;
@@ -3203,6 +3204,10 @@ ol.categories {
 									}
 
 								}
+							}
+
+							.page-name {
+								padding-top: 3px;
 							}
 
 						}
