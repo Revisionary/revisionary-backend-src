@@ -8,18 +8,6 @@ $status = "initiated";
 
 
 
-
-
-
-// // CREATE THE RESPONSE
-// die(json_encode(array(
-// 	'status' => print_r($_REQUEST, true),
-// 	'nonce' => request('nonce')
-// 	//'S_nonce' => $_SESSION['pin_nonce'],
-// )));
-
-
-
 // If not logged in
 if ( !userLoggedIn() ) {
 
@@ -91,66 +79,74 @@ if ( !in_array($image_extension, array('jpeg', 'jpg', 'png', 'gif')) ) {
 
 
 
-// PROJECT WORKS
-$project_ID = is_numeric(request('project_ID')) ? intval(request('project_ID')) : request('project_ID');
-$projectData = Project::ID($project_ID);
-
-if ($project_ID != "new" && is_numeric($project_ID) && !$projectData) {
-
-
-	$status = "wrong-project";
-
-	// CREATE THE RESPONSE
-	die(json_encode(array(
-		'status' => $status,
-		'project_ID' => $project_ID,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
-	)));
-
-
-}
-
-
-
-// PAGE WORKS
-$page_name = request('page-name');
-$page_ID = Page::ID('new')->addNew( intval($project_ID), 'image', $page_name );
-if (!$page_ID) {
-	
-	
-	$status = "page-not-created";
-
-	// CREATE THE RESPONSE
-	die(json_encode(array(
-		'status' => $status,
-		'project_ID' => $project_ID,
-		'page_ID' => $page_ID,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
-	)));
-
-
-}
-
-
-
-// PHASE WORKS
-$phase_ID = Phase::ID('new')->addNew($page_ID, true);
+// Initial Phase ID
+$phase_ID = request('phase_ID');
 if (!$phase_ID) {
-	
-	
-	$status = "phase-not-created";
 
-	// CREATE THE RESPONSE
-	die(json_encode(array(
-		'status' => $status,
-		'project_ID' => $project_ID,
-		'page_ID' => $page_ID,
-		'phase_ID' => $phase_ID,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
-	)));
+
+	// PROJECT WORKS
+	$project_ID = is_numeric(request('project_ID')) ? intval(request('project_ID')) : request('project_ID');
+	$projectData = Project::ID($project_ID);
+
+	if ($project_ID != "new" && is_numeric($project_ID) && !$projectData) {
+
+
+		$status = "wrong-project";
+
+		// CREATE THE RESPONSE
+		die(json_encode(array(
+			'status' => $status,
+			'project_ID' => $project_ID,
+			'nonce' => request('nonce')
+			//'S_nonce' => $_SESSION['pin_nonce'],
+		)));
+
+
+	}
+
+
+
+	// PAGE WORKS
+	$page_name = request('page-name');
+	$page_ID = Page::ID('new')->addNew( intval($project_ID), 'image', $page_name );
+	if (!$page_ID) {
+		
+		
+		$status = "page-not-created";
+
+		// CREATE THE RESPONSE
+		die(json_encode(array(
+			'status' => $status,
+			'project_ID' => $project_ID,
+			'page_ID' => $page_ID,
+			'nonce' => request('nonce')
+			//'S_nonce' => $_SESSION['pin_nonce'],
+		)));
+
+
+	}
+
+
+
+	// PHASE WORKS
+	$phase_ID = Phase::ID('new')->addNew($page_ID, true);
+	if (!$phase_ID) {
+		
+		
+		$status = "phase-not-created";
+
+		// CREATE THE RESPONSE
+		die(json_encode(array(
+			'status' => $status,
+			'project_ID' => $project_ID,
+			'page_ID' => $page_ID,
+			'phase_ID' => $phase_ID,
+			'nonce' => request('nonce')
+			//'S_nonce' => $_SESSION['pin_nonce'],
+		)));
+
+
+	}
 
 
 }
@@ -233,8 +229,8 @@ $status = "success";
 die(json_encode(array(
 	'status' => $status,
 	//'status' => print_r($_REQUEST, true),
-	'project_ID' => $project_ID,
-	'page_ID' => $page_ID,
+	// 'project_ID' => $project_ID,
+	// 'page_ID' => $page_ID,
 	'phase_ID' => $phase_ID,
 	'device_ID' => $device_ID,
 	'image_name' => $image_name,

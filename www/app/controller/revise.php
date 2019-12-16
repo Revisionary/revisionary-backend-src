@@ -151,6 +151,7 @@ $screen_name = $device['screen_name'];
 
 // Get the screen icon
 $screenCatID = $device['screen_cat_ID'];
+$screenCatName = $device['screen_cat_name'];
 $screenIcon = $device['screen_cat_icon'];
 
 

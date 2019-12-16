@@ -698,7 +698,7 @@ foreach ($other_pages as $pageOther) {
 					<div class="desc nomargin">Screen Size</div>
 					<span class="dropdown">
 
-						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>"></i> <span><?=$screen_name?> (<?=$width?>x<?=$height?>)</span>  <i class="fa fa-caret-down"></i></a>
+						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>"></i> <span><?=$page_type == "image" ? $screenCatName : $screen_name?> (<?=$width?>x<?=$height?>)</span>  <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left">
 						<?php
 
@@ -754,14 +754,17 @@ foreach ($other_pages as $pageOther) {
 								<ul class="xl-left screen-adder">
 									<?php
 									foreach ($User->getScreenData() as $screen_cat) {
+
+										$first_screen = reset($screen_cat['screens']);
+
 									?>
 
 									<li>
 
-										<a href="#">
+										<a href="#" data-first-screen-id="<?=$first_screen['screen_ID']?>">
 											<i class="fa <?=$screen_cat['screen_cat_icon']?>"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right"></i> <i class="fa fa-file-upload"></i>
 										</a>
-										<ul class="addable xl-left screen-addd">
+										<ul class="addable xl-left">
 											<?php
 											foreach ($screen_cat['screens'] as $screen) {
 
@@ -798,6 +801,11 @@ foreach ($other_pages as $pageOther) {
 									}
 									?>
 								</ul>
+								<form action="" id="image-device-adder" class="xl-hidden">
+									<input type="hidden" name="phase_ID" value="<?=$phase_ID?>">
+									<input type="hidden" name="screens[]" value="">
+									<input type="file" name="design-upload" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">
+								</form>
 							<?php } ?>
 
 							</li>

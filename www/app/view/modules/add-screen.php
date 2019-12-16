@@ -16,7 +16,7 @@
 		<a href="#">
 			<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
 		</a>
-		<ul class="addable xl-left screen-addd">
+		<ul class="addable xl-left">
 			<?php
 			foreach ($screen_cat['screens'] as $screen) {
 

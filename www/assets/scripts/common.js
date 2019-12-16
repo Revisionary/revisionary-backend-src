@@ -1169,7 +1169,6 @@ $(function() {
 	// Uploader
 	$(document).on('change', '.design-upload', function() {
 
-		var wrapper = $(this).parents('.new');
 		var form = $(this).parents('form');
 		var maxSize = $(this).attr('data-max-size');
 
