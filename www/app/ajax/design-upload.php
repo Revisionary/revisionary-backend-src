@@ -115,7 +115,7 @@ if ($project_ID != "new" && is_numeric($project_ID) && !$projectData) {
 
 // PAGE WORKS
 $page_name = request('page-name');
-$page_ID = Page::ID('new')->addNew($project_ID, 'image', $page_name);
+$page_ID = Page::ID('new')->addNew( intval($project_ID), 'image', $page_name );
 if (!$page_ID) {
 	
 	
