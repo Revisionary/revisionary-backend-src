@@ -604,18 +604,16 @@ html, body {
 }
 
 #page {
-	// position: fixed;
-	// right: 0;
-	// left: 1px;
-	// width: calc(100% - 2px);
-	// bottom: 1px;
 	padding-top: #{$topbar-height};
 	height: calc(100% - #{$topbar-height});
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: transparent;
 	background-color: $color-light;
+
+	@media screen and (prefers-color-scheme: light) {
+		background-color: transparent;
+	}
 
 	.iframe-container {
 	    position: fixed;
@@ -628,7 +626,8 @@ html, body {
 	    text-align: center;
 	    margin: 0 auto;
 		outline: 2px solid red;
-	    overflow: hidden;
+		overflow: hidden;
+		background-color: white;
 
 		iframe {
 			border: none;

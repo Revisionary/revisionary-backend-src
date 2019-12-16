@@ -474,8 +474,13 @@ html, body {
        justify-content: center;
   -moz-box-align: center;
        align-items: center;
-  background-color: transparent;
   background-color: #333333;
+}
+
+@media screen and (prefers-color-scheme: light) {
+  #page {
+    background-color: transparent;
+  }
 }
 
 #page .iframe-container {
@@ -495,6 +500,7 @@ html, body {
   margin: 0 auto;
   outline: 2px solid red;
   overflow: hidden;
+  background-color: white;
 }
 
 #page .iframe-container iframe {
