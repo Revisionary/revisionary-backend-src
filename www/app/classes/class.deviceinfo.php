@@ -115,6 +115,17 @@ class Device {
     }
 
 
+    // Get device image URL
+    public function getImageURL() {
+
+		$image_path = "projects/project-".$this->getInfo('project_ID')."/page-".$this->getInfo('page_ID')."/phase-".$this->getInfo('phase_ID')."/screenshots/device-".$this->getInfo('device_ID').".jpg";
+		$image_url = cache_url($image_path);
+
+		return $image_url;
+
+    }
+
+
 	// Get page users
 	public function getUsers($include_me = false) {
 		global $db;

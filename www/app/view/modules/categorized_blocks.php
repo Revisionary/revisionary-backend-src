@@ -312,8 +312,7 @@
 
 
 								// First device Image
-								$block_image_name = "device-".$firstDevice['device_ID'].".jpg";
-								$block_image_path = "projects/project-".$block['project_ID']."/page-".$block['page_ID']."/phase-".$firstDevice['phase_ID']."/screenshots/$block_image_name";
+								$block_image_path = "projects/project-".$block['project_ID']."/page-".$block['page_ID']."/phase-".$firstDevice['phase_ID']."/screenshots/device-".$firstDevice['device_ID'].".jpg";
 								$block_image_uri = cache."/$block_image_path";
 								$block_image_url = cache_url($block_image_path);
 

@@ -74,7 +74,7 @@
 
 
 
-<div id="top-bar" data-page-type="<?=$page['page_url'] == "image" ? "image" : "url"?>">
+<div id="top-bar" data-page-type="<?=$page_type?>">
 
 	<div class="wrap xl-flexbox xl-between xl-bottom xl-center">
 		<div class="col navigation">
@@ -904,7 +904,7 @@ foreach ($other_pages as $pageOther) {
 						<li>
 							<div class="xl-left page-info" style="font-size: 12px;">
 
-								<b>Site URL:</b> <a href="<?=$page['page_url']?>" target="_blank" style="letter-spacing: 0; white-space: normal;"><i class="fa fa-external-link-alt"></i> <?=$page['page_url']?></a> <br/>
+								<b>Site URL:</b> <a href="<?=$page_type == "url" ? $page['page_url'] : $device_image_URL?>" target="_blank" style="letter-spacing: 0; white-space: normal;"><i class="fa fa-external-link-alt"></i> <?=$page_type == "url" ? $page['page_url'] : "Open Image"?></a> <br/>
 
 
 								<?php

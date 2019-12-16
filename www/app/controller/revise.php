@@ -39,6 +39,10 @@ $device = $deviceData->getInfo();
 $device_image = $deviceData->getImage();
 //die($device_image);
 
+// Screenshots
+$device_image_URL = $deviceData->getImageURL();
+//die($device_image);
+
 // All my devices
 $allMyDevices = $User->getDevices();
 //die_to_print($allMyDevices);
@@ -81,6 +85,8 @@ if ( !$pageData ) {
 }
 $page = $pageData->getInfo();
 //die_to_print($page);
+
+$page_type = $page['page_url'] == "image" ? "image" : "url";
 
 // All my pages
 $allMyPages = $pages = $User->getPages(null, null, ''); // Excluding archives and deletes
