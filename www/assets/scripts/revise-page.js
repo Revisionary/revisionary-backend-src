@@ -280,37 +280,58 @@ $(function() {
 		// IFRAME FIT TO THE SCREEN
 
 	    width = width - 2; // -2 for the borders
-	    height = height - 2; // -2 for the borders
-
-	    // Early exit if smaller than the screen
-	    if(width >= maxWidth && height >= maxHeight) {
-	        $('#the-page').css({'transform': ''});
-	        //$('.iframe-container').css({ width: '', height: '' });
-	        return;
-	    }
-
-	    iframeScale = page_type == "image" ? width/maxWidth : Math.min(width/maxWidth, height/maxHeight);
-	    iframeWidth = maxWidth * iframeScale;
-		iframeHeight = maxHeight * iframeScale;
-
-		if (page_type == "image") {
+		height = height - 2; // -2 for the borders
 		
 
+		if (page_type == "image") {
+
+
+			// Early exit if smaller than the screen
+			if(width >= maxWidth && height >= maxHeight) {
+				$('#the-page').css({'transform': ''});
+				//$('.iframe-container').css({ width: '', height: '' });
+				return;
+			}
+
+
+			iframeScale = width / maxWidth;
+			if (iframeScale > 1) iframeScale = 1;
+
+			iframeWidth = maxWidth * iframeScale;
+			iframeHeight = maxHeight * iframeScale;
+
+
+			$('.iframe-container').css({ width: iframeWidth, height: height });
+
 			$('#the-page').css({
-				'transform': 'scale(' + iframeScale + ')', 
-				height: height / iframeScale, 
+				'transform': 'scale(' + iframeScale + ')',
+				height: height / iframeScale,
 				'min-height': height / iframeScale
 			});
-			$('.iframe-container').css({ width: iframeWidth, height: height });
 
 
 		} else {
 
-			$('#the-page').css({'transform': 'scale(' + iframeScale + ')'});
+
+			// Early exit if smaller than the screen
+			if(width >= maxWidth && height >= maxHeight) {
+				$('#the-page').css({'transform': ''});
+				//$('.iframe-container').css({ width: '', height: '' });
+				return;
+			}
+
+			iframeScale = Math.min(width/maxWidth, height/maxHeight);
+			iframeWidth = maxWidth * iframeScale;
+			iframeHeight = maxHeight * iframeScale;
+
+
 			$('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
+			$('#the-page').css({'transform': 'scale(' + iframeScale + ')'});
 
-		}	
 
+		}
+
+		
 
 		// Update the scale on info section
 		$('.iframe-scale').text( iframeScale.toFixed(1) );
