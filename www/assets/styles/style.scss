@@ -2880,10 +2880,13 @@ input.share-email {
 
 /* Footer */
 footer {
+	padding: 15px 0;
 
 	.site-title a {
 		font-size: 18px;
+		line-height: normal;
 		letter-spacing: 2px;
+		margin-bottom: 5px;
 	}
 
 	a, p, div, span {
@@ -2891,7 +2894,7 @@ footer {
 	}
 
 	.copyright {
-		padding-bottom: 15px;
+		font-size: 10px;
 	}
 
 	.footer-links a {
@@ -2901,6 +2904,12 @@ footer {
 			color: $color-secondary;
 		}
 	}
+
+	.social a {
+		font-size: 15px;
+		line-height: normal;
+	}
+
 }
 
 
@@ -3117,36 +3126,35 @@ ol.categories {
 								}
 							}
 
-							&.uploading {
-								position: relative;
-								overflow: hidden;
-								border-radius: 50%;
-								background-size: cover;
-								background-repeat: no-repeat;
-								background-position: 50% 0;
-								transition: 0 !important;
+							.page-options {
 
-								&::before {
-									content: "";
-									position: absolute;
-									left: 0;
-									right: 0;
-									top: 0;
-									bottom: 0;
-									width: 100%;
-									height: 100%;
-									background-color: #fff;
-									opacity: 0.7;
+								label {
+									margin-right: 8px;
+									font-size: 12px;
+									font-weight: bold;
+									position: relative;
+									cursor: pointer;
+
+									input {
+										margin-right: 5px;
+									}
+
+									&[disabled] {
+										cursor: not-allowed;
+										opacity: 0.7;
+
+										input {
+											opacity: 1;
+										}
+									}
+
+									small {
+										display: block;
+										position: absolute;
+										left: 10px;
+									}
+
 								}
-
-								.new-form {
-									display: none;
-								}
-
-								.uploading-text {
-									display: block;
-								}
-
 							}
 
 						}

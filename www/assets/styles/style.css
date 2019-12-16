@@ -8858,9 +8858,15 @@ input.share-email.error {
 }
 
 /* Footer */
+footer {
+  padding: 15px 0;
+}
+
 footer .site-title a {
   font-size: 18px;
+  line-height: normal;
   letter-spacing: 2px;
+  margin-bottom: 5px;
 }
 
 footer a, footer p, footer div, footer span {
@@ -8868,7 +8874,7 @@ footer a, footer p, footer div, footer span {
 }
 
 footer .copyright {
-  padding-bottom: 15px;
+  font-size: 10px;
 }
 
 footer .footer-links a {
@@ -8877,6 +8883,11 @@ footer .footer-links a {
 
 footer .footer-links a:hover {
   color: #007acc;
+}
+
+footer .social a {
+  font-size: 15px;
+  line-height: normal;
 }
 
 /* Home */
@@ -9085,38 +9096,31 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box .new label[f
   cursor: pointer;
 }
 
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new.uploading {
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label {
+  margin-right: 8px;
+  font-size: 12px;
+  font-weight: bold;
   position: relative;
-  overflow: hidden;
-  -moz-border-radius: 50%;
-       border-radius: 50%;
-  -moz-background-size: cover;
-       background-size: cover;
-  background-repeat: no-repeat;
-  background-position: 50% 0;
-  -moz-transition: 0 !important;
-  transition: 0 !important;
+  cursor: pointer;
 }
 
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new.uploading::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label input {
+  margin-right: 5px;
+}
+
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label[disabled] {
+  cursor: not-allowed;
   opacity: 0.7;
 }
 
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new.uploading .new-form {
-  display: none;
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label[disabled] input {
+  opacity: 1;
 }
 
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new.uploading .uploading-text {
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label small {
   display: block;
+  position: absolute;
+  left: 10px;
 }
 
 ol.categories > li.category > ol.blocks > .block.add-new-block.exceed-limit {
