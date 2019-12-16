@@ -11,6 +11,7 @@
 	phase_ID = <?=$phase_ID?>;
 	device_ID = <?=$device_ID?>;
 	remote_URL = '<?=$phaseData->remoteUrl?>';
+	page_type = '<?=$page_type?>';
 
 </script>
 

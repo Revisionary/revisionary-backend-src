@@ -44,7 +44,7 @@ class Page {
 
 
 	    // For the new page
-		if ($page_ID == null) {
+		if ($page_ID == null || $page_ID == "new") {
 
 			self::$page_ID = "new";
 			return new static;
@@ -144,32 +144,30 @@ class Page {
 
 
 
-		// URL check
-		if (!filter_var($page_url, FILTER_VALIDATE_URL)) return false;
+		// If not image type page
+		if ($page_url != "image") {
+
+
+			// URL check
+			if (!filter_var($page_url, FILTER_VALIDATE_URL)) return false;
 
 
 
-		// Standardize the URL before saving
-		$page_url = urlStandardize($page_url);
+			// Standardize the URL before saving
+			$page_url = urlStandardize($page_url);
 
 
 
-		// Check for redirects
-		$page_url = get_redirect_final_target($page_url);
+			// Check for redirects
+			$page_url = get_redirect_final_target($page_url);
+
+
+		}
 
 
 
 		// Parse the URL
 		$parsed_url = parseUrl($page_url);
-
-
-
-		// Create a project
-		if ($project_ID === 0) {
-
-			$project_ID = Project::ID()->addNew($page_url);
-
-		}
 
 
 
@@ -184,6 +182,15 @@ class Page {
 		// If still empty, name it as 'Home'
 		if ($page_name == '')
 			$page_name = 'Home';
+
+
+
+		// Create a project
+		if ($project_ID === 0) {
+
+			$project_ID = Project::ID()->addNew($page_url);
+
+		}
 
 
 
@@ -282,10 +289,11 @@ class Page {
 
 
 
+			return $page_ID;
+
 		}
 
-
-		return $page_ID;
+		return false;
 
 	}
 

@@ -3125,6 +3125,11 @@ ol.categories {
 									cursor: pointer;
 								}
 							}
+
+							&.uploading {
+								opacity: 0.3;
+								pointer-events: none;
+							}
 							
 							.selected-image {
 								text-align: left;

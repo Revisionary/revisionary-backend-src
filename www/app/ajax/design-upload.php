@@ -8,6 +8,18 @@ $status = "initiated";
 
 
 
+
+
+
+// // CREATE THE RESPONSE
+// die(json_encode(array(
+// 	'status' => print_r($_REQUEST, true),
+// 	'nonce' => request('nonce')
+// 	//'S_nonce' => $_SESSION['pin_nonce'],
+// )));
+
+
+
 // If not logged in
 if ( !userLoggedIn() ) {
 
@@ -25,9 +37,9 @@ if ( !userLoggedIn() ) {
 
 // File check
 if (
-	!isset($_FILES['image']['name'])
-	|| !isset($_FILES['image']['tmp_name'])
-	|| !is_uploaded_file($_FILES['image']['tmp_name'])
+	!isset($_FILES['design-upload']['name'])
+	|| !isset($_FILES['design-upload']['tmp_name'])
+	|| !is_uploaded_file($_FILES['design-upload']['tmp_name'])
 ) {
 
 	$status = "no-file";
@@ -43,7 +55,7 @@ if (
 
 
 // Size check
-if ($_FILES['image']['size'] > 15000000) {
+if ($_FILES['design-upload']['size'] > 15000000) {
 
 	$status = "large-file";
 
@@ -58,14 +70,13 @@ if ($_FILES['image']['size'] > 15000000) {
 
 
 // File info
-$image = $_FILES['image']['name'];
-$temp_file_location = $_FILES['image']['tmp_name'];	
+$image = $_FILES['design-upload']['name'];
+$temp_file_location = $_FILES['design-upload']['tmp_name'];	
 $image_extension = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-$image_name = generateRandomString().".".$image_extension;
 
 
 // Extension check
-if ( !in_array($image_extension, array('jpeg', 'jpg', 'png')) ) {
+if ( !in_array($image_extension, array('jpeg', 'jpg', 'png', 'gif')) ) {
 
 	$status = "invalid-extension";
 
@@ -79,37 +90,116 @@ if ( !in_array($image_extension, array('jpeg', 'jpg', 'png')) ) {
 }
 
 
-$project_ID = request('project_ID');
-if ($project_ID != "new" && is_numeric($project_ID)) {
-	
-	$project = Project::ID($project_ID);
-	if (!$project) {
 
-		$status = "wrong-project";
+// PROJECT WORKS
+$project_ID = is_numeric(request('project_ID')) ? intval(request('project_ID')) : request('project_ID');
+$projectData = Project::ID($project_ID);
 
-		// CREATE THE RESPONSE
-		die(json_encode(array(
-			'status' => $status,
-			'nonce' => request('nonce')
-			//'S_nonce' => $_SESSION['pin_nonce'],
-		)));
+if ($project_ID != "new" && is_numeric($project_ID) && !$projectData) {
 
-	}
+
+	$status = "wrong-project";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'project_ID' => $project_ID,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
 
 }
 
 
-// Select file to upload
+
+// PAGE WORKS
+$page_name = request('page-name');
+$page_ID = Page::ID('new')->addNew($project_ID, 'image', $page_name);
+if (!$page_ID) {
+	
+	
+	$status = "page-not-created";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'project_ID' => $project_ID,
+		'page_ID' => $page_ID,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
+
+}
+
+
+
+// PHASE WORKS
+$phase_ID = Phase::ID('new')->addNew($page_ID, true);
+if (!$phase_ID) {
+	
+	
+	$status = "phase-not-created";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'project_ID' => $project_ID,
+		'page_ID' => $page_ID,
+		'phase_ID' => $phase_ID,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
+
+}
+
+
+
+// DEVICE WORKS
+list($width, $height) = getimagesize($temp_file_location);
+$device_ID = Device::ID('new')->addNew(
+	$phase_ID, 
+	request('screens'),
+	$width,
+	$height
+);
+if (!$device_ID) {
+
+
+	$status = "device-not-created";
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => $status,
+		'project_ID' => $project_ID,
+		'page_ID' => $page_ID,
+		'phase_ID' => $phase_ID,
+		'device_ID' => $device_ID,
+		'nonce' => request('nonce')
+		//'S_nonce' => $_SESSION['pin_nonce'],
+	)));
+
+
+}
+
+
+
+
+// Image Info
+$image_name = "device-$device_ID.$image_extension";
+$deviceData = Device::ID($device_ID);
+$image_location = $deviceData->getImage();
+
+
+
+// Select file to move
 $file = new File($temp_file_location);
 
 
-// Rename if exists
-while ( $file->fileExists("avatars/$image_name") )
-	$image_name = generateRandomString().".".$image_extension;
-
-
 // Upload
-$result = $file->upload("avatars/$image_name", "s3");
+$result = $file->upload($image_location, "local");
 if ( !$result ) {
 
 	$status = "not-uploaded";
@@ -117,75 +207,37 @@ if ( !$result ) {
 	// CREATE THE RESPONSE
 	die(json_encode(array(
 		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'project_ID' => $project_ID,
+		'page_ID' => $page_ID,
+		'phase_ID' => $phase_ID,
+		'device_ID' => $device_ID,
+		'image_name' => $image_name,
+		'image_location' => $image_location
 	)));
 
 }
 
 
-// New local URL
-$new_url = cache_url("users/user-$user_ID/$image_name");
 
 
-// Detect whether or not new avatar on S3
-if ( is_string($result) && strpos($result, '://') !== false ) { // On S3
-
-	$image_name = $new_url = $result;
-
-}
 
 
-// Update on DB
-$user_updated = User::ID($user_ID)->edit('user_picture', $image_name);
-if ( !$user_updated ) {
+// Site log
+//$log->info("User #$user_ID Changed Avatar: '$image_name'");
 
-	$status = "not-updated";
-
-	// CREATE THE RESPONSE
-	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
-	)));
-
-}
-
-
-// Delete the old one
-$old_image_name = $userInfo['userPic'];
-$old_image = cache."/users/user-$user_ID/$old_image_name";
-$location = "local";
-
-
-// Detect whether or not old avatar on S3
-if ( strpos($old_image_name, '://') !== false ) { // On S3
-
-	$old_image = substr(parse_url($old_image_name, PHP_URL_PATH), 1);
-	$location = "s3";
-
-}
-
-
-// Delete old ımage
-$file = new File($old_image, $location);
-$file->delete();
 
 
 $status = "success";
 
-
-// Site log
-$log->info("User #$user_ID Changed Avatar: '$image_name'");
-
-
-// INVALIDATE THE CACHE
-$cache->delete('user:'.$user_ID);
-
-
+// CREATE THE RESPONSE
 die(json_encode(array(
 	'status' => $status,
-	'user_ID' => $user_ID,
-	'new_url' => $new_url,
+	//'status' => print_r($_REQUEST, true),
+	'project_ID' => $project_ID,
+	'page_ID' => $page_ID,
+	'phase_ID' => $phase_ID,
+	'device_ID' => $device_ID,
+	'image_name' => $image_name,
+	'image_location' => $image_location,
 	'files' => $_FILES
 )));

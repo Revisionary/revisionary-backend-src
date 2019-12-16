@@ -398,7 +398,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 						<div class="wrap xl-table xl-top bottom-options">\
 							<div class="col bottom-option design-uploader">\
 								\
-								<small>or <label for="inline-design-uploader" data-tooltip="In development..."><b><u>Upload</u></b></label> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments."></i></small>\
+								<small>or <label for="inline-design-uploader"><b><u>Upload</u></b></label> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments."></i></small>\
 								<input type="file" name="design-upload" id="inline-design-uploader" class="design-upload xl-hidden" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">\
 								\
 							</div>\
@@ -407,6 +407,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 								<div class="wrap xl-flexbox xl-top xl-between">\
 									<div class="col">\
 										<label class="bottom-tooltip" data-tooltip="This allows you to download the live URL and change the content."><input type="radio" name="page-type" value="url" checked>Live Mode <small>(Recommended)</small></label>\
+										<label class="xl-hidden"><input type="radio" name="page-type" value="image">Image Mode</label>\
 									</div>\
 									<div class="col">\
 										<label class="bottom-tooltip" data-tooltip="In development... This mode will take full size picture of your page you entered. You can only put comments on it." disabled><input type="radio" name="page-type" value="image" disabled>Capture Mode</label>\
@@ -416,7 +417,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 							</div>\
 							<div class="col bottom-option page-name xl-hidden">\
 								\
-								<input type="text" name="page-name" placeholder="Page Name" disabled>\
+								<input type="text" name="page-name" placeholder="Page Name" required disabled>\
 								\
 							</div>\
 							<div class="col xl-center advanced-options" style="width: 55px;">\

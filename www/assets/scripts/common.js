@@ -102,11 +102,120 @@ $(function() {
 	$(document).on('submit', '.new-project-form', function(e) {
 
 		var url = $(this).find('input[name="page-url"]').val();
+		var design = $(this).find('input[name="design-upload"]').val();
 		var project_ID = $(this).find('input[name="project_ID"]').val();
 		var page_width = $(this).find('input[name="page_width"]').val();
 		var page_height = $(this).find('input[name="page_height"]').val();
+		var submit = $(this).find('.form-submit input');
+		var wrapper = $(this).parents('.new');
 
 
+		if (design) {
+
+			wrapper.addClass('uploading');
+
+			// Start the process
+			var uploadDesignProcessID = newProcess(null, "uploadDesignProcess");
+
+
+			$.ajax({
+				url: ajax_url+'?type=design-upload',
+				type: 'POST',
+				data:  new FormData(this),
+				mimeType: "multipart/form-data",
+				contentType: false,
+				cache: false,
+				processData: false,
+				dataType: 'json',
+				xhr: function() {
+
+
+					var jqXHR = null;
+					if ( window.ActiveXObject ) {
+
+						jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+
+					} else {
+
+						jqXHR = new window.XMLHttpRequest();
+
+					}
+
+
+					// Upload progress
+					jqXHR.upload.addEventListener( "progress", function ( evt ) {
+
+						if ( evt.lengthComputable ) {
+
+							var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+							console.log( 'Uploaded percent', percentComplete );
+
+							submit.prop('disabled', true).val(percentComplete +'%');
+
+							if (percentComplete == 100) submit.val('Opening');
+
+						}
+
+					}, false );
+
+
+					// Download progress
+					jqXHR.addEventListener( "progress", function ( evt ) {
+
+						if ( evt.lengthComputable ) {
+
+							var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+							console.log( 'Downloaded percent', percentComplete );
+
+						}
+
+					}, false );
+
+
+					return jqXHR;
+				},
+				success: function(data, textStatus, jqXHR) {
+					
+					var imageUrl = data.new_url;
+					var status = data.status;
+
+					if (status != "success") {
+
+						console.error('ERROR: ', status, data, imageUrl, textStatus, jqXHR);
+						return false;
+
+					}
+
+
+					console.log('SUCCESS!', imageUrl, data, textStatus, jqXHR);
+
+
+					// Finish the process
+					endProcess(uploadDesignProcessID);
+
+
+					// Redirect
+					window.location.href = "/revise/" + data.device_ID;
+
+
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+
+					console.log('FAILED!!', errorThrown);
+
+					
+					// Finish the process !!!
+					endProcess(uploadDesignProcessID);
+
+				}
+			});
+			
+
+			e.preventDefault();
+			return false;
+		}
+		
+		
 
 		// Pages check in current project
 		var pageExists = false;
@@ -297,6 +406,26 @@ $(function() {
 
 		console.log('URL: ', url);
 		console.log('Project ID: ', project_ID);
+
+	}).on('reset', '.new-project-form', function(e) {
+
+
+		var form = $(this);
+
+
+		form.find('.top-option').addClass('xl-hidden');
+		form.find('.page-url').removeClass('xl-hidden');
+		form.find('.page-url input').prop('disabled', false);
+		form.find('.page-options input').val('url');
+		
+		form.find('.form-submit, .advanced-options').css('width', 55);
+		form.find('.form-submit input').val('ADD');
+
+		form.find('.bottom-option').addClass('xl-hidden');
+		form.find('.design-uploader').removeClass('xl-hidden');
+
+		form.find('.page-name input').prop('disabled', true);
+
 
 	});
 
@@ -947,8 +1076,8 @@ $(function() {
 
 	$('#avatar-form').submit(function(e) {
 
-	    var formObj = $(this);
-	    var userID = formObj.find('.avatar-changer').attr('data-id');
+
+	    var userID = $(this).find('.avatar-changer').attr('data-id');
 
 
 		$.ajax({
@@ -1035,29 +1164,6 @@ $(function() {
 	});
 
 
-	// New Project form
-	$(document).on('reset', '.new-project-form', function(e) {
-
-
-		var form = $(this);
-
-
-		form.find('.top-option').addClass('xl-hidden');
-		form.find('.page-url').removeClass('xl-hidden');
-		form.find('.page-url input').attr('value', '');
-		
-		form.find('.form-submit, .advanced-options').css('width', 55);
-		form.find('.form-submit input').val('ADD');
-
-		form.find('.bottom-option').addClass('xl-hidden');
-		form.find('.design-uploader').removeClass('xl-hidden');
-
-		form.find('.page-name input').prop('disabled', true);
-
-
-	});
-
-
 
 	// Design Upload
 	// Uploader
@@ -1082,7 +1188,8 @@ $(function() {
 			
 			form.find('.top-option').addClass('xl-hidden');
 			form.find('.selected-image').removeClass('xl-hidden');
-			form.find('.page-url input').attr('value', 'image');
+			form.find('.page-url input').prop('disabled', true);
+			form.find('.page-options input').val('image');
 			
 			form.find('.form-submit, .advanced-options').css('width', 80);
 			form.find('.form-submit input').val('UPLOAD');
@@ -1121,94 +1228,6 @@ $(function() {
 
         }
 
-
-	});
-
-
-	$(document).on('submit', '.design-upload-form', function(e) {
-
-		var projectID = project_ID !== undefined ? project_ID : 'new';
-
-		$.ajax({
-			url: ajax_url+'?type=design-upload&project_ID=' + projectID,
-			type: 'POST',
-			data:  new FormData(this),
-			mimeType: "multipart/form-data",
-			contentType: false,
-			cache: false,
-			processData: false,
-			dataType: 'json',
-			xhr: function() {
-
-
-				var jqXHR = null;
-				if ( window.ActiveXObject ) {
-
-					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
-
-				} else {
-
-					jqXHR = new window.XMLHttpRequest();
-
-				}
-
-
-				// Upload progress
-				jqXHR.upload.addEventListener( "progress", function ( evt ) {
-
-					if ( evt.lengthComputable ) {
-
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Uploaded percent', percentComplete );
-
-					}
-
-				}, false );
-
-
-				// Download progress
-				jqXHR.addEventListener( "progress", function ( evt ) {
-
-					if ( evt.lengthComputable ) {
-
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Downloaded percent', percentComplete );
-
-					}
-
-				}, false );
-
-
-				return jqXHR;
-			},
-			success: function(data, textStatus, jqXHR) {
-				
-				var status = data.status;
-
-				if (status != "success") {
-
-					console.error('ERROR: ', status, data, textStatus, jqXHR);
-					return false;
-
-				}
-
-
-				console.log('SUCCESS!', data, textStatus, jqXHR);
-				// Redirect to the revise page
-				
-
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-
-				console.log('FAILED!!', errorThrown);
-
-				//$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').removeClass('loading');
-
-			}
-		});
-
-
-		e.preventDefault();
 
 	});
 

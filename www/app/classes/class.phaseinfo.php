@@ -291,7 +291,8 @@ class Phase {
 
     // Add a new phase
     public function addNew(
-    	int $page_ID // The page_ID that new phase is belong to
+		int $page_ID, // The page_ID that new phase is belong to
+		bool $internalized = false
     ) {
 	    global $db, $log, $cache;
 
@@ -303,13 +304,14 @@ class Phase {
 
 		// Add the phase
 		$phase_ID = $db->insert('phases', array(
-			"page_ID" => $page_ID
+			"page_ID" => $page_ID,
+			"phase_internalized" => $internalized
 		));
 
 
 
 		// If phase added
-		if ($phase_ID) {
+		if ( is_int($phase_ID) ) {
 
 
 			$phase_link = site_url('phase/'.$phase_ID);
@@ -330,10 +332,12 @@ class Phase {
 			$cache->deleteKeysByTag(['phases', 'userload']);
 
 
+			return $phase_ID;
+
 		}
 
 
-		return $phase_ID;
+		return false;
 
 	}
 

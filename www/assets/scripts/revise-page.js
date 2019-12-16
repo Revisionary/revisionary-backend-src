@@ -284,20 +284,36 @@ $(function() {
 
 	    // Early exit if smaller than the screen
 	    if(width >= maxWidth && height >= maxHeight) {
-	        $('#the-page').css({'-webkit-transform': ''});
+	        $('#the-page').css({'transform': ''});
 	        //$('.iframe-container').css({ width: '', height: '' });
 	        return;
 	    }
 
-	    iframeScale = Math.min(width/maxWidth, height/maxHeight);
+	    iframeScale = page_type == "image" ? width/maxWidth : Math.min(width/maxWidth, height/maxHeight);
 	    iframeWidth = maxWidth * iframeScale;
 		iframeHeight = maxHeight * iframeScale;
 
+		if (page_type == "image") {
+		
+
+			$('#the-page').css({
+				'transform': 'scale(' + iframeScale + ')', 
+				height: height / iframeScale, 
+				'min-height': height / iframeScale
+			});
+			$('.iframe-container').css({ width: iframeWidth, height: height });
+
+
+		} else {
+
+			$('#the-page').css({'transform': 'scale(' + iframeScale + ')'});
+			$('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
+
+		}	
+
+
 		// Update the scale on info section
 		$('.iframe-scale').text( iframeScale.toFixed(1) );
-
-	    $('#the-page').css({'-webkit-transform': 'scale(' + iframeScale + ')'});
-	    $('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
 
 
 	}).resize();
@@ -678,7 +694,7 @@ $(function() {
 	// Image uploader AJAX
 	$('#pin-image-form').submit(function(e) {
 
-	    var formObj = $(this);
+
 		var pin_ID = pinWindow().attr('data-pin-id');
 		var pin = getPin(pin_ID);
 		var pinIndex = Pins.indexOf(pin);

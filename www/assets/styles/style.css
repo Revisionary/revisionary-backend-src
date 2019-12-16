@@ -9096,6 +9096,11 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box .new label[f
   cursor: pointer;
 }
 
+ol.categories > li.category > ol.blocks > .block.add-new-block .box .new.uploading {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
 ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image {
   text-align: left;
 }
