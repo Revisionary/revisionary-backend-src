@@ -83,6 +83,21 @@ $(function() {
 	});
 
 
+	// New project URL input
+	$(document).on('input', 'input[name="page-url"]', function(e) {
+
+		var form = $(this).parents('form');
+		var value = $(this).val();
+
+
+		form.find('.bottom-option').addClass('xl-hidden');
+
+		if (value.length) form.find('.page-options').removeClass('xl-hidden');
+		else form.find('.design-uploader').removeClass('xl-hidden');
+
+	});
+
+
 	// New project modal URL check
 	$(document).on('submit', '.new-project-form', function(e) {
 
