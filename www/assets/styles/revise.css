@@ -139,6 +139,10 @@ html, body {
   display: none;
 }
 
+#top-bar .screen .fa-file-upload {
+  display: none;
+}
+
 #top-bar .pin-mode .current-mode > a.browse-switcher {
   -moz-border-radius-topright: 0;
        border-top-right-radius: 0;
@@ -210,11 +214,6 @@ html, body {
 
 #top-bar .pin-mode [data-pin-type="browse"] > a:not(.pin-type-selector) > i.fa-mouse-pointer {
   display: inline-block !important;
-}
-
-#top-bar .pin-mode [data-page-type="image"] [data-pin-type="live"],
-#top-bar .pin-mode [data-page-type="image"] [data-pin-type="style"] {
-  display: none !important;
 }
 
 #top-bar .pin-limits .upgrade {
@@ -415,6 +414,20 @@ html, body {
 
 #top-bar [data-pin-status][data-pin-status="no-tasks"] .notif-no {
   display: none;
+}
+
+#top-bar[data-page-type="image"] .pin-mode [data-pin-type="live"],
+#top-bar[data-page-type="image"] .pin-mode [data-pin-type="style"] {
+  display: none !important;
+}
+
+#top-bar[data-page-type="image"] .screen-adder > li > a > .fa-caret-right,
+#top-bar[data-page-type="image"] .screen-adder > li > a + ul {
+  display: none;
+}
+
+#top-bar[data-page-type="image"] .screen-adder > li > a > .fa-file-upload {
+  display: inline-block;
 }
 
 @media only screen and (max-width: 1260px) {

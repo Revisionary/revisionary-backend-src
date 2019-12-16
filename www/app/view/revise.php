@@ -74,7 +74,7 @@
 
 
 
-<div id="top-bar">
+<div id="top-bar" data-page-type="<?=$page['page_url'] == "image" ? "image" : "url"?>">
 
 	<div class="wrap xl-flexbox xl-between xl-bottom xl-center">
 		<div class="col navigation">
@@ -758,7 +758,7 @@ foreach ($other_pages as $pageOther) {
 									<li>
 
 										<a href="#">
-											<i class="fa <?=$screen_cat['screen_cat_icon']?>"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right"></i>
+											<i class="fa <?=$screen_cat['screen_cat_icon']?>"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right"></i> <i class="fa fa-file-upload"></i>
 										</a>
 										<ul class="addable xl-left screen-addd">
 											<?php
@@ -815,7 +815,7 @@ foreach ($other_pages as $pageOther) {
 
 					<div class="desc nomargin">Pin Mode</div>
 
-					<div class="dropdown current-mode" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>" data-page-type="<?=$page['page_url'] == "image" ? "image" : "url"?>">
+					<div class="dropdown current-mode" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
 						<a href="#" class="button browse-switcher">
 							<i class="fa fa-dot-circle"></i>
 							<i class="fa fa-comment"></i>

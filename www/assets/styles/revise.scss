@@ -148,6 +148,10 @@ html, body {
 			display: none;
 		}
 
+		.fa-file-upload {
+			display: none;
+		}
+
 	}
 
 	.pin-mode {
@@ -257,15 +261,6 @@ html, body {
 				&.fa-mouse-pointer {
 					display: inline-block !important;
 				}
-			}
-
-		}
-
-		[data-page-type="image"] {
-
-			[data-pin-type="live"],
-			[data-pin-type="style"] {
-				display: none !important;
 			}
 
 		}
@@ -518,6 +513,42 @@ html, body {
 
 		&[data-pin-status="no-tasks"] .notif-no {
 			display: none;
+		}
+
+	}
+
+
+
+	&[data-page-type="image"] {
+
+		.pin-mode {
+
+			[data-pin-type="live"],
+			[data-pin-type="style"] {
+				display: none !important;
+			}
+
+		}
+
+		.screen-adder {
+
+			& > li {
+
+				& > a {
+
+					& > .fa-caret-right,
+					& + ul {
+						display: none;
+					}
+
+					& > .fa-file-upload {
+						display: inline-block;
+					}
+
+				}
+
+			}
+
 		}
 
 	}
