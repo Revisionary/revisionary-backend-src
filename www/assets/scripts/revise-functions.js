@@ -195,6 +195,9 @@ function runTheInspector() {
 				if (clientPinType != null && clientPinPrivate != null) {
 					currentPinType = clientPinType;
 					currentPinPrivate = clientPinPrivate;
+
+					if (page_type == "url" && clientPinType == "comment") currentPinType = "live";
+
 				}
 
 				switchPinType(currentPinType, currentPinPrivate);
