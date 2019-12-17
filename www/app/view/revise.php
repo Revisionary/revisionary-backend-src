@@ -802,6 +802,7 @@ foreach ($other_pages as $pageOther) {
 									?>
 								</ul>
 								<form action="" id="image-device-adder" class="xl-hidden">
+									<input type="hidden" name="page_ID" value="<?=$page_ID?>">
 									<input type="hidden" name="phase_ID" value="<?=$phase_ID?>">
 									<input type="hidden" name="screens[]" value="">
 									<input type="file" name="design-upload" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">

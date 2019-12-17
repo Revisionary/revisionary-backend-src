@@ -85,6 +85,20 @@ $(function() {
 
 	});
 
+	// Add Image Phase
+	$(document).on('click', '[data-page-type="image"] a.add-phase', function(e) {
+
+
+		$('#image-device-adder input[name="phase_ID"]').val('');
+		$('#image-device-adder input[name="screens[]"]').val(11); // Custom one
+		$('#image-device-adder input[name="design-upload"]').click();
+		
+
+		e.preventDefault();
+		return false;
+
+	});
+
 
 	$(document).on('change', '#image-device-adder input[name="design-upload"]', function() {
 
@@ -141,13 +155,6 @@ $(function() {
 
 	// ADD IMAGE DEVICE
 	$(document).on('submit', '#image-device-adder', function(e) {
-
-
-
-		// console.log('Submitted');
-		// e.preventDefault();
-		// return false;
-
 
 
 		// Start the process
