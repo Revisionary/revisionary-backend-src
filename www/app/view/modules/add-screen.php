@@ -9,12 +9,15 @@
 	<?php
 	foreach ($User->getScreenData() as $screen_cat) {
 		if ($screensPercentage >= 100) break;
+
+		$first_screen = reset($screen_cat['screens']);
+
 	?>
 
 	<li>
 
-		<a href="#">
-			<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
+		<a href="#" data-first-screen-id="<?=$first_screen['screen_ID']?>">
+			<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i> <i class="fa fa-file-upload"></i>
 		</a>
 		<ul class="addable xl-left">
 			<?php

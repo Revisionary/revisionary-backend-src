@@ -289,6 +289,8 @@
 								$blockPhaseID = isset($blockPhase['phase_ID']) ? $blockPhase['phase_ID'] : false;
 								$blockDevices = $User->getDevices( $blockPhaseID );
 
+								$blockPageType = $block['page_url'] == "image" ? "image" : "url";
+
 
 								// Screen filter
 								if ( $screenFilter != "" && is_numeric($screenFilter) ) {
@@ -374,7 +376,7 @@
 
 					?>
 
-						<li class="col block item" data-order="<?=$block['order_number']?>" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>" data-cat-id="<?=$block['cat_ID']?>" data-pin-status="<?=$blockPinStatus?>">
+						<li class="col block item" data-order="<?=$block['order_number']?>" data-type="<?=$dataType?>" data-page-type="<?=$blockPageType?>" data-id="<?=$block[$dataType.'_ID']?>" data-phase-id="<?=$blockPhaseID?>" data-cat-id="<?=$block['cat_ID']?>" data-pin-status="<?=$blockPinStatus?>">
 
 
 							<div class="box object-handle xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
@@ -783,6 +785,14 @@
 			<?php
 			if ($dataType == "page") {
 			?>
+
+
+			<form action="" id="image-device-adder" class="xl-hidden">
+				<input type="hidden" name="page_ID" value="">
+				<input type="hidden" name="phase_ID" value="">
+				<input type="hidden" name="screens[]" value="">
+				<input type="file" name="design-upload" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">
+			</form>
 
 
 			<div class="wrap xl-1 xl-center">

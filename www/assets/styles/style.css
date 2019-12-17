@@ -7302,6 +7302,19 @@ ul.user-header-menu > li:last-child {
   letter-spacing: 0;
 }
 
+.screen-adder .fa-file-upload {
+  display: none;
+}
+
+[data-page-type="image"] .screen-adder > li > a > .fa-caret-right,
+[data-page-type="image"] .screen-adder > li > a + ul {
+  display: none;
+}
+
+[data-page-type="image"] .screen-adder > li > a > .fa-file-upload {
+  display: inline-block;
+}
+
 /* Alignments */
 .vertical-middle {
   position: absolute;

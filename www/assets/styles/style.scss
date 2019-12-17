@@ -1163,6 +1163,31 @@ ul.user-header-menu {
 		letter-spacing: 0;
 	}
 
+	.fa-file-upload {
+		display: none;
+	}
+
+	[data-page-type="image"] & {
+
+		& > li {
+
+			& > a {
+
+				& > .fa-caret-right,
+				& + ul {
+					display: none;
+				}
+
+				& > .fa-file-upload {
+					display: inline-block;
+				}
+
+			}
+
+		}
+
+	}
+
 }
 
 

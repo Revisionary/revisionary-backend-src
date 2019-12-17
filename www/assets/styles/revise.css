@@ -141,10 +141,6 @@ html, body {
   display: none;
 }
 
-#top-bar .screen .fa-file-upload {
-  display: none;
-}
-
 #top-bar .pin-mode .current-mode > a.browse-switcher {
   -moz-border-radius-topright: 0;
        border-top-right-radius: 0;
@@ -421,15 +417,6 @@ html, body {
 #top-bar[data-page-type="image"] .pin-mode [data-pin-type="live"],
 #top-bar[data-page-type="image"] .pin-mode [data-pin-type="style"] {
   display: none !important;
-}
-
-#top-bar[data-page-type="image"] .screen-adder > li > a > .fa-caret-right,
-#top-bar[data-page-type="image"] .screen-adder > li > a + ul {
-  display: none;
-}
-
-#top-bar[data-page-type="image"] .screen-adder > li > a > .fa-file-upload {
-  display: inline-block;
 }
 
 @media only screen and (max-width: 1260px) {

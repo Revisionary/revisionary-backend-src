@@ -751,56 +751,10 @@ foreach ($other_pages as $pageOther) {
 								<a href="<?=site_url("upgrade")?>" data-modal="upgrade"><i class="fa fa-exclamation-circle"></i> <b>Increase Screens Limit Now</b></a>	
 							<?php } else { ?>
 								<a href="#" class="add-screen bottom-tooltip" data-tooltip="To see this page on different device sizes."><i class="fa fa-plus"></i> <b>Add New Screen</b></a>
-								<ul class="xl-left screen-adder">
-									<?php
-									foreach ($User->getScreenData() as $screen_cat) {
-
-										$first_screen = reset($screen_cat['screens']);
-
-									?>
-
-									<li>
-
-										<a href="#" data-first-screen-id="<?=$first_screen['screen_ID']?>">
-											<i class="fa <?=$screen_cat['screen_cat_icon']?>"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right"></i> <i class="fa fa-file-upload"></i>
-										</a>
-										<ul class="addable xl-left">
-											<?php
-											foreach ($screen_cat['screens'] as $screen) {
-
-												$screen_link = site_url("projects?new_screen=".$screen['screen_ID']."&phase_ID=".$phase_ID, true);
-												$screen_label = $screen['screen_name']." (".$screen['screen_width']."x".$screen['screen_height'].")";
-												if ($screen['screen_ID'] == 11) {
-													$screen_link = queryArg('page_width='.$screen['screen_width'], $screen_link);
-													$screen_link = queryArg('page_height='.$screen['screen_height'], $screen_link);
-													$screen_label = "Current Window (<span class='screen-width'>".$screen['screen_width']."</span>x<span class='screen-height'>".$screen['screen_height']."</span>)";
-												}
-
-												//$screen_link = queryArg('nonce='.$_SESSION["new_screen_nonce"], $screen_link);
-											?>
-											<li>
-												<a href="<?=$screen_link?>"
-													class="new-screen"
-													data-screen-id="<?=$screen['screen_ID']?>"
-													data-screen-width="<?=$screen['screen_width']?>"
-													data-screen-height="<?=$screen['screen_height']?>"
-													data-screen-cat-name="<?=$screen_cat['screen_cat_name']?>"
-													data-screen-cat-icon="<?=$screen_cat['screen_cat_icon']?>"
-												>
-													<?=$screen_label?>
-												</a>
-											</li>
-											<?php
-											}
-											?>
-										</ul>
-
-									</li>
-
-									<?php
-									}
-									?>
-								</ul>
+								<?php
+									$blockPhase = ['phase_ID' => $phase_ID];
+									require view('modules/add-screen');
+								?>
 								<form action="" id="image-device-adder" class="xl-hidden">
 									<input type="hidden" name="page_ID" value="<?=$page_ID?>">
 									<input type="hidden" name="phase_ID" value="<?=$phase_ID?>">

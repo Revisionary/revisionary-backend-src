@@ -150,10 +150,6 @@ html, body {
 			display: none;
 		}
 
-		.fa-file-upload {
-			display: none;
-		}
-
 	}
 
 	.pin-mode {
@@ -528,27 +524,6 @@ html, body {
 			[data-pin-type="live"],
 			[data-pin-type="style"] {
 				display: none !important;
-			}
-
-		}
-
-		.screen-adder {
-
-			& > li {
-
-				& > a {
-
-					& > .fa-caret-right,
-					& + ul {
-						display: none;
-					}
-
-					& > .fa-file-upload {
-						display: inline-block;
-					}
-
-				}
-
 			}
 
 		}
