@@ -8645,14 +8645,6 @@ input.share-email.error {
   border-color: #007acc;
 }
 
-.popup-window .design-uploader {
-  font-size: 12px;
-}
-
-.popup-window .design-uploader a {
-  font-size: 12px;
-}
-
 .popup-window .option-toggler,
 .popup-window .more-options {
   display: block;
@@ -8766,6 +8758,10 @@ input.share-email.error {
 .popup-window#add-new input[name="page-name"],
 .popup-window#add-new input[name="project-name"] {
   max-width: 50%;
+}
+
+.popup-window#add-new .screen-cat[data-screen-cat-id="5"] {
+  display: none;
 }
 
 .members {
@@ -9101,94 +9097,12 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box .new {
   min-height: inherit;
 }
 
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new label {
-  text-transform: capitalize;
-}
-
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new label[for="inline-design-uploader"] {
-  cursor: pointer;
-}
-
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new.uploading {
-  opacity: 0.3;
-  pointer-events: none;
-}
-
 ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image {
   text-align: left;
 }
 
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image b {
-  font-size: 12px;
-  display: block;
-}
-
 ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image figure {
-  margin: 0;
-  padding: 0;
-  max-width: 100%;
   max-height: 60px;
-  overflow: hidden;
-  position: relative;
-}
-
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image figure img {
-  max-width: 100%;
-  height: auto;
-}
-
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image figure .reset {
-  position: absolute;
-  z-index: 1;
-  right: 5px;
-  top: 5px;
-  width: 20px;
-  height: 20px;
-  line-height: 0;
-  background-color: #000000;
-  -moz-border-radius: 50%;
-       border-radius: 50%;
-  border: 1px solid white;
-  color: white;
-  display: -moz-box;
-  display: flex;
-  -moz-box-pack: center;
-       justify-content: center;
-  -moz-box-align: center;
-       align-items: center;
-  text-align: center;
-  cursor: pointer;
-}
-
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image figure .reset:hover {
-  opacity: 0.6;
-}
-
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label {
-  margin-right: 8px;
-  font-size: 12px;
-  font-weight: bold;
-  position: relative;
-  cursor: pointer;
-}
-
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label input {
-  margin-right: 5px;
-}
-
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label[disabled] {
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label[disabled] input {
-  opacity: 1;
-}
-
-ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-options label small {
-  display: block;
-  position: absolute;
-  left: 10px;
 }
 
 ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .page-name {
@@ -9360,6 +9274,117 @@ ol.categories > li.category > ol.blocks .device-wrap .remove-device > i {
 
 ol.categories > li.category > ol.blocks .device-wrap:hover .remove-device {
   display: block;
+}
+
+.new-project-form.uploading {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.new-project-form label {
+  text-transform: capitalize;
+}
+
+.new-project-form label[for="inline-design-uploader"], .new-project-form label[for="design-uploader"] {
+  cursor: pointer;
+}
+
+.new-project-form .selected-image b {
+  font-size: 12px;
+  display: block;
+}
+
+.new-project-form .selected-image figure {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+  max-height: 200px;
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+}
+
+.new-project-form .selected-image figure img {
+  max-width: 150px;
+  height: auto;
+}
+
+.new-project-form .selected-image figure .reset {
+  position: absolute;
+  z-index: 1;
+  right: 5px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  line-height: 0;
+  background-color: #000000;
+  -moz-border-radius: 50%;
+       border-radius: 50%;
+  border: 1px solid white;
+  color: white;
+  display: -moz-box;
+  display: flex;
+  -moz-box-pack: center;
+       justify-content: center;
+  -moz-box-align: center;
+       align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+
+.new-project-form .selected-image figure .reset:hover {
+  opacity: 0.6;
+}
+
+.new-project-form .page-options label {
+  margin-right: 8px;
+  font-size: 12px;
+  font-weight: bold;
+  position: relative;
+  cursor: pointer;
+}
+
+.new-project-form .page-options label input {
+  margin-right: 5px;
+}
+
+.new-project-form .page-options label[disabled] {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.new-project-form .page-options label[disabled] input {
+  opacity: 1;
+}
+
+.new-project-form .page-options label small {
+  display: block;
+  position: absolute;
+  left: 10px;
+}
+
+.new-project-form[data-page-type="url"] .top-option:not(.page-url) {
+  display: none;
+}
+
+.new-project-form[data-page-type="url"] .bottom-option:not(.design-uploader) {
+  display: none;
+}
+
+.new-project-form[data-page-type="url"] .form-submit, .new-project-form[data-page-type="url"] .advanced-options {
+  width: 55px;
+}
+
+.new-project-form[data-page-type="image"] .top-option:not(.selected-image) {
+  display: none;
+}
+
+.new-project-form[data-page-type="image"] .bottom-option:not(.page-name) {
+  display: none;
+}
+
+.new-project-form[data-page-type="image"] .form-submit, .new-project-form[data-page-type="image"] .advanced-options {
+  width: 80px;
 }
 
 .cat-sortable .cat-handle {

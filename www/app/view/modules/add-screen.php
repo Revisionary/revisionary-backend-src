@@ -7,19 +7,19 @@
 
 
 	<?php
-	foreach ($User->getScreenData() as $screen_cat) {
+	foreach ($User->getScreenData() as $screen_cat_ID => $screen_cat) {
 		if ($screensPercentage >= 100) break;
 
 		$first_screen = reset($screen_cat['screens']);
 
 	?>
 
-	<li>
+	<li class="screen-cat" data-screen-cat-id="<?=$screen_cat_ID?>">
 
 		<a href="#" data-first-screen-id="<?=$first_screen['screen_ID']?>">
 			<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i> <i class="fa fa-file-upload"></i>
 		</a>
-		<ul class="addable xl-left">
+		<ul class="addable xl-left screen-add">
 			<?php
 			foreach ($screen_cat['screens'] as $screen) {
 
@@ -33,7 +33,7 @@
 
 				//$screen_link = queryArg('nonce='.$_SESSION["new_screen_nonce"], $screen_link);
 			?>
-			<li>
+			<li class="screen">
 				<a href="<?=$screen_link?>"
 					class="new-screen"
 					data-screen-id="<?=$screen['screen_ID']?>"

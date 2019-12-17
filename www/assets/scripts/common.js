@@ -90,10 +90,10 @@ $(function() {
 		var value = $(this).val();
 
 
-		form.find('.bottom-option').addClass('xl-hidden');
+		form.find('.bottom-option').hide();
 
-		if (value.length) form.find('.page-options').removeClass('xl-hidden');
-		else form.find('.design-uploader').removeClass('xl-hidden');
+		if (value.length) form.find('.page-options').show();
+		else form.find('.design-uploader').show();
 
 	});
 
@@ -107,7 +107,7 @@ $(function() {
 		var page_width = $(this).find('input[name="page_width"]').val();
 		var page_height = $(this).find('input[name="page_height"]').val();
 		var submit = $(this).find('.form-submit input');
-		var wrapper = $(this).parents('.new');
+		var wrapper = $(this).parents('form');
 
 
 		if (design) {
@@ -413,18 +413,12 @@ $(function() {
 		var form = $(this);
 
 
-		form.find('.top-option').addClass('xl-hidden');
-		form.find('.page-url').removeClass('xl-hidden');
-		form.find('.page-url input').prop('disabled', false);
-		form.find('.page-options input').val('url');
-		
-		form.find('.form-submit, .advanced-options').css('width', 55);
-		form.find('.form-submit input').val('ADD');
-
-		form.find('.bottom-option').addClass('xl-hidden');
-		form.find('.design-uploader').removeClass('xl-hidden');
+		form.attr('data-page-type', 'url');
 
 		form.find('.page-name input').prop('disabled', true);
+		form.find('.page-url input').prop('disabled', false);
+		form.find('.page-options input').val('url');
+		form.find('.submitter').text('ADD');
 
 
 	});
@@ -596,7 +590,7 @@ $(function() {
 
 
 	// ADD NEW MODAL: New screen
-	$('.screen-add > li > a').click(function(e) {
+	$('#add-new .screen-add a').click(function(e) {
 
 		var listed_screen = $(this).parent();
 		var listed_screen_cat = $(this).parents('.screen-cat');
@@ -690,205 +684,6 @@ $(function() {
 
 		console.log('REMOVE', screen_id);
 
-
-		e.preventDefault();
-		return false;
-
-	});
-
-
-	// ADD IMAGE DEVICE
-	$(document).on('click', '[data-page-type="image"] ul.screen-adder > li > a', function(e) {
-
-
-		var first_screen_ID = parseInt( $(this).attr('data-first-screen-id') );
-		var found_page_ID = typeof page_ID === 'undefined' ? parseInt( $(this).parents('[data-id]').attr('data-id') ) : page_ID;
-		var found_phase_ID = typeof phase_ID === 'undefined' ? parseInt( $(this).parents('[data-phase-id]').attr('data-phase-id') ) : phase_ID;
-
-
-		$('#image-device-adder input[name="page_ID"]').val(found_page_ID);
-		$('#image-device-adder input[name="phase_ID"]').val(found_phase_ID);
-		$('#image-device-adder input[name="screens[]"]').val(first_screen_ID);
-		$('#image-device-adder input[name="design-upload"]').click();
-		console.log(first_screen_ID);
-		
-
-		e.preventDefault();
-		return false;
-
-	});
-
-	// Add Image Phase
-	$(document).on('click', '[data-page-type="image"] a.add-phase', function(e) {
-
-
-		var found_page_ID = typeof page_ID === 'undefined' ? parseInt( $(this).parents('[data-id]').attr('data-id') ) : page_ID;
-
-
-		$('#image-device-adder input[name="page_ID"]').val(found_page_ID);
-		$('#image-device-adder input[name="phase_ID"]').val('');
-		$('#image-device-adder input[name="screens[]"]').val(11); // Custom one
-		$('#image-device-adder input[name="design-upload"]').click();
-		
-
-		e.preventDefault();
-		return false;
-
-	});
-
-
-	// ADD IMAGE DEVICE
-	$(document).on('change', '#image-device-adder input[name="design-upload"]', function() {
-
-		var form = $(this).parents('form');
-		var maxSize = $(this).attr('data-max-size');
-
-
-	    var reader = new FileReader();
-	    reader.onload = function(event) {
-
-
-			// Temp data URL
-			var imageSrc = event.target.result;
-
-
-			// Apply the change
-			//form.find('.selected-image img').attr('src', imageSrc);
-
-
-			form.submit();
-
-	    };
-
-
-		// If a file selected
-        if ( $(this).get(0).files.length ) {
-
-
-            var fileSize = $(this).get(0).files[0].size; // in bytes
-            if (fileSize > maxSize) {
-
-                alert('File size is more than ' + formatBytes(maxSize));
-                return false;
-
-            } else {
-
-                console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
-	        	reader.readAsDataURL( $(this).get(0).files[0] );
-
-            }
-
-
-		// If no file selected
-        } else {
-
-		    console.log('NO FILE');
-			return false;
-
-        }
-
-
-	});
-
-	// Image submission
-	$(document).on('submit', '#image-device-adder', function(e) {
-
-
-		// Start the process
-		var uploadDesignProcessID = newProcess(null, "uploadDesignProcess");
-
-
-		$.ajax({
-			url: ajax_url+'?type=design-upload',
-			type: 'POST',
-			data:  new FormData(this),
-			mimeType: "multipart/form-data",
-			contentType: false,
-			cache: false,
-			processData: false,
-			dataType: 'json',
-			xhr: function() {
-
-
-				var jqXHR = null;
-				if ( window.ActiveXObject ) {
-
-					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
-
-				} else {
-
-					jqXHR = new window.XMLHttpRequest();
-
-				}
-
-
-				// Upload progress
-				jqXHR.upload.addEventListener( "progress", function ( evt ) {
-
-					if ( evt.lengthComputable ) {
-
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Uploaded percent', percentComplete );
-
-						editProcess(uploadDesignProcessID, percentComplete);
-						//if (percentComplete == 100) submit.val('Opening');
-
-					}
-
-				}, false );
-
-
-				// Download progress
-				jqXHR.addEventListener( "progress", function ( evt ) {
-
-					if ( evt.lengthComputable ) {
-
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Downloaded percent', percentComplete );
-
-					}
-
-				}, false );
-
-
-				return jqXHR;
-			},
-			success: function(data, textStatus, jqXHR) {
-				
-				var imageUrl = data.new_url;
-				var status = data.status;
-
-				if (status != "success") {
-
-					console.error('ERROR: ', status, data, imageUrl, textStatus, jqXHR);
-					return false;
-
-				}
-
-
-				console.log('SUCCESS!', imageUrl, data, textStatus, jqXHR);
-
-
-				// Finish the process
-				endProcess(uploadDesignProcessID);
-
-
-				// Redirect
-				window.location.href = "/revise/" + data.device_ID;
-
-
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-
-				console.log('FAILED!!', errorThrown);
-
-				
-				// Finish the process !!!
-				endProcess(uploadDesignProcessID);
-
-			}
-		});
-		
 
 		e.preventDefault();
 		return false;
@@ -1364,8 +1159,7 @@ $(function() {
 
 
 
-	// Design Upload
-	// Uploader
+	// CLIENT SIDE UPLOADER
 	$(document).on('change', '.design-upload', function() {
 
 		var form = $(this).parents('form');
@@ -1380,22 +1174,16 @@ $(function() {
 			var imageSrc = event.target.result;
 
 
-			// Apply the change
-			form.find('.selected-image img').attr('src', imageSrc);
+			form.attr('data-page-type', 'image');
 
-			
-			form.find('.top-option').addClass('xl-hidden');
-			form.find('.selected-image').removeClass('xl-hidden');
+			form.find('.selected-image img').attr('src', imageSrc);
+			form.find('.submitter').text('UPLOAD');
+
 			form.find('.page-url input').prop('disabled', true);
 			form.find('.page-options input').val('image');
-			
-			form.find('.form-submit, .advanced-options').css('width', 80);
-			form.find('.form-submit input').val('UPLOAD');
-
-			form.find('.bottom-option').addClass('xl-hidden');
-			form.find('.page-name').removeClass('xl-hidden');
-
 			form.find('.page-name input').prop('disabled', false).focus();
+
+
 
 	    };
 
@@ -1426,6 +1214,206 @@ $(function() {
 
         }
 
+
+	});
+
+
+	// ADD IMAGE DEVICE
+	$(document).on('click', '[data-page-type="image"] ul.screen-adder > li > a', function(e) {
+
+
+		var first_screen_ID = parseInt( $(this).attr('data-first-screen-id') );
+		var found_page_ID = typeof page_ID === 'undefined' ? parseInt( $(this).parents('[data-id]').attr('data-id') ) : page_ID;
+		var found_phase_ID = typeof phase_ID === 'undefined' ? parseInt( $(this).parents('[data-phase-id]').attr('data-phase-id') ) : phase_ID;
+
+
+		$('#image-device-adder input[name="page_ID"]').val(found_page_ID);
+		$('#image-device-adder input[name="phase_ID"]').val(found_phase_ID);
+		$('#image-device-adder input[name="screens[]"]').val(first_screen_ID);
+		$('#image-device-adder input[name="design-upload"]').click();
+		console.log(first_screen_ID);
+		
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
+	// ADD IMAGE PHASE
+	$(document).on('click', '[data-page-type="image"] a.add-phase', function(e) {
+
+
+		var found_page_ID = typeof page_ID === 'undefined' ? parseInt( $(this).parents('[data-id]').attr('data-id') ) : page_ID;
+
+
+		$('#image-device-adder input[name="page_ID"]').val(found_page_ID);
+		$('#image-device-adder input[name="phase_ID"]').val('');
+		$('#image-device-adder input[name="screens[]"]').val(11); // Custom one
+		$('#image-device-adder input[name="design-upload"]').click();
+		
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
+	// ADD IMAGE DEVICE AUTO-SUBMIT
+	$(document).on('change', '#image-device-adder input[name="design-upload"]', function() {
+
+		var form = $(this).parents('form');
+		var maxSize = $(this).attr('data-max-size');
+
+
+	    var reader = new FileReader();
+	    reader.onload = function(event) {
+
+
+			// Temp data URL
+			var imageSrc = event.target.result;
+
+
+			// Apply the change
+			//form.find('.selected-image img').attr('src', imageSrc);
+
+
+			form.submit();
+
+	    };
+
+
+		// If a file selected
+        if ( $(this).get(0).files.length ) {
+
+
+            var fileSize = $(this).get(0).files[0].size; // in bytes
+            if (fileSize > maxSize) {
+
+                alert('File size is more than ' + formatBytes(maxSize));
+                return false;
+
+            } else {
+
+                console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
+	        	reader.readAsDataURL( $(this).get(0).files[0] );
+
+            }
+
+
+		// If no file selected
+        } else {
+
+		    console.log('NO FILE');
+			return false;
+
+        }
+
+
+	});
+
+	// Image submission
+	$(document).on('submit', '#image-device-adder', function(e) {
+
+
+		// Start the process
+		var uploadDesignProcessID = newProcess(null, "uploadDesignProcess");
+
+
+		$.ajax({
+			url: ajax_url+'?type=design-upload',
+			type: 'POST',
+			data:  new FormData(this),
+			mimeType: "multipart/form-data",
+			contentType: false,
+			cache: false,
+			processData: false,
+			dataType: 'json',
+			xhr: function() {
+
+
+				var jqXHR = null;
+				if ( window.ActiveXObject ) {
+
+					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+
+				} else {
+
+					jqXHR = new window.XMLHttpRequest();
+
+				}
+
+
+				// Upload progress
+				jqXHR.upload.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Uploaded percent', percentComplete );
+
+						editProcess(uploadDesignProcessID, percentComplete);
+						//if (percentComplete == 100) submit.val('Opening');
+
+					}
+
+				}, false );
+
+
+				// Download progress
+				jqXHR.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Downloaded percent', percentComplete );
+
+					}
+
+				}, false );
+
+
+				return jqXHR;
+			},
+			success: function(data, textStatus, jqXHR) {
+				
+				var imageUrl = data.new_url;
+				var status = data.status;
+
+				if (status != "success") {
+
+					console.error('ERROR: ', status, data, imageUrl, textStatus, jqXHR);
+					return false;
+
+				}
+
+
+				console.log('SUCCESS!', imageUrl, data, textStatus, jqXHR);
+
+
+				// Finish the process
+				endProcess(uploadDesignProcessID);
+
+
+				// Redirect
+				window.location.href = "/revise/" + data.device_ID;
+
+
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+
+				console.log('FAILED!!', errorThrown);
+
+				
+				// Finish the process !!!
+				endProcess(uploadDesignProcessID);
+
+			}
+		});
+		
+
+		e.preventDefault();
+		return false;
 
 	});
 

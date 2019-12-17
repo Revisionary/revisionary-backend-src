@@ -2,7 +2,7 @@
 	<h2>Add New <span class="data-type"></span></h2>
 	<h5 class="to"></h5>
 
-	<form action="<?=site_url('projects', true)?>" method="post" class="new-project-form">
+	<form action="<?=site_url('projects', true)?>" method="post" class="new-project-form" data-page-type="url">
 
 		<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
 		<input type="hidden" name="add_new" value="true"/>
@@ -17,9 +17,37 @@
 
 				<h4 class="section-title xl-left">Page Info</h4>
 
-				<h3><i class="fa fa-link"></i> <span class="first-page">First</span> Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
-				<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
-				<small class="design-uploader">or <a href="#" data-tooltip="In development..."><b><u>Upload</u></b></a> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments." aria-hidden="true"></i></small>
+				<div class="top-option page-url">
+					<h3><i class="fa fa-link"></i> <span class="first-page">First</span> Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
+					<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
+				</div>
+				<div class="top-option selected-image">
+					<h3><i class="fa fa-image"></i> Selected Image</h3>
+					<figure>
+						<label for="reset" class="reset left-tooltip" data-tooltip="Cancel">&times;</label>
+						<input id="reset" type="reset" class="xl-hidden">
+						<img src="//:0">
+					</figure>
+				</div>
+
+
+				<div class="bottom-option design-uploader">
+					<small>or <label for="design-uploader"><b><u>Upload</u></b></label> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments."></i></small>
+					<input type="file" name="design-upload" id="design-uploader" class="design-upload xl-hidden" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">
+				</div>
+				<div class="bottom-option page-options">
+					
+					<div class="wrap xl-gutter-40 xl-center">
+						<div class="col">
+							<label class="bottom-tooltip" data-tooltip="This allows you to download the live URL and change the content."><input type="radio" name="page-type" value="url" checked>Live Mode <small>(Recommended)</small></label>
+							<label class="xl-hidden"><input type="radio" name="page-type" value="image">Image Mode</label>
+						</div>
+						<div class="col">
+							<label class="bottom-tooltip" data-tooltip="In development... This mode will take full size picture of your page you entered. You can only put comments on it." disabled><input type="radio" name="page-type" value="image" disabled>Capture Mode</label>
+						</div>
+					</div>
+					
+				</div>
 
 
 				<h3 style="margin-bottom: 0">Screen Size <i class="fa fa-question-circle tooltip" data-tooltip="Add your screen size that you wish to edit your site." aria-hidden="true"></i></h3>
@@ -35,7 +63,7 @@
 				<span class="dropdown">
 
 					<a href="#" class="add-screen"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
-					<ul class="xl-left screen-adder">
+					<!-- <ul class="xl-left screen-adder">
 						<?php
 						foreach ($User->getScreenData() as $screen_cat) {
 						?>
@@ -77,7 +105,12 @@
 						<?php
 						}
 						?>
-					</ul>
+					</ul> -->
+
+					<?php
+						$blockPhase = ['phase_ID' => ""];
+						require view('modules/add-screen');
+					?>
 
 				</span><br/><br/>
 
@@ -170,7 +203,7 @@
 				<div class="wrap xl-2 xl-center xl-flexbox">
 					<div class="col">
 
-						<button class="dark small">Add</button>
+						<button class="dark small submitter">Add</button>
 
 					</div>
 					<div class="col xl-first">

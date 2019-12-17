@@ -366,7 +366,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 				<div class="col xl-8-12 xl-outside-24 xl-center new-form">\
 					\
 					\
-					<form action="/projects" method="post" class="new-project-form">\
+					<form action="/projects" method="post" class="new-project-form" data-page-type="url">\
 						<input type="hidden" name="add_new" value="true"/>\
 						<input type="hidden" name="project_ID" value="'+cat_project_ID+'"/>\
 						<input type="hidden" name="category" value="'+category_ID+'"/>\
@@ -377,11 +377,12 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 						<label for="url-'+category_ID+'">\
 							<b>Add New '+ dataType +'</b><br>\
 						</label>\
+						\
 						<div class="wrap xl-table xl-middle xl-center xl-gutter-8 top-options">\
 							<div class="col top-option page-url">\
 								<input id="url-'+category_ID+'" type="url" name="page-url" class="full" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocus/>\
 							</div>\
-							<div class="col top-option selected-image xl-hidden">\
+							<div class="col top-option selected-image">\
 								<b>Selected Image:</b> \
 								<figure> \
 								<label for="inline-reset" class="reset left-tooltip" data-tooltip="Cancel">&times;</label>\
@@ -389,8 +390,8 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 									<img src="//:0"> \
 								</figure> \
 							</div>\
-							<div class="col form-submit" style="width: 55px;">\
-								<input type="submit" value="Add" class="invert" title="Go Revising!"/>\
+							<div class="col form-submit">\
+								<button class="dark submitter" title="Go Revising!">Add</button>\
 							</div>\
 						</div>\
 						\
@@ -402,7 +403,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 								<input type="file" name="design-upload" id="inline-design-uploader" class="design-upload xl-hidden" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">\
 								\
 							</div>\
-							<div class="col bottom-option page-options xl-hidden">\
+							<div class="col bottom-option page-options">\
 								\
 								<div class="wrap xl-flexbox xl-top xl-between">\
 									<div class="col">\
@@ -415,12 +416,12 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 								</div>\
 								\
 							</div>\
-							<div class="col bottom-option page-name xl-hidden">\
+							<div class="col bottom-option page-name">\
 								\
 								<input type="text" name="page-name" placeholder="Page Name" required disabled>\
 								\
 							</div>\
-							<div class="col xl-center advanced-options" style="width: 55px;">\
+							<div class="col xl-center advanced-options">\
 								<a href="#" class="plus-icon" data-modal="add-new" data-type="'+ dataType +'" data-id="'+cat_project_ID+'"><small style="opacity: 0.3; font-size: 10px; letter-spacing: 0.7px;"><i class="fa fa-ellipsis-v"></i> Advanced</small></a>\
 							</div>\
 						</div>\
