@@ -376,7 +376,7 @@
 
 					?>
 
-						<li class="col block item" data-order="<?=$block['order_number']?>" data-type="<?=$dataType?>" data-page-type="<?=$blockPageType?>" data-id="<?=$block[$dataType.'_ID']?>" data-phase-id="<?=$blockPhaseID?>" data-cat-id="<?=$block['cat_ID']?>" data-pin-status="<?=$blockPinStatus?>">
+						<li class="col block item" data-order="<?=$block['order_number']?>" data-type="<?=$dataType?>" data-page-type="<?=$dataType == "page" ? $blockPageType : ""?>" data-id="<?=$block[$dataType.'_ID']?>" data-phase-id="<?=$dataType == "page" ? $blockPhaseID : ""?>" data-cat-id="<?=$block['cat_ID']?>" data-pin-status="<?=$blockPinStatus?>">
 
 
 							<div class="box object-handle xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
