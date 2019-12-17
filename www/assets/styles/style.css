@@ -9139,7 +9139,7 @@ ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .select
 
 ol.categories > li.category > ol.blocks > .block.add-new-block .box .new .selected-image figure .reset {
   position: absolute;
-  z-index: 3;
+  z-index: 1;
   right: 5px;
   top: 5px;
   width: 20px;
