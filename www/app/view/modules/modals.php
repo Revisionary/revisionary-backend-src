@@ -2,13 +2,15 @@
 	<h2>Add New <span class="data-type"></span></h2>
 	<h5 class="to"></h5>
 
-	<form action="<?=site_url('projects', true)?>" method="post" class="new-project-form" data-page-type="url">
+	<form action="<?=site_url('projects', true)?>" method="post" class="new-project-form" data-page-type="url" data-cat-id="0">
 
-		<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
+
 		<input type="hidden" name="add_new" value="true"/>
+
+		<input type="hidden" name="project_ID" value="<?=$dataType == "page" ? $project_ID : "new"?>"/>
+
 		<input type="hidden" name="category" value="0"/>
 		<input type="hidden" name="order" value="0"/>
-		<input type="hidden" name="project_ID" value="new"/>
 
 
 		<div class="wrap xl-center">
@@ -50,69 +52,29 @@
 				</div>
 
 
-				<h3 style="margin-bottom: 0">Screen Size <i class="fa fa-question-circle tooltip" data-tooltip="Add your screen size that you wish to edit your site." aria-hidden="true"></i></h3>
-				<ul class="no-spacing selected-screens">
-					<li>
-						<input type="hidden" name="screens[]" value="11"/>
-						<input type="hidden" name="page_width" value="1440"/>
-						<input type="hidden" name="page_height" value="900"/>
-						<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Window (<span class="screen-width">1440</span> x <span class="screen-height">900</span>)</span>
-						<a href="#" class="remove-screen" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-					</li>
-				</ul><br/>
-				<span class="dropdown">
+				<div class="screens">
+					<h3 style="margin-bottom: 0">Screen Size <i class="fa fa-question-circle tooltip" data-tooltip="Add your screen size that you wish to edit your site." aria-hidden="true"></i></h3>
+					<ul class="no-spacing selected-screens">
+						<li>
 
-					<a href="#" class="add-screen"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
-					<!-- <ul class="xl-left screen-adder">
-						<?php
-						foreach ($User->getScreenData() as $screen_cat) {
-						?>
+							<input type="hidden" name="screens[]" value="11"/>
+							<input type="hidden" name="page_width" value="1440"/>
+							<input type="hidden" name="page_height" value="900"/>
 
-						<li class="screen-cat" <?=$screen_cat['screen_cat_name'] == "Custom" ? "style='display:none;'" : ""?>>
-
-							<a href="#">
-								<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i>
-							</a>
-							<ul class="addable xl-left screen-add">
-								<?php
-								foreach ($screen_cat['screens'] as $screen) {
-								?>
-								<li class="screen" <?=$screen['screen_ID'] == 11 ? "style='display:none;'" : ""?>>
-									<a href="#"
-										data-screen-id="<?=$screen['screen_ID']?>"
-										data-screen-width="<?=$screen['screen_width']?>"
-										data-screen-height="<?=$screen['screen_height']?>"
-										data-screen-cat-name="<?=$screen_cat['screen_cat_name']?>"
-										data-screen-cat-icon="<?=$screen_cat['screen_cat_icon']?>"
-									>
-										<?=$screen['screen_name']?> (<span class="<?=$screen['screen_ID'] == 11 ? "screen-" : "screen-"?>width"><?=$screen['screen_width']?></span> x <span class="<?=$screen['screen_ID'] == 11 ? "screen-" : "screen-"?>height"><?=$screen['screen_height']?></span>)
-									</a>
-								</li>
-								<?php
-								}
-
-								// Custom Screen
-								if ($screen_cat['screen_cat_name'] == "Custom...") {
-								?>
-								<li><a href="#" data-screen-id="<?=$screen['screen_ID']?>">Add New</a></li>
-								<?php
-								}
-								?>
-							</ul>
-
+							<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Window (<span class="screen-width">1440</span> x <span class="screen-height">900</span>)</span>
+							<a href="#" class="remove-screen" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 						</li>
-
+					</ul><br/>
+					<span class="dropdown">
+	
+						<a href="#" class="add-screen"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
 						<?php
-						}
+							$blockPhase = ['phase_ID' => ""];
+							require view('modules/add-screen');
 						?>
-					</ul> -->
-
-					<?php
-						$blockPhase = ['phase_ID' => ""];
-						require view('modules/add-screen');
-					?>
-
-				</span><br/><br/>
+	
+					</span><br/><br/>
+				</div>
 
 
 

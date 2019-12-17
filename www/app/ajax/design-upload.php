@@ -15,9 +15,7 @@ if ( !userLoggedIn() ) {
 
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => $status
 	)));
 
 }
@@ -34,9 +32,7 @@ if (
 
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => $status
 	)));
 
 }
@@ -49,9 +45,7 @@ if ($_FILES['design-upload']['size'] > 15000000) {
 
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => $status
 	)));
 
 }
@@ -70,62 +64,68 @@ if ( !in_array($image_extension, array('jpeg', 'jpg', 'png', 'gif')) ) {
 
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => $status
 	)));
 
 }
 
 
 
-// Initial Phase ID
-$phase_ID = request('phase_ID');
-if (!$phase_ID) {
+$project_ID = request('project_ID');
+$page_ID = request('page_ID');
+if ( request('add_new') == "true" ) {
 
 
-
-	// Initial Page ID
-	$page_ID = request('page_ID');
-	if (!$page_ID) {
-
-
-		// PROJECT WORKS
-		$project_ID = is_numeric(request('project_ID')) ? intval(request('project_ID')) : request('project_ID');
-		$projectData = Project::ID($project_ID);
-
-		if ($project_ID != "new" && is_numeric($project_ID) && !$projectData) {
+	// PROJECT WORKS
+	$new_project = false;
+	if (!$project_ID || $project_ID == "new") {
 
 
-			$status = "wrong-project";
+		$project_ID = Project::ID('new')->addNew(
+			"image",
+			request('project-name'),
+			is_array(request('project_shares')) ? request('project_shares') : array(),
+			request('category'),
+			request('order')
+		);
+		if (!$project_ID) {
+
 
 			// CREATE THE RESPONSE
 			die(json_encode(array(
-				'status' => $status,
-				'project_ID' => $project_ID,
-				'nonce' => request('nonce')
-				//'S_nonce' => $_SESSION['pin_nonce'],
+				'status' => "project-not-created",
+				'project_ID' => $project_ID
 			)));
 
 
 		}
+		$new_project = true;
 
 
-		// PAGE WORKS
-		$page_name = request('page-name');
-		$page_ID = Page::ID('new')->addNew( intval($project_ID), 'image', $page_name );
+	}
+
+
+
+	// PAGE WORKS
+	if (!$page_ID || $page_ID == "new") {
+
+
+		$page_ID = Page::ID('new')->addNew(
+			$project_ID,
+			'image',
+			request('page-name'),
+			is_array(request('page_shares')) ? request('page_shares') : array(),
+			$new_project ? 0 : request('category'),
+			$new_project ? 0 : request('order')
+		);
 		if (!$page_ID) {
-			
-			
-			$status = "page-not-created";
+
 
 			// CREATE THE RESPONSE
 			die(json_encode(array(
-				'status' => $status,
+				'status' => "page-not-created",
 				'project_ID' => $project_ID,
-				'page_ID' => $page_ID,
-				'nonce' => request('nonce')
-				//'S_nonce' => $_SESSION['pin_nonce'],
+				'page_ID' => $page_ID
 			)));
 
 
@@ -135,21 +135,25 @@ if (!$phase_ID) {
 	}
 
 
-	// PHASE WORKS
-	$phase_ID = Phase::ID('new')->addNew($page_ID, true);
+}
+
+
+
+// PHASE WORKS
+$phase_ID = request('phase_ID');
+if (!$phase_ID || $phase_ID == "new") {
+
+
+	$phase_ID = Phase::ID('new')->addNew( $page_ID, true );
 	if (!$phase_ID) {
-		
-		
-		$status = "phase-not-created";
+
 
 		// CREATE THE RESPONSE
 		die(json_encode(array(
-			'status' => $status,
+			'status' => "phase-not-created",
 			'project_ID' => $project_ID,
 			'page_ID' => $page_ID,
-			'phase_ID' => $phase_ID,
-			'nonce' => request('nonce')
-			//'S_nonce' => $_SESSION['pin_nonce'],
+			'phase_ID' => $phase_ID
 		)));
 
 
@@ -164,7 +168,7 @@ if (!$phase_ID) {
 // DEVICE WORKS
 list($width, $height) = getimagesize($temp_file_location);
 $device_ID = Device::ID('new')->addNew(
-	$phase_ID, 
+	intval($phase_ID),
 	request('screens'),
 	$width,
 	$height
@@ -172,17 +176,13 @@ $device_ID = Device::ID('new')->addNew(
 if (!$device_ID) {
 
 
-	$status = "device-not-created";
-
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
+		'status' => "device-not-created",
 		'project_ID' => $project_ID,
 		'page_ID' => $page_ID,
 		'phase_ID' => $phase_ID,
-		'device_ID' => $device_ID,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'device_ID' => $device_ID
 	)));
 
 
@@ -206,11 +206,10 @@ $file = new File($temp_file_location);
 $result = $file->upload($image_location, "local");
 if ( !$result ) {
 
-	$status = "not-uploaded";
 
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
+		'status' => "not-uploaded",
 		'project_ID' => $project_ID,
 		'page_ID' => $page_ID,
 		'phase_ID' => $phase_ID,
@@ -219,10 +218,8 @@ if ( !$result ) {
 		'image_location' => $image_location
 	)));
 
+
 }
-
-
-
 
 
 
@@ -231,14 +228,12 @@ if ( !$result ) {
 
 
 
-$status = "success";
-
 // CREATE THE RESPONSE
 die(json_encode(array(
-	'status' => $status,
+	'status' => "success",
 	//'status' => print_r($_REQUEST, true),
-	// 'project_ID' => $project_ID,
-	// 'page_ID' => $page_ID,
+	'project_ID' => $project_ID,
+	'page_ID' => $page_ID,
 	'phase_ID' => $phase_ID,
 	'device_ID' => $device_ID,
 	'image_name' => $image_name,

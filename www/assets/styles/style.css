@@ -9387,6 +9387,26 @@ ol.categories > li.category > ol.blocks .device-wrap:hover .remove-device {
   width: 80px;
 }
 
+.new-project-form[data-page-type="image"] .screens {
+  display: none;
+}
+
+.new-project-form[data-page-type="image"] .option-toggler {
+  display: none;
+}
+
+.new-project-form[data-page-type="image"] .more-options-wrapper {
+  display: block;
+}
+
+.new-project-form[data-url-entered="yes"] .bottom-option:not(.page-options) {
+  display: none;
+}
+
+.new-project-form[data-url-entered="yes"] .page-options {
+  display: block !important;
+}
+
 .cat-sortable .cat-handle {
   cursor: move;
 }

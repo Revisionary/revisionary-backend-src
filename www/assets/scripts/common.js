@@ -70,10 +70,10 @@ $(function() {
 		popup.toggleClass('more-options');
 
 
-		if ( popup.hasClass('more-options') )
-			popup.find('.more-options-wrapper input').prop('disabled', false);
-		else
-			popup.find('.more-options-wrapper input').prop('disabled', true);
+		// if ( popup.hasClass('more-options') )
+		// 	popup.find('.more-options-wrapper input').prop('disabled', false);
+		// else
+		// 	popup.find('.more-options-wrapper input').prop('disabled', true);
 
 
 		e.preventDefault();
@@ -86,27 +86,25 @@ $(function() {
 	// New project URL input
 	$(document).on('input', 'input[name="page-url"]', function(e) {
 
-		var form = $(this).parents('form');
+		var formCatID = $(this).parents('form').attr('data-cat-id');
+		var form = $('form[data-cat-id="'+ formCatID +'"]');
 		var value = $(this).val();
 
-
-		form.find('.bottom-option').hide();
-
-		if (value.length) form.find('.page-options').show();
-		else form.find('.design-uploader').show();
+		if (value.length) form.attr('data-url-entered', 'yes');
+		else form.attr('data-url-entered', 'no');
 
 	});
 
 
 	// New project modal URL check
-	$(document).on('submit', '.new-project-form', function(e) {
+	$(document).on('submit', '#add-new .new-project-form', function(e) {
 
 		var url = $(this).find('input[name="page-url"]').val();
 		var design = $(this).find('input[name="design-upload"]').val();
 		var project_ID = $(this).find('input[name="project_ID"]').val();
 		var page_width = $(this).find('input[name="page_width"]').val();
 		var page_height = $(this).find('input[name="page_height"]').val();
-		var submit = $(this).find('.form-submit input');
+		var submit = $(this).find('.submitter');
 		var wrapper = $(this).parents('form');
 
 
@@ -150,9 +148,9 @@ $(function() {
 							var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
 							console.log( 'Uploaded percent', percentComplete );
 
-							submit.prop('disabled', true).val(percentComplete +'%');
+							submit.prop('disabled', true).text(percentComplete +'%');
 
-							if (percentComplete == 100) submit.val('Opening');
+							if (percentComplete == 100) submit.text('Opening');
 
 						}
 
@@ -354,10 +352,13 @@ $(function() {
 
 		// Recommend adding different project
 		var newProject = false;
+		var pageFoundNotImage = myPages.filter(function(page) {
+			return page.page_url != "image" && page.project_ID == project_ID;
+		});
 		var pageFoundByDomain = myPages.filter(function(page) {
 			return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID;
 		});
-		if (!pageExists && !pageExistsInOtherProjects && !projectExists && !pageFoundByDomain.length && project_ID != "new" && project_ID != "autodetect") {
+		if (!pageExists && !pageExistsInOtherProjects && !projectExists && !pageFoundByDomain.length && project_ID != "new" && project_ID != "autodetect" && pageFoundNotImage.length) {
 
 			newProject = true;
 			console.log('Recommend creating New Project', pageFoundByDomain);
@@ -410,12 +411,12 @@ $(function() {
 	}).on('reset', '.new-project-form', function(e) {
 
 
-		var form = $(this);
+		var form = $('.new-project-form');
 
 
 		form.attr('data-page-type', 'url');
 
-		form.find('.page-name input').prop('disabled', true);
+		form.find('input[name="page-name"]').val('').prop('required', false);
 		form.find('.page-url input').prop('disabled', false);
 		form.find('.page-options input').val('url');
 		form.find('.submitter').text('ADD');
@@ -816,37 +817,34 @@ $(function() {
 		if (modalName == "add-new") {
 
 
-			// Update the project ID
-			modal.find('input[name="project_ID"]').attr('value', object_ID);
-
 			var thisBlock = $(this).parents('.block');
-			var catID = $(this).parents('.category').attr('data-id') || 0;
-			var catName = $(this).parents('.category').find('.cat-separator .name').text();
-			var orderNumber = $(this).parents('.category').attr('data-order') || 0;
-			var valueEntered = $(this).parents('.add-new-block').find('input[name="page-url"]').val() || "";
 
 
+			// Project ID
+			modal.find('input[name="project_ID"]').attr('value', object_ID);		
+		
+		
 			// Update the current category name
+			var catName = $(this).parents('.category').find('.cat-separator .name').text();
 			modal.find('.to').html('');
 			if (catName != "Uncategorized" && catName != "")
 				modal.find('.to').html("To <b>"+ catName +"</b> Section");
-
-
+		
+		
 			// Print the project name
 			if (!thisBlock.length && catName == "" && dataType == "page")
 				modal.find('.to').html("To <b>"+ objectName +"</b> Project");
 
-
+			
 			// Category ID input update
+			var catID = $(this).parents('.category').attr('data-id') || 0;
+			modal.find('form').attr('data-cat-id', catID);
 			modal.find('input[name="category"]').attr('value', catID);
 
 
 			// Order number input update
-			modal.find('input[name="order"]').attr('value', ( typeof orderNumber !== 'undefined' ? parseInt(orderNumber) + 1 : 0 ));
-
-
-			// URL input update
-			modal.find('input[name="page-url"]').val(valueEntered);
+			var orderNumber = $(this).parents('.category').attr('data-order') || 0;
+			modal.find('input[name="order"]').attr('value', ( parseInt(orderNumber) + 1 ));
 
 
 		}
@@ -1162,7 +1160,8 @@ $(function() {
 	// CLIENT SIDE UPLOADER
 	$(document).on('change', '.design-upload', function() {
 
-		var form = $(this).parents('form');
+		var formCatID = $(this).parents('form').attr('data-cat-id');
+		var form = $('form[data-cat-id="'+ formCatID +'"]');
 		var maxSize = $(this).attr('data-max-size');
 
 
@@ -1177,11 +1176,25 @@ $(function() {
 			form.attr('data-page-type', 'image');
 
 			form.find('.selected-image img').attr('src', imageSrc);
-			form.find('.submitter').text('UPLOAD');
 
 			form.find('.page-url input').prop('disabled', true);
 			form.find('.page-options input').val('image');
-			form.find('.page-name input').prop('disabled', false).focus();
+			form.find('input[name="page-name"]').prop('required', true).focus();
+			form.find('.submitter').text('UPLOAD');
+
+
+			// Reset the devices
+			form.find('.selected-screens').html('\
+				<li>\
+					<input type="hidden" name="screens[]" value="11"/>\
+					<input type="hidden" name="page_width" value="1440"/>\
+					<input type="hidden" name="page_height" value="900"/>\
+					<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Window (<span class="screen-width">1440</span> x <span class="screen-height">900</span>)</span>\
+					<a href="#" class="remove-screen" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+				</li>\
+			');
+
+			form.find('.screen-adder .screen-cat:not([data-screen-cat-id="5"]), .screen-adder .screen').show();
 
 
 
@@ -1223,10 +1236,12 @@ $(function() {
 
 
 		var first_screen_ID = parseInt( $(this).attr('data-first-screen-id') );
+		var found_project_ID = typeof project_ID === 'undefined' ? parseInt( $(this).parents('[data-project-id]').attr('data-id') ) : project_ID;
 		var found_page_ID = typeof page_ID === 'undefined' ? parseInt( $(this).parents('[data-id]').attr('data-id') ) : page_ID;
 		var found_phase_ID = typeof phase_ID === 'undefined' ? parseInt( $(this).parents('[data-phase-id]').attr('data-phase-id') ) : phase_ID;
 
 
+		$('#image-device-adder input[name="project_ID"]').val(found_project_ID);
 		$('#image-device-adder input[name="page_ID"]').val(found_page_ID);
 		$('#image-device-adder input[name="phase_ID"]').val(found_phase_ID);
 		$('#image-device-adder input[name="screens[]"]').val(first_screen_ID);
@@ -1244,9 +1259,10 @@ $(function() {
 	$(document).on('click', '[data-page-type="image"] a.add-phase', function(e) {
 
 
-		var found_page_ID = typeof page_ID === 'undefined' ? parseInt( $(this).parents('[data-id]').attr('data-id') ) : page_ID;
+		var found_project_ID = typeof project_ID === 'undefined' ? parseInt( $(this).parents('[data-project-id]').attr('data-project-id') ) : project_ID;
+		var found_page_ID = typeof page_ID === 'undefined' ? parseInt( $(this).parents('[data-type="page"][data-id]').attr('data-id') ) : page_ID;
 
-
+		$('#image-device-adder input[name="project_ID"]').val(found_project_ID);
 		$('#image-device-adder input[name="page_ID"]').val(found_page_ID);
 		$('#image-device-adder input[name="phase_ID"]').val('');
 		$('#image-device-adder input[name="screens[]"]').val(11); // Custom one
@@ -1433,6 +1449,48 @@ $(window).on("load", function (e) {
 
 
 });
+
+
+// Update add new form info
+function updateAddNewInfo(cloneForm) {
+
+
+
+	var modal = $('#add-new');
+	
+	
+	// Category ID input update
+	var catID = cloneForm.attr('data-cat-id') || 0;
+	modal.find('form').attr('data-cat-id', catID);
+	modal.find('input[name="category"]').attr('value', catID);
+
+
+	// Order number input update
+	var orderNumber = cloneForm.parents('.category').attr('data-order') || 0;
+	modal.find('input[name="order"]').attr('value', ( parseInt(orderNumber) + 1 ));
+
+
+	// URL input update
+	var urlEntered = cloneForm.find('input[name="page-url"]').val() || "";
+	modal.find('input[name="page-url"]').val(urlEntered).trigger('input');
+
+
+	// Name input update
+	var nameEntered = cloneForm.find('input[name="page-name"]').val() || "";
+	modal.find('input[name="page-name"]').val(nameEntered);
+
+
+	// Selected Image
+	var selectedImageUrl = cloneForm.find('.selected-image img').attr('src') || "";
+	modal.find('form.new-project-form .selected-image img').attr('src', selectedImageUrl);
+
+
+	// Page type
+	var pageType = cloneForm.attr('data-page-type') || "url";
+	modal.find('form.new-project-form').attr('data-page-type', pageType);
+
+
+}
 
 
 // Update shares
@@ -1641,7 +1699,7 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 
 		// Progressbar Update
-		if ( data.status == "successful" ) {
+		if ( data.status == "successful" || data.status == "fail-m" ) {
 
 
 			if (action == "rename") {

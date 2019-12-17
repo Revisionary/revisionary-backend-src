@@ -376,7 +376,16 @@
 
 					?>
 
-						<li class="col block item" data-order="<?=$block['order_number']?>" data-type="<?=$dataType?>" data-page-type="<?=$dataType == "page" ? $blockPageType : ""?>" data-id="<?=$block[$dataType.'_ID']?>" data-phase-id="<?=$dataType == "page" ? $blockPhaseID : ""?>" data-cat-id="<?=$block['cat_ID']?>" data-pin-status="<?=$blockPinStatus?>">
+						<li
+							class="col block item" 
+							data-type="<?=$dataType?>" 
+							data-id="<?=$block[$dataType.'_ID']?>" 
+							data-order="<?=$block['order_number']?>" 
+							data-cat-id="<?=intval($block['cat_ID'])?>" 
+							data-page-type="<?=$dataType == "page" ? $blockPageType : ""?>" 
+							data-project-id="<?=$dataType == "page" ? $project_ID : ""?>" 
+							data-phase-id="<?=$dataType == "page" ? $blockPhaseID : ""?>" 
+							data-pin-status="<?=$blockPinStatus?>">
 
 
 							<div class="box object-handle xl-center <?=empty($image_style) ? "no-thumb" : ""?>" style="<?=$image_style?>">
@@ -737,7 +746,7 @@
 							</div>
 
 
-						</li>
+						</liclass="col>
 
 				<?php
 
@@ -788,6 +797,7 @@
 
 
 			<form action="" id="image-device-adder" class="xl-hidden">
+				<input type="hidden" name="project_ID" value="">
 				<input type="hidden" name="page_ID" value="">
 				<input type="hidden" name="phase_ID" value="">
 				<input type="hidden" name="screens[]" value="">

@@ -3478,6 +3478,30 @@ ol.categories {
 			width: 80px;
 		}
 
+		.screens {
+			display: none;
+		}
+
+		.option-toggler {
+			display: none;
+		}
+
+		.more-options-wrapper {
+			display: block;
+		}
+
+	}
+
+	&[data-url-entered="yes"] {
+
+		.bottom-option:not(.page-options) {
+			display: none;
+		}
+
+		.page-options {
+			display: block !important;
+		}
+
 	}
 
 }

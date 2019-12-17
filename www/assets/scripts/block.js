@@ -242,7 +242,33 @@ $(function() {
 	        $(this).parents('.category').show();
 
         });
-    }
+	}
+	
+
+	$(document).on('submit', '.add-new-block .new-project-form', function(e) {
+
+		updateAddNewInfo( $(this) );
+		$('#add-new .new-project-form').trigger('submit');
+
+		e.preventDefault();
+
+	}).on('input', '.add-new-block .new-project-form input', function(e) {
+
+		var formCatID = $(this).parents('form').attr('data-cat-id');
+
+		$('#add-new form').attr('data-cat-id', formCatID);
+		$('#add-new input[name="'+ $(this).attr('name') +'"]').val( $(this).val() ).trigger('input');
+
+	}).on('click', '.add-new-block .new-project-form *', function(e) {
+
+		console.log('CLICKED', formCatID);
+
+		var formCatID = $(this).parents('form').attr('data-cat-id');
+		$('#add-new form').attr('data-cat-id', formCatID);
+
+		updateAddNewInfo( $(this).parents('form') );
+
+	});
 
 });
 
@@ -366,7 +392,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 				<div class="col xl-8-12 xl-outside-24 xl-center new-form">\
 					\
 					\
-					<form action="/projects" method="post" class="new-project-form" data-page-type="url">\
+					<form action="/projects" method="post" class="new-project-form" data-type="'+ dataType +'" data-cat-id="'+category_ID+'" data-page-type="url">\
 						<input type="hidden" name="add_new" value="true"/>\
 						<input type="hidden" name="project_ID" value="'+cat_project_ID+'"/>\
 						<input type="hidden" name="category" value="'+category_ID+'"/>\
@@ -374,6 +400,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 						<input type="hidden" name="page_width" value="1440"/>\
 						<input type="hidden" name="page_height" value="900"/>\
 						<input type="hidden" name="screens[]" value="11"/>\
+						\
 						<label for="url-'+category_ID+'">\
 							<b>Add New '+ dataType +'</b><br>\
 						</label>\
@@ -385,8 +412,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 							<div class="col top-option selected-image">\
 								<b>Selected Image:</b> \
 								<figure> \
-								<label for="inline-reset" class="reset left-tooltip" data-tooltip="Cancel">&times;</label>\
-								<input id="inline-reset" type="reset" class="xl-hidden"> \
+									<label for="reset" class="reset left-tooltip" data-tooltip="Cancel">&times;</label>\
 									<img src="//:0"> \
 								</figure> \
 							</div>\
@@ -399,8 +425,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 						<div class="wrap xl-table xl-top bottom-options">\
 							<div class="col bottom-option design-uploader">\
 								\
-								<small>or <label for="inline-design-uploader"><b><u>Upload</u></b></label> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments."></i></small>\
-								<input type="file" name="design-upload" id="inline-design-uploader" class="design-upload xl-hidden" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">\
+								<small>or <label for="design-uploader"><b><u>Upload</u></b></label> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments."></i></small>\
 								\
 							</div>\
 							<div class="col bottom-option page-options">\
@@ -418,7 +443,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 							</div>\
 							<div class="col bottom-option page-name">\
 								\
-								<input type="text" name="page-name" placeholder="Page Name" required disabled>\
+								<input type="text" name="page-name" placeholder="Page Name">\
 								\
 							</div>\
 							<div class="col xl-center advanced-options">\
