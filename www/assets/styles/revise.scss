@@ -92,6 +92,8 @@ html, body {
 			z-index: 1;
 			background-color: $color;
 			width: 30vw;
+			max-width: 100%;
+			min-width: 350px;
 			pointer-events: initial;
 			transition: 500ms;
 			transform: translateX(-100%);
@@ -597,6 +599,24 @@ html, body {
 				display: flex;
 			}
 	
+		}
+
+		.pins-count,
+		.pin-limit-text {
+			font-size: 12px;
+			line-height: normal;
+		}
+
+	}
+
+	@media only screen and (max-width: 760px) {
+
+		.help-information {
+			display: none;
+		}
+
+		.tasks-title {
+			display: none;
 		}
 
 	}

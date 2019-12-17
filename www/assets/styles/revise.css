@@ -83,6 +83,8 @@ html, body {
   z-index: 1;
   background-color: #000000;
   width: 30vw;
+  max-width: 100%;
+  min-width: 350px;
   pointer-events: initial;
   -moz-transition: 500ms;
   transition: 500ms;
@@ -461,6 +463,20 @@ html, body {
   #top-bar .screen .selected {
     display: -moz-box;
     display: flex;
+  }
+  #top-bar .pins-count,
+  #top-bar .pin-limit-text {
+    font-size: 12px;
+    line-height: normal;
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  #top-bar .help-information {
+    display: none;
+  }
+  #top-bar .tasks-title {
+    display: none;
   }
 }
 
