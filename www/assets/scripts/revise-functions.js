@@ -3146,7 +3146,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			if ( thePinModified == "1" ) pinWindow().find('.content-editor .section-title, .image-editor .section-title').removeClass('collapsed');
 
 			// Styles
-			if (styleElement.length) pinWindow().find('.visual-editor .section-title').removeClass('collapsed');
+			else if (styleElement.length) pinWindow().find('.visual-editor .section-title').removeClass('collapsed');
 
 			// Always open the comments
 			pinWindow().find('.comments .section-title').removeClass('collapsed');

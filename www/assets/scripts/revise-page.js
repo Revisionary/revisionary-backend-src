@@ -654,8 +654,13 @@ $(function() {
 	$('#pin-window .section-title').click(function(e) {
 
 
-		// Toggle the collapsed class
-		$(this).toggleClass('collapsed');
+		// Close all the sections first
+		$('#pin-window .section-title').not( $(this) ).addClass('collapsed');
+
+
+		// Open the clicked one
+		if ( $(this).hasClass('collapsed') ) $(this).removeClass('collapsed');
+		else $(this).addClass('collapsed');
 
 
 		// Update the location and size values first
