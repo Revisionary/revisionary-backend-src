@@ -468,7 +468,7 @@ $(function() {
 		height = height - 4; // -4 for the borders
 		
 
-		if (page_type == "image") {
+		if (page_type == "image" || true) { // Full height iframe !!!
 
 
 			// Early exit if smaller than the screen
