@@ -184,8 +184,9 @@ class Device {
 			$device_ID = $db->insert('devices', array(
 				"phase_ID" => $phase_ID,
 				"screen_ID" => $screen_ID,
-				"device_width" => $device_width,
-				"device_height" => $device_height
+				"device_width" => count($screen_IDs) === 1 || $screen_ID == 11 ? $device_width : null,
+				"device_height" => count($screen_IDs) === 1 || $screen_ID == 11 ? $device_height : null
+
 			));
 
 			// Stop it if error occurs
