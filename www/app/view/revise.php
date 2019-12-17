@@ -984,7 +984,7 @@ foreach ($other_pages as $pageOther) {
 
 	<div class="iframe-container">
 
-		<iframe id="the-page" name="the-page" src="" width="<?=$width?>" height="<?=$height?>" scrolling="auto" style="min-width: <?=$width?>px; min-height: <?=$height?>px;"></iframe>
+		<iframe sandbox="allow-same-origin allow-scripts" id="the-page" name="the-page" src="" width="<?=$width?>" height="<?=$height?>" scrolling="auto" style="min-width: <?=$width?>px; min-height: <?=$height?>px;"></iframe>
 
 		<!-- THE PINS LIST -->
 		<div id="pins" data-filter="<?=$pin_filter?>"></div>
