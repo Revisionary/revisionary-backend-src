@@ -312,11 +312,13 @@ html, body {
 }
 
 #top-bar .pins > .button.green {
-  background-color: green;
+  background: -moz-linear-gradient(left, #d0011b 0%, green 0%);
+  background: linear-gradient(90deg, #d0011b 0%, green 0%);
 }
 
 #top-bar .pins > .button.red {
-  background-color: #D0011B;
+  background: -moz-linear-gradient(left, #d0011b 100%, green 0%);
+  background: linear-gradient(90deg, #d0011b 100%, green 0%);
 }
 
 #top-bar .pins > .button .task-count.hide {

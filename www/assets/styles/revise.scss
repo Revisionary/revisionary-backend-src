@@ -391,11 +391,11 @@ html, body {
 		& > .button {
 
 			&.green {
-				background-color: green;
+				background: linear-gradient(90deg, rgba(208,1,27,1) 0%, rgba(0,128,0,1) 0%);
 			}
 
 			&.red {
-				background-color: #D0011B;
+				background: linear-gradient(90deg, rgba(208,1,27,1) 100%, rgba(0,128,0,1) 0%);
 			}
 
 			.task-count {

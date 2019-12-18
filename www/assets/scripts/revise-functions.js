@@ -2236,6 +2236,15 @@ function updatePinCount() {
 		return pin.pin_complete == 1;
 	});
 
+	var incompletePercentage = Math.round( (incompletePins.length * 100) / Pins.length );
+	var completePercentage = Math.round( (completePins.length * 100) / Pins.length );
+
+	var incompleteBgPercentage = incompletePercentage > completePercentage ? incompletePercentage : 0;
+	var completeBgPercentage = completePercentage > incompletePercentage ? completePercentage : 0;
+
+
+	$('.pins .button').css('background', 'linear-gradient(90deg, rgba(208,1,27,1) '+ incompleteBgPercentage +'%, rgba(0,128,0,1) '+ (100 - completeBgPercentage) +'%)');
+
 
 	if (incompletePins.length > 0) {
 
