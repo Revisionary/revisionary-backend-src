@@ -2243,26 +2243,23 @@ function updatePinCount() {
 	var completeBgPercentage = completePercentage > incompletePercentage ? completePercentage : 0;
 
 
-	$('.pins .button').css('background', 'linear-gradient(90deg, rgba(208,1,27,1) '+ incompleteBgPercentage +'%, rgba(0,128,0,1) '+ (100 - completeBgPercentage) +'%)');
-
-
 	if (incompletePins.length > 0) {
 
-		$('.pins .button').removeClass('green').addClass('red');
+		$('.pins .button').removeClass('green').addClass('red').css('background', 'linear-gradient(90deg, rgba(208,1,27,1) '+ incompleteBgPercentage +'%, rgba(0,128,0,1) '+ (100 - completeBgPercentage) +'%)');
 		$('.pins .button .task-count').removeClass('hide').text(incompletePins.length);
 		if (incompletePins.length === 1) $('.pins .button .tasks-title').text('TASK');
 		else $('.pins .button .tasks-title').text('TASKS');
 
 	} else if (completePins.length > 0 && incompletePins.length == 0) {
 
-		$('.pins .button').removeClass('red').addClass('green');
+		$('.pins .button').removeClass('red').addClass('green').css('background', 'linear-gradient(90deg, rgba(208,1,27,1) '+ incompleteBgPercentage +'%, rgba(0,128,0,1) '+ (100 - completeBgPercentage) +'%)');
 		$('.pins .button .task-count').removeClass('hide').text(completePins.length);
 		if (completePins.length === 1) $('.pins .button .tasks-title').text('TASK');
 		else $('.pins .button .tasks-title').text('TASKS');
 
 	} else {
 
-		$('.pins .button').removeClass('green').removeClass('red');
+		$('.pins .button').removeClass('green').removeClass('red').css('background', '');
 		$('.pins .button .task-count').addClass('hide');
 		$('.pins .button .tasks-title').text('TASKS');
 
