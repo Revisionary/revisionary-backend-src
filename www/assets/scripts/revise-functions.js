@@ -2327,7 +2327,7 @@ function relocatePin(pin_ID, x, y) {
 
 
 	// If not on the screen
-	if ( !element.is(':visible') ) {
+	if ( element.is(':hidden') ) {
 
 
 		//console.log('Element invisible');
@@ -2572,7 +2572,7 @@ function getElementOffset(element_index) {
 
 
 	// If not on the screen
-	else if ( !selectedElement.is(':visible') ) {
+	else if ( selectedElement.is(':hidden') ) {
 
 		// console.log('Element invisible');
 
