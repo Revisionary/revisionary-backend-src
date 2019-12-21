@@ -132,7 +132,7 @@ class Phase {
 
 
 		// 100% - READY
-		if ($this->internalizeCount > 0)
+		if ($this->remoteUrl == "image" && $this->internalizeCount > 0)
 			return [
 				"status" => "ready",
 				"description" => "Ready! Loading the site",
