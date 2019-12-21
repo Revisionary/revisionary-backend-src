@@ -33,6 +33,25 @@ const cache = LRU({
 setInterval(() => cache.prune(), 1000 * 60); // Prune every minute
 */
 
+const autoScroll = async (page) => {
+  await page.evaluate(async () => {
+    await new Promise((resolve, reject) => {
+      let totalHeight = 0
+      let distance = 100
+      let timer = setInterval(() => {
+        let scrollHeight = document.body.scrollHeight
+        window.scrollBy(0, distance)
+        totalHeight += distance
+        if(totalHeight >= scrollHeight){
+		  clearInterval(timer)
+          resolve()
+        }
+      }, 300)
+    })
+  })
+}
+
+
 const blocked = require('./blocked.json');
 const blockedRegExp = new RegExp('(' + blocked.join('|') + ')', 'i');
 
@@ -643,13 +662,27 @@ require('http').createServer(async (req, res) => {
 		}
 
 
-		// Wait
-		let waitFor = 0;
-		if (SSR) waitFor = 2000;
 
-		console.log('⏳ Waiting for '+ (waitFor/1000) +' seconds...');
-		await page.waitFor(waitFor);
-		console.log('▶️ Continuing the process.');
+		// SSR
+		if (SSR) {
+
+			// Wait
+			let waitMs = 2000;
+			console.log('⏳ Waiting for '+ (waitMs/1000) +' seconds...');
+			await page.waitFor(waitMs);
+			console.log('▶️ Continuing the process.');
+
+			// Autoscroll to bottom
+			await autoScroll(page);
+
+			// Scroll back to top
+			await page.evaluate(() => {
+				window.scrollTo(0, 0);
+			});
+			await page.waitFor(waitMs);
+
+		}
+
 
 
 		// Serialized HTML of page DOM
@@ -657,10 +690,9 @@ require('http').createServer(async (req, res) => {
 
 
 
-
 		console.log('💥 Perform action: ' + action);
 		console.log('💥 DOWNLOADABLES: ');
-		console.log(downloadableRequests);
+		//console.log(downloadableRequests);
 
 
 
@@ -749,6 +781,8 @@ require('http').createServer(async (req, res) => {
 								SSR //|| renderDifference > 50000
 							) {
 
+								console.log('SERVER SIDE RENDERING');
+
 								// Save the unrendered version first? !!!
 								fs.writeFileSync(siteDir + 'original.html', buffer);
 								try{ fs.chownSync(siteDir + 'original.html', 33, 33); } catch(e) {}
@@ -795,9 +829,15 @@ require('http').createServer(async (req, res) => {
 				// SCREENSHOTS
 				try {
 
-
+					console.log('SCREENSHOTTING...');
 					const screenshot = await pTimeout(page.screenshot({
-						type: 'jpeg'
+						type: 'jpeg',
+						clip: {
+							x : 0,
+							y : 0,
+							width : width,
+							height: height
+						}
 					}), 20 * 1000, 'Screenshot timed out');
 
 					// Page Screenshot Saving
@@ -848,7 +888,13 @@ require('http').createServer(async (req, res) => {
 				try {
 
 					const screenshot = await pTimeout(page.screenshot({
-						type: 'jpeg'
+						type: 'jpeg',
+						clip: {
+							x : 0,
+							y : 0,
+							width : width,
+							height: height
+						}
 					}), 20 * 1000, 'Screenshot timed out');
 
 					// Device Screenshot Saving
@@ -963,6 +1009,12 @@ require('http').createServer(async (req, res) => {
 					if (handle) {
 						screenshot = await pTimeout(handle.screenshot({
 							type: 'jpeg',
+							clip: {
+								x : 0,
+								y : 0,
+								width : width,
+								height: height
+							}
 						}), 20 * 1000, 'Screenshot timed out');
 					}
 				} else {
