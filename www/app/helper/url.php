@@ -536,8 +536,7 @@ function removeQueryArg($key, $url) {
 // FOLLOW A SINGLE REDIRECT: (https://gist.github.com/davejamesmiller/dbefa0ff167cc5c08d6d)
 // This makes a single request and reads the "Location" header to determine the
 // destination. It doesn't check if that location is valid or not.
-function get_redirect_target($url)
-{
+function get_redirect_target($url) {
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_HEADER, 1);
     curl_setopt($ch, CURLOPT_NOBODY, 1);
@@ -551,19 +550,64 @@ function get_redirect_target($url)
     // (Alternatively change this to return false)
     return $url;
 }
+
+
 // FOLLOW ALL REDIRECTS:
 // This makes multiple requests, following each redirect until it reaches the
 // final destination.
-function get_redirect_final_target($url)
-{
+function get_redirect_final_target($url) {
+
+
+    $cookie = tmpfile();
+    $userAgent = 'Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.64 Safari/537.31' ; // Google Chrome
+
     $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_NOBODY, 1);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // follow redirects
-    curl_setopt($ch, CURLOPT_AUTOREFERER, 1); // set referer on redirect
-    curl_exec($ch);
+
+    $options = array(
+        CURLOPT_NOBODY => true,
+        CURLOPT_CONNECTTIMEOUT => 20, 
+        CURLOPT_USERAGENT => $userAgent,
+        CURLOPT_AUTOREFERER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_COOKIEFILE => $cookie,
+        CURLOPT_COOKIEJAR => $cookie,
+        CURLOPT_SSL_VERIFYPEER => 0,
+        CURLOPT_SSL_VERIFYHOST => 0
+    );
+
+    curl_setopt_array($ch, $options);
+
+    $kl = curl_exec($ch);
     $target = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
     curl_close($ch);
-    if ($target)
-        return $target;
+    
+    if ($target) return $target;
     return false;
+
+
+    // $ch = curl_init($url);
+    // curl_setopt($ch, CURLOPT_NOBODY, 1);
+    // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // follow redirects
+    // curl_setopt($ch, CURLOPT_AUTOREFERER, 1); // set referer on redirect
+
+
+    // $agents = array(
+    //     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:7.0.1) Gecko/20100101 Firefox/7.0.1',
+    //     'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.9) Gecko/20100508 SeaMonkey/2.0.4',
+    //     'Mozilla/5.0 (Windows; U; MSIE 7.0; Windows NT 6.0; en-US)',
+    //     'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; da-dk) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1',
+    //     'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2'
+     
+    // );
+    // curl_setopt($ch, CURLOPT_USERAGENT, $agents[array_rand($agents)]);
+
+
+    // curl_exec($ch);
+    // $target = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+    // curl_close($ch);
+    // if ($target)
+    //     return $target;
+    // return false;
+
 }
