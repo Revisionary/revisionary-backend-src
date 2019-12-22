@@ -7726,6 +7726,13 @@ pin.mouse-cursor.existing {
   height: 14px;
 }
 
+.pin-count.normal {
+  font-size: 10px;
+  line-height: 18px;
+  width: 18px;
+  height: 18px;
+}
+
 .pin-count.middle {
   font-size: 12px;
   line-height: 12px;

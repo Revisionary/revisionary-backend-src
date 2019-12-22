@@ -623,14 +623,39 @@
 		$devices_of_phase = $User->getDevices( $otherPhase['phase_ID'] );
 		$firstDevice = reset($devices_of_phase);
 		//die_to_print($devices_of_phase, false);
+
+
+		// Get pins count
+		$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($otherPhase) {
+
+			return $pinFound['phase_ID'] == $otherPhase['phase_ID'] && $pinFound['pin_complete'] == "0";
+
+		}));
+		$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($otherPhase) {
+
+			return $pinFound['phase_ID'] == $otherPhase['phase_ID'] && $pinFound['pin_complete'] == "1";
+
+		}));
+
+
+		// Get page status
+		$pinStatus = "no-tasks";
+		if ($inCompletePinCount)
+			$pinStatus = "has-tasks";
+
+		if ($completePinCount && !$inCompletePinCount)
+			$pinStatus = "done";
+
+		$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
 	?>
 
 	<li class="item deletable <?=$blockPhase['phase_ID'] == $otherPhase['phase_ID'] ? "selected" : ""?>" data-type="phase" data-id="<?=$otherPhase['phase_ID']?>">
-		<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$otherPhaseNumber?> (<?=timeago($otherPhase['phase_created'])?>)</a>
+		<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$otherPhaseNumber?> (<?=timeago($otherPhase['phase_created'])?>)
+		
+		<span class="pin-count normal remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count normal done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span></a>
 
-		<?php
-		if ( count($devices_of_phase) > 1 ) {
-		?>
+		<?php if ( count($devices_of_phase) > 1 ) { ?>
 		<ul>
 			<?php
 			foreach ($devices_of_phase as $deviceFromPhase) {
@@ -642,20 +667,14 @@
 			}
 			?>
 		</ul>
-		<?php
-		}
-		?>
+		<?php } ?>
 
 
-		<?php
-		if ( $blockPhase['phase_ID'] != $otherPhase['phase_ID'] ) {
-		?>
+		<?php if ( $blockPhase['phase_ID'] != $otherPhase['phase_ID'] ) { ?>
 
-		<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Phase" data-action="remove" data-confirm="Are you sure you want to remove this phase?"></i>
+			<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Phase" data-action="remove" data-confirm="Are you sure you want to remove this phase?"></i>
 
-		<?php
-		}
-		?>
+		<?php } ?>
 
 	</li>
 
