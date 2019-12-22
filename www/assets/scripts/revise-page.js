@@ -1142,23 +1142,7 @@ $(function() {
 
 	}).on('mousemove', function(e) {
 
-
-		if (pinClicked) {
-
-
-			// If not on DB, don't move it
-			if ( !focusedPin.is('[temporary]') ) {
-
-				//pinDragging = true;
-
-				//relocatePin();
-
-				//console.log('PIN IS MOVING!', pos_x, pos_y);
-
-			}
-
-			e.preventDefault();
-		}
+		// Nothing to do yet
 
 	}).on('mouseup', function(e) {
 
