@@ -93,6 +93,8 @@ $(function() {
 		if (value.length) form.attr('data-url-entered', 'yes');
 		else form.attr('data-url-entered', 'no');
 
+		if ( $(this).parents('#add-new').length ) $('.add-new-block input[name="page-url"]').val(value);
+
 	});
 
 
