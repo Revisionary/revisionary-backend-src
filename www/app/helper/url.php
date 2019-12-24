@@ -43,7 +43,7 @@ function current_url($query = "", $removeQuery = "", $forceSSL = false, $unForce
 
 
 	// Get current host
-	$pageURL = 'http'.(isset($_SERVER["HTTPS"]) && $_SERVER["HTTPS"] == "on" ? "s" : "")."://".$_SERVER["SERVER_NAME"];
+	$pageURL = 'http'.(ssl ? "s" : "")."://".$_SERVER["SERVER_NAME"];
 
 
 	// SSL forcing
