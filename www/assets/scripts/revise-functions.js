@@ -1714,7 +1714,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		project_ID: parseInt(project_ID),
 		page_ID: parseInt(page_ID),
 		phase_ID: parseInt(phase_ID),
-		device_ID: null
+		device_ID: page_type == "image" ? device_ID : null
 	};
 
 
