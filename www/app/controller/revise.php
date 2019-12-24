@@ -159,7 +159,7 @@ $screenIcon = $device['screen_cat_icon'];
 // PROTOCOL REDIRECTIONS:
 
 // Http to Https Redirection
-if ( substr($phaseData->remoteUrl, 0, 8) == "https://" && !ssl) {
+if ( (substr($phaseData->remoteUrl, 0, 8) == "https://" || $phaseData->remoteUrl == "image") && !ssl) {
 
 	header( 'Location: '.current_url("", "", true) ); // Force HTTPS
 	die();
@@ -167,7 +167,7 @@ if ( substr($phaseData->remoteUrl, 0, 8) == "https://" && !ssl) {
 }
 
 // Https to Http Redirection
-if ( substr($phaseData->remoteUrl, 0, 7) == "http://" && ssl) {
+elseif ( substr($phaseData->remoteUrl, 0, 7) == "http://" && ssl) {
 
 	header( 'Location: '.current_url("", "", false, true) ); // Force HTTP
 	die();
