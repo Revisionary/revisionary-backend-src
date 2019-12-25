@@ -189,11 +189,7 @@ class Internalize {
 		$processLink .= "&page_ID=$page_ID";
 		$processLink .= "&device_ID=$device_ID";
 		$processLink .= "&sitedir=".urlencode($phaseDir."/");
-
-
-		// Download types
-		if ($page_type == "ssr") $processLink .= "&ssr=true";
-		if ($page_type == "capture") $processLink .= "&capture=true";
+		$processLink .= "&page_type=$page_type";
 
 
 		$logger->info("Process URL String: $processLink");

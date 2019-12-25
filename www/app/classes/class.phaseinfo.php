@@ -120,7 +120,7 @@ class Phase {
 
 
     // Get the phase download status
-    public function getPhaseStatus() {
+    public function getPhaseStatus($page_type = "url") {
 
 
 		// 0% - WAITING FOR THE QUEUE
@@ -131,11 +131,19 @@ class Phase {
 		];
 
 
+		if ($page_type == 'capture') {
+
+			
+
+		}
+
+
+		// IMAGE
 		// 100% - READY
 		if ($this->remoteUrl == "image" && $this->internalizeCount > 0)
 			return [
 				"status" => "ready",
-				"description" => "Ready! Loading the site",
+				"description" => "Ready! Loading the design",
 				"percentage" => 100
 			];
 

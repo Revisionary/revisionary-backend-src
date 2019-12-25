@@ -91,7 +91,7 @@ class Screenshot {
 
 	// 2. 	If job is ready to get done, open the site with Chrome
 	// 2.1. Take a screenshot for the device
-	public function browserWorks() {
+	public function browserWorks($page_type) {
 		global $db, $queue, $logger, $config;
 
 
@@ -134,6 +134,7 @@ class Screenshot {
 		$processLink .= "&page_ID=$page_ID";
 		$processLink .= "&device_ID=$device_ID";
 		$processLink .= "&sitedir=".urlencode($phaseDir."/");
+		$processLink .= "&page_type=$page_type";
 
 
 		// Send the request

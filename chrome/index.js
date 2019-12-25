@@ -39,17 +39,20 @@ const autoScroll = async (page) => {
       let totalHeight = 0
       let distance = 100
       let timer = setInterval(() => {
-        let scrollHeight = document.body.scrollHeight
-        window.scrollBy(0, distance)
-        totalHeight += distance
-        if(totalHeight >= scrollHeight){
-		  clearInterval(timer)
-          resolve()
-        }
-      }, 300)
-    })
-  })
-}
+
+		let scrollHeight = document.body.scrollHeight;
+        window.scrollBy(0, distance);
+		totalHeight += distance;
+		
+        if (totalHeight >= scrollHeight){
+		  clearInterval(timer);
+          resolve();
+		}
+		
+      }, 300);
+    });
+  });
+};
 
 
 const blocked = require('./blocked.json');
@@ -171,7 +174,9 @@ require('http').createServer(async (req, res) => {
 		const page_ID = parseInt(queryData.page_ID) || 0;
 		const browser_ID = version_ID + '-' + page_ID + '-' + device_ID || url;
 		const fullPage = queryData.fullPage == 'true' || false;
-		const SSR = queryData.ssr == 'true' || false;
+		const page_type = queryData.page_type || 'url';
+		const SSR = page_type == 'ssr';
+		const capture = page_type == 'capture';
 		const siteDir = queryData.sitedir || 'site/project/page/version/';
 		const logDir = siteDir + 'logs/';
 
@@ -291,7 +296,7 @@ require('http').createServer(async (req, res) => {
 				const otherResources = /^(manifest|other)$/i.test(resourceType);
 				// Abort requests that exceeds 15 seconds
 				// Also abort if more than 100 requests
-				if (seconds > 10) {
+				if (seconds > 10 && !capture) {
 					console.log(`❌⏳ ${method} ${resourceType} ${shortURL}`);
 					request.abort();
 				} else if (reqCount > 200) {
@@ -663,8 +668,8 @@ require('http').createServer(async (req, res) => {
 
 
 
-		// SSR
-		if (SSR) {
+		// Download modes
+		if (SSR || capture) {
 
 			// Wait
 			let waitMs = 2000;
@@ -685,19 +690,18 @@ require('http').createServer(async (req, res) => {
 
 
 
-		// Serialized HTML of page DOM
-		const renderedHTML = await page.content();
-
-
-
 		console.log('💥 Perform action: ' + action);
-		console.log('💥 DOWNLOADABLES: ');
+		//console.log('💥 DOWNLOADABLES: ');
 		//console.log(downloadableRequests);
 
 
 
 		switch (action) {
 			case 'internalize': {
+
+
+				// Serialized HTML of page DOM
+				const renderedHTML = await page.content();
 
 
 				//console.log('🌎 Real Page URL: ', realPageURL);
@@ -881,27 +885,61 @@ require('http').createServer(async (req, res) => {
 
 				// Screenshot status
 				let screenshotSaved;
-				let deviceScreenshot;
+
+
+				// Device Screenshot Saving
+				const deviceScreenshotDir = siteDir + "screenshots/";
+				let deviceScreenshot = deviceScreenshotDir + 'device-' + device_ID + '.jpg';
+
+
+				// Create folders
+				if (!fs.existsSync(deviceScreenshotDir)) fs.mkdirSync(deviceScreenshotDir);
 
 
 				// SCREENSHOTS
 				try {
 
-					const screenshot = await pTimeout(page.screenshot({
-						type: 'jpeg',
-						clip: {
-							x : 0,
-							y : 0,
-							width : width,
-							height: height
-						}
-					}), 20 * 1000, 'Screenshot timed out');
 
-					// Device Screenshot Saving
-					const deviceScreenshotDir = siteDir + "screenshots/";
-					deviceScreenshot = deviceScreenshotDir + 'device-' + device_ID + '.jpg';
-					if (!fs.existsSync(deviceScreenshotDir)) fs.mkdirSync(deviceScreenshotDir);
-					fs.writeFileSync(deviceScreenshot, screenshot);
+					if (capture) {
+
+
+						//await (0, _puppeteerFullPageScreenshot.default)(page, { path: deviceScreenshot });
+
+
+						const bodyHandle = await page.$('body');
+						const bodySizes = await bodyHandle.boundingBox();
+						await console.log('SIZES: ', bodySizes);
+						const screenshot = await pTimeout(page.screenshot({
+							type: 'jpeg',
+							clip: {
+								x : 0,
+								y : 0,
+								width : bodySizes.width,
+								height: bodySizes.height
+							}
+						}), 20 * 1000, 'Screenshot timed out');
+						fs.writeFileSync(deviceScreenshot, screenshot);
+						await bodyHandle.dispose();
+
+
+					} else {
+
+
+						const screenshot = await pTimeout(page.screenshot({
+							type: 'jpeg',
+							clip: {
+								x : 0,
+								y : 0,
+								width : width,
+								height: height
+							}
+						}), 20 * 1000, 'Screenshot timed out');
+						fs.writeFileSync(deviceScreenshot, screenshot);
+
+
+					}
+
+
 					console.log('📸 Device Screenshot Saved: ', deviceScreenshot);
 					screenshotSaved = true;
 
@@ -916,7 +954,8 @@ require('http').createServer(async (req, res) => {
 
 				const dataString = JSON.stringify({
 					status: (screenshotSaved ? 'success' : 'error'),
-					screenshot : deviceScreenshot
+					screenshot : deviceScreenshot,
+					page_type: page_type
 				}, null, '\t');
 
 

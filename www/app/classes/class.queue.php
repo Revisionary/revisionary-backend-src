@@ -136,7 +136,7 @@ class Queue {
 
 				// Initiate Internalizator
 				$process = new Cocur\BackgroundProcess\BackgroundProcess(
-					"php ".dir."/app/bgprocess/screenshot.php $phase_ID $page_ID $device_ID ".session_id()." $queue_ID"
+					"php ".dir."/app/bgprocess/screenshot.php $phase_ID $page_ID $device_ID ".session_id()." $queue_ID $page_type"
 				);
 				$process->run(Phase::ID($phase_ID)->logDir."/screenshot-tasks-php.log", true);
 				$process_ID = $process->getPid();

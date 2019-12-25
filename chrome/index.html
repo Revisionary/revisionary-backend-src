@@ -80,7 +80,9 @@
 	  <option value="pdf">PDF</option>
   </select>
 
-  <label style="font-size: 10px;"><input type="checkbox" name="ssr" value="true" /> SSR</label>
+  <label style="font-size: 10px;"><input type="radio" name="page_type" value="url" checked /> URL</label>
+  <label style="font-size: 10px;"><input type="radio" name="page_type" value="ssr" /> SSR</label>
+  <label style="font-size: 10px;"><input type="radio" name="page_type" value="capture" /> Capture</label>
 
   <input id="width" type="hidden" name="width" value="1440" />
   <input id="height" type="hidden" name="height" value="900" />
