@@ -45,7 +45,7 @@
 							<label class="xl-hidden"><input type="radio" name="page-type" value="image">Image Mode</label>
 						</div>
 						<div class="col">
-							<label class="bottom-tooltip" data-tooltip="In development... This mode will take full size picture of your page you entered. You can only put comments on it." disabled><input type="radio" name="page-type" value="image" disabled>Capture Mode</label>
+							<label class="bottom-tooltip" data-tooltip="This mode will take full size picture of your page you entered. You can only put comments on it."><input type="radio" name="page-type" value="capture">Capture Mode</label>
 						</div>
 					</div>
 					

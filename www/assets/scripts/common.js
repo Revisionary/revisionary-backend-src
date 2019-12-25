@@ -83,21 +83,6 @@ $(function() {
 	});
 
 
-	// New project URL input
-	$(document).on('input', 'input[name="page-url"]', function(e) {
-
-		var formCatID = $(this).parents('form').attr('data-cat-id');
-		var form = $('form[data-cat-id="'+ formCatID +'"]');
-		var value = $(this).val();
-
-		if (value.length) form.attr('data-url-entered', 'yes');
-		else form.attr('data-url-entered', 'no');
-
-		if ( $(this).parents('#add-new').length ) $('.add-new-block input[name="page-url"]').val(value);
-
-	});
-
-
 	// New project modal URL check
 	$(document).on('submit', '#add-new .new-project-form', function(e) {
 
@@ -422,6 +407,37 @@ $(function() {
 		form.find('.page-url input').prop('disabled', false);
 		form.find('.page-options input').val('url');
 		form.find('.submitter').text('ADD');
+
+
+	});
+
+
+	// New page/project inputs
+	$(document).on('input', 'form.new-project-form input', function(e) {
+
+
+		// Update the cat ID
+		var currentForm = $(this).parents('form').first();
+		var formCatID = currentForm.attr('data-cat-id');
+		var forms = $('form[data-cat-id="'+ formCatID +'"]');
+		var otherForm = $('form[data-cat-id="'+ formCatID +'"]').not(currentForm);
+
+		// Input values
+		var name = $(this).attr('name');
+		var value = $(this).val();
+
+
+		// Show page modes
+		if (name == "page-url") {
+
+			if (value.length) forms.attr('data-url-entered', 'yes');
+			else forms.attr('data-url-entered', 'no');
+
+		}
+
+
+		otherForm.find('input[name="'+ name +'"]:not([type="checkbox"]):not([type="radio"])').val(value);
+		otherForm.find('input[type="radio"][name="'+ name +'"][value="'+ value +'"]').prop('checked', true);
 
 
 	});

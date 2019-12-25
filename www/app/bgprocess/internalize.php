@@ -11,7 +11,7 @@ $page_ID = intval($argv[2]);
 $device_ID = intval($argv[3]);
 $sessionID = $argv[4];
 $queue_ID = isset($argv[5]) && is_numeric($argv[5]) ? intval($argv[5]) : "";
-$ssr = $argv[6] == "yes";
+$page_type = $argv[6];
 
 
 // Correct the session ID
@@ -58,7 +58,7 @@ echo "Page ID: $page_ID \r\n";
 echo "Phase ID: $phase_ID \r\n";
 echo "Device ID: $device_ID \r\n";
 echo "SessionID: $sessionID \r\n";
-echo "SSR: ".($ssr ? "YES" : "NO")." \r\n";
+echo "Page Type: $page_type \r\n";
 
 
 
@@ -72,11 +72,11 @@ if ($queue_ID) $job_ready = $internalize->waitForQueue();
 // 2.1. Download the HTML, CSS, JS and Font files
 // 2.2. Take a screenshot for the page, and project if not exist
 // 2.3. JSON Output all the downloaded files
-if ($job_ready) $browser_done = $internalize->browserWorks($ssr);
+if ($job_ready) $browser_done = $internalize->browserWorks($page_type);
 
 
 // 3. HTML absolute URL filter to correct downloaded URLs
-if ($browser_done) $html_filtred = $internalize->filterAndUpdateHTML($ssr);
+if ($browser_done) $html_filtred = $internalize->filterAndUpdateHTML($page_type);
 
 
 // 4. Filter CSS files

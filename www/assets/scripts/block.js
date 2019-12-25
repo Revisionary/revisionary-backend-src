@@ -252,16 +252,9 @@ $(function() {
 
 		e.preventDefault();
 
-	}).on('input', '.add-new-block .new-project-form input', function(e) {
-
-		var formCatID = $(this).parents('form').attr('data-cat-id');
-
-		$('#add-new form').attr('data-cat-id', formCatID);
-		$('#add-new input[name="'+ $(this).attr('name') +'"]').val( $(this).val() ).trigger('input');
-
 	}).on('click', '.add-new-block .new-project-form *', function(e) {
 
-		console.log('CLICKED', formCatID);
+		//console.log('CLICKED', formCatID);
 
 		var formCatID = $(this).parents('form').attr('data-cat-id');
 		$('#add-new form').attr('data-cat-id', formCatID);
@@ -436,7 +429,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 										<label class="xl-hidden"><input type="radio" name="page-type" value="image">Image Mode</label>\
 									</div>\
 									<div class="col">\
-										<label class="bottom-tooltip" data-tooltip="In development... This mode will take full size picture of your page you entered. You can only put comments on it." disabled><input type="radio" name="page-type" value="image" disabled>Capture Mode</label>\
+										<label class="bottom-tooltip" data-tooltip="This mode will take full size picture of your page you entered. You can only put comments on it."><input type="radio" name="page-type" value="capture">Capture Mode</label>\
 									</div>\
 								</div>\
 								\

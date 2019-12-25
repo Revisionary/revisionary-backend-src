@@ -88,7 +88,7 @@ class Queue {
     // JOBS:
 
     // Add a new job to the queue
-    public function new_job($queue_type, $phase_ID, $page_ID, $device_ID, $queue_message = "", $ssr = "no") {
+    public function new_job($queue_type, $phase_ID, $page_ID, $device_ID, $queue_message = "", $page_type = "url") {
 	    global $db, $logger;
 
 
@@ -113,7 +113,7 @@ class Queue {
 
 				// Initiate Internalizator
 				$process = new Cocur\BackgroundProcess\BackgroundProcess(
-					"php ".dir."/app/bgprocess/internalize.php $phase_ID $page_ID $device_ID ".session_id()." $queue_ID $ssr"
+					"php ".dir."/app/bgprocess/internalize.php $phase_ID $page_ID $device_ID ".session_id()." $queue_ID $page_type"
 				);
 				$process->run(Phase::ID($phase_ID)->logDir."/internalize-tasks-php.log", true);
 				$process_ID = $process->getPid();

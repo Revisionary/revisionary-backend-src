@@ -146,7 +146,7 @@ class Internalize {
 	// 2.1. Download the HTML, CSS, JS and Font files
 	// 2.2. Take a screenshot for the device, and project if not exist
 	// 2.3. JSON Output all the downloaded files
-	public function browserWorks($ssr = false) {
+	public function browserWorks($page_type = "url") {
 		global $db, $queue, $logger, $config;
 
 
@@ -191,8 +191,9 @@ class Internalize {
 		$processLink .= "&sitedir=".urlencode($phaseDir."/");
 
 
-		// Server side rendering
-		if ($ssr) $processLink .= "&ssr=true";
+		// Download types
+		if ($page_type == "ssr") $processLink .= "&ssr=true";
+		if ($page_type == "capture") $processLink .= "&capture=true";
 
 
 		$logger->info("Process URL String: $processLink");
@@ -260,13 +261,13 @@ class Internalize {
 
 
 
-/*
+				/*
 				// Update the queue status
 				$queue->update_status($this->queue_ID, "error", "Downloaded JS file list data type is wrong.");
 				$logger->error("Downloaded JS file list data type is wrong. (".gettype($file).", ".gettype($data->downloadedFiles).", ".print_r($data->downloadedFiles, true).")");
 
 				return false;
-*/
+				*/
 
 
 				continue;
@@ -319,7 +320,7 @@ class Internalize {
 
 
 	// 3. HTML absolute URL filter to correct downloaded URLs
-	public function filterAndUpdateHTML($ssr = false) {
+	public function filterAndUpdateHTML($page_type = "url") {
 		global $logger, $queue;
 
 
@@ -403,7 +404,7 @@ class Internalize {
 
 
 		// If no <head> tag, add it after the <html> tag
-	    if ($countHead == 0 && !$ssr) {
+	    if ($countHead == 0 && $page_type != "ssr") {
 
 			$countHtml = 0;
 			$html = preg_replace_callback(
@@ -535,7 +536,7 @@ class Internalize {
 
 
 		// INTERNALIZE JS FILES
-		if (!$ssr) {
+		if ($page_type != "ssr") {
 
 			$html = preg_replace_callback(
 		        '/<script[\s]+[^<>]*[\s]*src=(?:(?:["](?<value>[^<>\'"\s]+)["])|(?:[\'](?<value2>[^<>\'"\s]*)[\'])|(?:[^\'"]*?(?<value3>[^<>\'"\s]*)[^\'"]*?)).*?[>$]/is',
@@ -690,7 +691,7 @@ class Internalize {
 		        $tag_name = $matches['tagname'];
 
 
-/*
+				/*
 		        // If it isn't easily editable
 		        if ( !in_array(strtoupper($tag_name), $this->easy_html_elements) && !in_array(strtoupper($tag_name), $this->block_html_elements) ) {
 
@@ -702,7 +703,7 @@ class Internalize {
 
 			        return $html_element;
 			    }
-*/
+				*/
 
 
 		        $countElement++;
@@ -955,7 +956,7 @@ class Internalize {
 				}
 
 
-/* // REMOVED TO ALLOW CDN URLs !!!
+				/* // REMOVED TO ALLOW CDN URLs !!!
 				// If not same domain URL
 				if (
 					$parsed_url['domain'] != parseUrl($this->phaseData->remoteUrl)['domain']
@@ -965,7 +966,7 @@ class Internalize {
 
 					return "url('".$url_found."')";
 				}
-*/
+				*/
 
 
 
