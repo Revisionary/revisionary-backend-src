@@ -120,11 +120,20 @@ if (
 	}
 
 
+	$phase_types = [
+		"url",
+		"ssr",
+		"capture",
+		"image"
+	];
+	$phase_type = in_array(request('page-type'), $phase_types) ? request('page-type') : $phase_types[0];
+
+
 
 	// Add a phase
 	$phase_ID = Phase::ID()->addNew(
 		$page_ID,
-		request('page-type')
+		$phase_type
 	);
 
 	// Check the result

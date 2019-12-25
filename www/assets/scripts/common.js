@@ -1732,6 +1732,7 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 				// Page redirection
 				if (action == "remove" && firstParameter == "redirect") {
 
+					console.log('GO TO URL: ', secondParameter);
 					window.open(secondParameter, "_self");
 					return true;
 
@@ -1762,7 +1763,12 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 
 						// Refresh the page
-						if (object_type == "project" || object_type == "page" || object_type == "phase" || object_type == "device") location.reload();
+						if (
+							(object_type == "project" || 
+							object_type == "page" || 
+							object_type == "phase" || 
+							object_type == "device") && firstParameter != "autoremove"
+						) location.reload();
 
 
 					}

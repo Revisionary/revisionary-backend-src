@@ -1210,7 +1210,7 @@ $(function() {
 
 
 			// Remove the page and then go to the link
-			doAction('remove', 'page', page_ID);
+			doAction('remove', 'page', page_ID, "autoremove");
 
 
 		}
