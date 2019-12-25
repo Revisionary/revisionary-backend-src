@@ -4,6 +4,7 @@ class Phase {
 
 
 	public static $phase_ID;
+	public static $device_ID;
 	public static $phaseInfo;
 
 	public $remoteUrl;
@@ -49,26 +50,35 @@ class Phase {
 
         // Set the phase cache directory URL
         $this->phaseUri = cache_url($fullPath, (substr($this->remoteUrl, 0, 8) == "https://"));
-		$this->cachedUrl = $this->phaseUri.$this->phaseFileName;
+		$this->cachedUrl = $this->phaseUri.$this->phaseFileName."?v=$this->internalizeCount";
 
 
 		// Log directory
 		$this->logDir = $this->phaseDir."/logs";
-        $this->logFile = $this->logDir."/".$this->logFileName.".".$this->logFileExtension;
+		$this->logFile = $this->logDir."/".$this->logFileName.".".$this->logFileExtension;
 
+
+		// Capture
+		if (
+			(file_exists($this->phaseDir."/screenshots/device-".self::$device_ID.".jpg") && !file_exists($this->phaseFile)) ||
+			$this->remoteUrl == "image"
+		)
+			$this->cachedUrl = site_url("serve-image/?device_ID=".self::$device_ID);
 
 
         // Set the phase status
         $this->phaseStatus = $this->getPhaseStatus();
 
 
-
     }
 
 
 	// ID Setter
-    public static function ID($phase_ID = null, $user_ID = null) {
-	    global $db;
+    public static function ID($phase_ID = null, $user_ID = null, $device_ID = null) {
+		global $db;
+		
+
+		self::$device_ID = $device_ID;
 
 
 	    // If specific phase
@@ -120,7 +130,7 @@ class Phase {
 
 
     // Get the phase download status
-    public function getPhaseStatus($page_type = "url") {
+    public function getPhaseStatus() {
 
 
 		// 0% - WAITING FOR THE QUEUE
@@ -131,11 +141,12 @@ class Phase {
 		];
 
 
-		if ($page_type == 'capture') {
-
-			
-
-		}
+		if (file_exists($this->phaseDir."/screenshots/device-".self::$device_ID.".jpg") && !file_exists($this->phaseFile))
+			return [
+				"status" => "ready",
+				"description" => "Ready! Loading the screenshot",
+				"percentage" => 100
+			];
 
 
 		// IMAGE

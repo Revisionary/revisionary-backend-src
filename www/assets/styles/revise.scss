@@ -517,7 +517,8 @@ html, body {
 
 
 
-	&[data-page-type="image"] {
+	&[data-page-type="image"],
+	&[data-page-type="capture"]  {
 
 		.pin-mode {
 
@@ -1562,7 +1563,8 @@ html, body {
 
 	}
 
-	&[data-page-type="image"] {
+	&[data-page-type="image"],
+	&[data-page-type="capture"] {
 
 		.device-specific {
 			display: none !important;

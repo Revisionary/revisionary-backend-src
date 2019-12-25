@@ -417,7 +417,8 @@ html, body {
 }
 
 #top-bar[data-page-type="image"] .pin-mode [data-pin-type="live"],
-#top-bar[data-page-type="image"] .pin-mode [data-pin-type="style"] {
+#top-bar[data-page-type="image"] .pin-mode [data-pin-type="style"], #top-bar[data-page-type="capture"] .pin-mode [data-pin-type="live"],
+#top-bar[data-page-type="capture"] .pin-mode [data-pin-type="style"] {
   display: none !important;
 }
 
@@ -1301,7 +1302,7 @@ html, body {
   display: none !important;
 }
 
-#pin-window[data-page-type="image"] .device-specific {
+#pin-window[data-page-type="image"] .device-specific, #pin-window[data-page-type="capture"] .device-specific {
   display: none !important;
 }
 

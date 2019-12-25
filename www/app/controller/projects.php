@@ -119,7 +119,8 @@ if (
 
 	// Add a phase
 	$phase_ID = Phase::ID()->addNew(
-		$page_ID
+		$page_ID,
+		request('page-type') != 'url'
 	);
 
 	// Check the result
@@ -161,6 +162,12 @@ if (
 	// Revising URL
 	$revise_url = site_url('revise/'.$device_ID.'?new');
 	if ( request('pinmode') == "browse" ) $revise_url = $revise_url."=page&pinmode=browse";
+
+
+	// Capture mode
+	if (request('page-type') == "capture") {
+		$revise_url = $revise_url."&capture";
+	}
 
 
 	// If successful

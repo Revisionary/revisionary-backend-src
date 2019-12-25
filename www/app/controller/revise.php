@@ -5,7 +5,12 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 // Force re-internalize
 $forceReInternalize = get('redownload') === "";
 $ssr = $forceReInternalize && get('ssr') === "";
-$capture = $forceReInternalize && get('capture') === "";
+$capture = get('capture') === "";
+
+
+$download_type = "url";
+if ($ssr) $download_type = "ssr";
+if ($capture) $download_type = "capture";
 
 
 
@@ -72,6 +77,10 @@ $allMyPhases = $User->getPhases();
 //die_to_print($allMyPhases);
 
 
+$phase_type = "url";
+if (file_exists($phaseData->phaseDir."/screenshots/device-".$device_ID.".jpg") && !file_exists($phaseData->phaseFile)) $phase_type = "capture";
+if ($capture) $phase_type = "capture";
+
 
 // PAGE:
 // Get the page ID
@@ -89,6 +98,7 @@ $page = $pageData->getInfo();
 //die_to_print($page);
 
 $page_type = $page['page_url'] == "image" ? "image" : "url";
+if ($phase_type == "capture") $page_type = "capture";
 
 // All my pages
 $allMyPages = $pages = $User->getPages(null, null, ''); // Excluding archives and deletes
@@ -252,7 +262,6 @@ if (
 } elseif (
 
 	!$forceReInternalize &&
-
 	$phase['phase_internalized'] > 0
 
 ) {
@@ -267,7 +276,26 @@ if (
 
 
 	// Device screenshot check
-	if ( !file_exists( $device_image ) ) {
+	if ( !file_exists( $device_image ) || $capture ) {
+
+
+
+		if ($capture) {
+	
+	
+			// Remove the existing and wrong files
+			if ( file_exists($phaseData->phaseDir) )
+				deleteDirectory($phaseData->phaseDir);
+	
+	
+			// Re-Create the log folder if not exists
+			if ( !file_exists($phaseData->logDir) )
+				mkdir($phaseData->logDir, 0755, true);
+			@chmod($phaseData->logDir, 0755);
+	
+	
+		}
+
 
 
 		// Logger
@@ -280,7 +308,7 @@ if (
 		// NEW QUEUE
 		// Add a new job to the queue
 		$queue = new Queue();
-		$queue_results = $queue->new_job('screenshot', $phase_ID, $page_ID, $device_ID, "Waiting other works to be done.");
+		$queue_results = $queue->new_job('screenshot', $phase_ID, $page_ID, $device_ID, "Waiting other works to be done.", $download_type);
 		$process_ID = $queue_results['process_ID'];
 		$queue_ID = $queue_results['queue_ID'];
 
@@ -316,10 +344,6 @@ if (
 
 
 	// NEW QUEUE
-	$download_type = "url";
-	if ($ssr) $download_type = "ssr";
-	if ($capture) $download_type = "capture";
-
 	// Add a new job to the queue
 	$queue = new Queue();
 	$queue_results = $queue->new_job('internalize', $phase_ID, $page_ID, $device_ID, "Waiting other works to be done.", $download_type);

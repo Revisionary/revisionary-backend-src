@@ -2,9 +2,18 @@
 use Cocur\BackgroundProcess\BackgroundProcess;
 
 
-// Validate phase_ID
-if ( !is_numeric(request('phase_ID')) ) return;
-$phase_ID = intval(request('phase_ID'));
+// Validate device_ID
+if ( !is_numeric(request('device_ID')) ) return;
+$device_ID = intval(request('device_ID'));
+$deviceData = Device::ID($device_ID);
+if (!$deviceData) return;
+
+
+// Get the phase data
+$phase_ID = $deviceData->getInfo('phase_ID');
+$phaseData = Phase::ID($phase_ID, null, $device_ID);
+if (!$phaseData) return;
+$phaseStatus = $phaseData->getPhaseStatus();
 
 
 // Get queue_ID if exists
@@ -13,11 +22,6 @@ $queue_ID = is_numeric(request('queue_ID')) ? intval(request('queue_ID')) : fals
 
 // Set the process ID to check
 $process = BackgroundProcess::createFromPID( request('processID') );
-
-
-// Get the page data
-$phaseData = Phase::ID($phase_ID);
-if (!$phaseData) return;
 
 
 // STATUS CHECK
@@ -37,9 +41,8 @@ elseif ( !$queue_ID ) {
 
 
 
-	$queue = new Queue();
-
 	// If project is not complete when the process stopped
+	$queue = new Queue();
 	if ( $queue->info($queue_ID)['queue_status'] != "done" ) {
 
 		$last_message = $queue->info($queue_ID)['queue_message'];
@@ -57,35 +60,16 @@ elseif ( !$queue_ID ) {
 
 // CREATE THE RESPONSE
 $data = array(
+	'status' => $status,
+	'processID' => $process->getPid(),
+	'processStatus' => $phaseStatus['status'],
+	'processDescription' => $phaseStatus['description'],
+	'processPercentage' => $phaseStatus['percentage'],
 
-	// JUST TO SEE
-	'phase_ID' => $phase_ID,
 	'queue_ID' => $queue_ID,
 	'phaseUrl' => $phaseData->cachedUrl,
 	'remoteUrl' => $phaseData->remoteUrl,
-
-	'status' => $status,
-	'processID' => $process->getPid(),
-	'processStatus' => $phaseData->phaseStatus['status'],
-	'processDescription' => $phaseData->phaseStatus['description'],
-	'processPercentage' => $phaseData->phaseStatus['percentage'],
-
-
-
-	// REAL DATA
-	'final' => [
-
-		'status' => $status,
-		'processID' => $process->getPid(),
-		'processStatus' => $phaseData->phaseStatus['status'],
-		'processDescription' => $phaseData->phaseStatus['description'],
-		'processPercentage' => $phaseData->phaseStatus['percentage'],
-
-		'queue_ID' => $queue_ID,
-		'phaseUrl' => $phaseData->cachedUrl,
-		'remoteUrl' => $phaseData->remoteUrl,
-		'internalized' => $phaseData->internalizeCount,
-	]
+	'internalized' => $phaseData->internalizeCount
 );
 
 echo json_encode(array(

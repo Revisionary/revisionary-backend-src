@@ -132,7 +132,7 @@
 		<div class="answers">
 			<a href="#" class="button good" data-popup="close"><i class="fa fa-smile"></i> Looks good now!</a><br/>
 			<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button middle"><i class="fa fa-meh"></i> Previous was better</a><br/>
-			<a href="<?=site_url('revise/'.$device_ID.'?redownload&capture')?>" class="button bad"><i class="fa fa-frown"></i> Both are bad</a>
+			<a href="<?=site_url('revise/'.$device_ID.'?capture')?>" class="button bad"><i class="fa fa-frown"></i> Both are bad</a>
 		</div>
 
 	</div>
@@ -149,11 +149,11 @@ $(function(){
 
 	var loadingProcessID = newProcess(false, "loadingProcess");
 	checkPageStatus(
-		<?=$phase_ID?>,
-		<?=$page_ID?>,
+		<?=$device_ID?>,
 		<?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
 		<?=is_numeric($process_ID) ? $process_ID : "''"?>,
-		loadingProcessID
+		loadingProcessID,
+		"<?=$download_type?>"
 	);
 
 

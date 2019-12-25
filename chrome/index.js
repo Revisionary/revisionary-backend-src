@@ -691,6 +691,7 @@ require('http').createServer(async (req, res) => {
 
 
 		console.log('💥 Perform action: ' + action);
+		console.log('💥 Download Type: ' + page_type);
 		//console.log('💥 DOWNLOADABLES: ');
 		//console.log(downloadableRequests);
 
@@ -903,9 +904,7 @@ require('http').createServer(async (req, res) => {
 					if (capture) {
 
 
-						//await (0, _puppeteerFullPageScreenshot.default)(page, { path: deviceScreenshot });
-
-
+						console.log('📸 Capturing the page...');
 						const bodyHandle = await page.$('body');
 						const bodySizes = await bodyHandle.boundingBox();
 						await console.log('SIZES: ', bodySizes);
@@ -925,6 +924,7 @@ require('http').createServer(async (req, res) => {
 					} else {
 
 
+						console.log('📸 Getting device screenshot...');
 						const screenshot = await pTimeout(page.screenshot({
 							type: 'jpeg',
 							clip: {
@@ -1085,8 +1085,10 @@ require('http').createServer(async (req, res) => {
 			}
 		}
 
+
 		actionDone = true;
 		console.log('💥 Done action: ' + action);
+		console.log('💥 Download Type: ' + page_type);
 
 
 
@@ -1133,31 +1135,29 @@ require('http').createServer(async (req, res) => {
 
 
 
+		/*
+			if (!cache.has(pageURL)) {
+				cache.set(pageURL, page);
 
-
-
-
-/*
-		if (!cache.has(pageURL)) {
-			cache.set(pageURL, page);
-
-			// Try to stop all execution
-			page.frames().forEach((frame) => {
-				frame.evaluate(() => {
-					// Clear all timer intervals https://stackoverflow.com/a/6843415/20838
-					for (var i = 1; i < 99999; i++) window.clearInterval(i);
-					// Disable all XHR requests
-					XMLHttpRequest.prototype.send = _ => _;
-					// Disable all RAFs
-					requestAnimationFrame = _ => _;
+				// Try to stop all execution
+				page.frames().forEach((frame) => {
+					frame.evaluate(() => {
+						// Clear all timer intervals https://stackoverflow.com/a/6843415/20838
+						for (var i = 1; i < 99999; i++) window.clearInterval(i);
+						// Disable all XHR requests
+						XMLHttpRequest.prototype.send = _ => _;
+						// Disable all RAFs
+						requestAnimationFrame = _ => _;
+					});
 				});
-			});
-		}
+			}
 
-		if (!cache.has(pageURL + 'downloadableRequests')) {
-			cache.set(pageURL + 'downloadableRequests', downloadableRequests);
-		}
-*/
+			if (!cache.has(pageURL + 'downloadableRequests')) {
+				cache.set(pageURL + 'downloadableRequests', downloadableRequests);
+			}
+		*/
+
+
 
 
 

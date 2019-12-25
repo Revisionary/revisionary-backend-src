@@ -1,7 +1,7 @@
 /*jshint multistr: true */
 // FUNCTIONS:
 // DB: Run the internalizator
-function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessID) {
+function checkPageStatus(device_ID, queue_ID, processID, loadingProcessID, downloadType) {
 
 
 	// If being force reinternalizing, update the URL
@@ -15,21 +15,22 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 	// Get the up-to-date pins
 	var statusCheckRequest = ajax('internalize-status',
 	{
-		'phase_ID'		: phase_ID,
-		'page_ID'		: page_ID,
+		'device_ID'		: device_ID,
 		'queue_ID'		: queue_ID,
-		'processID'		: processID
+		'processID'		: processID,
+		'page_type'		: downloadType
 
 	}).done(function(result) {
 
-		var data = result.data.final; console.log('RESULTS: ', result);
+
+		var data = result.data; console.log('RESULTS: ', result);
 
 
 		// LOG
-		$.each(result.data, function(key, value){
+		$.each(data, function(key, value){
 
 			// Append the log !!!
-			if (key != "final")	console.log(key + ': ', value);
+			console.log(key + ': ', value);
 
 		});
 
@@ -49,17 +50,20 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 
 
 		// Print the error message when stops before completion
-		if (data.status == "not-running" &&	data.processStatus != "ready") {
+		if (data.status == "not-running" &&	data.processStatus != "ready" && downloadType != "capture") {
 			$('#loading-info').text( 'Error');
 			editProcess(loadingProcessID, 0);
 		}
 
 
 		// If successfully downloaded
-		if (width == 100 && data.processStatus == "ready") {
+		if (
+			(width == 100 && data.processStatus == "ready") ||
+			(downloadType == "capture" && data.status == "not-running")
+		) {
 
 			// Update the global page URL
-			page_URL = data.phaseUrl + '?v=' + data.internalized;
+			page_URL = data.phaseUrl;
 			console.log('PAGE URL: ', page_URL);
 
 
@@ -70,20 +74,16 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 			) location.reload();
 
 
-			// Design Uploads
-			if (data.remoteUrl == 'image') {
-				page_type = "image";
-				page_URL = "/serve-image/?device_ID=" + device_ID;
-				console.log('DESIGN IMAGE: ', page_URL);
-			}
-
-
 			// Update the iframe url
 			$('#the-page').attr('src', page_URL);
 
 
 			// Run the inspector
 			runTheInspector();
+
+
+			// Capture mode
+			if (downloadType == "capture") endProcess(loadingProcessID);
 
 		}
 
@@ -93,7 +93,7 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 
 			setTimeout(function() {
 
-				checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessID);
+				checkPageStatus(device_ID, queue_ID, processID, loadingProcessID, downloadType);
 
 			}, 1000);
 
@@ -111,7 +111,7 @@ function checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessI
 
 		setTimeout(function() {
 
-			checkPageStatus(phase_ID, page_ID, queue_ID, processID, loadingProcessID);
+			checkPageStatus(device_ID, queue_ID, processID, loadingProcessID, downloadType);
 
 		}, 1000);
 
@@ -1256,7 +1256,7 @@ function switchPinType(pinType, pinPrivate) {
 
 	// Image mode
 	if (
-		page_type == "image" && (pinType == "live" || pinType == "style")
+		(page_type == "image" || page_type == "capture") && (pinType == "live" || pinType == "style")
 	) {
 		pinType = "comment";
 	}
@@ -1715,7 +1715,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		project_ID: parseInt(project_ID),
 		page_ID: parseInt(page_ID),
 		phase_ID: parseInt(phase_ID),
-		device_ID: page_type == "image" ? device_ID : null
+		device_ID: page_type == "image" || page_type == "capture" ? device_ID : null
 	};
 
 
