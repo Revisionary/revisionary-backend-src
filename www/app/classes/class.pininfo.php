@@ -118,8 +118,9 @@ class Pin {
 
 		$device_ID = $pin_device_ID;
 		$phase_ID = $pin_phase_ID;
+		$phaseData = Phase::ID( $phase_ID );
 
-		$page_ID = Phase::ID( $phase_ID )->getInfo('page_ID');
+		$page_ID = $phaseData->getInfo('page_ID');
 		$pageData = Page::ID( $page_ID );
 
 
@@ -129,7 +130,7 @@ class Pin {
 
 
 		// NULL FOR NOW !!!
-		$pin_device_ID = $pageData->getInfo('page_url') == "image" ? $pin_device_ID : null;
+		$pin_device_ID = $phaseData->getInfo('phase_type') != "url" ? $pin_device_ID : null;
 
 		// Add the pin
 		$pin_ID = $db->insert('pins', array(

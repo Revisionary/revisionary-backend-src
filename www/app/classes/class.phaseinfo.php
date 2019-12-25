@@ -311,6 +311,7 @@ class Phase {
     // Add a new phase
     public function addNew(
 		int $page_ID, // The page_ID that new phase is belong to
+		string $phase_type = "url",
 		bool $internalized = false
     ) {
 	    global $db, $log, $cache;
@@ -324,6 +325,7 @@ class Phase {
 		// Add the phase
 		$phase_ID = $db->insert('phases', array(
 			"page_ID" => $page_ID,
+			"phase_type" => $phase_type,
 			"phase_internalized" => $internalized
 		));
 

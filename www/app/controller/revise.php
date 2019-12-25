@@ -8,11 +8,6 @@ $ssr = $forceReInternalize && get('ssr') === "";
 $capture = get('capture') === "";
 
 
-$download_type = "url";
-if ($ssr) $download_type = "ssr";
-if ($capture) $download_type = "capture";
-
-
 
 
 // USER:
@@ -72,14 +67,12 @@ if ( !$phaseData ) {
 $phase = $phaseData->getInfo();
 //die_to_print($phase);
 
+$phase_type = $phase['phase_type'];
+
 // All my phases
 $allMyPhases = $User->getPhases();
 //die_to_print($allMyPhases);
 
-
-$phase_type = "url";
-if (file_exists($phaseData->phaseDir."/screenshots/device-".$device_ID.".jpg") && !file_exists($phaseData->phaseFile)) $phase_type = "capture";
-if ($capture) $phase_type = "capture";
 
 
 // PAGE:
@@ -97,8 +90,7 @@ if ( !$pageData ) {
 $page = $pageData->getInfo();
 //die_to_print($page);
 
-$page_type = $page['page_url'] == "image" ? "image" : "url";
-if ($phase_type == "capture") $page_type = "capture";
+$page_type = $phase_type;
 
 // All my pages
 $allMyPages = $pages = $User->getPages(null, null, ''); // Excluding archives and deletes
@@ -262,7 +254,7 @@ if (
 } elseif (
 
 	!$forceReInternalize &&
-	$phase['phase_internalized'] > 0
+	($phase['phase_internalized'] > 0 || $phase['phase_type'] == "capture" || $phase['phase_type'] == "image" || $capture)
 
 ) {
 
@@ -281,6 +273,10 @@ if (
 
 
 		if ($capture) {
+
+
+			$phase_type = $page_type = "capture";
+			$phaseData->edit('phase_type', $phase_type);
 	
 	
 			// Remove the existing and wrong files
@@ -308,7 +304,7 @@ if (
 		// NEW QUEUE
 		// Add a new job to the queue
 		$queue = new Queue();
-		$queue_results = $queue->new_job('screenshot', $phase_ID, $page_ID, $device_ID, "Waiting other works to be done.", $download_type);
+		$queue_results = $queue->new_job('screenshot', $phase_ID, $page_ID, $device_ID, "Waiting other works to be done.", $phase_type);
 		$process_ID = $queue_results['process_ID'];
 		$queue_ID = $queue_results['queue_ID'];
 
@@ -322,7 +318,7 @@ if (
 
 
 // Needs to be completely internalized
-} else {
+} elseif ($forceReInternalize || $phase['phase_type'] == "url") {
 
 
 	// Remove the existing and wrong files
@@ -343,10 +339,17 @@ if (
 	));
 
 
+
+	// Update the phase type
+	$phase_type = $page_type = $ssr ? "ssr" : "url";
+	$phaseData->edit('phase_type', $phase_type);
+
+
+
 	// NEW QUEUE
 	// Add a new job to the queue
 	$queue = new Queue();
-	$queue_results = $queue->new_job('internalize', $phase_ID, $page_ID, $device_ID, "Waiting other works to be done.", $download_type);
+	$queue_results = $queue->new_job('internalize', $phase_ID, $page_ID, $device_ID, "Waiting other works to be done.", $phase_type);
 	$process_ID = $queue_results['process_ID'];
 	$queue_ID = $queue_results['queue_ID'];
 

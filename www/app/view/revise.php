@@ -153,7 +153,7 @@ $(function(){
 		<?=is_numeric($queue_ID) ? $queue_ID : "''"?>,
 		<?=is_numeric($process_ID) ? $process_ID : "''"?>,
 		loadingProcessID,
-		"<?=$download_type?>"
+		"<?=$phase_type?>"
 	);
 
 

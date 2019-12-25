@@ -362,7 +362,7 @@ require('http').createServer(async (req, res) => {
 
 
 
-				console.log('REQUEST FINISHED:', response_url);
+				console.log('REQUEST FINISHED:', truncate(response_url, 70));
 
 
 
@@ -678,13 +678,18 @@ require('http').createServer(async (req, res) => {
 			console.log('▶️ Continuing the process.');
 
 			// Autoscroll to bottom
+			console.log('▶️ Scrolling to bottom...');
 			await autoScroll(page);
 
 			// Scroll back to top
+			console.log('▶️ Scrolling to top...');
 			await page.evaluate(() => {
 				window.scrollTo(0, 0);
 			});
+
+			console.log('⏳ Waiting for '+ (waitMs/1000) +' seconds...');
 			await page.waitFor(waitMs);
+			console.log('Page interactions done');
 
 		}
 

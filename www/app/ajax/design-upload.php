@@ -144,7 +144,10 @@ $phase_ID = request('phase_ID');
 if (!$phase_ID || $phase_ID == "new") {
 
 
-	$phase_ID = Phase::ID('new')->addNew( $page_ID, true );
+	$phase_ID = Phase::ID('new')->addNew(
+		$page_ID,
+		'image'
+	);
 	if (!$phase_ID) {
 
 

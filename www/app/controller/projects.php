@@ -20,6 +20,10 @@ if (
 	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
 ) {
 
+	// die_to_print(
+	// 	$_REQUEST
+	// );
+
 	$project_ID = $project_ID_initial = request('project_ID');
 	$page_url = request('page-url');
 	if ( request('pinmode') == "browse" ) $page_url = rawurldecode($page_url);
@@ -120,7 +124,7 @@ if (
 	// Add a phase
 	$phase_ID = Phase::ID()->addNew(
 		$page_ID,
-		request('page-type') != 'url'
+		request('page-type')
 	);
 
 	// Check the result
@@ -162,12 +166,6 @@ if (
 	// Revising URL
 	$revise_url = site_url('revise/'.$device_ID.'?new');
 	if ( request('pinmode') == "browse" ) $revise_url = $revise_url."=page&pinmode=browse";
-
-
-	// Capture mode
-	if (request('page-type') == "capture") {
-		$revise_url = $revise_url."&capture";
-	}
 
 
 	// If successful
