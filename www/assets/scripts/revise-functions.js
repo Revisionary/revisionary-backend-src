@@ -2672,7 +2672,7 @@ function makeDraggable(pin) {
 
 			// Element info
 			var element_index = parseInt($(this).attr('data-revisionary-index'));
-			var elementOffset = getElementOffset(element_index);
+			var elementOffset = getElementOffset(element_index, true);
 
 
 
