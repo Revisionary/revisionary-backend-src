@@ -9,15 +9,15 @@
 			<span class="pin-count middle remaining" data-count="<?=$inCompletePinsCount?>"><?=$inCompletePinsCount?></span>
 			<div class="pin-stats">
 
-				<pin data-pin-type="live" data-count="<?=$totalContentChangeCount?>"><?=$totalContentChangeCount?>
+				<pin data-pin-type="live" data-count="<?=$livePinsCount?>"><?=$livePinsCount?>
 					<div class="pin-title">Content</div>
 				</pin>
 
-				<pin data-pin-type="style" data-count="<?=$totalStyleChangeCount?>"><?=$totalStyleChangeCount?>
+				<pin data-pin-type="style" data-count="<?=$stylePinsCount?>"><?=$stylePinsCount?>
 					<div class="pin-title">Style</div>
 				</pin>
 
-				<pin data-pin-type="comment" data-count="<?=$inCompletePinsCount - $totalContentChangeCount - $totalStyleChangeCount?>"><?=$inCompletePinsCount - $totalContentChangeCount - $totalStyleChangeCount?>
+				<pin data-pin-type="comment" data-count="<?=$commentPinsCount?>"><?=$commentPinsCount?>
 					<div class="pin-title">Comment</div>
 				</pin>
 			
@@ -30,15 +30,15 @@
 			<span class="pin-count middle done" data-count="<?=$completePinsCount?>"><?=$completePinsCount?></span>
 			<div class="pin-stats">
 
-				<pin class="show-number" data-pin-type="live" data-pin-complete="1" data-count="<?=$totalCompleteContentChangeCount?>"><?=$totalCompleteContentChangeCount?>
+				<pin class="show-number" data-pin-type="live" data-pin-complete="1" data-count="<?=$completeLivePinsCount?>"><?=$completeLivePinsCount?>
 					<div class="pin-title">Content</div>
 				</pin>
 
-				<pin class="show-number" data-pin-type="style" data-pin-complete="1" data-count="<?=$totalCompleteStyleChangeCount?>"><?=$totalCompleteStyleChangeCount?>
+				<pin class="show-number" data-pin-type="style" data-pin-complete="1" data-count="<?=$completeStylePinsCount?>"><?=$completeStylePinsCount?>
 					<div class="pin-title">Style</div>
 				</pin>
 
-				<pin class="show-number" data-pin-type="comment" data-pin-complete="1" data-count="<?=$completePinsCount - $totalCompleteContentChangeCount - $totalCompleteStyleChangeCount?>"><?=$completePinsCount - $totalCompleteContentChangeCount - $totalCompleteStyleChangeCount?>
+				<pin class="show-number" data-pin-type="comment" data-pin-complete="1" data-count="<?=$completeCommentPinsCount?>"><?=$completeCommentPinsCount?>
 					<div class="pin-title">Comment</div>
 				</pin>
 			

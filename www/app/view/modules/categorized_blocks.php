@@ -249,35 +249,6 @@
 								$block_image_url = cache_url($block_image_path);
 
 
-								// Count the pins
-								if ( is_array($allMyPins) ) {
-								
-									$project_ID = $block['project_ID'];
-								
-									$livePinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
-								
-										return $pin['project_ID'] == $project_ID && $pin['pin_type'] == "live" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
-								
-									}));
-									$stylePinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
-								
-										return $pin['project_ID'] == $project_ID && $pin['pin_type'] == "style" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
-								
-									}));
-									$privatePinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
-								
-										return $pin['project_ID'] == $project_ID && ($pin['pin_type'] == "live" || $pin['pin_type'] == "style") && $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID() && $pin['pin_complete'] == "0";
-								
-									}));
-									$completePinCount = count(array_filter($allMyPins, function($pin) use ($project_ID) {
-								
-										return $pin['project_ID'] == $project_ID && $pin['pin_complete'] == "1";
-								
-									}));
-								
-								}
-
-
 							}
 
 
@@ -323,45 +294,88 @@
 								$block_url = site_url('revise/'.$firstDevice['device_ID']);
 
 
-								// Count the pins
-								if ( is_array($allMyPins) ) {
-								
-									$page_ID = $block['page_ID'];
-								
-								
-									$livePinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
-								
-										return $pin['page_ID'] == $page_ID && $pin['pin_type'] == "live" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
-								
-									}));
-									$stylePinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
-								
-										return $pin['page_ID'] == $page_ID && $pin['pin_type'] == "style" && $pin['pin_private'] == "0" && $pin['pin_complete'] == "0";
-								
-									}));
-									$privatePinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
-								
-										return $pin['page_ID'] == $page_ID && ($pin['pin_type'] == "live" || $pin['pin_type'] == "style") && $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID() && $pin['pin_complete'] == "0";
-								
-									}));
-									$completePinCount = count(array_filter($allMyPins, function($pin) use ($page_ID) {
-								
-										return $pin['page_ID'] == $page_ID && $pin['pin_complete'] == "1";
-								
-									}));
-								
-								}
+							}
+
+
+							// Count all the pin types
+							$completePinsCount = $inCompletePinsCount = $privatePinsCount = $livePinsCount = $stylePinsCount = $commentPinsCount = $completeLivePinsCount = $completeStylePinsCount = $completeCommentPinsCount = 0;
+							if ( is_array($allMyPins) ) {
+
+								$object_ID = $block[$dataType.'_ID'];
+
+
+								$completePins = array_filter($allMyPins, function($pin) use($dataType, $object_ID) {
+
+									return $pin[$dataType.'_ID'] == $object_ID && $pin['pin_complete'] == "1";
+
+								});
+								$completePinsCount = count($completePins);
+
+
+								$inCompletePins = array_filter($allMyPins, function($pin) use($dataType, $object_ID) {
+
+									return $pin[$dataType.'_ID'] == $object_ID && $pin['pin_complete'] == "0";
+
+								});
+								$inCompletePinsCount = count($inCompletePins);
+
+
+								$privatePins = array_filter($allMyPins, function($pin) use($dataType, $object_ID) {
+
+									return $pin[$dataType.'_ID'] == $object_ID && $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID();
+
+								});
+								$privatePinsCount = count($privatePins);
+
+
+
+								$livePinsCount = count(array_filter($inCompletePins, function($pin) {
+
+									return $pin['pin_type'] == "live" && $pin['pin_private'] == "0";
+
+								}));
+
+								$stylePinsCount = count(array_filter($inCompletePins, function($pin) {
+
+									return $pin['pin_type'] == "style" && $pin['pin_private'] == "0";
+
+								}));
+
+								$commentPinsCount = count(array_filter($inCompletePins, function($pin) {
+
+									return $pin['pin_type'] == "comment" && $pin['pin_private'] == "0";
+
+								}));
+
+
+
+								$completeLivePinsCount = count(array_filter($completePins, function($pin) {
+
+									return $pin['pin_type'] == "live" && $pin['pin_private'] == "0";
+
+								}));
+
+								$completeStylePinsCount = count(array_filter($completePins, function($pin) {
+
+									return $pin['pin_type'] == "style" && $pin['pin_private'] == "0";
+
+								}));
+
+								$completeCommentPinsCount = count(array_filter($completePins, function($pin) {
+
+									return $pin['pin_type'] == "comment" && $pin['pin_private'] == "0";
+
+								}));
 
 
 							}
 
 
 							// Get block status
-							$inCompletePinCount = $livePinCount + $stylePinCount + $privatePinCount;
-							if ($inCompletePinCount)
+							if ($inCompletePinsCount)
 								$blockPinStatus = "has-tasks";
 
-							if ($completePinCount && !$inCompletePinCount)
+							if ($completePinsCount && !$inCompletePinsCount)
 								$blockPinStatus = "done";
 
 
@@ -489,40 +503,9 @@
 									</div>
 									<div class="col xl-8-12 xl-right xl-top pins">
 
-										<span class="pin-count remaining tooltip" data-tooltip="Incomplete Tasks" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span>
-										<span class="pin-count done tooltip" data-tooltip="Solved Tasks" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>
-										<?=$inCompletePinCount + $completePinCount == 0 ? "<span class='no-task'>No Tasks</span>" : ""?>
-
-										<?php
-										/*
-										if ($livePinCount > 0) {
-										?>
-										<pin data-pin-type="live"><?=$livePinCount?>
-											<!-- <div class="notif-no">3</div> -->
-											<div class="pin-title">Live</div>
-										</pin>
-										<?php
-										} if ($stylePinCount > 0) {
-										?>
-										<pin data-pin-type="style"><?=$stylePinCount?>
-											<div class="pin-title">Style</div>
-										</pin>
-										<?php
-										} if ($privatePinCount > 0) {
-										?>
-										<pin data-pin-type="live" data-pin-private="1"><?=$privatePinCount?>
-											<div class="pin-title">Private</div>
-										</pin>
-										<?php
-										} if ($completePinCount > 0) {
-										?>
-										<pin class="show-number" data-pin-type="live" data-pin-complete="1"><?=$completePinCount?>
-											<!-- <div class="notif-no">3</div> -->
-											<div class="pin-title">Solved</div>
-										</pin>
-										<?php
-										}*/
-										?>
+										<span class="pin-count remaining tooltip" data-tooltip="Incomplete Tasks" data-count="<?=$inCompletePinsCount?>"><?=$inCompletePinsCount?></span>
+										<span class="pin-count done tooltip" data-tooltip="Solved Tasks" data-count="<?=$completePinsCount?>"><?=$completePinsCount?></span>
+										<?=$inCompletePinsCount + $completePinsCount == 0 ? "<span class='no-task'>No Tasks</span>" : ""?>
 
 									</div>
 									<div class="col xl-1-1 xl-center <?=$dataType == "page" ? "screens" : "pages"?>" style="position: relative;">
@@ -827,47 +810,11 @@
 			<div class="wrap xl-1 xl-center">
 				<div class="col" style="margin-bottom: 60px;">
 
-					<div class="pin-statistics xl-hidden">
-						<?php
-						if ($totalContentChangeCount > 0) {
-						?>
-						<pin class="mid" data-pin-type="live"><?=$totalContentChangeCount?>
-							<!-- <div class="notif-no">3</div> -->
-							<div class="pin-title dark-color">Content</div>
-						</pin>
-						<?php
-						} if ($totalStyleChangeCount > 0) {
-						?>
-						<pin class="mid" data-pin-type="style"><?=$totalStyleChangeCount?>
-							<div class="pin-title dark-color">Style</div>
-						</pin>
-						<?php
-						} if ($inCompletePinsCount - $totalContentChangeCount - $totalStyleChangeCount > 0) {
-						?>
-						<pin class="mid" data-pin-type="comment"><?=$inCompletePinsCount - $totalContentChangeCount - $totalStyleChangeCount?>
-							<div class="pin-title dark-color">Comment</div>
-						</pin>
-						<?php
-						} if ($totalPrivatePinCount > 0) {
-						?>
-						<pin class="mid" data-pin-type="live" data-pin-private="1"><?=$totalPrivatePinCount?>
-							<div class="pin-title dark-color">Private</div>
-						</pin>
-						<?php
-						} if ($totalCompletePinCount > 0) {
-						?>
-						<pin class="mid show-number" data-pin-type="live" data-pin-complete="1"><?=$totalCompletePinCount?>
-							<!-- <div class="notif-no">3</div> -->
-							<div class="pin-title dark-color">Solved</div>
-						</pin>
-						<?php
-						}
-						?>
-					</div>
 					<div class="date-statistics">
 						<b>Created:</b> <?=timeago($projectInfo['project_created'])?><br/>
 						<b>Modified:</b> <?=timeago($project_modified)?>
 					</div>
+
 				</div>
 			</div>
 

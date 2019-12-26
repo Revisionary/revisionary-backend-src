@@ -96,74 +96,75 @@ $allMyPins = $User->getPins(null, null, null, $project_ID);
 
 
 // Count all the pin types
-$totalLivePinCount = $totalStylePinCount = $totalPrivatePinCount = $totalCompletePinCount = 0;
-
+$completePinsCount = $inCompletePinsCount = $privatePinsCount = $livePinsCount = $stylePinsCount = $commentPinsCount = $completeLivePinsCount = $completeStylePinsCount = $completeCommentPinsCount = 0;
 if ( is_array($allMyPins) ) {
+
 
 	$completePins = array_filter($allMyPins, function($pin) {
 
 		return $pin['pin_complete'] == "1";
 
 	});
+	$completePinsCount = count($completePins);
+
 
 	$inCompletePins = array_filter($allMyPins, function($pin) {
 
 		return $pin['pin_complete'] == "0";
 
 	});
+	$inCompletePinsCount = count($inCompletePins);
 
-	$totalCompletePinCount = count($completePins);
 
-	$totalLivePinCount = count(array_filter($inCompletePins, function($pin) {
+	$privatePins = array_filter($allMyPins, function($pin) {
+
+		return $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID();
+
+	});
+	$privatePinsCount = count($privatePins);
+
+
+
+	$livePinsCount = count(array_filter($inCompletePins, function($pin) {
 
 		return $pin['pin_type'] == "live" && $pin['pin_private'] == "0";
 
 	}));
 
-	$totalStylePinCount = count(array_filter($inCompletePins, function($pin) {
+	$stylePinsCount = count(array_filter($inCompletePins, function($pin) {
 
 		return $pin['pin_type'] == "style" && $pin['pin_private'] == "0";
 
 	}));
 
-	$totalPrivatePinCount = count(array_filter($inCompletePins, function($pin) {
+	$commentPinsCount = count(array_filter($inCompletePins, function($pin) {
 
-		return $pin['pin_private'] == "1" && $pin['user_ID'] == currentUserID();
-
-	}));
-
-
-
-	// Modification Check
-	$totalContentChangeCount = count(array_filter($inCompletePins, function($pin) {
-
-		return $pin['pin_type'] == "live" && $pin['pin_modification'] != "";
+		return $pin['pin_type'] == "comment" && $pin['pin_private'] == "0";
 
 	}));
 
-	$totalStyleChangeCount = count(array_filter($inCompletePins, function($pin) {
 
-		return $pin['pin_type'] == "live" && $pin['pin_css'] != "";
 
-	}));
+	$completeLivePinsCount = count(array_filter($completePins, function($pin) {
 
-	$totalCompleteContentChangeCount = count(array_filter($completePins, function($pin) {
-
-		return $pin['pin_type'] == "live" && $pin['pin_modification'] != "";
+		return $pin['pin_type'] == "live" && $pin['pin_private'] == "0";
 
 	}));
 
-	$totalCompleteStyleChangeCount = count(array_filter($completePins, function($pin) {
+	$completeStylePinsCount = count(array_filter($completePins, function($pin) {
 
-		return $pin['pin_type'] == "live" && $pin['pin_css'] != "";
+		return $pin['pin_type'] == "style" && $pin['pin_private'] == "0";
+
+	}));
+
+	$completeCommentPinsCount = count(array_filter($completePins, function($pin) {
+
+		return $pin['pin_type'] == "comment" && $pin['pin_private'] == "0";
 
 	}));
 
 
 }
-
-$inCompletePinsCount = $totalLivePinCount + $totalStylePinCount + $totalPrivatePinCount;
-$completePinsCount = $totalCompletePinCount;
 
 
 
