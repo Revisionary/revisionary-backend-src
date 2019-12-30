@@ -148,6 +148,8 @@ var pinWindowOpen = false;
 var pinWindowWasOpen = false;
 var pinWindowWidth = 350;
 var pinWindowHeight = 515;
+var selectionFromContentEditor = false;
+var contentEditor;
 
 // Pins
 var Pins = {};

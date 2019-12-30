@@ -199,8 +199,8 @@
 				</div>
 
 				<div class="wrap xl-1 content-boxes">
-					<div class="col">
-						<div class="edit-content changes" contenteditable="true"></div>
+					<div class="col" id="bubble-container">
+						<div class="edit-content changes"></div>
 						<div class="edit-content original"></div>
 						<div class="edit-content differences"></div>
 					</div>

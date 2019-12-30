@@ -574,7 +574,7 @@ $(function() {
 		if (pinWindow().hasClass('show-differences')) {
 
 			var originalContent = pinWindow().find('.content-editor .edit-content.original').html();
-			var changedContent = pinWindow().find('.content-editor .edit-content.changes').html();
+			var changedContent = pinWindow().find('.content-editor .edit-content.changes > .ql-editor').html();
 
 
 			// Difference check
@@ -592,62 +592,13 @@ $(function() {
 	});
 
 
-	// Pin window content changes
-	var doChange = {};
-	$(document).on('input', '#pin-window.active .content-editor .edit-content', function(e) {
+	$(document).on('mousedown', '.content-editor .edit-content.changes', function(e) {
 
+		selectionFromContentEditor = true;
 
-		var pin_ID = pinWindow().attr('data-pin-id');
-		var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
-		var modification = $(this).html();
-		var changedElement = iframeElement(element_index);
+	}).on('mouseup', 'body', function(e) {
 
-
-		//console.log('REGISTERED CHANGES', changes);
-
-
-		// Stop the auto-refresh
-		stopAutoRefresh();
-
-
-		// If edited element is a submit or reset input button
-		if (
-        	changedElement.prop('tagName').toUpperCase().toUpperCase() == "INPUT" &&
-        	(
-        		changedElement.attr("type") == "text" ||
-        		changedElement.attr("type") == "email" ||
-        		changedElement.attr("type") == "url" ||
-        		changedElement.attr("type") == "tel" ||
-        		changedElement.attr("type") == "submit" ||
-        		changedElement.attr("type") == "reset"
-        	)
-        ) {
-	        modification = $(this).text();
-			changedElement.val(modification);
-		}
-
-
-		// Instant apply the change
-		changedElement.html(modification);
-		changedElement.attr('contenteditable', "true");
-
-
-		// Update the element, pin and pin window status
-		updateAttributes(pin_ID, 'data-revisionary-content-edited', "1");
-		updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
-
-
-		// Remove unsent job
-		if (doChange[element_index]) clearTimeout(doChange[element_index]);
-
-		// Send changes to DB after 1 second
-		doChange[element_index] = setTimeout(function(){
-
-			saveChange(pin_ID, modification);
-
-		}, 1000);
-
-		//console.log('Content changed.');
+		selectionFromContentEditor = false;
 
 	});
 
@@ -1339,10 +1290,6 @@ $(function() {
 
 // When everything is loaded
 $(window).on("load", function (e) {
-
-
-	// CONTENT EDITOR PLUGIN
-	$(".edit-content[contenteditable='true']").popline();
 
 
 	// COLOR PICKER PLUGIN

@@ -727,6 +727,10 @@ html, body {
   letter-spacing: normal;
 }
 
+#pin-window .edit-content.changes {
+  overflow: visible;
+}
+
 #pin-window .edit-content.original {
   opacity: 0.5;
 }
@@ -1374,22 +1378,18 @@ html, body {
 }
 
 /* Text Editor */
-.popline {
-  -moz-border-radius: 0;
-       border-radius: 0;
-  background: #000000;
-  outline: 1px solid white;
+.ql-container:not(.ql-disabled) a::before {
+  font-size: 10px;
+  pointer-events: none;
 }
 
-.popline > li a {
-  padding: 10px;
+.ql-container .ql-editor {
+  padding: 0;
 }
 
-.popline > li a, .popline > li span {
-  font-size: 14px !important;
-  line-height: 14px !important;
-  top: auto !important;
-  height: auto;
+.ql-container .ql-tooltip {
+  z-index: 2;
+  background-color: #000000;
 }
 
 /* Color Picker */

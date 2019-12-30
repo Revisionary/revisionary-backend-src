@@ -425,29 +425,21 @@ if ($userInfo['email'] != "bilaltas@me.com" && $userInfo['email'] != "bill@twelv
 
 $additionalCSS = [
 	'vendor/jquery.mCustomScrollbar.css',
-	'vendor/popline-theme/default.css',
 	'vendor/spectrum.css',
+	'vendor/quill-theme/quill.bubble.css',
 	'revise.css'
 ];
 
 $additionalHeadJS = [
-	'process.js',
-	'revise-globals.js',
-	'revise-functions.js',
 	'vendor/jquery-ui.min.js',
 	'vendor/Autolinker.min.js',
 	'vendor/autosize.min.js',
 	'vendor/diff.js',
 	'vendor/spectrum.js',
-	'vendor/popline/jquery.popline.js',
-	'vendor/popline/plugins/jquery.popline.link.js',
-	//'vendor/popline/plugins/jquery.popline.blockquote.js',
-	'vendor/popline/plugins/jquery.popline.decoration.js',
-	'vendor/popline/plugins/jquery.popline.list.js',
-	'vendor/popline/plugins/jquery.popline.justify.js',
-	'vendor/popline/plugins/jquery.popline.blockformat.js',
-	//'vendor/popline/plugins/jquery.popline.social.js',
-	'vendor/popline/plugins/jquery.popline.backcolor.js'
+	'vendor/quill.min.js',
+	'process.js',
+	'revise-globals.js',
+	'revise-functions.js'
 ];
 
 $additionalBodyJS = [

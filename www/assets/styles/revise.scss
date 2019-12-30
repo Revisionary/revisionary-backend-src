@@ -859,6 +859,10 @@ html, body {
 		overflow: scroll;
 		letter-spacing: normal;
 
+		&.changes {
+			overflow: visible;
+		}
+
 		&.original {
 			opacity: 0.5;
 		}
@@ -1642,25 +1646,22 @@ html, body {
 
 
 /* Text Editor */
-.popline {
-    border-radius: 0;
-    background: $color;
-    outline: 1px solid white;
+.ql-container {
 
-    & > li {
+	&:not(.ql-disabled) a::before {
+		font-size: 10px;
+		pointer-events: none;
+	}
 
-	    a {
-		    padding: 10px;
-	    }
+	.ql-editor {
+		padding: 0;
+	}
+	
+	.ql-tooltip {
+		z-index: 2;
+		background-color: $color;
+	}
 
-	    a, span {
-		    font-size: 14px !important;
-		    line-height: 14px !important;
-		    top: auto !important;
-		    height: auto;
-	    }
-
-    }
 }
 
 
