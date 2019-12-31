@@ -1,6 +1,24 @@
 <pre><?php
 
 
+// $pin_ID = 38;
+// $file_path = "pin-images/pin-$pin_ID";
+// $file = new File($file_path, "s3");
+// //var_dump( $s3->DoesObjectExist($file_path) );
+// var_dump( $file );
+// die();
+
+
+$url = "https://revisionary.sfo2.digitaloceanspaces.com/pin-images/pin-40/attachments/ijufd8m4uh.jpg";
+$file_path = substr(parseUrl($url)['path'], 1);
+
+$file = new File($file_path, "s3");
+var_dump( $file->fileExists() );
+//var_dump( $file->delete() );
+
+die_to_print( $file_path );
+
+
 // if(extension_loaded('gd')) {
 //     print_r(gd_info());
 // }

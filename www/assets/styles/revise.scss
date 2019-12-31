@@ -1128,6 +1128,7 @@ html, body {
 	}
 
 	.comments {
+		margin-bottom: 10px;
 
 		.no-comments {
 			display: none;
@@ -1136,7 +1137,7 @@ html, body {
 		.comment-actions {
 
 			.comment-input-col {
-			    width: calc(100% - 30px);
+			    //width: calc(100% - 30px);
 			    height: 35px;
 
 				.comment-input {
@@ -1152,16 +1153,64 @@ html, body {
 					width: 100%;
 				}
 
+				.attachment-progress {
+					display: none;
+				}
+
 			}
 
-			.send-comment {
-			    font-size: 20px;
-			    display: block;
-			    margin-top: -5px;
+			.comment-icons-col {
 
-			    &:hover {
-				    color: $color-secondary;
-			    }
+				& > a,
+				& > label {
+					font-size: 20px;
+					display: block;
+					margin-top: -5px;
+					cursor: pointer;
+	
+					&:hover {
+						color: $color-secondary;
+					}
+
+					&.send-comment {
+						display: none;
+					}
+
+					&.abort-attachment {
+						display: none;
+					}
+
+				}
+
+			}
+
+			&.sending {
+
+				.comment-icons-col {
+					opacity: 0.5;
+					pointer-events: none;
+				}
+
+			}
+
+			&.uploading {
+
+				form {
+					display: none;
+				}
+
+				.comment-icons-col > * {
+					display: none;
+				}
+
+				.comment-icons-col > .abort-attachment {
+					display: block;
+				}
+
+				.attachment-progress {
+					display: block;
+				}
+
 			}
 
 		}
@@ -1489,6 +1538,28 @@ html, body {
 
 	}
 
+	&[data-comment-written="yes"] {
+
+
+		.comments {
+
+			.comment-icons-col > a,
+			.comment-icons-col > label {
+
+				&.attach {
+					display: none;
+				}
+
+				&.send-comment {
+					display: block;
+				}
+
+			}
+
+		}
+
+	}
+
 	&[data-revisionary-showing-style-changes="no"] {
 
 		ul.options > li:not(:first-child) {
@@ -1641,6 +1712,125 @@ html, body {
     &[data-filter="hide"] > .pin {
 	    display: none;
     }
+
+}
+
+
+/* Pin Comments */
+.pin-comments {
+	padding-top: 10px;
+	padding-bottom: 25px;
+
+	.add-comment {
+		margin-top: 20px;
+		margin-bottom: -20px;
+	}
+
+	.comments-loading i {
+		margin-right: 5px;
+	}
+
+	.comment {
+		margin-top: 10px;
+		margin-bottom: 18px;
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		.profile-picture {
+			margin-left: 0;
+			margin-right: 0;
+
+			.new-comment-icon {
+			    position: absolute;
+			    left: -15px;
+			}
+		}
+
+		.xl-last .new-comment-icon {
+		    right: -15px;
+		    left: auto;
+		}
+
+		.comment-inner-wrapper {
+
+		    .comment-user-name {
+			    font-size: 14px;
+			    font-weight: bold;
+			    letter-spacing: 1.5px;
+		    }
+
+		    .comment-date {
+			    padding-left: 5px;
+			    padding-right: 5px;
+			    font-size: 10px;
+			    line-height: 20px;
+			    opacity: 0.4;
+			    display: inline-block;
+		    }
+
+		    .comment-text {
+				font-size: 14px;
+				letter-spacing: 0.5px;
+
+				img {
+					max-width: 100%;
+					max-height: 250px;
+					height: auto;
+					width: auto;
+				}
+
+				a:not(.delete-comment) {
+					text-decoration: underline;
+				}
+
+				.delete-comment {
+					opacity: 0;
+					line-height: 5px;
+				}
+
+				&:hover .delete-comment {
+					opacity: 1;
+				}
+
+		    }
+
+		}
+
+
+		&.recurring {
+			margin-top: -15px;
+
+			.profile-image > picture {
+				display: none;
+			}
+
+			.comment-user-name {
+				display: none;
+			}
+
+			.comment-date {
+				padding: 0;
+			}
+
+		}
+
+
+		&.sametime {
+
+			.comment-date {
+				display: none;
+			}
+
+		}
+
+
+	}
 
 }
 

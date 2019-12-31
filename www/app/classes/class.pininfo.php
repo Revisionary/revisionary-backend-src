@@ -216,13 +216,14 @@ class Pin {
 
 
 
-		$pin_type = ucfirst( $this->getInfo('pin_type') );
+		// Delete the pin folder on S3
+		$file = new File("pin-images/pin-".self::$pin_ID, "s3");
+		$file->delete();
 
 
 		// Delete the pin
 		$db->where('pin_ID', self::$pin_ID);
 		$pin_deleted = $db->delete('pins');
-
 
 
 		// Delete the notifications if exists
@@ -231,8 +232,11 @@ class Pin {
 		$db->delete('notifications');
 
 
-
 		if ($pin_deleted) {
+
+
+			// Pin type
+			$pin_type = ucfirst( $this->getInfo('pin_type') );
 
 
 			// Update the page modification date
@@ -599,7 +603,7 @@ class Pin {
 		$db->join("users u", "c.user_ID = u.user_ID", "LEFT");
 		$db->orderBy('c.comment_added', 'ASC');
 		$db->where('pin_ID', self::$pin_ID);
-		$comments = $db->get('pin_comments c', null, "c.comment_ID, c.comment_modified, c.pin_comment, c.comment_added, c.comment_modified, u.user_first_name, u.user_ID, u.user_last_name, u.user_picture");
+		$comments = $db->get('pin_comments c', null, "c.comment_ID, c.comment_modified, c.pin_comment, c.comment_type, c.comment_added, c.comment_modified, u.user_first_name, u.user_ID, u.user_last_name, u.user_picture");
 
 		return $comments;
 
@@ -608,24 +612,26 @@ class Pin {
 
     // Add a new comment
     public function addComment(
-    	string $message,
-    	string $newPin = "no"
+		string $message,
+		string $comment_type = "comment"
 	) {
 	    global $db, $log;
 
 
 
 		// More DB Checks of arguments !!! (This user can complete?)
+		// Filter the html codes !!! ?
 
 
 
-		$pin_type = ucfirst( $this->getInfo('pin_type') );
+		if ($comment_type != "comment" && $comment_type != "attachment") return false;
 
 
 
 		// Add the comment
 		$comment_ID = $db->insert('pin_comments', array(
 			"pin_comment" => $message,
+			"comment_type" => $comment_type,
 			"pin_ID" => self::$pin_ID,
 			"user_ID" => currentUserID()
 		));
@@ -633,6 +639,10 @@ class Pin {
 
 
 		if ($comment_ID) {
+
+
+			// Pin type
+			$pin_type = ucfirst( $this->getInfo('pin_type') );
 
 
 			// Send it to all related users
@@ -649,7 +659,7 @@ class Pin {
 
 
 			// Site log
-			$log->info("$pin_type Pin #".self::$pin_ID." Comment Added: '$message' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
+			$log->info("$pin_type Pin #".self::$pin_ID." ".ucfirst($comment_type)." Added: '$message' | '".$pageData->getInfo('page_name')."' Page #".$this->page_ID." | Phase #".$this->phase_ID." | Device #".$this->device_ID." | Project #".$pageData->getInfo('project_ID')." | User #".currentUserID());
 
 
 		}
@@ -669,11 +679,35 @@ class Pin {
 
 
 
-		// More DB Checks of arguments !!! (This user can complete?)
+		// More DB Checks of arguments !!! (This user can delete this comment?)
 
 
 
 		$pin_type = ucfirst( $this->getInfo('pin_type') );
+
+
+
+		// Get the comment info
+		$db->where('pin_ID', self::$pin_ID);
+		$db->where('comment_ID', $comment_ID);
+		$db->where('user_ID', currentUserID());
+		$comment = $db->getOne('pin_comments');
+		if (!$comment) return false;
+
+
+		// Delete the attachments
+		if ($comment['comment_type'] == "attachment") {
+
+			$attachment = explode(' | ', $comment['pin_comment']);
+			$fileURL = $attachment[0];
+			$fileName = $attachment[1];
+			$file_path = substr(parseUrl($fileURL)['path'], 1);
+
+
+			$file = new File($file_path, "s3");
+			$file->delete();
+
+		}
 
 
 

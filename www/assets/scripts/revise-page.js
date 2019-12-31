@@ -502,33 +502,218 @@ $(function() {
 	});
 
 
+	// Send button
+	$('.send-comment').click(function(e) {
+
+		// Submit the form
+		$('#comment-sender').submit();
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
 	// Pressing enter / enter + shift on comment input
 	$('.comment-input').keypress(function(e) {
 
 		if (e.keyCode == 13 && !e.shiftKey) {
 
-			$(this).parents('form').submit(); //Submit your form here
+			$('#comment-sender').submit(); // Submit your form here
 
 			e.preventDefault();
 			return false;
 		}
 
+	}).on('input', function() {
+
+		pinWindow().attr('data-comment-written', ( $(this).val().length ? "yes" : "no" ));
+
 	});
 
 
-	// Send button
-	$('.send-comment').click(function(e) {
+	// Comment attachment
+	$(document).on('change', '#comment-attach-form input[name="comment-attachment"]', function() {
 
 
-		var pin_ID = pinWindow().attr('data-pin-id');
-		var message = pinWindow(pin_ID).find('.comment-input').val();
+		var form = $('#comment-attach-form');
+		var maxSize = $(this).attr('data-max-size');
 
-		// Add it from DB
-		sendComment(pin_ID, message);
+
+	    var reader = new FileReader();
+	    reader.onload = function(event) {
+
+
+			// Temp data URL
+			//var imageSrc = event.target.result;
+
+
+			// Apply the change
+			//form.find('.selected-image img').attr('src', imageSrc);
+
+
+			form.submit();
+
+	    };
+
+
+		// If a file selected
+        if ( $(this).get(0).files.length ) {
+
+
+            var fileSize = $(this).get(0).files[0].size; // in bytes
+            if (fileSize > maxSize) {
+
+                alert('File size is more than ' + formatBytes(maxSize));
+                return false;
+
+            } else {
+
+                console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
+	        	reader.readAsDataURL( $(this).get(0).files[0] );
+
+            }
+
+
+		// If no file selected
+        } else {
+
+		    console.log('NO FILE');
+			return false;
+
+        }
+
+
+	});
+
+
+	// Comment attachment submission
+	$(document).on('submit', '#comment-attach-form', function(e) {
+
+
+		// console.log('UPLOAD THAT ATTACHMENT');
+		// return false;
+		// e.preventDefault();
+
+
+		var pin_ID = parseInt( pinWindow().attr('data-pin-id') );
+		var form = $(this);
+
+
+		// Uploading state
+		pinWindow().find('.comment-actions').addClass('uploading');
+
+
+		// Start the process
+		var uploadAttachmentProcessID = newProcess(null, "uploadAttachmentProcess");
+
+
+		$.ajax({
+			url: ajax_url+'?type=comment-attachment&pin_ID=' + pin_ID,
+			type: 'POST',
+			data:  new FormData(this),
+			mimeType: "multipart/form-data",
+			contentType: false,
+			cache: false,
+			processData: false,
+			dataType: 'json',
+			xhr: function() {
+
+
+				var jqXHR = null;
+				if ( window.ActiveXObject ) {
+
+					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+
+				} else {
+
+					jqXHR = new window.XMLHttpRequest();
+
+				}
+
+
+				// Upload progress
+				jqXHR.upload.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Uploaded percent', percentComplete );
+
+
+						editProcess(uploadAttachmentProcessID, percentComplete);
+						pinWindow().find('.attachment-progress > .percentage').text(percentComplete + '%');
+						pinWindow().find('.attachment-progress > .info').text('UPLOADING...');
+
+						if (percentComplete == 100) pinWindow().find('.attachment-progress > .info').text('PROCESSING...');
+
+					}
+
+				}, false );
+
+
+				// Download progress
+				jqXHR.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Downloaded percent', percentComplete );
+
+					}
+
+				}, false );
+
+
+				return jqXHR;
+			},
+			success: function(data, textStatus, jqXHR) {
+				
+				var imageUrl = data.new_url;
+				var status = data.status;
+
+				if (status != "success") {
+
+					console.error('ERROR: ', status, data, imageUrl, textStatus, jqXHR);
+					return false;
+
+				}
+
+
+				console.log('SUCCESS!', imageUrl, data, textStatus, jqXHR);
+
+
+				// Finish the process
+				endProcess(uploadAttachmentProcessID);
+
+
+				// Refresh the comments list
+				getComments(pin_ID);
+
+
+				// Reset the form
+				form.trigger("reset");
+
+
+				// Uploading state
+				pinWindow().find('.comment-actions').removeClass('uploading');
+
+
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+
+				console.log('FAILED!!', errorThrown);
+
+				
+				// Finish the process !!!
+				endProcess(uploadAttachmentProcessID);
+
+			}
+		});
+		
 
 		e.preventDefault();
 		return false;
-
 
 	});
 
@@ -677,6 +862,7 @@ $(function() {
 		var pinIndex = Pins.indexOf(pin);
 		var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
 		var changedElement = iframeElement(element_index);
+		var form = $(this);
 
 
 		// Start the process
@@ -756,6 +942,10 @@ $(function() {
 
 				// Update the global
 				Pins[pinIndex].pin_modification = imageUrl;
+
+
+				// Reset the form
+				form.trigger('reset');
 
 
 				// Update the images

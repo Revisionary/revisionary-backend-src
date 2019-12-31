@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: revisionary-do-user-2911443-0.db.ondigitalocean.com:25060
--- Generation Time: Dec 25, 2019 at 01:44 PM
+-- Generation Time: Dec 31, 2019 at 02:11 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.4.1
 
@@ -164,6 +164,7 @@ CREATE TABLE `pins` (
 CREATE TABLE `pin_comments` (
   `comment_ID` bigint(20) NOT NULL,
   `pin_comment` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `comment_type` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'comment',
   `comment_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `comment_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `pin_ID` bigint(20) NOT NULL,
@@ -348,7 +349,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `user_first_name`, `user_last_name`, `user_job_title`, `user_department`, `user_company`, `user_picture`, `user_has_public_profile`, `user_email_notifications`, `user_registered`, `user_IP`, `user_level_ID`) VALUES
 (1, 'bilaltas', 'bilaltas@me.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Bilal', 'TAŞ', NULL, NULL, NULL, 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/w1muiw2xx3.jpg', 1, 1, '2019-09-23 10:38:14', '127.0.0.1', 1),
 (2, 'ike-elimsa', 'ike@twelve12.com', '$2y$10$b/jC7podSCVz6yIIKag41.1fa67xvB2utqWWVhogD7C1wkhErLU5C', 'Ike', 'Elimsa', NULL, NULL, NULL, 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/jq1h92y2w7.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', 3),
-(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', NULL, NULL, NULL, 'sara.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', 4),
+(3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', NULL, NULL, NULL, 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/o35wjvb55t.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', 4),
 (4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', NULL, NULL, NULL, 'matt.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', 2),
 (5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', 'Web Developer', 'Web Department', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/cuzajoqbx8.jpg', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', 3),
 (6, 'bill-tas', 'bill@twelve12.com', '$2y$10$d39kS46ZfdS9x4Vhzqp3mebAq17UD31qLl6ogC6RPHzwM1bG0.0hK', 'Bill', 'TAS', 'Lead Web Developer', 'Web Department', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/jdd2rxz5qz.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', 3),

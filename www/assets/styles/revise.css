@@ -989,13 +989,15 @@ html, body {
   border: none;
 }
 
+#pin-window .comments {
+  margin-bottom: 10px;
+}
+
 #pin-window .comments .no-comments {
   display: none;
 }
 
 #pin-window .comments .comment-actions .comment-input-col {
-  width: -moz-calc(100% - 30px);
-  width: calc(100% - 30px);
   height: 35px;
 }
 
@@ -1013,14 +1015,52 @@ html, body {
   width: 100%;
 }
 
-#pin-window .comments .comment-actions .send-comment {
+#pin-window .comments .comment-actions .comment-input-col .attachment-progress {
+  display: none;
+}
+
+#pin-window .comments .comment-actions .comment-icons-col > a,
+#pin-window .comments .comment-actions .comment-icons-col > label {
   font-size: 20px;
   display: block;
   margin-top: -5px;
+  cursor: pointer;
 }
 
-#pin-window .comments .comment-actions .send-comment:hover {
+#pin-window .comments .comment-actions .comment-icons-col > a:hover,
+#pin-window .comments .comment-actions .comment-icons-col > label:hover {
   color: #007acc;
+}
+
+#pin-window .comments .comment-actions .comment-icons-col > a.send-comment,
+#pin-window .comments .comment-actions .comment-icons-col > label.send-comment {
+  display: none;
+}
+
+#pin-window .comments .comment-actions .comment-icons-col > a.abort-attachment,
+#pin-window .comments .comment-actions .comment-icons-col > label.abort-attachment {
+  display: none;
+}
+
+#pin-window .comments .comment-actions.sending .comment-icons-col {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+#pin-window .comments .comment-actions.uploading form {
+  display: none;
+}
+
+#pin-window .comments .comment-actions.uploading .comment-icons-col > * {
+  display: none;
+}
+
+#pin-window .comments .comment-actions.uploading .comment-icons-col > .abort-attachment {
+  display: block;
+}
+
+#pin-window .comments .comment-actions.uploading .attachment-progress {
+  display: block;
 }
 
 #pin-window > .bottom-actions .action > a {
@@ -1259,6 +1299,16 @@ html, body {
   display: none;
 }
 
+#pin-window[data-comment-written="yes"] .comments .comment-icons-col > a.attach,
+#pin-window[data-comment-written="yes"] .comments .comment-icons-col > label.attach {
+  display: none;
+}
+
+#pin-window[data-comment-written="yes"] .comments .comment-icons-col > a.send-comment,
+#pin-window[data-comment-written="yes"] .comments .comment-icons-col > label.send-comment {
+  display: block;
+}
+
 #pin-window[data-revisionary-showing-style-changes="no"] ul.options > li:not(:first-child) {
   opacity: 0.2;
   pointer-events: none;
@@ -1374,6 +1424,109 @@ html, body {
 .pins-list[data-filter="private"] > .pin[data-pin-private="0"],
 .pins-list[data-filter="public"] > .pin[data-pin-private="1"],
 .pins-list[data-filter="hide"] > .pin {
+  display: none;
+}
+
+/* Pin Comments */
+.pin-comments {
+  padding-top: 10px;
+  padding-bottom: 25px;
+}
+
+.pin-comments .add-comment {
+  margin-top: 20px;
+  margin-bottom: -20px;
+}
+
+.pin-comments .comments-loading i {
+  margin-right: 5px;
+}
+
+.pin-comments .comment {
+  margin-top: 10px;
+  margin-bottom: 18px;
+}
+
+.pin-comments .comment:first-child {
+  margin-top: 0;
+}
+
+.pin-comments .comment:last-child {
+  margin-bottom: 0;
+}
+
+.pin-comments .comment .profile-picture {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.pin-comments .comment .profile-picture .new-comment-icon {
+  position: absolute;
+  left: -15px;
+}
+
+.pin-comments .comment .xl-last .new-comment-icon {
+  right: -15px;
+  left: auto;
+}
+
+.pin-comments .comment .comment-inner-wrapper .comment-user-name {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+}
+
+.pin-comments .comment .comment-inner-wrapper .comment-date {
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 10px;
+  line-height: 20px;
+  opacity: 0.4;
+  display: inline-block;
+}
+
+.pin-comments .comment .comment-inner-wrapper .comment-text {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.pin-comments .comment .comment-inner-wrapper .comment-text img {
+  max-width: 100%;
+  max-height: 250px;
+  height: auto;
+  width: auto;
+}
+
+.pin-comments .comment .comment-inner-wrapper .comment-text a:not(.delete-comment) {
+  text-decoration: underline;
+}
+
+.pin-comments .comment .comment-inner-wrapper .comment-text .delete-comment {
+  opacity: 0;
+  line-height: 5px;
+}
+
+.pin-comments .comment .comment-inner-wrapper .comment-text:hover .delete-comment {
+  opacity: 1;
+}
+
+.pin-comments .comment.recurring {
+  margin-top: -15px;
+}
+
+.pin-comments .comment.recurring .profile-image > picture {
+  display: none;
+}
+
+.pin-comments .comment.recurring .comment-user-name {
+  display: none;
+}
+
+.pin-comments .comment.recurring .comment-date {
+  padding: 0;
+}
+
+.pin-comments .comment.sametime .comment-date {
   display: none;
 }
 

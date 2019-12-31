@@ -2492,6 +2492,20 @@ function timeSince(date) {
   return "about a minute";
 }
 
+function getFileExtension(fileName) {
+
+	var re = /(?:\.([^.]+))?$/;
+	return re.exec(fileName)[1];
+
+	// var ext = re.exec("file.name.with.dots.txt")[1];   // "txt"
+	// var ext = re.exec("file.txt")[1];                  // "txt"
+	// var ext = re.exec("file")[1];                      // undefined
+	// var ext = re.exec("")[1];                          // undefined
+	// var ext = re.exec(null)[1];                        // undefined
+	// var ext = re.exec(undefined)[1];                   // undefined
+
+}
+
 function assignDefault(variable, defaultValue) {
 
 	return (typeof variable !== 'undefined') ? variable : defaultValue;

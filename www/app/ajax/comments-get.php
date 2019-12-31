@@ -25,17 +25,8 @@ $status = $comments ? "Comments received" : "No Comments Found";
 
 
 // CREATE THE RESPONSE
-$data = array();
-$data['data'] = array(
-
+die(json_encode(array(
 	'status' => $status,
-	'nonce' => request('nonce'),
-	//'S_nonce' => $_SESSION['pin_nonce'],
-	'pin_ID' => $pin_ID
-
-);
-
-echo json_encode(array(
-  'data' => $data,
-  'comments' => $comments
-));
+	'pin_ID' => $pin_ID,
+	'comments' => $comments
+)));

@@ -124,7 +124,7 @@ class File {
 
 
 		// Early exit if no file
-		if ( !$this->fileExists($file_path, $file_location) ) return false;
+		if ( !$this->fileExists($file_path, $file_location) && $file_location != "s3" ) return false;
 
 
 		// Do action

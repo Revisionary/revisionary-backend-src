@@ -448,16 +448,31 @@
 
 				<div class="comment-actions">
 
-					<form action="" method="post" id="comment-sender">
-						<div class="wrap xl-flexbox xl-between">
-							<div class="col comment-input-col">
+					
+					<div class="wrap xl-table xl-middle xl-gutter-8">
+						<div class="col comment-input-col">
+						
+							<form action="" method="post" id="comment-sender">
 								<textarea class="comment-input resizeable" rows="1" placeholder="Type your comments, and hit 'Enter'..." required></textarea>
+							</form>
+
+							<form action="" id="comment-attach-form" class="xl-hidden" method="POST" enctype="multipart/form-data">
+								<input type="file" name="comment-attachment" id="comment-attachment" class="comment-attachment" accept=".gif,.jpg,.jpeg,.png,.svg,.pdf,.doc,.docx,.ppt,.pptx,.zip,.pages,.numbers" data-max-size="15000000" />
+							</form>
+
+							<div class="attachment-progress">
+								<span class="percentage">%12</span>
+								<span class="info">UPLOADING...</span>
 							</div>
-							<div class="col">
-								<a href="#" class="send-comment"><i class="fa fa-paper-plane"></i></a>
-							</div>
+
 						</div>
-					</form>
+						<div class="col xl-1-12 xl-right comment-icons-col">
+							<a href="#" class="send-comment" data-tooltip="Send the comment"><i class="fa fa-paper-plane"></i></a>
+							<label for="comment-attachment" class="attach" data-tooltip="Upload a file"><i class="fa fa-paperclip"></i></label>
+							<a href="#" class="abort-attachment" data-tooltip="Cancel the upload"><i class="fa fa-times"></i></a>
+						</div>
+					</div>
+
 
 				</div>
 

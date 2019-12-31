@@ -59,19 +59,17 @@ elseif ( !$queue_ID ) {
 
 
 // CREATE THE RESPONSE
-$data = array(
-	'status' => $status,
-	'processID' => $process->getPid(),
-	'processStatus' => $phaseStatus['status'],
-	'processDescription' => $phaseStatus['description'],
-	'processPercentage' => $phaseStatus['percentage'],
+die(json_encode(array(
+	'data' => array(
+		'status' => $status,
+		'processID' => $process->getPid(),
+		'processStatus' => $phaseStatus['status'],
+		'processDescription' => $phaseStatus['description'],
+		'processPercentage' => $phaseStatus['percentage'],
 
-	'queue_ID' => $queue_ID,
-	'phaseUrl' => $phaseData->cachedUrl,
-	'remoteUrl' => $phaseData->remoteUrl,
-	'internalized' => $phaseData->internalizeCount
-);
-
-echo json_encode(array(
-  'data' => $data
-));
+		'queue_ID' => $queue_ID,
+		'phaseUrl' => $phaseData->cachedUrl,
+		'remoteUrl' => $phaseData->remoteUrl,
+		'internalized' => $phaseData->internalizeCount
+	)
+)));

@@ -21,34 +21,15 @@ if (!$pinData) return;
 $pinInfo = $pinData->getInfo();
 
 
-// Delete the old Image
-if ( $pinInfo['pin_modification_type'] == "image" && strpos($pinInfo['pin_modification'], '://') !== false ) { // On S3
-
-	$old_image_path = substr(parse_url($pinInfo['pin_modification'], PHP_URL_PATH), 1);
-
-	// Delete old ımage
-	$file = new File($old_image_path, "s3");
-	$file->delete();
-
-}
-
-
 // Delete the pin
 $pin_deleted = $pinData->remove();
 if ($pin_deleted) $status = "Pin deleted: $pin_ID";
 
 
 // CREATE THE RESPONSE
-$data = array();
-$data['data'] = array(
-
+die(json_encode(array(
 	'status' => $status,
 	'nonce' => request('nonce'),
 	//'S_nonce' => $_SESSION['pin_nonce'],
 	'pin_ID' => $pin_ID
-
-);
-
-echo json_encode(array(
-  'data' => $data
-));
+)));

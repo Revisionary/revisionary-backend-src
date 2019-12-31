@@ -1886,7 +1886,7 @@ function removePin(pin_ID) {
 	}).done(function(result){
 
 
-		console.log("PIN REMOVED: ", result.data);
+		console.log("PIN REMOVED: ", result);
 
 
 		// Update the limitations
@@ -2899,6 +2899,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			.attr('data-pin-new', (firstTime ? "yes" : "no"))
 			.attr('data-new-notification', "no")
 			.attr('data-has-comments', 'no')
+			.attr('data-comment-written', 'no')
 			.attr('data-page-type', page_type);
 
 
@@ -4299,7 +4300,7 @@ function getCSS(pin_ID) {
 function getComments(pin_ID, commentsWrapper) {
 
 
-	commentsWrapper = assignDefault(commentsWrapper, $('#pin-window[data-pin-id="'+ pin_ID +'"] .pin-comments'));
+	commentsWrapper = assignDefault(commentsWrapper, pinWindow(pin_ID).find('.pin-comments'));
 
 
 	// Remove dummy comments and add loading indicator
@@ -4320,7 +4321,7 @@ function getComments(pin_ID, commentsWrapper) {
 		var comments = result.comments;
 
 		//console.log(result.data);
-		//console.log('COMMENTS: ', comments);
+		console.log('COMMENTS: ', comments);
 
 
 		// Clean the loading
@@ -4391,15 +4392,12 @@ function getComments(pin_ID, commentsWrapper) {
 // DB: Send a comment
 function sendComment(pin_ID, message) {
 
-	if (message == "") return false;
-
-	//console.log('Sending this message: ', message);
-
+	if (message.trim() == "") return false;
+	console.log('Sending this comment: ', message);
 
 
 	var pin = getPin(pin_ID);
-	var pinIndex = Pins.indexOf(pin);
-	var element_index = pin.pin_element_index;
+	if (!pin) return false;
 	var newPin = pinWindow(pin_ID).attr('data-pin-new');
 
 
@@ -4411,6 +4409,7 @@ function sendComment(pin_ID, message) {
 
 	// Disable the inputs
 	$('#pin-window #comment-sender input, #pin-window #comment-sender textarea').prop('disabled', true);
+	$('#pin-window .comment-actions').addClass('sending');
 
 
 	// Mark as has comment
@@ -4448,11 +4447,13 @@ function sendComment(pin_ID, message) {
 
 		// Enable the inputs
 		$('#pin-window #comment-sender input, #pin-window #comment-sender textarea').prop('disabled', false);
+		$('#pin-window .comment-actions').removeClass('sending');
 
 
 		// Clean the text in the message box and refocus
 		$('#pin-window #comment-sender .comment-input').val('').focus();
 		autosize.update($('#pin-window #comment-sender .comment-input'));
+		pinWindow(pin_ID).attr('data-comment-written', 'no');
 
 
 		//console.log('Message SENT: ', message);
@@ -4470,7 +4471,12 @@ function deleteComment(pin_ID, comment_ID) {
 
 
 	// Disable the inputs
-	$('#pin-window #comment-sender input').prop('disabled', true);
+	pinWindow(pin_ID).find('#comment-sender input').prop('disabled', true);
+
+	
+	// Deleting message
+	pinWindow(pin_ID).find('[data-type="comment"][data-id="'+ comment_ID +'"] .comment-text .delete-comment').hide();
+	pinWindow(pin_ID).find('[data-type="comment"][data-id="'+ comment_ID +'"] .comment-text .delete-comment').after('<small>Removing...</small>');
 
 
 	// Start the process
@@ -4496,11 +4502,11 @@ function deleteComment(pin_ID, comment_ID) {
 
 
 		// Enable the inputs
-		$('#pin-window #comment-sender input').prop('disabled', false);
+		pinWindow(pin_ID).find('#comment-sender input').prop('disabled', false);
 
 
 		// Clean the text in the message box and refocus
-		$('#pin-window #comment-sender .comment-input').val('').focus();
+		pinWindow(pin_ID).find('#comment-sender input').val('').focus();
 
 
 		//console.log('Comment #', comment_ID, ' DELETED');
@@ -4832,13 +4838,44 @@ function commentTemplate(comment, hide, sameTime) {
 	var printPic = picture != null ? " style='background-image: url("+ picture +");'" : "";
 	var nameAbbr = comment.user_first_name.charAt(0) + comment.user_last_name.charAt(0);
 	var itsMe = comment.user_ID == user_ID;
-	var linkedComment = Autolinker.link( comment.pin_comment, {
+	var linkedComment = nl2br(Autolinker.link(comment.pin_comment, {
 		truncate: 25,
 	    newWindow: true
-	} );
+	}));
+	var imagePreview = false;
+	var deleteButton = itsMe ? ' <a href="#" class="delete-comment" data-comment-id="'+comment.comment_ID+'" data-tooltip="Delete this '+ comment.comment_type +'">&times;</a>' : '';
+
+	if (comment.comment_type == "attachment") {
+
+		var attachment = comment.pin_comment.split(' | ');
+		var fileName = attachment[1];
+		var fileURL = attachment[0];
+		var extension = getFileExtension(fileName);
+
+
+		// Update the output
+		linkedComment = 'Attached: <i class="fa fa-file"></i> <a href="'+ fileURL +'" target="_blank">'+ fileName +'</a>';
+
+
+		if (
+			extension == "jpg" ||
+			extension == "jpeg" ||
+			extension == "png" ||
+			extension == "gif" ||
+			extension == "svg"
+		) {
+
+			imagePreview = true;
+
+			linkedComment = 'Attached: <i class="fa fa-image"></i> <a href="'+ fileURL +'" target="_blank">'+ fileName +'</a> '+ deleteButton +' <br>';
+			linkedComment += '<a href="'+ fileURL +'" target="_blank"><img src="'+ fileURL +'" alt=""></a>';
+
+		}
+
+	}
 
 	return '\
-			<div class="comment wrap xl-flexbox xl-top '+ (hide ? "recurring" : "") +' '+ (sameTime ? "sametime" : "") +'"> \
+			<div class="comment wrap xl-flexbox xl-top '+ (hide ? "recurring" : "") +' '+ (sameTime ? "sametime" : "") +'" data-type="comment" data-id="'+ comment.comment_ID +'"> \
 				<div class="col xl-1-9 profile-image"> \
 					<picture class="profile-picture" '+ printPic +'> \
 						<span>'+ nameAbbr +'</span> \
@@ -4850,8 +4887,8 @@ function commentTemplate(comment, hide, sameTime) {
 						<span class="col comment-date" data-date="'+date+'">'+timeSince(date)+' ago</span> \
 					</div> \
 					<div class="comment-text"> \
-						'+nl2br(linkedComment)+' \
-						'+ (itsMe ? ' <a href="#" class="delete-comment" data-comment-id="'+comment.comment_ID+'" data-tooltip="Delete this comment">&times;</a>' : '') +' \
+						'+linkedComment+' \
+						'+ (!imagePreview ? deleteButton : "") +' \
 					</div> \
 				</div> \
 			</div> \

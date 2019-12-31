@@ -11,13 +11,9 @@ $status = "initiated";
 // If not logged in
 if ( !userLoggedIn() ) {
 
-	$status = "not-logged-in";
-
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => "not-logged-in"
 	)));
 
 }
@@ -27,13 +23,9 @@ $user_ID = currentUserID();
 // Invalid pin_ID
 if ( !is_numeric(get('pin_ID')) ) {
 
-	$status = "invalid";
-
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => "invalid"
 	)));
 
 }
@@ -44,13 +36,9 @@ $pin_ID = intval(get('pin_ID'));
 $pinData = Pin::ID($pin_ID);
 if ( !$pinData ) {
 
-	$status = "no-pin";
-
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => "no-pin"
 	)));
 
 }
@@ -60,13 +48,9 @@ $pinInfo = $pinData->getInfo();
 // Check pin modification type
 if ( $pinInfo['pin_modification_type'] != "image" ) {
 
-	$status = "invalid-pin-type";
-
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => "invalid-pin-type"
 	)));
 
 }
@@ -79,13 +63,9 @@ if (
 	|| !is_uploaded_file($_FILES['image']['tmp_name'])
 ) {
 
-	$status = "no-file";
-
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => "no-file"
 	)));
 
 }
@@ -95,13 +75,9 @@ if (
 // Size check
 if ($_FILES['image']['size'] > 15000000) {
 
-	$status = "large-file";
-
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => "large-file"
 	)));
 
 }
@@ -117,13 +93,9 @@ $image_name = generateRandomString().".".$image_extension;
 // Extension check
 if ( !in_array($image_extension, array('jpeg', 'jpg', 'png', 'gif')) ) {
 
-	$status = "invalid-extension";
-
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => "invalid-extension"
 	)));
 
 }
@@ -138,7 +110,7 @@ $file = new File($temp_file_location);
 
 
 // Rename if exists
-while ( $file->fileExists("pin-images/pin-$pin_ID/$image_name") )
+while ( $file->fileExists("pin-images/pin-$pin_ID/$image_name", "s3") )
 	$image_name = generateRandomString().".".$image_extension;
 
 
@@ -146,32 +118,21 @@ while ( $file->fileExists("pin-images/pin-$pin_ID/$image_name") )
 $pin_image_url = $file->upload("pin-images/pin-$pin_ID/$image_name", "s3");
 if ( !$pin_image_url ) {
 
-	$status = "not-uploaded";
-
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => "not-uploaded"
 	)));
 
 }
 
-// New local URL
-$new_url = is_string($pin_image_url) && strpos($pin_image_url, '://') !== false ? $pin_image_url : cache_url("pin-images/pin-$pin_ID/$image_name");
-
 
 // Modify the pin
-$pin_modified = $pinData->modify($new_url);
+$pin_modified = $pinData->modify($pin_image_url);
 if ( !$pin_modified ) {
-
-	$status = "not-modified";
 
 	// CREATE THE RESPONSE
 	die(json_encode(array(
-		'status' => $status,
-		'nonce' => request('nonce')
-		//'S_nonce' => $_SESSION['pin_nonce'],
+		'status' => "not-modified"
 	)));
 
 }
@@ -190,25 +151,19 @@ if ( strpos($old_image, '://') !== false ) { // On S3
 }
 
 
-
-
-$status = "success";
-
-
 // Site log
-$log->info("User #$user_ID Uploaded a Pin #$pin_ID image: '$new_url'");
+$log->info("User #$user_ID Uploaded a Pin #$pin_ID image: '$pin_image_url'");
 
 
 // INVALIDATE THE CACHES
 $cache->deleteKeysByTag('pins');
 
 
-
-
+// CREATE THE RESPONSE
 die(json_encode(array(
-	'status' => $status,
+	'status' => "success",
 	'pin_ID' => $pin_ID,
 	'user_ID' => $user_ID,
-	'new_url' => $new_url,
+	'new_url' => $pin_image_url,
 	'files' => $_FILES
 )));
