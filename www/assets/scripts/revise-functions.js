@@ -4131,8 +4131,8 @@ function saveCSS(pin_ID, css) {
 		if (Pins[pinIndex] != undefined) Pins[pinIndex].pin_css = cssCode; //console.log('FILTERED: ', filtered_css);
 
 
-		// Update CSS
-		updateCSS(pin_ID, cssCode);
+		// Update CSS !!! Causes late applications of CSS
+		//updateCSS(pin_ID, cssCode);
 
 
 		// Finish the process
@@ -4271,6 +4271,13 @@ function revertCSS(pin_ID) {
 	pinWindow(element_index, true).attr('data-revisionary-showing-style-changes', "yes");
 	pinWindow(element_index, true).find('ul.options .main-option').removeClass('changed');
 	pinWindow(element_index, true).find('ul.options [data-edit-css][data-revisionary-style-changed]').removeAttr('data-revisionary-style-changed');
+
+
+	// Reopen the window !!!
+	closePinWindow();
+	openPinWindow(pin_ID);
+	pinWindow(pin_ID).find('.visual-editor .section-title').click();
+
 
 }
 
