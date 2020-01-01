@@ -6952,9 +6952,9 @@ ul.user-header-menu > li:last-child {
   margin-bottom: 0;
 }
 
-.dropdown a:not(.editing):hover + ul,
+.dropdown a:not(.editing):not(.click-to-open):hover + ul,
 .dropdown a.open + ul,
-.dropdown .dropdown-opener:not(.editing):hover + ul,
+.dropdown .dropdown-opener:not(.editing):not(.click-to-open):hover + ul,
 .dropdown .dropdown-opener.open + ul {
   opacity: 1;
   -moz-transition-delay: 0s !important;

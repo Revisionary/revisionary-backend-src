@@ -822,7 +822,7 @@ ul.user-header-menu {
 		margin-bottom: 0;
 
 
-		&:not(.editing):hover + ul,
+		&:not(.editing):not(.click-to-open):hover + ul,
 		&.open + ul {
 			opacity: 1;
 			transition-delay: 0s !important;

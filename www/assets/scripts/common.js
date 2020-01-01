@@ -15,6 +15,19 @@ $(function() {
 	});
 
 
+	// Click to open dropdowns
+	$(document).on('click', '.click-to-open', function(e) {
+
+		$(this).toggleClass('open');
+		$(this).find('.fa-angle-down').toggleClass('fa-angle-up');
+
+		// Close all opens
+		$('.click-to-open.open').not( $(this) ).removeClass('open');
+		$('.click-to-open.open .fa-angle-down.fa-angle-up').not( $(this).find('.fa-angle-down') ).removeClass('fa-angle-up');
+
+	});
+
+
 	// Links with confirmation
 	$(document).on('click', '[data-confirm]:not([data-action])', function(e) { console.log('Clicked');
 
