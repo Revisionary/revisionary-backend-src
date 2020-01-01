@@ -736,8 +736,10 @@ $(function() {
 	$('.edits-switch').click(function(e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
+		var isBg = pinWindow().attr('data-has-bg') != "no";
 
-		toggleChange(pin_ID);
+		if (!isBg) toggleChange(pin_ID);
+		else toggleCSS(pin_ID);
 
 		e.preventDefault();
 
@@ -1010,11 +1012,12 @@ $(function() {
 	$('.remove-image').click(function(e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
-		var element_index = parseInt(pinWindow(pin_ID).attr('data-revisionary-index'));
+		var isBg = pinWindow().attr('data-has-bg') != "no";
 
 
 		// Remove the image on this element
-		removeImage(pin_ID, element_index);
+		if (!isBg) removeImage(pin_ID);
+		else resetCSS(pin_ID);
 
 
 		e.preventDefault();

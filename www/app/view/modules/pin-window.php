@@ -89,7 +89,7 @@
 		<div class="wrap xl-1">
 			<div class="col section-title">
 
-				<i class="fa fa-image"></i> CONTENT <i class="fa fa-circle edited-sign"></i>
+				<i class="fa fa-image"></i> IMAGE <i class="fa fa-circle edited-sign"></i>
 
 			</div>
 			<div class="col section-content" style="padding-top: 10px;">

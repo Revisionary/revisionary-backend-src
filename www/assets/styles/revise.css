@@ -1286,6 +1286,10 @@ html, body {
   display: none;
 }
 
+#pin-window[data-pin-type="comment"] > .comments .section-content {
+  display: inline-block !important;
+}
+
 #pin-window[data-revisionary-style-changed="no"] .reset-css,
 #pin-window[data-revisionary-style-changed="no"] .show-original-css {
   display: none;
@@ -1354,6 +1358,10 @@ html, body {
 #pin-window[data-revisionary-showing-content-changes="1"] .edits-switch-wrap.original,
 #pin-window[data-revisionary-showing-content-changes="1"] .edit-content.original {
   display: none !important;
+}
+
+#pin-window:not([data-has-bg="no"]):not([data-pin-modification-type="image"]) > .image-editor {
+  opacity: 1;
 }
 
 #pin-window[data-page-type="image"] .device-specific, #pin-window[data-page-type="capture"] .device-specific {

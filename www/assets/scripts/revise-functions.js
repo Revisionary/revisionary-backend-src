@@ -2865,6 +2865,15 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
 
 
+		// BG image
+		if (thePinShowingStyleChanges) disableCSS(pin_ID);
+		var bgImage = theElement.css('background-image');
+		if (thePinShowingStyleChanges) activateCSS(pin_ID);
+		var changedBgImage = theElement.css('background-image');
+
+		var hasBg = (thePinType == "live" || thePinType == "style") && bgImage.includes('url(') ? bgImage.replace('url(','').replace(')','').replace(/\"/gi, "") : "no";
+		var bgEdited = hasBg != "no" && bgImage != changedBgImage ? "1" : "0";
+
 
 		// Record previous state of window
 		pinWindowWasOpen = pinWindowOpen;
@@ -2900,6 +2909,8 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			.attr('data-new-notification', "no")
 			.attr('data-has-comments', 'no')
 			.attr('data-comment-written', 'no')
+			.attr('data-has-bg', hasBg)
+			.attr('data-revisionary-bg-edited', bgEdited)
 			.attr('data-page-type', page_type);
 
 
@@ -3034,6 +3045,24 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 			// BACKGROUND IMAGE DETECTION !!!
+			if (hasBg != "no") {
+
+
+				var originalBgUrl = hasBg;
+				var changedBgUrl = changedBgImage.replace('url(','').replace(')','').replace(/\"/gi, "");
+
+
+
+				// Add the original image
+				pinWindow().find('.image-editor .edit-content.original img.original-image').attr('src', originalBgUrl);
+
+
+				// Add the new image
+				pinWindow().find('.image-editor .edit-content.changes img.new-image').attr('src', changedBgUrl);
+				pinWindow().find('.image-editor a.image-url').attr('href', changedBgUrl);
+
+
+			}
 
 
 			// CSS OPTIONS:
@@ -4196,14 +4225,30 @@ function revertCSS(pin_ID) {
 	if (!pin) return false;
 
 	var element_index = pin.pin_element_index;
-	var changedElement = iframeElement(changedElement);
+	var changedElement = iframeElement(element_index);
 
 
 	// Remove styles
 	iframeElement('style[data-pin-id="'+ pin.pin_ID +'"]').remove();
 
 
+	// Revert BG
+	var hasBg = pinWindow().attr('data-has-bg');
+	if (hasBg != "no") {
+
+		// Add the original image
+		pinWindow(pin_ID).find('.image-editor .edit-content.original img.original-image').attr('src', hasBg);
+
+
+		// Add the new image
+		pinWindow(pin_ID).find('.image-editor .edit-content.changes img.new-image').attr('src', hasBg);
+		pinWindow(pin_ID).find('.image-editor a.image-url').attr('href', hasBg);
+
+	}
+
+
 	// Update the info for pin, pin window and DOM element
+	updateAttributes(pin_ID, 'data-revisionary-bg-edited', "0");
 	updateAttributes(pin_ID, 'data-revisionary-style-changed', "no");
 	updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "yes");
 	changedElement
@@ -4212,10 +4257,11 @@ function revertCSS(pin_ID) {
 
 
 	// For all other same element pins
-	pinWindow(pin.pin_element_index, true).attr('data-revisionary-style-changed', "no"); 
-	pinWindow(pin.pin_element_index, true).attr('data-revisionary-showing-style-changes', "yes");
-	pinWindow(pin.pin_element_index, true).find('ul.options .main-option').removeClass('changed');
-	pinWindow(pin.pin_element_index, true).find('ul.options [data-edit-css][data-revisionary-style-changed]').removeAttr('data-revisionary-style-changed');
+	pinWindow(element_index, true).attr('data-revisionary-bg-edited', "0"); 
+	pinWindow(element_index, true).attr('data-revisionary-style-changed', "no"); 
+	pinWindow(element_index, true).attr('data-revisionary-showing-style-changes', "yes");
+	pinWindow(element_index, true).find('ul.options .main-option').removeClass('changed');
+	pinWindow(element_index, true).find('ul.options [data-edit-css][data-revisionary-style-changed]').removeAttr('data-revisionary-style-changed');
 
 }
 
