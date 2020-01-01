@@ -2562,7 +2562,7 @@ function getElementOffset(element_index, noScroll) {
 
 
 	// Check if hidden
-	if ( selectedElement.is('display') == 'none' ) {
+	if ( selectedElement.css('display') == 'none' ) {
 
 
 		var pin = getPin(element_index, true);
@@ -2571,22 +2571,31 @@ function getElementOffset(element_index, noScroll) {
 
 
 		// Check the cache first
-		//if ( hiddenElementOffsets[element_index] !== undefined ) console.log('0. Element Offset for element #' + element_index, hiddenElementOffsets[element_index]);
-		if ( hiddenElementOffsets[element_index] !== undefined ) return hiddenElementOffsets[element_index];
+		if ( hiddenElementOffsets[element_index] === undefined ) {
 
 
-		// Disabled temporarily
-		disableCSS(pin_ID);
-		selectedElement.addClass('revisionary-show');
+			// Disabled temporarily
+			disableCSS(pin_ID);
+			selectedElement.addClass('revisionary-show');
 
-		hiddenElementOffsets[element_index] = noScroll ? selectedElement.offset() : selectedElement[0].getBoundingClientRect();
+			hiddenElementOffsets[element_index] = selectedElement.offset();
 
-		selectedElement.removeClass('revisionary-show');
-		activateCSS(pin_ID);
+			selectedElement.removeClass('revisionary-show');
+			activateCSS(pin_ID);
+
+
+		}
+
+
+		var elementLeft = hiddenElementOffsets[element_index].left - scrollX / iframeScale;
+		var elementTop = hiddenElementOffsets[element_index].top - scrollY / iframeScale;
 
 
 		//console.log('1. Element Offset for element #' + element_index, hiddenElementOffsets[element_index]);
-		return hiddenElementOffsets[element_index];
+		return  {
+			top: elementTop,
+			left: elementLeft
+		};
 
 	}
 
