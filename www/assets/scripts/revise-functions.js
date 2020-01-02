@@ -3307,6 +3307,10 @@ function closePinWindow(removePinIfEmpty) {
 	$('.ql-tooltip').addClass('ql-hidden');
 
 
+	// Close the open dropdowns
+	pinWindow().find('.click-to-open.open').removeClass('open');
+
+
 	// Close the colorpicker
 	$("input[type='color']").spectrum("hide");
 

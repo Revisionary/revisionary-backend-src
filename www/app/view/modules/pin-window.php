@@ -389,8 +389,8 @@
 
 													<div class="layer sizes">
 
-														<input type="text" data-edit-css="width" data-default="initial"/> x
-														<input type="text" data-edit-css="height" data-default="initial"/>
+														<span class="main-option sub width"><input type="text" data-edit-css="width" data-default="initial"/></span> x
+														<span class="main-option sub height"><input type="text" data-edit-css="height" data-default="initial"/></span>
 
 													</div>
 
