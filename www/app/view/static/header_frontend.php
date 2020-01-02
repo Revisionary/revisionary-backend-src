@@ -89,7 +89,7 @@
 						<li class="<?=$_url[0] == "projects" ? "selected" : ""?>"><a href="<?=site_url('projects')?>"><i class="fa fa-th"></i> All Projects</a></li>
 						<li class="<?=$_url[0] == "account" ? "selected" : ""?>"><a href="<?=site_url('account')?>"><i class="fa fa-user-cog"></i> My Account</a></li>
 						<li data-tooltip="Coming Soon..."><a href="#"><i class="fa fa-life-ring"></i> Help</a></li>
-						<li data-tooltip="Coming Soon..."><a href="#"><i class="fa fa-comments"></i> Feedback</a></li>
+						<li><a href="#" data-modal="feedback"><i class="fa fa-comments"></i> Feedback</a></li>
 						<li><a href="<?=site_url('logout')?>"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
 					</ul>
 				</div>

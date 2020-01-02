@@ -303,6 +303,59 @@
 
 
 
+<div id="feedback" class="popup-window xl-center xl-5-12">
+	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
+
+	<div class="xl-left">
+		<span>Tell Us</span>
+		<h3 style="margin-top: 0;">How we are doing?</h3>
+	</div>
+
+
+	<div class="wrap xl-1">
+		<div class="col xl-1-2">
+		
+			<select name="feedback-type">
+				<option value="feedback">Feedback</option>
+				<option value="bug">Issue Reporting</option>
+			</select>
+
+		</div>
+		<div class="col xl-1-2 xl-right">
+
+			<a href="#"><i class="fa fa-star"></i></a>
+			<a href="#"><i class="fa fa-star"></i></a>
+			<a href="#"><i class="fa fa-star"></i></a>
+			<a href="#"><i class="fa fa-star"></i></a>
+			<a href="#"><i class="fa fa-star"></i></a>
+
+		</div>
+		<div class="col xl-left">
+
+			<textarea name="" placeholder="Please explain us..." style="margin-top: 20px; border-radius: 8px; outline: none;"></textarea>
+
+			<p class="xl-hidden">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem excepturi voluptas voluptatum iste nisi, quos odit nobis tempora labore quia doloremque quis, adipisci, provident ducimus ex et ut voluptatibus maxime.</p>
+
+		</div>
+		<div class="col xl-1-2" style="margin-top: 20px;">
+
+			<input type="submit" value="Send Feedback" class="invert">
+
+		</div>
+		<div class="col xl-1-2 xl-right">
+		
+			82/1000
+
+		</div>
+	</div>
+
+
+</div>
+
+
+
+
+
 <div id="upgrade" class="popup-window xl-11-12" data-current-plan="<?=getUserInfo()['userLevelName']?>">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
