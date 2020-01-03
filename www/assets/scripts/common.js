@@ -891,7 +891,7 @@ $(function() {
 	});
 
 
-	openModal('feedback');
+	//openModal('feedback');
 
 
 	// Feedback Modal
