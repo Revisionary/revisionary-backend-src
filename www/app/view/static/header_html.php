@@ -33,58 +33,58 @@
 
 		<script src="<?=asset_url('scripts/vendor/jquery-3.4.1.min.js')?>"></script>
 		<script>
-var ajax_url = '<?=site_url('ajax')?>';
-var nonce = '<?=$_SESSION["js_nonce"]?>';
-var loggedIn = <?=userLoggedIn() ? "true" : "false"?>;
-<?=userLoggedIn() ? "var user_ID = ".currentUserID().";" : ""?>
-<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
-<?=isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
+			var ajax_url = '<?=site_url('ajax')?>';
+			var nonce = '<?=$_SESSION["js_nonce"]?>';
+			var loggedIn = <?=userLoggedIn() ? "true" : "false"?>;
+			<?=userLoggedIn() ? "var user_ID = ".currentUserID().";" : ""?>
+			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
+			<?=isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
 
-var limitations = {
-	'max' : {},
-	'current' : {}
-};
+			var limitations = {
+				'max' : {},
+				'current' : {}
+			};
 
-<?=isset($maxProjects) ? "limitations.max.project = '".$maxProjects."';" : ""?>
-<?=isset($maxPhases) ? "limitations.max.page = '".$maxPhases."';" : ""?>
-<?=isset($maxPhases) ? "limitations.max.phase = '".$maxPhases."';" : ""?>
-<?=isset($maxScreens) ? "limitations.max.screen = '".$maxScreens."';" : ""?>
-<?=isset($maxPins) ? "limitations.max.pin = '".$maxPins."';" : ""?>
-<?=isset($maxCommentPins) ? "limitations.max.commentpin = '".$maxCommentPins."';" : ""?>
-<?=isset($maxLoad) ? "limitations.max.load = '".$maxLoad."';" : ""?>
+			<?=isset($maxProjects) ? "limitations.max.project = '".$maxProjects."';" : ""?>
+			<?=isset($maxPhases) ? "limitations.max.page = '".$maxPhases."';" : ""?>
+			<?=isset($maxPhases) ? "limitations.max.phase = '".$maxPhases."';" : ""?>
+			<?=isset($maxScreens) ? "limitations.max.screen = '".$maxScreens."';" : ""?>
+			<?=isset($maxPins) ? "limitations.max.pin = '".$maxPins."';" : ""?>
+			<?=isset($maxCommentPins) ? "limitations.max.commentpin = '".$maxCommentPins."';" : ""?>
+			<?=isset($maxLoad) ? "limitations.max.load = '".$maxLoad."';" : ""?>
 
-<?=isset($maxProjects) ? "limitations.current.project = '".$projectsLeft."';" : ""?>
-<?=isset($maxPhases) ? "limitations.current.page = '".$phasesLeft."';" : ""?>
-<?=isset($maxPhases) ? "limitations.current.phase = '".$phasesLeft."';" : ""?>
-<?=isset($maxScreens) ? "limitations.current.screen = '".$screensLeft."';" : ""?>
-<?=isset($maxPins) ? "limitations.current.pin = '".$pinsLeft."';" : ""?>
-<?=isset($maxCommentPins) ? "limitations.current.commentpin = '".$commentPinsLeft."';" : ""?>
-<?=isset($maxLoad) ? "limitations.current.load = '".$loadLeft."';" : ""?>
+			<?=isset($maxProjects) ? "limitations.current.project = '".$projectsLeft."';" : ""?>
+			<?=isset($maxPhases) ? "limitations.current.page = '".$phasesLeft."';" : ""?>
+			<?=isset($maxPhases) ? "limitations.current.phase = '".$phasesLeft."';" : ""?>
+			<?=isset($maxScreens) ? "limitations.current.screen = '".$screensLeft."';" : ""?>
+			<?=isset($maxPins) ? "limitations.current.pin = '".$pinsLeft."';" : ""?>
+			<?=isset($maxCommentPins) ? "limitations.current.commentpin = '".$commentPinsLeft."';" : ""?>
+			<?=isset($maxLoad) ? "limitations.current.load = '".$loadLeft."';" : ""?>
 
-<?php
-if ( isset($pages) ) {
+			<?php
+			if ( isset($pages) ) {
 
-	echo "var myPages = [];";
+				echo "var myPages = [];";
 
-	foreach ($pages as $myPage) {
+				foreach ($pages as $myPage) {
 
-		// Skip archived and deleted
-		if ($myPage['page_deleted'] || $myPage['page_archived'] || $myPage['project_deleted'] || $myPage['project_archived']) continue;
-?>
+					// Skip archived and deleted
+					if ($myPage['page_deleted'] || $myPage['page_archived'] || $myPage['project_deleted'] || $myPage['project_archived']) continue;
+			?>
 
-myPages.push({
-	page_url : '<?=$myPage['page_url']?>',
-	page_ID : <?=$myPage['page_ID']?>,
-	page_name : '<?=$myPage['page_name']?>',
-	project_ID : <?=$myPage['project_ID']?>,
-	project_name : '<?=$myPage['project_name']?>'
-});
+			myPages.push({
+				page_url : '<?=$myPage['page_url']?>',
+				page_ID : <?=$myPage['page_ID']?>,
+				page_name : '<?=$myPage['page_name']?>',
+				project_ID : <?=$myPage['project_ID']?>,
+				project_name : '<?=$myPage['project_name']?>'
+			});
 
-<?php
-	}
+			<?php
+				}
 
-}
-?>
+			}
+			?>
 		</script>
 
 		<?php
