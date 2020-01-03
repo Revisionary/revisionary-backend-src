@@ -17383,8 +17383,20 @@ input.share-email.error {
   display: none;
 }
 
+.popup-window#feedback .stars > .fa-star {
+  cursor: pointer;
+}
+
+.popup-window#feedback .screenshot {
+  display: none;
+}
+
 .popup-window#feedback[data-feedback-type="bug"] .stars {
   display: none;
+}
+
+.popup-window#feedback[data-feedback-type="bug"] .screenshot {
+  display: inline-block;
 }
 
 .members {

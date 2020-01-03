@@ -891,6 +891,113 @@ $(function() {
 	});
 
 
+	openModal('feedback');
+
+
+	// Feedback Modal
+	var starInfo = [
+		"I cannot use it :(",
+		"Found some issues :/",
+		"Not bad :|",
+		"Good :)",
+		"Everything is great ;)"
+	];
+	$(document).on('change', '#feedback select[name="feedback-type"]', function(e) {
+
+		var modal = $('#feedback');
+		var feedbackType = $(this).val();
+
+
+		// Update the data
+		modal.attr('data-feedback-type', feedbackType);
+
+
+		// Comment requirement
+		if (feedbackType == "feedback") modal.find('textarea').removeAttr('required');
+		else modal.find('textarea').attr('required', "true");
+
+
+
+		e.preventDefault();
+		return false;
+
+	}).on('input', '#feedback textarea[name="feedback"]', function(e) {
+
+		var modal = $('#feedback');
+		var feedback = $(this).val();
+
+
+		// Update the data
+		modal.find('.current-length').text( feedback.length );
+
+
+
+		e.preventDefault();
+		return false;
+
+	}).on('mouseover', '#feedback .stars > .fa-star', function(e) {
+
+		var modal = $('#feedback');
+		var star = parseInt($(this).attr('data-value'));
+		var starWrapper = modal.find('.star-info');
+
+
+		// Update start info
+		starWrapper.text( starInfo[star - 1] );
+
+
+		// Update the data
+		modal.find('.stars > .fa-star').removeClass('fas far').each(function(i) {
+
+			if (i+1 <= star) $(this).addClass('fas');
+			else $(this).addClass('far');
+
+		});
+
+
+
+		e.preventDefault();
+		return false;
+
+	}).on('mouseout', '#feedback .stars > .fa-star', function(e) {
+
+		var modal = $('#feedback');
+		var star = parseInt( modal.find('[name="stars"]').val() );
+		var starWrapper = modal.find('.star-info');
+
+
+		// Update start info
+		starWrapper.text( starInfo[star - 1] );
+
+
+		// Update the data
+		modal.find('.stars > .fa-star').removeClass('fas far').each(function(i) {
+
+			if (i+1 <= star) $(this).addClass('fas');
+			else $(this).addClass('far');
+
+		});
+
+
+
+		e.preventDefault();
+		return false;
+
+	}).on('click', '#feedback .stars > .fa-star', function(e) {
+
+		var modal = $('#feedback');
+		var star = parseInt($(this).attr('data-value'));
+
+
+		modal.find('[name="stars"]').attr('value', star);
+
+
+		e.preventDefault();
+		return false;
+
+	});
+
+
 	// SHARE MODAL: Share input
 	$('#share #share-email').on('keyup', function() {
 
@@ -2195,6 +2302,16 @@ function openModal(modalName) {
 	}
 
 
+	// FEEDBACK MODALS
+	if (modalName == "feedback") {
+
+		// Limitations
+		var maxLength = modal.find('textarea[name="feedback"]').attr('maxlength');
+		modal.find('.current-limit').text(maxLength);
+
+	}
+
+
 	// Close other modals
 	$('.popup-window').removeClass('active');
 
@@ -2207,7 +2324,7 @@ function openModal(modalName) {
 	// Focus the element
 	setTimeout(function() {
 
-		if (modal.find('input[autofocus]').length) modal.find('input[autofocus]').focus();
+		if (modal.find('[autofocus]').length) modal.find('[autofocus]').focus();
 
 	}, 500);
 

@@ -303,7 +303,7 @@
 
 
 
-<div id="feedback" class="popup-window xl-center xl-5-12">
+<div id="feedback" class="popup-window xl-center xl-5-12" data-feedback-type="feedback">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 	<div class="xl-left">
@@ -312,42 +312,47 @@
 	</div>
 
 
-	<div class="wrap xl-1">
-		<div class="col xl-1-2">
-		
-			<select name="feedback-type">
-				<option value="feedback">Feedback</option>
-				<option value="bug">Issue Reporting</option>
-			</select>
+	<form action="">
+		<div class="wrap xl-1">
+			<div class="col xl-1-4">
+			
+				<select name="feedback-type">
+					<option value="feedback">Feedback</option>
+					<option value="bug">Issue Reporting</option>
+				</select>
+	
+			</div>
+			<div class="col xl-3-4 xl-right stars">
 
+				<small class="star-info">Excellent</small>
+	
+				<i class="fas fa-star" data-value="1"></i><i class="fas fa-star" data-value="2"></i><i class="fas fa-star" data-value="3"></i><i class="fas fa-star" data-value="4"></i><i class="fas fa-star" data-value="5"></i>
+
+				<input type="hidden" name="stars" value="5">
+	
+			</div>
+			<div class="col xl-3-4 xl-right screenshot">
+	
+				<label><small>Screenshot (Optional):</small> <input type="file" name="screenshot"></label>
+	
+			</div>
+			<div class="col xl-left">
+	
+				<textarea name="feedback" maxlength="1000" placeholder="Please explain us your thoughts..." style="margin-top: 20px; border-radius: 8px; outline: none;" autofocus></textarea>
+	
+			</div>
+			<div class="col xl-1-2" style="margin-top: 20px;">
+	
+				<input type="submit" value="Send Feedback" class="invert">
+	
+			</div>
+			<div class="col xl-1-2 xl-right character-limit">
+			
+				<span class="current-length">0</span>/<span class="current-limit">1000</span>
+	
+			</div>
 		</div>
-		<div class="col xl-1-2 xl-right">
-
-			<a href="#"><i class="fa fa-star"></i></a>
-			<a href="#"><i class="fa fa-star"></i></a>
-			<a href="#"><i class="fa fa-star"></i></a>
-			<a href="#"><i class="fa fa-star"></i></a>
-			<a href="#"><i class="fa fa-star"></i></a>
-
-		</div>
-		<div class="col xl-left">
-
-			<textarea name="" placeholder="Please explain us..." style="margin-top: 20px; border-radius: 8px; outline: none;"></textarea>
-
-			<p class="xl-hidden">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quidem excepturi voluptas voluptatum iste nisi, quos odit nobis tempora labore quia doloremque quis, adipisci, provident ducimus ex et ut voluptatibus maxime.</p>
-
-		</div>
-		<div class="col xl-1-2" style="margin-top: 20px;">
-
-			<input type="submit" value="Send Feedback" class="invert">
-
-		</div>
-		<div class="col xl-1-2 xl-right">
-		
-			82/1000
-
-		</div>
-	</div>
+	</form>
 
 
 </div>

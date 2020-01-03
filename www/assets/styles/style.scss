@@ -2675,10 +2675,26 @@ input.share-email {
 
 	&#feedback {
 
+		.stars {
+
+			& > .fa-star {
+				cursor: pointer;
+			}
+
+		}
+
+		.screenshot {
+			display: none;
+		}
+
 		&[data-feedback-type="bug"] {
 
 			.stars {
 				display: none;
+			}
+
+			.screenshot {
+				display: inline-block;
 			}
 
 		}
