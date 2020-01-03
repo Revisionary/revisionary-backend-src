@@ -2,15 +2,11 @@
 <html class="no-js">
 	<head>
 
-		<script>
-			document.getElementsByTagName("HTML")[0].classList.remove("no-js");
-		</script>
+		<script>document.getElementsByTagName("HTML")[0].classList.remove("no-js");</script>
 
 		<meta charset="utf-8">
 		<title><?=$page_title?></title>
 
-		<link rel="stylesheet" href="<?=asset_url_nocache('fonts/font-awesome/css/all.css')?>" media="screen">
-		<link rel="stylesheet" href="<?=asset_url_nocache('fonts/font-awesome/css/v4-shims.css')?>" media="screen">
 		<link rel="stylesheet" href="<?=asset_url_nocache('styles/style.css')?>" media="screen">
 
 		<?php
@@ -32,16 +28,17 @@
 				}
 
 			}
+
 		?>
 
 		<script src="<?=asset_url('scripts/vendor/jquery-3.4.1.min.js')?>"></script>
 		<script>
-			var ajax_url = '<?=site_url('ajax')?>';
-			var nonce = '<?=$_SESSION["js_nonce"]?>';
-			var loggedIn = <?=userLoggedIn() ? "true" : "false"?>;
-			<?=userLoggedIn() ? "var user_ID = ".currentUserID().";" : ""?>
-			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
-			<?=isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
+var ajax_url = '<?=site_url('ajax')?>';
+var nonce = '<?=$_SESSION["js_nonce"]?>';
+var loggedIn = <?=userLoggedIn() ? "true" : "false"?>;
+<?=userLoggedIn() ? "var user_ID = ".currentUserID().";" : ""?>
+<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
+<?=isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
 
 var limitations = {
 	'max' : {},
@@ -64,30 +61,30 @@ var limitations = {
 <?=isset($maxCommentPins) ? "limitations.current.commentpin = '".$commentPinsLeft."';" : ""?>
 <?=isset($maxLoad) ? "limitations.current.load = '".$loadLeft."';" : ""?>
 
-			<?php
-			if ( isset($pages) ) {
+<?php
+if ( isset($pages) ) {
 
-				echo "var myPages = [];";
+	echo "var myPages = [];";
 
-				foreach ($pages as $myPage) {
+	foreach ($pages as $myPage) {
 
-					// Skip archived and deleted
-					if ($myPage['page_deleted'] || $myPage['page_archived'] || $myPage['project_deleted'] || $myPage['project_archived']) continue;
-			?>
+		// Skip archived and deleted
+		if ($myPage['page_deleted'] || $myPage['page_archived'] || $myPage['project_deleted'] || $myPage['project_archived']) continue;
+?>
 
-			myPages.push({
-				page_url : '<?=$myPage['page_url']?>',
-				page_ID : <?=$myPage['page_ID']?>,
-				page_name : '<?=$myPage['page_name']?>',
-				project_ID : <?=$myPage['project_ID']?>,
-				project_name : '<?=$myPage['project_name']?>'
-			});
+myPages.push({
+	page_url : '<?=$myPage['page_url']?>',
+	page_ID : <?=$myPage['page_ID']?>,
+	page_name : '<?=$myPage['page_name']?>',
+	project_ID : <?=$myPage['project_ID']?>,
+	project_name : '<?=$myPage['project_name']?>'
+});
 
-			<?php
-				}
+<?php
+	}
 
-			}
-			?>
+}
+?>
 		</script>
 
 		<?php

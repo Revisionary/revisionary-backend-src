@@ -9,6 +9,14 @@
 @import 'vendor/_flexiblegs-css';
 
 
+// Font Awesome
+$fa-font-path: "../fonts/font-awesome/webfonts";
+@import "../fonts/font-awesome/scss/fontawesome.scss";
+@import "../fonts/font-awesome/scss/solid.scss";
+@import "../fonts/font-awesome/scss/regular.scss";
+@import "../fonts/font-awesome/scss/brands.scss";
+@import "../fonts/font-awesome/scss/v4-shims.scss";
+
 
 /* General */
 html, body {
@@ -47,7 +55,7 @@ body {
 	line-height: normal;
 	letter-spacing: 1px;
 
-	*:not(.fa):not(.fas) {
+	*:not(.fa):not(.fas):not(.far) {
 		font-family: 'Roboto Condensed', sans-serif;
 	}
 
@@ -2660,6 +2668,19 @@ input.share-email {
 
 		.screen-cat[data-screen-cat-id="5"] {
 			display: none;
+		}
+
+	}
+
+
+	&#feedback {
+
+		&[data-feedback-type="bug"] {
+
+			.stars {
+				display: none;
+			}
+
 		}
 
 	}
