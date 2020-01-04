@@ -524,7 +524,7 @@ class Page {
 
 
 		// INVALIDATE THE CACHES
-		if ($page_removed) $cache->deleteKeysByTag(['pages', 'projects', 'phases', 'userload']);
+		if ($page_removed) $cache->deleteKeysByTag(['pages', 'projects', 'phases', 'devices', 'pins', 'userload']);
 
 
 		return $page_removed;

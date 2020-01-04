@@ -445,7 +445,7 @@ class Phase {
 
 
 		// INVALIDATE THE CACHES
-		if ($phase_removed) $cache->deleteKeysByTag(['phases', 'userload']);
+		if ($phase_removed) $cache->deleteKeysByTag(['phases', 'devices', 'pins', 'userload']);
 
 
 		return $phase_removed;

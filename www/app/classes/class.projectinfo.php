@@ -493,7 +493,7 @@ class Project {
 
 
 		// INVALIDATE THE CACHES
-		if ($project_removed) $cache->deleteKeysByTag(['projects', 'pages', 'phases', 'userload']);
+		if ($project_removed) $cache->deleteKeysByTag(['projects', 'pages', 'phases', 'devices', 'pins', 'userload']);
 
 
 		return $project_removed;
