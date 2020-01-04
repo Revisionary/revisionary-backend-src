@@ -2,18 +2,6 @@
 <?php require view('static/header_frontend'); ?>
 
 
-<div class="bg-overlay modals">
-
-	<?php
-
-		$dataType = "page";
-		require view('modules/modals');
-
-	?>
-
-</div>
-
-
 	<style>
 	/* TEMPORARY STYLES */
 
@@ -42,7 +30,7 @@
 
 	</style>
 
-	<div class="container">
+	<div class="container" id="the-page">
 
 		<h1 class="xl-center"><?=$page_title?></h1>
 
@@ -556,7 +544,7 @@
 		<br/>
 
 
-		<?php require view("modules/components-pin-window") ?>
+		<?php //require view("modules/components-pin-window") // !!! ?>
 
 
 		<b>Popups</b><br><br>
@@ -568,9 +556,9 @@
 
 				<a href="#" data-modal="add-new" data-type="page">Click here for a New Page Popup</a><br><br>
 
-				<a href="#" data-modal="share" data-type="project" data-id="13" data-object-name="Home" data-iamowner="yes">Click here for Sharing a Project Popup</a><br><br>
+				<a href="#" data-modal="share" data-type="project" data-id="1" data-object-name="Twelve12" data-iamowner="yes">Click here for Sharing a Project Popup</a><br><br>
 
-				<a href="#" data-modal="share" data-type="page" data-id="14" data-object-name="Home" data-iamowner="yes">Click here for Sharing a Page Popup</a><br><br>
+				<a href="#" data-modal="share" data-type="page" data-id="1" data-object-name="Home" data-iamowner="yes">Click here for Sharing a Page Popup</a><br><br>
 
 
 			</div>

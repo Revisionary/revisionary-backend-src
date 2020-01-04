@@ -4,7 +4,7 @@
 $additionalHeadJS = [
 	'process.js',
 	'revise-globals.js',
-	//'revise-functions.js',
+	'revise-functions.js',
 	'vendor/jquery-ui.min.js',
 	'vendor/Autolinker.min.js',
 	'vendor/autosize.min.js',
