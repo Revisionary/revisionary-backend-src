@@ -3219,7 +3219,8 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		pinWindow().find('.createdby .activity-info span.name').text(pin.user_first_name + ' ' + pin.user_last_name);
 
 		var dateCreated = new Date(pin.pin_created);
-		pinWindow().find('.createdby .activity-info span.date').text( timeSince(dateCreated) + ' ago' ).attr('data-date', dateCreated);
+		var createdDate = firstTime ? "now" : timeSince(dateCreated) + ' ago';
+		pinWindow().find('.createdby .activity-info span.date').text( createdDate ).attr('data-date', dateCreated);
 
 
 
@@ -3369,7 +3370,7 @@ function closePinWindow(removePinIfEmpty) {
 
 
 	// Notify the users if new comment added
-	else if ( pinWindow(pin_ID).attr('data-new-notification') == "comment") {
+	else if ( pinWindow(pin_ID).attr('data-new-notification') == "comment" && !pinRemoved ) {
 
 		newCommentNotification(pin_ID);
 
@@ -3377,7 +3378,7 @@ function closePinWindow(removePinIfEmpty) {
 
 
 	// Notify the users if this was completed
-	else if ( pinWindow(pin_ID).attr('data-new-notification') == "complete") {
+	else if ( pinWindow(pin_ID).attr('data-new-notification') == "complete" && !pinRemoved ) {
 
 		completeNotification(pin_ID);
 
@@ -3385,15 +3386,11 @@ function closePinWindow(removePinIfEmpty) {
 
 
 	// Notify the users if this was incompleted
-	else if ( pinWindow(pin_ID).attr('data-new-notification') == "incomplete") {
+	else if ( pinWindow(pin_ID).attr('data-new-notification') == "incomplete" && !pinRemoved ) {
 
 		inCompleteNotification(pin_ID);
 
 	}
-
-
-	// Delete the before image
-	delete Notifications[pin_ID];
 
 
 	if (cursorWasActive) toggleCursorActive(false, true); // Force Open
@@ -4278,9 +4275,13 @@ function revertCSS(pin_ID) {
 
 
 	// Reopen the window !!!
-	closePinWindow();
-	openPinWindow(pin_ID);
-	pinWindow(pin_ID).find('.visual-editor .section-title').click();
+	if (pinWindowOpen) {
+
+		closePinWindow();
+		openPinWindow(pin_ID);
+		pinWindow(pin_ID).find('.visual-editor .section-title').click();
+
+	}
 
 
 }

@@ -1,5 +1,12 @@
 <?php
 
+function currentTimeStamp() {
+
+   return date("Y-m-d H:i:s");
+
+}
+
+
 function timeago($date) {
    $timestamp = strtotime($date);
 

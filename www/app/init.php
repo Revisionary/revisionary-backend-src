@@ -41,17 +41,17 @@ $db = new MysqliDb(array(
 ));
 
 
-// MySQL timezone update
+// PHP timezone update
 date_default_timezone_set(timezone);
-$now = new DateTime();
-$mins = $now->getOffset() / 60;
-$sgn = ($mins < 0 ? -1 : 1);
-$mins = abs($mins);
-$hrs = floor($mins / 60);
-$mins -= $hrs * 60;
-$offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
-$db->rawQuery("SET time_zone='$offset';");
-unset($now, $mins, $sgn, $mins, $hrs, $offset);
+// $now = new DateTime();
+// $mins = $now->getOffset() / 60;
+// $sgn = ($mins < 0 ? -1 : 1);
+// $mins = abs($mins);
+// $hrs = floor($mins / 60);
+// $mins -= $hrs * 60;
+// $offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
+//$db->rawQuery("SET time_zone='$offset';");
+//unset($now, $mins, $sgn, $mins, $hrs, $offset);
 
 
 // Start the session
