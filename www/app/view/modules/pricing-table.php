@@ -10,7 +10,7 @@ unset($user_levels[0]);
 
 
 $isExceed = false;
-if ( $projectsPercentage >= 100 || $phasesPercentage >= 100 || $screensPercentage >= 100 || $pinsPercentage >= 100 || $commentPinsPercentage >= 100 || $loadPercentage >= 100 )
+if ( @$projectsPercentage >= 100 || @$phasesPercentage >= 100 || @$screensPercentage >= 100 || @$pinsPercentage >= 100 || @$commentPinsPercentage >= 100 || @$loadPercentage >= 100 )
 	$isExceed = true;
 
 ?>
