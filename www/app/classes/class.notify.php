@@ -93,6 +93,7 @@ class Notify {
 
 
 		// Send the email
+		$recipients = trim($recipients, ',');
 		return Mail::ASYNCSEND(
 			$recipients,
 			urlencode($subject),
