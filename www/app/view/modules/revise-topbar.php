@@ -185,12 +185,38 @@ foreach ($allMyProjects as $myProject) {
 						<?php
 						foreach ($devices_of_phase as $deviceFromPage) {
 
-							$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 
+							// Get pins count
+							$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPage) {
+				
+								return $pinFound['device_ID'] == $deviceFromPage['device_ID'] && $pinFound['pin_complete'] == "0";
+				
+							}));
+							$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPage) {
+				
+								return $pinFound['device_ID'] == $deviceFromPage['device_ID'] && $pinFound['pin_complete'] == "1";
+				
+							}));
+				
+				
+							// Get page status
+							$pinStatus = "no-tasks";
+							if ($inCompletePinCount)
+								$pinStatus = "has-tasks";
+				
+							if ($completePinCount && !$inCompletePinCount)
+								$pinStatus = "done";
+				
+							$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
+
+							$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 							$deviceFromPage['screen_cat_name'] = $deviceFromPage['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPage['screen_cat_name'];
 						?>
 						<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-							<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+							<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?>
+								<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>
+							</a>
 						</li>
 						<?php
 						}
@@ -225,12 +251,39 @@ foreach ($allMyProjects as $myProject) {
 					<?php
 					foreach ($devices_of_page as $deviceFromPage) {
 
-						$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 
+						// Get pins count
+						$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPage) {
+			
+							return $pinFound['device_ID'] == $deviceFromPage['device_ID'] && $pinFound['pin_complete'] == "0";
+			
+						}));
+						$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPage) {
+			
+							return $pinFound['device_ID'] == $deviceFromPage['device_ID'] && $pinFound['pin_complete'] == "1";
+			
+						}));
+			
+			
+						// Get page status
+						$pinStatus = "no-tasks";
+						if ($inCompletePinCount)
+							$pinStatus = "has-tasks";
+			
+						if ($completePinCount && !$inCompletePinCount)
+							$pinStatus = "done";
+			
+						$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
+
+						$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 						$deviceFromPage['screen_cat_name'] = $deviceFromPage['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPage['screen_cat_name'];
 					?>
 					<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-						<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+						<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>">
+							<i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?>
+							<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>
+						</a>
 					</li>
 					<?php
 					}
@@ -414,12 +467,38 @@ foreach ($other_pages as $pageOther) {
 				<?php
 				foreach ($devices_of_phase as $deviceFromPage) {
 
-					$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 
+					// Get pins count
+					$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPage) {
+		
+						return $pinFound['device_ID'] == $deviceFromPage['device_ID'] && $pinFound['pin_complete'] == "0";
+		
+					}));
+					$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPage) {
+		
+						return $pinFound['device_ID'] == $deviceFromPage['device_ID'] && $pinFound['pin_complete'] == "1";
+		
+					}));
+		
+		
+					// Get page status
+					$pinStatus = "no-tasks";
+					if ($inCompletePinCount)
+						$pinStatus = "has-tasks";
+		
+					if ($completePinCount && !$inCompletePinCount)
+						$pinStatus = "done";
+		
+					$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
+
+					$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 					$deviceFromPage['screen_cat_name'] = $deviceFromPage['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPage['screen_cat_name'];
 				?>
 				<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-					<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+					<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?>
+						<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>
+					</a>
 				</li>
 				<?php
 				}
@@ -454,12 +533,39 @@ foreach ($other_pages as $pageOther) {
 		<?php
 		foreach ($devices_of_page as $deviceFromPage) {
 
-			$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 
+			// Get pins count
+			$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPage) {
+
+				return $pinFound['device_ID'] == $deviceFromPage['device_ID'] && $pinFound['pin_complete'] == "0";
+
+			}));
+			$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPage) {
+
+				return $pinFound['device_ID'] == $deviceFromPage['device_ID'] && $pinFound['pin_complete'] == "1";
+
+			}));
+
+
+			// Get page status
+			$pinStatus = "no-tasks";
+			if ($inCompletePinCount)
+				$pinStatus = "has-tasks";
+
+			if ($completePinCount && !$inCompletePinCount)
+				$pinStatus = "done";
+
+			$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
+
+			$selected = $deviceFromPage['device_ID'] == $device_ID ? "selected" : "";
 			$deviceFromPage['screen_cat_name'] = $deviceFromPage['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPage['screen_cat_name'];
 		?>
 		<li class="item <?=$selected?>" data-type="device" data-id="<?=$deviceFromPage['device_ID']?>">
-			<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>"><i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?></a>
+			<a href="<?=site_url('revise/'.$deviceFromPage['device_ID'], true)?>">
+				<i class="fa <?=$deviceFromPage['screen_cat_icon']?>"></i> <?=$deviceFromPage['screen_cat_name']?>
+				<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>	
+			</a>
 		</li>
 		<?php
 		}
@@ -634,6 +740,30 @@ foreach ($other_pages as $pageOther) {
 							$selected = $device['device_ID'] == $device_ID ? "selected" : "";
 
 
+							// Get pins count
+							$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($device) {
+				
+								return $pinFound['device_ID'] == $device['device_ID'] && $pinFound['pin_complete'] == "0";
+				
+							}));
+							$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($device) {
+				
+								return $pinFound['device_ID'] == $device['device_ID'] && $pinFound['pin_complete'] == "1";
+				
+							}));
+				
+				
+							// Get page status
+							$pinStatus = "no-tasks";
+							if ($inCompletePinCount)
+								$pinStatus = "has-tasks";
+				
+							if ($completePinCount && !$inCompletePinCount)
+								$pinStatus = "done";
+				
+							$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
+
 
 							$existing_screen_width = $device['screen_width'];
 							$existing_screen_height = $device['screen_height'];
@@ -652,7 +782,10 @@ foreach ($other_pages as $pageOther) {
 						?>
 
 							<li class="item deletable screen-registered <?=$selected?>" data-type="device" data-id="<?=$device['device_ID']?>">
-								<a href="<?=site_url('revise/'.$device['device_ID'], true)?>"><i class="fa <?=$device['screen_cat_icon']?>"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)</a>
+								<a href="<?=site_url('revise/'.$device['device_ID'], true)?>">
+									<i class="fa <?=$device['screen_cat_icon']?>"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)
+									<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>
+								</a>
 
 								<?php
 								if ($selected != "selected") {

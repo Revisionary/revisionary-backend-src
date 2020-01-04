@@ -642,9 +642,38 @@
 		<ul>
 			<?php
 			foreach ($devices_of_phase as $deviceFromPhase) {
+
+
+				// Get pins count
+				$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPhase) {
+	
+					return $pinFound['device_ID'] == $deviceFromPhase['device_ID'] && $pinFound['pin_complete'] == "0";
+	
+				}));
+				$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($deviceFromPhase) {
+	
+					return $pinFound['device_ID'] == $deviceFromPhase['device_ID'] && $pinFound['pin_complete'] == "1";
+	
+				}));
+	
+	
+				// Get page status
+				$pinStatus = "no-tasks";
+				if ($inCompletePinCount)
+					$pinStatus = "has-tasks";
+	
+				if ($completePinCount && !$inCompletePinCount)
+					$pinStatus = "done";
+	
+				$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
+
 			?>
 			<li class="item" data-type="device" data-id="<?=$deviceFromPhase['device_ID']?>">
-				<a href="<?=site_url('revise/'.$deviceFromPhase['device_ID'])?>"><i class="fa <?=$deviceFromPhase['screen_cat_icon']?>"></i> <?=$deviceFromPhase['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPhase['screen_cat_name']?></a>
+				<a href="<?=site_url('revise/'.$deviceFromPhase['device_ID'])?>">
+					<i class="fa <?=$deviceFromPhase['screen_cat_icon']?>"></i> <?=$deviceFromPhase['screen_cat_name'] == "Custom" ? "Custom Screen" : $deviceFromPhase['screen_cat_name']?>
+					<span class="pin-count normal remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count normal done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>
+				</a>
 			</li>
 			<?php
 			}
