@@ -1238,7 +1238,7 @@ $(function() {
 
 	// PIN HOVERING
 	var pinClicked = false;
-	$(document).on('mouseover', '#pins > pin', function(e) {
+	$(document).on('mouseover', '#pins > pin, #pin-window', function(e) {
 
 		//console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-revisionary-index") );
 
@@ -1321,7 +1321,7 @@ $(function() {
 		scrollOnPin = true;
 
 
-	}).on('mouseout', '#pins > pin', function(e) {
+	}).on('mouseout', '#pins > pin, #pin-window', function(e) {
 
 		//console.log('MOUSE OUT FROM PIN!', pinDragging);
 		hoveringPin = false;
