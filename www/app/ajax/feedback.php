@@ -115,7 +115,16 @@ $feedback_notification = $feedback_type == "bug" ? "sent an issue report: <br>" 
 if ( $feedback != "" ) $feedback_notification .= $feedback;
 $feedback_notification .= "<br><a href='".queryArg("login_to=$user_ID", $feedback_url)."' target='_blank'>Page URL</a>";
 if ($screenshot_url != "") $feedback_notification .= "<br><a href='$screenshot_url' target='_blank'>Screenshot Attached</a>";
-Notify::ID(1)->web("text", "user", currentUserID(), $feedback_notification);
+$notified = Notify::ID(1)->web("text", "user", $user_ID, $feedback_notification);
+if (!is_int($notified)) {
+
+	// CREATE THE RESPONSE
+	die(json_encode(array(
+		'status' => "not-notified",
+		'notified' => $notified
+	)));
+
+}
 
 
 
@@ -147,6 +156,7 @@ $log->info("User #$user_ID (".getUserInfo()['fullName'].") sent a feedback ($fee
 // CREATE THE RESPONSE
 die(json_encode(array(
 	'status' => "success",
+	'notified' => $notified,
 	'user' => getUserInfo()['fullName'],
 	'user_ID' => $user_ID,
 	'stars' => $stars,

@@ -128,6 +128,7 @@ class Notify {
 			"object_ID" => $object_ID,
 			"sender_user_ID" => currentUserID()
 		));
+		if (!$notification_ID) return false;
 
 
 
@@ -148,6 +149,7 @@ class Notify {
 					"notification_ID" => $notification_ID,
 					"user_ID" => $user_ID
 				));
+				//if (!$connection_ID) return false;
 
 			}
 
@@ -161,10 +163,13 @@ class Notify {
 				"notification_ID" => $notification_ID,
 				"user_ID" => self::$user_ID
 			));
+			//if (!$connection_ID) return false;
 
 
 		}
 
+
+		return $notification_ID;
 
     }
 

@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.2
+-- version 5.0.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: revisionary-do-user-2911443-0.db.ondigitalocean.com:25060
--- Generation Time: Dec 31, 2019 at 02:11 PM
+-- Generation Time: Jan 04, 2020 at 07:53 AM
 -- Server version: 8.0.17
 -- PHP Version: 7.4.1
 
@@ -47,7 +47,7 @@ CREATE TABLE `devices` (
 CREATE TABLE `notifications` (
   `notification_ID` bigint(20) NOT NULL,
   `notification_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'text',
-  `notification` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notification` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `notification_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `object_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `object_ID` bigint(20) NOT NULL,
@@ -780,3 +780,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
