@@ -1481,7 +1481,7 @@ class User {
 		if ($user_name == null) $user_name = permalink($user_full_name);
 
 
-		// Add to the CB
+		// Add to the DB
 		$user_ID = $db->insert('users', array(
 			'user_name' => $user_name,
 			'user_email' => $user_email,
@@ -1489,6 +1489,7 @@ class User {
 			'user_last_name' => $lastName,
 			'user_password' => password_hash($user_password, PASSWORD_DEFAULT),
 			'user_IP' => get_client_ip(),
+			'trial_expire_date' => currentTimeStamp('+1 week'),
 			'user_level_ID' => $user_level_ID // Free one
 		));
 

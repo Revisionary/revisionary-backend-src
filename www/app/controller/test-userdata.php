@@ -1,5 +1,7 @@
 <pre><?php
 
+var_dump( currentTimeStamp('+1 week') );
+
 $flush = true;
 if ($flush) $cache->flush();
 echo "
@@ -30,6 +32,14 @@ if ($user) {
 	<details>
 		<summary><h2 style='display: inline;'>USER</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getInfo(), true )."</p>
+	</details>";
+
+
+	// USER DATA
+	echo "
+	<details>
+		<summary><h2 style='display: inline;'>USER DATA</h2></summary>
+		<p style='padding-left: 20px;'>".print_r( getUserInfo(), true )."</p>
 	</details>";
 
 

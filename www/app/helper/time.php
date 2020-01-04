@@ -1,8 +1,10 @@
 <?php
 
-function currentTimeStamp() {
+function currentTimeStamp($modify = null) {
 
-   return date("Y-m-d H:i:s");
+   $stop_date = new DateTime();
+   if ($modify) $stop_date->modify($modify); // For example: +1 day
+   return $stop_date->format('Y-m-d H:i:s');
 
 }
 

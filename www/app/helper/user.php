@@ -99,7 +99,9 @@ function getUserInfo($user_ID = false) {
 			'userLevelMaxScreen' => "",
 			'userLevelMaxLivePin' => "",
 			'userLevelMaxCommentPin' => "",
-			'userLevelMaxLoad' => ""
+			'userLevelMaxLoad' => "",
+			'trialExpireDate' => "",
+			'trialExpired' => 1
 		);
 
 
@@ -145,7 +147,9 @@ function getUserInfo($user_ID = false) {
 		'userLevelMaxScreen' => $userInfo['user_level_max_screen'],
 		'userLevelMaxLivePin' => $userInfo['user_level_max_live_pin'],
 		'userLevelMaxCommentPin' => $userInfo['user_level_max_comment_pin'],
-		'userLevelMaxLoad' => $userInfo['user_level_max_load']
+		'userLevelMaxLoad' => $userInfo['user_level_max_load'],
+		'trialExpireDate' => $userInfo['trial_expire_date'],
+		'trialExpired' => currentTimeStamp() > $userInfo['trial_expire_date'] ? 1 : 0
 	);
 	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';
 
