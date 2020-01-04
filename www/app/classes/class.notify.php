@@ -106,8 +106,8 @@ class Notify {
     // Web notifications
     public function web(
 	    string $notification_type = "text",
-	    string $object_type,
-	    int $object_ID,
+	    string $object_type = null,
+	    int $object_ID = null,
 	    $notification = null
     ) {
 	    global $db;

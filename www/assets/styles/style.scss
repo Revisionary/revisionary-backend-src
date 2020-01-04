@@ -2687,6 +2687,11 @@ input.share-email {
 			display: none;
 		}
 
+		.result-messages {
+			display: none;
+			margin-top: 40px;
+		}
+
 		&[data-feedback-type="bug"] {
 
 			.stars {
@@ -2695,6 +2700,18 @@ input.share-email {
 
 			.screenshot {
 				display: inline-block;
+			}
+
+		}
+
+		&[data-sent="yes"] {
+
+			form {
+				display: none;
+			}
+
+			.result-messages {
+				display: block;
 			}
 
 		}

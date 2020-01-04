@@ -303,7 +303,7 @@
 
 
 
-<div id="feedback" class="popup-window xl-center xl-5-12" data-feedback-type="feedback">
+<div id="feedback" class="popup-window xl-center xl-5-12" data-feedback-type="feedback" data-sent="no">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 	<div class="xl-left">
@@ -333,7 +333,7 @@
 			</div>
 			<div class="col xl-3-4 xl-right screenshot">
 	
-				<label><small>Screenshot (Optional):</small> <input type="file" name="screenshot"></label>
+				<label><small>Screenshot (Optional):</small> <input type="file" name="screenshot" accept=".gif,.jpg,.jpeg,.png" data-max-size="5000000"></label>
 	
 			</div>
 			<div class="col xl-left">
@@ -341,18 +341,23 @@
 				<textarea name="feedback" maxlength="1000" placeholder="Please explain us your thoughts..." style="margin-top: 20px; border-radius: 8px; outline: none;" autofocus></textarea>
 	
 			</div>
-			<div class="col xl-1-2" style="margin-top: 20px;">
+			<div class="col xl-3-4" style="margin-top: 20px;">
 	
 				<input type="submit" value="Send Feedback" class="invert">
 	
 			</div>
-			<div class="col xl-1-2 xl-right character-limit">
+			<div class="col xl-1-4 xl-right character-limit">
 			
 				<span class="current-length">0</span>/<span class="current-limit">1000</span>
 	
 			</div>
 		</div>
+		<input type="hidden" name="feedback-url" value="<?=current_url()?>">
 	</form>
+
+	<div class="result-messages xl-left">
+		<div class="thank-you"><p>Thanks for your feedback!</p></div>
+	</div>
 
 
 </div>

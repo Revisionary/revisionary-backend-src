@@ -86,7 +86,7 @@ if ($User) {
 	// Hard user change for admins
 	if ( $User->getInfo('user_level_ID') === 1 && is_numeric(get('login_to')) ) {
 		$_SESSION['user_ID'] = intval(get('login_to'));
-		header('Location: '.site_url());
+		header('Location: '.removeQueryArg("login_to", current_url()));
 		die();
 	}
 

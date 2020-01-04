@@ -17391,12 +17391,25 @@ input.share-email.error {
   display: none;
 }
 
+.popup-window#feedback .result-messages {
+  display: none;
+  margin-top: 40px;
+}
+
 .popup-window#feedback[data-feedback-type="bug"] .stars {
   display: none;
 }
 
 .popup-window#feedback[data-feedback-type="bug"] .screenshot {
   display: inline-block;
+}
+
+.popup-window#feedback[data-sent="yes"] form {
+  display: none;
+}
+
+.popup-window#feedback[data-sent="yes"] .result-messages {
+  display: block;
 }
 
 .members {

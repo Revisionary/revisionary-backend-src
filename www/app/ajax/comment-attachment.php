@@ -81,7 +81,7 @@ $file_name = generateRandomString().".".$file_extension;
 
 
 // Extension check
-if ( !in_array($file_extension, array('jpeg', 'jpg', 'png', 'gif', 'svg', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'zip', 'pages', 'numbers')) ) {
+if ( !in_array($file_extension, array('jpeg', 'jpg', 'png', 'gif', 'svg', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'zip', 'pages', 'numbers')) ) { // !!! Update extensions
 
 	// CREATE THE RESPONSE
 	die(json_encode(array(

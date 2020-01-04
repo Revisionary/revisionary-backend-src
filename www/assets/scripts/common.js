@@ -891,9 +891,6 @@ $(function() {
 	});
 
 
-	//openModal('feedback');
-
-
 	// Feedback Modal
 	var starInfo = [
 		"I cannot use it :(",
@@ -990,6 +987,133 @@ $(function() {
 
 
 		modal.find('[name="stars"]').attr('value', star);
+
+
+		e.preventDefault();
+		return false;
+
+	}).on('submit', '#feedback form', function(e) {
+
+		var modal = $('#feedback');
+		var form = $(this);
+		var input = form.find('input[type="submit"]');
+
+
+		console.log('FORM SUBMITTED');
+
+
+
+		// Rename the input and disable
+		input.attr('value', "SENDING...").prop('disabled', true);
+
+
+		// Start the process
+		var feedbackSubmitProcessID = newProcess(null, "feedbackSubmitProcess");
+
+
+		$.ajax({
+			url: ajax_url+'?type=feedback',
+			type: 'POST',
+			data:  new FormData(this),
+			mimeType: "multipart/form-data",
+			contentType: false,
+			cache: false,
+			processData: false,
+			dataType: 'json',
+			xhr: function() {
+
+
+				var jqXHR = null;
+				if ( window.ActiveXObject ) {
+
+					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+
+				} else {
+
+					jqXHR = new window.XMLHttpRequest();
+
+				}
+
+
+				// Upload progress
+				jqXHR.upload.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Uploaded percent', percentComplete );
+
+						editProcess(feedbackSubmitProcessID, percentComplete);
+						//if (percentComplete == 100) submit.val('Opening');
+
+					}
+
+				}, false );
+
+
+				// Download progress
+				jqXHR.addEventListener( "progress", function ( evt ) {
+
+					if ( evt.lengthComputable ) {
+
+						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
+						console.log( 'Downloaded percent', percentComplete );
+
+					}
+
+				}, false );
+
+
+				return jqXHR;
+			},
+			success: function(data, textStatus, jqXHR) {
+				
+				var imageUrl = data.new_url;
+				var status = data.status;
+
+
+				// Rename the input and enable
+				input.attr("value", 'SEND FEEDBACK').prop('disabled', false);
+
+
+
+				if (status != "success") {
+
+					console.error('ERROR: ', status, data, imageUrl, textStatus, jqXHR);
+					return false;
+
+				}
+
+
+				console.log('SUCCESS!', imageUrl, data, textStatus, jqXHR);
+
+
+				// Show sent message
+				modal.attr('data-sent', 'yes');
+
+
+				// Finish the process
+				endProcess(feedbackSubmitProcessID);
+
+
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+
+				console.log('FAILED!!', errorThrown);
+
+
+				// Rename the input and enable
+				input.attr("value", 'SEND FEEDBACK').prop('disabled', false);
+
+				
+				// Finish the process !!!
+				endProcess(feedbackSubmitProcessID);
+
+			}
+		});
+
+
+
 
 
 		e.preventDefault();
@@ -1506,7 +1630,7 @@ $(function() {
 						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
 						console.log( 'Uploaded percent', percentComplete );
 
-						editProcess(uploadDesignProcessID, percentComplete);
+						if (percentComplete < 100) editProcess(uploadDesignProcessID, percentComplete);
 						//if (percentComplete == 100) submit.val('Opening');
 
 					}
@@ -2308,6 +2432,15 @@ function openModal(modalName) {
 		// Limitations
 		var maxLength = modal.find('textarea[name="feedback"]').attr('maxlength');
 		modal.find('.current-limit').text(maxLength);
+
+		// Reset
+		modal.find('form').trigger('reset');
+		modal.find('.current-length').text('0');
+		modal.attr('data-feedback-type', 'feedback');
+		modal.find('.fa-star').removeClass('far').addClass('fas');
+		modal.find('input[name="stars"]').attr('value', 5);
+		modal.find('.star-info').text("Excellent");
+		modal.attr('data-sent', 'no');
 
 	}
 
