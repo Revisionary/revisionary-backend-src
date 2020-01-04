@@ -5,7 +5,7 @@
 		<?php
 
 			// Projects and Pages Modals
-			if ($_url[0] == "projects" || $_url[0] == "project" || $_url[0] == "account") require view('modules/modals');
+			if ( userLoggedIn() ) require view('modules/modals');
 
 		?>
 
