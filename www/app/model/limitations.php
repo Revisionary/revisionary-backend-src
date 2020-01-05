@@ -4,9 +4,12 @@ $limit_user_ID = currentUserID();
 //$limit_user_ID = 1;
 $limitUser = User::ID($limit_user_ID);
 
+$trial_prefix = "";
+if ( getUserInfo($limit_user_ID)['trialExpired'] == 0 && getUserInfo($limit_user_ID)['trialStartedFor'] != null ) $trial_prefix = "trial_";
+
 
 // PROJECTS
-$maxProjects = getUserInfo($limit_user_ID)['userLevelMaxProject'];
+$maxProjects = $limitUser->getInfo($trial_prefix.'user_level_max_project');
 $myProjects = array_filter($limitUser->getProjects(), function($projectFound) use ($limit_user_ID) {
 	return $projectFound['user_ID'] == $limit_user_ID;
 });
@@ -17,7 +20,7 @@ $projectsLeft = $maxProjects == "∞" ? "Unlimited" : $maxProjects - $projectsCo
 
 
 // PAGES (PHASES)
-$maxPhases = getUserInfo($limit_user_ID)['userLevelMaxPage'];
+$maxPhases = $limitUser->getInfo($trial_prefix.'user_level_max_page');
 $myPhases = array_filter($limitUser->getPhases(), function($phaseFound) use ($limit_user_ID) {
 	return $phaseFound['user_ID'] == $limit_user_ID;
 });
@@ -28,7 +31,7 @@ $phasesLeft = $maxPhases == "∞" ? "Unlimited" : $maxPhases - $phasesCount;
 
 
 // SCREENS
-$maxScreens = getUserInfo($limit_user_ID)['userLevelMaxScreen'];
+$maxScreens = $limitUser->getInfo($trial_prefix.'user_level_max_screen');
 $myScreens = array_filter($limitUser->getDevices(), function($screenFound) use ($limit_user_ID) {
 	return $screenFound['user_ID'] == $limit_user_ID;
 });
@@ -39,7 +42,7 @@ $screensLeft = $maxScreens == "∞" ? "Unlimited" : $maxScreens - $screensCount;
 
 
 // LIVE PINS
-$maxPins = getUserInfo($limit_user_ID)['userLevelMaxLivePin'];
+$maxPins = $limitUser->getInfo($trial_prefix.'user_level_max_live_pin');
 $myPins = array_filter($limitUser->getPins(), function($pinFound) use ($limit_user_ID) {
 	return $pinFound['user_ID'] == $limit_user_ID && ($pinFound['pin_type'] == 'live' || $pinFound['pin_type'] == 'style');
 });
@@ -50,7 +53,7 @@ $pinsLeft = $maxPins == "∞" ? "Unlimited" : $maxPins - $pinsCount;
 
 
 // LIVE PINS
-$maxCommentPins = getUserInfo($limit_user_ID)['userLevelMaxCommentPin'];
+$maxCommentPins = $limitUser->getInfo($trial_prefix.'user_level_max_comment_pin');
 $myCommentPins = array_filter($limitUser->getPins(), function($pinFound) use ($limit_user_ID) {
 	return $pinFound['user_ID'] == $limit_user_ID && $pinFound['pin_type'] == 'comment';
 });
@@ -61,7 +64,7 @@ $commentPinsLeft = $maxCommentPins == "∞" ? "Unlimited" : $maxCommentPins - $c
 
 
 // LOAD
-$maxLoad = getUserInfo($limit_user_ID)['userLevelMaxLoad'];
+$maxLoad = $limitUser->getInfo($trial_prefix.'user_level_max_load');
 $cached_userLoad = $cache->get('userload:'.$limit_user_ID);
 if ( $cached_userLoad !== false ) $loadCount = $cached_userLoad;
 else {
