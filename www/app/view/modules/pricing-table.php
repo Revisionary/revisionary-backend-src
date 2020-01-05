@@ -139,7 +139,7 @@ if ( @$projectsPercentage >= 100 || @$phasesPercentage >= 100 || @$screensPercen
 				if ($user_level['user_level_name'] == "Free") 
 					echo "<a href='".site_url('signup')."' class='upgrade-button'>Get Started</a>";
 				else 
-					echo "<a href='".site_url('signup?trial='.$user_level['user_level_name'])."' class='upgrade-button' data-tooltip='In development...'>Try ".$user_level['user_level_name']."</a>";
+					echo "<a href='".site_url('signup?trial='.$user_level['user_level_name'])."' class='upgrade-button'>Try ".$user_level['user_level_name']."</a>";
 
 
 			} else {

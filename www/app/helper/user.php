@@ -73,14 +73,14 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 				t.user_level_price as trial_user_level_price,
 				t.user_level_color as trial_user_level_color
 			")
-		)[0];
+		);
 
 
 		// Set the cache
-		if ($userInfo) {
+		if ($userInfo && isset($userInfo[0])) {
 
-			if (!$full) $cache->set('user:'.$user_ID, $userInfo);
-			return $userInfo;
+			if (!$full) $cache->set('user:'.$user_ID, $userInfo[0]);
+			return $userInfo[0];
 
 		}
 
