@@ -1,7 +1,7 @@
 <?php
 
-// If not logged in, go login page !!! Change when public revising available
-if ($User) {
+// If logged in, go to the Upgrade page
+if ( userLoggedIn() ) {
 	header('Location: '.site_url('upgrade'));
 	die();
 }

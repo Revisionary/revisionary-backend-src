@@ -23,8 +23,14 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 
 		// Bring the user level info
 		$db->join("user_levels l", "l.user_level_ID = u.user_level_ID", "LEFT");
+
+
+		// Bring the trial user level info
+		$db->join("user_levels t", "t.user_level_ID = u.trial_started_for", "LEFT");
+
+
 	    $db->where("u.user_ID", $user_ID);
-		$userInfo = $db->getOne(
+		$userInfo = $db->get(
 			"users u",
 			null,
 			($full ? null : "
@@ -46,14 +52,28 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 				l.user_level_description,
 				l.user_level_max_project,
 				l.user_level_max_page,
+				l.user_level_max_screen,
 				l.user_level_max_live_pin,
 				l.user_level_max_comment_pin,
 				l.user_level_max_client,
 				l.user_level_max_load,
 				l.user_level_price,
-				l.user_level_color
+				l.user_level_color,
+				u.trial_started_for,
+				u.trial_expire_date,
+				t.user_level_name as trial_user_level_name,
+				t.user_level_description as trial_user_level_description,
+				t.user_level_max_project as trial_user_level_max_project,
+				t.user_level_max_page as trial_user_level_max_page,
+				t.user_level_max_screen as trial_user_level_max_screen,
+				t.user_level_max_live_pin as trial_user_level_max_live_pin,
+				t.user_level_max_comment_pin as trial_user_level_max_comment_pin,
+				t.user_level_max_client as trial_user_level_max_client,
+				t.user_level_max_load as trial_user_level_max_load,
+				t.user_level_price as trial_user_level_price,
+				t.user_level_color as trial_user_level_color
 			")
-		);
+		)[0];
 
 
 		// Set the cache
@@ -100,6 +120,7 @@ function getUserInfo($user_ID = false) {
 			'userLevelMaxLivePin' => "",
 			'userLevelMaxCommentPin' => "",
 			'userLevelMaxLoad' => "",
+			'trialStartedFor' => null,
 			'trialExpireDate' => "",
 			'trialExpired' => 1
 		);
@@ -148,6 +169,7 @@ function getUserInfo($user_ID = false) {
 		'userLevelMaxLivePin' => $userInfo['user_level_max_live_pin'],
 		'userLevelMaxCommentPin' => $userInfo['user_level_max_comment_pin'],
 		'userLevelMaxLoad' => $userInfo['user_level_max_load'],
+		'trialStartedFor' => $userInfo['trial_started_for'],
 		'trialExpireDate' => $userInfo['trial_expire_date'],
 		'trialExpired' => currentTimeStamp() > $userInfo['trial_expire_date'] ? 1 : 0
 	);

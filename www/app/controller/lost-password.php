@@ -1,7 +1,7 @@
 <?php
 
 // If already logged in, go projects page
-if (userLoggedIn()) {
+if ( userLoggedIn() ) {
 
 	if (get('redirect') != "") {
 		header("Location: ".htmlspecialchars_decode(get('redirect'))); // !!! Check security

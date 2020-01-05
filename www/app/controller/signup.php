@@ -1,7 +1,7 @@
 <?php
 
-// If already logged in, go projects page
-if (userLoggedIn()) {
+// If already logged in, go Projects page
+if ( userLoggedIn() ) {
 
 	if (get('redirect') != "") {
 		header("Location: ".htmlspecialchars_decode(get('redirect'))); // !!! Check security
@@ -23,18 +23,17 @@ $errors = [];
 if ( post('user-submit') == "Register" ) {
 
 
-/*
-	if ( post("nonce") !== $_SESSION["signup_nonce"] ) {
-		$nonceError = true;
-		$errors[] = "Please try again";
-	}
-*/
+	// if ( post("nonce") !== $_SESSION["signup_nonce"] ) {
+	// 	$nonceError = true;
+	// 	$errors[] = "Please try again";
+	// }
 
 
 	$eMail = post('email');
 	$fullName = post('full_name');
 	$password = post('password');
-	$user_name = str_replace('_', ' ', permalink($fullName));
+	$trial = post('trial');
+	$redirect_to = !empty(post('redirect_to')) ? htmlspecialchars_decode(post('redirect_to')) : "";
 
 
 	// Check if any empty field
@@ -74,12 +73,19 @@ if ( post('user-submit') == "Register" ) {
 	if( $errors == [] ) {
 
 
-		// Username check !!! Performance issue?
-		$i = 0;
-		while( !checkAvailableUserName($user_name) ) { $i++;
+		$trial_level_ID = null;
+		if ( !empty($trial) ) {
 
-			// Clean the existing numbers
-			$user_name = explode('_', $user_name)[0]."_".$i;
+			$db->where('user_level_name', $trial);
+			$db->where('user_level_ID', [1, 2], 'NOT IN');
+			$trial_level = $db->getOne('user_levels');
+
+			if ($trial_level) {
+				
+				$trial_level_ID = $trial_level['user_level_ID'];
+				$redirect_to = queryArg("trialstarted", $redirect_to);
+			
+			}
 
 		}
 
@@ -88,8 +94,8 @@ if ( post('user-submit') == "Register" ) {
 		$user_ID = User::ID('new')->addNew(
 		    $eMail,
 		    $fullName,
-		    $password,
-		    $user_name
+			$password,
+			$trial_level_ID
 		);
 
 
@@ -108,12 +114,20 @@ if ( post('user-submit') == "Register" ) {
 			));
 
 
-			if (post('redirect_to') != "") {
-				header("Location: ".htmlspecialchars_decode(post('redirect_to'))); // !!! Check security
+			if ( !empty($redirect_to) ) {
+
+
+				// Show the welcome modal
+				if (!$trial_level_ID) {
+					$redirect_to = queryArg("welcome", $redirect_to);
+				}
+
+
+				header("Location: $redirect_to");
 				die();
 			}
 
-			header("Location: ".site_url('projects'));
+			header("Location: ".site_url('projects?welcome'));
 			die();
 
 		}
@@ -126,8 +140,10 @@ if ( post('user-submit') == "Register" ) {
 
 }
 
-// Generate new nonce for form
+
+// Generate new nonce for form !!!
 $_SESSION["signup_nonce"] = uniqid(mt_rand(), true);
+
 
 $page_title = "Signup - Revisionary App";
 require view('signup');

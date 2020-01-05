@@ -29,7 +29,7 @@ if ($user) {
 
 	// USER
 	echo "
-	<details>
+	<details open>
 		<summary><h2 style='display: inline;'>USER</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getInfo(), true )."</p>
 	</details>";
@@ -37,7 +37,7 @@ if ($user) {
 
 	// USER DATA
 	echo "
-	<details>
+	<details open>
 		<summary><h2 style='display: inline;'>USER DATA</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( getUserInfo(), true )."</p>
 	</details>";

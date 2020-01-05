@@ -796,7 +796,7 @@
 						$catFilter != "archived"
 						&& $catFilter != "deleted"
 						&& $catFilter != "shared"
-					) $add_new_link = "<a href='#' onClick='$(this).parents(\"li\").find(\"input[name=page-url]\").focus();'><b><u>Add one?</u></b></a>";
+					) $add_new_link = "<a href='#' onClick='$(this).parents(\"li\").find(\".add-new-block .box\").addClass(\"pulse\").find(\"input[name=page-url]\").focus();'><b><u>Add one?</u></b></a>";
 
 
 					echo "<li class='col xl-1-1 xl-center empty-cat' style='margin-bottom: 60px;'>

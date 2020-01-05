@@ -1122,6 +1122,25 @@ $(function() {
 	});
 
 
+	// Trial start modal
+	if ( getParameterByName('trialstarted') !== null ) openModal('trialstarted');
+	//removeQueryArgFromCurrentUrl('trialstarted');
+
+	if ( getParameterByName('welcome') !== null ) openModal('welcome');
+	//removeQueryArgFromCurrentUrl('welcome');
+
+
+	// Create a project
+	$('.create-project').click(function(e) {
+
+		closeModal();
+
+		$('#url-0').parents('.box').addClass('pulse');
+		$('#url-0').focus();
+
+	});
+
+
 	// SHARE MODAL: Share input
 	$('#share #share-email').on('keyup', function() {
 
@@ -2683,7 +2702,9 @@ function cleanHTML(s, allowBRs) {
 }
 
 function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
+
+	url = assignDefault(url, window.location.href);
+	
     name = name.replace(/[\[\]]/g, '\\$&');
     var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
         results = regex.exec(url);

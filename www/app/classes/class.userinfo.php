@@ -1461,8 +1461,7 @@ class User {
 	    string $user_email,
 	    string $user_full_name,
 	    string $user_password,
-	    string $user_name = null,
-	    int $user_level_ID = 2
+	    int $trial_level_ID = null
     ) {
 	    global $db, $log;
 
@@ -1477,21 +1476,40 @@ class User {
 		}
 
 
-		// Create the username
-		if ($user_name == null) $user_name = permalink($user_full_name);
+		// Username check !!! Performance issue?
+		$user_name = permalink($user_full_name);
+		$i = 0;
+		while( !checkAvailableUserName($user_name) ) { $i++;
+
+			// Clean the existing numbers
+			$user_name = explode('_', $user_name)[0]."_".$i;
+
+		}
 
 
-		// Add to the DB
-		$user_ID = $db->insert('users', array(
+		// Prepare the user data
+		$new_user_data = array(
 			'user_name' => $user_name,
 			'user_email' => $user_email,
 			'user_first_name' => $firstName,
 			'user_last_name' => $lastName,
 			'user_password' => password_hash($user_password, PASSWORD_DEFAULT),
 			'user_IP' => get_client_ip(),
-			'trial_expire_date' => currentTimeStamp('+1 week'),
-			'user_level_ID' => $user_level_ID // Free one
-		));
+			'user_level_ID' => 2 // Free one by default
+		);
+
+
+		// Signup with trial
+		if ($trial_level_ID) {
+
+			$new_user_data['trial_started_for'] = $trial_level_ID;
+			$new_user_data['trial_expire_date'] = currentTimeStamp('+1 week');
+
+		}
+
+
+		// Add to the DB
+		$user_ID = $db->insert('users', $new_user_data);
 
 
 		// If successful
