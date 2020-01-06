@@ -20,10 +20,6 @@ if (
 	// && post('add_new_nonce') == $_SESSION["add_new_nonce"] !!! Disable the nonce check for now!
 ) {
 
-	// die_to_print(
-	// 	$_REQUEST
-	// );
-
 	$project_ID = $project_ID_initial = request('project_ID');
 	$page_url = request('page-url');
 	if ( request('pinmode') == "browse" ) $page_url = rawurldecode($page_url);
@@ -256,6 +252,35 @@ if (
 
 	// If successful, redirect to "Revise" page
 	header('Location: '.site_url('revise/'.$device_ID.'?new'));
+	die();
+
+}
+
+
+
+// ACTIVATE TRIAL
+if (
+	(request('trial') == "Plus" || request('trial') == "Enterprise") &&
+	getUserInfo()['trialAvailable']
+) {
+
+	$trial = request('trial');
+	$db->where('user_level_name', $trial);
+	$db->where('user_level_ID', [1, 2], 'NOT IN');
+	$trial_level = $db->getOne('user_levels');
+	if (!$trial_level) {
+		header('Location: '.site_url('projects?wrongtrial'));
+		die();
+	}
+	$trial_level_ID = $trial_level['user_level_ID'];
+
+
+	// Add the user
+	if ( getUserInfoDB()['trial_started_for'] == null ) User::ID()->edit('trial_expire_date', currentTimeStamp('+1 week'));
+	User::ID()->edit('trial_started_for', $trial_level_ID);
+
+
+	header('Location: '.site_url('projects?trialstarted'));
 	die();
 
 }
