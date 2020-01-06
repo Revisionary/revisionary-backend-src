@@ -133,16 +133,25 @@ if ( @$projectsPercentage >= 100 || @$phasesPercentage >= 100 || @$screensPercen
 			$<?=$user_level['user_level_price']?><span><?=$user_level['user_level_price'] != 0 ? "/m" : ""?></span><br><br>
 			<?php
 
-			if ($page_title == "Pricing") {
+			if ($page_title == "Pricing") { // If not logged in
 
 
-				if ($user_level['user_level_name'] == "Free") 
+				if ($user_level['user_level_name'] == "Free") {
+
 					echo "<a href='".site_url('signup')."' class='upgrade-button'>Get Started</a>";
-				else 
+
+					echo "<div class='try'>Absolutely free</div>"; // Placeholder
+
+				} else {
+
 					echo "<a href='".site_url('signup?trial='.$user_level['user_level_name'])."' class='upgrade-button'>Try ".$user_level['user_level_name']."</a>";
 
+					echo "<div class='try'>No Card Needed</div>";
 
-			} else {
+				}
+
+
+			} else { // If logged in
 
 
 				if ( getUserInfo()['userLevelName'] == $user_level['user_level_name'] ) {
@@ -150,17 +159,23 @@ if ( @$projectsPercentage >= 100 || @$phasesPercentage >= 100 || @$screensPercen
 
 					echo "<b class='current-plan ".($isExceed ? "exceed" : "")."'>Your Current Plan</b>";
 
+					echo "<a href='#' class='try invisible'>Try for 7 days</a>"; // Placeholder
+
 
 				} elseif ( getUserInfo()['userLevelName'] != 'Free' && $user_level['user_level_name'] != 'Enterprise' ) {
 
 
 					echo "<a href='#' class='cancel-plan' data-tooltip='In development...'>Downgrade to ".$user_level['user_level_name']."</a>";
 
+					echo "<a href='#' class='try invisible'>Try for 7 days</a>"; // Placeholder
+
 
 				} elseif ( getUserInfo()['userLevelName'] != $user_level['user_level_name'] ) {
 
 
 					echo "<a href='#' class='upgrade-button ".($user_level['user_level_name'] == "Free" ? "invisible" : "")."' data-tooltip='In development...'>Upgrade to ".strtoupper($user_level['user_level_name'])."</a>";
+
+					if ( getUserInfo()['trialAvailable'] ) echo "<a href='".site_url('projects?trial='.$user_level['user_level_name'])."' class='try link'>or Try for 7 days</a>";
 
 
 				}

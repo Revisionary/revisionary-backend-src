@@ -16632,6 +16632,7 @@ header {
   background-color: #000000;
   color: white !important;
   white-space: nowrap;
+  display: inline-block;
 }
 
 .upgrade-button:hover {
@@ -18223,7 +18224,7 @@ body.dragging, body.dragging * {
 /* Pricing */
 table.pricing {
   width: 100%;
-  margin-top: 60px;
+  margin-top: 30px;
   margin-bottom: 60px;
   border-spacing: 0;
 }
@@ -18298,6 +18299,18 @@ table.pricing .cancel-plan {
 
 table.pricing .current-plan.exceed {
   color: red;
+}
+
+table.pricing .try {
+  display: block;
+  font-size: 15px;
+  font-weight: 300;
+  margin-top: 7px;
+}
+
+table.pricing .try.link:hover {
+  text-decoration: underline;
+  color: #007acc !important;
 }
 
 /* Animations */

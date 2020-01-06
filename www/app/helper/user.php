@@ -122,7 +122,8 @@ function getUserInfo($user_ID = false) {
 			'userLevelMaxLoad' => "",
 			'trialStartedFor' => null,
 			'trialExpireDate' => "",
-			'trialExpired' => 1
+			'trialExpired' => 1,
+			'trialAvailable' => 0
 		);
 
 
@@ -174,6 +175,7 @@ function getUserInfo($user_ID = false) {
 		'trialExpired' => currentTimeStamp() > $userInfo['trial_expire_date'] ? 1 : 0
 	);
 	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';
+	$extendedUserInfo['trialAvailable'] = $userInfo['trial_started_for'] == null || ($userInfo['trial_started_for'] != null && $extendedUserInfo['trialExpired'] == 0) ? 1 : 0;
 
 
 	return $extendedUserInfo;

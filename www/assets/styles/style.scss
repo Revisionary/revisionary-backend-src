@@ -1806,6 +1806,7 @@ header {
     background-color: $color;
 	color: white !important;
 	white-space: nowrap;
+	display: inline-block;
 
     &:hover {
 	    background-color: white;
@@ -3662,7 +3663,7 @@ body.dragging, body.dragging * {
 /* Pricing */
 table.pricing {
 	width: 100%;
-	margin-top: 60px;
+	margin-top: 30px;
 	margin-bottom: 60px;
 	border-spacing: 0;
 	
@@ -3753,6 +3754,24 @@ table.pricing {
 		
 		&.exceed {
 			color: red;
+		}
+
+	}
+
+	.try {
+		display: block;
+		font-size: 15px;
+		font-weight: 300;
+		margin-top: 7px;
+
+		&.link {
+			//text-decoration: underline;
+
+			&:hover {
+				text-decoration: underline;
+				color: $color-secondary !important;
+			}
+
 		}
 
 	}
