@@ -1,9 +1,16 @@
+<?php
+
+$current_plan_name = getUserInfo()['userLevelName'];
+if ( getUserInfo()['trialAvailable'] && getUserInfoDB()['trial_user_level_name'] ) $current_plan_name = getUserInfoDB()['trial_user_level_name']." (Trial)";
+
+?>
+
 <div class="limit-wrapper" data-current-plan="<?=getUserInfo()['userLevelName']?>">
 
 	<div class="wrap xl-3 xl-right xl-flexbox xl-between">
 		<div class="col xl-1-1 xl-right xl-hidden">
 		
-			<b><?=getUserInfo()['userLevelName']?></b> Account Usage<br>
+			<b><?=$current_plan_name?></b> Account Usage<br>
 		
 		</div>
 		<div class="col total projects-limit <?=$projectsPercentage >= 100 ? "exceed" : ""?> dropdown">
@@ -15,7 +22,7 @@
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> Project Limits</h4>
+						<h4><b><?=$current_plan_name?></b> Account Project Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
@@ -32,7 +39,7 @@
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> Page/Phase Limits</h4>
+						<h4><b><?=$current_plan_name?></b> Account Page/Phase Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
@@ -49,7 +56,7 @@
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> Screen Limits</h4>
+						<h4><b><?=$current_plan_name?></b> Account Screen Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
@@ -66,7 +73,7 @@
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> Live Pin Limits</h4>
+						<h4><b><?=$current_plan_name?></b> Account Live Pin Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
@@ -83,7 +90,7 @@
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> Comment Pin Limits</h4>
+						<h4><b><?=$current_plan_name?></b> Account Comment Pin Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
@@ -100,7 +107,7 @@
 			<ul class="right xl-left no-delay">
 				<li class="notice">
 					<div>
-						<h4><b><?=getUserInfo()['userLevelName']?> Account</b> Web Page Size Limits</h4>
+						<h4><b><?=$current_plan_name?> Account</b> Web Page Size Limits</h4>
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
