@@ -369,8 +369,14 @@
 <div id="trialstarted" class="popup-window xl-center xl-6-12">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
+	<?php
+		$now = new DateTime();
+		$later = new DateTime( getUserInfo()['trialExpireDate'] );
+		$left_day = $later->diff($now)->d;
+		if (getUserInfoDB()['trial_started_for'] == null) $left_day = 7;
+	?>
 	
-	<h3 style="margin-top: 0;">Your <b><?=getUserInfoDB()['trial_user_level_name']?> plan</b> has been activated for <b>7 days</b></h3>
+	<h3 style="margin-top: 0;">Your <b><?=getUserInfoDB()['trial_user_level_name']?> plan</b> has been activated for <b><?=$left_day?> days</b></h3>
 
 	<div class="wrap xl-1 xl-center">
 		<div class="col">
@@ -378,7 +384,7 @@
 			<p>Please enjoy using Revisionary App and let us know your thoughts!</p><br>
 
 			<div>
-			<?php if ( $_url[0] == "projects" ): ?>
+			<?php if ( $_url[0] == "projects" && $projectsCount == 0 ): ?>
 				<button class="dark small create-project">Create a Project Now</button>
 			<?php else: ?>
 				<button class="dark small cancel-button">Start Revising Now</button>
@@ -407,7 +413,7 @@
 			<p>Please enjoy using Revisionary App and let us know your thoughts!</p><br>
 
 			<div>
-			<?php if ( $_url[0] == "projects" ): ?>
+			<?php if ( $_url[0] == "projects" && $projectsCount == 0 ): ?>
 				<button class="dark small create-project">Create a Project Now</button>
 			<?php else: ?>
 				<button class="dark small cancel-button">Start Revising Now</button>
