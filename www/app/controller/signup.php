@@ -33,7 +33,7 @@ if ( post('user-submit') == "Register" ) {
 	$fullName = post('full_name');
 	$password = post('password');
 	$trial = post('trial');
-	$redirect_to = !empty(post('redirect_to')) ? htmlspecialchars_decode(post('redirect_to')) : "";
+	$redirect_to = !empty(post('redirect_to')) ? htmlspecialchars_decode(post('redirect_to')) : site_url('projects?welcome');
 
 
 	// Check if any empty field
@@ -83,6 +83,7 @@ if ( post('user-submit') == "Register" ) {
 			if ($trial_level) {
 				
 				$trial_level_ID = $trial_level['user_level_ID'];
+				$redirect_to = removeQueryArg("welcome", $redirect_to);
 				$redirect_to = queryArg("trialstarted", $redirect_to);
 			
 			}
@@ -100,7 +101,7 @@ if ( post('user-submit') == "Register" ) {
 
 
 		// If successful
-		if ($user_ID) {
+		if (!$user_ID) {
 
 
 			// Create the session
@@ -114,23 +115,11 @@ if ( post('user-submit') == "Register" ) {
 			));
 
 
-			if ( !empty($redirect_to) ) {
-
-
-				// Show the welcome modal
-				if (!$trial_level_ID) {
-					$redirect_to = queryArg("welcome", $redirect_to);
-				}
-
-
-				header("Location: $redirect_to");
-				die();
-			}
-
-			header("Location: ".site_url('projects?welcome'));
+			header("Location: $redirect_to");
 			die();
 
 		}
+
 
 		// If not inserted
 		$dbError = true;

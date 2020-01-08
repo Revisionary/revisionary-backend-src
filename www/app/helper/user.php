@@ -120,6 +120,7 @@ function getUserInfo($user_ID = false) {
 			'userLevelMaxLivePin' => "",
 			'userLevelMaxCommentPin' => "",
 			'userLevelMaxLoad' => "",
+			'trialUserLevelName' => null,
 			'trialStartedFor' => null,
 			'trialExpireDate' => "",
 			'trialExpired' => 1,
@@ -171,13 +172,14 @@ function getUserInfo($user_ID = false) {
 		'userLevelMaxLivePin' => $userInfo['user_level_max_live_pin'],
 		'userLevelMaxCommentPin' => $userInfo['user_level_max_comment_pin'],
 		'userLevelMaxLoad' => $userInfo['user_level_max_load'],
+		'trialUserLevelName' => $userInfo['trial_user_level_name'],
 		'trialStartedFor' => $userInfo['trial_started_for'],
 		'trialExpireDate' => $userInfo['trial_expire_date'],
 		'trialExpired' => currentTimeStamp() > $userInfo['trial_expire_date'] ? 1 : 0
 	);
 	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';
 	$extendedUserInfo['trialAvailable'] = $userInfo['trial_started_for'] == null || ($userInfo['trial_started_for'] != null && $extendedUserInfo['trialExpired'] == 0) ? 1 : 0;
-	$extendedUserInfo['trialActive'] = $extendedUserInfo['trialAvailable'] && $userInfo['trial_started_for'] != null && $extendedUserInfo['trialExpired'] == 0  ? 1 : 0;
+	$extendedUserInfo['trialActive'] = $extendedUserInfo['trialAvailable'] && $userInfo['trial_started_for'] != null && $extendedUserInfo['trialExpired'] == 0 && $userInfo['trial_started_for'] != $userInfo['user_level_ID'] ? 1 : 0;
 
 
 	return $extendedUserInfo;

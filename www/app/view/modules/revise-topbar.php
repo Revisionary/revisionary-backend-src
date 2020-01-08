@@ -869,7 +869,7 @@ foreach ($other_pages as $pageOther) {
 
 					<div class="dropdown-opener">
 						
-						<div class="desc nomargin"><?=getUserInfo()['userLevelName']?> Account <span>Limits</span></div>
+						<div class="desc nomargin"><?=getUserInfo()['trialActive'] ? getUserInfo()['trialUserLevelName']." (Trial)" : getUserInfo()['userLevelName']?> Account <span>Limits</span></div>
 						<span class="pins-count" data-modal="upgrade"><?=$pinsCount?></span> <span class="pin-limit-text">Live Pins Left</span>
 
 					</div>

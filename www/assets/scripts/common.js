@@ -1129,6 +1129,9 @@ $(function() {
 	if ( getParameterByName('welcome') !== null ) openModal('welcome');
 	//removeQueryArgFromCurrentUrl('welcome');
 
+	if ( getParameterByName('trialreminder') !== null ) openModal('trialreminder');
+	//removeQueryArgFromCurrentUrl('welcome');
+
 
 	// Create a project
 	$('.create-project').click(function(e) {

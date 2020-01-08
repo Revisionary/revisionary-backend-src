@@ -378,7 +378,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 	<li class="col xl-3-12 block add-new-block '+ (limitExceed ? 'exceed-limit' : '') +'">\
 		<div class="limit-message">\
 			<span>You have reached <br> the '+ currentLimit +' '+ limitExceedBy +'s limit.</span>\
-			<a href="/upgrade" class="upgrade-button">Increase the '+ limitExceedBy +'s Limit Now</a>\
+			<a href="/upgrade" class="upgrade-button" data-modal="upgrade">Increase the '+ limitExceedBy +'s Limit Now</a>\
 		</div>\
 		<div class="box xl-center">\
 			<div class="wrap xl-flexbox xl-middle xl-left new">\

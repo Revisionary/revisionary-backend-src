@@ -376,7 +376,7 @@
 		if (getUserInfoDB()['trial_started_for'] == null) $left_day = 7;
 	?>
 	
-	<h3 style="margin-top: 0;">Your <b><?=getUserInfoDB()['trial_user_level_name']?> plan</b> has been activated for <b><?=$left_day?> days</b></h3>
+	<h3 style="margin-top: 0;">Your <b><?=getUserInfoDB()['trial_user_level_name']?> plan</b> has been activated for <b><?=$left_day?> day<?=$left_day > 1 ? "s" : ""?></b></h3>
 
 	<div class="wrap xl-1 xl-center">
 		<div class="col">
@@ -418,6 +418,72 @@
 			<?php else: ?>
 				<button class="dark small cancel-button">Start Revising Now</button>
 			<?php endif; ?>
+			</div>
+
+		</div>
+	</div>
+
+
+</div>
+
+
+
+
+
+<div id="payment" class="popup-window xl-center xl-5-12">
+	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
+
+	
+	<div class="xl-left">
+		<span>PLEASE ENTER YOUR</span>
+		<h3 style="margin-top: 0;">CREDIT CARD INFORMATION</h3>
+	</div>
+
+
+	<div class="wrap xl-1 xl-center">
+		<div class="col">
+		
+			<p>Payment gateway in development...</p><br>
+
+		</div>
+	</div>
+
+
+</div>
+
+
+
+
+
+<div id="trialreminder" class="popup-window xl-center xl-5-12">
+	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
+
+	<?php
+		$now = new DateTime();
+		$later = new DateTime( getUserInfo()['trialExpireDate'] );
+		$left_day = $later->diff($now)->d;
+		if (getUserInfoDB()['trial_started_for'] == null) $left_day = 7;
+
+
+		$left_text = "$left_day DAYS LEFT";
+		if ($left_day == 1) $left_text = "$left_day DAY LEFT";
+		elseif ($left_day == 0) $left_text = "LAST DAY";
+	?>
+
+
+	<div class="xl-left">
+		<span><b><?=$left_text?> ON YOUR</b></span>
+		<h3 style="margin-top: 0;">Trial <b><?=getUserInfo()['trialUserLevelName']?> Plan</b></h3>
+	</div>
+
+	<div class="wrap xl-1">
+		<div class="col">
+		
+			<p>Please enjoy using Revisionary App and let us know your thoughts!</p><br>
+
+			<div class="wrap xl-flexbox xl-between">
+				<div class="col"><button class="dark small create-project" data-modal="upgrade">UPGRADE NOW</button></div>
+				<div class="col"><button class="light small cancel-button">Continue with Trial</button></div>
 			</div>
 
 		</div>

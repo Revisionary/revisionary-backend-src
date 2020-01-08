@@ -1,16 +1,31 @@
 <?php
 
 $current_plan_name = getUserInfo()['userLevelName'];
-if ( getUserInfo()['trialAvailable'] && getUserInfoDB()['trial_user_level_name'] ) $current_plan_name = getUserInfoDB()['trial_user_level_name']." (Trial)";
+if ( getUserInfo()['trialActive'] ) {
+
+	$current_plan_name = getUserInfoDB()['trial_user_level_name']." (Trial)";
+
+	$now = new DateTime();
+	$later = new DateTime( getUserInfo()['trialExpireDate'] );
+	$left_day = $later->diff($now)->d;
+	if (getUserInfoDB()['trial_started_for'] == null) $left_day = 7;
+
+
+	$left_text = "($left_day days left)";
+	if ($left_day == 1) $left_text = "($left_day day left)";
+	elseif ($left_day == 0) $left_text = "(Last day of trial)";
+
+}
+
 
 ?>
 
 <div class="limit-wrapper" data-current-plan="<?=getUserInfo()['userLevelName']?>">
 
 	<div class="wrap xl-3 xl-right xl-flexbox xl-between">
-		<div class="col xl-1-1 xl-right xl-hidden">
+		<div class="col xl-1-1 xl-right">
 		
-			<b><?=$current_plan_name?></b> Account Usage<br>
+			<b><?=$current_plan_name?></b> Account Usage <?=getUserInfo()['trialActive'] ? "<small>$left_text</small>" : ""?><br>
 		
 		</div>
 		<div class="col total projects-limit <?=$projectsPercentage >= 100 ? "exceed" : ""?> dropdown">
@@ -26,7 +41,9 @@ if ( getUserInfo()['trialAvailable'] && getUserInfoDB()['trial_user_level_name']
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
-				<li><a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button">INCREASE PROJECT LIMIT</a></li>
+				<li>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE PROJECT LIMIT"?></a>
+				</li>
 			</ul>
 
 		</div>
@@ -43,7 +60,9 @@ if ( getUserInfo()['trialAvailable'] && getUserInfoDB()['trial_user_level_name']
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
-				<li><a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button">INCREASE PAGE/PHASE LIMIT</a></li>
+				<li>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE PAGE/PHASE LIMIT"?></a>
+				</li>
 			</ul>
 
 		</div>
@@ -60,7 +79,9 @@ if ( getUserInfo()['trialAvailable'] && getUserInfoDB()['trial_user_level_name']
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
-				<li><a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button">INCREASE SCREEN LIMIT</a></li>
+				<li>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE SCREEN LIMIT"?></a>
+				</li>
 			</ul>
 
 		</div>
@@ -77,7 +98,9 @@ if ( getUserInfo()['trialAvailable'] && getUserInfoDB()['trial_user_level_name']
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
-				<li><a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button">INCREASE LIVE PIN LIMIT</a></li>
+				<li>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE LIVE PIN LIMIT"?></a>
+				</li>
 			</ul>
 
 		</div>
@@ -94,7 +117,9 @@ if ( getUserInfo()['trialAvailable'] && getUserInfoDB()['trial_user_level_name']
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
-				<li><a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button">INCREASE COMMENT PIN LIMIT</a></li>
+				<li>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE COMMENT PIN LIMIT"?></a>
+				</li>
 			</ul>
 
 		</div>
@@ -111,13 +136,12 @@ if ( getUserInfo()['trialAvailable'] && getUserInfoDB()['trial_user_level_name']
 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
 					</div>
 				</li>
-				<li><a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button">INCREASE SIZE LIMIT</a></li>
+				<li>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE SIZE LIMIT"?></a>
+				</li>
 			</ul>
 
 		</div>
 	</div>
 
 </div>
-
-
-<div class="xl-hidden"><b>Usage:</b> 8 MB of 25 MB (<?=getUserInfo()['userLevelName']?> Account)</div>

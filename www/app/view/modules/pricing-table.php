@@ -201,7 +201,7 @@ if (
 				} elseif ( $current_user_level_name != $user_level['user_level_name'] ) {
 
 
-					echo "<a href='#' class='upgrade-button ".($user_level['user_level_name'] == "Free" ? "invisible" : "")."' data-tooltip='In development...'>Upgrade to ".strtoupper($user_level['user_level_name'])."</a>";
+					echo "<a href='#' class='upgrade-button ".($user_level['user_level_name'] == "Free" ? "invisible" : "")."' data-modal='payment'>Upgrade to ".strtoupper($user_level['user_level_name'])."</a>";
 
 
 					if ( $current_user_info['trialAvailable'] ) {

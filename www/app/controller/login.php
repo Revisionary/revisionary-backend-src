@@ -23,17 +23,16 @@ $errors = [];
 if ( post('login-submit') == "Login" ) {
 
 
-/*
-	// Check the nonce
-	if ( post("nonce") !== $_SESSION["login_nonce"] ) {
-		$nonceError = true;
-		$errors[] = "Please try again";
-	}
-*/
+	// // Check the nonce
+	// if ( post("nonce") !== $_SESSION["login_nonce"] ) {
+	// 	$nonceError = true;
+	// 	$errors[] = "Please try again";
+	// }
 
 
 	$userName = post('username');
 	$password = post('password');
+	$redirect_to = !empty(post('redirect_to')) ? htmlspecialchars_decode(post('redirect_to')) : site_url('projects');
 
 
 	// Check if any empty field
@@ -84,7 +83,7 @@ if ( post('login-submit') == "Login" ) {
 	if ($errors == []) {
 
 
-		// Sign in
+		// Sign in !!!
 		$_SESSION['user_ID'] = $user["user_ID"];
 
 
@@ -108,12 +107,10 @@ if ( post('login-submit') == "Login" ) {
 		}
 
 
-		if (post('redirect_to') != "") {
-			header("Location: ".htmlspecialchars_decode(post('redirect_to'))); // !!! Check security
-			die();
-		}
+		if ( getUserInfo()['trialActive'] ) $redirect_to = queryArg("trialreminder", $redirect_to);
 
-		header("Location: ".site_url('projects'));
+
+		header("Location: $redirect_to");
 		die();
 
 	}
