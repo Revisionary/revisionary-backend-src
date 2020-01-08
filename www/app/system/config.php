@@ -1,6 +1,6 @@
 <?php
 
-$config = array('last_update' => '2019-12-05');
+$config = array('last_update' => '2020-01-08');
 
 
 
