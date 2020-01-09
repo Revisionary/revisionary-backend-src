@@ -14850,6 +14850,27 @@ html .popup-open, body .popup-open {
   background-color: #000000;
 }
 
+#page[data-user-level-id="2"] #pin-window.show-differences .edit-content.differences {
+  display: -moz-box;
+  display: flex;
+  -moz-box-align: center;
+       align-items: center;
+  -moz-box-pack: center;
+       justify-content: center;
+  -moz-box-orient: vertical;
+  -moz-box-direction: normal;
+       flex-direction: column;
+  background-position: 50% 50%;
+  -moz-background-size: cover;
+       background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url(/assets/images/diff.jpg);
+}
+
+#page[data-user-level-id="2"] #pin-window.show-differences .edit-content.differences .upgrade-button {
+  margin-top: 5px;
+}
+
 .invisible {
   visibility: hidden;
 }
@@ -16633,6 +16654,7 @@ header {
   color: white !important;
   white-space: nowrap;
   display: inline-block;
+  text-decoration: none !important;
 }
 
 .upgrade-button:hover {

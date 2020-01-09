@@ -40,6 +40,26 @@ html, body {
 #page {
 	overflow: hidden;
 	background-color: $color;
+
+	&[data-user-level-id="2"] {
+
+		#pin-window.show-differences .edit-content.differences {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			background-position: 50% 50%;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-image: url(/assets/images/diff.jpg);
+
+			.upgrade-button {
+				margin-top: 5px;
+			}
+		}
+
+	}
+
 }
 
 .invisible {
@@ -1807,6 +1827,7 @@ header {
 	color: white !important;
 	white-space: nowrap;
 	display: inline-block;
+	text-decoration: none !important;
 
     &:hover {
 	    background-color: white;

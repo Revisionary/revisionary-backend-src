@@ -760,12 +760,21 @@ $(function() {
 
 		if (pinWindow().hasClass('show-differences')) {
 
-			var originalContent = pinWindow().find('.content-editor .edit-content.original').html();
-			var changedContent = pinWindow().find('.content-editor .edit-content.changes > .ql-editor').html();
+			
+			var diffContent = "<div class='xl-center'>Please upgrade to see the content differences.</div>";
+			diffContent += "<div class='xl-center'><a href='/upgrade' class='upgrade-button' data-modal='upgrade'>UPGRADE NOW</a></div>";
 
 
-			// Difference check
-			var diffContent = diffCheck(originalContent, changedContent);
+			if (user_level_ID > 2) {
+
+				var originalContent = pinWindow().find('.content-editor .edit-content.original').html();
+				var changedContent = pinWindow().find('.content-editor .edit-content.changes > .ql-editor').html();
+	
+	
+				// Difference check
+				diffContent = diffCheck(originalContent, changedContent);
+
+			}
 
 
 			// Add the differences content

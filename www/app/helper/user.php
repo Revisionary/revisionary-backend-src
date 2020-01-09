@@ -61,6 +61,7 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 				l.user_level_color,
 				u.trial_started_for,
 				u.trial_expire_date,
+				t.user_level_ID as trial_user_level_ID,
 				t.user_level_name as trial_user_level_name,
 				t.user_level_description as trial_user_level_description,
 				t.user_level_max_project as trial_user_level_max_project,

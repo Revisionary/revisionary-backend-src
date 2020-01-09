@@ -6,6 +6,9 @@
 	user_first_name = '<?=$User->getInfo('user_first_name')?>';
 	user_last_name = '<?=$User->getInfo('user_last_name')?>';
 	user_picture = '<?=$User->getInfo('user_picture')?>';
+	trial_active = <?=getUserInfo()['trialActive'] ? "true" : "false"?>;
+	user_level_ID = <?=getUserInfo()['trialActive'] ? getUserInfoDB()['trial_user_level_ID'] : $User->getInfo('user_level_ID')?>;
+	trial_active = <?=getUserInfo()['trialActive'] ? "true" : "false"?>;
 	project_ID = <?=$project_ID?>;
 	page_ID = <?=$page_ID?>;
 	phase_ID = <?=$phase_ID?>;
@@ -77,7 +80,9 @@
 
 <?php require view('modules/revise-topbar'); ?>
 
-<div id="page" class="site">
+
+
+<div id="page" class="site" data-user-level-id="<?=getUserInfo()['trialActive'] ? getUserInfoDB()['trial_user_level_ID'] : $User->getInfo('user_level_ID')?>">
 
 
 	<div class="iframe-container">
@@ -103,47 +108,46 @@
 
 <?php if ( get('new') === "" ) { ?>
 
-<div class="ask-showing-correctly">
-	<div class="inner">
+	<div class="ask-showing-correctly">
+		<div class="inner">
 
-		<a href="#" class="close-pop" data-popup="close"><i class="fa fa-times"></i></a>
+			<a href="#" class="close-pop" data-popup="close"><i class="fa fa-times"></i></a>
 
-		<p>Is this page showing correctly now?</p>
+			<p>Is this page showing correctly now?</p>
 
-		<div class="answers">
-			<a href="#" class="button good" data-popup="close"><i class="fa fa-thumbs-up"></i> Yes</a>
-			<a href="<?=site_url('revise/'.$device_ID.'?redownload&ssr&secondtry')?>" class="button bad"><i class="fa fa-thumbs-down"></i> No</a>
+			<div class="answers">
+				<a href="#" class="button good" data-popup="close"><i class="fa fa-thumbs-up"></i> Yes</a>
+				<a href="<?=site_url('revise/'.$device_ID.'?redownload&ssr&secondtry')?>" class="button bad"><i class="fa fa-thumbs-down"></i> No</a>
+			</div>
+
 		</div>
-
 	</div>
-</div>
 
 <?php } ?>
 
 <?php if ( get('secondtry') === "" ) { ?>
 
-<div class="ask-showing-correctly">
-	<div class="inner">
+	<div class="ask-showing-correctly">
+		<div class="inner">
 
-		<a href="#" class="close-pop" data-popup="close"><i class="fa fa-times"></i></a>
+			<a href="#" class="close-pop" data-popup="close"><i class="fa fa-times"></i></a>
 
-		<p>Is that fixed now?</p>
+			<p>Is that fixed now?</p>
 
-		<div class="answers">
-			<a href="#" class="button good" data-popup="close"><i class="fa fa-smile"></i> Looks good now!</a><br/>
-			<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button middle"><i class="fa fa-meh"></i> Previous was better</a><br/>
-			<a href="<?=site_url('revise/'.$device_ID.'?capture')?>" class="button bad"><i class="fa fa-frown"></i> Both are bad</a>
+			<div class="answers">
+				<a href="#" class="button good" data-popup="close"><i class="fa fa-smile"></i> Looks good now!</a><br/>
+				<a href="<?=site_url('revise/'.$device_ID.'?redownload')?>" class="button middle"><i class="fa fa-meh"></i> Previous was better</a><br/>
+				<a href="<?=site_url('revise/'.$device_ID.'?capture')?>" class="button bad"><i class="fa fa-frown"></i> Both are bad</a>
+			</div>
+
 		</div>
-
 	</div>
-</div>
 
 <?php } ?>
 
 
 
 <script>
-// When page is ready
 $(function(){
 
 
