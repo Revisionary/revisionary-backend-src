@@ -336,10 +336,10 @@ function runTheInspector() {
 
 
 
-				// REFOCUS WORKS:
-				if (currentPinType == "live" || currentPinType == "style") {
+				if (currentPinType == "live") { // Live Pin
 
 
+					// REFOCUS WORKS:
 					// Re-focus if the focused element has no index
 					if (!focused_element_has_index && focused_element.parents('[data-revisionary-index]').length) {
 
@@ -386,14 +386,8 @@ function runTheInspector() {
 					reFocus();
 
 
-				}
 
-
-
-				// EDITABLE CHECKS:
-				if (currentPinType == "live") {
-
-
+					// EDITABLE CHECKS:
 					hoveringText = false;
 					focused_element_editable = false;
 
@@ -570,7 +564,7 @@ function runTheInspector() {
 
 				} // Live Pin
 
-				else if (currentPinType == "style") {
+				else if (currentPinType == "style") { // Style Pin
 
 
 					// Clean Other Outlines
@@ -582,7 +576,7 @@ function runTheInspector() {
 
 				} // Style Pin
 					
-				else if (currentPinType == "comment") {
+				else if (currentPinType == "comment") { // Comment Pin
 
 
 					// Nothing to do...
