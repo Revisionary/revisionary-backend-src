@@ -42,6 +42,7 @@
 				var user_ID = <?=currentUserID()?>;
 				<?=isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
 				<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
+				var trialStarted = '<?=getUserInfo()['trialStartedFor'] ? "yes" : "no"?>';
 				var trialExpired = <?=getUserInfo()['trialExpired']?>;
 				var trialExpiredNotified = <?=getUserInfo()['trialExpiredNotified']?>;
 			<?php } ?>

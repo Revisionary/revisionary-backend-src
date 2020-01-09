@@ -1144,16 +1144,16 @@ $(function() {
 
 	// Trial start modal
 	if ( getParameterByName('trialstarted') !== null ) openModal('trialstarted');
-	//removeQueryArgFromCurrentUrl('trialstarted');
+	removeQueryArgFromCurrentUrl('trialstarted');
 
 	if ( getParameterByName('welcome') !== null ) openModal('welcome');
-	//removeQueryArgFromCurrentUrl('welcome');
+	removeQueryArgFromCurrentUrl('welcome');
 
 	if ( getParameterByName('trialreminder') !== null ) openModal('trialreminder');
-	//removeQueryArgFromCurrentUrl('trialreminder');
+	removeQueryArgFromCurrentUrl('trialreminder');
 
-	if ( getParameterByName('trialexpired') !== null || (trialExpired && !trialExpiredNotified) ) openModal('trialexpired');
-	//removeQueryArgFromCurrentUrl('trialexpired');
+	if ( getParameterByName('trialexpired') !== null || (trialStarted == "yes" && trialExpired && !trialExpiredNotified) ) openModal('trialexpired');
+	removeQueryArgFromCurrentUrl('trialexpired');
 
 
 	// Create a project
