@@ -835,6 +835,7 @@ $(function() {
 		// Update the fields
 		modal.find('.data-type').text(dataType);
 		modal.find('.data-name').text(objectName);
+		modal.find('.data-id').text(object_ID);
 
 
 		// SHARE MODALS
@@ -908,6 +909,21 @@ $(function() {
 		e.preventDefault();
 		return false;
 
+	});
+
+
+	// Copy Share Links
+	$(document).on('mouseover', '#share .link', function(e) { console.log('Clicked');
+
+		$('#share .link').attr('data-tooltip', 'Click to Copy');
+
+	}).on('click', '#share .link', function(e) { console.log('Clicked');
+
+		copyToClipboard('#share .link .value');
+		$('#share .link').attr('data-tooltip', 'Copied!');
+
+		e.preventDefault();
+		return false;
 	});
 
 
@@ -2852,4 +2868,16 @@ function removeDuplicates(array, prop) {
 	return array.filter( function(obj, index) {
 		return arrayMap.indexOf(obj[prop]) === index;
 	});
+}
+
+function copyToClipboard(selector) {
+
+	var temp = $("<input>");
+	$("body").append(temp);
+
+	temp.val( $(selector).text() ).select();
+
+	document.execCommand("copy");
+	temp.remove();
+
 }

@@ -282,6 +282,11 @@
 	</div>
 
 
+	<div class="link" data-tooltip="Click to Copy">
+		<b><span class="data-type"></span> link to Share:</b> <span class="value"><?=site_url()?><span class="data-type"></span>/<span class="data-id"></span></span>
+	</div>
+
+
 </div>
 
 

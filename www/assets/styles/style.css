@@ -17390,6 +17390,20 @@ input.share-email.error {
   display: none;
 }
 
+.popup-window#share .link {
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.popup-window#share .link b {
+  text-transform: capitalize;
+  letter-spacing: 0;
+}
+
+.popup-window#share .link .value:hover {
+  color: #007acc;
+}
+
 .popup-window#add-new[data-type="page"] .project-info,
 .popup-window#add-new[data-type="page"] .first-page {
   display: none;
