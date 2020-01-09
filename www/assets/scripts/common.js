@@ -54,6 +54,26 @@ $(function() {
 
 		closeModal('#' + popup);
 
+
+		// Trial Expiration 
+		if (popup == "trialexpired") {
+	
+			
+			ajax('expired-notified', {
+	
+				'nonce'	: nonce
+	
+			}).done(function(result) {
+	
+				console.log('RESULT: ', result);
+				if ( result.status != "success" ) console.error('ERROR: ', result);
+	
+			});
+
+
+		}
+
+
 		e.preventDefault();
 		return false;
 
@@ -1130,7 +1150,10 @@ $(function() {
 	//removeQueryArgFromCurrentUrl('welcome');
 
 	if ( getParameterByName('trialreminder') !== null ) openModal('trialreminder');
-	//removeQueryArgFromCurrentUrl('welcome');
+	//removeQueryArgFromCurrentUrl('trialreminder');
+
+	if ( getParameterByName('trialexpired') !== null || (trialExpired && !trialExpiredNotified) ) openModal('trialexpired');
+	//removeQueryArgFromCurrentUrl('trialexpired');
 
 
 	// Create a project

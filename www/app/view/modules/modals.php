@@ -496,6 +496,44 @@
 
 
 
+<div id="trialexpired" class="popup-window xl-center xl-5-12">
+	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
+
+
+	<div class="xl-left">
+		<span>Your <b><?=getUserInfo()['trialUserLevelName']?> Plan</b></span>
+		<h3 style="margin-top: 0;"><b>Trial Has Expired</b></h3>
+	</div>
+
+	<div class="wrap xl-1">
+		<div class="col">
+		
+			<p>You need to upgrade your account to be able to continue using pro features like: </p>
+
+			<ul>
+				<li>Unlimited Projects</li>
+				<li>Unlimited Pages/Phases</li>
+				<li>Unlimited Devices</li>
+				<li>Unlimited Live, Style and Comment Pins</li>
+				<li>Ability to see content differences</li>
+				<li>And many more features...</li>
+			</ul><br>
+
+			<div class="wrap xl-flexbox xl-between">
+				<div class="col"><button class="dark small create-project" data-modal="upgrade">UPGRADE NOW</button></div>
+				<div class="col"><button class="light small cancel-button">Continue as Free</button></div>
+			</div>
+
+		</div>
+	</div>
+
+
+</div>
+
+
+
+
+
 <div id="upgrade" class="popup-window xl-11-12" data-current-plan="<?=getUserInfo()['userLevelName']?>">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 

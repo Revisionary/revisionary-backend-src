@@ -61,6 +61,7 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 				l.user_level_color,
 				u.trial_started_for,
 				u.trial_expire_date,
+				u.trial_expired_notified,
 				t.user_level_ID as trial_user_level_ID,
 				t.user_level_name as trial_user_level_name,
 				t.user_level_description as trial_user_level_description,
@@ -125,6 +126,7 @@ function getUserInfo($user_ID = false) {
 			'trialStartedFor' => null,
 			'trialExpireDate' => "",
 			'trialExpired' => 1,
+			'trialExpiredNotified' => 0,
 			'trialAvailable' => 0,
 			'trialActive' => 0
 		);
@@ -176,7 +178,8 @@ function getUserInfo($user_ID = false) {
 		'trialUserLevelName' => $userInfo['trial_user_level_name'],
 		'trialStartedFor' => $userInfo['trial_started_for'],
 		'trialExpireDate' => $userInfo['trial_expire_date'],
-		'trialExpired' => currentTimeStamp() > $userInfo['trial_expire_date'] ? 1 : 0
+		'trialExpired' => currentTimeStamp() > $userInfo['trial_expire_date'] ? 1 : 0,
+		'trialExpiredNotified' => $userInfo['trial_expired_notified'],
 	);
 	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';
 	$extendedUserInfo['trialAvailable'] = $userInfo['trial_started_for'] == null || ($userInfo['trial_started_for'] != null && $extendedUserInfo['trialExpired'] == 0) ? 1 : 0;

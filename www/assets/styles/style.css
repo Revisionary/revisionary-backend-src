@@ -16610,6 +16610,8 @@ header {
 }
 
 .title h1 {
+  font-weight: bold;
+  letter-spacing: 5px;
   white-space: normal;
   position: relative;
   display: inline;

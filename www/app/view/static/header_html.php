@@ -35,10 +35,17 @@
 		<script>
 			var ajax_url = '<?=site_url('ajax')?>';
 			var nonce = '<?=$_SESSION["js_nonce"]?>';
+
+
 			var loggedIn = <?=userLoggedIn() ? "true" : "false"?>;
-			<?=userLoggedIn() ? "var user_ID = ".currentUserID().";" : ""?>
-			<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
-			<?=isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
+			<?php if ( userLoggedIn() ) { ?>
+				var user_ID = <?=currentUserID()?>;
+				<?=isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
+				<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
+				var trialExpired = <?=getUserInfo()['trialExpired']?>;
+				var trialExpiredNotified = <?=getUserInfo()['trialExpiredNotified']?>;
+			<?php } ?>
+
 
 			var limitations = {
 				'max' : {},
