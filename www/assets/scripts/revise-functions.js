@@ -193,6 +193,8 @@ function runTheInspector() {
 				var clientPinType = get_client_cache(user_ID + '_currentPinType');
 				var clientPinPrivate = get_client_cache(user_ID + '_currentPinPrivate');
 
+
+				// From last option
 				if (clientPinType != null && clientPinPrivate != null) {
 					currentPinType = clientPinType;
 					currentPinPrivate = clientPinPrivate;
@@ -201,6 +203,25 @@ function runTheInspector() {
 
 				}
 
+
+				// From URL
+				if ( getParameterByName('pinmode') == "style" ) {
+					currentPinType = "style";
+					currentPinPrivate = 0;
+				}
+
+				if ( getParameterByName('pinmode') == "comment" ) {
+					currentPinType = "comment";
+					currentPinPrivate = 0;
+				}
+
+				if ( getParameterByName('pinmode') == "browse" ) {
+					currentPinType = "browse";
+					currentPinPrivate = 0;
+				}
+
+
+				// Update the pin type
 				switchPinType(currentPinType, currentPinPrivate);
 
 
