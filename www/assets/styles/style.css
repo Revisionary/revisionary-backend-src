@@ -16955,6 +16955,22 @@ header {
   display: none !important;
 }
 
+#billing-settings h2 {
+  font-size: 30px;
+  line-height: normal;
+  letter-spacing: 2px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+#billing-settings hr {
+  margin: 30px 0;
+}
+
+#billing-settings .cancel {
+  opacity: 0.5;
+}
+
 /* Sections */
 main,
 section {
@@ -17227,6 +17243,7 @@ input.share-email.error {
 .popup-window h2 {
   margin: 0;
   text-transform: uppercase;
+  font-weight: bold;
 }
 
 .popup-window h3 {

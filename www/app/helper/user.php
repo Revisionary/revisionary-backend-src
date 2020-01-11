@@ -128,6 +128,7 @@ function getUserInfo($user_ID = false) {
 			'trialExpired' => 1,
 			'trialExpiredNotified' => 0,
 			'trialAvailable' => 0,
+			'trialAvailableDays' => 0,
 			'trialActive' => 0
 		);
 
@@ -174,16 +175,33 @@ function getUserInfo($user_ID = false) {
 		'userLevelMaxScreen' => $userInfo['user_level_max_screen'],
 		'userLevelMaxLivePin' => $userInfo['user_level_max_live_pin'],
 		'userLevelMaxCommentPin' => $userInfo['user_level_max_comment_pin'],
-		'userLevelMaxLoad' => $userInfo['user_level_max_load'],
-		'trialUserLevelName' => $userInfo['trial_user_level_name'],
-		'trialStartedFor' => $userInfo['trial_started_for'],
-		'trialExpireDate' => $userInfo['trial_expire_date'],
-		'trialExpired' => currentTimeStamp() > $userInfo['trial_expire_date'] ? 1 : 0,
-		'trialExpiredNotified' => $userInfo['trial_expired_notified'],
+		'userLevelMaxLoad' => $userInfo['user_level_max_load']
 	);
 	$extendedUserInfo['printPicture'] = 'style="background-image: url('.$extendedUserInfo['userPicUrl'].');"';
-	$extendedUserInfo['trialAvailable'] = $userInfo['trial_started_for'] == null || ($userInfo['trial_started_for'] != null && $extendedUserInfo['trialExpired'] == 0) ? 1 : 0;
-	$extendedUserInfo['trialActive'] = $extendedUserInfo['trialAvailable'] && $userInfo['trial_started_for'] != null && $extendedUserInfo['trialExpired'] == 0 && $userInfo['trial_started_for'] != $userInfo['user_level_ID'] ? 1 : 0;
+
+
+	// Trial Info
+	$extendedUserInfo['trialStartedFor'] = $userInfo['trial_started_for'];
+	$extendedUserInfo['trialExpireDate'] = $userInfo['trial_expire_date'];
+
+	$extendedUserInfo['trialExpired'] = $userInfo['trial_expire_date'] && currentTimeStamp() > $userInfo['trial_expire_date'] ? 1 : 0;
+	$extendedUserInfo['trialExpiredNotified'] = $userInfo['trial_expired_notified'];
+	$extendedUserInfo['trialAvailable'] = !$extendedUserInfo['trialExpired'] ? 1 : 0;
+
+	$extendedUserInfo['trialAvailableDays'] = $extendedUserInfo['trialExpired'] ? 0 : 7;
+	if ( !$extendedUserInfo['trialExpired'] && $extendedUserInfo['trialExpireDate'] ) {
+
+		$now = new DateTime();
+		$later = new DateTime( $extendedUserInfo['trialExpireDate'] );
+
+		$extendedUserInfo['trialAvailableDays'] = $later->diff($now)->d;
+
+	}
+
+
+	$extendedUserInfo['trialActive'] = $extendedUserInfo['trialAvailable'] && $userInfo['trial_started_for'] != null && !$extendedUserInfo['trialExpired'] && $userInfo['trial_started_for'] != $userInfo['user_level_ID'] ? 1 : 0;
+
+	$extendedUserInfo['trialUserLevelName'] = $userInfo['trial_user_level_name'];
 
 
 	return $extendedUserInfo;

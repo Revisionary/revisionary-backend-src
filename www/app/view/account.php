@@ -121,7 +121,7 @@
 					<a class="<?=$subpage == "profile" || !$subpage ? "selected" : ""?>" href="<?=site_url("account")?>">Profile</a>
 					<a class="<?=$subpage == "password" ? "selected" : ""?>" href="<?=site_url("account/password")?>">Password</a>
 					<a class="<?=$subpage == "email" ? "selected" : ""?>" href="<?=site_url("account/email")?>">Email</a>
-					<a class="<?=$subpage == "billing" ? "selected" : ""?>" href="<?=site_url("account/billing")?>" data-tooltip="In development...">Billing</a>
+					<a class="<?=$subpage == "billing" ? "selected" : ""?>" href="<?=site_url("account/billing")?>">Billing</a>
 
 				</div>
 
@@ -152,12 +152,12 @@
 
 							<br/>
 
-							<div class="level-wrapper" data-tooltip="You are on <?=getUserInfo()['userLevelName'] == "Enterprise" ? 'Un' : ""?>limited <?=getUserInfo()['userLevelName']?> Plan">
+							<div class="level-wrapper" data-tooltip="You are on <?=$current_plan_name == "Enterprise" || $current_plan_name == "Enterprise (Trial)" ? 'Un' : ""?>limited <?=$current_plan_name?> Plan">
 								<a href="#" class="user-level" data-modal="upgrade">
-									<?=getUserInfo()['userLevelName'] == "Enterprise" ? '<i class="fa fa-award"></i> ' : ""?>
-									<?=$userInfo['userLevelName']?>
+									<?=$current_plan_name == "Enterprise" ? '<i class="fa fa-award"></i> ' : ""?>
+									<?=$current_plan_name?>
 								</a>
-								<?php if ( getUserInfo()['userLevelName'] != "Enterprise" ) { ?>
+								<?php if ( $current_plan_name != "Enterprise" ) { ?>
 									<a href="<?=site_url('upgrade')?>" data-modal="upgrade">Upgrade Now</a>
 								<?php } ?>
 								
@@ -203,7 +203,7 @@
 				<?php } elseif ($subpage == "password") { ?>
 
 
-					<div class="wrap xl-table xl-gutter-24" id="password-settings">
+					<div class="wrap xl-table xl-gutter-24n" id="password-settings">
 						<div class="col xl-3-12 xl-center">
 
 						</div>
@@ -241,7 +241,7 @@
 				<?php } elseif ($subpage == "email") { ?>
 
 
-					<div class="wrap xl-table xl-gutter-24" id="email-settings">
+					<div class="wrap xl-table xl-gutter-24n" id="email-settings">
 						<div class="col xl-3-12 xl-center">
 
 						</div>
@@ -303,12 +303,52 @@
 				<?php } elseif ($subpage == "billing") { ?>
 
 
-					<div class="wrap xl-1" id="billing-settings">
-						<div class="col xl-center">
-
-							BILLING SETTINGS IN DEVELOPMENT
+					<div class="wrap xl-table xl-gutter-24n" id="billing-settings">
+						<div class="col xl-3-12 xl-center">
 
 						</div>
+						<form method="post" action="" class="col">
+
+							<h2>Your Plan</h2>
+							<p>You are currently on <b><?=$current_plan_name == "Enterprise" || $current_plan_name == "Enterprise (Trial)" ? 'Un' : ""?>limited <?=$current_plan_name?> Plan</b></p>
+
+							<div class="wrap xl-flexbox xl-middle xl-gutter-24">
+								<div class="col <?=$current_plan_name == "Enterprise" ? "xl-hidden" : ""?>">
+								
+									<a href="<?=site_url('upgrade')?>" class="upgrade-button" data-modal="upgrade">UPGRADE NOW</a>
+								
+								</div>
+								<div class="col">
+								
+									<?php if ( $userInfo['trialActive'] ) { ?>
+										<a href="<?=site_url('projects?canceltrial')?>" class="cancel" data-confirm="Are you sure you want to cancel your <?=$current_plan_name?> account?">Cancel Trial</a>
+									<?php } elseif ( $userInfo['userLevelID'] > 2 ) { ?>
+										<a href="<?=site_url('upgrade')?>" class="cancel">Cancel Plan</a>
+									<?php } ?>
+								
+								</div>
+							</div>
+							<hr>
+
+							<h2>Payment Method</h2>
+							<?php if ( $current_plan_name == "Free" ) { ?>
+								<p>You are currently on Free plan.</p>
+							<?php } elseif ( $userInfo['trialActive'] ) { ?>
+
+								<a href="#" class="upgrade-button invert">Add a Card to Upgrade</a>
+
+							<?php } elseif ( $userInfo['userLevelID'] > 2 ) { ?>
+
+								CARD INFO HERE
+								
+							<?php } ?>
+							<hr>
+
+							<h2>Invoices</h2>
+							<p>You haven't made any purchases yet.</p>
+
+
+						</form>
 					</div>
 
 

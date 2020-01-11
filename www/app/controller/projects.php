@@ -287,6 +287,24 @@ if (
 
 
 
+// DEACTIVATE TRIAL
+if (
+	request('canceltrial') !== false &&
+	getUserInfo()['trialActive']
+) {
+
+
+	// Stop trialing
+	User::ID()->edit('trial_started_for', null);
+
+
+	header('Location: '.site_url('projects?trialcanceled'));
+	die();
+
+}
+
+
+
 // Data Type
 $dataType = "project";
 

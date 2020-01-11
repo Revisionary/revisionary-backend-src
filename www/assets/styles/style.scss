@@ -2190,6 +2190,25 @@ header {
 
 }
 
+#billing-settings {
+
+	h2 {
+		font-size: 30px;
+		line-height: normal;
+		letter-spacing: 2px;
+		margin-top: 0;
+		margin-bottom: 20px;
+	}
+
+	hr {
+		margin: 30px 0;
+	}
+
+	.cancel {
+		opacity: 0.5;
+	}
+
+}
 
 
 /* Sections */
@@ -2471,7 +2490,8 @@ input.share-email {
 
     h2 {
 	    margin: 0;
-	    text-transform: uppercase;
+		text-transform: uppercase;
+		font-weight: bold;
     }
 
     h3 {

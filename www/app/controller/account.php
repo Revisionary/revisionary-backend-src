@@ -7,6 +7,9 @@ $userInfoDB = getUserInfoDB($user_ID, true, true);
 //die_to_print($userInfoDB);
 
 
+$current_plan_name = $userInfo['trialActive'] ? $userInfo['trialUserLevelName'] : $userInfo['userLevelName'];
+
+
 // If user not exist
 if (!$userInfo) die('User Not Found.');
 

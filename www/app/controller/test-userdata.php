@@ -29,7 +29,7 @@ if ($user) {
 
 	// USER
 	echo "
-	<details open>
+	<details>
 		<summary><h2 style='display: inline;'>USER</h2></summary>
 		<p style='padding-left: 20px;'>".print_r( $user->getInfo(), true )."</p>
 	</details>";

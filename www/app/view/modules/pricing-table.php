@@ -207,10 +207,7 @@ if (
 					if ( $current_user_info['trialAvailable'] ) {
 	
 
-						$now = new DateTime();
-						$later = new DateTime( $current_user_info['trialExpireDate'] );
-						$left_day = $later->diff($now)->d;
-						if ($current_user_info_DB['trial_started_for'] == null) $left_day = 7;
+						$left_day = $current_user_info['trialAvailableDays'];
 
 
 						if ( $current_user_info_DB['trial_user_level_name'] != $user_level['user_level_name'] && $left_day > 0 ) {
