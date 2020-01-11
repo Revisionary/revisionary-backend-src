@@ -437,7 +437,7 @@
 	<div class="wrap xl-1 xl-center">
 		<div class="col">
 		
-			<p>Please enjoy using Revisionary App and let us know your thoughts!</p><br>
+			<p>Enjoy using Revisionary App <b><?=getUserInfo()['trialUserLevelName']?></b> features and please let us know your thoughts!</p><br>
 
 			<div>
 			<?php if ( $_url[0] == "projects" && $projectsCount == 0 ): ?>
@@ -478,11 +478,12 @@
 	<div class="wrap xl-1">
 		<div class="col">
 		
-			<p>Please enjoy using Revisionary App and let us know your thoughts!</p><br>
+			<p>Enjoy using Revisionary App <b><?=getUserInfo()['trialUserLevelName']?></b> features and please let us know your thoughts.</p><br>
 
 			<div class="wrap xl-flexbox xl-between">
 				<div class="col"><button class="dark small create-project" data-modal="upgrade">UPGRADE NOW</button></div>
-				<div class="col"><button class="light small cancel-button">Continue with Trial</button></div>
+				<div class="col"><button class="light small" data-modal="feedback">Any Feedback?</button></div>
+				<div class="col"><a href="#" class="cancel-button">Continue with Trial</a></div>
 			</div>
 
 		</div>
@@ -520,7 +521,37 @@
 
 			<div class="wrap xl-flexbox xl-between">
 				<div class="col"><button class="dark small create-project" data-modal="upgrade">UPGRADE NOW</button></div>
-				<div class="col"><button class="light small cancel-button">Continue as Free</button></div>
+				<div class="col"><button class="light small" data-modal="feedback">Any Feedback?</button></div>
+				<div class="col"><a href="#" class="cancel-button">Continue as Free</a></div>
+			</div>
+
+		</div>
+	</div>
+
+
+</div>
+
+
+
+
+
+<div id="trialcanceled" class="popup-window xl-center xl-5-12">
+	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
+
+
+	<div class="xl-left">
+		<span>Your <b><?=getUserInfo()['trialUserLevelName']?> Plan</b></span>
+		<h3 style="margin-top: 0;"><b>Trial Has Been Cancelled</b></h3>
+	</div>
+
+	<div class="wrap xl-1">
+		<div class="col">
+		
+			<p>Would you like to share us your experience with Revisionary App?</p><br>
+
+			<div class="wrap xl-flexbox xl-between">
+				<div class="col"><button class="dark small" data-modal="feedback">Give Us a Feedback</button></div>
+				<div class="col"><button class="light small cancel-button">Continue Revising</button></div>
 			</div>
 
 		</div>

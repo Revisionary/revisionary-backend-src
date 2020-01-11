@@ -307,7 +307,8 @@
 						<div class="col xl-3-12 xl-center">
 
 						</div>
-						<form method="post" action="" class="col">
+						<div class="col">
+
 
 							<h2>Your Plan</h2>
 							<p>You are currently on <b><?=$current_plan_name == "Enterprise" || $current_plan_name == "Enterprise (Trial)" ? 'Un' : ""?>limited <?=$current_plan_name?> Plan</b></p>
@@ -321,18 +322,21 @@
 								<div class="col">
 								
 									<?php if ( $userInfo['trialActive'] ) { ?>
-										<a href="<?=site_url('projects?canceltrial')?>" class="cancel" data-confirm="Are you sure you want to cancel your <?=$current_plan_name?> account?">Cancel Trial</a>
+										<a href="<?=site_url('projects?canceltrial')?>" class="cancel" data-confirm="Are you sure you want to cancel your <?=$current_plan_name?> plan?"><small>Cancel Trial</small></a>
 									<?php } elseif ( $userInfo['userLevelID'] > 2 ) { ?>
-										<a href="<?=site_url('upgrade')?>" class="cancel">Cancel Plan</a>
+										<a href="<?=site_url('upgrade?downgrade')?>" data-modal="upgrade" class="cancel" data-tooltip="In development..."><small>Downgrade</small></a>
 									<?php } ?>
 								
 								</div>
 							</div>
 							<hr>
 
+
 							<h2>Payment Method</h2>
 							<?php if ( $current_plan_name == "Free" ) { ?>
+
 								<p>You are currently on Free plan.</p>
+
 							<?php } elseif ( $userInfo['trialActive'] ) { ?>
 
 								<a href="#" class="upgrade-button invert">Add a Card to Upgrade</a>
@@ -340,15 +344,16 @@
 							<?php } elseif ( $userInfo['userLevelID'] > 2 ) { ?>
 
 								CARD INFO HERE
-								
+
 							<?php } ?>
 							<hr>
+
 
 							<h2>Invoices</h2>
 							<p>You haven't made any purchases yet.</p>
 
 
-						</form>
+						</div>
 					</div>
 
 
