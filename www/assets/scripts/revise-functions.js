@@ -4006,10 +4006,13 @@ function initiateContentEditor() {
 	var doChange = {};
 	tinymce.init({
 		selector: "#pin-window .content-editor .edit-content.changes",
-		plugins: [ 'quickbars' ],
+		plugins: [ 'quickbars', 'paste' ],
+		quickbars_insert_toolbar: '',
+		quickbars_selection_toolbar: 'bold italic underline strikethrough',
 		toolbar: false,
 		menubar: false,
 		inline: true,
+		paste_as_text: true,
 		force_br_newlines : false,
 		force_p_newlines : false,
 		forced_root_block : '',
@@ -4051,7 +4054,7 @@ function initiateContentEditor() {
 						changedElement.attr("type") == "reset"
 					)
 				) {
-					modification = contentEditor.getText();
+					modification = ed.getContent({format : 'raw'});
 					changedElement.val(modification);
 				}
 		
