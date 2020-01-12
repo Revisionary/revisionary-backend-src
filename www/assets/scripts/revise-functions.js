@@ -1296,6 +1296,7 @@ function switchPinType(pinType, pinPrivate) {
 
 	// Hide the dropdown
 	$('ul.pin-types').hide();
+	$('.pin-type-selector').removeClass('open');
 
 	// Select on the list
 	$('ul.pin-types > li').removeClass('selected');
