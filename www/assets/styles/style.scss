@@ -95,7 +95,7 @@ h1 {
 	font-size: 64px;
 	line-height: 60px;
 	letter-spacing: 8px;
-	font-weight: normal;
+	font-weight: bold;
 	margin: 20px 0;
 }
 
@@ -2217,16 +2217,12 @@ section {
 	position: relative;
 	border: 20px solid $color;
 	width: 100%;
-	height: 100vh;
+	height: auto;
+	min-height: 100vh;
 	box-sizing: border-box;
 	border-radius: 30px;
 	margin-bottom: 1px;
 	background-color: white;
-}
-
-main {
-	height: auto;
-	min-height: 100vh;
 }
 
 footer {
@@ -2251,7 +2247,8 @@ footer {
 }
 
 
-section {
+section.decorative {
+	height: 100vh;
 
 	&:before,
 	&:after {
@@ -2325,6 +2322,42 @@ section {
 		left: 0;
 		padding-left: 25px;
 		padding-right: 0;
+	}
+
+}
+
+section.features {
+
+	h2 {
+		letter-spacing: 0;
+		margin: 0;
+	}
+
+	.button {
+		font-size: 20px;
+		//color: $color-secondary;
+		border: 2px solid $color;
+		border-radius: 8px;
+		padding: 5px 20px;
+		margin-top: 10px;
+		display: inline-block;
+
+		&:hover {
+			border-color: $color-secondary;
+			color: $color-secondary;
+		}
+	}
+
+	& > .wrap {
+		margin-top: 150px;
+		margin-bottom: 150px;
+		
+		& > .col {
+
+
+
+
+		}
 	}
 
 }

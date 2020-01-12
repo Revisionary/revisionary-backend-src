@@ -1,7 +1,7 @@
 <?php require view('static/header_html'); ?>
 	<div id="page" class="site">
 
-<section class="right-dark">
+<section class="decorative right-dark">
 	<div class="light-side">
 
 		<div class="side-content">

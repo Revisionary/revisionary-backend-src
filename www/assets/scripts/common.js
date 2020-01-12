@@ -2518,6 +2518,15 @@ function openModal(modalName) {
 	$('body').addClass('popup-open');
 
 
+	// Find lazy sources
+	modal.find('[data-src]').each(function() {
+
+		var src = $(this).attr('data-src');
+		$(this).attr('src', src);
+
+	});
+
+
 	// Focus the element
 	setTimeout(function() {
 
@@ -2536,6 +2545,15 @@ function closeModal(modalElement) {
 
 	$(modalElement).removeClass('active');
 	$('body').removeClass('popup-open');
+
+
+	// Find lazy sources
+	$(modalElement).find('[src]').each(function() {
+
+		var src = $(this).attr('src');
+		$(this).attr('data-src', src).removeAttr('src');
+
+	});
 
 }
 

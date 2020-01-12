@@ -29,20 +29,20 @@
 				<input type="hidden" name="page_height" value="900"/>
 
 
-				<input type="url" name="page-url" class="large full" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocus/>
+				<input type="url" name="page-url" class="large full" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocust/>
 				<input type="submit" title="Go Revising!"/>
 			</form>
 			<span class="description">Add your comments and edit any website’s content, <br/>
 				for <del>a fee</del> free! <br/><br/>
 
-				<a href="#" class="button-oval" data-tooltip='Coming soon...'><i class="fa fa-play-circle"></i> See how it works</a>
+				<a href="#" class="button-oval" data-tooltip='Coming soon...' data-modal="video"><i class="fa fa-play-circle"></i> See how it works</a>
 
 			</span>
 		</div>
 	</div>
 
 
-	<a href="#second-section" class="more-info">
+	<a href="#features" class="more-info">
 		MORE INFO
 		<img src="<?=asset_url('icons/icon-arrow-down.svg')?>" alt=""/>
 	</a>
@@ -50,7 +50,88 @@
 </main><!-- #first-section -->
 
 
-<section id="second-section" class="right-dark">
+<section id="features" class="features">
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-2-3">
+		
+			<h2>Ease of Use, <br> No Download or Installation</h2>
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<div><a href="<?=site_url('signup')?>" class="button">Get Started</a></div>
+
+		</div>
+		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
+	</div>
+
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-2-3 xl-right">
+		
+			<h2>Change the live Content & Style</h2>
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<div><a href="<?=site_url('signup')?>" class="button">Do it Yourself</a></div>
+
+		</div>
+	</div>
+
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-2-3">
+		
+			<h2>See the Content Differences</h2>
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<div><a href="<?=site_url('signup?trial=Plus')?>" class="button">Try Now</a></div>
+
+		</div>
+		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
+	</div>
+
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-2-3 xl-right">
+		
+			<h2>On any Device Screen</h2>
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<div><a href="<?=site_url('signup')?>" class="button">See in Action</a></div>
+
+		</div>
+	</div>
+
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-2-3">
+		
+			<h2>Phases</h2>
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<div><a href="<?=site_url('signup')?>" class="button">Work in Versions</a></div>
+
+		</div>
+		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
+	</div>
+
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-2-3 xl-right">
+		
+			<h2>Comments on Design Files</h2>
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<div><a href="<?=site_url('signup')?>" class="button">Give a Design Feedback</a></div>
+
+		</div>
+	</div>
+
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-2-3">
+		
+			<h2>Integrations (Coming Soon)</h2>
+			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<div><a href="#" class="button">Notify Me</a></div>
+			<!-- !!! -->
+
+		</div>
+		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
+	</div>
+</section>
+
+
+<section id="second-section" class="decorative right-dark">
 	<div class="light-side">
 
 		<div class="side-content">
@@ -70,7 +151,7 @@
 </section>
 
 
-<section class="left-dark">
+<section class="decorative left-dark">
 	<div class="dark-side">
 
 		<div class="side-content">

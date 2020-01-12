@@ -14897,7 +14897,7 @@ h1 {
   font-size: 64px;
   line-height: 60px;
   letter-spacing: 8px;
-  font-weight: normal;
+  font-weight: bold;
   margin: 20px 0;
 }
 
@@ -16977,18 +16977,14 @@ section {
   position: relative;
   border: 20px solid #000000;
   width: 100%;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
   -moz-box-sizing: border-box;
        box-sizing: border-box;
   -moz-border-radius: 30px;
        border-radius: 30px;
   margin-bottom: 1px;
   background-color: white;
-}
-
-main {
-  height: auto;
-  min-height: 100vh;
 }
 
 footer {
@@ -17012,7 +17008,11 @@ footer {
   margin-top: 12px;
 }
 
-section:before, section:after {
+section.decorative {
+  height: 100vh;
+}
+
+section.decorative:before, section.decorative:after {
   content: "";
   position: absolute;
   left: 80px;
@@ -17024,25 +17024,25 @@ section:before, section:after {
   z-index: 1;
 }
 
-section:after {
+section.decorative:after {
   right: 80px;
   left: auto;
   background-color: white;
 }
 
-section.left-dark:before, section.left-dark:after {
+section.decorative.left-dark:before, section.decorative.left-dark:after {
   background-color: white;
 }
 
-section.left-dark:after {
+section.decorative.left-dark:after {
   background-color: #000000;
 }
 
-section:after {
+section.decorative:after {
   clear: both;
 }
 
-section > div {
+section.decorative > div {
   position: relative;
   width: 50%;
   height: 100%;
@@ -17050,13 +17050,13 @@ section > div {
   float: left;
 }
 
-section > div:first-child:before,
-section > div:first-child:after {
+section.decorative > div:first-child:before,
+section.decorative > div:first-child:after {
   left: -21px;
 }
 
-section > div:before,
-section > div:after {
+section.decorative > div:before,
+section.decorative > div:after {
   content: "";
   height: 1px;
   background-color: #000000;
@@ -17067,21 +17067,46 @@ section > div:after {
   width: 50vw;
 }
 
-section > div:after {
+section.decorative > div:after {
   top: auto;
   bottom: 80px;
 }
 
-section > div.dark-side:before,
-section > div.dark-side:after {
+section.decorative > div.dark-side:before,
+section.decorative > div.dark-side:after {
   background-color: white;
 }
 
-section > div:last-child .side-content {
+section.decorative > div:last-child .side-content {
   right: auto;
   left: 0;
   padding-left: 25px;
   padding-right: 0;
+}
+
+section.features h2 {
+  letter-spacing: 0;
+  margin: 0;
+}
+
+section.features .button {
+  font-size: 20px;
+  border: 2px solid #000000;
+  -moz-border-radius: 8px;
+       border-radius: 8px;
+  padding: 5px 20px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+section.features .button:hover {
+  border-color: #007acc;
+  color: #007acc;
+}
+
+section.features > .wrap {
+  margin-top: 150px;
+  margin-bottom: 150px;
 }
 
 .dark-side {
