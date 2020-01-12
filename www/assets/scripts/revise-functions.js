@@ -3219,6 +3219,23 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			pinWindow().find('.comments .section-title').removeClass('collapsed');
 
 
+		} else {
+
+
+			// Close all first
+			pinWindow().find('.section-title').addClass('collapsed');
+
+
+			// Open related tabs
+			if (thePinModificationType == "image" ) pinWindow().find('.image-editor .section-title').removeClass('collapsed');
+			if (thePinModificationType == "html" ) pinWindow().find('.content-editor .section-title').removeClass('collapsed');
+			if (thePinType == 'style') pinWindow().find('.visual-editor .section-title').removeClass('collapsed');
+
+
+			// Always open the comments
+			pinWindow().find('.comments .section-title').removeClass('collapsed');
+
+
 		}
 
 
