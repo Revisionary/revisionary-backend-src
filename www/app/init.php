@@ -79,6 +79,10 @@ if ( userLoggedIn() && !$User ) {
 }
 
 
+// Default Limitations
+$loadPercentage = $projectsPercentage = $phasesPercentage = $screensPercentage = $pinsPercentage = $commentPinsPercentage = null;
+
+
 // If logged in
 if ($User) {
 

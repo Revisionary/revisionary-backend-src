@@ -7,7 +7,7 @@
 
 		<input type="hidden" name="add_new" value="true"/>
 
-		<input type="hidden" name="project_ID" value="<?=$dataType == "page" ? $project_ID : "new"?>"/>
+		<input type="hidden" name="project_ID" value="<?=isset($dataType) && $dataType == "page" ? $project_ID : "new"?>"/>
 
 		<input type="hidden" name="category" value="0"/>
 		<input type="hidden" name="order" value="0"/>
