@@ -67,7 +67,7 @@
 		<div class="col xl-2-3 xl-right">
 		
 			<h2>Change the live Content & Style</h2>
-			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<p>You don't have to wait to see the changes you want on a website until developers apply them for you. Just do it yourself and see how does it look before you send them!</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Do it Yourself</a></div>
 
 		</div>
