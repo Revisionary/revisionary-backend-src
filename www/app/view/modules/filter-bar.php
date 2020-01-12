@@ -107,7 +107,7 @@
 			if ($_url[0] == "project") {
 		?>
 		<div class="dropdown">
-			<a href="#" class="click-to-open">SCREEN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+			<a href="#" class="click-to-open choose-to-close">SCREEN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 			<ul class="selectable xl-left screen-selector">
 
 				<li <?= $screenFilter == "" || $screenFilter == "all" ? ' class="selected"' : ""?>>
@@ -132,7 +132,7 @@
 		?>
 
 		<div class="dropdown" style="margin-left: 15px;">
-			<a href="#" class="click-to-open">COLUMN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+			<a href="#" class="click-to-open choose-to-close">COLUMN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 			<ul class="selectable xl-left size-selector">
 				<li class="selected"><a href="#" data-column="6">6 Column</a></li>
 				<li><a href="#" data-column="5">5 Column</a></li>
@@ -143,7 +143,7 @@
 		</div>
 
 		<div class="dropdown" style="margin-left: 15px;">
-			<a href="#" class="click-to-open">SORT <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+			<a href="#" class="click-to-open choose-to-close">SORT <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 			<ul class="selectable xl-left order-selector">
 				<li <?=!isset($_GET['order']) || get('order') == "custom" ? ' class="selected"' : ""?>>
 					<a href="<?=current_url('', 'order')?>" data-order="custom">Custom</a>

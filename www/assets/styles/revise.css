@@ -470,6 +470,12 @@ html, body {
   }
 }
 
+@media only screen and (max-width: 650px) {
+  #top-bar .pin-limits {
+    display: none;
+  }
+}
+
 #page {
   padding-top: 45px;
   height: -moz-calc(100% - 45px);

@@ -28,6 +28,19 @@ $(function() {
 	});
 
 
+	// Click to open dropdowns
+	$(document).on('click', '.click-to-open.choose-to-close:not(.editing) + ul a', function(e) {
+
+
+		console.log('FIREEEEE');
+
+		// Close all opens
+		$('.click-to-open.open .fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
+		$('.click-to-open.open').removeClass('open');
+
+	});
+
+
 	// Links with confirmation
 	$(document).on('click', '[data-confirm]:not([data-action])', function(e) { console.log('Clicked');
 
@@ -2608,7 +2621,7 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 				</div>\
 			</div>\
 			<div class="col xl-4-12 text-uppercase dropdown access">\
-				<a href="#">'+ shareText +' <i class="fa fa-caret-down change-access"></i></a>\
+				<a href="#" class="click-to-open">'+ shareText +' <i class="fa fa-caret-down change-access"></i></a>\
 				<ul class="no-delay right selectable change-access">\
 					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +' hide-if-me"><a href="#" data-action="changeshareaccess">THIS '+dataType+'</a></li>\
 					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +' hide-if-me hide-when-project" data-action="changeshareaccess"><a href="#">WHOLE PROJECT</a></li>\

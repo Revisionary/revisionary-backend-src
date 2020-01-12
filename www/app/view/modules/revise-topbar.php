@@ -842,7 +842,7 @@ foreach ($other_pages as $pageOther) {
 							<i class="fa fa-mouse-pointer"></i>
 							<span class="mode-label"></span>
 						</a>
-						<a href="#" class="button pin-type-selector click-to-open">
+						<a href="#" class="button pin-type-selector click-to-open choose-to-close">
 							<i class="fa fa-caret-down"></i>
 						</a>
 						<ul class="right pin-types">

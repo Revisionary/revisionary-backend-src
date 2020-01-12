@@ -189,7 +189,7 @@
 
 
 
-<div id="share" class="popup-window xl-center xl-5-12 scrollable-content" data-type="" data-id="" data-iamowner="" data-currentuser-id="<?=currentUserID()?>">
+<div id="share" class="popup-window xl-center xl-5-12 lg-11-12 scrollable-content" data-type="" data-id="" data-iamowner="" data-currentuser-id="<?=currentUserID()?>">
 	<h2>Share</h2>
 	<h5 class="to">The <b><span class="data-name"></b> <span class="data-type"></span></h5>
 
@@ -293,7 +293,7 @@
 
 
 
-<div id="feedback" class="popup-window xl-center xl-5-12" data-feedback-type="feedback" data-sent="no">
+<div id="feedback" class="popup-window xl-center xl-5-12 lg-11-12" data-feedback-type="feedback" data-sent="no">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 	<div class="xl-left">
@@ -356,7 +356,7 @@
 
 
 
-<div id="welcome" class="popup-window xl-center xl-6-12">
+<div id="welcome" class="popup-window xl-center xl-6-12 lg-11-12">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 	
@@ -385,7 +385,7 @@
 
 
 
-<div id="payment" class="popup-window xl-center xl-5-12">
+<div id="payment" class="popup-window xl-center xl-5-12 lg-11-12">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 	
@@ -410,7 +410,7 @@
 
 
 
-<div id="trialstarted" class="popup-window xl-center xl-6-12">
+<div id="trialstarted" class="popup-window xl-center xl-6-12 lg-11-12">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 	<?php
@@ -442,7 +442,7 @@
 
 
 
-<div id="trialreminder" class="popup-window xl-center xl-5-12">
+<div id="trialreminder" class="popup-window xl-center xl-5-12 lg-11-12">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 	<?php
@@ -481,7 +481,7 @@
 
 
 
-<div id="trialexpired" class="popup-window xl-center xl-5-12">
+<div id="trialexpired" class="popup-window xl-center xl-5-12 lg-11-12">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 
@@ -520,7 +520,7 @@
 
 
 
-<div id="trialcanceled" class="popup-window xl-center xl-5-12">
+<div id="trialcanceled" class="popup-window xl-center xl-5-12 lg-11-12">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 

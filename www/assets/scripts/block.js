@@ -25,9 +25,6 @@ $(function() {
 
 		set_client_cache(user_ID + '_columnSize', selected);
 
-		e.preventDefault();
-		return false;
-
 	});
 
 

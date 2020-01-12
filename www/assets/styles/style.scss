@@ -850,19 +850,6 @@ ul.user-header-menu {
 		margin-bottom: 0;
 
 
-		&:not(.editing):not(.click-to-open):hover + ul,
-		&.open + ul {
-			opacity: 1;
-			transition-delay: 0s !important;
-			visibility: visible;
-		}
-
-
-		&.click-to-open + ul {
-			transition-delay: 0s !important;
-		}
-
-
 		& + ul {
 			position: absolute;
 			z-index: 1;
@@ -875,13 +862,6 @@ ul.user-header-menu {
 			opacity: 0;
 			transition: 0s;
 			transition-delay: 500ms;
-
-			&:hover,
-			&.open {
-				opacity: 1;
-				transition-delay: 0s !important;
-				visibility: visible;
-			}
 
 			&.no-delay {
 				transition-delay: 0ms;
@@ -1079,6 +1059,22 @@ ul.user-header-menu {
 			} // .dropdown > a + ul > li
 
 		} // .dropdown > a + ul
+
+
+		&:not(.editing):not(.click-to-open):hover + ul,
+		&:not(.editing):not(.click-to-open) + ul:hover,
+		&:not(.editing):not(.click-to-open) + ul.open,
+		&.open + ul {
+			opacity: 1;
+			transition-delay: 0s !important;
+			visibility: visible;
+		}
+
+
+		&.click-to-open + ul {
+			transition-delay: 0s !important;
+		}
+
 
 	} // .dropdown > a
 

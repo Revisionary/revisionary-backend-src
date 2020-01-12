@@ -15680,22 +15680,6 @@ ul.user-header-menu > li:last-child {
   margin-bottom: 0;
 }
 
-.dropdown a:not(.editing):not(.click-to-open):hover + ul,
-.dropdown a.open + ul,
-.dropdown .dropdown-opener:not(.editing):not(.click-to-open):hover + ul,
-.dropdown .dropdown-opener.open + ul {
-  opacity: 1;
-  -moz-transition-delay: 0s !important;
-       transition-delay: 0s !important;
-  visibility: visible;
-}
-
-.dropdown a.click-to-open + ul,
-.dropdown .dropdown-opener.click-to-open + ul {
-  -moz-transition-delay: 0s !important;
-       transition-delay: 0s !important;
-}
-
 .dropdown a + ul,
 .dropdown .dropdown-opener + ul {
   position: absolute;
@@ -15711,15 +15695,6 @@ ul.user-header-menu > li:last-child {
   transition: 0s;
   -moz-transition-delay: 500ms;
        transition-delay: 500ms;
-}
-
-.dropdown a + ul:hover, .dropdown a + ul.open,
-.dropdown .dropdown-opener + ul:hover,
-.dropdown .dropdown-opener + ul.open {
-  opacity: 1;
-  -moz-transition-delay: 0s !important;
-       transition-delay: 0s !important;
-  visibility: visible;
 }
 
 .dropdown a + ul.no-delay,
@@ -15929,6 +15904,26 @@ ul.user-header-menu > li:last-child {
   -moz-transition-delay: 0s !important;
        transition-delay: 0s !important;
   visibility: visible;
+}
+
+.dropdown a:not(.editing):not(.click-to-open):hover + ul,
+.dropdown a:not(.editing):not(.click-to-open) + ul:hover,
+.dropdown a:not(.editing):not(.click-to-open) + ul.open,
+.dropdown a.open + ul,
+.dropdown .dropdown-opener:not(.editing):not(.click-to-open):hover + ul,
+.dropdown .dropdown-opener:not(.editing):not(.click-to-open) + ul:hover,
+.dropdown .dropdown-opener:not(.editing):not(.click-to-open) + ul.open,
+.dropdown .dropdown-opener.open + ul {
+  opacity: 1;
+  -moz-transition-delay: 0s !important;
+       transition-delay: 0s !important;
+  visibility: visible;
+}
+
+.dropdown a.click-to-open + ul,
+.dropdown .dropdown-opener.click-to-open + ul {
+  -moz-transition-delay: 0s !important;
+       transition-delay: 0s !important;
 }
 
 /* Tooltips */
