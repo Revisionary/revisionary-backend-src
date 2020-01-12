@@ -104,6 +104,12 @@
 			if (isset($additionalHeadJS) && is_array($additionalHeadJS) ) {
 
 				foreach ($additionalHeadJS as $file) {
+
+					if ($file == "vendor/tinymce.min.js") {
+						echo "<script src='https://cdn.tiny.cloud/1/5b6i6yoeijf0rxszlhqd8cif1vdgtqalh2cxyhjso3kz4yhz/tinymce/5/tinymce.min.js' referrerpolicy='origin'></script>";
+						continue;
+					}
+
 					echo '<script src="'.asset_url_nocache('scripts/'.$file).'"></script>';
 				}
 

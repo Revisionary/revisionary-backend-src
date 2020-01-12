@@ -426,7 +426,6 @@ if ($userInfo['email'] != "bilaltas@me.com" && $userInfo['email'] != "bill@twelv
 $additionalCSS = [
 	'vendor/jquery.mCustomScrollbar.css',
 	'vendor/spectrum.css',
-	'vendor/quill-theme/quill.bubble.css',
 	'revise.css'
 ];
 
@@ -436,7 +435,7 @@ $additionalHeadJS = [
 	'vendor/autosize.min.js',
 	'vendor/diff.js',
 	'vendor/spectrum.js',
-	'vendor/quill.min.js',
+	'vendor/tinymce.min.js',
 	'process.js',
 	'revise-globals.js',
 	'revise-functions.js'

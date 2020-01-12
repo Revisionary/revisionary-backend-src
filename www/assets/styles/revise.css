@@ -727,10 +727,6 @@ html, body {
   letter-spacing: normal;
 }
 
-#pin-window .edit-content.changes {
-  overflow: visible;
-}
-
 #pin-window .edit-content.original {
   opacity: 0.5;
 }

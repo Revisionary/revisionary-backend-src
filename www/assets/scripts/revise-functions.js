@@ -856,8 +856,7 @@ function runTheInspector() {
 
 
 			// Instant apply the change on pin window
-			//pinWindow(pin_ID).find('.content-editor .edit-content.changes > .ql-editor').html(modification);
-			contentEditor.clipboard.dangerouslyPasteHTML(modification);
+			pinWindow(pin_ID).find('.content-editor .edit-content.changes').html(modification);
 
 
 			// If differences tab is open
@@ -865,7 +864,7 @@ function runTheInspector() {
 
 
 				var originalContent = pinWindow(pin_ID).find('.content-editor .edit-content.original').html();
-				var changedContent = pinWindow(pin_ID).find('.content-editor .edit-content.changes > .ql-editor').html();
+				var changedContent = pinWindow(pin_ID).find('.content-editor .edit-content.changes').html();
 
 
 				// Difference check
@@ -3011,8 +3010,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 				// Add the changed HTML content
-				//pinWindow().find('.content-editor .edit-content.changes > .ql-editor').html( changedContent );
-				contentEditor.clipboard.dangerouslyPasteHTML(changedContent);
+				pinWindow().find('.content-editor .edit-content.changes').html( changedContent );
 
 
 			}
@@ -3857,8 +3855,7 @@ function revertChange(pin_ID) {
 
 
 		// Add the original HTML content
-		//pinWindow(pin_ID).find('.content-editor .edit-content.changes > .ql-editor').html( oldHTML );
-		contentEditor.clipboard.dangerouslyPasteHTML(oldHTML);
+		pinWindow(pin_ID).find('.content-editor .edit-content.changes').html( oldHTML );
 
 
 	// If the type is image change
@@ -3996,97 +3993,95 @@ function removeImage(pin_ID) {
 }
 
 
-// Initiate the Quill for content editor
+// Initiate the TinyMCE for content editor
 function initiateContentEditor() {
 
 
 	// Early exit if already initiated
-	if ( $("#pin-window .content-editor .edit-content.changes").hasClass('ql-container') ) return false;
+	if ( $("#pin-window .content-editor .edit-content.changes").hasClass('mce-content-body') ) return false;
+
 
 
 	// Content editor
-	contentEditor = new Quill("#pin-window .content-editor .edit-content.changes", {
-		theme: 'bubble',
-		modules: {
-			toolbar: [
-				['bold', 'italic', 'underline', 'strike'],
-				[{ 'align': [] }],
-				//[{ 'list': 'ordered'}, { 'list': 'bullet' }],
-				[{ 'color': colorsSorted }, { 'background': colorsSorted }],
-				['link']
-			]
-		}
-	});
-
-
-	// Pin window content changes
 	var doChange = {};
-	contentEditor.on('text-change', function(delta, oldDelta, source) {
+	tinymce.init({
+		selector: "#pin-window .content-editor .edit-content.changes",
+		plugins: [ 'quickbars' ],
+		toolbar: false,
+		menubar: false,
+		inline: true,
+		force_br_newlines : false,
+		force_p_newlines : false,
+		forced_root_block : '',
+		setup:function(ed) {
+			ed.on('input change', function(e) { // Pin window content changes
 
 
-		if (!pinWindowOpen || delta == oldDelta || source != "user") return false;
+				console.log('the event object ', e);
+				// console.log('the editor object ', ed);
+				// console.log('the content ', ed.getContent());
 
 
-		var pin_ID = pinWindow().attr('data-pin-id');
-		var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
-		var modification = $('#pin-window.active .content-editor .edit-content.changes > .ql-editor').html();
-		var changedElement = iframeElement(element_index);
+				if (!pinWindowOpen) return false;
 
 
-		//console.log('REGISTERED CHANGES', changes);
+				var pin_ID = pinWindow().attr('data-pin-id');
+				var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
+				//var modification = $('#pin-window.active .content-editor .edit-content.changes').html();
+				var modification = ed.getContent();
+				var changedElement = iframeElement(element_index);
+		
+		
+				//console.log('REGISTERED CHANGES', changes);
+		
+		
+				// Stop the auto-refresh
+				stopAutoRefresh();
+		
+		
+				// If edited element is a submit or reset input button
+				if (
+					changedElement.prop('tagName').toUpperCase().toUpperCase() == "INPUT" &&
+					(
+						changedElement.attr("type") == "text" ||
+						changedElement.attr("type") == "email" ||
+						changedElement.attr("type") == "url" ||
+						changedElement.attr("type") == "tel" ||
+						changedElement.attr("type") == "submit" ||
+						changedElement.attr("type") == "reset"
+					)
+				) {
+					modification = contentEditor.getText();
+					changedElement.val(modification);
+				}
+		
+		
+				// Instant apply the change
+				changedElement.html(modification);
+				changedElement.attr('contenteditable', "true");
+		
+		
+				// Update the element, pin and pin window status
+				updateAttributes(pin_ID, 'data-revisionary-content-edited', "1");
+				updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
+		
+		
+				// Remove unsent job
+				if (doChange[element_index]) clearTimeout(doChange[element_index]);
+		
+				// Send changes to DB after 1 second
+				doChange[element_index] = setTimeout(function(){
+		
+					saveChange(pin_ID, modification);
+		
+				}, 1000);
+		
+				//console.log('Content changed.');
 
 
-		// Stop the auto-refresh
-		stopAutoRefresh();
-
-
-		// If edited element is a submit or reset input button
-		if (
-        	changedElement.prop('tagName').toUpperCase().toUpperCase() == "INPUT" &&
-        	(
-        		changedElement.attr("type") == "text" ||
-        		changedElement.attr("type") == "email" ||
-        		changedElement.attr("type") == "url" ||
-        		changedElement.attr("type") == "tel" ||
-        		changedElement.attr("type") == "submit" ||
-        		changedElement.attr("type") == "reset"
-        	)
-        ) {
-	        modification = contentEditor.getText();
-			changedElement.val(modification);
+			});
 		}
-
-
-		// Instant apply the change
-		changedElement.html(modification);
-		changedElement.attr('contenteditable', "true");
-
-
-		// Update the element, pin and pin window status
-		updateAttributes(pin_ID, 'data-revisionary-content-edited', "1");
-		updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
-
-
-		// Remove unsent job
-		if (doChange[element_index]) clearTimeout(doChange[element_index]);
-
-		// Send changes to DB after 1 second
-		doChange[element_index] = setTimeout(function(){
-
-			saveChange(pin_ID, modification);
-
-		}, 1000);
-
-		//console.log('Content changed.');
-
-
 	});
-
-
-	// Update link placeholder
-	var tooltip = contentEditor.theme.tooltip;
-	var input = tooltip.root.querySelector("input[data-link]");
-	input.dataset.link = 'Enter the URL';
 
 
 }

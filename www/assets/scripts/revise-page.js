@@ -768,7 +768,7 @@ $(function() {
 			if (user_level_ID > 2) {
 
 				var originalContent = pinWindow().find('.content-editor .edit-content.original').html();
-				var changedContent = pinWindow().find('.content-editor .edit-content.changes > .ql-editor').html();
+				var changedContent = pinWindow().find('.content-editor .edit-content.changes').html();
 	
 	
 				// Difference check

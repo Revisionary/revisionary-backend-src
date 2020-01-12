@@ -859,10 +859,6 @@ html, body {
 		overflow: scroll;
 		letter-spacing: normal;
 
-		&.changes {
-			overflow: visible;
-		}
-
 		&.original {
 			opacity: 0.5;
 		}
