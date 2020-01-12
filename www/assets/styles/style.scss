@@ -858,6 +858,11 @@ ul.user-header-menu {
 		}
 
 
+		&.click-to-open + ul {
+			transition-delay: 0s !important;
+		}
+
+
 		& + ul {
 			position: absolute;
 			z-index: 1;
@@ -1032,7 +1037,7 @@ ul.user-header-menu {
 					padding: 5px;
 					color: inherit;
 
-					&:hover {
+					&:not(.click-to-open):hover {
 						color: $color-secondary;
 
 						& + ul {

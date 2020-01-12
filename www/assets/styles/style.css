@@ -15690,6 +15690,12 @@ ul.user-header-menu > li:last-child {
   visibility: visible;
 }
 
+.dropdown a.click-to-open + ul,
+.dropdown .dropdown-opener.click-to-open + ul {
+  -moz-transition-delay: 0s !important;
+       transition-delay: 0s !important;
+}
+
 .dropdown a + ul,
 .dropdown .dropdown-opener + ul {
   position: absolute;
@@ -15880,13 +15886,13 @@ ul.user-header-menu > li:last-child {
   color: inherit;
 }
 
-.dropdown a + ul > li > a:hover,
-.dropdown .dropdown-opener + ul > li > a:hover {
+.dropdown a + ul > li > a:not(.click-to-open):hover,
+.dropdown .dropdown-opener + ul > li > a:not(.click-to-open):hover {
   color: #007acc;
 }
 
-.dropdown a + ul > li > a:hover + ul,
-.dropdown .dropdown-opener + ul > li > a:hover + ul {
+.dropdown a + ul > li > a:not(.click-to-open):hover + ul,
+.dropdown .dropdown-opener + ul > li > a:not(.click-to-open):hover + ul {
   opacity: 1;
   -moz-transition-delay: 0s !important;
        transition-delay: 0s !important;

@@ -67,7 +67,7 @@
 					</ul><br/>
 					<span class="dropdown">
 	
-						<a href="#" class="add-screen"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
+						<a href="#" class="add-screen click-to-open"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
 						<?php
 							$blockPhase = ['phase_ID' => ""];
 							require view('modules/add-screen');

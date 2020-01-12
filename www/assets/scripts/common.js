@@ -16,7 +16,7 @@ $(function() {
 
 
 	// Click to open dropdowns
-	$(document).on('click', '.click-to-open', function(e) {
+	$(document).on('click', '.click-to-open:not(.editing)', function(e) {
 
 		$(this).toggleClass('open');
 		$(this).find('.fa-angle-down').toggleClass('fa-angle-up');

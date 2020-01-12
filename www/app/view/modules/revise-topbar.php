@@ -356,7 +356,7 @@ foreach ($allMyProjects as $myProject) {
 					<div class="desc">Page</div>
 
 					<span class="dropdown">
-						<a href="<?=site_url('project/'.$project_ID, true)?>">
+						<a href="#" class="click-to-open">
 							<?=$page['page_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
@@ -630,7 +630,7 @@ foreach ($other_pages as $pageOther) {
 
 					?>
 
-						<a href="#" class="button select-phase"><i class="fa fa-code-branch"></i> <span>v<?=$currentPhaseNumber?></span> <i class="fa fa-caret-down"></i></a>
+						<a href="#" class="button select-phase click-to-open"><i class="fa fa-code-branch"></i> <span>v<?=$currentPhaseNumber?></span> <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left">
 
 							<?php
@@ -727,7 +727,7 @@ foreach ($other_pages as $pageOther) {
 					<div class="desc nomargin">Screen Size</div>
 					<span class="dropdown">
 
-						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>"></i> <span><?=$page_type == "image" ? $screenCatName : $screen_name?> (<?=$width?>x<?=$height?>)</span>  <i class="fa fa-caret-down"></i></a>
+						<a href="#" class="button select-screen click-to-open"><i class="fa <?=$screenIcon?>"></i> <span><?=$page_type == "image" ? $screenCatName : $screen_name?> (<?=$width?>x<?=$height?>)</span>  <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left">
 						<?php
 
@@ -919,7 +919,7 @@ foreach ($other_pages as $pageOther) {
 			<div class="wrap xl-gutter-8">
 				<div class="col dropdown info">
 
-					<a href="#" class="button"><i class="fa fa-tools"></i> <span>TOOLS</span></a>
+					<a href="#" class="button click-to-open"><i class="fa fa-tools"></i> <span>TOOLS</span></a>
 					<ul class="center xl-left" style="max-width: 300px;">
 						<li>
 							<div class="xl-left page-info" style="font-size: 12px;">
@@ -950,7 +950,7 @@ foreach ($other_pages as $pageOther) {
 				</div>
 				<div class="col dropdown help">
 
-					<a href="#" class="button"><i class="fa fa-question-circle"></i> <span>HELP</span></a>
+					<a href="#" class="button click-to-open"><i class="fa fa-question-circle"></i> <span>HELP</span></a>
 					<ul class="xl-left bottom-tooltip" data-tooltip="Coming soon...">
 						<li><a href="#" data-modal="video">Quick Start</a></li>
 						<li><a href="#" data-modal="video">Features Help</a></li>

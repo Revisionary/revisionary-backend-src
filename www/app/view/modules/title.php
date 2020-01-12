@@ -35,7 +35,7 @@
 
 	<div class="col xl-6-12 xl-center title item" <?=isset($project_ID) ? "data-id='$project_ID' data-type='project'" : ""?>>
 		<div class="dropdown" style="display: inline-block;">
-			<a href="<?=site_url($url_prefix)?>" class="<?=$title == "pages" ? 'name-field' : ''?>" style="display: block; margin-bottom: 20px;">
+			<a href="#" class="<?=$title == "pages" ? 'name-field' : ''?> click-to-open" style="display: block; margin-bottom: 20px;">
 				<h1 class="<?=$title == "pages" ? 'project-title' : ''?>" <?=$title == "pages" ? 'data-id="'.$project_ID.'"' : ''?>>
 					<span class="name" <?=isset($project_ID) ? "data-id='$project_ID' data-type='project'" : ""?>><?=$title == "pages" ? $projectInfo['project_name'] : strtoupper($title)?></span><i class="fa fa-caret-down" style="font-size: 30px; transform: translateY(-10px);"></i>
 
