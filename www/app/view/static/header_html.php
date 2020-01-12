@@ -38,13 +38,16 @@
 
 
 			var loggedIn = <?=userLoggedIn() ? "true" : "false"?>;
+			var trialStarted = "no";
+			var trialExpired = "yes";
+			var trialExpiredNotified = "yes";
 			<?php if ( userLoggedIn() ) { ?>
 				var user_ID = <?=currentUserID()?>;
 				<?=isset($project_ID) ? "var project_ID = ".$project_ID.";" : ""?>
 				<?=isset($dataType) ? "var dataType = '".$dataType."';" : ""?>
-				var trialStarted = '<?=getUserInfo()['trialStartedFor'] ? "yes" : "no"?>';
-				var trialExpired = <?=getUserInfo()['trialExpired']?>;
-				var trialExpiredNotified = <?=getUserInfo()['trialExpiredNotified']?>;
+				trialStarted = '<?=getUserInfo()['trialStartedFor'] ? "yes" : "no"?>';
+				trialExpired = <?=getUserInfo()['trialExpired']?>;
+				trialExpiredNotified = <?=getUserInfo()['trialExpiredNotified']?>;
 			<?php } ?>
 
 
