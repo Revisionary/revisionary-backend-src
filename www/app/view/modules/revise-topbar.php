@@ -7,7 +7,7 @@
 
 				<div class="col account dropdown" style="margin-right: 15px;">
 
-					<a href="#" class="click-to-open">
+					<a href="#" class="click-to-open choose-to-close">
 						<picture class="profile-picture white-border thin-border" <?=$userInfo['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
 							<span><?=$userInfo['nameAbbr']?></span>
 						</picture>
@@ -16,16 +16,11 @@
 						<li><a href="<?=site_url('projects', true)?>"><i class="fa fa-th"></i> All Projects</a></li>
 						<li>
 							<a href="#"><i class="fa fa-life-ring"></i> Help <i class="fa fa-caret-right"></i></a>
-							<ul class="bottom-tooltip" data-tooltip="Coming soon...">
-								<li><a href="#" data-modal="video">Quick Start</a></li>
-								<li><a href="#" data-modal="video">Features Help</a></li>
-								<li><a href="#" data-modal="video">Advanced Features</a></li>
-								<li><a href="#" data-modal="video">Keyboard Shortcuts</a></li>
-								<li><a href="#" data-modal="video">Integrations Help</a></li>
-								<li><a href="#" data-modal="feedback">Feedback</a></li>
-								<li><a href="#" data-modal="video">Contact Support</a></li>
+							<ul class="bottom-tooltip">
+								<?php require view('modules/help-menu'); ?>
 							</ul>
 						</li>
+						<li><a href="#" data-modal="feedback"><i class="fa fa-comments"></i> Feedback</a></li>
 						<li><a href="<?=site_url('account', true)?>"><i class="fa fa-user-cog"></i> My Account</a></li>
 						<li><a href="<?=site_url('logout', true)?>"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
 					</ul>
@@ -950,15 +945,9 @@ foreach ($other_pages as $pageOther) {
 				</div>
 				<div class="col dropdown help">
 
-					<a href="#" class="button click-to-open"><i class="fa fa-question-circle"></i> <span>HELP</span></a>
-					<ul class="xl-left bottom-tooltip" data-tooltip="Coming soon...">
-						<li><a href="#" data-modal="video">Quick Start</a></li>
-						<li><a href="#" data-modal="video">Features Help</a></li>
-						<li><a href="#" data-modal="video">Advanced Features</a></li>
-						<li><a href="#" data-modal="video">Keyboard Shortcuts</a></li>
-						<li><a href="#" data-modal="video">Integrations Help</a></li>
-						<li><a href="#" data-modal="feedback">Feedback</a></li>
-						<li><a href="#" data-modal="video">Contact Support</a></li>
+					<a href="#" class="button click-to-open choose-to-close"><i class="fa fa-question-circle"></i> <span>HELP</span></a>
+					<ul class="xl-left bottom-tooltip">
+						<?php require view('modules/help-menu'); ?>
 					</ul>
 
 				</div>

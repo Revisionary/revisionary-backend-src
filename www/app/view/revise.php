@@ -60,6 +60,9 @@
 
 	<?php
 
+		// Common Video Modal
+		require view('modules/video-modal');
+
 		$dataType = "page";
 		require view('modules/modals');
 

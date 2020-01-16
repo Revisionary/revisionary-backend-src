@@ -2,20 +2,10 @@
 
 	<div class="bg-overlay modals">
 
-
-		<div id="video" class="popup-window xl-center xl-5-12">
-			<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
-
-			<h2 style="margin-bottom: 0;">Quick Start</h2>
-			<p style="margin-top: 0;">In development...</p>
-
-
-			<iframe width="560" height="315" data-src="https://www.youtube.com/embed/a3ICNMQW7Ok?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="max-width: 100%;"></iframe>
-
-
-		</div>
-
 		<?php
+
+			// Common Video Modal
+			require view('modules/video-modal');
 
 			// Projects and Pages Modals
 			if ( userLoggedIn() ) require view('modules/modals');
@@ -93,7 +83,7 @@
 
 
 				<div class="dropdown">
-					<a href="#" class="invert-hover user-link bullet click-to-open">
+					<a href="#" class="invert-hover user-link bullet click-to-open choose-to-close">
 						<picture class="profile-picture big header-user" <?=getUserInfo()['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
 							<span><?=getUserInfo()['nameAbbr']?></span>
 						</picture> <?=getUserInfo()['fullName']?>
