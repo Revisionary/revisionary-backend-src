@@ -55,7 +55,7 @@
 		<div class="col xl-2-3">
 		
 			<h2>Ease of Use, <br> No Download or Installation</h2>
-			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<p>Put your live URL and start giving feedback on any website! No need to download and install anything to your computer or browser.</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Get Started</a></div>
 
 		</div>
@@ -66,7 +66,7 @@
 		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h2>Change the live Content & Style</h2>
+			<h2>Change the Live Content & Style</h2>
 			<p>You don't have to wait to see the changes you want on a website until developers apply them for you. Just do it yourself and see how does it look before you send them!</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Do it Yourself</a></div>
 
@@ -77,7 +77,7 @@
 		<div class="col xl-2-3">
 		
 			<h2>See the Content Differences</h2>
-			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<p>Great to see the content changes on a live site. But what's changed on that big paragraph? <br> You can see the content differences easily to see what's exactly removed and added.</p>
 			<div><a href="<?=site_url('signup?trial=Plus')?>" class="button">Try Now</a></div>
 
 		</div>
@@ -89,7 +89,7 @@
 		<div class="col xl-2-3 xl-right">
 		
 			<h2>On any Device Screen</h2>
-			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<p>Found an issue on mobile view of a website? Or, on larger screens? Just add a new device to your page. So, you can do changes and add your comments on any device screen size.</p>
 			<div><a href="<?=site_url('signup')?>" class="button">See in Action</a></div>
 
 		</div>
@@ -99,7 +99,7 @@
 		<div class="col xl-2-3">
 		
 			<h2>Phases</h2>
-			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<p>When you are done with all the changes on a page and it's been live, add a new phase to start from the new version of that page. Pull the latest changes and start revising again!</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Work in Versions</a></div>
 
 		</div>
@@ -111,7 +111,7 @@
 		<div class="col xl-2-3 xl-right">
 		
 			<h2>Comments on Design Files</h2>
-			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<p>You can use Revisionary even on your design process! Upload your design files and add your comments as easy as commenting on live URLs with Revisionary App.</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Give a Design Feedback</a></div>
 
 		</div>
@@ -121,7 +121,7 @@
 		<div class="col xl-2-3">
 		
 			<h2>Integrations (Coming Soon)</h2>
-			<p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias accusamus ipsam sunt eaque illum quod nam ea eum doloribus veniam quo fugit nulla explicabo expedita, qui omnis.</p>
+			<p>You'll be able to automatically create GitHub or BitBucket Issues, Asana or Trello Tasks. <br> Just with one click of adding pins on any page!</p>
 			<div><a href="#" class="button">Notify Me</a></div>
 			<!-- !!! -->
 
