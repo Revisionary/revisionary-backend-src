@@ -17105,6 +17105,14 @@ section.features .button:hover {
   color: #007acc;
 }
 
+section.features .action {
+  margin-top: 10px;
+}
+
+section.features .action .button {
+  margin-top: 0;
+}
+
 section.features > .wrap {
   margin-top: 150px;
   margin-bottom: 150px;

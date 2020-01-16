@@ -2349,6 +2349,14 @@ section.features {
 		}
 	}
 
+	.action {
+		margin-top: 10px;
+
+		.button {
+			margin-top: 0;
+		}
+	}
+
 	& > .wrap {
 		margin-top: 150px;
 		margin-bottom: 150px;

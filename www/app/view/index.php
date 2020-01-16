@@ -66,7 +66,7 @@
 		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h2>Change the Live Content & Style</h2>
+			<h2>No Need to Write Comments, <br> Change the Live Content & Style</h2>
 			<p>You don't have to wait to see the changes you want on a website until developers apply them for you. Just do it yourself and see how does it look before you send them!</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Do it Yourself</a></div>
 
@@ -110,9 +110,9 @@
 		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h2>Comments on Design Files</h2>
-			<p>You can use Revisionary even on your design process! Upload your design files and add your comments as easy as commenting on live URLs with Revisionary App.</p>
-			<div><a href="<?=site_url('signup')?>" class="button">Give a Design Feedback</a></div>
+			<h2>Everything is Really Organized</h2>
+			<p>All the parts of the Revisionary App like Projects, Pages, Phases/Versions, Devices, Pins, Comments. Everything is grouped logically, accessibly and understandable for you. </p>
+			<div><a href="<?=site_url('signup')?>" class="button">Find & Do Easy</a></div>
 
 		</div>
 	</div>
@@ -120,10 +120,45 @@
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
 		<div class="col xl-2-3">
 		
-			<h2>Integrations (Coming Soon)</h2>
+			<h2>Comments on Design Files</h2>
+			<p>You can use Revisionary even on your design process! Upload your design files and add your comments as easy as commenting on live URLs with Revisionary App.</p>
+			<div><a href="<?=site_url('signup')?>" class="button">Give a Design Feedback</a></div>
+
+		</div>
+		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
+	</div>
+
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-2-3 xl-right">
+		
+			<h2>Draw on a Website, <br> Like on a Screenshot</h2>
+			<p>Draw a rectangle, circle, arrow or do a freehand drawing on a live website to show issues. <br> That will be possible on Revisionary App for the people cannot give up the screenshot habits.</p>
+			<div class="wrap xl-right xl-flexbox xl-middle xl-gutter-24 action">
+				<div class="col">
+					Coming Soon
+				</div>
+				<div class="col">
+					<a href="#" class="button">Notify Me</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-2-3">
+		
+			<h2>Integrations</h2>
 			<p>You'll be able to automatically create GitHub or BitBucket Issues, Asana or Trello Tasks. <br> Just with one click of adding pins on any page!</p>
-			<div><a href="#" class="button">Notify Me</a></div>
-			<!-- !!! -->
+			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
+				<div class="col">
+					<a href="#" class="button">Notify Me</a>
+				</div>
+				<div class="col">
+					Coming Soon
+				</div>
+			</div>
 
 		</div>
 		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
