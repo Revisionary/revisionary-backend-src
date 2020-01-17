@@ -52,9 +52,14 @@
 
 <section id="features" class="features">
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-1-1 xl-hidden">
+
+			<h2>Features</h2>
+
+		</div>
 		<div class="col xl-2-3">
 		
-			<h2>Ease of Use, <br> No Download or Installation</h2>
+			<h3>Ease of Use, <br> No Download or Installation</h3>
 			<p>Put your live URL and start giving feedback on any website! No need to download and install anything to your computer or browser.</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Get Started</a></div>
 
@@ -66,7 +71,7 @@
 		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h2>No Need to Write Comments, <br> Change the Live Content & Style</h2>
+			<h3>No Need to Write Comments, <br> Change the Live Content & Style</h3>
 			<p>You don't have to wait to see the changes you want on a website until developers apply them for you. Just do it yourself and see how does it look before you send them!</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Do it Yourself</a></div>
 
@@ -76,7 +81,7 @@
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
 		<div class="col xl-2-3">
 		
-			<h2>See the Content Differences</h2>
+			<h3>See the Content Differences</h3>
 			<p>Great to see the content changes on a live site. But what's changed on that big paragraph? <br> You can see the content differences easily to see what's exactly removed and added.</p>
 			<div><a href="<?=site_url('signup?trial=Plus')?>" class="button">Try Now</a></div>
 
@@ -88,7 +93,7 @@
 		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h2>On any Device Screen</h2>
+			<h3>On any Device Screen</h3>
 			<p>Found an issue on mobile view of a website? Or, on larger screens? Just add a new device to your page. So, you can do changes and add your comments on any device screen size.</p>
 			<div><a href="<?=site_url('signup')?>" class="button">See in Action</a></div>
 
@@ -98,7 +103,7 @@
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
 		<div class="col xl-2-3">
 		
-			<h2>Phases</h2>
+			<h3>Phases</h3>
 			<p>When you are done with all the changes on a page and it's been live, add a new phase to start from the new version of that page. Pull the latest changes and start revising again!</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Work in Versions</a></div>
 
@@ -110,7 +115,7 @@
 		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h2>Everything is Really Organized</h2>
+			<h3>Everything is Really Organized</h3>
 			<p>All the parts of the Revisionary App like Projects, Pages, Phases/Versions, Devices, Pins, Comments. Everything is grouped logically, accessibly and understandable for you. </p>
 			<div><a href="<?=site_url('signup')?>" class="button">Find & Do Easy</a></div>
 
@@ -120,7 +125,7 @@
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
 		<div class="col xl-2-3">
 		
-			<h2>Comments on Design Files</h2>
+			<h3>Comments on Design Files</h3>
 			<p>You can use Revisionary even on your design process! Upload your design files and add your comments as easy as commenting on live URLs with Revisionary App.</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Give a Design Feedback</a></div>
 
@@ -132,7 +137,7 @@
 		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h2>Draw on a Website, <br> Like on a Screenshot</h2>
+			<h3>Draw on a Website, <br> Like on a Screenshot</h3>
 			<p>Draw a rectangle, circle, arrow or do a freehand drawing on a live website to show issues. <br> That will be possible on Revisionary App for the people cannot give up the screenshot habits.</p>
 			<div class="wrap xl-right xl-flexbox xl-middle xl-gutter-24 action">
 				<div class="col">
@@ -149,7 +154,7 @@
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
 		<div class="col xl-2-3">
 		
-			<h2>Integrations</h2>
+			<h3>Integrations</h3>
 			<p>You'll be able to automatically create GitHub or BitBucket Issues, Asana or Trello Tasks. <br> Just with one click of adding pins on any page!</p>
 			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
 				<div class="col">

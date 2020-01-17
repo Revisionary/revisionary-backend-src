@@ -1,19 +1,5 @@
 <div id="page" class="site">
 
-	<div class="bg-overlay modals">
-
-		<?php
-
-			// Common Video Modal
-			require view('modules/video-modal');
-
-			// Projects and Pages Modals
-			if ( userLoggedIn() ) require view('modules/modals');
-
-		?>
-
-	</div>
-
 	<div class="progress-bar"></div>
 
 	<main id="first-section">
