@@ -2312,10 +2312,23 @@ section.decorative {
 		top: auto;
 		bottom: 80px;
 	}
-	
-	& > div.dark-side:before,
-	& > div.dark-side:after {
-		background-color: white;
+
+	& > .dark-side {
+
+		&:before,
+		&:after {
+			background-color: white;
+		}
+
+		.side-content {
+			text-align: center;
+			
+			i {
+				font-size: 300px;
+			}
+
+		}
+
 	}
 	
 	& > div:last-child .side-content {

@@ -17073,9 +17073,16 @@ section.decorative > div:after {
   bottom: 80px;
 }
 
-section.decorative > div.dark-side:before,
-section.decorative > div.dark-side:after {
+section.decorative > .dark-side:before, section.decorative > .dark-side:after {
   background-color: white;
+}
+
+section.decorative > .dark-side .side-content {
+  text-align: center;
+}
+
+section.decorative > .dark-side .side-content i {
+  font-size: 300px;
 }
 
 section.decorative > div:last-child .side-content {

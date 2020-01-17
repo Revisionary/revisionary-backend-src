@@ -64,11 +64,11 @@
 			<div><a href="<?=site_url('signup')?>" class="button">Get Started</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-1-3 xl-right"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-1-3"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
 		<div class="col xl-2-3 xl-right">
 		
 			<h3>No Need to Write Comments, <br> Change the Live Content & Style</h3>
@@ -86,11 +86,11 @@
 			<div><a href="<?=site_url('signup?trial=Plus')?>" class="button">Try Now</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-1-3 xl-right"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-1-3"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
 		<div class="col xl-2-3 xl-right">
 		
 			<h3>On any Device Screen</h3>
@@ -108,11 +108,11 @@
 			<div><a href="<?=site_url('signup')?>" class="button">Work in Versions</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-1-3 xl-right"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-1-3"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
 		<div class="col xl-2-3 xl-right">
 		
 			<h3>Everything is Really Organized</h3>
@@ -130,11 +130,11 @@
 			<div><a href="<?=site_url('signup')?>" class="button">Give a Design Feedback</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-1-3 xl-right"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-1-3"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
 		<div class="col xl-2-3 xl-right">
 		
 			<h3>Draw on a Website, <br> Like on a Screenshot</h3>
@@ -166,16 +166,18 @@
 			</div>
 
 		</div>
-		<div class="col xl-1-3 xl-right">LITTLE VIDEO LIKE GIF</div>
+		<div class="col xl-1-3 xl-right"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
 	</div>
 </section>
 
 
-<section id="use-cases" class="decorative right-dark">
+<h2 class="xl-hidden">Use Cases</h2>
+
+<section class="decorative right-dark">
 	<div class="light-side">
 
 		<div class="side-content">
-			<h2><div>REVISIONARY FOR </div>WEB DEVELOPERS</h2>
+			<h2><div>Revisionary For</div> Quality Assurance</h2>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
 			<a href="#" class="learn-more">LEARN MORE</a>
 		</div>
@@ -184,7 +186,7 @@
 	<div class="dark-side">
 
 		<div class="side-content">
-			<img src="<?=asset_url('icons/icon-web-developer.svg')?>" alt=""/>
+			<i class="fas fa-clipboard-list"></i>
 		</div>
 
 	</div>
@@ -195,14 +197,53 @@
 	<div class="dark-side">
 
 		<div class="side-content">
-			<img src="<?=asset_url('icons/icon-content-editor.svg')?>" alt=""/>
+			<i class="fas fa-code"></i>
 		</div>
 
 	</div>
 	<div class="light-side">
 
 		<div class="side-content">
-			<h2><div>REVISIONARY FOR </div>CONTENT EDITORS</h2>
+			<h2><div>Revisionary For</div> Bug Tracking</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
+			<a href="#" class="learn-more">LEARN MORE</a>
+		</div>
+
+	</div>
+</section>
+
+<section class="decorative right-dark">
+	<div class="light-side">
+
+		<div class="side-content">
+			<h2><div>Revisionary For</div> Content Managers</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
+			<a href="#" class="learn-more">LEARN MORE</a>
+		</div>
+
+	</div>
+	<div class="dark-side">
+
+		<div class="side-content">
+			<i class="fas fa-feather-alt"></i>
+		</div>
+
+	</div>
+</section>
+
+
+<section class="decorative left-dark">
+	<div class="dark-side">
+
+		<div class="side-content">
+			<i class="fas fa-coffee"></i>
+		</div>
+
+	</div>
+	<div class="light-side">
+
+		<div class="side-content">
+			<h2><div>Revisionary For</div> Freelancers</h2>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
 			<a href="#" class="learn-more">LEARN MORE</a>
 		</div>
