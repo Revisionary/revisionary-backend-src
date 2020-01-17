@@ -1424,6 +1424,11 @@ html, body {
 }
 
 /* Pin Filters */
+#pins .pin, .pins-list .pin {
+  -moz-transition: opacity 500ms;
+  transition: opacity 500ms;
+}
+
 #pins[data-filter="incomplete"] > .pin[data-pin-complete="1"],
 #pins[data-filter="complete"] > .pin[data-pin-complete="0"],
 #pins[data-filter="private"] > .pin[data-pin-private="0"],
@@ -1433,7 +1438,8 @@ html, body {
 .pins-list[data-filter="private"] > .pin[data-pin-private="0"],
 .pins-list[data-filter="public"] > .pin[data-pin-private="1"],
 .pins-list[data-filter="hide"] > .pin {
-  display: none;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Pin Comments */

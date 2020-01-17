@@ -1804,7 +1804,7 @@ html, body {
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+	pointer-events: none;
 
     & > pin {
 	    position: absolute;
@@ -1824,12 +1824,17 @@ html, body {
 /* Pin Filters */
 #pins, .pins-list {
 
+	.pin {
+		transition: opacity 500ms;
+	}
+
     &[data-filter="incomplete"] > .pin[data-pin-complete="1"],
     &[data-filter="complete"] > .pin[data-pin-complete="0"],
     &[data-filter="private"] > .pin[data-pin-private="0"],
     &[data-filter="public"] > .pin[data-pin-private="1"],
     &[data-filter="hide"] > .pin {
-	    display: none;
+		opacity: 0;
+		pointer-events: none;
     }
 
 }
