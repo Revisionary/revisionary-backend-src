@@ -66,7 +66,7 @@
 				<div class="col xl-1-12"></div>
 				<div class="col xl-11-12 xl-center">
 					<a href="<?=site_url()?>" rel="home"><h2><div>REVISIONARY APP</div></h2></a><br/>
-					<img src="<?=asset_url('icons/icon-web-developer.svg')?>" alt=""/>
+					<i class="fas fa-key"></i>
 				</div>
 			</div>
 		</div>
