@@ -13,7 +13,6 @@ $additionalHeadJS = [
 ];
 
 $additionalBodyJS = [
-	'vendor/jquery.mCustomScrollbar.concat.min.js',
 	'common.js',
 	'revise-page.js'
 ];

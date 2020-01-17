@@ -424,7 +424,6 @@ if ($userInfo['email'] != "bilaltas@me.com" && $userInfo['email'] != "bill@twelv
 
 
 $additionalCSS = [
-	'vendor/jquery.mCustomScrollbar.css',
 	'vendor/spectrum.css',
 	'revise.css'
 ];
@@ -442,7 +441,6 @@ $additionalHeadJS = [
 ];
 
 $additionalBodyJS = [
-	'vendor/jquery.mCustomScrollbar.concat.min.js',
 	'common.js',
 	'revise-page.js'
 ];

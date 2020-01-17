@@ -405,9 +405,7 @@ if ( is_array($allMyPins) ) {
 
 
 // Additional Scripts and Styles
-$additionalCSS = [
-	'vendor/jquery.mCustomScrollbar.css'
-];
+$additionalCSS = [];
 
 $additionalHeadJS = [
 	'process.js',
@@ -416,9 +414,7 @@ $additionalHeadJS = [
 	'block.js'
 ];
 
-$additionalBodyJS = [
-	'vendor/jquery.mCustomScrollbar.concat.min.js'
-];
+$additionalBodyJS = [];
 
 
 $page_title = "Projects - Revisionary App";

@@ -263,17 +263,13 @@ if ( post('update-submit') == "Update" ) {
 
 
 // Additional Scripts and Styles
-$additionalCSS = [
-	'vendor/jquery.mCustomScrollbar.css'
-];
+$additionalCSS = [];
 
 $additionalHeadJS = [
 	'common.js'
 ];
 
-$additionalBodyJS = [
-	'vendor/jquery.mCustomScrollbar.concat.min.js'
-];
+$additionalBodyJS = [];
 
 $page_title = "My Account - Revisionary App";
 require view('account');

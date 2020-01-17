@@ -17251,6 +17251,42 @@ input.share-email.error {
   pointer-events: initial;
 }
 
+.scrollable-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: inherit;
+  max-height: inherit;
+}
+
+.scrollable-content::-webkit-scrollbar {
+  padding-top: 50px;
+  width: 2px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  box-sizing: content-box;
+  width: 10px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: #007acc;
+}
+
+.scrollable-content:hover::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.scrollable-content:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.75);
+}
+
 /* Popup Window */
 .popup-window {
   position: absolute;
@@ -17261,7 +17297,8 @@ input.share-email.error {
        border-radius: 40px;
   padding: 20px 40px 40px;
   max-height: 95vh;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
   -moz-box-sizing: border-box;
        box-sizing: border-box;
   -moz-transition: 500ms;
@@ -17275,6 +17312,11 @@ input.share-email.error {
   top: 50%;
   -moz-transform: translateY(-50%);
        transform: translateY(-50%);
+}
+
+.popup-window > .scrollable-content {
+  max-height: -moz-calc(95vh - 80px);
+  max-height: calc(95vh - 80px);
 }
 
 .popup-window h2 {
@@ -17503,6 +17545,11 @@ input.share-email.error {
 
 .popup-window#feedback[data-sent="yes"] .result-messages {
   display: block;
+}
+
+.popup-window#upgrade {
+  -moz-border-radius: 30px;
+       border-radius: 30px;
 }
 
 .members {

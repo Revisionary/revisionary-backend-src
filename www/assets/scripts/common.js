@@ -31,9 +31,6 @@ $(function() {
 	// Click to open dropdowns
 	$(document).on('click', '.click-to-open.choose-to-close:not(.editing) + ul a', function(e) {
 
-
-		console.log('FIREEEEE');
-
 		// Close all opens
 		$('.click-to-open.open .fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
 		$('.click-to-open.open').removeClass('open');
@@ -1349,7 +1346,7 @@ $(function() {
 
 	// Avatar Upload
 	// Uploader
-	$('.avatar-upload').change(function() {
+	$(document).on('change', '.avatar-upload', function() {
 
 
 	    var userID = $('.avatar-changer').attr('data-id');
@@ -1405,7 +1402,7 @@ $(function() {
 	});
 
 
-	$('#avatar-form').submit(function(e) {
+	$(document).on('submit', '#avatar-form', function(e) {
 
 
 	    var userID = $(this).find('.avatar-changer').attr('data-id');
@@ -1781,12 +1778,6 @@ $(function() {
 $(window).on("load", function (e) {
 
 
-	// Pins Section Content
-	$(".scrollable-content").mCustomScrollbar({
-		alwaysShowScrollbar: false
-	});
-
-
 });
 
 
@@ -1972,7 +1963,7 @@ function addshare() {
 
 
 			// Scroll to the bottom
-			modal.find('.mCustomScrollBox').animate({
+			modal.find('.scrollable-content').animate({
 				scrollTop: 999
 			}, "slow");
 

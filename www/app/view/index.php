@@ -171,7 +171,7 @@
 </section>
 
 
-<section id="second-section" class="decorative right-dark">
+<section id="use-cases" class="decorative right-dark">
 	<div class="light-side">
 
 		<div class="side-content">

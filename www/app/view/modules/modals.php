@@ -1,135 +1,100 @@
-<div id="add-new" class="popup-window xl-center scrollable-content" data-type="" data-id="" data-iamowner="" data-currentuser-id="<?=currentUserID()?>">
-	<h2>Add New <span class="data-type"></span></h2>
-	<h5 class="to"></h5>
-
-	<form action="<?=site_url('projects', true)?>" method="post" class="new-project-form" data-page-type="url" data-cat-id="0">
+<div id="add-new" class="popup-window xl-center" data-type="" data-id="" data-iamowner="" data-currentuser-id="<?=currentUserID()?>">
+	<div class="scrollable-content">
 
 
-		<input type="hidden" name="add_new" value="true"/>
+		<h2>Add New <span class="data-type"></span></h2>
+		<h5 class="to"></h5>
 
-		<input type="hidden" name="project_ID" value="<?=isset($dataType) && $dataType == "page" ? $project_ID : "new"?>"/>
-
-		<input type="hidden" name="category" value="0"/>
-		<input type="hidden" name="order" value="0"/>
+		<form action="<?=site_url('projects', true)?>" method="post" class="new-project-form" data-page-type="url" data-cat-id="0">
 
 
-		<div class="wrap xl-center">
-			<div class="col xl-6-7">
+			<input type="hidden" name="add_new" value="true"/>
+
+			<input type="hidden" name="project_ID" value="<?=isset($dataType) && $dataType == "page" ? $project_ID : "new"?>"/>
+
+			<input type="hidden" name="category" value="0"/>
+			<input type="hidden" name="order" value="0"/>
 
 
-				<h4 class="section-title xl-left">Page Info</h4>
-
-				<div class="top-option page-url">
-					<h3><i class="fa fa-link"></i> <span class="first-page">First</span> Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
-					<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
-				</div>
-				<div class="top-option selected-image">
-					<h3><i class="fa fa-image"></i> Selected Image</h3>
-					<figure>
-						<label for="reset" class="reset left-tooltip" data-tooltip="Cancel">&times;</label>
-						<input id="reset" type="reset" class="xl-hidden">
-						<img src="//:0">
-					</figure>
-				</div>
+			<div class="wrap xl-center">
+				<div class="col xl-6-7">
 
 
-				<div class="bottom-option design-uploader">
-					<small>or <label for="design-uploader"><b><u>Upload</u></b></label> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments."></i></small>
-					<input type="file" name="design-upload" id="design-uploader" class="design-upload xl-hidden" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">
-				</div>
-				<div class="bottom-option page-options">
-					
-					<div class="wrap xl-gutter-40 xl-center">
-						<div class="col">
-							<label class="bottom-tooltip" data-tooltip="This allows you to download the live URL and change the content."><input type="radio" name="page-type" value="url" checked>Live Mode <small>(Recommended)</small></label>
-							<label class="xl-hidden"><input type="radio" name="page-type" value="image">Image Mode</label>
-						</div>
-						<div class="col">
-							<label class="bottom-tooltip" data-tooltip="This mode will take full size picture of your page you entered. You can only put comments on it."><input type="radio" name="page-type" value="capture">Capture Mode</label>
-						</div>
+					<h4 class="section-title xl-left">Page Info</h4>
+
+					<div class="top-option page-url">
+						<h3><i class="fa fa-link"></i> <span class="first-page">First</span> Page URL <i class="fa fa-question-circle tooltip" data-tooltip="Enter the URL you want to revise" aria-hidden="true"></i></h3>
+						<input type="url" name="page-url" placeholder="https://example.com/..." tabindex="1" autofocus required/>
 					</div>
-					
-				</div>
+					<div class="top-option selected-image">
+						<h3><i class="fa fa-image"></i> Selected Image</h3>
+						<figure>
+							<label for="reset" class="reset left-tooltip" data-tooltip="Cancel">&times;</label>
+							<input id="reset" type="reset" class="xl-hidden">
+							<img src="//:0">
+						</figure>
+					</div>
 
 
-				<div class="screens">
-					<h3 style="margin-bottom: 0">Screen Size <i class="fa fa-question-circle tooltip" data-tooltip="Add your screen size that you wish to edit your site." aria-hidden="true"></i></h3>
-					<ul class="no-spacing selected-screens">
-						<li>
-
-							<input type="hidden" name="screens[]" value="11"/>
-							<input type="hidden" name="page_width" value="1440"/>
-							<input type="hidden" name="page_height" value="900"/>
-
-							<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Window (<span class="screen-width">1440</span> x <span class="screen-height">900</span>)</span>
-							<a href="#" class="remove-screen" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-						</li>
-					</ul><br/>
-					<span class="dropdown">
-	
-						<a href="#" class="add-screen click-to-open"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
-						<?php
-							$blockPhase = ['phase_ID' => ""];
-							require view('modules/add-screen');
-						?>
-	
-					</span><br/><br/>
-				</div>
+					<div class="bottom-option design-uploader">
+						<small>or <label for="design-uploader"><b><u>Upload</u></b></label> your page design <i class="fa fa-question-circle tooltip bottom-tooltip" data-tooltip="Upload design images to add your comments."></i></small>
+						<input type="file" name="design-upload" id="design-uploader" class="design-upload xl-hidden" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">
+					</div>
+					<div class="bottom-option page-options">
+						
+						<div class="wrap xl-gutter-40 xl-center">
+							<div class="col">
+								<label class="bottom-tooltip" data-tooltip="This allows you to download the live URL and change the content."><input type="radio" name="page-type" value="url" checked>Live Mode <small>(Recommended)</small></label>
+								<label class="xl-hidden"><input type="radio" name="page-type" value="image">Image Mode</label>
+							</div>
+							<div class="col">
+								<label class="bottom-tooltip" data-tooltip="This mode will take full size picture of your page you entered. You can only put comments on it."><input type="radio" name="page-type" value="capture">Capture Mode</label>
+							</div>
+						</div>
+						
+					</div>
 
 
+					<div class="screens">
+						<h3 style="margin-bottom: 0">Screen Size <i class="fa fa-question-circle tooltip" data-tooltip="Add your screen size that you wish to edit your site." aria-hidden="true"></i></h3>
+						<ul class="no-spacing selected-screens">
+							<li>
 
-				<a href="#" class="option-toggler more-options"><i class="fa fa-sliders-h"></i> More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
-				<a href="#" class="option-toggler less-options"><i class="fa fa-sliders-h"></i> Less Options <i class="fa fa-caret-up" aria-hidden="true"></i><hr/></a>
+								<input type="hidden" name="screens[]" value="11"/>
+								<input type="hidden" name="page_width" value="1440"/>
+								<input type="hidden" name="page_height" value="900"/>
 
-
-				<!-- More Options -->
-				<div class="more-options-wrapper">
-
-
-
-					<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this page like Home, About, ... (Autogenerated from the URL by default)" aria-hidden="true"></i></h3>
-					<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="2"/>
-
-
-					<h3><i class="fa fa-share-alt"></i> Page Members <i class="fa fa-question-circle tooltip" data-tooltip="Users who can access only this page." aria-hidden="true"></i></h3>
-					<div class="people">
-
-
-						<!-- Owner -->
-						<picture data-tooltip="Owner: <?=getUserInfo()['fullName']?>" class="profile-picture" <?=getUserInfo()['printPicture']?>>
-							<span><?=getUserInfo()['nameAbbr']?></span>
-						</picture>
-
-						<ul class="shares page user">
-
-						</ul>
-
-
-						<!-- Add New -->
-						<a href="#" class="new-member" data-tooltip="Add New Page Member"><i class="fa fa-plus"></i></a>
-
-						<input class="share-email" type="email" data-type="page" placeholder='Type an e-mail address and hit "Enter"...' style="display: none; max-width: 75%;"/>
-
-
-						<ul class="shares page email">
-
-						</ul>
-
-
-					</div><br/><br/>
+								<i class="fa fa-window-maximize" aria-hidden="true"></i> <span>Current Window (<span class="screen-width">1440</span> x <span class="screen-height">900</span>)</span>
+								<a href="#" class="remove-screen" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
+							</li>
+						</ul><br/>
+						<span class="dropdown">
+		
+							<a href="#" class="add-screen click-to-open"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
+							<?php
+								$blockPhase = ['phase_ID' => ""];
+								require view('modules/add-screen');
+							?>
+		
+						</span><br/><br/>
+					</div>
 
 
 
-					<div class="project-info">
+					<a href="#" class="option-toggler more-options"><i class="fa fa-sliders-h"></i> More Options <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+					<a href="#" class="option-toggler less-options"><i class="fa fa-sliders-h"></i> Less Options <i class="fa fa-caret-up" aria-hidden="true"></i><hr/></a>
 
 
-						<h4 class="section-title xl-left">Project Info</h4>
-
-						<h3>Project Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this project. (Autogenerated from the URL by default)" aria-hidden="true"></i></h3>
-						<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." tabindex="3" />
+					<!-- More Options -->
+					<div class="more-options-wrapper">
 
 
-						<h3><i class="fa fa-share-alt"></i> Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Users who can access this project with all the pages in it." aria-hidden="true"></i></h3>
+
+						<h3>Page Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this page like Home, About, ... (Autogenerated from the URL by default)" aria-hidden="true"></i></h3>
+						<input type="text" name="page-name" placeholder="e.g. Home, About, ..." tabindex="2"/>
+
+
+						<h3><i class="fa fa-share-alt"></i> Page Members <i class="fa fa-question-circle tooltip" data-tooltip="Users who can access only this page." aria-hidden="true"></i></h3>
 						<div class="people">
 
 
@@ -138,155 +103,195 @@
 								<span><?=getUserInfo()['nameAbbr']?></span>
 							</picture>
 
-							<ul class="shares project user">
+							<ul class="shares page user">
 
 							</ul>
 
 
 							<!-- Add New -->
-							<a href="#" class="new-member" data-tooltip="Add New Project Member"><i class="fa fa-plus"></i></a>
-							<input class="share-email" type="email" name="project-share-email" data-type="project" placeholder='Type an e-mail address and hit "Enter"...' style="display: none; max-width: 75%;"/>
+							<a href="#" class="new-member" data-tooltip="Add New Page Member"><i class="fa fa-plus"></i></a>
+
+							<input class="share-email" type="email" data-type="page" placeholder='Type an e-mail address and hit "Enter"...' style="display: none; max-width: 75%;"/>
 
 
-							<ul class="shares project email">
+							<ul class="shares page email">
 
 							</ul>
 
 
-						</div><br/>
+						</div><br/><br/>
+
+
+
+						<div class="project-info">
+
+
+							<h4 class="section-title xl-left">Project Info</h4>
+
+							<h3>Project Name <i class="fa fa-question-circle tooltip" data-tooltip="The name that describes this project. (Autogenerated from the URL by default)" aria-hidden="true"></i></h3>
+							<input type="text" name="project-name" placeholder="e.g. Google, BBC, ..." tabindex="3" />
+
+
+							<h3><i class="fa fa-share-alt"></i> Project Members <i class="fa fa-question-circle tooltip" data-tooltip="Users who can access this project with all the pages in it." aria-hidden="true"></i></h3>
+							<div class="people">
+
+
+								<!-- Owner -->
+								<picture data-tooltip="Owner: <?=getUserInfo()['fullName']?>" class="profile-picture" <?=getUserInfo()['printPicture']?>>
+									<span><?=getUserInfo()['nameAbbr']?></span>
+								</picture>
+
+								<ul class="shares project user">
+
+								</ul>
+
+
+								<!-- Add New -->
+								<a href="#" class="new-member" data-tooltip="Add New Project Member"><i class="fa fa-plus"></i></a>
+								<input class="share-email" type="email" name="project-share-email" data-type="project" placeholder='Type an e-mail address and hit "Enter"...' style="display: none; max-width: 75%;"/>
+
+
+								<ul class="shares project email">
+
+								</ul>
+
+
+							</div><br/>
+
+						</div>
+
 
 					</div>
+
+
+					<!-- Actions -->
+					<div class="wrap xl-2 xl-center xl-flexbox">
+						<div class="col">
+
+							<button class="dark small submitter">Add</button>
+
+						</div>
+						<div class="col xl-first">
+
+							<button class="cancel-button light small">Cancel</button>
+
+						</div>
+					</div>
+					<br/>
 
 
 				</div>
-
-
-				<!-- Actions -->
-				<div class="wrap xl-2 xl-center xl-flexbox">
-					<div class="col">
-
-						<button class="dark small submitter">Add</button>
-
-					</div>
-					<div class="col xl-first">
-
-						<button class="cancel-button light small">Cancel</button>
-
-					</div>
-				</div>
-				<br/>
-
-
 			</div>
-		</div>
 
-	</form>
+		</form>
 
 
+	</div>
 </div>
 
 
 
 
 
-<div id="share" class="popup-window xl-center xl-5-12 lg-11-12 scrollable-content" data-type="" data-id="" data-iamowner="" data-currentuser-id="<?=currentUserID()?>">
-	<h2>Share</h2>
-	<h5 class="to">The <b><span class="data-name"></b> <span class="data-type"></span></h5>
+<div id="share" class="popup-window xl-center xl-5-12 lg-11-12" data-type="" data-id="" data-iamowner="" data-currentuser-id="<?=currentUserID()?>">
+	<div class="scrollable-content">
 
 
+		<h2>Share</h2>
+		<h5 class="to">The <b><span class="data-name"></b> <span class="data-type"></span></h5>
 
-	<div class="wrap xl-center xl-gutter-8">
-		<div class="col xl-9-10">
-
-
-
-
-			<!-- THEAD -->
-			<div class="wrap xl-table xl-gutter-24">
-				<div class="col">
-
-					<h4 style="margin-bottom: 10px;">Member</h4>
-
-				</div>
-				<div class="col xl-3-8 xl-right">
-
-					<h4 style="margin-bottom: 10px;">Access Level</h4>
-
-				</div>
-			</div>
+		<div class="wrap xl-center xl-gutter-8">
+			<div class="col xl-9-10">
 
 
 
 
-
-			<!-- MEMBERS -->
-			<ul class="xl-left no-spacing members">
-
-			</ul><br/>
-
-
-
-
-
-
-			<form action="" method="post">
-				<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
-
-
-				<!-- Add New -->
+				<!-- THEAD -->
 				<div class="wrap xl-table xl-gutter-24">
-					<div class="col xl-3-8 hide-when-project">
-
-						<h4 style="margin-bottom: 15px;">Access Level</h4>
-						<span class="text-uppercase dropdown">
-
-							<a href="#"><span class="new-access-type">THIS <span class="data-type"></span></span> <i class="fa fa-caret-down"></i></a>
-							<ul class="selectable no-delay new-access-type-selector">
-								<li class="selected"><a href="#" data-type="page">THIS PAGE</a></li>
-								<li><a href="#" data-type="project">WHOLE PROJECT</a></li>
-							</ul>
-
-						</span>
-
-					</div>
 					<div class="col">
 
-						<h4 class="xl-center" style="margin-bottom: 10px;">Add New User</h4>
-						<input id="share-email" class="share-email" type="email" data-add-type="" placeholder='Type an e-mail address and hit "Enter"...' autofocus />
+						<h4 style="margin-bottom: 10px;">Member</h4>
 
 					</div>
-				</div><br/>
+					<div class="col xl-3-8 xl-right">
 
-
-				<!-- Actions -->
-				<div class="wrap xl-2 xl-center xl-flexbox">
-					<div class="col">
-
-						<button class="dark small add-member" disabled>Add</button>
-
-					</div>
-					<div class="col xl-first">
-
-						<button class="cancel-button light small">Close</button>
+						<h4 style="margin-bottom: 10px;">Access Level</h4>
 
 					</div>
 				</div>
-				<br/>
-
-
-			</form>
 
 
 
+
+
+				<!-- MEMBERS -->
+				<ul class="xl-left no-spacing members">
+
+				</ul><br/>
+
+
+
+
+
+
+				<form action="" method="post">
+					<input type="hidden" name="add_new_nonce" value="<?=$_SESSION['add_new_nonce']?>"/>
+
+
+					<!-- Add New -->
+					<div class="wrap xl-table xl-gutter-24">
+						<div class="col xl-3-8 hide-when-project">
+
+							<h4 style="margin-bottom: 15px;">Access Level</h4>
+							<span class="text-uppercase dropdown">
+
+								<a href="#"><span class="new-access-type">THIS <span class="data-type"></span></span> <i class="fa fa-caret-down"></i></a>
+								<ul class="selectable no-delay new-access-type-selector">
+									<li class="selected"><a href="#" data-type="page">THIS PAGE</a></li>
+									<li><a href="#" data-type="project">WHOLE PROJECT</a></li>
+								</ul>
+
+							</span>
+
+						</div>
+						<div class="col">
+
+							<h4 class="xl-center" style="margin-bottom: 10px;">Add New User</h4>
+							<input id="share-email" class="share-email" type="email" data-add-type="" placeholder='Type an e-mail address and hit "Enter"...' autofocus />
+
+						</div>
+					</div><br/>
+
+
+					<!-- Actions -->
+					<div class="wrap xl-2 xl-center xl-flexbox">
+						<div class="col">
+
+							<button class="dark small add-member" disabled>Add</button>
+
+						</div>
+						<div class="col xl-first">
+
+							<button class="cancel-button light small">Close</button>
+
+						</div>
+					</div>
+					<br/>
+
+
+				</form>
+
+
+
+			</div>
 		</div>
+
+		<div class="link" data-tooltip="Click to Copy">
+			<b><span class="data-type"></span> link to Share:</b> <span class="value"><?=site_url()?><span class="data-type"></span>/<span class="data-id"></span></span>
+		</div>
+
+
 	</div>
-
-
-	<div class="link" data-tooltip="Click to Copy">
-		<b><span class="data-type"></span> link to Share:</b> <span class="value"><?=site_url()?><span class="data-type"></span>/<span class="data-id"></span></span>
-	</div>
-
-
 </div>
 
 

@@ -1,17 +1,13 @@
 <?php
 
 // Additional Scripts and Styles
-$additionalCSS = [
-	'vendor/jquery.mCustomScrollbar.css'
-];
+$additionalCSS = [];
 
 $additionalHeadJS = [
 	'common.js'
 ];
 
-$additionalBodyJS = [
-	'vendor/jquery.mCustomScrollbar.concat.min.js'
-];
+$additionalBodyJS = [];
 
 $page_title = "Revisionary App";
 require view('index');

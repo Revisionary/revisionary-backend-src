@@ -2513,6 +2513,56 @@ input.share-email {
 
 
 
+.scrollable-content {
+	overflow-x: hidden;
+	overflow-y: auto;
+	height: inherit;
+	max-height: inherit;
+
+	&::-webkit-scrollbar {
+		padding-top: 50px;
+		width: 2px;
+
+		&-track {
+			background: rgba($color, 0.2);
+			border-radius: 5px;
+		}
+
+		&-thumb {
+			background: rgba($color, 0.3);
+			border-radius: 4px;
+			box-sizing: content-box;
+			width: 10px;
+	
+			&:hover {
+				background: $color-secondary;
+			}
+
+		}
+
+	}
+
+	&:hover {
+
+
+		&::-webkit-scrollbar {
+
+			&-track {
+				background: rgba($color, 0.4);
+			}
+
+			&-thumb {
+				background: rgba($color, 0.75);
+			}
+
+		}
+
+	}
+
+}
+
+
+
 /* Popup Window */
 .popup-window {
 	position: absolute;
@@ -2522,7 +2572,8 @@ input.share-email {
     border-radius: 40px;
     padding: 20px 40px 40px;
 	max-height: 95vh;
-	overflow-y: scroll;
+	overflow-x: hidden;
+	overflow-y: auto;
     box-sizing: border-box;
     transition: 500ms;
 	box-shadow: 0px 0px 65px -10px white;
@@ -2531,7 +2582,11 @@ input.share-email {
 		z-index: 3;
 	    top: 50%;
 	    transform: translateY(-50%);
-    }
+	}
+	
+	& > .scrollable-content {
+		max-height: calc(95vh - 80px);
+	}
 
     h2 {
 	    margin: 0;
@@ -2824,6 +2879,11 @@ input.share-email {
 
 		}
 
+	}
+
+
+	&#upgrade {
+		border-radius: 30px;
 	}
 
 }

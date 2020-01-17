@@ -114,27 +114,24 @@ html, body {
 
 #top-bar .tab-container > .tab .scrollable-content {
   background-color: #1A1A1A;
+  padding: 10px 8px;
   height: 60vh;
 }
 
-#top-bar .tab-container > .tab .scrollable-content .mCSB_container {
-  padding: 10px 8px;
-  overflow: visible;
+#top-bar .tab-container > .tab .scrollable-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
 }
 
-#top-bar .tab-container > .tab .scrollable-content .mCSB_scrollTools {
-  right: -6px;
+#top-bar .tab-container > .tab .scrollable-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.5);
 }
 
-#top-bar .tab-container > .tab .scrollable-content .mCSB_scrollTools .mCSB_draggerRail {
-  background-color: #fff;
-  background-color: #fffefe;
-  width: 1px;
+#top-bar .tab-container > .tab .scrollable-content:hover::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.6);
 }
 
-#top-bar .tab-container > .tab .scrollable-content .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
-  background-color: #fff;
-  background-color: white;
+#top-bar .tab-container > .tab .scrollable-content:hover::-webkit-scrollbar-thumb {
+  background: white;
 }
 
 #top-bar .screen .selected {
@@ -350,7 +347,9 @@ html, body {
 
 #top-bar .pins .pins-list .pin {
   margin-bottom: 15px;
-  position: static !important;
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
 }
 
 #top-bar .pins .pins-list .pin:hover pin:before {

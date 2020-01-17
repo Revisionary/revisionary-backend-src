@@ -184,21 +184,16 @@ foreach ($User->getDevices(null, null, $project_ID) as $device) {
 
 
 // Additional Scripts and Styles
-$additionalCSS = [
-	'vendor/jquery.mCustomScrollbar.css'
-];
+$additionalCSS = [];
 
 $additionalHeadJS = [
 	'process.js',
-	'vendor/jquery.mCustomScrollbar.concat.min.js',
 	'vendor/jquery-sortable.js',
 	'common.js',
 	'block.js'
 ];
 
-$additionalBodyJS = [
-	'vendor/jquery.mCustomScrollbar.concat.min.js'
-];
+$additionalBodyJS = [];
 
 
 // Generate new nonce for add new screens

@@ -8,7 +8,6 @@ if ( userLoggedIn() ) {
 
 
 $additionalBodyJS = [
-	'vendor/jquery.mCustomScrollbar.concat.min.js',
 	'common.js'
 ];
 

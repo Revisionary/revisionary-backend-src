@@ -116,28 +116,40 @@ html, body {
 
 			.scrollable-content {
 				background-color: #1A1A1A;
-				//max-height: 50vh;
+				padding: 10px 8px;
 				height: 60vh;
+				//max-height: 50vh;
 
-				.mCSB_container {
-					padding: 10px 8px;
-					overflow: visible;
-				}
 
-				.mCSB_scrollTools {
-					right: -6px;
+				&::-webkit-scrollbar {
 
-					.mCSB_draggerRail {
-					    background-color: #fff;
-					    background-color: rgb(255, 254, 254);
-				        width: 1px;
+					&-track {
+						background: rgba(#fff, 0.3);
 					}
 
-					.mCSB_dragger .mCSB_dragger_bar {
-					    background-color: #fff;
-					    background-color: rgb(255, 255, 255);
+					&-thumb {
+						background: rgba(#fff, 0.5);
 					}
+
 				}
+
+				&:hover {
+
+
+					&::-webkit-scrollbar {
+	
+						&-track {
+							background: rgba(#fff, 0.6);
+						}
+	
+						&-thumb {
+							background: rgba(#fff, 1);
+						}
+	
+					}
+
+				}
+
 			}
 
 		}
@@ -435,7 +447,9 @@ html, body {
 
 			.pin {
 				margin-bottom: 15px;
-				position: static !important;
+				position: relative !important;
+				top: 0 !important;
+				left: 0 !important;
 
 				&:hover pin:before {
 					opacity: 0;
