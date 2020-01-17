@@ -307,7 +307,7 @@ function runTheInspector() {
 			/* Auto-height edited images */ \
 			img[data-revisionary-showing-content-changes="1"] { height: auto !important; } \
 			iframe { pointer-events: none !important; } \
-			* { -webkit-user-select: none !important; -moz-user-select: none !important;user-select: none !important; } \
+			* { -webkit-user-select: none !important; -moz-user-select: none !important; user-select: none !important; } \
 			.revisionary-show { position: absolute !important; width: 0 !important; height: 0 !important; display: inline-block !important; } \
 		</style> \
 		');
