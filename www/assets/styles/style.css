@@ -15920,24 +15920,32 @@ ul.user-header-menu > li:last-child {
   visibility: visible;
 }
 
-.dropdown a:not(.editing):not(.click-to-open):hover + ul,
-.dropdown a:not(.editing):not(.click-to-open) + ul:hover,
-.dropdown a:not(.editing):not(.click-to-open) + ul.open,
-.dropdown a.open + ul,
-.dropdown .dropdown-opener:not(.editing):not(.click-to-open):hover + ul,
-.dropdown .dropdown-opener:not(.editing):not(.click-to-open) + ul:hover,
-.dropdown .dropdown-opener:not(.editing):not(.click-to-open) + ul.open,
-.dropdown .dropdown-opener.open + ul {
+.dropdown.click-to-open a + ul,
+.dropdown.click-to-open .dropdown-opener + ul {
+  -moz-transition-delay: 0s !important;
+       transition-delay: 0s !important;
+}
+
+.dropdown.click-to-open a + ul.open,
+.dropdown.click-to-open a.open + ul,
+.dropdown.click-to-open .dropdown-opener + ul.open,
+.dropdown.click-to-open .dropdown-opener.open + ul {
+  opacity: 1;
+  visibility: visible;
+}
+
+.dropdown:not(.click-to-open) a:not(.editing):hover + ul,
+.dropdown:not(.click-to-open) a:not(.editing) + ul:hover,
+.dropdown:not(.click-to-open) a:not(.editing) + ul.open,
+.dropdown:not(.click-to-open) a.open + ul,
+.dropdown:not(.click-to-open) .dropdown-opener:not(.editing):hover + ul,
+.dropdown:not(.click-to-open) .dropdown-opener:not(.editing) + ul:hover,
+.dropdown:not(.click-to-open) .dropdown-opener:not(.editing) + ul.open,
+.dropdown:not(.click-to-open) .dropdown-opener.open + ul {
   opacity: 1;
   -moz-transition-delay: 0s !important;
        transition-delay: 0s !important;
   visibility: visible;
-}
-
-.dropdown a.click-to-open + ul,
-.dropdown .dropdown-opener.click-to-open + ul {
-  -moz-transition-delay: 0s !important;
-       transition-delay: 0s !important;
 }
 
 /* Tooltips */

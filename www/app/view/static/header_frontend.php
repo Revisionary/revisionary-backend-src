@@ -68,8 +68,8 @@
 				</nav><!-- #main-navigation -->
 
 
-				<div class="dropdown">
-					<a href="#" class="invert-hover user-link bullet click-to-open choose-to-close">
+				<div class="dropdown click-to-open choose-to-closee">
+					<a href="#" class="invert-hover user-link bullet">
 						<picture class="profile-picture big header-user" <?=getUserInfo()['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
 							<span><?=getUserInfo()['nameAbbr']?></span>
 						</picture> <?=getUserInfo()['fullName']?>

@@ -1075,22 +1075,55 @@ ul.user-header-menu {
 		} // .dropdown > a + ul
 
 
-		&:not(.editing):not(.click-to-open):hover + ul,
-		&:not(.editing):not(.click-to-open) + ul:hover,
-		&:not(.editing):not(.click-to-open) + ul.open,
-		&.open + ul {
-			opacity: 1;
-			transition-delay: 0s !important;
-			visibility: visible;
-		}
-
-
-		&.click-to-open + ul {
-			transition-delay: 0s !important;
-		}
-
+		// &:not(.editing):not(.click-to-open):hover + ul,
+		// &:not(.editing):not(.click-to-open) + ul:hover,
+		// &:not(.editing):not(.click-to-open) + ul.open,
+		// &.open + ul {
+		// 	opacity: 1;
+		// 	transition-delay: 0s !important;
+		// 	visibility: visible;
+		// }
 
 	} // .dropdown > a
+
+
+	&.click-to-open {
+
+		a,
+		.dropdown-opener {
+
+			& + ul {
+				transition-delay: 0s !important;
+			}
+
+			& + ul.open,
+			&.open + ul {
+				opacity: 1;
+				visibility: visible;
+			}
+
+		} // .dropdown > a
+
+	}
+
+
+	&:not(.click-to-open) {
+
+		a,
+		.dropdown-opener {
+
+			&:not(.editing):hover + ul,
+			&:not(.editing) + ul:hover,
+			&:not(.editing) + ul.open,
+			&.open + ul {
+				opacity: 1;
+				transition-delay: 0s !important;
+				visibility: visible;
+			}
+
+		} // .dropdown > a
+
+	}
 
 } // .dropdown
 

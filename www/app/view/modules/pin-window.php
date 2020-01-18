@@ -251,9 +251,9 @@
 						<a href="#" data-edit-css="display" data-value="none" data-default="block"><i class="fa fa-eye-slash"></i> Hide</a>
 
 					</li>
-					<li class="main-option dropdown edit-opacity hide-when-hidden">
+					<li class="main-option dropdown click-to-open edit-opacity hide-when-hidden">
 
-						<a href="#" class="click-to-open"><i class="fa fa-low-vision"></i> Opacity <i class="fa fa-angle-down"></i></a>
+						<a href="#"><i class="fa fa-low-vision"></i> Opacity <i class="fa fa-angle-down"></i></a>
 						<ul class="no-delay full">
 							<li>
 
@@ -263,9 +263,9 @@
 						</ul>
 
 					</li>
-					<li class="main-option dropdown hide-when-hidden">
+					<li class="main-option dropdown click-to-open hide-when-hidden">
 
-						<a href="#" class="click-to-open"><i class="fa fa-font"></i> Text & Item <i class="fa fa-angle-down"></i></a>
+						<a href="#"><i class="fa fa-font"></i> Text & Item <i class="fa fa-angle-down"></i></a>
 						<ul class="no-delay">
 							<li class="choice">
 
@@ -295,8 +295,8 @@
 							</li>
 						</ul>
 					</li>
-					<li class="main-option dropdown hide-when-hidden">
-						<a href="#" class="click-to-open"><i class="fa fa-layer-group"></i> Background <i class="fa fa-angle-down"></i></a>
+					<li class="main-option dropdown click-to-open hide-when-hidden">
+						<a href="#"><i class="fa fa-layer-group"></i> Background <i class="fa fa-angle-down"></i></a>
 						<ul class="no-delay full">
 							<li class="main-option sub choice">
 
@@ -338,8 +338,8 @@
 							</li>
 						</ul>
 					</li>
-					<li class="main-option dropdown hide-when-hidden" data-tooltip="Experimental">
-						<a href="#" class="click-to-open"><i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i></a>
+					<li class="main-option dropdown click-to-open hide-when-hidden" data-tooltip="Experimental">
+						<a href="#"><i class="fa fa-object-group"></i> Spacing & Positions <i class="fa fa-angle-down"></i></a>
 						<ul class="no-delay full" style="width: auto;">
 							<li>
 

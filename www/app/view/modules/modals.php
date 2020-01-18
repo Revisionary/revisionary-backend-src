@@ -68,9 +68,9 @@
 								<a href="#" class="remove-screen" style="display: none;"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
 							</li>
 						</ul><br/>
-						<span class="dropdown">
+						<span class="dropdown click-to-open">
 		
-							<a href="#" class="add-screen click-to-open"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
+							<a href="#" class="add-screen"><i class="fa fa-plus" aria-hidden="true"></i> ADD ANOTHER SCREEN</a>
 							<?php
 								$blockPhase = ['phase_ID' => ""];
 								require view('modules/add-screen');

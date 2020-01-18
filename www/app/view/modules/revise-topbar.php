@@ -5,9 +5,9 @@
 
 			<div class="wrap xl-flexbox xl-bottom breadcrumbs">
 
-				<div class="col account dropdown" style="margin-right: 15px;">
+				<div class="col account dropdown click-to-open choose-to-close" style="margin-right: 15px;">
 
-					<a href="#" class="click-to-open choose-to-close">
+					<a href="#">
 						<picture class="profile-picture white-border thin-border" <?=$userInfo['printPicture']?> data-type="user" data-id="<?=currentUserID()?>">
 							<span><?=$userInfo['nameAbbr']?></span>
 						</picture>
@@ -15,7 +15,7 @@
 					<ul class="user-menu xl-left">
 						<li><a href="<?=site_url('projects', true)?>"><i class="fa fa-th"></i> All Projects</a></li>
 						<li>
-							<a href="#"><i class="fa fa-life-ring"></i> Help <i class="fa fa-caret-right"></i></a>
+							<a href="#" class="has-sub"><i class="fa fa-life-ring"></i> Help <i class="fa fa-caret-right"></i></a>
 							<ul class="bottom-tooltip">
 								<?php require view('modules/help-menu'); ?>
 							</ul>
@@ -41,8 +41,8 @@
 
 					<div class="desc">Project</div>
 
-					<span class="dropdown">
-						<a href="#" class="click-to-open">
+					<span class="dropdown click-to-open">
+						<a href="#">
 							<?=$project['project_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
@@ -350,8 +350,8 @@ foreach ($allMyProjects as $myProject) {
 
 					<div class="desc">Page</div>
 
-					<span class="dropdown">
-						<a href="#" class="click-to-open">
+					<span class="dropdown click-to-open">
+						<a href="#">
 							<?=$page['page_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
@@ -610,7 +610,7 @@ foreach ($other_pages as $pageOther) {
 				<div class="col phase">
 
 					<div class="desc nomargin">Phase</div>
-					<span class="dropdown">
+					<span class="dropdown click-to-open">
 
 					<?php
 
@@ -625,7 +625,7 @@ foreach ($other_pages as $pageOther) {
 
 					?>
 
-						<a href="#" class="button select-phase click-to-open"><i class="fa fa-code-branch"></i> <span>v<?=$currentPhaseNumber?></span> <i class="fa fa-caret-down"></i></a>
+						<a href="#" class="button select-phase"><i class="fa fa-code-branch"></i> <span>v<?=$currentPhaseNumber?></span> <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left">
 
 							<?php
@@ -720,9 +720,9 @@ foreach ($other_pages as $pageOther) {
 				<div class="col screen">
 
 					<div class="desc nomargin">Screen Size</div>
-					<span class="dropdown">
+					<span class="dropdown click-to-open">
 
-						<a href="#" class="button select-screen click-to-open"><i class="fa <?=$screenIcon?>"></i> <span><?=$page_type == "image" ? $screenCatName : $screen_name?> (<?=$width?>x<?=$height?>)</span>  <i class="fa fa-caret-down"></i></a>
+						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>"></i> <span><?=$page_type == "image" ? $screenCatName : $screen_name?> (<?=$width?>x<?=$height?>)</span>  <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left">
 						<?php
 
@@ -830,14 +830,14 @@ foreach ($other_pages as $pageOther) {
 
 					<div class="desc nomargin">Pin Mode</div>
 
-					<div class="dropdown current-mode" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
+					<div class="dropdown click-to-open choose-to-close current-mode" data-pin-type="<?=$pin_mode?>" data-pin-private="<?=$pin_private?>">
 						<a href="#" class="button browse-switcher bottom-tooltip" data-tooltip="Toggle Browse Mode">
 							<i class="fa fa-dot-circle"></i>
 							<i class="fa fa-comment"></i>
 							<i class="fa fa-mouse-pointer"></i>
 							<span class="mode-label"></span>
 						</a>
-						<a href="#" class="button pin-type-selector click-to-open choose-to-close">
+						<a href="#" class="button pin-type-selector">
 							<i class="fa fa-caret-down"></i>
 						</a>
 						<ul class="right pin-types">
@@ -912,9 +912,9 @@ foreach ($other_pages as $pageOther) {
 			<div class="desc nomargin">Information</div>
 
 			<div class="wrap xl-gutter-8">
-				<div class="col dropdown info">
+				<div class="col dropdown click-to-open info">
 
-					<a href="#" class="button click-to-open"><i class="fa fa-tools"></i> <span>TOOLS</span></a>
+					<a href="#" class="button"><i class="fa fa-tools"></i> <span>TOOLS</span></a>
 					<ul class="center xl-left" style="max-width: 300px;">
 						<li>
 							<div class="xl-left page-info" style="font-size: 12px;">
@@ -943,9 +943,9 @@ foreach ($other_pages as $pageOther) {
 					</ul>
 
 				</div>
-				<div class="col dropdown help">
+				<div class="col dropdown click-to-open choose-to-close help">
 
-					<a href="#" class="button click-to-open choose-to-close"><i class="fa fa-question-circle"></i> <span>HELP</span></a>
+					<a href="#" class="button"><i class="fa fa-question-circle"></i> <span>HELP</span></a>
 					<ul class="xl-left bottom-tooltip">
 						<?php require view('modules/help-menu'); ?>
 					</ul>

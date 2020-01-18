@@ -3340,7 +3340,7 @@ function closePinWindow(removePinIfEmpty) {
 
 
 	// Close the open dropdowns
-	pinWindow().find('.click-to-open.open').removeClass('open');
+	pinWindow().find('.click-to-open > a.open').removeClass('open');
 
 
 	// Close the colorpicker

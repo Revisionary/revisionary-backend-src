@@ -106,8 +106,8 @@
 			// If pages shown
 			if ($_url[0] == "project") {
 		?>
-		<div class="dropdown">
-			<a href="#" class="click-to-open choose-to-close">SCREEN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		<div class="dropdown click-to-open choose-to-close">
+			<a href="#">SCREEN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 			<ul class="selectable xl-left screen-selector">
 
 				<li <?= $screenFilter == "" || $screenFilter == "all" ? ' class="selected"' : ""?>>
@@ -131,8 +131,8 @@
 			}
 		?>
 
-		<div class="dropdown" style="margin-left: 15px;">
-			<a href="#" class="click-to-open choose-to-close">COLUMN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		<div class="dropdown click-to-open choose-to-close" style="margin-left: 15px;">
+			<a href="#">COLUMN <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 			<ul class="selectable xl-left size-selector">
 				<li class="selected"><a href="#" data-column="6">6 Column</a></li>
 				<li><a href="#" data-column="5">5 Column</a></li>
@@ -142,8 +142,8 @@
 			</ul>
 		</div>
 
-		<div class="dropdown" style="margin-left: 15px;">
-			<a href="#" class="click-to-open choose-to-close">SORT <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		<div class="dropdown click-to-open choose-to-close" style="margin-left: 15px;">
+			<a href="#">SORT <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 			<ul class="selectable xl-left order-selector">
 				<li <?=!isset($_GET['order']) || get('order') == "custom" ? ' class="selected"' : ""?>>
 					<a href="<?=current_url('', 'order')?>" data-order="custom">Custom</a>
@@ -159,8 +159,8 @@
 			// If projects shown
 			if ($_url[0] == "projects") {
 		?>
-		<div class="dropdown" style="margin-left: 15px;">
-			<a href="#" class="click-to-open">TOOLS <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		<div class="dropdown click-to-open" style="margin-left: 15px;">
+			<a href="#">TOOLS <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 			<ul class="xl-left tool-selector">
 				<li data-tooltip="Coming Soon..."><a href="#">Github Integration</a></li>
 				<li data-tooltip="Coming Soon..."><a href="#">BitBucket Integration</a></li>

@@ -567,8 +567,8 @@
 											}
 											?>
 
-											<span class="dropdown <?=!$blockPhaseID ? "xl-hidden" : ""?>">
-												<a href="#" class="add-screen click-to-open"><span style="font-family: Arial;">+</span></a>
+											<span class="dropdown click-to-open <?=!$blockPhaseID ? "xl-hidden" : ""?>">
+												<a href="#" class="add-screen"><span style="font-family: Arial;">+</span></a>
 												<?php require view('modules/add-screen'); ?>
 											</span>
 
@@ -585,7 +585,7 @@
 
 
 									</div>
-									<div class="col xl-4-12 xl-center dropdown">
+									<div class="col xl-4-12 xl-center dropdown click-to-open">
 
 										<?php
 										if ($dataType == "page") {
@@ -594,7 +594,7 @@
 											$blockPhaseNumber = array_search($blockPhase, $blockPhases) + 1;
 										?>
 
-<a href="#" class="click-to-open">v<?=$blockPhaseNumber?> <i class="fa fa-caret-down"></i></a>
+<a href="#">v<?=$blockPhaseNumber?> <i class="fa fa-caret-down"></i></a>
 <ul class="xl-left">
 	<?php
 	foreach($blockPhases as $otherPhase) {

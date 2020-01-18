@@ -16,7 +16,7 @@
 
 	<li class="screen-cat" data-screen-cat-id="<?=$screen_cat_ID?>">
 
-		<a href="#" data-first-screen-id="<?=$first_screen['screen_ID']?>">
+		<a href="#" class="has-sub" data-first-screen-id="<?=$first_screen['screen_ID']?>">
 			<i class="fa <?=$screen_cat['screen_cat_icon']?>" aria-hidden="true"></i> <?=$screen_cat['screen_cat_name']?> <i class="fa fa-caret-right" aria-hidden="true"></i> <i class="fa fa-file-upload"></i>
 		</a>
 		<ul class="addable xl-left screen-add">

@@ -16,24 +16,56 @@ $(function() {
 
 
 	// Click to open dropdowns
-	$(document).on('click', '.click-to-open:not(.editing)', function(e) {
+	$(document).on('click', '.click-to-open > a:not(.editing)', function(e) {
 
 		$(this).toggleClass('open');
 		$(this).find('.fa-angle-down').toggleClass('fa-angle-up');
 
 		// Close all opens
-		$('.click-to-open.open').not( $(this) ).removeClass('open');
-		$('.click-to-open.open .fa-angle-down.fa-angle-up').not( $(this).find('.fa-angle-down') ).removeClass('fa-angle-up');
+		$('.click-to-open > a.open').not( $(this) ).removeClass('open');
+		$('.click-to-open > a.open .fa-angle-down.fa-angle-up').not( $(this).find('.fa-angle-down') ).removeClass('fa-angle-up');
 
 	});
 
 
-	// Click to open dropdowns
-	$(document).on('click', '.click-to-open.choose-to-close:not(.editing) + ul a', function(e) {
+	// Choose to close dropdowns
+	$(document).on('click', '.click-to-open.choose-to-close > a:not(.editing) + ul a:not(.has-sub)', function(e) {
 
 		// Close all opens
-		$('.click-to-open.open .fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
-		$('.click-to-open.open').removeClass('open');
+		$('.click-to-open > a.open .fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
+		$('.click-to-open > a.open').removeClass('open');
+
+	});
+
+
+	// Blur on click-to-open dropdowns
+	$(document).on('blur', '.click-to-open > a:not(.editing)', function(e) {
+
+		if ( !$(e.relatedTarget).parents('.click-to-open').length ) {
+
+			console.log('BLUR FROM OPENER');
+
+			// Close all opens
+			$('.click-to-open > a.open .fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
+			$('.click-to-open > a.open').removeClass('open');
+
+		}
+
+	});
+
+
+	// Blur on click-to-open dropdown items
+	$(document).on('blur', '.click-to-open > a:not(.editing) + ul a', function(e) {
+
+		if ( !$(e.relatedTarget).parents('.click-to-open').length ) {
+
+			console.log('BLUR FROM ITEM', e.relatedTarget);
+
+			// Close all opens
+			$('.click-to-open > a.open .fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
+			$('.click-to-open > a.open').removeClass('open');
+
+		}
 
 	});
 
@@ -707,7 +739,6 @@ $(function() {
 
 
 		e.preventDefault();
-		return false;
 
 	});
 
@@ -2611,8 +2642,8 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 					</div>\
 				</div>\
 			</div>\
-			<div class="col xl-4-12 text-uppercase dropdown access">\
-				<a href="#" class="click-to-open">'+ shareText +' <i class="fa fa-caret-down change-access"></i></a>\
+			<div class="col xl-4-12 text-uppercase dropdown click-to-open access">\
+				<a href="#">'+ shareText +' <i class="fa fa-caret-down change-access"></i></a>\
 				<ul class="no-delay right selectable change-access">\
 					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +' hide-if-me"><a href="#" data-action="changeshareaccess">THIS '+dataType+'</a></li>\
 					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +' hide-if-me hide-when-project" data-action="changeshareaccess"><a href="#">WHOLE PROJECT</a></li>\
