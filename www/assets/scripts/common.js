@@ -43,7 +43,7 @@ $(function() {
 
 		if ( !$(e.relatedTarget).parents('.click-to-open').length ) {
 
-			console.log('BLUR FROM OPENER');
+			console.log('BLUR FROM OPENER', e.relatedTarget);
 
 			// Close all opens
 			$('.click-to-open > a.open .fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
