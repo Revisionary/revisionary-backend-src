@@ -177,46 +177,7 @@
 	<div class="light-side">
 
 		<div class="side-content">
-			<h2><div>Revisionary For</div> Quality Assurance</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
-			<a href="#" class="learn-more">LEARN MORE</a>
-		</div>
-
-	</div>
-	<div class="dark-side">
-
-		<div class="side-content">
-			<i class="fas fa-clipboard-list"></i>
-		</div>
-
-	</div>
-</section>
-
-
-<section class="decorative left-dark">
-	<div class="dark-side">
-
-		<div class="side-content">
-			<i class="fas fa-code"></i>
-		</div>
-
-	</div>
-	<div class="light-side">
-
-		<div class="side-content">
-			<h2><div>Revisionary For</div> Bug Tracking</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
-			<a href="#" class="learn-more">LEARN MORE</a>
-		</div>
-
-	</div>
-</section>
-
-<section class="decorative right-dark">
-	<div class="light-side">
-
-		<div class="side-content">
-			<h2><div>Revisionary For</div> Content Managers</h2>
+			<h3><div>Revisionary For</div> Content Management</h3>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
 			<a href="#" class="learn-more">LEARN MORE</a>
 		</div>
@@ -236,16 +197,36 @@
 	<div class="dark-side">
 
 		<div class="side-content">
-			<i class="fas fa-coffee"></i>
+			<i class="fas fa-comments"></i>
 		</div>
 
 	</div>
 	<div class="light-side">
 
 		<div class="side-content">
-			<h2><div>Revisionary For</div> Freelancers</h2>
+			<h3><div>Revisionary For</div> Feedback</h3>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
 			<a href="#" class="learn-more">LEARN MORE</a>
+		</div>
+
+	</div>
+</section>
+
+
+<section class="decorative right-dark">
+	<div class="light-side">
+
+		<div class="side-content">
+			<h3><div>Revisionary For</div> Freelancers</h3>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
+			<a href="#" class="learn-more">LEARN MORE</a>
+		</div>
+
+	</div>
+	<div class="dark-side">
+
+		<div class="side-content">
+			<i class="fas fa-coffee"></i>
 		</div>
 
 	</div>
