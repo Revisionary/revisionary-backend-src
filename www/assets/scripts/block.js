@@ -159,30 +159,16 @@ $(function() {
 		$('[data-screen-id="11"]').attr('data-screen-height', screenHeight);
 
 
-		$('.new-screen[data-screen-id="11"]').each(function() {
-
-			var newScreenURL = $(this).attr('href');
-			var widthOnURL = getParameterByName('page_width', newScreenURL);
-			var heightOnURL = getParameterByName('page_height', newScreenURL);
-
-			var newURL = newScreenURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
-			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+screenHeight);
-
-			$(this).attr('href', newURL);
-			//console.log(newURL);
-
-		});
-
 		// Update the URLs
-		$('.add-phase').each(function() {
+		$('.add-phase, .new-screen[data-screen-id="11"]').each(function() {
 
-			var newPhaseURL = $(this).attr('href');
+			var currentURL = $(this).attr('href');
 
-			var widthOnURL = getParameterByName('page_width', newPhaseURL);
-			var heightOnURL = getParameterByName('page_height', newPhaseURL);
+			var widthOnURL = getParameterByName('page_width', currentURL);
+			var heightOnURL = getParameterByName('page_height', currentURL);
 
-			var newURL = newPhaseURL.replace('page_width='+widthOnURL, 'page_width='+width);
-			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+height);
+			var newURL = currentURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
+			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+screenHeight);
 
 			$(this).attr('href', newURL);
 			//console.log(newURL);
