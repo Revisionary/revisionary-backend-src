@@ -229,7 +229,7 @@ $(function() {
 
 	    var page = $('#page');
 	    var width = page.width();
-	    var height = page.height();
+	    var height = page.height() - 2;
 
 
 
@@ -280,7 +280,7 @@ $(function() {
 		// IFRAME FIT TO THE SCREEN
 
 	    width = width - 4; // -4 for the borders
-		height = height - 4; // -4 for the borders
+		height = height - 2; // -2 for the borders
 		
 
 		if (page_type == "image") {
