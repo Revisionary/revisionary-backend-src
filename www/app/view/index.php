@@ -104,7 +104,7 @@
 		<div class="col xl-2-3">
 		
 			<h3>Phases</h3>
-			<p>When you are done with all the changes on a page and it's been live, add a new phase to start from the new version of that page. Pull the latest changes and start revising again!</p>
+			<p>When you are done with all the changes on a page and it's been live, add a new phase to start from the new version of that page. Pull the latest changes and start revising again! And, you can see what's been done so far.</p>
 			<div><a href="<?=site_url('signup')?>" class="button">Work in Versions</a></div>
 
 		</div>
@@ -171,14 +171,14 @@
 </section>
 
 
-<h2 class="xl-hidden">Use Cases</h2>
 
 <section id="use-cases" class="decorative right-dark">
 	<div class="light-side">
 
 		<div class="side-content">
+			<h2 class="xl-hidden">Use Cases</h2>
 			<h3><div>Revisionary For</div> Content Management</h3>
-			<p>If you are a website Content Editor, or an SEO manager, or a Translator who takes care of translating websites, <b>Revisionary App</b> is best solution for you to do your changes or updates on a live site with just a few clicks.</p>
+			<p>If you are a website Content Editor, or an SEO manager, or a Translator, <b>Revisionary App</b> is best solution for you to do your changes or updates on a live site with just a few clicks.</p>
 
 			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
 				<div class="col">
@@ -218,7 +218,7 @@
 
 		<div class="side-content">
 			<h3><div>Revisionary For</div> Feedback</h3>
-			<p><b>Revisionary App</b> is also best solution for getting feedback from your clients, developers or web experts. Get your bug reports, feature requests, recommendations, design updates, text/image/style updates, and so on in one place. </p>
+			<p><b>Revisionary App</b> is also best solution for getting feedback from your clients, developers or web consultants. Get your bug reports, feature requests, recommendations, design updates, text/image/style updates in one place. </p>
 
 			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
 				<div class="col">
@@ -244,9 +244,9 @@
 
 		<div class="side-content">
 			<h3><div>Revisionary For</div> Developers, Designers & Freelancers</h3>
-			<p>On design or development process, expect your client feedback from one place, instead of getting time consuming emails, screenshots, phone calls, or meetings. <br><br>
+			<p>On your design or development process, expect your client feedback from <b>Revisionary App</b>, instead of getting time consuming emails, screenshots, phone calls, or meetings. <br><br>
 
-			Love to use ThemeForest templates for your clients? Update the content and logo of your chosen templates for your clients to decide before you purchase them.</p>
+			Love to use ThemeForest templates? Update the content and logo of your chosen templates for your clients to decide before you purchase them.</p>
 
 			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
 				<div class="col">
