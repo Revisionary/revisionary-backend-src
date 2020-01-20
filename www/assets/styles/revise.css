@@ -1442,6 +1442,18 @@ html, body {
   pointer-events: none;
 }
 
+#pins.pins-list[data-filter="incomplete"] > .pin[data-pin-complete="1"],
+#pins.pins-list[data-filter="complete"] > .pin[data-pin-complete="0"],
+#pins.pins-list[data-filter="private"] > .pin[data-pin-private="0"],
+#pins.pins-list[data-filter="public"] > .pin[data-pin-private="1"],
+#pins.pins-list[data-filter="hide"] > .pin, .pins-list.pins-list[data-filter="incomplete"] > .pin[data-pin-complete="1"],
+.pins-list.pins-list[data-filter="complete"] > .pin[data-pin-complete="0"],
+.pins-list.pins-list[data-filter="private"] > .pin[data-pin-private="0"],
+.pins-list.pins-list[data-filter="public"] > .pin[data-pin-private="1"],
+.pins-list.pins-list[data-filter="hide"] > .pin {
+  display: none;
+}
+
 /* Pin Comments */
 .pin-comments {
   padding-top: 10px;

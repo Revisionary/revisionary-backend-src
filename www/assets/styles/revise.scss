@@ -1835,7 +1835,19 @@ html, body {
     &[data-filter="hide"] > .pin {
 		opacity: 0;
 		pointer-events: none;
-    }
+	}
+	
+	&.pins-list {
+
+		&[data-filter="incomplete"] > .pin[data-pin-complete="1"],
+		&[data-filter="complete"] > .pin[data-pin-complete="0"],
+		&[data-filter="private"] > .pin[data-pin-private="0"],
+		&[data-filter="public"] > .pin[data-pin-private="1"],
+		&[data-filter="hide"] > .pin {
+			display: none;
+		}
+		
+	}
 
 }
 
