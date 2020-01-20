@@ -2395,39 +2395,45 @@ section.decorative {
 
 }
 
-section.features {
 
-	h3 {
-		margin: 0;
-	}
+.index {
 
-	.button {
-		font-size: 20px;
-		//color: $color-secondary;
-		border: 2px solid $color;
-		border-radius: 8px;
-		padding: 5px 20px;
-		margin-top: 10px;
-		display: inline-block;
+	
+	section {
 
-		&:hover {
-			border-color: $color-secondary;
-			color: $color-secondary;
+		h3 {
+			margin: 0;
 		}
-	}
-
-	.action {
-		margin-top: 10px;
 
 		.button {
-			margin-top: 0;
+			font-size: 20px;
+			border: 2px solid $color;
+			border-radius: 8px;
+			padding: 5px 20px;
+			margin-top: 10px;
+			display: inline-block;
+
+			&:hover {
+				border-color: $color-secondary;
+				color: $color-secondary;
+			}
 		}
+
+		.action {
+			margin-top: 10px;
+
+			.button {
+				margin-top: 0;
+			}
+		}
+
+		& > .wrap {
+			margin-top: 150px;
+			margin-bottom: 150px;
+		}
+
 	}
 
-	& > .wrap {
-		margin-top: 150px;
-		margin-bottom: 150px;
-	}
 
 }
 

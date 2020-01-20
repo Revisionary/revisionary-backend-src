@@ -173,13 +173,26 @@
 
 <h2 class="xl-hidden">Use Cases</h2>
 
-<section class="decorative right-dark">
+<section id="use-cases" class="decorative right-dark">
 	<div class="light-side">
 
 		<div class="side-content">
 			<h3><div>Revisionary For</div> Content Management</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
-			<a href="#" class="learn-more">LEARN MORE</a>
+			<p>If you are a website Content Editor, or an SEO manager, or a Translator who takes care of translating websites, <b>Revisionary App</b> is best solution for you to do your changes or updates on a live site with just a few clicks.</p>
+
+			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
+				<div class="col">
+
+					<a href="#" class="button" data-modal="video" data-tooltip="In development..."><i class="fas fa-play-circle"></i> SHOW ME HOW</a>
+
+				</div>
+				<div class="col">
+				
+					<a href="<?=site_url('signup')?>"><b><u>Signup Now for Free</u></b></a>
+				
+				</div>
+			</div>
+			
 		</div>
 
 	</div>
@@ -205,8 +218,21 @@
 
 		<div class="side-content">
 			<h3><div>Revisionary For</div> Feedback</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
-			<a href="#" class="learn-more">LEARN MORE</a>
+			<p><b>Revisionary App</b> is also best solution for getting feedback from your clients, developers or web experts. Get your bug reports, feature requests, recommendations, design updates, text/image/style updates, and so on in one place. </p>
+
+			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
+				<div class="col">
+
+					<a href="#" class="button" data-modal="video" data-tooltip="In development..."><i class="fas fa-play-circle"></i> SHOW ME HOW</a>
+
+				</div>
+				<div class="col">
+				
+					<a href="<?=site_url('signup')?>"><b><u>Signup Now for Free</u></b></a>
+				
+				</div>
+			</div>
+
 		</div>
 
 	</div>
@@ -217,9 +243,24 @@
 	<div class="light-side">
 
 		<div class="side-content">
-			<h3><div>Revisionary For</div> Freelancers</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sit amet mollis justo. Cras laoreet sed dolor nec hendrerit. Praesent non commodo tortor. In euismod volutpat urna sed commodo. Praesent pretium aliquet feugiat. Nunc molestie eros eget sem vehicula, ac malesuada leo pretium.</p>
-			<a href="#" class="learn-more">LEARN MORE</a>
+			<h3><div>Revisionary For</div> Developers, Designers & Freelancers</h3>
+			<p>On design or development process, expect your client feedback from one place, instead of getting time consuming emails, screenshots, phone calls, or meetings. <br><br>
+
+			Love to use ThemeForest templates for your clients? Update the content and logo of your chosen templates for your clients to decide before you purchase them.</p>
+
+			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
+				<div class="col">
+
+					<a href="#" class="button" data-modal="video" data-tooltip="In development..."><i class="fas fa-play-circle"></i> SHOW ME HOW</a>
+
+				</div>
+				<div class="col">
+				
+					<a href="<?=site_url('signup')?>"><b><u>Signup Now for Free</u></b></a>
+				
+				</div>
+			</div>
+
 		</div>
 
 	</div>
