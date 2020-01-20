@@ -182,7 +182,7 @@ if ( post('reset-password-submit') == "Update Password" ) {
 				"Password Changed for ".$userInfo['user_first_name']." ".$userInfo['user_last_name'],
 				"
 				<b>User Information</b> <br>
-				E-Mail: ".$userInfo['user_email']." <br>
+				Email: ".$userInfo['user_email']." <br>
 				Full Name: ".$userInfo['user_first_name']." ".$userInfo['user_last_name']." <br>
 				Username: ".$userInfo['user_name']."
 				"

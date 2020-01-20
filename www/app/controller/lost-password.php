@@ -37,7 +37,7 @@ if ( post('lost-password-submit') == "Send Reset Link" ) {
 		$errors[] = "Please don't leave the field blank";
 
 
-	// Username / E-Mail validation
+	// Username / Email validation
 	elseif (!filter_var($userName, FILTER_VALIDATE_EMAIL) ) {
 
 		if (!preg_match('/^[A-Za-z][A-Za-z0-9]*(?:-[A-Za-z0-9\-]+)*$/', $userName))
@@ -119,7 +119,7 @@ if ( post('lost-password-submit') == "Send Reset Link" ) {
 					"Lost Password Request for ".$userInfo['user_first_name']." ".$userInfo['user_last_name'],
 					"
 					<b>User Information</b> <br>
-					E-Mail: ".$userInfo['user_email']." <br>
+					Email: ".$userInfo['user_email']." <br>
 					Full Name: ".$userInfo['user_first_name']." ".$userInfo['user_last_name']." <br>
 					Username: ".$userInfo['user_name']."
 					"

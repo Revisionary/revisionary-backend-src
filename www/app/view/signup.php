@@ -18,7 +18,7 @@
 				<div class="wrap">
 					<div class="col xl-11-12">
 						<input type="hidden" name="nonce" value="<?=$_SESSION['signup_nonce']?>"/>
-						<input type="email" class="large full" name="email" value="<?=$eMail?>" size="20" placeholder="E-Mail Address…" autofocus />
+						<input type="email" class="large full" name="email" value="<?=$eMail?>" size="20" placeholder="Email Address…" autofocus />
 						<input type="text" class="large full" name="full_name" value="<?=$fullName?>" size="20" placeholder="First and Last Name…" />
 						<input type="password" class="large full" name="password" value="" size="20" placeholder="Password…" />
 

@@ -43,7 +43,7 @@ if ( post('user-submit') == "Register" ) {
 	}
 
 
-	// E-Mail check
+	// Email check
 	if (!$nonceError && !$emptyError && !filter_var($eMail, FILTER_VALIDATE_EMAIL)) {
 		$mailError = true;
 		$errors[] = "Invalid email format";

@@ -43,7 +43,7 @@ if ( post('login-submit') == "Login" ) {
 
 
 
-	// Username / E-Mail validation
+	// Username / Email validation
 	if (!$nonceError && !$emptyError && !filter_var($userName, FILTER_VALIDATE_EMAIL) ) {
 
 		if (!preg_match('/^[A-Za-z][A-Za-z0-9]*(?:-[A-Za-z0-9\-]+)*$/', $userName)) {
@@ -98,7 +98,7 @@ if ( post('login-submit') == "Login" ) {
 				"New login by ".$user['user_first_name']." ".$user['user_last_name'],
 				"
 				<b>User Information (Typed: $userName)</b> <br>
-				E-Mail: ".$user['user_email']." <br>
+				Email: ".$user['user_email']." <br>
 				Full Name: ".$user['user_first_name']." ".$user['user_last_name']." <br>
 				Username: ".$user['user_name']."
 				"

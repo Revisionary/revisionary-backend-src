@@ -18,7 +18,7 @@
 				<div class="wrap">
 					<div class="col xl-11-12">
 						<input type="hidden" name="nonce" value="<?=$_SESSION['login_nonce']?>"/>
-						<input type="text" class="large full" name="username" value="<?=$userName?>" size="20" id="user_login" placeholder="Usename or E-Mail Address…" autofocus />
+						<input type="text" class="large full" name="username" value="<?=$userName?>" size="20" id="user_login" placeholder="Usename or Email Address…" autofocus />
 						<input type="password" class="large full" name="password" value="" size="20" id="user_pass" placeholder="Password…" />
 
 						<div class="wrap">

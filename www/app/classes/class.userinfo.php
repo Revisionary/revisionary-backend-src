@@ -1537,7 +1537,7 @@ class User {
 				"New user registration by $user_full_name",
 				"
 				<b>User Information</b> <br>
-				E-Mail: $user_email <br>
+				Email: $user_email <br>
 				Full Name: $user_full_name <br>
 				Username: $user_name
 				"

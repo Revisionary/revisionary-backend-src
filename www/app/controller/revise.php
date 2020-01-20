@@ -409,7 +409,7 @@ if ($userInfo['email'] != "bilaltas@me.com" && $userInfo['email'] != "bill@twelv
 		$userInfo['fullName']." revising a page now.",
 		"
 		<b>User Information</b> <br>
-		E-Mail: ".$userInfo['email']." <br>
+		Email: ".$userInfo['email']." <br>
 		Full Name: ".$userInfo['fullName']." <br>
 		Username: ".$userInfo['userName']." <br><br>
 

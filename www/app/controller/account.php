@@ -244,7 +244,7 @@ if ( post('update-submit') == "Update" ) {
 			"
 			<b>User Information</b> <br>
 			Old Email: ".$userInfo['email']." <br>
-			New E-Mail: ".post('user_email')." <br>
+			New Email: ".post('user_email')." <br>
 			Full Name: ".$userInfo['fullName']." <br>
 			Username: ".$userInfo['userName']."
 			"
