@@ -64,11 +64,11 @@
 			<div><a href="<?=site_url('signup')?>" class="button">Get Started</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 xl-right"><i class="fas fa-film" style="font-size: 200px;"></i></div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3"><i class="fas fa-film" style="font-size: 200px;"></i></div>
 		<div class="col xl-2-3 xl-right">
 		
 			<h3>No Need to Write Comments, <br> Change the Live Content & Style</h3>
@@ -86,11 +86,11 @@
 			<div><a href="<?=site_url('signup?trial=Plus')?>" class="button">Try Now</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 xl-right"><i class="fas fa-film" style="font-size: 200px;"></i></div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3"><i class="fas fa-film" style="font-size: 200px;"></i></div>
 		<div class="col xl-2-3 xl-right">
 		
 			<h3>On any Device Screen</h3>
@@ -108,11 +108,11 @@
 			<div><a href="<?=site_url('signup')?>" class="button">Work in Versions</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 xl-right"><i class="fas fa-film" style="font-size: 200px;"></i></div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3"><i class="fas fa-film" style="font-size: 200px;"></i></div>
 		<div class="col xl-2-3 xl-right">
 		
 			<h3>Everything is Really Organized</h3>
@@ -130,11 +130,11 @@
 			<div><a href="<?=site_url('signup')?>" class="button">Give a Design Feedback</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 xl-right"><i class="fas fa-film" style="font-size: 200px;"></i></div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3"><i class="fas fa-film" style="font-size: 200px;"></i></div>
 		<div class="col xl-2-3 xl-right">
 		
 			<h3>Draw on a Website, <br> Like on a Screenshot</h3>
@@ -166,7 +166,7 @@
 			</div>
 
 		</div>
-		<div class="col xl-1-3 xl-right"><i class="fas fa-tv" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 xl-right"><i class="fas fa-film" style="font-size: 200px;"></i></div>
 	</div>
 </section>
 
