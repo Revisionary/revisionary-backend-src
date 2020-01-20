@@ -65,8 +65,12 @@
 			<div class="wrap">
 				<div class="col xl-1-12"></div>
 				<div class="col xl-11-12 xl-center">
-					<a href="<?=site_url()?>" rel="home"><h2><div>REVISIONARY APP</div></h2></a>
-					<img src="<?=asset_url('images/revisionary-icon.svg')?>" alt="" class="revisionary-icon"/>
+
+					<a href="<?=site_url()?>" rel="home">
+						<h2><div>REVISIONARY APP</div></h2>
+						<img src="<?=asset_url('images/revisionary-icon.svg')?>" alt="" class="revisionary-icon"/>
+					</a>
+
 				</div>
 			</div>
 		</div>
