@@ -2166,6 +2166,10 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 				}
 
 
+				// Refresh the page when removing access of myself
+				if ( action == "unshare" && object_ID == user_ID ) location.reload();
+
+
 			} else {
 
 				console.log(action + ' DONE');
