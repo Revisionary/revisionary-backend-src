@@ -6,10 +6,10 @@
 			</div>
 			<div class="col xl-right footer-links">
 				<nav style="margin-bottom: 10px;">
-					<a href="/help/get-started">Get Started</a> | 
-					<a href="/use-cases">Use Cases</a> | 
-					<a href="/pricing">Pricing</a> | 
-					<a href="/contact">Contact</a>
+					<a href="<?=userLoggedIn() ? "/help/get-started" : site_url('signup')?>">Get Started</a> | 
+					<a href="<?=site_url('#features')?>">Features</a> | 
+					<a href="<?=site_url('#use-cases')?>">Use Cases</a> | 
+					<a href="/pricing">Pricing</a>
 				</nav>
 				<div class="social">
 
