@@ -801,6 +801,11 @@ ul.user-header-menu {
 			    opacity: 0.4;
 			}
 
+			&.error {
+				text-transform: capitalize;
+				display: none;
+			}
+
 	    }
 
     }
