@@ -925,7 +925,7 @@ class User {
 			// Skip if the user not found
 			if (!$senderInfo) {
 
-				$notificationHTML .= '<li class="'.($notificationNew ? "new" : "").' error" data-error="user-'.$sender_ID.'-not-found" data-type="notification" data-id="'.$notification_ID.'">User not exist</li>';
+				$notificationHTML .= '<li data-offset="'.$offset.'" class="'.($notificationNew ? "new" : "").' error" data-error="user-'.$sender_ID.'-not-found" data-type="notification" data-id="'.$notification_ID.'">User not exist</li>';
 				
 				$errorCount++;
 				continue;
@@ -946,7 +946,7 @@ class User {
 				// Skip if the object not found
 				if (!$object_data) {
 
-					$notificationHTML .= "<li data-id='$notification_ID' data-type='notification' data-error='$object_type-$object_ID-not-found' data-notification-type='$notification_type' class='".($notificationNew ? "new" : "")." error'>$object_type not exist</li> \n";
+					$notificationHTML .= "<li data-offset='$offset' data-id='$notification_ID' data-type='notification' data-error='$object_type-$object_ID-not-found' data-notification-type='$notification_type' class='".($notificationNew ? "new" : "")." error'>$object_type not exist</li> \n";
 
 					$errorCount++;
 					continue;
@@ -961,7 +961,7 @@ class User {
 
 
 			// Open the list
-			$notificationRow = "<li data-id='$notification_ID' data-type='notification' class='".($notificationNew ? "new" : "")."'>";
+			$notificationRow = "<li data-offset='$offset' data-id='$notification_ID' data-type='notification' class='".($notificationNew ? "new" : "")."'>";
 
 			// Add user info
 			$notificationRow .= '
@@ -979,7 +979,7 @@ class User {
 
 
 			//$objectFound = $object_data ? "yes" : "no";
-			// $notificationHTML .= "<li data-id='$notification_ID' data-type='notification'>#$notification_ID($realNotificationsCount) | Type: $notification_type | Object Type: $object_type($object_ID) | Object Found: $objectFound | New: $notificationNew | Content: $notificationContent</li> \n";
+			// $notificationHTML .= "<li data-offset='$offset' data-id='$notification_ID' data-type='notification'>#$notification_ID($realNotificationsCount) | Type: $notification_type | Object Type: $object_type($object_ID) | Object Found: $objectFound | New: $notificationNew | Content: $notificationContent</li> \n";
 			// continue;
 
 
@@ -1050,7 +1050,7 @@ class User {
 				// Skip if the phase not found
 				if (!$phaseData) {
 
-					$notificationHTML .= '<li data-error="phase-'.$phase_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Phase not exist</li>';
+					$notificationHTML .= '<li data-offset="'.$offset.'" data-error="phase-'.$phase_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Phase not exist</li>';
 
 					$errorCount++;
 					continue;
@@ -1062,7 +1062,7 @@ class User {
 				// Skip if the page not found
 				if (!$page_data) {
 
-					$notificationHTML .= '<li data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Page not exist</li>';
+					$notificationHTML .= '<li data-offset="'.$offset.'" data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Page not exist</li>';
 
 					$errorCount++;
 					continue;
@@ -1075,7 +1075,7 @@ class User {
 				// Skip if the page not found
 				if (!$project_data) {
 
-					$notificationHTML .= '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Project not exist</li>';
+					$notificationHTML .= '<li data-offset="'.$offset.'" data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Project not exist</li>';
 
 					$errorCount++;
 					continue;
@@ -1203,7 +1203,7 @@ class User {
 					// Skip if the page not found
 					if (!$project_data) {
 	
-						$notificationHTML .= '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Project not exist</li>';
+						$notificationHTML .= '<li data-offset="'.$offset.'" data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Project not exist</li>';
 	
 						continue;
 					}
@@ -1234,7 +1234,7 @@ class User {
 					// Skip if the page not found
 					if (!$page_data) {
 	
-						$notificationHTML .= '<li data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Page not exist</li>';
+						$notificationHTML .= '<li data-offset="'.$offset.'" data-error="page-'.$page_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Page not exist</li>';
 	
 						$errorCount++;
 						continue;
@@ -1247,7 +1247,7 @@ class User {
 					// Skip if the project not found
 					if (!$project_data) {
 	
-						$notificationRow = '<li data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Project not exist</li>';
+						$notificationRow = '<li data-offset="'.$offset.'" data-error="project-'.$project_ID.'-not-found" class="'.($notificationNew ? "new" : "").' error" data-type="notification" data-id="'.$notification_ID.'">Project not exist</li>';
 	
 						$errorCount++;
 						continue;
