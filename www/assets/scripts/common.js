@@ -2301,6 +2301,16 @@ function moreNotifications(offset) {
 		$('.notifications > ul').append(notificationsHTML);
 
 
+		// Check the new data for errors
+		if ( !$('.notifications > ul > li[data-offset="'+ offset +'"]:not(.error)').length ) {
+
+			// Refresh the data
+			if ( $('.notifications > ul > li.more-notifications').length )
+				$('.notifications > ul > li.more-notifications > a').click();
+
+		}
+
+
 
 	}).fail(function(e) {
 
