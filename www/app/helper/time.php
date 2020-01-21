@@ -9,22 +9,32 @@ function currentTimeStamp($modify = null) {
 }
 
 
-function timeago($date) {
-   $timestamp = strtotime($date);
+function timeago($datetime, $full = false) {
 
-   $strTime = array("second", "minute", "hour", "day", "month", "year");
-   $length = array("60","60","24","30","12","10");
+   $now = new DateTime;
+   $ago = new DateTime($datetime);
+   $diff = $now->diff($ago);
 
-   $currentTime = time();
+   $diff->w = floor($diff->d / 7);
+   $diff->d -= $diff->w * 7;
 
-   //return $timestamp." - ".$currentTime;
-   if($currentTime >= $timestamp) {
-		$diff     = time()- $timestamp;
-		for($i = 0; $diff >= $length[$i] && $i < count($length)-1; $i++) {
-		$diff = $diff / $length[$i];
-		}
-
-		$diff = round($diff);
-		return $diff . " " . $strTime[$i] . ($diff > 1 ? 's' : '') . " ago";
+   $string = array(
+      'y' => 'year',
+      'm' => 'month',
+      'w' => 'week',
+      'd' => 'day',
+      'h' => 'hour',
+      'i' => 'minute',
+      //'s' => 'second',
+   );
+   foreach ($string as $k => &$v) {
+       if ($diff->$k) {
+           $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+       } else {
+           unset($string[$k]);
+       }
    }
+
+   if (!$full) $string = array_slice($string, 0, 1);
+   return $string ? implode(', ', $string) . ' ago' : 'just now';
 }
