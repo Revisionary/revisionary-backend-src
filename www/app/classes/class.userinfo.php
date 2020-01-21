@@ -1320,7 +1320,7 @@ class User {
 
 
 		// If there is no notifications
-		if ($realNotificationsCount == 0 && $errorCount == 0) {
+		if ($realNotificationsCount == 0 && $offset == 0) {
 
 			$notificationHTML .= "<li>There's nothing to mention now. <br>Your notifications will be here.</li>";
 
