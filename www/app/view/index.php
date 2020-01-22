@@ -35,7 +35,7 @@
 			<span class="description">Add your comments and edit any website’s content, <br/>
 				for <del>a fee</del> free! <br/><br/>
 
-				<a href="#" class="button-oval" data-tooltip='Coming soon...' data-modal="video"><i class="fa fa-play-circle"></i> See how it works</a>
+				<a href="#" class="button" data-tooltip='Coming soon...' data-modal="video"><i class="fa fa-play-circle"></i> See How It Works</a>
 
 			</span>
 		</div>
@@ -61,7 +61,7 @@
 		
 			<h3>Ease of Use, <br> No Download or Installation</h3>
 			<p>Put your live URL and start giving feedback on any website! No need to download and install anything to your computer or browser.</p>
-			<div><a href="<?=site_url('signup')?>" class="button">Get Started</a></div>
+			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-rocket"></i> Get Started</a></div>
 
 		</div>
 		<div class="col xl-1-3 xl-right"><i class="fas fa-film" style="font-size: 200px;"></i></div>
@@ -73,7 +73,7 @@
 		
 			<h3>No Need to Write Comments, <br> Change the Live Content & Style</h3>
 			<p>You don't have to wait to see the changes you want on a website until developers apply them for you. Just do it yourself and see how does it look before you send them!</p>
-			<div><a href="<?=site_url('signup')?>" class="button">Do it Yourself</a></div>
+			<div><a href="<?=site_url('signup')?>" class="button"><i class="far fa-thumbs-up"></i> Do it Yourself</a></div>
 
 		</div>
 	</div>
@@ -83,7 +83,7 @@
 		
 			<h3>See the Content Differences</h3>
 			<p>Great to see the content changes on a live site. But what's changed on that big paragraph? <br> You can see the content differences easily to see what's exactly removed and added.</p>
-			<div><a href="<?=site_url('signup?trial=Plus')?>" class="button">Try Now</a></div>
+			<div><a href="<?=site_url('signup?trial=Plus')?>" class="button"><i class="fas fa-exchange-alt"></i> Try Now</a></div>
 
 		</div>
 		<div class="col xl-1-3 xl-right"><i class="fas fa-film" style="font-size: 200px;"></i></div>
@@ -95,7 +95,7 @@
 		
 			<h3>On any Device Screen</h3>
 			<p>Found an issue on mobile view of a website? Or, on larger screens? Just add a new device to your page. So, you can do changes and add your comments on any device screen size.</p>
-			<div><a href="<?=site_url('signup')?>" class="button">See in Action</a></div>
+			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-mobile-alt"></i> See in Action</a></div>
 
 		</div>
 	</div>
@@ -105,7 +105,7 @@
 		
 			<h3>Phases</h3>
 			<p>When you are done with all the changes on a page and it's been live, add a new phase to start from the new version of that page. Pull the latest changes and start revising again! And, you can see what's been done so far.</p>
-			<div><a href="<?=site_url('signup')?>" class="button">Work in Versions</a></div>
+			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-code-branch"></i> Work in Versions</a></div>
 
 		</div>
 		<div class="col xl-1-3 xl-right"><i class="fas fa-film" style="font-size: 200px;"></i></div>
@@ -117,7 +117,7 @@
 		
 			<h3>Everything is Really Organized</h3>
 			<p>All the parts of the Revisionary App like Projects, Pages, Phases/Versions, Devices, Pins, Comments. Everything is grouped logically, accessibly and understandable for you. </p>
-			<div><a href="<?=site_url('signup')?>" class="button">Find & Do Easy</a></div>
+			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-sitemap"></i> Find & Do It Easy</a></div>
 
 		</div>
 	</div>
@@ -127,7 +127,7 @@
 		
 			<h3>Comments on Design Files</h3>
 			<p>You can use Revisionary even on your design process! Upload your design files and add your comments as easy as commenting on live URLs with Revisionary App.</p>
-			<div><a href="<?=site_url('signup')?>" class="button">Give a Design Feedback</a></div>
+			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-paint-brush"></i> Give a Design Feedback</a></div>
 
 		</div>
 		<div class="col xl-1-3 xl-right"><i class="fas fa-film" style="font-size: 200px;"></i></div>
@@ -144,7 +144,7 @@
 					Coming Soon
 				</div>
 				<div class="col">
-					<a href="#" class="button">Notify Me</a>
+					<a href="#" class="button"><i class="far fa-envelope"></i> Notify Me</a>
 				</div>
 			</div>
 
@@ -158,7 +158,7 @@
 			<p>You'll be able to automatically create GitHub or BitBucket Issues, Asana or Trello Tasks. <br> Just with one click of adding pins on any page!</p>
 			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
 				<div class="col">
-					<a href="#" class="button">Notify Me</a>
+					<a href="#" class="button"><i class="far fa-envelope"></i> Notify Me</a>
 				</div>
 				<div class="col">
 					Coming Soon

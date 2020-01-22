@@ -17128,11 +17128,7 @@ section.decorative > div:last-child .side-content {
   padding-right: 0;
 }
 
-.index section h3 {
-  margin: 0;
-}
-
-.index section .button {
+.index .button {
   font-size: 20px;
   border: 2px solid #000000;
   -moz-border-radius: 8px;
@@ -17142,9 +17138,13 @@ section.decorative > div:last-child .side-content {
   display: inline-block;
 }
 
-.index section .button:hover {
+.index .button:hover {
   border-color: #007acc;
   color: #007acc;
+}
+
+.index section h3 {
+  margin: 0;
 }
 
 .index section .action {

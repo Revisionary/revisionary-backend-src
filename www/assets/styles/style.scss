@@ -2402,25 +2402,25 @@ section.decorative {
 
 .index {
 
+	.button {
+		font-size: 20px;
+		border: 2px solid $color;
+		border-radius: 8px;
+		padding: 5px 20px;
+		margin-top: 10px;
+		display: inline-block;
+
+		&:hover {
+			border-color: $color-secondary;
+			color: $color-secondary;
+		}
+	}
+
 	
 	section {
 
 		h3 {
 			margin: 0;
-		}
-
-		.button {
-			font-size: 20px;
-			border: 2px solid $color;
-			border-radius: 8px;
-			padding: 5px 20px;
-			margin-top: 10px;
-			display: inline-block;
-
-			&:hover {
-				border-color: $color-secondary;
-				color: $color-secondary;
-			}
 		}
 
 		.action {
