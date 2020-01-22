@@ -127,13 +127,13 @@ if (
 		<?php } ?>
 	</tr>
 	<tr>
-		<td>See Content Differences</td>
-		<td class="align-center">-</td>
+		<td>Comment on Design Files</td>
+		<td class="align-center">Yes</td>
 		<td class="align-center">Yes</td>
 		<td class="align-center">Yes</td>
 	</tr>
 	<tr>
-		<td>Comment on Design Files</td>
+		<td>See Content Differences</td>
 		<td class="align-center">-</td>
 		<td class="align-center">Yes</td>
 		<td class="align-center">Yes</td>
@@ -142,12 +142,6 @@ if (
 		<td>FreeHand Draw (Coming Soon)</td>
 		<td class="align-center">-</td>
 		<td class="align-center">Yes</td>
-		<td class="align-center">Yes</td>
-	</tr>
-	<tr>
-		<td>Site Backup (Coming Soon)</td>
-		<td class="align-center">-</td>
-		<td class="align-center">-</td>
 		<td class="align-center">Yes</td>
 	</tr>
 	<tr>
