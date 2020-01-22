@@ -276,7 +276,7 @@ if (
 
 
 	// Add the user
-	if ( getUserInfoDB()['trial_started_for'] == null ) User::ID()->edit('trial_expire_date', currentTimeStamp('+1 week'));
+	if ( getUserInfoDB()['trial_expire_date'] == null ) User::ID()->edit('trial_expire_date', currentTimeStamp('+1 week'));
 	User::ID()->edit('trial_started_for', $trial_level_ID);
 
 
