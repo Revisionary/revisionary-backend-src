@@ -4712,6 +4712,8 @@ function updateAttributes(pin_ID, attribute, value) {
 // Update focused element
 function reFocus() {
 
+	if (typeof focused_element === undefined || focused_element == null) return false;
+
 	focused_element_index = focused_element.attr('data-revisionary-index');
 	focused_element_has_index = focused_element_index != null;
 	focused_element_index = focused_element_has_index ? focused_element_index : 0;
