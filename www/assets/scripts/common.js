@@ -1354,8 +1354,10 @@ $(function() {
 
 
 	// Start auto checking notifications
-	getNewNotificationCount();
-	startNotificationAutoRefresh();
+	if (loggedIn) {
+		getNewNotificationCount();
+		startNotificationAutoRefresh();
+	}
 
 
 	// Alert auto removal

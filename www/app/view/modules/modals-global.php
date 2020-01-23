@@ -29,10 +29,10 @@
 
 			<form action="" method="post">
 				<div class="wrap xl-table xl-gutter-16">
-					<div class="col xl-8-12">
+					<div class="col">
 						<input type="email" name="notify-email" value="<?=userLoggedIn() ? getUserInfo()['email'] : ""?>" class="full" placeholder="Enter your email address..." style="font-size: 18px; height: 39px !important;">
 					</div>
-					<div class="col">
+					<div class="col xl-4-12">
 						<button class="dark small full">Notify Me</button>
 					</div>
 				</div>
