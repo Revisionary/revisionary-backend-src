@@ -779,8 +779,8 @@ function runTheInspector() {
 			}, 200);
 
 
-		    // Re-Locate all the pins
-			relocatePins();
+		    // Re-Locate all the pins !!! Performance issues
+			//relocatePins();
 
 
 		}).on('keydown', function(e) { // Detect shift key press to toggle browse mode
@@ -5631,16 +5631,17 @@ function nl2br(str, is_xhtml) {
 jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 
-    if (millis == null) millis = 200;
+    if (millis == null) millis = 100;
 	var o = $(this[0]); // Our object
 	if (o.length < 1) return o;
 	var element_index = o.attr('data-revisionary-index');
 	//console.log('INDEX: ', element_index);
 
     var lastPos = null;
-    var lastOff = null;
+    //var lastOff = null;
     var lastWidth = null;
 	var lastOffWidth = null;
+	var lastScroll = null;
 	
 
     setInterval(function() {
@@ -5649,14 +5650,31 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 		if ( o.css('display') == "none" ) o = o.parent(); // If this hidden element
 
         if (lastPos == null) lastPos = o.position();
-        if (lastOff == null) lastOff = o.offset();
+        //if (lastOff == null) lastOff = o.offset();
         if (lastWidth == null) lastWidth = o.width();
         if (lastOffWidth == null) lastOffWidth = o[0].offsetWidth;
+        if (lastScroll == null) lastScroll = o[0].getBoundingClientRect();
 
         var newPos = o.position();
-        var newOff = o.offset();
+        //var newOff = o.offset();
         var newWidth = o.width();
         var newOffWidth = o[0].offsetWidth;
+		var newScroll = o[0].getBoundingClientRect();
+		
+		
+
+		// Scroll and offset detection
+        if (lastScroll.top != newScroll.top || lastScroll.left != newScroll.left) {
+
+			console.log('Scroll changed', { lastScroll: lastScroll, newScroll: newScroll }, o);
+
+            $(this).trigger('onPositionChanged', { lastScroll: lastScroll, newScroll: newScroll });
+            if (typeof (trigger) == "function") trigger(lastScroll, newScroll);
+			lastScroll = o[0].getBoundingClientRect();
+
+			delete hiddenElementOffsets[element_index];
+
+		}
 
         if (lastPos.top != newPos.top || lastPos.left != newPos.left) {
 
@@ -5670,17 +5688,17 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 		}
 
-        if (lastOff.top != newOff.top || lastOff.left != newOff.left) {
+        // if (lastOff.top != newOff.top || lastOff.left != newOff.left) {
 
-			console.log('Offset changed', { lastOff: lastOff, newOff: newOff }, o);
+		// 	console.log('Offset changed', { lastOff: lastOff, newOff: newOff }, o);
 
-            $(this).trigger('onPositionChanged', { lastOff: lastOff, newOff: newOff });
-            if (typeof (trigger) == "function") trigger(lastOff, newOff);
-			lastOff = o.offset();
+        //     $(this).trigger('onPositionChanged', { lastOff: lastOff, newOff: newOff });
+        //     if (typeof (trigger) == "function") trigger(lastOff, newOff);
+		// 	lastOff = o.offset();
 
-			delete hiddenElementOffsets[element_index];
+		// 	delete hiddenElementOffsets[element_index];
 
-		}
+		// }
 
         if (lastWidth != newWidth) {
 
