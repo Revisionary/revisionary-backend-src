@@ -1526,7 +1526,7 @@ class User {
 
 
 			// Site log
-			$log->info("User #$user_ID Added: $user_name($user_full_name) | Email: $user_email | User Level ID #$user_level_ID");
+			$log->info("User #$user_ID Added: $user_name($user_full_name) | Email: $user_email | User Level ID 2");
 
 
 			// Send a welcome email

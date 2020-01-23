@@ -1,4 +1,5 @@
 <?php
+use \DrewM\MailChimp\MailChimp;
 
 // If already logged in, go Projects page
 if ( userLoggedIn() ) {
@@ -101,7 +102,7 @@ if ( post('user-submit') == "Register" ) {
 
 
 		// If successful
-		if (!$user_ID) {
+		if ($user_ID) {
 
 
 			// Create the session
@@ -113,6 +114,16 @@ if ( post('user-submit') == "Register" ) {
 			$db->update ('shares', array(
 				'share_to' => $user_ID
 			));
+
+
+			// Do the subscription
+			$MailChimp = new MailChimp('cf46d8fcb49efd7ebbe51f02aec3ec58-us17');
+			$list_id = '74f14f8baf'; // Global List
+
+			$result = $MailChimp->post("lists/$list_id/members", [
+				'email_address' => $eMail,
+				'status'        => 'subscribed'
+			]);
 
 
 			header("Location: $redirect_to");
