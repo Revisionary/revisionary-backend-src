@@ -17591,6 +17591,31 @@ input.share-email.error {
        border-radius: 30px;
 }
 
+.popup-window#notifyme #notify-me-form .result {
+  display: none;
+}
+
+.popup-window#notifyme #notify-me-form[data-status="submitting"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.popup-window#notifyme #notify-me-form[data-status="already-exists"] .form-field {
+  display: none;
+}
+
+.popup-window#notifyme #notify-me-form[data-status="already-exists"] .result.already-exists {
+  display: block;
+}
+
+.popup-window#notifyme #notify-me-form[data-status="success"] .form-field {
+  display: none;
+}
+
+.popup-window#notifyme #notify-me-form[data-status="success"] .result.success {
+  display: block;
+}
+
 .members {
   list-style-type: none;
 }

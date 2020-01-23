@@ -2953,6 +2953,48 @@ input.share-email {
 		border-radius: 30px;
 	}
 
+
+	&#notifyme {
+
+		#notify-me-form {
+
+			.result {
+				display: none;
+			}
+
+			&[data-status="submitting"] {
+				opacity: 0.5;
+				pointer-events: none;
+			}
+
+			&[data-status="already-exists"] {
+
+				.form-field {
+					display: none;
+				}
+
+				.result.already-exists {
+					display: block;
+				}
+
+			}
+
+			&[data-status="success"] {
+
+				.form-field {
+					display: none;
+				}
+
+				.result.success {
+					display: block;
+				}
+
+			}
+
+		}
+
+	}
+
 }
 
 

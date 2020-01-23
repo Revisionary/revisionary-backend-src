@@ -27,13 +27,24 @@
 		
 			<p>We'll let you know when this feature available on <b style="display: inline-block;">Revisionary App</b>.</p><br>
 
-			<form action="" method="post">
+			<form action="" method="post" id="notify-me-form" data-status="">
 				<div class="wrap xl-table xl-gutter-16">
-					<div class="col">
+					<div class="col form-field">
 						<input type="email" name="notify-email" value="<?=userLoggedIn() ? getUserInfo()['email'] : ""?>" class="full" placeholder="Enter your email address..." style="font-size: 18px; height: 39px !important;">
+						<input type="hidden" name="feature" value="all">
 					</div>
-					<div class="col xl-4-12">
+					<div class="col xl-4-12 form-field">
 						<button class="dark small full">Notify Me</button>
+					</div>
+					<div class="col xl-center result already-exists">
+
+						<p><b>You've already subscribed for this email address. Thanks again!</b></p>
+
+					</div>
+					<div class="col xl-center result success">
+
+						<p><b>Thank you for your interest! We'll let you know as soon as this feature is available.</b></p>
+
 					</div>
 				</div>
 			</form>

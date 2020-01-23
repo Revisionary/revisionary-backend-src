@@ -1803,6 +1803,39 @@ $(function() {
 	});
 
 
+	$(document).on('submit', '#notify-me-form', function(e) {
+
+		var form = $(this);
+		var email = form.find('input[name="notify-email"]').val();
+		var feature = form.find('input[name="feature"]').val();
+
+
+		console.log('NOTIFYING: ', email, feature);
+
+
+		form.attr('data-status', 'submitting');
+
+		ajax('notify-me', {
+	
+			'email' : email,
+			'feature' : feature,
+			'nonce'	: nonce
+
+		}).done(function(result) {
+
+			console.log('RESULT: ', result);
+			if ( result.status != "success" && result.status != "already-exists" ) console.error('ERROR: ', result);
+
+			form.attr('data-status', result.status);
+
+		});
+
+
+
+		e.preventDefault();
+	});
+
+
 });
 
 
@@ -2556,6 +2589,15 @@ function openModal(modalName) {
 		modal.find('input[name="stars"]').attr('value', 5);
 		modal.find('.star-info').text("Excellent");
 		modal.attr('data-sent', 'no');
+
+	}
+
+
+	// NOTIFY MODALS
+	if (modalName == "notifyme") {
+
+		// Reset
+		modal.find('#notify-me-form').attr('data-status', '');
 
 	}
 
