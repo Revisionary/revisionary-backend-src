@@ -144,7 +144,7 @@
 					Coming Soon
 				</div>
 				<div class="col">
-					<a href="#" class="button"><i class="far fa-envelope"></i> Notify Me</a>
+					<a href="#" class="button" data-modal="notifyme"><i class="far fa-envelope"></i> Notify Me</a>
 				</div>
 			</div>
 
@@ -158,7 +158,7 @@
 			<p>You'll be able to automatically create GitHub or BitBucket Issues, Asana or Trello Tasks. <br> Just with one click of adding pins on any page!</p>
 			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
 				<div class="col">
-					<a href="#" class="button"><i class="far fa-envelope"></i> Notify Me</a>
+					<a href="#" class="button" data-modal="notifyme"><i class="far fa-envelope"></i> Notify Me</a>
 				</div>
 				<div class="col">
 					Coming Soon

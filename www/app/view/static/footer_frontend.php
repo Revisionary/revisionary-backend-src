@@ -30,8 +30,8 @@
 
 		<?php
 
-			// Common Video Modal
-			require view('modules/video-modal');
+			// Global Modals
+			require view('modules/modals-global');
 
 			// Projects and Pages Modals
 			if ( userLoggedIn() ) require view('modules/modals');
