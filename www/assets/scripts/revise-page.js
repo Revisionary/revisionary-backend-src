@@ -745,19 +745,19 @@ $(function() {
 
 		if (pinWindow().hasClass('show-differences')) {
 
+			var originalContent = pinWindow().find('.content-editor .edit-content.original').html();
+			var changedContent = pinWindow().find('.content-editor .edit-content.changes').html();
+
+
+			// Difference check
+			var diffContent = diffCheck(originalContent, changedContent);
+
+
+			// Free users
+			if (user_level_ID == 2) {
 			
-			var diffContent = "<div class='xl-center'>Please upgrade to see the content differences.</div>";
-			diffContent += "<div class='xl-center'><a href='/upgrade' class='upgrade-button' data-modal='upgrade'>UPGRADE NOW</a></div>";
-
-
-			if (user_level_ID > 2) {
-
-				var originalContent = pinWindow().find('.content-editor .edit-content.original').html();
-				var changedContent = pinWindow().find('.content-editor .edit-content.changes').html();
-	
-	
-				// Difference check
-				diffContent = diffCheck(originalContent, changedContent);
+				diffContent = "<div class='xl-center'>Please upgrade to see the content differences.</div>";
+				diffContent += "<div class='xl-center'><a href='/upgrade' class='upgrade-button' data-modal='upgrade'>UPGRADE NOW</a></div>";
 
 			}
 
