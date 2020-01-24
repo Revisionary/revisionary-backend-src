@@ -897,7 +897,7 @@ foreach ($other_pages as $pageOther) {
 			<a href="#" class="button notification-opener refresh-notifications">
 
 				<i class="fa fa-bell"></i>
-				<div class="notif-no hide">0</div>
+				<div class="notif-no pulse hide">0</div>
 
 				<span>NOTIFICATIONS</span>
 
