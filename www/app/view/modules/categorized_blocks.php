@@ -568,7 +568,7 @@
 											?>
 
 											<span class="dropdown click-to-open <?=!$blockPhaseID ? "xl-hidden" : ""?>">
-												<a href="#" class="add-screen"><span style="font-family: Arial;">+</span></a>
+												<a href="#" class="add-screen" data-tooltip="Add New Screen Size"><span style="font-family: Arial;">+</span></a>
 												<?php require view('modules/add-screen'); ?>
 											</span>
 
