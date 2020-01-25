@@ -77,6 +77,15 @@ if ( $result['status'] == 400 ) {
 // Any error
 if ( !$MailChimp->success() ) {
 
+
+	// Also subscribe for the "New Features" list
+	$list_id_features = "5f5221d0cf";
+	$result = $MailChimp->post("lists/$list_id_features/members", [
+		'email_address' => $email,
+		'status'        => 'subscribed'
+	]);
+
+
 	// CREATE THE RESPONSE
 	die(json_encode(array(
 		'status' => "not-subscribed",

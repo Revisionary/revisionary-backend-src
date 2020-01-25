@@ -23,7 +23,9 @@ if (
 
 		if (isset($_POST['betatester']) && $_POST['betatester'] == "yes") {
 
-			$result = $MailChimp->post("lists/5f5221d0cf/members", [
+			$list_id_beta = "5f5221d0cf";
+
+			$result = $MailChimp->post("lists/$list_id_beta/members", [
 				'email_address' => $email,
 				'status'        => 'subscribed',
 			]);
