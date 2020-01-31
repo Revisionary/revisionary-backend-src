@@ -24,6 +24,8 @@
 				<nav id="main-navigation">
 
 					<ul>
+						<li style="margin-right: 35px;"><a href="<?=site_url('#features')?>">Features</a></li>
+						<li><a href="<?=site_url('#use-cases')?>">Use Cases</a></li>
 						<li class="login-link"><a href="<?=site_url('login')?>">Login</a></li>
 						<li class="signup-link"><a href="<?=site_url('signup')?>">Sign Up</a></li>
 					</ul>

@@ -15372,6 +15372,7 @@ textarea {
 /* Navigation */
 nav#main-navigation > ul {
   list-style: none;
+  padding: 0;
 }
 
 nav#main-navigation > ul > li {
@@ -15380,6 +15381,7 @@ nav#main-navigation > ul > li {
 
 nav#main-navigation > ul > li > a {
   font-size: 14px;
+  font-weight: bold;
   color: #000000;
   letter-spacing: 3px;
   text-decoration: none;
@@ -17799,6 +17801,7 @@ footer .social a {
   top: -40px;
   position: absolute;
   font-size: 64px;
+  font-weight: bold;
   line-height: 50px;
   letter-spacing: 8px;
 }
