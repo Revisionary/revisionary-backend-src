@@ -40,6 +40,13 @@
 				?>
 				<nav id="main-navigation">
 					<ul class="user-header-menu">
+						
+						<?php if ($_url[0] != "projects" && $_url[0] != "project") { ?>
+						<li style="margin-right: 35px;"><a href="<?=site_url('#features')?>">Features</a></li>
+						<li style="margin-right: 25px;"><a href="<?=site_url('#use-cases')?>">Use Cases</a></li>
+						<?php } ?>
+
+
 						<li class="menu-item">
 							
 							<?php if ( getUserInfo()['userLevelName'] == "Enterprise" ) { ?>
