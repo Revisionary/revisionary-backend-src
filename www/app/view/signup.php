@@ -56,8 +56,8 @@
 				<div class="col xl-11-12 xl-center">
 
 					<a href="<?=site_url()?>" rel="home">
-						<h2><div>REVISIONARY APP</div></h2>
-						<img src="<?=asset_url('images/revisionary-icon.svg')?>" alt="" class="revisionary-icon"/>
+						<img src="<?=asset_url('images/revisionary-icon.svg')?>" alt="" class="revisionary-icon"/><br><br>
+						<h2><div><b>REVISIONARY APP</b></div></h2>
 					</a>
 
 				</div>
