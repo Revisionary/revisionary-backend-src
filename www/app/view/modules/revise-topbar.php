@@ -16,7 +16,7 @@
 						<li><a href="<?=site_url('projects', true)?>"><i class="fa fa-th"></i> All Projects</a></li>
 						<li>
 							<a href="#" class="has-sub"><i class="fa fa-life-ring"></i> Help <i class="fa fa-caret-right"></i></a>
-							<ul class="bottom-tooltip">
+							<ul>
 								<?php require view('modules/help-menu'); ?>
 							</ul>
 						</li>
@@ -946,7 +946,7 @@ foreach ($other_pages as $pageOther) {
 				<div class="col dropdown click-to-open choose-to-close help">
 
 					<a href="#" class="button"><i class="fa fa-question-circle"></i> <span>HELP</span></a>
-					<ul class="xl-left bottom-tooltip">
+					<ul class="xl-left">
 						<?php require view('modules/help-menu'); ?>
 					</ul>
 

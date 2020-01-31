@@ -56,6 +56,18 @@
 							<?php } ?>
 						
 						</li>
+
+						<?php if ($_url[0] == "projects" || $_url[0] == "project") { ?>
+						<li class="dropdown click-to-open" style="margin-right: 10px;">
+						
+							<a href="#" style="font-size: 16px;"><i class="far fa-question-circle"></i></a>
+							<ul class="xl-left">
+								<?php require view('modules/help-menu'); ?>
+							</ul>
+							
+						</li>
+						<?php } ?>
+
 						<li class="menu-item notifications-wrapper">
 
 
