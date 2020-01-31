@@ -1081,7 +1081,12 @@ function detectColors() {
 
 
 		var color = $(this).css('color');
+		if ( color.indexOf('a') == -1 ) color = color.replace(')', ', 1)').replace('rgb', 'rgba');
+		if ( color == "rgba(0, 0, 0, 1)" ) color = "rgba(0, 0, 0, 0)"; // Reduce whites
+
 		var bgColor = $(this).css('background-color');
+		if ( bgColor.indexOf('a') == -1 ) bgColor = bgColor.replace(')', ', 1)').replace('rgb', 'rgba');
+		if ( bgColor == "rgba(0, 0, 0, 1)" ) bgColor = "rgba(0, 0, 0, 0)"; // Reduce whites
 
 
 		var colorCount = parseInt( page_colors[color] ) || 0;
@@ -1100,7 +1105,7 @@ function detectColors() {
 	$("input[type='color']").spectrum("option", "palette", colorsSorted);
 
 
-	//console.log('Color detection complete.', colorsSorted);
+	console.log('Color detection complete.', colorsSorted);
 
 }
 
@@ -4026,7 +4031,8 @@ function initiateContentEditor() {
 		selector: "#pin-window .content-editor .edit-content.changes",
 		plugins: [ 'quickbars', 'paste' ],
 		quickbars_insert_toolbar: '',
-		quickbars_selection_toolbar: 'bold italic underline strikethrough',
+		quickbars_selection_toolbar: 'bold italic underline strikethrough forecolor',
+		color_map: colorsSorted,
 		toolbar: false,
 		menubar: false,
 		inline: true,
