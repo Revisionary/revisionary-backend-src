@@ -35,14 +35,8 @@ if ( getUserInfo()['trialActive'] ) {
 				<span class='desc'>Project<?=$maxProjects > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
 			</a>
 			<ul class="right xl-left no-delay">
-				<li class="notice">
-					<div>
-						<h4><b><?=$current_plan_name?></b> Account Project Limits</h4>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
-					</div>
-				</li>
 				<li>
-					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE PROJECT LIMIT"?></a>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "<i class='fas fa-plus'></i> INCREASE PROJECT LIMIT NOW"?></a>
 				</li>
 			</ul>
 
@@ -54,14 +48,8 @@ if ( getUserInfo()['trialActive'] ) {
 				<span class='desc'>Page<?=$maxPhases > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
 			</a>
 			<ul class="right xl-left no-delay">
-				<li class="notice">
-					<div>
-						<h4><b><?=$current_plan_name?></b> Account Page/Phase Limits</h4>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
-					</div>
-				</li>
 				<li>
-					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE PAGE/PHASE LIMIT"?></a>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "<i class='fas fa-plus'></i> INCREASE PAGE/PHASE LIMIT NOW"?></a>
 				</li>
 			</ul>
 
@@ -73,14 +61,8 @@ if ( getUserInfo()['trialActive'] ) {
 				<span class='desc'>Screen<?=$maxScreens > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
 			</a>
 			<ul class="right xl-left no-delay">
-				<li class="notice">
-					<div>
-						<h4><b><?=$current_plan_name?></b> Account Screen Limits</h4>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
-					</div>
-				</li>
 				<li>
-					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE SCREEN LIMIT"?></a>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "<i class='fas fa-plus'></i> INCREASE SCREEN LIMIT NOW"?></a>
 				</li>
 			</ul>
 
@@ -92,14 +74,8 @@ if ( getUserInfo()['trialActive'] ) {
 				<span class='desc'>Live Pin<?=$maxPins > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
 			</a>
 			<ul class="right xl-left no-delay">
-				<li class="notice">
-					<div>
-						<h4><b><?=$current_plan_name?></b> Account Live Pin Limits</h4>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
-					</div>
-				</li>
 				<li>
-					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE LIVE PIN LIMIT"?></a>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "<i class='fas fa-plus'></i> INCREASE LIVE PIN LIMIT NOW"?></a>
 				</li>
 			</ul>
 
@@ -111,14 +87,8 @@ if ( getUserInfo()['trialActive'] ) {
 				<span class='desc'>Comment Pin<?=$maxCommentPins > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
 			</a>
 			<ul class="right xl-left no-delay">
-				<li class="notice">
-					<div>
-						<h4><b><?=$current_plan_name?></b> Account Comment Pin Limits</h4>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
-					</div>
-				</li>
 				<li>
-					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE COMMENT PIN LIMIT"?></a>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "<i class='fas fa-plus'></i> INCREASE COMMENT PIN LIMIT NOW"?></a>
 				</li>
 			</ul>
 
@@ -130,14 +100,8 @@ if ( getUserInfo()['trialActive'] ) {
 				<span class='desc'>MB File<?=$maxLoad > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
 			</a>
 			<ul class="right xl-left no-delay">
-				<li class="notice">
-					<div>
-						<h4><b><?=$current_plan_name?> Account</b> Web Page Size Limits</h4>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus sapiente ullam unde, consectetur dolorum eveniet dolore doloribus quam ipsam autem amet iure animi.
-					</div>
-				</li>
 				<li>
-					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "INCREASE SIZE LIMIT"?></a>
+					<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="button"><?=getUserInfo()['trialActive'] ? "UPGRADE NOW" : "<i class='fas fa-plus'></i> INCREASE SIZE LIMIT NOW"?></a>
 				</li>
 			</ul>
 
