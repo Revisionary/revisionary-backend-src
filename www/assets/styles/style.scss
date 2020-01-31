@@ -1907,13 +1907,19 @@ header {
 
 	&[data-current-plan="Enterprise"] {
 
-		li.notice {
-			border-bottom-left-radius: 6px;
-			border-bottom-right-radius: 6px;
-			padding-bottom: 10px !important;
+		.total.dropdown {
 
-			& + li {
-				display: none;
+			& > a {
+				cursor: default;
+
+				& + ul {
+
+					& > li {
+						display: none;
+					}
+	
+				}
+
 			}
 
 		}
