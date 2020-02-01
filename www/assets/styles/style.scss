@@ -4108,6 +4108,40 @@ table.pricing {
 	}
 }
 
+#animation-1 {
+
+	.circle {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		border: 5px solid #007acc;
+		border-radius: 50%;
+		width: 260px;
+		height: 260px;
+		transform: perspective(200px) rotateY(-25deg);
+
+		.inner {
+			padding: 0 10px;
+
+			// input[type="url"] {
+			// 	width: 100%;
+			// }
+
+			small {
+				display: block;
+				margin-top: 3px;
+			}
+
+			.submit {
+				width: 65px;
+			}
+
+		}
+
+	}
+
+}
+
 
 
 /* Media Queries */

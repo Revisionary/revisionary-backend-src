@@ -64,7 +64,11 @@
 			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-rocket"></i> Get Started</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right"><i class="fas fa-film" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 xl-right">
+		
+			<?php require view('animations/ease-of-use'); ?>
+		
+		</div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
