@@ -948,7 +948,7 @@ function runTheInspector() {
 
 
 				// New page link
-				var newPageLink = "/projects/?add_new=true&pinmode=browse&page_width="+ page_width +"&page_height="+ page_height +"&project_ID=" + project_ID + "&page-url=" + encodeURIComponent(absoluteLink);
+				var newPageLink = "/projects/?add_new=true&page_width="+ page_width +"&page_height="+ page_height +"&project_ID=" + project_ID + "&page-url=" + encodeURIComponent(absoluteLink);
 
 
 				// Search in my pages registered
