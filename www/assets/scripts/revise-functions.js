@@ -5654,6 +5654,7 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
         if (o == null || o.length < 1) return o; // Abort if element is not exist anymore
 		if ( o.css('display') == "none" ) o = o.parent(); // If this hidden element
+		if ( pinElement(element_index, true).css('opacity') == 0 ) return o; // Abort if the pin is hidden or filtered
 
         if (lastPos == null) lastPos = o.position();
         //if (lastOff == null) lastOff = o.offset();
