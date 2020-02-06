@@ -7,7 +7,7 @@ class Cache {
 
 	private static $mc;
 	private static $mcTags;
-	private static $default_timeout = 20;
+	private static $default_timeout = 60 * 60; // In seconds (1 hour)
 
 
 	public function __construct($mc, $mcTags) {
