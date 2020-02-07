@@ -979,7 +979,7 @@ function runTheInspector() {
 					}
 
 
-					newPageLink = "/page/" + pageFound.page_ID + "?pinmode=browse";
+					newPageLink = "/page/" + pageFound.page_ID + "?screen=" + screen_ID + "&page_width="+ page_width +"&page_height="+ page_height;
 					console.log('ALREADY DOWNLOADED!!!', newPageLink);
 
 				}

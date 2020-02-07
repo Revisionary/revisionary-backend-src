@@ -634,7 +634,7 @@
 	?>
 
 	<li class="item deletable <?=$blockPhase['phase_ID'] == $otherPhase['phase_ID'] ? "selected" : ""?>" data-type="phase" data-id="<?=$otherPhase['phase_ID']?>">
-		<a href="<?=site_url('revise/'.$firstDevice['device_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$otherPhaseNumber?> (<?=timeago($otherPhase['phase_created'])?>)
+		<a href="<?=site_url('phase/'.$blockPhase['phase_ID'])?>"><i class="fa fa-code-branch"></i> v<?=$otherPhaseNumber?> (<?=timeago($otherPhase['phase_created'])?>)
 		
 		<span class="pin-count normal remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count normal done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span></a>
 

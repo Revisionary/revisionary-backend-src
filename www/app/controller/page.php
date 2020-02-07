@@ -60,10 +60,22 @@ if ( !isset($lastPhase) ) {
 
 
 $url_to_redirect = site_url('phase/'.$lastPhase['phase_ID']);
+
+// Pin modes
 if ( get('pinmode') == "style" || get('pinmode') == "browse" ) $url_to_redirect = queryArg('pinmode='.get('pinmode'), $url_to_redirect);
 if ( get('privatepin') == "1" ) $url_to_redirect = queryArg('privatepin=1', $url_to_redirect);
+
+// Pin filters
 if ( get('filter') == "incomplete" || get('filter') == "complete" ) $url_to_redirect = queryArg('filter='.get('filter'), $url_to_redirect);
+
+// Is new Page?
 if ( get('new') == "page" ) $url_to_redirect = queryArg('new=page', $url_to_redirect);
+
+// Requested screen size
+if ( is_numeric(get('screen')) ) $url_to_redirect = queryArg('screen='.get('screen'), $url_to_redirect);
+if ( is_numeric(get('page_width')) ) $url_to_redirect = queryArg('page_width='.get('page_width'), $url_to_redirect);
+if ( is_numeric(get('page_height')) ) $url_to_redirect = queryArg('page_height='.get('page_height'), $url_to_redirect);
+
 //die_to_print($url_to_redirect);
 
 

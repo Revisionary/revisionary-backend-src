@@ -181,7 +181,7 @@ if (
 
 
 
-// ADD NEW SCREEN
+// ADD NEW DEVICE
 if (
 	is_numeric(get('new_screen'))
 	&& is_numeric(get('phase_ID'))
