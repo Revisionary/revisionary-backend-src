@@ -817,6 +817,10 @@ class Internalize {
 				$filteredCSS = $this->filter_css($old_css, $css_url);
 
 
+				// Check if empty
+				if ( empty($filteredCSS) ) $filteredCSS = "/* File is empty */";
+
+
 				// Save the new CSS
 				$css_filtered = file_put_contents($fileUri, $filteredCSS);
 
@@ -851,7 +855,7 @@ class Internalize {
 
 
 		// Update the queue status
-		$queue->update_status($this->queue_ID, "working", "$count CSS filtering finished with error(s).");
+		$queue->update_status($this->queue_ID, "error", "$count CSS filtering finished with error(s).");
 
 
 		$logger->error("$count CSS filtering finished with error(s).");
