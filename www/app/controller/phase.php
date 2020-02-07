@@ -58,6 +58,13 @@ if ( is_numeric(get('screen')) ) {
 	if (!$choosenDevice) {
 
 
+		// Check screen limit here!!! Do it on revise page before changing page
+		if($screensPercentage >= 100) {
+			header('Location: '.site_url("projects?limit-warning"));
+			die();
+		}
+
+
 		// Add the Devices
 		$device_ID = Device::ID()->addNew(
 			$phase_ID,

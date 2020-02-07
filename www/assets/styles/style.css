@@ -16985,6 +16985,16 @@ header {
   display: none !important;
 }
 
+#limit-warning[data-current-pin-mode="screen"] .cancel-button {
+  display: inline-block !important;
+}
+
+#limit-warning[data-current-pin-mode="screen"] .recommend-browse-mode,
+#limit-warning[data-current-pin-mode="screen"] .recommend-live-mode,
+#limit-warning[data-current-pin-mode="screen"] .recommend-comment-mode {
+  display: none !important;
+}
+
 #billing-settings h2 {
   font-size: 30px;
   line-height: normal;

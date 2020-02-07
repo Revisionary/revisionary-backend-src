@@ -1215,6 +1215,9 @@ $(function() {
 	if ( getParameterByName('trialcanceled') !== null ) openModal('trialcanceled');
 	//removeQueryArgFromCurrentUrl('trialcanceled');
 
+	if ( getParameterByName('limit-warning') !== null ) openModal('limit-warning');
+	//removeQueryArgFromCurrentUrl('trialcanceled');
+
 
 	// Create a project
 	$('.create-project').click(function(e) {
@@ -2539,6 +2542,7 @@ function openModal(modalName) {
 
 	var modal = $('#' + modalName + '.popup-window');
 	if (!modal.length) return false;
+	if (typeof currentPinType === 'undefined') var currentPinType = "screen";
 
 	
 	if (modalName == "limit-warning") {
@@ -2562,6 +2566,9 @@ function openModal(modalName) {
 
 		if (currentPinType == "browse")
 			limitText = "<b>You have reached your Page/Phase limit.</b><br>To be able to continue adding pages/phases, please upgrade your account.";
+
+		if (currentPinType == "screen")
+			limitText = "<b>You have reached your Screen limit.</b><br>To be able to continue adding new screen sizes, please upgrade your account.";
 
 		if (limitations.current.pin == "0" && limitations.current.commentpin == "0" && limitations.current.page == "0")
 			limitText = "<b>You have reached your account limits.</b><br>To be able to continue adding pins, please upgrade your account.";

@@ -2251,6 +2251,20 @@ header {
 		
 	}
 
+	&[data-current-pin-mode="screen"] {
+
+		.cancel-button {
+			display: inline-block !important;
+		}
+
+		.recommend-browse-mode,
+		.recommend-live-mode,
+		.recommend-comment-mode {
+			display: none !important;
+		}
+		
+	}
+
 }
 
 #billing-settings {
