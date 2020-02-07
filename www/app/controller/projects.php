@@ -133,7 +133,7 @@ if (
 	);
 
 	// Check the result
-	if(!$phase_ID) {
+	if (!$phase_ID) {
 		header('Location: '.site_url("project/$project_ID?addphaseerror")); // If unsuccessful
 		die();
 	}
@@ -150,7 +150,7 @@ if (
 	);
 
 	// Check the result
-	if(!$device_ID) {
+	if (!$device_ID) {
 		header('Location: '.site_url("project/$project_ID?adddeviceerror")); // If unsuccessful
 		die();
 	}

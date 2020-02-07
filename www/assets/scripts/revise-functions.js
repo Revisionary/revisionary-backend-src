@@ -948,7 +948,13 @@ function runTheInspector() {
 
 
 				// New page link
-				var newPageLink = "/projects/?add_new=true&page_width="+ page_width +"&page_height="+ page_height +"&project_ID=" + project_ID + "&page-url=" + encodeURIComponent(absoluteLink);
+				var newPageLink = "/projects/?add_new=true&screens[]="+ screen_ID +"&page_width="+ page_width +"&page_height="+ page_height +"&project_ID=" + project_ID + "&page-url=" + encodeURIComponent(absoluteLink); 
+
+
+				// console.log(newPageLink);
+				// e.preventDefault();
+				// e.stopPropagation();
+				// return false;
 
 
 				// Search in my pages registered

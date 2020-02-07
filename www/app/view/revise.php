@@ -13,6 +13,7 @@
 	page_ID = <?=$page_ID?>;
 	phase_ID = <?=$phase_ID?>;
 	device_ID = <?=$device_ID?>;
+	screen_ID = <?=$screen_ID?>;
 	remote_URL = '<?=$phaseData->remoteUrl?>';
 	page_type = '<?=$page_type?>';
 
