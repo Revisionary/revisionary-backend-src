@@ -924,7 +924,7 @@ class Pin {
 		// Pin info
 		$pin_ID = self::$pin_ID;
 		$pin_type = $this->getInfo('pin_type');
-		$pin_complete = $this->getInfo('pin_complete') !== 0;
+		$pin_complete = $this->getInfo('pin_complete');
 
 
 		// Draw the pin
@@ -957,7 +957,7 @@ class Pin {
 
 		";
 
-		if ($pin_complete) $pinShape = "
+		if ($pin_complete == 1) $pinShape = "
 
 			<style>
 				.pin:hover > div {
@@ -992,7 +992,8 @@ class Pin {
 				    display: flex;
 				    justify-content: center;
 				    align-items: center;
-				    position: absolute;
+					position: absolute;
+					z-index: 2;
 				    width: inherit;
 				    height: inherit;
 				    text-align: center;
