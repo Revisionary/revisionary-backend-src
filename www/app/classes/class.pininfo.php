@@ -924,11 +924,13 @@ class Pin {
 		// Pin info
 		$pin_ID = self::$pin_ID;
 		$pin_type = $this->getInfo('pin_type');
-		$pin_complete = $this->getInfo('pin_complete') === 1;
+		$pin_complete = $this->getInfo('pin_complete') !== 0;
 
 
 		// Draw the pin
-		$pinShadow = $pin_type == "live" ? "0px 0px 18px 1px #149440" : "0px 0px 10px 1px rgba(255, 255, 255, 0.5)";
+		$pinShadow = " 0px 0px 18px 1px rgba(0, 0, 0, 0.5)";
+		if ($pin_type == "live") $pinShadow = "0px 0px 18px 1px #149440";
+		if ($pin_type == "style") $pinShadow = "0px 0px 18px 1px #1DBCC9";
 		$pinShape = "
 
 
