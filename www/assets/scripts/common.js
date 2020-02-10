@@ -2075,7 +2075,8 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 
 	// Start progress bar action
-	var actionID = newProcess(true, object_type+":"+action);
+	var preventRefreshing = action != "remove";
+	var actionID = newProcess(preventRefreshing, object_type+":"+action);
 
 	// AJAX Send data
 	ajax('data-action', {
