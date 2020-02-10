@@ -175,7 +175,7 @@ $(function() {
 			wrapper.addClass('uploading');
 
 			// Start the process
-			var uploadDesignProcessID = newProcess(null, "uploadDesignProcess");
+			var uploadDesignProcessID = newProcess(true, "uploadDesignProcess");
 
 
 			$.ajax({
@@ -583,7 +583,7 @@ $(function() {
 
 
 			// Start the process
-			var actionID = newProcess(null, "userCheck");
+			var actionID = newProcess(true, "userCheck");
 
 			ajax('user-check', {
 
@@ -1085,7 +1085,7 @@ $(function() {
 
 
 		// Start the process
-		var feedbackSubmitProcessID = newProcess(null, "feedbackSubmitProcess");
+		var feedbackSubmitProcessID = newProcess(true, "feedbackSubmitProcess");
 
 
 		$.ajax({
@@ -1705,7 +1705,7 @@ $(function() {
 
 
 		// Start the process
-		var uploadDesignProcessID = newProcess(null, "uploadDesignProcess");
+		var uploadDesignProcessID = newProcess(true, "uploadDesignProcess");
 
 
 		$.ajax({
@@ -2000,7 +2000,7 @@ function addshare() {
 
 
 	// Start the process
-	var actionID = newProcess(null, type+"Share");
+	var actionID = newProcess(true, type+"Share");
 
 	ajax('share', {
 
@@ -2075,7 +2075,7 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 
 	// Start progress bar action
-	var actionID = newProcess(null, object_type+":"+action);
+	var actionID = newProcess(true, object_type+":"+action);
 
 	// AJAX Send data
 	ajax('data-action', {

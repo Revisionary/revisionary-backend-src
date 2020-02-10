@@ -1,4 +1,5 @@
 // PROCESS VARS
+var processExists = false;
 var processExistsText = "Changes you made may not be saved.";
 var processCount = 0;
 
@@ -8,6 +9,20 @@ var processes;
 
 
 var page_ready = page_ready === undefined ? true : page_ready;
+
+
+
+window.onbeforeunload = function(e){
+	var e = e || window.event;
+	if (!processExists) return;
+
+	// For IE and Firefox (prior to 4)
+	if (e){
+	  e.returnValue = processExistsText;
+	}
+	// For Safari and Chrome
+	return processExistsText;
+  };
 
 
 
@@ -59,9 +74,8 @@ function newProcess(preventWindowClose, processDescription) { // Add timeout fun
 	// Prevent closing window
 	if (preventWindowClose) {
 
-		window.onbeforeunload = function() {
-			return processExistsText;
-		};
+		processExists = true;
+		console.log('PROCESS EXISTS');
 
 	}
 
@@ -106,7 +120,8 @@ function endProcess(processID) {
 	if (processCount == 0) {
 
 		// Allow closing window
-		window.onbeforeunload = null;
+		processExists = false;
+		console.log('PROCESS NOT EXISTS');
 
 
 		// Restart auto-refresh

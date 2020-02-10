@@ -245,6 +245,10 @@ function runTheInspector() {
 				$(childWindow).on('beforeunload', function() {
 
 
+					//if (cursorActive) return "This page tries to redirect another page."; // !!! ???
+
+
+
 					console.log('REDIRECTING DETECTED...');
 
 
@@ -688,6 +692,7 @@ function runTheInspector() {
 
 			// Prevent clicking something
 			e.preventDefault();
+			e.stopImmediatePropagation();
 			e.stopPropagation();
 			return false;
 
@@ -757,6 +762,7 @@ function runTheInspector() {
 
 			// Prevent clicking something
 			e.preventDefault();
+			e.stopImmediatePropagation();
 			e.stopPropagation();
 			return false;
 
@@ -1770,7 +1776,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 	// Start the process
-	var newPinProcessID = newProcess(null, "newPinProcess");
+	var newPinProcessID = newProcess(true, "newPinProcess");
 
 	// Add pin to the DB
     ajax('pin-add',
@@ -1902,7 +1908,7 @@ function removePin(pin_ID) {
 
 
 	// Start the process
-	removePinProcess[pin_ID] = newProcess(null, "removePin" + pin_ID);
+	removePinProcess[pin_ID] = newProcess(true, "removePin" + pin_ID);
 
     ajax('pin-remove',
     {
@@ -1959,7 +1965,7 @@ function makeDeviceSpecific(pin_ID, device_ID) {
 
 
 	// Start the process
-	var devicespecificPinProcessID = newProcess(null, "devicespecificPinProcess");
+	var devicespecificPinProcessID = newProcess(true, "devicespecificPinProcess");
 
 
     // Update pin from the DB
@@ -2009,7 +2015,7 @@ function makeForAllDevices(pin_ID) {
 
 
 	// Start the process
-	var deviceForAllPinProcessID = newProcess(null, "deviceForAllPinProcess");
+	var deviceForAllPinProcessID = newProcess(true, "deviceForAllPinProcess");
 
 
     // Update pin from the DB
@@ -2070,7 +2076,7 @@ function completePin(pin_ID, complete, imgData) {
 
 
 	// Start the process
-	var completePinProcessID = newProcess(null, "pin"+(complete ? 'Complete' : 'Incomplete'));
+	var completePinProcessID = newProcess(true, "pin"+(complete ? 'Complete' : 'Incomplete'));
 
 
     // Update pin from the DB
@@ -2173,7 +2179,7 @@ function convertPin(pin_ID, targetPin) {
 
 
 	// Start the process
-	var convertPinProcessID = newProcess(null, "convertPinProcess");
+	var convertPinProcessID = newProcess(true, "convertPinProcess");
 
 
 	// Save it on DB
@@ -2792,7 +2798,7 @@ function makeDraggable(pin) {
 
 
 			// Start the process
-			var relocateProcessID = newProcess(null, "pinRelocate");
+			var relocateProcessID = newProcess(true, "pinRelocate");
 
 		    $.post(ajax_url, {
 				'type'	  	 : 'pin-relocate',
@@ -3719,7 +3725,7 @@ function saveChange(pin_ID, modification) {
 
 
 	// Start the process
-	var modifyPinProcessID = newProcess(null, "modifyPinProcess");
+	var modifyPinProcessID = newProcess(true, "modifyPinProcess");
 
 	// Update from DB !!! Sanitize befre recording to DB
     ajax('pin-modify', {
@@ -4144,7 +4150,7 @@ function saveCSS(pin_ID, css) {
 
 
 	// Start the process
-	var pinCSSProcessID = newProcess(null, "pinCSSprocess");
+	var pinCSSProcessID = newProcess(true, "pinCSSprocess");
 
 	// Update from DB
     ajax('pin-css', {
@@ -4531,7 +4537,7 @@ function sendComment(pin_ID, message) {
 
 
 	// Start the process
-	var newCommentProcessID = newProcess(null, "newPinCommentProcess");
+	var newCommentProcessID = newProcess(true, "newPinCommentProcess");
 
 
 
@@ -4590,7 +4596,7 @@ function deleteComment(pin_ID, comment_ID) {
 
 
 	// Start the process
-	var deleteCommentProcessID = newProcess(null, "deleteCommentProcess");
+	var deleteCommentProcessID = newProcess(true, "deleteCommentProcess");
 
     ajax('comment-delete',
     {

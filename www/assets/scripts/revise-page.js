@@ -597,7 +597,7 @@ $(function() {
 
 
 		// Start the process
-		var uploadAttachmentProcessID = newProcess(null, "uploadAttachmentProcess");
+		var uploadAttachmentProcessID = newProcess(true, "uploadAttachmentProcess");
 
 
 		$.ajax({
@@ -869,7 +869,7 @@ $(function() {
 
 
 		// Start the process
-		var uploadImageProcessID = newProcess(null, "uploadImageProcess");
+		var uploadImageProcessID = newProcess(true, "uploadImageProcess");
 
 
 		$.ajax({
