@@ -16243,6 +16243,7 @@ pin {
   -moz-transition: width 500ms, height 500ms, font-size 500ms, line-height 500ms, opacity 1000ms, transform 200ms, -moz-transform 200ms;
   transition: width 500ms, height 500ms, font-size 500ms, line-height 500ms, opacity 1000ms, transform 200ms;
   transition: width 500ms, height 500ms, font-size 500ms, line-height 500ms, opacity 1000ms, transform 200ms, -moz-transform 200ms;
+  overflow: hidden;
 }
 
 pin.mouse-cursor, pin.ui-draggable-dragging,
@@ -16256,7 +16257,7 @@ pin[data-pin-type="live"] {
        box-shadow: 0px 0px 8px 1px #149440;
 }
 
-pin[data-pin-type="style"], pin[data-pin-type="style"] {
+pin[data-pin-type="style"] {
   -moz-box-shadow: 0px 0px 8px 1px #1DBCC9;
        box-shadow: 0px 0px 8px 1px #1DBCC9;
 }
