@@ -48,6 +48,7 @@ var easy_html_elements = [
 	"TIME",
 	"DATE",
 	"ADDRESS",
+	"BLOCKQUOTE",
 	"P",
 	"DIV",
 	"SPAN",

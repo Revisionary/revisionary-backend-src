@@ -44,43 +44,6 @@ class Internalize {
 	public $downloadedImages = array();
 
 
-	// Easy HTML Elements
-	public $easy_html_elements = array(
-	    "A",
-		"B",
-		"I",
-		"U",
-		"EM",
-		"STRONG",
-		"STRIKE",
-		"SMALL",
-		"TEXTAREA",
-		"LABEL",
-		"BUTTON",
-		"TIME",
-		"DATE",
-		"ADDRESS",
-		"P",
-		"DIV",
-		"SPAN",
-		"LI",
-		"H1",
-		"H2",
-		"H3",
-		"H4",
-		"H5",
-		"H6",
-		"IMG"
-	);
-
-	// Other HTML Block Elements
-	public $block_html_elements = array(
-	    "HEADER",
-	    "MAIN",
-	    "FOOTER",
-	);
-
-
 
 	// When initialized
 	public function __construct($phase_ID, $page_ID, $device_ID, $queue_ID) {
@@ -687,21 +650,6 @@ class Internalize {
 
 		        $tag 	  = $matches['tag'];
 		        $tag_name = $matches['tagname'];
-
-
-				/*
-		        // If it isn't easily editable
-		        if ( !in_array(strtoupper($tag_name), $this->easy_html_elements) && !in_array(strtoupper($tag_name), $this->block_html_elements) ) {
-
-					// Specific Log
-					file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - SKIPPED TAGNAME TO INDEX: \r\n
-					".$tag_name." \r\n
-					".$tag."' \r\n \r\n", FILE_APPEND);
-
-
-			        return $html_element;
-			    }
-				*/
 
 
 		        $countElement++;
