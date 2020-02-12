@@ -243,10 +243,539 @@ function runTheInspector() {
 
 
 
-			// REDIRECT DETECTION
+			// Iframe Document and Window
 			documentChild = $(this).prop("contentWindow").document;
-	        childWindow = $(this).prop("contentWindow");
+			childWindow = $(this).prop("contentWindow");
+			
 
+
+			// IFRAME EVENTS:
+			var doChangeOnPage = {};
+			var mouseDownOnContentEdit = false;
+			var scrollTimer, scrollFlag = false;
+
+			// Prevent clicking somewhere
+			documentChild.addEventListener('click', function(e) {
+			
+				if ( currentPinType != "browse" ) {
+
+					console.log('MOUSE CLICKED');
+			
+					e.stopPropagation();
+					e.stopImmediatePropagation();
+					e.preventDefault();
+					return false;
+			
+				}
+			
+			}, true);
+
+
+			// Detect the mouse moves in frame
+			documentChild.addEventListener('mousemove', function(e) {
+
+
+				// Mouse coordinates according to the iframe container
+				containerX = e.clientX * iframeScale;
+				containerY = e.clientY * iframeScale;
+				//console.log('Container: ', containerX, containerY);
+	
+	
+				// Follow the mouse cursor
+				$('.mouse-cursor').css({
+					left:  containerX,
+					top:   containerY
+				});
+	
+	
+	
+				// FOCUSING:
+				// Focused Element is the mouse pointed element as default
+				focused_element = $(e.target);
+				reFocus();
+	
+	
+	
+				// Work only if cursor is active
+				if (cursorActive && !hoveringPin) {
+	
+	
+	
+					if (currentPinType == "live") { // Live Pin
+	
+	
+						// REFOCUS WORKS:
+						// Re-focus if the focused element has no index
+						if (!focused_element_has_index && focused_element.parents('[data-revisionary-index]').length) {
+	
+	
+							// Re-focus to the closest indexed element
+							focused_element = focused_element.parents('[data-revisionary-index]').first();
+	
+	
+							//console.log('REFOCUS - if the focused element has no index: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
+	
+						}
+	
+	
+						// Re-focus if only child element has no child and has content: <p><b focused>Lorem ipsum</b></p>
+						if (
+							focused_element_text == "" && // Focused element has no content
+							focused_element_children.length == 1 && // Has only one child
+							focused_element_grand_children.length == 0 && // No grand child
+							focused_element_children.first().text().trim() != "" // Grand child should have content
+						) {
+	
+							// Re-focus to the child element
+							focused_element = focused_element_children.first();
+	
+	
+							//console.log('REFOCUS - Only child element has no child and has content: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
+	
+						}
+	
+	
+						// Re-focus to the edited element if this is child of it: <p data-edited="1" focused><b>Lorem
+						if (focused_element_edited_parents.length) {
+	
+							// Re-focus to the parent edited element
+							focused_element = focused_element_edited_parents.first();
+	
+	
+							//console.log('REFOCUS - Already edited closest parent: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
+	
+						}
+	
+	
+						// Update refocused sub elements
+						reFocus();
+	
+	
+	
+						// EDITABLE CHECKS:
+						hoveringText = false;
+						focused_element_editable = false;
+	
+	
+						// Directly editable:
+						// Check element text editable: <p>Lorem ipsum dolor sit amet...
+						if (
+							easy_html_elements.includes( focused_element.prop('tagName').toUpperCase() ) && // In easy HTML elements?
+							focused_element_text.trim() != "" && // Has to have text
+							focused_element.html() != "&nbsp;"  && // Text shouldn't be blank
+							focused_element_children.length == 0 // No child element
+						) {
+	
+							hoveringText = true;
+							focused_element_editable = true; // Obviously Text Editable
+							//console.log( '* Obviously Text Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+							//console.log( 'Focused Element Text: ' + focused_element_text );
+	
+						}
+	
+	
+						// Image editable:
+						// Check element image editable: <img src="#">...
+						hoveringImage = false;
+						if ( focused_element.prop('tagName').toUpperCase() == "IMG" ) {
+	
+							hoveringImage = true;
+							focused_element_editable = true; // Obviously Image Editable
+							//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+							//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
+	
+						}
+	
+	
+						// // Background Image editable: !!!
+						// // Check element background image editable
+						// if (
+						// 	focused_element.prop('tagName').toUpperCase() != "IMG" &&
+						// 	focused_element.css('background-image').substring(0, 4) == "url(" &&
+						// 	focused_element.css('background-image').match(/url\(/g).length === 1 // Only one url()
+						// ) {
+	
+						// 	//focused_element_editable = true; // Obviously Image Editable
+						// 	//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+						// 	//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
+	
+						// 	//console.log( "BGIMAGE: ", focused_element.css('background-image').replace(/^url\(['"](.+)['"]\)/, '$1') );
+						// 	console.log( "BGIMAGE: ", focused_element.css('background-image') );
+	
+						// }
+	
+	
+						// Check if element has children but doesn't have grand children: <p>Lorem ipsum <a href="#">dolor</a> sit amet...
+						if (
+							focused_element_children.length > 0 && // Has child
+							focused_element_grand_children.length == 0 && // No grand child
+							focused_element_text.trim() != "" && // Has to have text
+							focused_element.html() != "&nbsp;" // Text shouldn't be blank
+						) {
+	
+	
+							// Also check the children's tagname
+							var hardToEdit = true;
+							focused_element_children.each(function() {
+	
+								// In easy HTML elements?
+								if ( easy_with_br.includes( $(this).prop('tagName').toUpperCase() ) ) hardToEdit = false;
+	
+							});
+	
+							if (!hardToEdit) {
+	
+								hoveringText = true;
+								focused_element_editable = true;
+								//console.log( '* Text Editable (No Grand Child): ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+								//console.log( 'Focused Element Text: ' + focused_element_text );
+	
+							}
+	
+						}
+	
+	
+						// Chech if element has only one grand child and it doesn't have any child: <p>Lorem ipsum <a href="#"><strong>dolor</strong></a> sit amet... !!!
+						if (
+							focused_element_children.length > 0 && // Has child
+							focused_element_grand_children.length > 0 && // Has grand child
+							focused_element_text.trim() != "" && // And, also have to have text
+							focused_element.html() != "&nbsp;" // And, also have to have text
+						) {
+	
+	
+							// Also check the children's tagname
+							var easyToEdit = false;
+							focused_element_children.each(function() {
+	
+								var child = $(this);
+								var grandChildren = child.children();
+	
+	
+								if (
+									easy_with_br.includes( child.prop('tagName').toUpperCase() ) && // Child is easy to edit
+									grandChildren.length == 1 && // Grand child has no more than 1 child !!! ???
+									easy_with_br.includes( grandChildren.first().prop('tagName').toUpperCase() ) // And that guy is easy to edit as well
+								)
+	
+									easyToEdit = true;
+	
+							});
+	
+							if (easyToEdit) {
+	
+								hoveringText = true;
+								focused_element_editable = true;
+								//console.log( '* Text Editable (One Grand Child): ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+								//console.log( 'Focused Element Text: ' + focused_element_text );
+	
+							}
+	
+	
+						}
+	
+	
+						// Check the submit buttons: <input type="submit | reset">... // !!!
+						hoveringButton = false;
+						if (
+							focused_element.prop('tagName').toUpperCase() == "INPUT" &&
+							(
+								focused_element.attr("type") == "text" ||
+								focused_element.attr("type") == "email" ||
+								focused_element.attr("type") == "url" ||
+								focused_element.attr("type") == "tel" ||
+								focused_element.attr("type") == "submit" ||
+								focused_element.attr("type") == "reset"
+							)
+						) {
+	
+							hoveringButton = true;
+							hoveringText = true;
+							focused_element_editable = true; // Obviously Image Editable
+							//console.log( '* Button Editable: ' + focused_element.prop('tagName').toUpperCase() );
+							//console.log( 'Focused Button Text: ' + focused_element.attr('value') );
+	
+						}
+	
+	
+	
+						// PREVENTIONS:
+						// Check if it doesn't have any element index: <p data-revisionary-index="16">...
+						if (focused_element_editable && !focused_element_has_index) {
+	
+							focused_element_editable = false;
+							//console.log( '* Element editable but NO INDEX: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+	
+						}
+	
+	
+						// If focused element has edited child, don't focus it
+						if (focused_element_has_edited_child > 1 ) {
+	
+							focused_element_editable = false;
+							//console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+	
+						}
+	
+	
+	
+	
+						// Clean Other Outlines
+						removeOutline();
+		
+						// Reset the pin opacity
+						$('#pins > pin').css('opacity', '');
+	
+	
+					} // Live Pin
+	
+					else if (currentPinType == "style") { // Style Pin
+	
+	
+						// Clean Other Outlines
+						removeOutline();
+		
+						// Reset the pin opacity
+						$('#pins > pin').css('opacity', '');
+					
+	
+					} // Style Pin
+						
+					else if (currentPinType == "comment") { // Comment Pin
+	
+	
+						// Nothing to do...
+	
+	
+					} // Comment Pin
+	
+	
+	
+					// // See what am I focusing
+					// console.log("###############################");
+					// console.log(focused_element.prop('tagName').toUpperCase(), 'Index: ' + focused_element_index );
+					// if (focused_element_editable) console.log("ELEMENT EDITABLE");
+					// //console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
+					// if (hoveringText) console.log("HOVERING ON A TEXT");
+					// if (hoveringImage) console.log("HOVERING ON AN IMAGE");
+					// if (hoveringButton) console.log("HOVERING ON A BUTTON");
+					// console.log("###############################");
+	
+	
+	
+					// REACTIONS:
+					focused_element_has_live_pin = focused_element_live_pin.length;
+	
+	
+					// If current element already has a live pin
+					if ( focused_element_has_live_pin ) {
+	
+	
+						// Point to the pin
+						$('#pins > pin:not([data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
+	
+	
+						// Update the cursor
+						changePinNumber( focused_element_live_pin.text() );
+	
+	
+						switchCursorType( focused_element_live_pin.attr('data-pin-type'), focused_element_live_pin.attr('data-pin-private'), true);
+						outline( focused_element, focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type') );
+						//console.log('This element already has a live pin.');
+	
+	
+					} else {
+	
+	
+						// UPDATE CURSOR ACCORDING TO PIN MODES (currentPinType: live | style | browse)
+	
+						// Re-update the cursor number
+						currentPinNumber = $('#pins > pin').length + 1;
+						changePinNumber(currentPinNumber);
+	
+	
+						// Editable check
+						if (currentPinType == "live") {
+	
+	
+							switchCursorType(focused_element_editable ? 'live' : 'style');
+							if (focused_element_has_index) outline(focused_element, currentPinPrivate, focused_element_editable ? 'live' : 'style');
+	
+	
+						} else if (currentPinType == "style") {
+	
+	
+							switchCursorType('style');
+							if (focused_element_has_index) outline(focused_element, currentPinPrivate, "style");
+	
+	
+						} else if (currentPinType == "comment") {
+	
+							switchCursorType('comment');
+	
+						}
+	
+	
+	
+					}
+	
+	
+	
+				} // If cursor active
+	
+	
+			}, true);
+
+
+			// Detect the mouse clicks in frame
+			documentChild.addEventListener('mousedown', function(e) {
+
+
+				//console.log('MOUSE DOWN');
+	
+	
+				// While editing a content on page
+				mouseDownOnContentEdit = cursorActive && focused_element_has_live_pin;
+	
+	
+				//$('#the-page').css('pointer-events', 'none');
+	
+	
+			}, true);
+
+
+			// Detect the mouse clicks in frame
+			documentChild.addEventListener('mouseup', function(e) {
+
+
+				//console.log('MOUSE CLICKED SOMEWHERE', focused_element_index);
+	
+	
+				// If cursor is active
+				if (cursorActive) {
+	
+	
+					// If focused element has a live pin
+					if (focused_element_has_live_pin) {
+	
+						// Open the new pin window if already open one or clicking an image editable
+						if (
+							pinWindowOpen ||
+							focused_element_pin.attr('data-pin-modification-type') == "image" ||
+							focused_element.attr('data-revisionary-showing-content-changes') == "0"
+						)
+							openPinWindow( focused_element_pin.attr('data-pin-id') );
+	
+	
+					} else {
+	
+	
+						// Add a pin and open a pin window
+						if ( !mouseDownOnContentEdit )
+							putPin(focused_element_index, e.pageX, e.pageY, currentCursorType, currentPinPrivate);
+	
+	
+					}
+	
+	
+				} else {
+	
+	
+					// Close the pin window if open and not cursor active and not content editable
+					if ( pinWindowOpen && !iframeElement(focused_element_index).is('[contenteditable]') && !shifted && !selectionFromContentEditor )
+						closePinWindow(true);
+	
+	
+				}
+	
+				selectionFromContentEditor = false;
+	
+	
+				// Re-enable iframe
+				//$('#the-page').css('pointer-events', '');
+	
+	
+				// Prevent clicking something
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				e.stopPropagation();
+				return false;
+	
+	
+			}, true);
+
+
+			// Detect the scroll to re-position pins
+			documentChild.addEventListener('scroll', function(e) {
+
+
+				//console.log('SCROLLIIIIIIIING');
+	
+	
+				// Add scrolling class to the body
+				if (!scrollFlag) {
+					scrollFlag = true;
+					$('body').addClass('scrolling');
+				}
+				clearTimeout(scrollTimer);
+				scrollTimer = setTimeout(function() {
+					$('body').removeClass('scrolling');
+					scrollFlag = false;
+				}, 200);
+	
+	
+				// Re-Locate all the pins !!! Performance issues
+				//relocatePins();
+	
+	
+			}, true);
+
+
+			// Detect shift key press to toggle browse mode
+			documentChild.addEventListener('keydown', function(e) {
+
+
+				if (e.shiftKey) shifted = true;
+	
+	
+				if (shifted && !pinWindowOpen && currentPinType != "browse") {
+	
+					shiftToggle = true;
+					console.log('SHIFTED');
+	
+					currentPinTypeWas = currentPinType;
+					toggleCursorActive(true); // Force close
+					currentPinType = "browse";
+	
+				}
+	
+	
+			}, true);
+
+
+			// Detect shift key press to toggle browse mode
+			documentChild.addEventListener('keyup', function(e) {
+
+
+				if (shifted && shiftToggle && !pinWindowOpen && currentPinType == "browse") {
+	
+					shiftToggle = false;
+					console.log('UNSHIFTED');
+	
+					currentPinType = currentPinTypeWas;
+					toggleCursorActive(false, true); // Force Open
+	
+				}
+	
+	
+				shifted = false;
+	
+	
+			}, true);
+
+
+
+			// REDIRECT DETECTION
 	        $(documentChild).ready(function() {
 				$(childWindow).on('beforeunload', function() {
 
@@ -289,6 +818,7 @@ function runTheInspector() {
 
 				});
 	        });
+
 
 
 		} else { // IF NO ACCESS OF IFRAME
@@ -336,502 +866,7 @@ function runTheInspector() {
 
 
 		// MOUSE ACTIONS:
-		var doChangeOnPage = {};
-		var mouseDownOnContentEdit = false;
-		var scrollTimer, scrollFlag = false;
-	    iframe.on('mousemove', function(e) { // Detect the mouse moves in frame
-
-
-		    // Mouse coordinates according to the iframe container
-		    containerX = e.clientX * iframeScale;
-		    containerY = e.clientY * iframeScale;
-		    //console.log('Container: ', containerX, containerY);
-
-
-		    // Follow the mouse cursor
-			$('.mouse-cursor').css({
-				left:  containerX,
-				top:   containerY
-			});
-
-
-
-			// FOCUSING:
-			// Focused Element is the mouse pointed element as default
-			focused_element = $(e.target);
-			reFocus();
-
-
-
-			// Work only if cursor is active
-			if (cursorActive && !hoveringPin) {
-
-
-
-				if (currentPinType == "live") { // Live Pin
-
-
-					// REFOCUS WORKS:
-					// Re-focus if the focused element has no index
-					if (!focused_element_has_index && focused_element.parents('[data-revisionary-index]').length) {
-
-
-						// Re-focus to the closest indexed element
-						focused_element = focused_element.parents('[data-revisionary-index]').first();
-
-
-						//console.log('REFOCUS - if the focused element has no index: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
-
-					}
-
-
-					// Re-focus if only child element has no child and has content: <p><b focused>Lorem ipsum</b></p>
-					if (
-						focused_element_text == "" && // Focused element has no content
-						focused_element_children.length == 1 && // Has only one child
-						focused_element_grand_children.length == 0 && // No grand child
-						focused_element_children.first().text().trim() != "" // Grand child should have content
-					) {
-
-						// Re-focus to the child element
-						focused_element = focused_element_children.first();
-
-
-						//console.log('REFOCUS - Only child element has no child and has content: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
-
-					}
-
-
-					// Re-focus to the edited element if this is child of it: <p data-edited="1" focused><b>Lorem
-					if (focused_element_edited_parents.length) {
-
-						// Re-focus to the parent edited element
-						focused_element = focused_element_edited_parents.first();
-
-
-						//console.log('REFOCUS - Already edited closest parent: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
-
-					}
-
-
-					// Update refocused sub elements
-					reFocus();
-
-
-
-					// EDITABLE CHECKS:
-					hoveringText = false;
-					focused_element_editable = false;
-
-
-					// Directly editable:
-					// Check element text editable: <p>Lorem ipsum dolor sit amet...
-					if (
-						easy_html_elements.includes( focused_element.prop('tagName').toUpperCase() ) && // In easy HTML elements?
-						focused_element_text.trim() != "" && // Has to have text
-						focused_element.html() != "&nbsp;"  && // Text shouldn't be blank
-						focused_element_children.length == 0 // No child element
-					) {
-
-						hoveringText = true;
-						focused_element_editable = true; // Obviously Text Editable
-						//console.log( '* Obviously Text Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
-						//console.log( 'Focused Element Text: ' + focused_element_text );
-
-					}
-
-
-					// Image editable:
-					// Check element image editable: <img src="#">...
-					hoveringImage = false;
-					if ( focused_element.prop('tagName').toUpperCase() == "IMG" ) {
-
-						hoveringImage = true;
-						focused_element_editable = true; // Obviously Image Editable
-						//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
-						//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
-
-					}
-
-
-					// // Background Image editable: !!!
-					// // Check element background image editable
-					// if (
-					// 	focused_element.prop('tagName').toUpperCase() != "IMG" &&
-					// 	focused_element.css('background-image').substring(0, 4) == "url(" &&
-					// 	focused_element.css('background-image').match(/url\(/g).length === 1 // Only one url()
-					// ) {
-
-					// 	//focused_element_editable = true; // Obviously Image Editable
-					// 	//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
-					// 	//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
-
-					// 	//console.log( "BGIMAGE: ", focused_element.css('background-image').replace(/^url\(['"](.+)['"]\)/, '$1') );
-					// 	console.log( "BGIMAGE: ", focused_element.css('background-image') );
-
-					// }
-
-
-					// Check if element has children but doesn't have grand children: <p>Lorem ipsum <a href="#">dolor</a> sit amet...
-					if (
-						focused_element_children.length > 0 && // Has child
-						focused_element_grand_children.length == 0 && // No grand child
-						focused_element_text.trim() != "" && // Has to have text
-						focused_element.html() != "&nbsp;" // Text shouldn't be blank
-					) {
-
-
-						// Also check the children's tagname
-						var hardToEdit = true;
-						focused_element_children.each(function() {
-
-							// In easy HTML elements?
-							if ( easy_with_br.includes( $(this).prop('tagName').toUpperCase() ) ) hardToEdit = false;
-
-						});
-
-						if (!hardToEdit) {
-
-							hoveringText = true;
-							focused_element_editable = true;
-							//console.log( '* Text Editable (No Grand Child): ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
-							//console.log( 'Focused Element Text: ' + focused_element_text );
-
-						}
-
-					}
-
-
-					// Chech if element has only one grand child and it doesn't have any child: <p>Lorem ipsum <a href="#"><strong>dolor</strong></a> sit amet... !!!
-					if (
-						focused_element_children.length > 0 && // Has child
-						focused_element_grand_children.length > 0 && // Has grand child
-						focused_element_text.trim() != "" && // And, also have to have text
-						focused_element.html() != "&nbsp;" // And, also have to have text
-					) {
-
-
-						// Also check the children's tagname
-						var easyToEdit = false;
-						focused_element_children.each(function() {
-
-							var child = $(this);
-							var grandChildren = child.children();
-
-
-							if (
-								easy_with_br.includes( child.prop('tagName').toUpperCase() ) && // Child is easy to edit
-								grandChildren.length == 1 && // Grand child has no more than 1 child !!! ???
-								easy_with_br.includes( grandChildren.first().prop('tagName').toUpperCase() ) // And that guy is easy to edit as well
-							)
-
-								easyToEdit = true;
-
-						});
-
-						if (easyToEdit) {
-
-							hoveringText = true;
-							focused_element_editable = true;
-							//console.log( '* Text Editable (One Grand Child): ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
-							//console.log( 'Focused Element Text: ' + focused_element_text );
-
-						}
-
-
-					}
-
-
-					// Check the submit buttons: <input type="submit | reset">... // !!!
-					hoveringButton = false;
-					if (
-						focused_element.prop('tagName').toUpperCase() == "INPUT" &&
-						(
-							focused_element.attr("type") == "text" ||
-							focused_element.attr("type") == "email" ||
-							focused_element.attr("type") == "url" ||
-							focused_element.attr("type") == "tel" ||
-							focused_element.attr("type") == "submit" ||
-							focused_element.attr("type") == "reset"
-						)
-					) {
-
-						hoveringButton = true;
-						hoveringText = true;
-						focused_element_editable = true; // Obviously Image Editable
-						//console.log( '* Button Editable: ' + focused_element.prop('tagName').toUpperCase() );
-						//console.log( 'Focused Button Text: ' + focused_element.attr('value') );
-
-					}
-
-
-
-					// PREVENTIONS:
-					// Check if it doesn't have any element index: <p data-revisionary-index="16">...
-					if (focused_element_editable && !focused_element_has_index) {
-
-						focused_element_editable = false;
-						//console.log( '* Element editable but NO INDEX: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
-
-					}
-
-
-					// If focused element has edited child, don't focus it
-					if (focused_element_has_edited_child > 1 ) {
-
-						focused_element_editable = false;
-						//console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
-
-					}
-
-
-
-
-					// Clean Other Outlines
-					removeOutline();
-	
-					// Reset the pin opacity
-					$('#pins > pin').css('opacity', '');
-
-
-				} // Live Pin
-
-				else if (currentPinType == "style") { // Style Pin
-
-
-					// Clean Other Outlines
-					removeOutline();
-	
-					// Reset the pin opacity
-					$('#pins > pin').css('opacity', '');
-				
-
-				} // Style Pin
-					
-				else if (currentPinType == "comment") { // Comment Pin
-
-
-					// Nothing to do...
-
-
-				} // Comment Pin
-
-
-
-				// // See what am I focusing
-				// console.log("###############################");
-				// console.log(focused_element.prop('tagName').toUpperCase(), 'Index: ' + focused_element_index );
-				// if (focused_element_editable) console.log("ELEMENT EDITABLE");
-				// //console.log("CURRENT FOCUSED PIN PRIVATE?: ", focused_element_pin.attr('data-pin-private') );
-				// if (hoveringText) console.log("HOVERING ON A TEXT");
-				// if (hoveringImage) console.log("HOVERING ON AN IMAGE");
-				// if (hoveringButton) console.log("HOVERING ON A BUTTON");
-				// console.log("###############################");
-
-
-
-				// REACTIONS:
-				focused_element_has_live_pin = focused_element_live_pin.length;
-
-
-				// If current element already has a live pin
-				if ( focused_element_has_live_pin ) {
-
-
-					// Point to the pin
-					$('#pins > pin:not([data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
-
-
-					// Update the cursor
-					changePinNumber( focused_element_live_pin.text() );
-
-
-					switchCursorType( focused_element_live_pin.attr('data-pin-type'), focused_element_live_pin.attr('data-pin-private'), true);
-					outline( focused_element, focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type') );
-					//console.log('This element already has a live pin.');
-
-
-				} else {
-
-
-					// UPDATE CURSOR ACCORDING TO PIN MODES (currentPinType: live | style | browse)
-
-					// Re-update the cursor number
-					currentPinNumber = $('#pins > pin').length + 1;
-					changePinNumber(currentPinNumber);
-
-
-					// Editable check
-					if (currentPinType == "live") {
-
-
-						switchCursorType(focused_element_editable ? 'live' : 'style');
-						if (focused_element_has_index) outline(focused_element, currentPinPrivate, focused_element_editable ? 'live' : 'style');
-
-
-					} else if (currentPinType == "style") {
-
-
-						switchCursorType('style');
-						if (focused_element_has_index) outline(focused_element, currentPinPrivate, "style");
-
-
-					} else if (currentPinType == "comment") {
-
-						switchCursorType('comment');
-
-					}
-
-
-
-				}
-
-
-
-			} // If cursor active
-
-
-		}).on('click', function(e) { // Detect the mouse clicks in frame !!!! Does not prevent the mouse click events that's already registered
-
-
-			console.log('MOUSE CLICKED');
-
-
-			// Prevent clicking something
-			e.preventDefault();
-			e.stopImmediatePropagation();
-			e.stopPropagation();
-			return false;
-
-
-		}).on('mousedown', function(e) { // Detect the mouse clicks in frame
-
-
-			//console.log('MOUSE DOWN');
-
-
-			// While editing a content on page
-			mouseDownOnContentEdit = cursorActive && focused_element_has_live_pin;
-
-
-			//$('#the-page').css('pointer-events', 'none');
-
-
-		}).on('mouseup', function(e) { // Detect the mouse clicks in frame
-
-
-			//console.log('MOUSE CLICKED SOMEWHERE', focused_element_index);
-
-
-			// If cursor is active
-			if (cursorActive) {
-
-
-				// If focused element has a live pin
-				if (focused_element_has_live_pin) {
-
-					// Open the new pin window if already open one or clicking an image editable
-					if (
-						pinWindowOpen ||
-						focused_element_pin.attr('data-pin-modification-type') == "image" ||
-						focused_element.attr('data-revisionary-showing-content-changes') == "0"
-					)
-						openPinWindow( focused_element_pin.attr('data-pin-id') );
-
-
-				} else {
-
-
-					// Add a pin and open a pin window
-					if ( !mouseDownOnContentEdit )
-						putPin(focused_element_index, e.pageX, e.pageY, currentCursorType, currentPinPrivate);
-
-
-				}
-
-
-			} else {
-
-
-				// Close the pin window if open and not cursor active and not content editable
-				if ( pinWindowOpen && !iframeElement(focused_element_index).is('[contenteditable]') && !shifted && !selectionFromContentEditor )
-					closePinWindow(true);
-
-
-			}
-
-			selectionFromContentEditor = false;
-
-
-			// Re-enable iframe
-			//$('#the-page').css('pointer-events', '');
-
-
-			// Prevent clicking something
-			e.preventDefault();
-			e.stopImmediatePropagation();
-			e.stopPropagation();
-			return false;
-
-
-		}).on('scroll', function(e) { // Detect the scroll to re-position pins
-
-
-			//console.log('SCROLLIIIIIIIING');
-
-
-			// Add scrolling class to the body
-			if (!scrollFlag) {
-				scrollFlag = true;
-				$('body').addClass('scrolling');
-			}
-			clearTimeout(scrollTimer);
-			scrollTimer = setTimeout(function() {
-				$('body').removeClass('scrolling');
-				scrollFlag = false;
-			}, 200);
-
-
-		    // Re-Locate all the pins !!! Performance issues
-			//relocatePins();
-
-
-		}).on('keydown', function(e) { // Detect shift key press to toggle browse mode
-
-
-			if (e.shiftKey) shifted = true;
-
-
-			if (shifted && !pinWindowOpen && currentPinType != "browse") {
-
-				shiftToggle = true;
-				console.log('SHIFTED');
-
-				currentPinTypeWas = currentPinType;
-				toggleCursorActive(true); // Force close
-				currentPinType = "browse";
-
-			}
-
-
-		}).on('keyup', function(e) { // Detect shift key press to toggle browse mode
-
-
-			if (shifted && shiftToggle && !pinWindowOpen && currentPinType == "browse") {
-
-				shiftToggle = false;
-				console.log('UNSHIFTED');
-
-				currentPinType = currentPinTypeWas;
-				toggleCursorActive(false, true); // Force Open
-
-			}
-
-
-			shifted = false;
-
-
-		}).on('input', '[contenteditable="true"][data-revisionary-index]', function(e) { // Detect changes on page text
+	    iframe.on('input', '[contenteditable="true"][data-revisionary-index]', function(e) { // Detect changes on page text
 
 
 			var element_index = $(this).attr('data-revisionary-index');

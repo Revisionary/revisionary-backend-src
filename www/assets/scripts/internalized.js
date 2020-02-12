@@ -1,20 +1,22 @@
-var preventAction = function(e){
+// var preventAction = function(e) {
 
-	//console.log(parent.currentPinType, parent);
+// 	//console.log(parent.currentPinType, parent);
 
-	//if ( parent.currentPinType != "browse" ) {
+// 	//if ( parent.currentPinType != "browse" ) {
 
-		//alert('Clicked');
+// 		//alert('Clicked');
+// 		//console.log('CLICKED');
 
-		e.preventDefault();
-		e.stopImmediatePropagation();
-		e.stopPropagation();
+// 		e.stopPropagation();
+// 		e.stopImmediatePropagation();
+// 		e.preventDefault();
+// 		return false;
 
-	//}
+// 	//}
 
-};
+// };
 
-document.addEventListener('click', preventAction, false);
-// document.addEventListener('dblclick', preventAction, false);
-// document.addEventListener('mousedown', preventAction, false);
-// document.addEventListener('mouseup', preventAction, false);
+// document.addEventListener('click', preventAction, true);
+// document.addEventListener('dblclick', preventAction, true);
+// document.addEventListener('mousedown', preventAction, true);
+// //document.addEventListener('mouseup', preventAction, true);
