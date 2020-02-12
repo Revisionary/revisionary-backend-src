@@ -167,16 +167,22 @@ function runTheInspector() {
 
 				setTimeout(function() { // Does not work sometimes, and needs improvement !!!
 
-					// Remove the overlay
-					$('#wait').hide();
 
-					// Show the pins
-					$('#pins').css('opacity', '');
+					// Re-apply pins
+					applyPins();
 
 
 					iframe.scrollTop(oldScrollOffset_top);
 					iframe.scrollLeft(oldScrollOffset_left);
 					oldScrollOffset_top = oldScrollOffset_left = 0;
+
+
+					// Show the pins
+					$('#pins').css('opacity', '');
+
+
+					// Remove the overlay
+					$('#wait').hide();
 
 
 					console.log('LOAD PAGE REOPEN COMPLETE', page_redirected);
@@ -225,15 +231,15 @@ function runTheInspector() {
 				switchPinType(currentPinType, currentPinPrivate);
 
 
+
+				// PINS:
+				// Get latest pins and apply them to the page
+				Pins = [];
+				getPins(true, openPin);
+				openPin = null;
+
+
 			}
-
-
-
-			// PINS:
-			// Get latest pins and apply them to the page
-			Pins = [];
-			getPins(true, openPin);
-			openPin = null;
 
 
 
@@ -245,11 +251,12 @@ function runTheInspector() {
 				$(childWindow).on('beforeunload', function() {
 
 
-					//if (cursorActive) return "This page tries to redirect another page."; // !!! ???
-
+					// Prevent leaving the page
+					if (processExists) return true;
 
 
 					console.log('REDIRECTING DETECTED...');
+					iframeLoaded = false;
 
 
 					// If pin window open
@@ -271,7 +278,7 @@ function runTheInspector() {
 
 					$('#wait').show();
 
-					// Show the pins
+					// Hide the pins
 					$('#pins').css('opacity', '0');
 
 					oldScrollOffset_top = scrollOffset_top;
@@ -1508,6 +1515,10 @@ function startAutoRefresh(interval) {
 		console.log('Auto checking the pins...');
 
 
+		// Abort if the iframe is not loaded
+		if (!iframeLoaded) return false;
+
+
 		// Abort the latest request if not finalized
 		if(autoRefreshRequest && autoRefreshRequest.readyState != 4) {
 			console.log('Latest request aborted');
@@ -1721,10 +1732,30 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	// If pin mode is "Live"
 	if (cursorType == "live") {
 
+
+		// Get modification type
 		modificationType = selectedElement.prop('tagName').toUpperCase() == 'IMG' ? "image" : "html";
 		if (modificationType == "html") selectedElement.attr('contenteditable', "true");
 
+
+		// Get original values
 		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.prop('src');
+
+		// If edited element is a submit or reset input button
+		if (
+			selectedElement.prop('tagName').toUpperCase() == "INPUT" &&
+			(
+				selectedElement.attr("type") == "text" ||
+				selectedElement.attr("type") == "email" ||
+				selectedElement.attr("type") == "url" ||
+				selectedElement.attr("type") == "tel" ||
+				selectedElement.attr("type") == "submit" ||
+				selectedElement.attr("type") == "reset"
+			)
+		) {
+			modificationOriginal = selectedElement.val();
+		}
+
 
 	}
 
@@ -5651,7 +5682,7 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
     if (millis == null) millis = 100;
 	var o = $(this[0]); // Our object
-	if (o.length < 1) return o;
+	if (o.length < 1) return o; // Abort if element not exists
 	var element_index = o.attr('data-revisionary-index');
 	//console.log('INDEX: ', element_index);
 
@@ -5664,9 +5695,10 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
     setInterval(function() {
 
-        if (o == null || o.length < 1) return o; // Abort if element is not exist anymore
+        if ( o == null || o.length < 1 ) return o; // Abort if element is not exist anymore
 		if ( o.css('display') == "none" ) o = o.parent(); // If this hidden element
 		if ( pinElement(element_index, true).css('opacity') == 0 ) return o; // Abort if the pin is hidden or filtered
+		if ( !iframeLoaded ) return o; // Abort if the iframe is not loaded
 
         if (lastPos == null) lastPos = o.position();
         //if (lastOff == null) lastOff = o.offset();

@@ -377,7 +377,7 @@ class Internalize {
 
 
 
-		// INCLUDE THE BASE
+		// INCLUDE THE BASE AND HELPER SCRIPT
 		$countHead = 0;
 		$html = preg_replace_callback(
 	        '/<head([\>]|[\s][^<]*?\>)/i',
@@ -389,6 +389,7 @@ class Internalize {
 			        // Specific Log
 					file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->phaseData->remoteUrl."' \r\n", FILE_APPEND);
 					$new_base = "<base href='".$this->phaseData->remoteUrl."'>";
+					$new_base .= "<script src='".asset_url('scripts/internalized.js', true)."'></script>";
 			        return $head_tag.$new_base;
 		        }
 		        return $head_tag;
@@ -417,6 +418,7 @@ class Internalize {
 						file_put_contents( $this->phaseData->logDir."/_html-filter.log", "[".date("Y-m-d h:i:sa")."] - Base Added: '".$this->phaseData->remoteUrl."' \r\n", FILE_APPEND);
 
 						$new_base = "<base href='".$this->phaseData->remoteUrl."'>";
+						$new_base .= "<script src='".asset_url('scripts/internalized.js', true)."'></script>";
 
 						return $html_tag.$new_base;
 

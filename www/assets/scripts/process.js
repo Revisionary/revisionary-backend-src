@@ -1,7 +1,6 @@
 // PROCESS VARS
-var processExists = false;
-var processExistsText = "Changes you made may not be saved.";
 var processCount = 0;
+var processExists = false;
 
 // Elements
 var progressBar;
@@ -12,17 +11,11 @@ var page_ready = page_ready === undefined ? true : page_ready;
 
 
 
-window.onbeforeunload = function(e){
-	var e = e || window.event;
-	if (!processExists) return;
+window.onbeforeunload = function(){
 
-	// For IE and Firefox (prior to 4)
-	if (e){
-	  e.returnValue = processExistsText;
-	}
-	// For Safari and Chrome
-	return processExistsText;
-  };
+	if (processExists) return true;
+
+};
 
 
 
