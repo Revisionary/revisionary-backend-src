@@ -16243,7 +16243,6 @@ pin {
   -moz-transition: width 500ms, height 500ms, font-size 500ms, line-height 500ms, opacity 1000ms, transform 200ms, -moz-transform 200ms;
   transition: width 500ms, height 500ms, font-size 500ms, line-height 500ms, opacity 1000ms, transform 200ms;
   transition: width 500ms, height 500ms, font-size 500ms, line-height 500ms, opacity 1000ms, transform 200ms, -moz-transform 200ms;
-  overflow: hidden;
 }
 
 pin.mouse-cursor, pin.ui-draggable-dragging,
@@ -16345,6 +16344,7 @@ pin.hidden {
   -moz-transition: 0 !important;
   transition: 0 !important;
   text-indent: -999px;
+  overflow: hidden;
   width: 25px;
   height: 25px;
   line-height: 25px;
