@@ -4,7 +4,7 @@
 
 	<main id="first-section">
 
-		<header class="wrap xl-flexbox xl-middle xl-2 xl-outside-60">
+		<header class="wrap xl-flexbox xl-middle xl-between xl-outside-60">
 
 			<div class="col branding-side xl-left">
 
