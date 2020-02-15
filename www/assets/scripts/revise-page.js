@@ -957,7 +957,12 @@ $(function() {
 
 
 				// Update the element, pin and pin window status
-				changedElement.attr('src', imageUrl).removeAttr('srcset');
+				if ( changedElement.prop('tagName').toUpperCase() == "IMAGE" )
+					changedElement.attr('xlink:href', imageUrl);
+				else
+					changedElement.attr('src', imageUrl).removeAttr('srcset');
+
+
 				updateAttributes(pin_ID, 'data-revisionary-content-edited', "1");
 				updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
 

@@ -3006,3 +3006,25 @@ function copyToClipboard(selector) {
 	temp.remove();
 
 }
+
+function getAbsoluteUrl(url, selectedDocument) {
+
+	selectedDocument = assignDefault(selectedDocument, document);
+
+	var a = selectedDocument.createElement('a');
+	a.href = url;
+
+	return a.href;
+
+}
+
+// var getAbsoluteUrl = (function() {
+// 	var a;
+
+// 	return function(url) {
+// 		if(!a) a = document.createElement('a');
+// 		a.href = url;
+
+// 		return a.href;
+// 	};
+// })();

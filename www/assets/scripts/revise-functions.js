@@ -313,7 +313,7 @@ function runTheInspector() {
 							focused_element = focused_element.parents('[data-revisionary-index]').first();
 	
 	
-							//console.log('REFOCUS - if the focused element has no index: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
+							//console.log('REFOCUS - if the focused element has no index: ' + focused_element_tagname + '.' + focused_element.attr('class'));
 	
 						}
 	
@@ -330,7 +330,7 @@ function runTheInspector() {
 							focused_element = focused_element_children.first();
 	
 	
-							//console.log('REFOCUS - Only child element has no child and has content: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
+							//console.log('REFOCUS - Only child element has no child and has content: ' + focused_element_tagname + '.' + focused_element.attr('class'));
 	
 						}
 	
@@ -342,7 +342,7 @@ function runTheInspector() {
 							focused_element = focused_element_edited_parents.first();
 	
 	
-							//console.log('REFOCUS - Already edited closest parent: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class'));
+							//console.log('REFOCUS - Already edited closest parent: ' + focused_element_tagname + '.' + focused_element.attr('class'));
 	
 						}
 	
@@ -360,7 +360,7 @@ function runTheInspector() {
 						// Directly editable:
 						// Check element text editable: <p>Lorem ipsum dolor sit amet...
 						if (
-							easy_html_elements.includes( focused_element.prop('tagName').toUpperCase() ) && // In easy HTML elements?
+							easy_html_elements.includes( focused_element_tagname ) && // In easy HTML elements?
 							focused_element_text.trim() != "" && // Has to have text
 							focused_element.html() != "&nbsp;"  && // Text shouldn't be blank
 							focused_element_children.length == 0 // No child element
@@ -368,7 +368,7 @@ function runTheInspector() {
 	
 							hoveringText = true;
 							focused_element_editable = true; // Obviously Text Editable
-							//console.log( '* Obviously Text Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+							//console.log( '* Obviously Text Editable: ' + focused_element_tagname + '.' + focused_element.attr('class') );
 							//console.log( 'Focused Element Text: ' + focused_element_text );
 	
 						}
@@ -377,11 +377,11 @@ function runTheInspector() {
 						// Image editable:
 						// Check element image editable: <img src="#">...
 						hoveringImage = false;
-						if ( focused_element.prop('tagName').toUpperCase() == "IMG" ) {
+						if ( focused_element_tagname == "IMG" || focused_element_tagname == "IMAGE" ) {
 	
 							hoveringImage = true;
 							focused_element_editable = true; // Obviously Image Editable
-							//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+							//console.log( '* Obviously Image Editable: ' + focused_element_tagname + '.' + focused_element.attr('class') );
 							//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
 	
 						}
@@ -390,13 +390,13 @@ function runTheInspector() {
 						// // Background Image editable: !!!
 						// // Check element background image editable
 						// if (
-						// 	focused_element.prop('tagName').toUpperCase() != "IMG" &&
+						// 	focused_element_tagname != "IMG" && focused_element_tagname != "IMAGE"
 						// 	focused_element.css('background-image').substring(0, 4) == "url(" &&
 						// 	focused_element.css('background-image').match(/url\(/g).length === 1 // Only one url()
 						// ) {
 	
 						// 	//focused_element_editable = true; // Obviously Image Editable
-						// 	//console.log( '* Obviously Image Editable: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+						// 	//console.log( '* Obviously Image Editable: ' + focused_element_tagname + '.' + focused_element.attr('class') );
 						// 	//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
 	
 						// 	//console.log( "BGIMAGE: ", focused_element.css('background-image').replace(/^url\(['"](.+)['"]\)/, '$1') );
@@ -427,7 +427,7 @@ function runTheInspector() {
 	
 								hoveringText = true;
 								focused_element_editable = true;
-								//console.log( '* Text Editable (No Grand Child): ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+								//console.log( '* Text Editable (No Grand Child): ' + focused_element_tagname + '.' + focused_element.attr('class') );
 								//console.log( 'Focused Element Text: ' + focused_element_text );
 	
 							}
@@ -466,7 +466,7 @@ function runTheInspector() {
 	
 								hoveringText = true;
 								focused_element_editable = true;
-								//console.log( '* Text Editable (One Grand Child): ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+								//console.log( '* Text Editable (One Grand Child): ' + focused_element_tagname + '.' + focused_element.attr('class') );
 								//console.log( 'Focused Element Text: ' + focused_element_text );
 	
 							}
@@ -478,7 +478,7 @@ function runTheInspector() {
 						// Check the submit buttons: <input type="submit | reset">... // !!!
 						hoveringButton = false;
 						if (
-							focused_element.prop('tagName').toUpperCase() == "INPUT" &&
+							focused_element_tagname == "INPUT" &&
 							(
 								focused_element.attr("type") == "text" ||
 								focused_element.attr("type") == "email" ||
@@ -492,7 +492,7 @@ function runTheInspector() {
 							hoveringButton = true;
 							hoveringText = true;
 							focused_element_editable = true; // Obviously Image Editable
-							//console.log( '* Button Editable: ' + focused_element.prop('tagName').toUpperCase() );
+							//console.log( '* Button Editable: ' + focused_element_tagname );
 							//console.log( 'Focused Button Text: ' + focused_element.attr('value') );
 	
 						}
@@ -504,7 +504,7 @@ function runTheInspector() {
 						if (focused_element_editable && !focused_element_has_index) {
 	
 							focused_element_editable = false;
-							//console.log( '* Element editable but NO INDEX: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+							//console.log( '* Element editable but NO INDEX: ' + focused_element_tagname + '.' + focused_element.attr('class') );
 	
 						}
 	
@@ -513,7 +513,7 @@ function runTheInspector() {
 						if (focused_element_has_edited_child > 1 ) {
 	
 							focused_element_editable = false;
-							//console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element.prop('tagName').toUpperCase() + '.' + focused_element.attr('class') );
+							//console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element_tagname + '.' + focused_element.attr('class') );
 	
 						}
 	
@@ -1769,12 +1769,17 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 		// Get modification type
-		modificationType = selectedElement.prop('tagName').toUpperCase() == 'IMG' ? "image" : "html";
+		modificationType = selectedElement.prop('tagName').toUpperCase() == 'IMG' || selectedElement.prop('tagName').toUpperCase() == 'IMAGE' ? "image" : "html";
 		if (modificationType == "html") selectedElement.attr('contenteditable', "true");
 
 
 		// Get original values
 		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.prop('src');
+
+
+		// SVG Images
+		if ( selectedElement.prop('tagName').toUpperCase() == 'IMAGE' ) modificationOriginal = selectedElement.attr("xlink:href");
+
 
 		// If edited element is a submit or reset input button
 		if (
@@ -3101,7 +3106,7 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 
 			// IMAGE
-			if ( thePinModificationType == "image" && theElement.prop('tagName').toUpperCase() == "IMG" ) {
+			if ( thePinModificationType == "image" && (theElement.prop('tagName').toUpperCase() == "IMG" || theElement.prop('tagName').toUpperCase() == "IMAGE") ) {
 
 
 				var originalImageSrc = "";
@@ -3112,6 +3117,10 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 				if ( iframeElement(theIndex).is(':not([data-revisionary-showing-content-changes])') ) {
 
 					originalImageSrc = iframeElement(theIndex).prop('src');
+
+					// SVG image URL
+					if ( theElement.prop('tagName').toUpperCase() == "IMAGE" )
+						originalImageSrc = getAbsoluteUrl( iframeElement(theIndex).attr('xlink:href'), documentChild );
 
 					// Default image preview
 					changedImageSrc = originalImageSrc;
@@ -3274,8 +3283,8 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 
 		// Live pin error check !!! Add more
 		if (
-			(thePinModificationType == "image" && theElement.prop('tagName').toUpperCase() != "IMG") ||
-			(thePinModificationType == "html" && theElement.prop('tagName').toUpperCase() == "IMG")
+			(thePinModificationType == "image" && (theElement.prop('tagName').toUpperCase() != "IMG" && theElement.prop('tagName').toUpperCase() != "IMAGE")) ||
+			(thePinModificationType == "html" && (theElement.prop('tagName').toUpperCase() == "IMG" || theElement.prop('tagName').toUpperCase() == "IMAGE"))
 		) {
 
 			// Act like a style pin (Hide content changers)
@@ -3594,6 +3603,10 @@ function updateOriginals(pinsList, oldPinsList) {
 
 				theOriginal = element.prop('src');
 
+				// For SVG images
+				if ( element.prop('tagName').toUpperCase() == 'IMAGE' )
+					theOriginal = getAbsoluteUrl( element.attr('xlink:href'), documentChild );
+
 			}
 
 		}
@@ -3889,7 +3902,11 @@ function updateChange(pin_ID, modification, applyHTML) {
 
 				// Apply the change
 				var newSrc = modification; //console.log('NEW', newHTML);
-				changedElement.attr('src', newSrc).removeAttr('srcset');
+
+				if ( changedElement.prop('tagName').toUpperCase() == "IMAGE" )
+					changedElement.attr('xlink:href', newSrc);
+				else
+					changedElement.attr('src', newSrc).removeAttr('srcset');
 
 
 			}
@@ -3965,7 +3982,11 @@ function revertChange(pin_ID) {
 
 		// Revert the change on DOM
 		var oldSrc = pin.pin_modification_original; //console.log('NEW', newHTML);
-		changedElement.attr('src', oldSrc);
+
+		if ( changedElement.prop('tagName').toUpperCase() == "IMAGE" )
+			changedElement.attr('xlink:href', oldSrc);
+		else
+			changedElement.attr('src', oldSrc);
 
 
 		// Add the original HTML content
@@ -4050,8 +4071,12 @@ function toggleChange(pin_ID) {
 
 
 		// Change the content on DOM
-		iframeElement(pin.pin_element_index)
-			.attr('src', (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) );
+		if ( iframeElement(pin.pin_element_index).prop('tagName').toUpperCase() == "IMAGE" )
+			iframeElement(pin.pin_element_index)
+				.attr('xlink:href', (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) );
+		else
+			iframeElement(pin.pin_element_index)
+				.attr('src', (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) );
 
 		// Update the element, pin and pin window status
 		updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', (isShowingChanges ? "0" : "1"));
@@ -4810,6 +4835,7 @@ function reFocus() {
 	focused_element_live_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
 	focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-content-edited]');
 	focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-content-edited]').length;
+	focused_element_tagname = focused_element.prop('tagName').toUpperCase();
 
 }
 
