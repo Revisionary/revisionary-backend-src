@@ -4113,6 +4113,7 @@ function initiateContentEditor() {
 		color_map: colorsSorted,
 		toolbar: false,
 		menubar: false,
+		verify_html: false,
 		inline: true,
 		paste_as_text: true,
 		force_br_newlines : false,
