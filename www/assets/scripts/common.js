@@ -2848,22 +2848,24 @@ function removeQueryArgFromCurrentUrl(arg) {
 
 }
 
-function cleanHTML(s, allowBRs) {
+function cleanHTML(s) {
 
 
-	// Default
-	allowBRs = assignDefault(allowBRs, false);
+	// Clean HTML tags, except BRs
+	s = s.replace(/<(br)[^>]+>/ig,'<$1>');
+	s.replace(/(<(?!br\s*\/?)[^>]+>)/ig,"");
 
 
-	if (allowBRs) {
-
-		s = s.replace(/<(br)[^>]+>/ig,'<$1>');
-		return s.replace(/(<(?!br\s*\/?)[^>]+>)/ig,"");
-
-	}
+	// BR to new line sign
+	s = s.replace(/<br\s*\/?>/gi, '↲<div></div>');
 
 
-	return s.replace(/(<([^>]+)>)/ig,"");
+	return s;
+
+
+	// // Clean all HTML tags
+	// return s.replace(/(<([^>]+)>)/ig,"");
+
 }
 
 function getParameterByName(name, url) {

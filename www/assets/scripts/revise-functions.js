@@ -5142,7 +5142,7 @@ function rgbToHex(orig){
 function diffCheck(originalContent, changedContent) {
 
 
-	var diff = JsDiff.diffWords( cleanHTML(originalContent, true), cleanHTML(changedContent, true) );
+	var diff = JsDiff.diffWords( cleanHTML(originalContent), cleanHTML(changedContent) );
 	var diffContent = "";
 
 
