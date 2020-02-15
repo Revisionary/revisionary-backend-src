@@ -897,7 +897,8 @@ class Internalize {
 				// If not valid URL
 				if (
 					$file_name == "" ||
-					$file_extension == ""
+					$file_extension == "" ||
+					substr($url_found, 0, 1) == "#" // On id clip-pathes
 				) {
 
 					$logger->info('Invalid URL skipped in CSS: '.$url_found);
