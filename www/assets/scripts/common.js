@@ -2094,7 +2094,7 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 		var data = result.data;
 		var items = $('.item[data-type="'+object_type+'"][data-id="'+object_ID+'"]');
 
-
+		console.log('HEYYY: ', object_type, object_ID);
 		console.log("RESPONSE: ", data);
 
 
@@ -2106,6 +2106,7 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 				items.find('input.edit-name[data-type="'+object_type+'"][data-id="'+object_ID+'"]').attr('value', firstParameter );
 				items.find('.name[data-type="'+object_type+'"][data-id="'+object_ID+'"]').text( firstParameter );
+				items.children('.name').text( firstParameter );
 
 
 			} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover") {
