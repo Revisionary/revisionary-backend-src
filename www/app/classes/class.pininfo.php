@@ -282,6 +282,10 @@ class Pin {
 		if ($pin_updated) {
 
 
+			// Add to the story
+			$this->addComment("completed this task.", "action");
+
+
 			// Update the page modification date
 			$pageData = Page::ID( $this->page_ID );
 			$pageData->updateModified();
@@ -326,6 +330,10 @@ class Pin {
 		if ($pin_updated) {
 
 
+			// Add to the story
+			$this->addComment("incompleted this task.", "action");
+
+
 			// Update the page modification date
 			$pageData = Page::ID( $this->page_ID );
 			$pageData->updateModified();
@@ -365,6 +373,10 @@ class Pin {
 		if ($pin_updated) {
 
 
+			// Add to the story
+			$this->addComment("made this pin device specific.", "action");
+
+
 			// Update the page modification date
 			$pageData = Page::ID( $this->page_ID );
 			$pageData->updateModified();
@@ -402,6 +414,10 @@ class Pin {
 
 		// If successful
 		if ($pin_updated) {
+
+
+			// Add to the story
+			$this->addComment("made this pin for all devices.", "action");
 
 
 			// Update the page modification date
@@ -479,6 +495,10 @@ class Pin {
 		if ($pin_updated) {
 
 
+			// Add to the story
+			if ($current_pin_type != $pin_type) $this->addComment("made this a $pin_type pin", "action");
+
+
 			// Update the page modification date
 			$pageData = Page::ID( $this->page_ID );
 			$pageData->updateModified();
@@ -521,6 +541,10 @@ class Pin {
 
 
 		if ($pin_updated) {
+
+
+			// Add to the story
+			if ($modification == null) $this->addComment("reset content.", "action");
 
 
 			// Update the page modification date
@@ -624,7 +648,11 @@ class Pin {
 
 
 
-		if ($comment_type != "comment" && $comment_type != "attachment") return false;
+		if (
+			$comment_type != "comment" && 
+			$comment_type != "attachment" &&
+			$comment_type != "action"
+		) return false;
 
 
 

@@ -1537,6 +1537,30 @@ html, body {
   opacity: 1;
 }
 
+.pin-comments .comment.action {
+  opacity: 0.5;
+  margin-bottom: 0;
+  margin-top: -7px;
+}
+
+.pin-comments .comment.action.recurring {
+  margin-top: -20px;
+}
+
+.pin-comments .comment.action .name {
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+.pin-comments .comment.action .comment-text {
+  font-size: 9px;
+  letter-spacing: 0.5px;
+}
+
+.pin-comments .comment.action .date {
+  font-size: 7px;
+}
+
 .pin-comments .comment.recurring {
   margin-top: -15px;
 }

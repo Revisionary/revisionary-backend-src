@@ -1938,6 +1938,31 @@ html, body {
 
 		}
 
+		&.action {
+			opacity: 0.5;
+			margin-bottom: 0;
+			margin-top: -7px;
+
+			&.recurring {
+				margin-top: -20px;
+			}
+			
+			.name {
+				font-size: 12px;
+				letter-spacing: 1px;
+			}
+
+			.comment-text {
+				font-size: 9px;
+				letter-spacing: 0.5px;
+			}
+
+			.date {
+				font-size: 7px;
+			}
+
+		}
+
 
 		&.recurring {
 			margin-top: -15px;

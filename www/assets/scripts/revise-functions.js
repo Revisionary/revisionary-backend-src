@@ -2187,6 +2187,7 @@ function convertPin(pin_ID, targetPin) {
 	// Update from the Pins global
 	var pin = getPin(pin_ID);
 	var pinIndex = Pins.indexOf(pin);
+	var initialPinType = pin.pin_type;
 
 
 	// If the new type is style, reset the modifications
@@ -2211,7 +2212,7 @@ function convertPin(pin_ID, targetPin) {
 	if (pinType == "comment") {
 
 		revertChange(pin_ID);
-		revertCSS(pin_ID);
+		revertCSS(pin_ID, false);
 
 		Pins[pinIndex].pin_modification_type = null;
 		Pins[pinIndex].pin_modification = null;
@@ -2263,6 +2264,10 @@ function convertPin(pin_ID, targetPin) {
 	}).done(function(result) {
 
 		console.log('PIN CONVERTED: ', result.data);
+
+
+		// Refresh the comments
+		if (initialPinType != pinType) getComments(pin_ID);
 
 
 		// Finish the process
@@ -4366,7 +4371,10 @@ function resetCSS(pin_ID) {
 
 
 // Revert CSS
-function revertCSS(pin_ID) {
+function revertCSS(pin_ID, restartPinWindow) {
+
+
+	restartPinWindow = assignDefault(restartPinWindow, true);
 
 
 	console.log('REMOVING CSS FOR: #', pin_ID);
@@ -4416,7 +4424,7 @@ function revertCSS(pin_ID) {
 
 
 	// Reopen the window !!!
-	if (pinWindowOpen) {
+	if (pinWindowOpen && restartPinWindow) {
 
 		closePinWindow();
 		openPinWindow(pin_ID);
@@ -4547,7 +4555,7 @@ function getComments(pin_ID, commentsWrapper) {
 			var sameTime = false;
 
 			// Detect if the same person comment
-			if (previousCommenter == comment.user_ID) {
+			if (previousCommenter == comment.user_ID && previousType == "comment") {
 				hide = true;
 
 				// Detect same time comments
@@ -4575,6 +4583,7 @@ function getComments(pin_ID, commentsWrapper) {
 			// Record the previous commenter
 			previousCommenter = comment.user_ID;
 			previousTime = timeSince(date);
+			previousType = comment.comment_type;
 
 		});
 
@@ -5082,6 +5091,23 @@ function commentTemplate(comment, hide, sameTime) {
 			linkedComment += '<a href="'+ fileURL +'" target="_blank"><img src="'+ fileURL +'" alt=""></a>';
 
 		}
+
+	} else if (comment.comment_type == "action") {
+
+		// Update the output completely
+		return '<div class="comment action wrap xl-flexbox xl-middle '+ (hide ? "recurring" : "") +' '+ (sameTime ? "sametime" : "") +'" data-type="comment" data-id="'+ comment.comment_ID +'">\
+					<div class="col xl-1-9 profile-image invisible">\
+						<picture class="profile-picture" '+ printPic +'> \
+							<span>'+ nameAbbr +'</span> \
+						</picture> \
+					</div>\
+					<div class="col xl-8-9 activity-info comment-inner-wrapper">\
+						<span class="comment-text"><b><span class="name">'+comment.user_first_name+' '+comment.user_last_name+'</span></b> '+ comment.pin_comment +'\
+							'+ (!imagePreview ? deleteButton : "") +'</span> \
+						<span class="date" data-date="'+date+'">'+timeSince(date)+' ago</span>\
+					</div>\
+				</div>\
+		';
 
 	}
 
