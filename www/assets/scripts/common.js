@@ -10,7 +10,7 @@ $(function() {
 
 
 	// Prevent clicking '#' links
-	$(document).on('click', 'a[href="#"], .name-field.editing', function(e) {
+	$(document).on('click', 'a[href="#"], .name-field.editing, .no-link', function(e) {
 		e.preventDefault();
 	});
 

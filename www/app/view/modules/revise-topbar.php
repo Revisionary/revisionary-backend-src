@@ -42,7 +42,7 @@
 					<div class="desc">Project</div>
 
 					<span class="dropdown click-to-open">
-						<a href="#">
+						<a href="<?=site_url('projects', true)?>" class="no-link">
 							<?=$project['project_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
@@ -351,7 +351,7 @@ foreach ($allMyProjects as $myProject) {
 					<div class="desc">Page</div>
 
 					<span class="dropdown click-to-open">
-						<a href="#">
+						<a href="<?=site_url("project/$project_ID", true)?>" class="no-link">
 							<?=$page['page_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
