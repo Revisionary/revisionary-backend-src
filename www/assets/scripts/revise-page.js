@@ -217,20 +217,53 @@ $(function() {
 
 
 
-	// Iframe Fit to the screen
-	var maxWidth = $('#the-page').width();
-	iframeWidth = maxWidth;
-	var maxHeight = $('#the-page').height();
-	iframeHeight = maxHeight;
-	$('.iframe-container').css({ width: maxWidth, height: maxHeight });
+	// Rotateable devices
+	$('.rotate').click(function(e) {
 
+
+		if ( $(this).hasClass('rotated') ) {
+
+			page_width = maxWidth = iframeWidth = realPageWidth;
+			page_height = maxHeight = iframeHeight = realPageHeight;
+
+			$(this).removeClass('rotated').attr('data-tooltip', 'Landscape Mode');
+
+		} else {
+
+			page_width = maxWidth = iframeWidth = realPageHeight;
+			page_height = maxHeight = iframeHeight = realPageWidth;
+
+			$(this).addClass('rotated').attr('data-tooltip', 'Portrait Mode');
+
+		}
+
+
+		// Reset the scale
+		iframeScale = 1;
+
+
+		// Update the iframe
+		$('.iframe-container').css({ "width": page_width, "height": page_height });
+		$('#the-page').attr({ "width": page_width, "height": page_height }).css({ "min-width": page_width, "min-height": page_height });
+
+
+		// Scale the window
+		$(window).resize();
+
+
+		console.log('ROTATE IT', page_width, page_height);
+
+	});
+
+
+
+	// Iframe Fit to the screen
 	$(window).resize(function(e) {
 
 
 	    var page = $('#page');
 	    var width = page.width();
 	    var height = page.height() - 2;
-
 
 
 	    // UPDATE THE CURRENT WINDOW SIZE FOR CUSTOM SCREEN ADDING

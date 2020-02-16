@@ -818,6 +818,8 @@ foreach ($other_pages as $pageOther) {
 						</ul>
 					</span>
 
+					<a href="#" class="button bottom-tooltip rotate <?=$screenRotateable ? "rotateable" : ""?>" data-tooltip="Landscape Mode"><i class="fa <?=$screenIcon?>"></i></a>
+
 
 				</div>
 			</div>

@@ -138,6 +138,20 @@ html, body {
   display: none;
 }
 
+#top-bar .screen .rotate {
+  display: none;
+}
+
+#top-bar .screen .rotate.rotateable {
+  display: inline-block;
+}
+
+#top-bar .screen .rotate:not(.rotated) > i {
+  -moz-transform: rotate(90deg);
+       transform: rotate(90deg);
+  margin-right: 1px;
+}
+
 #top-bar .pin-mode .current-mode > a.browse-switcher {
   -moz-border-radius-topright: 0;
        border-top-right-radius: 0;

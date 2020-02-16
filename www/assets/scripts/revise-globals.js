@@ -13,6 +13,8 @@ var remote_URL;
 var page_type = "url";
 var page_width = 1440;
 var page_height = 900;
+var realPageWidth = page_width;
+var realPageHeight = page_height;
 var page_ready = false;
 var page_redirected = false;
 var page_colors = {};
@@ -141,6 +143,8 @@ var scrollY;
 var scrollOnPin = false;
 
 // Initial Scale
+var maxWidth = 0;
+var maxHeight = 0;
 var iframeScale = 1;
 var iframeWidth = 0;
 var iframeHeight = 0;
@@ -178,8 +182,8 @@ $(function() {
 	cursorActive = activator.data('pin-type') != "browse";
 	cursorWasActive = cursorActive;
 
-	page_width = parseInt( $('#the-page').attr('width') );
-	page_height = parseInt( $('#the-page').attr('height') );
+	realPageWidth = page_width = maxWidth = iframeWidth = parseInt( $('#the-page').attr('width') );
+	realPageHeight = page_height = maxHeight = iframeHeight = parseInt( $('#the-page').attr('height') );
 
 	pinWindowWidth = pinWindow().outerWidth();
 	pinWindowHeight = pinWindow().outerHeight();
