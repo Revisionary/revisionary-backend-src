@@ -1462,6 +1462,9 @@ function toggleCursorActive(forceClose, forceOpen) {
 // Activate Cursor
 function activateCursor() {
 
+	
+	if (iframeLoaded == false) return false;
+
 
 	// If hit the limitations
 	if (currentAllowed == "0") {
@@ -1504,6 +1507,9 @@ function activateCursor() {
 function deactivateCursor() {
 
 
+	if (iframeLoaded == false) return false;
+
+
 	console.log('Deactivate Cursor');
 
 
@@ -1518,7 +1524,7 @@ function deactivateCursor() {
 	if ( cursor.hasClass("active") ) cursor.removeClass('active');
 
 	// Show the original cursor
-	iframeElement('#revisionary-cursor').remove();
+	if ( iframeElement('#revisionary-cursor').length ) iframeElement('#revisionary-cursor').remove();
 
 	// Enable all the links
 	// ...
@@ -2438,6 +2444,9 @@ function changePinNumber(pinNumber) {
 
 // Relocate a pin
 function relocatePin(pin_ID) {
+
+
+	if (iframeLoaded == false) return false;
 
 
 	// Pin info
