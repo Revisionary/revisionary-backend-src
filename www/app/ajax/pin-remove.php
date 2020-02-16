@@ -18,7 +18,6 @@ $pin_ID = request('pin_ID');
 
 $pinData = Pin::ID($pin_ID);
 if (!$pinData) return;
-$pinInfo = $pinData->getInfo();
 
 
 // Delete the pin

@@ -2050,6 +2050,10 @@ function makeDeviceSpecific(pin_ID, device_ID) {
 		console.log("PIN #"+pin_ID+" MADE ONLY FOR DEVICE #" + device_ID, result.data);
 
 
+		// Refresh the comments
+		getComments(pin_ID);
+
+
 		// Update the button
 		pinWindow(pin_ID).find('.device-specific').removeClass('loading').addClass('active');
 
@@ -2097,6 +2101,10 @@ function makeForAllDevices(pin_ID) {
 	}).done(function(result) {
 
 		console.log("PIN #"+pin_ID+" MADE FOR ALL DEVICES", result.data);
+
+
+		// Refresh the comments
+		getComments(pin_ID);
 
 
 		// Update the button
@@ -2159,6 +2167,10 @@ function completePin(pin_ID, complete, imgData) {
 	}).done(function(result) {
 
 		console.log("PIN COMPLETED: ", result.data);
+
+
+		// Refresh the comments
+		if (!complete) getComments(pin_ID);
 
 
 		// Finish the process
