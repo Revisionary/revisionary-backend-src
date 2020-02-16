@@ -1297,10 +1297,8 @@ function outline(element, private_pin, pin_type) {
 	var elementColor = private_pin == 1 ? '#FC0FB3' : '#7ED321';
 	if (block) elementColor = private_pin == 1 ? '#6b95f3' : '#1DBCC9';
 
-	var outlineWidth = '2px';
-	if (block) outlineWidth = '2px';
 
-	if (element != null) element.css('outline', outlineWidth + ' dashed ' + elementColor, 'important');
+	if (element != null) element.css('outline', '2px dashed ' + elementColor, 'important');
 
 }
 
