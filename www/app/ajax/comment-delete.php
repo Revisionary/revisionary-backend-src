@@ -18,8 +18,13 @@ $comment_ID = intval(trim(request('comment_ID')));
 
 
 
+$pinData = Pin::ID($pin_ID);
+if (!$pinData) return;
+
+
+
 // Get the comments
-$comment_deleted = Pin::ID($pin_ID)->deleteComment($comment_ID);
+$comment_deleted = $pinData->deleteComment($comment_ID);
 if ($comment_deleted) $status = "Comment #$comment_ID DELETED";
 
 

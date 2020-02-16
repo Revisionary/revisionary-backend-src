@@ -18,9 +18,13 @@ $pin_ID = intval(request('pin_ID'));
 
 
 
-// Get the comments
-$comments = Pin::ID($pin_ID)->comments();
+$pinData = Pin::ID($pin_ID);
+if (!$pinData) return;
 
+
+
+// Get the comments
+$comments =$pinData->comments();
 $status = $comments ? "Comments received" : "No Comments Found";
 
 

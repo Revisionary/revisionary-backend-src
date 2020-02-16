@@ -23,8 +23,13 @@ $pin_ID = intval(request('pin_ID'));
 
 
 
+$pinData = Pin::ID($pin_ID);
+if (!$pinData) return;
+
+
+
 // Add the comment
-$comment_sent = Pin::ID($pin_ID)->addComment($message);
+$comment_sent = $pinData->addComment($message);
 if ($comment_sent) $status = "Comment sent: $message";
 
 
