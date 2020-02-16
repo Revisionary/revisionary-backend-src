@@ -36,4 +36,12 @@ if ($debug_mode && !empty($error_type)) {
 }
 
 
+// Additional Scripts and Styles
+$additionalCSS = [];
+
+$additionalHeadJS = [
+	'common.js'
+];
+
+
 require view('errors');
