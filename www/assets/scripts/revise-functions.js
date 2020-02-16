@@ -2994,14 +2994,14 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
 
 
-		// BG image
-		if (thePinShowingStyleChanges) disableCSS(pin_ID);
-		var bgImage = theElement.css('background-image');
-		if (thePinShowingStyleChanges) activateCSS(pin_ID);
-		var changedBgImage = theElement.css('background-image');
+		// // BG image
+		// if (thePinShowingStyleChanges) disableCSS(pin_ID);
+		// var bgImage = theElement.css('background-image');
+		// if (thePinShowingStyleChanges) activateCSS(pin_ID);
+		// var changedBgImage = theElement.css('background-image');
 
-		var hasBg = (thePinType == "live" || thePinType == "style") && bgImage.includes('url(') ? bgImage.replace('url(','').replace(')','').replace(/\"/gi, "") : "no";
-		var bgEdited = hasBg != "no" && bgImage != changedBgImage ? "1" : "0";
+		// var hasBg = (thePinType == "live" || thePinType == "style") && bgImage.includes('url(') ? bgImage.replace('url(','').replace(')','').replace(/\"/gi, "") : "no";
+		// var bgEdited = hasBg != "no" && bgImage != changedBgImage ? "1" : "0";
 
 
 		// Record previous state of window
@@ -3038,8 +3038,8 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 			.attr('data-new-notification', "no")
 			.attr('data-has-comments', 'no')
 			.attr('data-comment-written', 'no')
-			.attr('data-has-bg', hasBg)
-			.attr('data-revisionary-bg-edited', bgEdited)
+			//.attr('data-has-bg', hasBg)
+			//.attr('data-revisionary-bg-edited', bgEdited)
 			.attr('data-page-type', page_type);
 
 
@@ -3176,25 +3176,25 @@ function openPinWindow(pin_ID, firstTime, scrollToPin) {
 		if (thePinType == 'live' || thePinType == 'style') {
 
 
-			// BACKGROUND IMAGE DETECTION !!!
-			if (hasBg != "no") {
+			// // BACKGROUND IMAGE DETECTION !!!
+			// if (hasBg != "no") {
 
 
-				var originalBgUrl = hasBg;
-				var changedBgUrl = changedBgImage.replace('url(','').replace(')','').replace(/\"/gi, "");
+			// 	var originalBgUrl = hasBg;
+			// 	var changedBgUrl = changedBgImage.replace('url(','').replace(')','').replace(/\"/gi, "");
 
 
 
-				// Add the original image
-				pinWindow().find('.image-editor .edit-content.original img.original-image').attr('src', originalBgUrl);
+			// 	// Add the original image
+			// 	pinWindow().find('.image-editor .edit-content.original img.original-image').attr('src', originalBgUrl);
 
 
-				// Add the new image
-				pinWindow().find('.image-editor .edit-content.changes img.new-image').attr('src', changedBgUrl);
-				pinWindow().find('.image-editor a.image-url').attr('href', changedBgUrl);
+			// 	// Add the new image
+			// 	pinWindow().find('.image-editor .edit-content.changes img.new-image').attr('src', changedBgUrl);
+			// 	pinWindow().find('.image-editor a.image-url').attr('href', changedBgUrl);
 
 
-			}
+			// }
 
 
 			// CSS OPTIONS:
@@ -4165,7 +4165,7 @@ function initiateContentEditor() {
 			ed.on('input change', function(e) { // Pin window content changes
 
 
-				console.log('the event object ', e);
+				//console.log('the event object ', e);
 				// console.log('the editor object ', ed);
 				// console.log('the content ', ed.getContent());
 
@@ -4403,23 +4403,23 @@ function revertCSS(pin_ID, restartPinWindow) {
 	iframeElement('style[data-pin-id="'+ pin.pin_ID +'"]').remove();
 
 
-	// Revert BG
-	var hasBg = pinWindow().attr('data-has-bg');
-	if (hasBg != "no") {
+	// // Revert BG
+	// var hasBg = pinWindow().attr('data-has-bg');
+	// if (hasBg != "no") {
 
-		// Add the original image
-		pinWindow(pin_ID).find('.image-editor .edit-content.original img.original-image').attr('src', hasBg);
+	// 	// Add the original image
+	// 	pinWindow(pin_ID).find('.image-editor .edit-content.original img.original-image').attr('src', hasBg);
 
 
-		// Add the new image
-		pinWindow(pin_ID).find('.image-editor .edit-content.changes img.new-image').attr('src', hasBg);
-		pinWindow(pin_ID).find('.image-editor a.image-url').attr('href', hasBg);
+	// 	// Add the new image
+	// 	pinWindow(pin_ID).find('.image-editor .edit-content.changes img.new-image').attr('src', hasBg);
+	// 	pinWindow(pin_ID).find('.image-editor a.image-url').attr('href', hasBg);
 
-	}
+	// }
 
 
 	// Update the info for pin, pin window and DOM element
-	updateAttributes(pin_ID, 'data-revisionary-bg-edited', "0");
+	//updateAttributes(pin_ID, 'data-revisionary-bg-edited', "0");
 	updateAttributes(pin_ID, 'data-revisionary-style-changed', "no");
 	updateAttributes(pin_ID, 'data-revisionary-showing-style-changes', "yes");
 	changedElement
@@ -4428,7 +4428,7 @@ function revertCSS(pin_ID, restartPinWindow) {
 
 
 	// For all other same element pins
-	pinWindow(element_index, true).attr('data-revisionary-bg-edited', "0"); 
+	//pinWindow(element_index, true).attr('data-revisionary-bg-edited', "0"); 
 	pinWindow(element_index, true).attr('data-revisionary-style-changed', "no"); 
 	pinWindow(element_index, true).attr('data-revisionary-showing-style-changes', "yes");
 	pinWindow(element_index, true).find('ul.options .main-option').removeClass('changed');
