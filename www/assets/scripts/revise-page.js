@@ -267,7 +267,6 @@ $(function() {
 
 
 	    // UPDATE THE CURRENT WINDOW SIZE FOR CUSTOM SCREEN ADDING
-
 		// Show new values
 		$('.screen-width').text(width);
 		$('.screen-height').text(height);
@@ -275,7 +274,6 @@ $(function() {
 		// Edit the input values
 		$('input[name="page_width"]').attr('value', width);
 		$('input[name="page_height"]').attr('value', height);
-
 
 		// Update the URLs
 		$('.add-phase, .new-screen[data-screen-id="11"]').each(function() {
@@ -294,9 +292,7 @@ $(function() {
 		});
 
 
-
 		// IFRAME FIT TO THE SCREEN
-
 	    width = width - 4; // -4 for the borders
 		height = height - 2; // -2 for the borders
 		
@@ -319,10 +315,7 @@ $(function() {
 			iframeHeight = maxHeight * iframeScale;
 
 
-			$('.iframe-container').css({ width: iframeWidth, height: height });
-
 			$('#the-page').css({
-				'transform': 'scale(' + iframeScale + ')',
 				height: height / iframeScale,
 				'min-height': height / iframeScale
 			});
@@ -343,13 +336,13 @@ $(function() {
 			iframeHeight = maxHeight * iframeScale;
 
 
-			$('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
-			$('#the-page').css({'transform': 'scale(' + iframeScale + ')'});
-
-
 		}
 
-		
+
+		// Update the iframe
+		$('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
+		$('#the-page').css({'transform': 'scale(' + iframeScale + ')'});
+
 
 		// Update the scale on info section
 		$('.iframe-scale').text( iframeScale.toFixed(1) );
