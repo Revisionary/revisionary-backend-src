@@ -22,8 +22,7 @@ $(function() {
 		$(this).find('.fa-angle-down').toggleClass('fa-angle-up');
 
 		// Close all opens
-		$('.click-to-open > a.open').not( $(this) ).removeClass('open');
-		$('.click-to-open > a.open .fa-angle-down.fa-angle-up').not( $(this).find('.fa-angle-down') ).removeClass('fa-angle-up');
+		$('.click-to-open > a.open').not( $(this) ).removeClass('open').find('.fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
 
 	});
 
@@ -32,46 +31,30 @@ $(function() {
 	$(document).on('click', '.click-to-open.choose-to-close > a:not(.editing) + ul a:not(.has-sub)', function(e) {
 
 		// Close all opens
-		$('.click-to-open > a.open .fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
-		$('.click-to-open > a.open').removeClass('open');
+		$('.click-to-open > a.open').removeClass('open').find('.fa-angle-down.fa-angle-up').removeClass('fa-angle-up');;
 
 	});
 
 
 	// Blur on click-to-open dropdowns
-	$(document).on('blur', '.click-to-open > a:not(.editing)', function(e) {
+	document.addEventListener('click', function(e) {
 
-		if ( !$(e.relatedTarget).parents('.click-to-open').length ) {
+		
+		if ( !$(e.toElement).parents('.click-to-open').length ) {
 
-			console.log('BLUR FROM OPENER', e.relatedTarget);
+			console.log('BLUR FROM DROPDOWN', e.relatedTarget, e);
 
 			// Close all opens
-			$('.click-to-open > a.open .fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
-			$('.click-to-open > a.open').removeClass('open');
+			$('.click-to-open > a.open').removeClass('open').find('.fa-angle-down.fa-angle-up').removeClass('fa-angle-up');;
 
 		}
 
-	});
-
-
-	// Blur on click-to-open dropdown items
-	$(document).on('blur', '.click-to-open > a:not(.editing) + ul a', function(e) {
-
-		if ( !$(e.relatedTarget).parents('.click-to-open').length ) {
-
-			console.log('BLUR FROM ITEM', e.relatedTarget);
-
-			// Close all opens
-			$('.click-to-open > a.open .fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
-			$('.click-to-open > a.open').removeClass('open');
-
-		}
 
 	});
 
 
 	// Links with confirmation
-	$(document).on('click', '[data-confirm]:not([data-action])', function(e) { console.log('Clicked');
+	$(document).on('click', '[data-confirm]:not([data-action])', function(e) {
 
 		var confirmation = $(this).attr('data-confirm');
 
