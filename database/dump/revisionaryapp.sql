@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.0
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: revisionary-do-user-2911443-0.db.ondigitalocean.com:25060
--- Generation Time: Jan 11, 2020 at 07:15 AM
+-- Generation Time: Feb 16, 2020 at 07:43 PM
 -- Server version: 8.0.17
 -- PHP Version: 7.4.1
 
@@ -274,10 +274,10 @@ INSERT INTO `screens` (`screen_ID`, `screen_name`, `screen_width`, `screen_heigh
 (4, 'Macbook Pro 15', 1440, 900, 0, NULL, NULL, 2, 3, 1),
 (5, 'Macbook Pro 13', 1280, 800, 0, NULL, NULL, 2, 4, 1),
 (6, 'iPad', 768, 1024, 1, NULL, NULL, 3, 0, 1),
-(7, 'iPhone 6 Plus, 6S Plus, 7 Plus', 414, 736, 1, NULL, NULL, 4, 0, 1),
-(8, 'iPhone 6, 6S, 7', 375, 667, 1, NULL, NULL, 4, 1, 1),
-(9, 'iPhone 5, 5C, 5S, SE', 320, 568, 1, NULL, NULL, 4, 2, 1),
-(10, 'iPhone 4 & 4S', 320, 480, 1, NULL, NULL, 4, 3, 1),
+(7, 'iPhone 6/6S/7/8 Plus', 414, 736, 1, NULL, NULL, 4, 0, 1),
+(8, 'iPhone 6/6S/7/8', 375, 667, 1, NULL, NULL, 4, 1, 1),
+(9, 'iPhone 5/5C/5S/SE', 320, 568, 1, NULL, NULL, 4, 2, 1),
+(10, 'iPhone 4/4S', 320, 480, 1, NULL, NULL, 4, 3, 1),
 (11, 'Custom Screen', 1440, 900, 0, NULL, NULL, 5, 0, 1);
 
 -- --------------------------------------------------------
@@ -355,7 +355,7 @@ INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `use
 (3, 'sara-atalay', 'sara@twelve12.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Atalay', NULL, NULL, NULL, 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/o35wjvb55t.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 4),
 (4, 'matt', 'matt@twelve12.com', '$2y$10$tgVR/dS1I6X0MECfKYeqdunBaneuqLe3laoEHz1srrj6Ob5pfc2Hi', 'Matt', '', NULL, NULL, NULL, 'matt.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 2),
 (5, 'cuneyt-tas', 'cuneyt@twelve12.com', '$2y$10$hmbLL2pKTuBa7MtUEC/vtu2LcCggurulno24xAa9fXkerZSr49EIq', 'Cüneyt', 'TAŞ', 'Web Developer', 'Web Department', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/cuzajoqbx8.jpg', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 3),
-(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$d39kS46ZfdS9x4Vhzqp3mebAq17UD31qLl6ogC6RPHzwM1bG0.0hK', 'Bill', 'TAS', 'Lead Web Developer', 'Web Department', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/jdd2rxz5qz.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 3),
+(6, 'bill-tas', 'bill@twelve12.com', '$2y$10$d39kS46ZfdS9x4Vhzqp3mebAq17UD31qLl6ogC6RPHzwM1bG0.0hK', 'Bill', 'TAS', 'Lead Web Developer', 'Web Department', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/jdd2rxz5qz.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, '2020-01-18 22:48:26', 1, 4),
 (7, 'serdar', 'serdar.kiziltepe@gmail.com', '$2y$10$8QoQDe0UUzXiAyD6thsZp.YO8CaxJ2spg1ARZhE5pivc7u2Eu90sW', 'Serdar', 'Kızıltepe', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 2),
 (8, 'sara-elimsa', 'saraelimsa@gmail.com', '$2y$10$rztmZ0UahjUSX08MY76fpucTC4K4i3t4D8No4hHd1zML6V5Anikbu', 'Sara', 'Elimsa', NULL, NULL, NULL, 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/o35wjvb55t.png', 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 4),
 (9, 'dogukan-guven-nomak', 'me@dnomak.com', '$2y$10$PvmyNpmu8X2Tlefv6lKVmOBjyDDx90Bn3gRwrf.bIpSE9OSx2Ldvu', 'Doğukan Güven', 'Nomak', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 2),
@@ -363,12 +363,13 @@ INSERT INTO `users` (`user_ID`, `user_name`, `user_email`, `user_password`, `use
 (11, 'dmytro-korol', 'korol.dmitry@gmail.com', '$2y$10$uIAeohwy2hJpWIbGsFTwcuRPGpLOCT7HADfv6jKo50YjIekJPoT9W', 'Dmytro', 'Korol', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '127.0.0.1', NULL, NULL, 0, 2),
 (12, 'salih-onder', 'irtibat@dijitem.com', '$2y$10$jEJa3JTjFQq.e3p2WWC1Y.TG6EoO1x0zHG0rmo3wx8/3rRxdqQYbi', 'Salih', 'ÖNDER', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '176.43.81.234', NULL, NULL, 0, 3),
 (13, 'abraham', 'abraham@twelve12.com', '$2y$10$7TfH8RKyKfSrXe8BNMDpjuALoIjYjktxBAEDW42LDXwck3H/qUWwi', 'Abraham', 'Kiziltepe', '', '', '', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/l3dhpxgmgp.jpeg', 0, 1, '2019-09-23 10:38:14', '5.177.182.139', NULL, NULL, 0, 3),
-(14, 'jeremy-king', 'jeremy@twelve12.com', '$2y$10$3cKu7TvcsGrzWgj8VJUoPucdfRCqGjGQVdpbo/XeeL86UT5IqczqK', 'Jeremy', 'King', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '98.186.237.146', NULL, NULL, 0, 2),
+(14, 'jeremy-king', 'jeremy@twelve12.com', '$2y$10$3cKu7TvcsGrzWgj8VJUoPucdfRCqGjGQVdpbo/XeeL86UT5IqczqK', 'Jeremy', 'King', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '98.186.237.146', NULL, NULL, 0, 4),
 (15, 'dilekuzulmez', 'dilekuzulmez@gmail.com', '$2y$10$snwtYOys3NT8kKNpQgyPt.LwXg2Gsv2BafD9ZTFRXX4tVHopFn5eW', 'Dilek', 'TAŞ', NULL, NULL, NULL, NULL, 0, 1, '2019-09-23 10:38:14', '95.8.108.37', NULL, NULL, 0, 2),
 (16, 'm-f', 'mo@twelve12.com', '$2y$10$QR2Oi9h0yqQ04SGO.71CuOEMWOmHf3yNzhUMZCjVW9MR1CpO/tfCW', 'Mo', 'Fidanoglu', 'Digital Marketing Manager', '', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/02tnfw2npu.jpg', 0, 1, '2019-09-23 10:38:14', '98.186.237.146', NULL, NULL, 0, 4),
 (17, 'salih-onder_1', 'salih@twelve12.com', '$2y$10$n0.5srt7NNNG8tHWGmX6eOofTDRJEDWO4JeomBbxniCNleYDu9Ml6', 'Salih', 'ÖNDER', 'Web Expert', 'WEB', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/evqpmsp60d.jpg', 0, 1, '2019-09-23 10:38:14', '176.239.37.151', NULL, NULL, 0, 3),
 (18, 'ozgur', 'ozgurbeys@gmail.com', '$2y$10$xCxkuGAGxd4wTqhzpPcrE..E3WyST7fIDNxKGr.Ek05cVCwUONF32', 'Ozgur', '', NULL, NULL, NULL, NULL, 0, 1, '2019-12-12 17:38:58', '213.194.71.54', NULL, NULL, 0, 2),
-(19, 'bill-stone', 'webdesign@twelve12.com', '$2y$10$ERINk9aLZ.WV.zCD0fpKRuBBYeQjJ93l94Uuwl75Uw/9.x28d0sjG', 'Bill', 'Stone', NULL, NULL, NULL, NULL, 0, 1, '2019-12-24 12:27:25', '212.2.212.108', NULL, NULL, 0, 2);
+(19, 'bill-stone', 'webdesign@twelve12.com', '$2y$10$ERINk9aLZ.WV.zCD0fpKRuBBYeQjJ93l94Uuwl75Uw/9.x28d0sjG', 'Bill', 'Stone', NULL, NULL, NULL, NULL, 0, 1, '2019-12-24 12:27:25', '212.2.212.108', NULL, NULL, 0, 2),
+(20, 'atakan-oz', 'atakan@twelve12.com', '$2y$10$iBKO2E76ZQpsjq.z/4D/Pughpu5RkJZH4XSCunjcrntQN4ejSzYQm', 'Atakan', 'Oz', 'Full Stack Developer', 'Development', 'Twelve12', 'https://revisionary.sfo2.digitaloceanspaces.com/avatars/17fi86y14p.jpeg', 0, 1, '2020-01-28 11:37:07', '159.89.13.242', NULL, NULL, 0, 4);
 
 -- --------------------------------------------------------
 
@@ -785,4 +786,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-

@@ -612,18 +612,18 @@ foreach ($other_pages as $pageOther) {
 					<div class="desc nomargin">Phase</div>
 					<span class="dropdown click-to-open">
 
-					<?php
+						<?php
 
-					// Find the other phases from this device
-					$other_phases = array_filter($allMyPhases, function($phaseFound) use ($page_ID) {
-						return $phaseFound['page_ID'] == $page_ID;
-					});
-					$other_phases = array_values($other_phases); // Reset the keys to get phase numbers
-					//die_to_print($other_phases);
+						// Find the other phases from this device
+						$other_phases = array_filter($allMyPhases, function($phaseFound) use ($page_ID) {
+							return $phaseFound['page_ID'] == $page_ID;
+						});
+						$other_phases = array_values($other_phases); // Reset the keys to get phase numbers
+						//die_to_print($other_phases);
 
-					$currentPhaseNumber = array_search($phase, $other_phases) + 1;
+						$currentPhaseNumber = array_search($phase, $other_phases) + 1;
 
-					?>
+						?>
 
 						<a href="#" class="button select-phase"><i class="fa fa-code-branch"></i> <span>v<?=$currentPhaseNumber?></span> <i class="fa fa-caret-down"></i></a>
 						<ul class="xl-left">
@@ -719,106 +719,116 @@ foreach ($other_pages as $pageOther) {
 				</div>
 				<div class="col screen">
 
-					<div class="desc nomargin">Screen Size</div>
-					<span class="dropdown click-to-open">
+					<div class="wrap xl-gutter-8">
+						<div class="col screen-size">
 
-						<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>"></i> <span><?=$page_type == "image" ? $screenCatName : $screen_name?> (<?=$width?>x<?=$height?>)</span>  <i class="fa fa-caret-down"></i></a>
-						<ul class="xl-left">
-						<?php
+							<div class="desc nomargin">Screen Size</div>
+							<span class="dropdown click-to-open">
 
-						// EXISTING DEVICES
-						$devices_of_mypage = array_filter($allMyDevices, function($deviceFound) use ($phase_ID) {
-						    return ($deviceFound['phase_ID'] == $phase_ID);
-						});
-						foreach ($devices_of_mypage as $device) {
-							//if ($device['device_ID'] == $device_ID) continue;
-							$selected = $device['device_ID'] == $device_ID ? "selected" : "";
-
-
-							// Get pins count
-							$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($device) {
-				
-								return $pinFound['device_ID'] == $device['device_ID'] && $pinFound['pin_complete'] == "0";
-				
-							}));
-							$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($device) {
-				
-								return $pinFound['device_ID'] == $device['device_ID'] && $pinFound['pin_complete'] == "1";
-				
-							}));
-				
-				
-							// Get page status
-							$pinStatus = "no-tasks";
-							if ($inCompletePinCount)
-								$pinStatus = "has-tasks";
-				
-							if ($completePinCount && !$inCompletePinCount)
-								$pinStatus = "done";
-				
-							$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
-
-
-
-							$existing_screen_width = $device['screen_width'];
-							$existing_screen_height = $device['screen_height'];
-
-							$page_width = $device['device_width'];
-							$page_height = $device['device_height'];
-
-							if ($page_width != null && $page_width != null) {
-								$existing_screen_width = $page_width;
-								$existing_screen_height = $page_height;
-							}
-
-
-							$action_url = 'ajax?type=data-action&data-type=device&nonce='.$_SESSION['js_nonce'].'&id='.$device['device_ID'];
-
-						?>
-
-							<li class="item deletable screen-registered <?=$selected?>" data-type="device" data-id="<?=$device['device_ID']?>">
-								<a href="<?=site_url('revise/'.$device['device_ID'], true)?>">
-									<i class="fa <?=$device['screen_cat_icon']?>"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)
-									<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>
-								</a>
-
+								<a href="#" class="button select-screen"><i class="fa <?=$screenIcon?>"></i> <span><?=$page_type == "image" ? $screenCatName : $screen_name?> (<?=$width?>x<?=$height?>)</span>  <i class="fa fa-caret-down"></i></a>
+								<ul class="xl-left">
 								<?php
-								if ($selected != "selected") {
+
+								// EXISTING DEVICES
+								$devices_of_mypage = array_filter($allMyDevices, function($deviceFound) use ($phase_ID) {
+									return ($deviceFound['phase_ID'] == $phase_ID);
+								});
+								foreach ($devices_of_mypage as $device) {
+									//if ($device['device_ID'] == $device_ID) continue;
+									$selected = $device['device_ID'] == $device_ID ? "selected" : "";
+
+
+									// Get pins count
+									$inCompletePinCount = count(array_filter($allMyPins, function($pinFound) use ($device) {
+						
+										return $pinFound['device_ID'] == $device['device_ID'] && $pinFound['pin_complete'] == "0";
+						
+									}));
+									$completePinCount = count(array_filter($allMyPins, function($pinFound) use ($device) {
+						
+										return $pinFound['device_ID'] == $device['device_ID'] && $pinFound['pin_complete'] == "1";
+						
+									}));
+						
+						
+									// Get page status
+									$pinStatus = "no-tasks";
+									if ($inCompletePinCount)
+										$pinStatus = "has-tasks";
+						
+									if ($completePinCount && !$inCompletePinCount)
+										$pinStatus = "done";
+						
+									$statusCount = $pinStatus == "done" ? $completePinCount : $inCompletePinCount;
+
+
+
+									$existing_screen_width = $device['screen_width'];
+									$existing_screen_height = $device['screen_height'];
+
+									$page_width = $device['device_width'];
+									$page_height = $device['device_height'];
+
+									if ($page_width != null && $page_width != null) {
+										$existing_screen_width = $page_width;
+										$existing_screen_height = $page_height;
+									}
+
+
+									$action_url = 'ajax?type=data-action&data-type=device&nonce='.$_SESSION['js_nonce'].'&id='.$device['device_ID'];
+
 								?>
-								<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove', true)?>" data-tooltip="Delete This Screen" data-action="remove" data-confirm="Are you sure you want to remove this screen?"></i>
+
+									<li class="item deletable screen-registered <?=$selected?>" data-type="device" data-id="<?=$device['device_ID']?>">
+										<a href="<?=site_url('revise/'.$device['device_ID'], true)?>">
+											<i class="fa <?=$device['screen_cat_icon']?>"></i> <?=$device['screen_cat_name']?> (<?=$existing_screen_width?>x<?=$existing_screen_height?>)
+											<span class="pin-count small remaining" data-count="<?=$inCompletePinCount?>"><?=$inCompletePinCount?></span><span class="pin-count small done" data-count="<?=$completePinCount?>"><?=$completePinCount?></span>
+										</a>
+
+										<?php
+										if ($selected != "selected") {
+										?>
+										<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove', true)?>" data-tooltip="Delete This Screen" data-action="remove" data-confirm="Are you sure you want to remove this screen?"></i>
+										<?php
+										}
+										?>
+
+
+									</li>
+
 								<?php
 								}
 								?>
+									<li>
 
+									<?php if ($screensPercentage >= 100) { ?>
+										<a href="<?=site_url("upgrade")?>" data-modal="upgrade"><i class="fa fa-exclamation-circle"></i> <b>Increase Screens Limit Now</b></a>	
+									<?php } else { ?>
+										<a href="#" class="add-screen bottom-tooltip" data-tooltip="To see this page on different device sizes."><i class="fa fa-plus"></i> <b>Add New Screen</b></a>
+										<?php
+											$blockPhase = ['phase_ID' => $phase_ID];
+											require view('modules/add-screen');
+										?>
+										<form action="" id="image-device-adder" class="xl-hidden">
+											<input type="hidden" name="page_ID" value="<?=$page_ID?>">
+											<input type="hidden" name="phase_ID" value="<?=$phase_ID?>">
+											<input type="hidden" name="screens[]" value="">
+											<input type="file" name="design-upload" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">
+										</form>
+									<?php } ?>
 
-							</li>
+									</li>
+								</ul>
+							</span>
 
-						<?php
-						}
-						?>
-							<li>
+						</div>
+						<div class="col rotating <?=$screenRotateable ? "rotateable" : ""?>">
 
-							<?php if ($screensPercentage >= 100) { ?>
-								<a href="<?=site_url("upgrade")?>" data-modal="upgrade"><i class="fa fa-exclamation-circle"></i> <b>Increase Screens Limit Now</b></a>	
-							<?php } else { ?>
-								<a href="#" class="add-screen bottom-tooltip" data-tooltip="To see this page on different device sizes."><i class="fa fa-plus"></i> <b>Add New Screen</b></a>
-								<?php
-									$blockPhase = ['phase_ID' => $phase_ID];
-									require view('modules/add-screen');
-								?>
-								<form action="" id="image-device-adder" class="xl-hidden">
-									<input type="hidden" name="page_ID" value="<?=$page_ID?>">
-									<input type="hidden" name="phase_ID" value="<?=$phase_ID?>">
-									<input type="hidden" name="screens[]" value="">
-									<input type="file" name="design-upload" accept=".gif,.jpg,.jpeg,.png" data-max-size="15000000">
-								</form>
-							<?php } ?>
+							<div class="desc nomargin">Rotate</div>
+							<a href="#" class="button bottom-tooltip rotate" data-tooltip="Rotate Device"><i class="fa <?=$screenIcon?>"></i> <span>Landscape</span></a>
 
-							</li>
-						</ul>
-					</span>
-
-					<a href="#" class="button bottom-tooltip rotate <?=$screenRotateable ? "rotateable" : ""?>" data-tooltip="Landscape Mode"><i class="fa <?=$screenIcon?>"></i></a>
+						</div>
+					</div>
 
 
 				</div>

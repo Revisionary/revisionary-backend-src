@@ -226,14 +226,14 @@ $(function() {
 			page_width = maxWidth = iframeWidth = realPageWidth;
 			page_height = maxHeight = iframeHeight = realPageHeight;
 
-			$(this).removeClass('rotated').attr('data-tooltip', 'Landscape Mode');
+			$(this).removeClass('rotated').find('span').text('Landscape');
 
 		} else {
 
 			page_width = maxWidth = iframeWidth = realPageHeight;
 			page_height = maxHeight = iframeHeight = realPageWidth;
 
-			$(this).addClass('rotated').attr('data-tooltip', 'Portrait Mode');
+			$(this).addClass('rotated').find('span').text('Portrait');
 
 		}
 
