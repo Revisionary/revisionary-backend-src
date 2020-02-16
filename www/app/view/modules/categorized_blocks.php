@@ -560,7 +560,7 @@
 													<a href="<?=site_url('revise/'.$device['device_ID'])?>" class="device-link">
 														<i class="fa <?=$device['screen_cat_icon']?> bottom-tooltip" data-tooltip="<?=$device['screen_cat_name']?> (<?=$screenWidth?>x<?=$screenHeight?>)"></i>
 													</a>
-													<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device" data-action="remove" data-confirm="Are you sure you want to completely remove this screen? Keep in mind that no one will be able to access this device and its pins anymore!"><i class="fa fa-times-circle"></i></a>
+													<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device <?=count($blockDevices) > 1 ? "" : "hidden"?>" data-action="remove" data-confirm="Are you sure you want to completely remove this screen? Keep in mind that no one will be able to access this device and its pins anymore!"><i class="fa fa-times-circle"></i></a>
 												</span>
 
 											<?php

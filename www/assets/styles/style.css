@@ -18131,6 +18131,10 @@ ol.categories > li.category > ol.blocks .device-wrap .remove-device {
   display: none;
 }
 
+ol.categories > li.category > ol.blocks .device-wrap .remove-device.hidden {
+  display: none !important;
+}
+
 ol.categories > li.category > ol.blocks .device-wrap .remove-device > i {
   display: block;
   font-size: 15px !important;

@@ -3583,6 +3583,10 @@ ol.categories {
 					right: -10px;
 					display: none;
 
+					&.hidden {
+						display: none !important;
+					}
+
 					& > i {
 						display: block;
 						font-size: 15px !important;
