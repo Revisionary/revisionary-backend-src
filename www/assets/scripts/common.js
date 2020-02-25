@@ -42,7 +42,7 @@ $(function() {
 		
 		if ( !$(e.toElement).parents('.click-to-open').length ) {
 
-			console.log('BLUR FROM DROPDOWN', e.relatedTarget, e);
+			//console.log('BLUR FROM DROPDOWN', e.relatedTarget, e);
 
 			// Close all opens
 			$('.click-to-open > a.open').removeClass('open').find('.fa-angle-down.fa-angle-up').removeClass('fa-angle-up');;
@@ -2084,8 +2084,8 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 		var data = result.data;
 		var items = $('.item[data-type="'+object_type+'"][data-id="'+object_ID+'"]');
 
-		console.log('HEYYY: ', object_type, object_ID);
-		console.log("RESPONSE: ", data);
+
+		console.log("RESPONSE: ", data, object_type, object_ID);
 
 
 		// Progressbar Update

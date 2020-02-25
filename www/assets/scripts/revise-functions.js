@@ -4172,15 +4172,25 @@ function initiateContentEditor() {
 			ed.on('input change', function(e) { // Pin window content changes
 
 
-				//console.log('the event object ', e);
+				// console.log('the event object ', e);
 				// console.log('the editor object ', ed);
 				// console.log('the content ', ed.getContent());
 
 
+				// Early exit if the changed content is the same
+				if (typeof e.level !== "undefined" && e.level.content.trim() == ed.getContent() ) return false;
+
+
+				// Early exit if pin window is closed
 				if (!pinWindowOpen) return false;
 
 
 				var pin_ID = pinWindow().attr('data-pin-id');
+				var pin = getPin(pin_ID);
+				if (!pin) return false;
+
+
+				
 				var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
 				//var modification = $('#pin-window.active .content-editor .edit-content.changes').html();
 				var modification = ed.getContent();
