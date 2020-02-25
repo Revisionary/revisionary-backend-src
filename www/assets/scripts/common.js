@@ -485,6 +485,13 @@ $(function() {
 		var value = $(this).val();
 
 
+		// Protocol check
+		if ( value.length > 8 && value.indexOf('://') === -1 ) {
+			value = 'http://' + value;
+			$(this).val(value);
+		}
+
+
 		// Show page modes
 		if (name == "page-url") {
 
