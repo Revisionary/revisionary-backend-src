@@ -544,7 +544,7 @@ class Pin {
 
 
 			// Add to the story
-			if ($modification == null) $this->addComment("reset content.", "action");
+			// if ($modification == null) $this->addComment("reset content.", "action");
 
 
 			// Update the page modification date
