@@ -1079,6 +1079,15 @@ html, body {
   display: block;
 }
 
+#pin-window > .bottom-actions {
+  -moz-transition: 500ms;
+  transition: 500ms;
+}
+
+#pin-window > .bottom-actions:hover {
+  opacity: 1 !important;
+}
+
 #pin-window > .bottom-actions .action > a {
   font-size: 14px;
   line-height: 20px;
@@ -1327,6 +1336,10 @@ html, body {
 #pin-window[data-comment-written="yes"] .comments .comment-icons-col > a.send-comment,
 #pin-window[data-comment-written="yes"] .comments .comment-icons-col > label.send-comment {
   display: block;
+}
+
+#pin-window[data-comment-written="yes"] .bottom-actions {
+  opacity: 0.1;
 }
 
 #pin-window[data-revisionary-showing-style-changes="no"] ul.options > li:not(:first-child) {

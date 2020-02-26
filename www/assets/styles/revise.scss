@@ -1255,6 +1255,11 @@ html, body {
 	}
 
 	& > .bottom-actions {
+		transition: 500ms;
+
+		&:hover {
+			opacity: 1 !important;
+		}
 
 		.action {
 
@@ -1601,6 +1606,10 @@ html, body {
 
 			}
 
+		}
+
+		.bottom-actions {
+			opacity: 0.1;
 		}
 
 	}
