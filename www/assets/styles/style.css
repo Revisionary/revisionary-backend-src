@@ -17866,6 +17866,14 @@ body.index .enter-url input[type="submit"] {
   border: none;
   text-indent: -9999px;
   padding: 0;
+  outline: none;
+  -moz-box-shadow: none;
+       box-shadow: none;
+}
+
+body.index .enter-url input[type="submit"]:focus {
+  width: 67px;
+  height: 67px;
 }
 
 .enter-url .description {
