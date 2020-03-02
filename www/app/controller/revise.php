@@ -4,6 +4,7 @@ use Cocur\BackgroundProcess\BackgroundProcess;
 
 // Force re-internalize
 $forceReInternalize = get('redownload') === "";
+$leavePins = get('leavepins') === "";
 $ssr = $forceReInternalize && get('ssr') === "";
 $capture = get('capture') === "";
 
@@ -108,9 +109,11 @@ if ($forceReInternalize) {
 	}
 
 
-	// // Remove all pins in this phase when force reinternalizing
-	// $db->where('phase_ID', $phase_ID);
-	// $db->delete('pins');
+	// Remove all pins in this phase when force reinternalizing
+	if (!$leavePins) {
+		$db->where('phase_ID', $phase_ID);
+		$db->delete('pins');
+	}
 
 }
 
