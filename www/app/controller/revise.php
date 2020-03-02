@@ -108,9 +108,9 @@ if ($forceReInternalize) {
 	}
 
 
-	// Remove all pins in this phase when force reinternalizing
-	$db->where('phase_ID', $phase_ID);
-	$db->delete('pins');
+	// // Remove all pins in this phase when force reinternalizing
+	// $db->where('phase_ID', $phase_ID);
+	// $db->delete('pins');
 
 }
 
