@@ -217,6 +217,10 @@ if ($share_ID) { // If successful
 	$data['status'] = "added";
 
 
+	// INVALIDATE THE CACHES
+	$cache->deleteKeysByTag(['projects', 'pages', 'phases', 'users']);
+
+
 	// Site log
 	$log->info(ucfirst($type)." #$object_ID shared to: User #$shareTo | Sharer User #".currentUserID());
 
