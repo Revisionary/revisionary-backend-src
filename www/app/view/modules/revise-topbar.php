@@ -46,6 +46,7 @@
 							<?=$project['project_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
+							<li><a href="<?=site_url('projects', true)?>"><i class="fa fa-th"></i> All Projects</a></li>
 <?php
 foreach ($allMyProjects as $myProject) {
 
@@ -355,6 +356,7 @@ foreach ($allMyProjects as $myProject) {
 							<?=$page['page_name']?> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul>
+							<li><a href="<?=site_url("project/$project_ID", true)?>"><i class="fa fa-th"></i> All Pages</a></li>
 <?php
 
 // Find the other pages from this project
