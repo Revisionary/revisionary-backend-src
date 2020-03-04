@@ -1754,9 +1754,9 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 	// Debug
-	console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
-	console.log('PinX: ' + pinX, ' PinY: ' + pinY);
-	console.log('TO REGISTER', elementPinX, elementPinY, selectedElement.prop('tagName'));
+	// console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
+	// console.log('PinX: ' + pinX, ' PinY: ' + pinY);
+	// console.log('TO REGISTER', elementPinX, elementPinY, selectedElement.prop('tagName'));
 	//console.log('Put the Pin #' + currentPinNumber, pinX, pinY, cursorType, pinPrivate, element_index);
 
 
@@ -3813,12 +3813,12 @@ function saveChange(pin_ID, modification) {
 	var change = modification == "{%null%}" ? null : htmlentities(modification, "ENT_QUOTES");
 
 
-	//console.log('ORIGINAL:', Pins[pinIndex].pin_modification_original);
-	//console.log('CHANGE:', change);
+	console.log('ORIGINAL:', pin.pin_modification_original);
+	console.log('CHANGE:', change);
 
 
 	// Register the change only if different than the original
-	if (Pins[pinIndex].pin_modification_original == change) {
+	if (pin.pin_modification_original == change) {
 
 		//console.log('NO CHANGE');
 
@@ -4170,7 +4170,8 @@ function initiateContentEditor() {
 		force_p_newlines : false,
 		forced_root_block : '',
 		setup:function(ed) {
-			ed.on('input change', function(e) { // Pin window content changes
+
+			ed.on('input ExecCommand', function(e) { // Pin window content changes
 
 
 				// console.log('the event object ', e);
@@ -4193,8 +4194,7 @@ function initiateContentEditor() {
 
 				
 				var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
-				//var modification = $('#pin-window.active .content-editor .edit-content.changes').html();
-				var modification = ed.getContent();
+				var modification = ed.getContent(); //var modification = $('#pin-window.active .content-editor .edit-content.changes').html();
 				var changedElement = iframeElement(element_index);
 		
 		
@@ -4246,6 +4246,7 @@ function initiateContentEditor() {
 
 
 			});
+
 		}
 	});
 
