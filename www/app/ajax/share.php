@@ -218,7 +218,8 @@ if ($share_ID) { // If successful
 
 
 	// INVALIDATE THE CACHES
-	$cache->deleteKeysByTag(['projects', 'pages', 'phases', 'users']);
+	$cache->deleteKeysByTag(['projects', 'pages', 'phases', 'devices', 'pins']);
+	
 
 
 	// Site log
