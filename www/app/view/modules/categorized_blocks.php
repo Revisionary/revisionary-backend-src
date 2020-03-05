@@ -217,7 +217,7 @@
 
 
 								// Default Block Image !!!
-								$block_image_path = "projects/project-".$block['project_ID']."/page-0/phase-0/screenshots/device-0.jpg";
+								$block_image_path = "projects/phase-0/screenshots/device-0.jpg";
 
 								if ($block['project_image_device_ID'] != null) {
 
@@ -225,16 +225,28 @@
 									$blockDeviceData = Device::ID( $block['project_image_device_ID'], currentUserID() );
 									if ($blockDeviceData) {
 
+
 										$blockDeviceInfo = $blockDeviceData->getInfo();
 										$block_image_path = "projects/project-".$block['project_ID']."/page-".$blockDeviceInfo['page_ID']."/phase-".$blockDeviceInfo['phase_ID']."/screenshots/device-".$block['project_image_device_ID'].".jpg";
+
+
+										// First device Image, for the projects later than 6 March 2020
+										if ( $blockDeviceInfo['device_created'] > "2020-03-05 23:07:50" ) $block_image_path = "phases/phase-".$blockDeviceInfo['phase_ID']."/screenshots/device-".$block['project_image_device_ID'].".jpg";
+
 
 									} elseif ($projectDevices = $User->getDevices(null, null, $block['project_ID'])) {
 
 										$firstDeviceOfProject = end($projectDevices);
 										if ( isset($firstDeviceOfProject) ) {
 
+
 											$block_image_path = "projects/project-".$block['project_ID']."/page-".$firstDeviceOfProject['page_ID']."/phase-".$firstDeviceOfProject['phase_ID']."/screenshots/device-".$firstDeviceOfProject['device_ID'].".jpg";
+
+
+											// First device Image, for the projects later than 6 March 2020
+											if ( $firstDeviceOfProject['device_created'] > "2020-03-05 23:07:50" ) $block_image_path = "phases/phase-".$firstDeviceOfProject['phase_ID']."/screenshots/device-".$firstDeviceOfProject['device_ID'].".jpg";
 											
+
 											// print_r($block_image_path);
 											// print_r($firstDeviceOfProject);
 
@@ -282,10 +294,15 @@
 
 								$firstDevice = reset($blockDevices);
 
-
-
-								// First device Image
+		
+								// First device Image !!! OLD
 								$block_image_path = "projects/project-".$block['project_ID']."/page-".$block['page_ID']."/phase-".$firstDevice['phase_ID']."/screenshots/device-".$firstDevice['device_ID'].".jpg";
+
+
+								// First device Image, for the projects later than 6 March 2020
+								if ( $blockPhase['phase_created'] > "2020-03-05 23:07:50" ) $block_image_path = "phases/phase-".$firstDevice['phase_ID']."/screenshots/device-".$firstDevice['device_ID'].".jpg";
+
+
 								$block_image_uri = cache."/$block_image_path";
 								$block_image_url = cache_url($block_image_path);
 

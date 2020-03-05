@@ -262,10 +262,16 @@ class Phase {
 
     // Get phase directory
     public function getDir() {
+		
 
-		// Paths
+		// Set the project independent phase directory, for the projects later than 6 March 2020
+		if ( self::$phaseInfo['phase_created'] > "2020-03-05 23:07:50" )
+			return cache."/phases/phase-".self::$phase_ID;
+		
+
+		// Paths !!! OLD ONES
         $pagePath = Page::ID(self::$phaseInfo['page_ID'])->getDir();
-        $phasePath = "phase-".self::$phase_ID;
+		$phasePath = "phase-".self::$phase_ID;
 
 
         // Set the phase directory
