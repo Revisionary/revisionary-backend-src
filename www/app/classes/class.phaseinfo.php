@@ -264,9 +264,9 @@ class Phase {
     public function getDir() {
 		
 
-		// Set the project independent phase directory, for the projects later than 6 March 2020
-		if ( self::$phaseInfo['phase_created'] > "2020-03-05 23:07:50" )
-			return cache."/phases/phase-".self::$phase_ID;
+		// // Set the project independent phase directory, for the projects later than 6 March 2020
+		// if ( self::$phaseInfo['phase_created'] > "2020-03-05 23:07:50" )
+		// 	return cache."/phases/phase-".self::$phase_ID;
 		
 
 		// Paths !!! OLD ONES

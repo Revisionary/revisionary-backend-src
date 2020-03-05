@@ -82,7 +82,7 @@ services:
             - ./phpmemcachedadmin/Memcache.docker.php:/var/www/localhost/htdocs/Config/Memcache.php
 
     composer:
-        image: composer/composer
+        image: composer
         container_name: revisionary_composer
         working_dir: /var/www/html
         command: install --ignore-platform-reqs

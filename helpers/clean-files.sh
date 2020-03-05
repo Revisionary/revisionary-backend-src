@@ -64,3 +64,12 @@ cd ./www/cache/projects/
 find . \! -name '.gitignore' -delete
 echo "DONE: Project files REMOVED"
 )
+
+
+(
+echo "Removing the Phase files..."
+cd ./www/cache/phases/
+# rm -rf phase-*
+find . \! -name '.gitignore' -delete
+echo "DONE: Phase files REMOVED"
+)

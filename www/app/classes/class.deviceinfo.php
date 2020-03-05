@@ -119,6 +119,13 @@ class Device {
     public function getImageURL() {
 
 		$image_path = "projects/project-".$this->getInfo('project_ID')."/page-".$this->getInfo('page_ID')."/phase-".$this->getInfo('phase_ID')."/screenshots/device-".$this->getInfo('device_ID').".jpg";
+		
+
+		// // Set the project independent phase directory, for the projects later than 6 March 2020
+		// if ( $this->getInfo('device_created') > "2020-03-05 23:07:50" )
+		// 	$image_path = "phases/phase-".$this->getInfo('phase_ID')."/screenshots/device-".$this->getInfo('device_ID').".jpg";
+
+
 		$image_url = cache_url($image_path);
 
 		return $image_url;
