@@ -311,44 +311,45 @@ function runTheInspector() {
 	
 							// Re-focus to the closest indexed element
 							focused_element = focused_element.parents('[data-revisionary-index]').first();
+							reFocus();
 	
 	
 							//console.log('REFOCUS - if the focused element has no index: ' + focused_element_tagname + '.' + focused_element.attr('class'));
 	
 						}
-	
-	
+
+
 						// Re-focus if only child element has no child and has content: <p><b focused>Lorem ipsum</b></p>
-						if (
+						while (
 							focused_element_text == "" && // Focused element has no content
-							focused_element_children.length == 1 && // Has only one child
-							focused_element_grand_children.length == 0 && // No grand child
-							focused_element_children.first().text().trim() != "" // Grand child should have content
+							focused_element_children.length == 1 // Has only one child
+							//focused_element_grand_children.length != 0 && // No grand child
+							//focused_element_children.first().text().trim() == "" // Grand child should have content
 						) {
 	
+
 							// Re-focus to the child element
 							focused_element = focused_element_children.first();
+							reFocus();
 	
 	
-							//console.log('REFOCUS - Only child element has no child and has content: ' + focused_element_tagname + '.' + focused_element.attr('class'));
-	
+							//console.log(i, 'REFOCUS - Only child element has no child and has content: ' + focused_element_tagname + '.' + focused_element.attr('class'));
+
 						}
 	
 	
 						// Re-focus to the edited element if this is child of it: <p data-edited="1" focused><b>Lorem
 						if (focused_element_edited_parents.length) {
 	
+
 							// Re-focus to the parent edited element
 							focused_element = focused_element_edited_parents.first();
+							reFocus();
 	
 	
 							//console.log('REFOCUS - Already edited closest parent: ' + focused_element_tagname + '.' + focused_element.attr('class'));
 	
 						}
-	
-	
-						// Update refocused sub elements
-						reFocus();
 	
 	
 	
@@ -409,7 +410,7 @@ function runTheInspector() {
 						if (
 							focused_element_children.length > 0 && // Has child
 							focused_element_grand_children.length == 0 && // No grand child
-							focused_element_text.trim() != "" && // Has to have text
+							focused_element_text != "" && // Has to have text
 							focused_element.html() != "&nbsp;" // Text shouldn't be blank
 						) {
 	
@@ -4914,7 +4915,7 @@ function reFocus() {
 	focused_element_index = focused_element.attr('data-revisionary-index');
 	focused_element_has_index = focused_element_index != null;
 	focused_element_index = focused_element_has_index ? focused_element_index : 0;
-	focused_element_text = focused_element.clone().children().remove().end().text(); // Gives only text, without inner html
+	focused_element_text = focused_element.clone().children().remove().end().text().trim(); // Gives only text, without inner html
 	focused_element_html = focused_element.html();
 	focused_element_children = focused_element.children();
 	focused_element_grand_children = focused_element_children.children();
@@ -4923,6 +4924,8 @@ function reFocus() {
 	focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-content-edited]');
 	focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-content-edited]').length;
 	focused_element_tagname = focused_element.prop('tagName').toUpperCase();
+
+	//console.log('REFOCUS TO: ', focused_element_tagname, '#' + focused_element_index);
 
 }
 
