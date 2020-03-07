@@ -17886,6 +17886,16 @@ body.index .enter-url input[type="submit"]:focus {
   margin-top: 5px;
 }
 
+.enter-url .description .diff.red {
+  color: #b30000;
+  background: #fadad7;
+}
+
+.enter-url .description .diff.green {
+  background: #eaf2c2;
+  color: #406619;
+}
+
 /* Blocks */
 ol.categories {
   padding: 0;

@@ -3297,7 +3297,22 @@ footer {
 	    letter-spacing: 2.5px;
 	    text-align: center;
 	    width: 100%;
-	    margin-top: 5px;
+		margin-top: 5px;
+
+		.diff {
+
+			&.red {
+				color: #b30000;
+				background: #fadad7;
+			}
+
+			&.green {
+				background: #eaf2c2;
+				color: #406619;
+			}
+
+		}
+
 	}
 
 }
