@@ -4070,6 +4070,7 @@ function revertChange(pin_ID) {
 
 
 	// Update the element, pin and pin window status
+	pinWindow(pin_ID).removeClass('show-differences');
 	updateAttributes(pin_ID, 'data-revisionary-content-edited', "0");
 	updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
 	changedElement
