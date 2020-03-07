@@ -2961,12 +2961,11 @@ function stickPin(pin_ID) {
 
 // PIN WINDOW:
 // Open the pin window
-function openPinWindow(pin_ID, firstTime, scrollToPin) {
+function openPinWindow(pin_ID, firstTime) {
 
 
 	// Defaults
 	firstTime = assignDefault(firstTime, false);
-	scrollToPin = assignDefault(scrollToPin, false);
 
 
 	var pin = getPin(pin_ID);
