@@ -2327,7 +2327,7 @@ function scrollToPin(pin_ID, openWindow, noDelay, animation) {
 	pinAnimationTimeout = setTimeout(function() {
 
 
-		// Scroll to the element
+		// Scroll to the element !!! Do this if not already in view
 		iframeElement(element_index)[0].scrollIntoView({
 			behavior: 'smooth',
 			block: 'center',
