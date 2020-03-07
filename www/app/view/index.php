@@ -59,12 +59,12 @@
 		</div>
 		<div class="col xl-2-3">
 		
-			<h3>Ease of Use, <br> No Download or Installation</h3>
+			<h3><strong>Ease of Use,</strong> <br> No Download or Installation</h3>
 			<p>Put your live URL and start giving feedback on any website! No need to download and install anything to your computer or browser.</p>
 			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-rocket"></i> Get Started</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right">
+		<div class="col xl-1-3 xl-right perspective-left">
 		
 			<?php require view('animations/ease-of-use'); ?>
 		
@@ -72,10 +72,14 @@
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3" data-tooltip="In development..."><i class="fas fa-film" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 perspective-right" style="pointer-events: none; user-select: none;">
+		
+			<img src="<?=asset_url('images/content-edit.png')?>" alt="">
+		
+		</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h3>No Need to Write Comments, <br> Change the Live Content & Style</h3>
+			<h3><strong>No Need to Write Comments,</strong> <br> Change the Live Content & Style</h3>
 			<p>You don't have to wait to see the changes you want on a website until developers apply them for you. Just do it yourself and see how does it look before you send them!</p>
 			<div><a href="<?=site_url('signup')?>" class="button"><i class="far fa-thumbs-up"></i> Do it Yourself</a></div>
 
@@ -85,19 +89,27 @@
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
 		<div class="col xl-2-3">
 		
-			<h3>See the Content Differences</h3>
+			<h3>See the <strong>Content Differences</strong></h3>
 			<p>Great to see the content changes on a live site. But what's changed on that big paragraph? <br> You can see the content differences easily to see what's exactly removed and added.</p>
 			<div><a href="<?=site_url('signup?trial=Plus')?>" class="button"><i class="fas fa-exchange-alt"></i> Try Now</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right" data-tooltip="In development..."><i class="fas fa-film" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 xl-right perspective-left" style="pointer-events: none; user-select: none;">
+		
+			<img src="<?=asset_url('images/differences.png')?>" alt="">
+		
+		</div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3" data-tooltip="In development..."><i class="fas fa-film" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 perspective-right" style="pointer-events: none; user-select: none;">
+		
+			<img src="<?=asset_url('images/devices.png')?>" alt="">
+		
+		</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h3>On any Device Screen</h3>
+			<h3>On <strong>any Device Screen</strong></h3>
 			<p>Found an issue on mobile view of a website? Or, on larger screens? Just add a new device to your page. So, you can do changes and add your comments on any device screen size.</p>
 			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-mobile-alt"></i> See in Action</a></div>
 
@@ -107,19 +119,33 @@
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
 		<div class="col xl-2-3">
 		
-			<h3>Phases</h3>
+			<h3><strong>Phases</strong></h3>
 			<p>When you are done with all the changes on a page and it's been live, add a new phase to start from the new version of that page. Pull the latest changes and start revising again! And, you can see what's been done so far.</p>
 			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-code-branch"></i> Work in Versions</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right" data-tooltip="In development..."><i class="fas fa-film" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 xl-right perspective-left" style="pointer-events: none; user-select: none;">
+		
+			<img src="<?=asset_url('images/versions.png')?>" alt="">
+		
+		</div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3" data-tooltip="In development..."><i class="fas fa-film" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 perspective-right">
+			
+			<ol>
+				<li class="h1">Projects</li>
+				<li class="h2">Pages</li>
+				<li class="h3">Phases</li>
+				<li class="h4">Devices</li>
+				<li class="h5">Pins</li>
+			</ol>
+
+		</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h3>Everything is Really Organized</h3>
+			<h3>Everything is <strong>Really Organized</strong></h3>
 			<p>All the parts of the Revisionary App like Projects, Pages, Phases/Versions, Devices, Pins, Comments. Everything is grouped logically, accessibly and understandable for you. </p>
 			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-sitemap"></i> Find & Do It Easy</a></div>
 
@@ -129,19 +155,27 @@
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
 		<div class="col xl-2-3">
 		
-			<h3>Comments on Design Files</h3>
+			<h3><strong>Comments on Design Files</strong> <br> Or on Any Image</h3>
 			<p>You can use Revisionary even on your design process! Upload your design files and add your comments as easy as commenting on live URLs with Revisionary App.</p>
 			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-paint-brush"></i> Give a Design Feedback</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right" data-tooltip="In development..."><i class="fas fa-film" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 xl-right perspective-left" style="pointer-events: none; user-select: none;">
+		
+			<img src="<?=asset_url('images/design-comment.png')?>" alt="">
+		
+		</div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3" data-tooltip="In development..."><i class="fas fa-film" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 perspective-right" style="pointer-events: none; user-select: none;">
+		
+			<img src="<?=asset_url('images/mark.png')?>" alt="">
+		
+		</div>
 		<div class="col xl-2-3 xl-right">
 		
-			<h3>Draw on a Website, <br> Like on a Screenshot</h3>
+			<h3><strong>Draw on a Website,</strong> <br> Like on a Screenshot</h3>
 			<p>Draw a rectangle, circle, arrow or do a freehand drawing on a live website to show issues. <br> That will be possible on Revisionary App for the people cannot give up the screenshot habits.</p>
 			<div class="wrap xl-right xl-flexbox xl-middle xl-gutter-24 action">
 				<div class="col">
@@ -170,7 +204,11 @@
 			</div>
 
 		</div>
-		<div class="col xl-1-3 xl-right" data-tooltip="In development..."><i class="fas fa-film" style="font-size: 200px;"></i></div>
+		<div class="col xl-1-3 xl-center perspective-left">
+			<i class="fa fa-github" style="font-size: 120px;"></i>
+			<i class="fa fa-bitbucket" style="font-size: 120px;"></i>
+			<i class="fa fa-trello" style="font-size: 120px;"></i>
+		</div>
 	</div>
 </section>
 

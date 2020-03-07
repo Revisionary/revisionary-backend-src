@@ -14929,6 +14929,36 @@ h3 div {
   letter-spacing: 4px;
 }
 
+.h1 {
+  font-size: 40px;
+  letter-spacing: 1px;
+}
+
+.h2 {
+  font-size: 36px;
+  letter-spacing: 1px;
+}
+
+.h3 {
+  font-size: 32px;
+  letter-spacing: 1px;
+}
+
+.h4 {
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+.h5 {
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+
+.h6 {
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
 .text-uppercase {
   text-transform: uppercase;
 }
@@ -17035,8 +17065,10 @@ footer {
 .more-info {
   text-align: center;
   position: absolute;
-  width: 100%;
-  left: 0;
+  display: inline-block;
+  left: 50%;
+  -moz-transform: translateX(-50%);
+       transform: translateX(-50%);
   bottom: 60px;
   font-size: 24px;
   color: #000000;
@@ -18669,6 +18701,16 @@ table.pricing .try.link:hover {
 
 #animation-1 .circle .inner .submit {
   width: 65px;
+}
+
+.perspective-left {
+  -moz-transform: perspective(500px) rotateY(-10deg);
+       transform: perspective(500px) rotateY(-10deg);
+}
+
+.perspective-right {
+  -moz-transform: perspective(500px) rotateY(10deg);
+       transform: perspective(500px) rotateY(10deg);
 }
 
 /* Media Queries */
