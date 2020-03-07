@@ -2323,29 +2323,77 @@ function scrollToPin(pin_ID, openWindow, noDelay, animation) {
 	iframeElement('html, body').stop();
 	if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
 
+
 	pinAnimationTimeout = setTimeout(function() {
 
 
-		// Get the locations
-		var pinLocation = locationsByElement(element_index, pin.pin_x, pin.pin_y, true);
-
-
-		// Scroll to pin
-		pinAnimation = iframeElement('html, body').stop().animate({
-
-			scrollTop: parseInt( pinLocation.y / iframeScale ) - ($('.iframe-container').height() / 2) + (pinSize / 2)
-			//scrollLeft: parseInt( pinLocation.x ) - ($('.iframe-container').width() / 2) + (pinSize / 2) !!!
-
-		}, {
-			duration: animation ? 400 : 0,
-			step: function() {
-				//console.log('ANIMATIIIIIING');
-			}
-		}, 'swing').promise().then(function() {
-
-			if (openWindow) openPinWindow(pin_ID);
-
+		// Scroll to the element
+		iframeElement(element_index)[0].scrollIntoView({
+			behavior: 'smooth',
+			block: 'center',
+			inline: 'center'
 		});
+
+
+		// Open pin window !!! Find "scrollIntoView" callback to run this
+		if (openWindow) {
+			
+			setTimeout(function() {
+
+				openPinWindow(pin_ID);
+
+			}, 1200 );
+		
+		}
+
+
+		// TRY 1
+		// while ( $('body').hasClass('scrolling') ) {
+		
+		// 	console.log('WAIT');
+
+		// 	if ( !$('body').hasClass('scrolling') ) {
+
+		// 		openPinWindow(pin_ID);
+		// 		break;
+
+		// 	}
+		
+		// }
+
+
+
+		// // Get the locations
+		// var pinLocation = locationsByElement(element_index, pin.pin_x, pin.pin_y, true);
+
+
+		// // Scroll to pin
+		// pinAnimation = iframeElement('html, body').stop().animate({
+
+		// 	scrollTop: parseInt( pinLocation.y / iframeScale ) - ($('.iframe-container').height() / 2) + (pinSize / 2)
+		// 	//scrollLeft: parseInt( pinLocation.x ) - ($('.iframe-container').width() / 2) + (pinSize / 2) !!!
+
+		// }, {
+		// 	duration: animation ? 400 : 0,
+		// 	step: function() {
+		// 		//console.log('ANIMATIIIIIING');
+		// 	}
+		// }, 'swing').promise().then(function() {
+
+
+		// 	// // Scroll to the element
+		// 	// iframeElement(element_index).get(0).scrollIntoView({
+		// 	// 	behavior: 'smooth',
+		// 	// 	block: 'center',
+		// 	// 	inline: 'center'
+		// 	// });
+
+
+		// 	// Open pin window
+		// 	if (openWindow) openPinWindow(pin_ID);
+
+
+		// });
 
 
 	}, delay);
