@@ -485,18 +485,21 @@ $(function() {
 		var value = $(this).val();
 
 
-		// Protocol check
-		if ( value.length > 8 && value.indexOf('://') === -1 ) {
-			value = 'http://' + value;
-			$(this).val(value);
-		}
-
-
-		// Show page modes
+		// If URL input
 		if (name == "page-url") {
 
+
+			// Protocol check
+			if ( value.length > 8 && value.indexOf('://') === -1 ) {
+				value = 'http://' + value;
+				$(this).val(value);
+			}
+
+
+			// Show page modes
 			if (value.length) forms.attr('data-url-entered', 'yes');
 			else forms.attr('data-url-entered', 'no');
+
 
 		}
 
