@@ -297,31 +297,31 @@ $(function() {
 		height = height - 2; // -2 for the borders
 		
 
-		if (page_type == "image") {
+		// if (page_type == "image") {
 
 
-			// Early exit if smaller than the screen
-			if(width >= maxWidth && height >= maxHeight) {
-				$('#the-page').css({'transform': ''});
-				//$('.iframe-container').css({ width: '', height: '' });
-				return;
-			}
+		// 	// Early exit if smaller than the screen
+		// 	if(width >= maxWidth && height >= maxHeight) {
+		// 		$('#the-page').css({'transform': ''});
+		// 		//$('.iframe-container').css({ width: '', height: '' });
+		// 		return;
+		// 	}
 
 
-			iframeScale = width / maxWidth;
-			if (iframeScale > 1) iframeScale = 1;
+		// 	iframeScale = width / maxWidth;
+		// 	if (iframeScale > 1) iframeScale = 1;
 
-			iframeWidth = maxWidth * iframeScale;
-			iframeHeight = maxHeight * iframeScale;
-
-
-			$('#the-page').css({
-				height: height / iframeScale,
-				'min-height': height / iframeScale
-			});
+		// 	iframeWidth = maxWidth * iframeScale;
+		// 	iframeHeight = maxHeight * iframeScale;
 
 
-		} else {
+		// 	$('#the-page').css({
+		// 		height: height / iframeScale,
+		// 		'min-height': height / iframeScale
+		// 	});
+
+
+		// } else {
 
 
 			// Early exit if smaller than the screen
@@ -336,7 +336,7 @@ $(function() {
 			iframeHeight = maxHeight * iframeScale;
 
 
-		}
+		//}
 
 
 		// Update the iframe
