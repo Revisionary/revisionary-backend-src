@@ -18703,8 +18703,8 @@ table.pricing .try.link:hover {
        border-radius: 50%;
   width: 260px;
   height: 260px;
-  -moz-transform: perspective(200px) rotateY(-25deg);
-       transform: perspective(200px) rotateY(-25deg);
+  -moz-transform: perspective(250px) rotateY(-25deg);
+       transform: perspective(250px) rotateY(-25deg);
 }
 
 #animation-1 .circle .inner {

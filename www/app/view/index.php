@@ -131,7 +131,7 @@
 		</div>
 	</div>
 
-	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container xl-hidden">
 		<div class="col xl-1-3 perspective-right">
 			
 			<ol>
@@ -153,48 +153,53 @@
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-2-3">
+		<div class="col xl-1-3 xl-right perspective-right" style="pointer-events: none; user-select: none;">
+		
+			<img src="<?=asset_url('images/design-comment.png')?>" alt="">
+		
+		</div>
+		<div class="col xl-2-3 xl-right">
 		
 			<h3><strong>Comments on Design Files</strong> <br> Or on Any Image</h3>
 			<p>You can use Revisionary even on your design process! Upload your design files and add your comments as easy as commenting on live URLs with Revisionary App.</p>
 			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-paint-brush"></i> Give a Design Feedback</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right perspective-left" style="pointer-events: none; user-select: none;">
-		
-			<img src="<?=asset_url('images/design-comment.png')?>" alt="">
-		
-		</div>
-	</div>
-
-	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-3 perspective-right" style="pointer-events: none; user-select: none;">
-		
-			<img src="<?=asset_url('images/mark.png')?>" alt="">
-		
-		</div>
-		<div class="col xl-2-3 xl-right">
-		
-			<h3><strong>Draw on a Website,</strong> <br> Like on a Screenshot</h3>
-			<p>Draw a rectangle, circle, arrow or do a freehand drawing on a live website to show issues. <br> That will be possible on Revisionary App for the people cannot give up the screenshot habits.</p>
-			<div class="wrap xl-right xl-flexbox xl-middle xl-gutter-24 action">
-				<div class="col">
-					Coming Soon
-				</div>
-				<div class="col">
-					<a href="#" class="button" data-modal="notifyme"><i class="far fa-envelope"></i> Notify Me</a>
-				</div>
-			</div>
-
-		</div>
 	</div>
 
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
 		<div class="col xl-2-3">
 		
+			<h3><strong>Draw on a Website,</strong> <br> Like on a Screenshot</h3>
+			<p>Draw a rectangle, circle, arrow or do a freehand drawing on a live website to show issues. <br> That will be possible on Revisionary App for the people cannot give up the screenshot habits.</p>
+			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
+				<div class="col">
+					Coming Soon
+				</div>
+				<div class="col">
+					<a href="#" class="button" data-modal="notifyme"><i class="far fa-envelope"></i> Notify Me</a>
+				</div>
+			</div>
+
+		</div>
+		<div class="col xl-1-3 perspective-left" style="pointer-events: none; user-select: none;">
+		
+			<img src="<?=asset_url('images/mark.png')?>" alt="">
+		
+		</div>
+	</div>
+
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+		<div class="col xl-1-3 xl-center perspective-right">
+			<i class="fa fa-github" style="font-size: 120px;"></i>
+			<i class="fa fa-bitbucket" style="font-size: 120px;"></i>
+			<i class="fa fa-trello" style="font-size: 120px;"></i>
+		</div>
+		<div class="col xl-2-3 xl-right">
+		
 			<h3>Integrations</h3>
 			<p>You'll be able to automatically create GitHub or BitBucket Issues, Asana or Trello Tasks. <br> Just with one click of adding pins on any page!</p>
-			<div class="wrap xl-flexbox xl-middle xl-gutter-24 action">
+			<div class="wrap xl-flexbox xl-middle xl-right xl-gutter-24 action">
 				<div class="col">
 					<a href="#" class="button" data-modal="notifyme"><i class="far fa-envelope"></i> Notify Me</a>
 				</div>
@@ -203,11 +208,6 @@
 				</div>
 			</div>
 
-		</div>
-		<div class="col xl-1-3 xl-center perspective-left">
-			<i class="fa fa-github" style="font-size: 120px;"></i>
-			<i class="fa fa-bitbucket" style="font-size: 120px;"></i>
-			<i class="fa fa-trello" style="font-size: 120px;"></i>
 		</div>
 	</div>
 </section>
