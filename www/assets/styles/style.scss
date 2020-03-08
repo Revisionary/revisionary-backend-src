@@ -11,11 +11,11 @@
 
 // Font Awesome
 $fa-font-path: "../fonts/font-awesome/webfonts";
-@import "../fonts/font-awesome/scss/fontawesome.scss";
-@import "../fonts/font-awesome/scss/solid.scss";
-@import "../fonts/font-awesome/scss/regular.scss";
-@import "../fonts/font-awesome/scss/brands.scss";
-@import "../fonts/font-awesome/scss/v4-shims.scss";
+@import "../fonts/font-awesome/scss/fontawesome";
+@import "../fonts/font-awesome/scss/solid";
+@import "../fonts/font-awesome/scss/regular";
+@import "../fonts/font-awesome/scss/brands";
+@import "../fonts/font-awesome/scss/v4-shims";
 
 
 /* General */
@@ -75,7 +75,7 @@ body {
 	line-height: normal;
 	letter-spacing: 1px;
 
-	*:not(.fa):not(.fas):not(.far) {
+	*:not(.fa):not(.fas):not(.far):not(.fab) {
 		font-family: 'Roboto Condensed', sans-serif;
 	}
 

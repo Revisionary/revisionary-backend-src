@@ -6122,7 +6122,7 @@ template {
 }
 
 /*!
- * Font Awesome Free 5.12.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.12.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 .fa,
@@ -7708,6 +7708,10 @@ readers do not read off random characters that represent icons */
   content: "\f6ca";
 }
 
+.fa-dailymotion:before {
+  content: "\f952";
+}
+
 .fa-dashcube:before {
   content: "\f210";
 }
@@ -9096,6 +9100,10 @@ readers do not read off random characters that represent icons */
   content: "\f16d";
 }
 
+.fa-instagram-square:before {
+  content: "\f955";
+}
+
 .fa-intercom:before {
   content: "\f7af";
 }
@@ -9626,6 +9634,10 @@ readers do not read off random characters that represent icons */
 
 .fa-mixcloud:before {
   content: "\f289";
+}
+
+.fa-mixer:before {
+  content: "\f956";
 }
 
 .fa-mizuni:before {
@@ -10566,6 +10578,10 @@ readers do not read off random characters that represent icons */
 
 .fa-shoe-prints:before {
   content: "\f54b";
+}
+
+.fa-shopify:before {
+  content: "\f957";
 }
 
 .fa-shopping-bag:before {
@@ -11989,7 +12005,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 5.12.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.12.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 @font-face {
@@ -12008,7 +12024,7 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 5.12.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.12.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 @font-face {
@@ -12026,13 +12042,13 @@ readers do not read off random characters that represent icons */
 }
 
 /*!
- * Font Awesome Free 5.12.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.12.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 @font-face {
   font-family: 'Font Awesome 5 Brands';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   font-display: auto;
   src: url("../fonts/font-awesome/webfonts/fa-brands-400.eot");
   src: url("../fonts/font-awesome/webfonts/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("../fonts/font-awesome/webfonts/fa-brands-400.woff2") format("woff2"), url("../fonts/font-awesome/webfonts/fa-brands-400.woff") format("woff"), url("../fonts/font-awesome/webfonts/fa-brands-400.ttf") format("truetype"), url("../fonts/font-awesome/webfonts/fa-brands-400.svg#fontawesome") format("svg");
@@ -12040,10 +12056,11 @@ readers do not read off random characters that represent icons */
 
 .fab {
   font-family: 'Font Awesome 5 Brands';
+  font-weight: 400;
 }
 
 /*!
- * Font Awesome Free 5.12.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.12.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 .fa.fa-glass:before {
@@ -14883,7 +14900,7 @@ body {
   letter-spacing: 1px;
 }
 
-body *:not(.fa):not(.fas):not(.far) {
+body *:not(.fa):not(.fas):not(.far):not(.fab) {
   font-family: 'Roboto Condensed', sans-serif;
 }
 
