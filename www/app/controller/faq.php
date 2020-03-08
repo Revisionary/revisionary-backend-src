@@ -5,5 +5,5 @@ $additionalBodyJS = [
 ];
 
 
-$page_title = "FAQ";
+$page_title = "FAQ - Frequently Asked Questions";
 require view('faq');
