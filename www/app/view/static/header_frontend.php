@@ -4,7 +4,7 @@
 
 	<main id="first-section">
 
-		<header class="wrap xl-flexbox xl-middle xl-between xl-outside-60">
+		<header class="wrap xl-flexbox xl-middle xl-between xl-outside-60 lg-2">
 
 			<div class="col branding-side xl-left">
 
@@ -24,8 +24,8 @@
 				<nav id="main-navigation">
 
 					<ul>
-						<li style="margin-right: 35px;"><a href="<?=site_url('#features')?>">Features</a></li>
-						<li><a href="<?=site_url('#use-cases')?>">Use Cases</a></li>
+						<li class="menu-features" style="margin-right: 35px;"><a href="<?=site_url('#features')?>">Features</a></li>
+						<li class="menu-use-cases"><a href="<?=site_url('#use-cases')?>">Use Cases</a></li>
 						<li class="login-link"><a href="<?=site_url('login')?>">Login</a></li>
 						<li class="signup-link"><a href="<?=site_url('signup')?>">Sign Up</a></li>
 					</ul>
@@ -42,8 +42,8 @@
 					<ul class="user-header-menu">
 						
 						<?php if ($_url[0] != "projects" && $_url[0] != "project") { ?>
-						<li style="margin-right: 35px;"><a href="<?=site_url('#features')?>">Features</a></li>
-						<li style="margin-right: 25px;"><a href="<?=site_url('#use-cases')?>">Use Cases</a></li>
+						<li class="menu-features" style="margin-right: 35px;"><a href="<?=site_url('#features')?>">Features</a></li>
+						<li class="menu-use-cases" style="margin-right: 25px;"><a href="<?=site_url('#use-cases')?>">Use Cases</a></li>
 						<?php } ?>
 
 

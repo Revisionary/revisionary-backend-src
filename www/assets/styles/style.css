@@ -18761,4 +18761,11 @@ table.pricing .try.link:hover {
   }
 }
 
+@media only screen and (max-width: 1130px) {
+  #main-navigation .menu-features,
+  #main-navigation .menu-use-cases {
+    display: none;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
