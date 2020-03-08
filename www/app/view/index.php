@@ -64,7 +64,7 @@
 			<div><a href="<?=site_url('signup')?>" class="button"><i class="fas fa-rocket"></i> Get Started</a></div>
 
 		</div>
-		<div class="col xl-1-3 xl-right perspective-left">
+		<div class="col xl-1-3 xl-right">
 		
 			<?php require view('animations/ease-of-use'); ?>
 		
