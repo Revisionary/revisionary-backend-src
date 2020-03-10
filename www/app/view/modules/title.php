@@ -87,8 +87,8 @@
 
 			<div class="col">
 
-				<a href="#" data-modal="share" data-type="project" data-id="<?=$project_ID?>" data-object-name="<?=$projectInfo['project_name']?>" data-iamowner="<?=$projectInfo['user_ID'] == currentUserID() ? "yes" : "no"?>" data-tooltip="Share this project">
-					<i class="fa fa-share-alt"></i>
+				<a href="#" data-modal="share" data-type="project" data-id="<?=$project_ID?>" data-object-name="<?=$projectInfo['project_name']?>" data-iamowner="<?=$projectInfo['user_ID'] == currentUserID() ? "yes" : "no"?>" data-tooltip="Share this project" class="upgrade-button invert">
+					<i class="fa fa-share-alt"></i> SHARE
 				</a>
 
 			</div>
