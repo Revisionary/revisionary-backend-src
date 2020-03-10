@@ -1826,6 +1826,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		user_ID: parseInt(user_ID),
 		user_first_name: user_first_name,
 		user_last_name: user_last_name,
+		user_email: user_email,
 		user_picture: user_picture,
 		project_ID: parseInt(project_ID),
 		page_ID: parseInt(page_ID),
@@ -3406,7 +3407,7 @@ function openPinWindow(pin_ID, firstTime) {
 
 
 		// CREATOR INFO:
-		var picture = pin.user_picture;
+		var picture = pin.user_picture == null ? get_gravatar(pin.user_email) : pin.user_picture;
 		var printPic = picture != null ? "background-image: url("+ picture +");" : "";
 		pinWindow().find('.createdby .profile-picture').attr('style', printPic);
 
@@ -5136,7 +5137,7 @@ function commentTemplate(comment, hide, sameTime) {
 	sameTime = assignDefault(sameTime, false);
 
 	var date = new Date(comment.comment_modified);
-	var picture = comment.user_picture;
+	var picture = comment.user_picture == null ? get_gravatar(comment.user_email) : comment.user_picture;
 	var printPic = picture != null ? " style='background-image: url("+ picture +");'" : "";
 	var nameAbbr = comment.user_first_name.charAt(0) + comment.user_last_name.charAt(0);
 	var itsMe = comment.user_ID == user_ID;

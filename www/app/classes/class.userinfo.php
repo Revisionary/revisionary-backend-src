@@ -803,6 +803,7 @@ class User {
 				u.user_ID,
 				u.user_first_name,
 				u.user_last_name,
+				u.user_email,
 				u.user_picture,
 				project.project_ID,
 				page.page_ID,

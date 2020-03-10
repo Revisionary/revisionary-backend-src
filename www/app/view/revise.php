@@ -5,6 +5,7 @@
 	user_ID = <?=currentUserID()?>;
 	user_first_name = '<?=$User->getInfo('user_first_name')?>';
 	user_last_name = '<?=$User->getInfo('user_last_name')?>';
+	user_email = '<?=$User->getInfo('user_email')?>';
 	user_picture = '<?=$User->getInfo('user_picture')?>';
 	trial_active = <?=getUserInfo()['trialActive'] ? "true" : "false"?>;
 	user_level_ID = <?=getUserInfo()['trialActive'] ? getUserInfoDB()['trial_user_level_ID'] : $User->getInfo('user_level_ID')?>;
