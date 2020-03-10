@@ -33,7 +33,7 @@
 				<input type="submit" title="Go Revising!"/>
 			</form>
 			<span class="description">Add your comments and edit any website’s content, <br/>
-				for <del class="diff red">a fee</del><span class="diff green">free!</span> <br/><br/>
+				for <del class="diff red">a fee</del><span class="diff green">free!</span><sup>*</sup> <br/><br/>
 
 				<a href="#" class="button" data-tooltip='Coming soon...' data-modal="video"><i class="fa fa-play-circle"></i> See How It Works</a>
 
@@ -209,6 +209,10 @@
 			</div>
 
 		</div>
+	</div>
+
+	<div class="container xl-right footnote">
+		<p><sup>*</sup> Most of the features are free in the free plan with some limitations.</p>
 	</div>
 </section>
 

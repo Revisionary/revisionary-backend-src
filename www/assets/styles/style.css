@@ -14982,6 +14982,14 @@ h3 div {
   letter-spacing: 1px;
 }
 
+.text-color-primary {
+  color: #000000;
+}
+
+.text-color-secondary {
+  color: #007acc;
+}
+
 .text-uppercase {
   text-transform: uppercase;
 }
@@ -17817,6 +17825,15 @@ footer .footer-links a:hover {
 footer .social a {
   font-size: 15px;
   line-height: normal;
+}
+
+.footnote {
+  margin-top: -50px;
+}
+
+.footnote p {
+  opacity: 0.5;
+  font-size: 10px !important;
 }
 
 /* Home */
