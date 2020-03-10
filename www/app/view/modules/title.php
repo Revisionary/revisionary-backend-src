@@ -35,6 +35,11 @@
 
 	<div class="col xl-6-12 xl-center title item" <?=isset($project_ID) ? "data-id='$project_ID' data-type='project'" : ""?>>
 		<div class="dropdown click-to-open" style="display: inline-block;">
+			<?php if ($catFilter == "archived") { ?>
+				<div class="xl-left">Archived <?=$dataType == "page" ? ucfirst($title) : ""?></div>
+			<?php } elseif ($catFilter == "deleted") { ?>
+				<div class="xl-left">Deleted <?=$dataType == "page" ? ucfirst($title) : ""?></div>
+			<?php } ?>
 			<a href="#" class="<?=$title == "pages" ? 'name-field' : ''?>" style="display: block; margin-bottom: 20px;">
 				<h1 class="<?=$title == "pages" ? 'project-title' : ''?>" <?=$title == "pages" ? 'data-id="'.$project_ID.'"' : ''?>>
 					<span class="name" <?=isset($project_ID) ? "data-id='$project_ID' data-type='project'" : ""?>><?=$title == "pages" ? $projectInfo['project_name'] : strtoupper($title)?></span><i class="fa fa-caret-down" style="font-size: 30px; transform: translateY(-10px);"></i>
