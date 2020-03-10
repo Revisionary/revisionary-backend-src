@@ -573,7 +573,7 @@ class User {
 			$db->join("pages p", "p.page_ID = ph.page_ID", "LEFT");
 
 
-			// Bring page info
+			// Bring project info
 			$db->join("projects pr", "p.project_ID = pr.project_ID", "LEFT");
 
 

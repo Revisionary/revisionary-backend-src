@@ -248,8 +248,8 @@ class Device {
 
 				// Email notification
 				Notify::ID($users)->mail(
-					getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." page",
-					getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." page. <br><br>
+					getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page",
+					getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page. <br><br>
 					<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
 				);
 
@@ -263,8 +263,8 @@ class Device {
 
 				// Email notification
 				Notify::ID($users)->mail(
-					getUserInfo()['fullName']." added a new screen on ".$pageData->getInfo('page_name')." page",
-					getUserInfo()['fullName']." added a new screen: ".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.") <br><br>
+					getUserInfo()['fullName']." added a new screen on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page",
+					getUserInfo()['fullName']." added a new screen: ".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.") on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page <br><br>
 					<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
 				);
 
