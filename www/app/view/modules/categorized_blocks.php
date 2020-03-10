@@ -729,7 +729,7 @@
 											$action_url = 'ajax?type=data-action&data-type='.$dataType.'&nonce='.$_SESSION['js_nonce'].'&id='.$block[$dataType.'_ID'];
 
 										if (
-											($dataType == "project" && $blockIsMine)
+											$dataType == "project"
 											|| $dataType == "page"
 											|| getUserInfo()['userLevelID'] == 1
 										) {
@@ -744,7 +744,7 @@
 										<?php
 											}
 										?>
-<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-confirm="<?=$catFilter == "deleted" ? 'Are you sure you want to completely remove this '.$dataType.'? Keep in mind that no one will be able to access this '.$dataType.' anymore!' : 'Are you sure you want to trash this '.$dataType.'?' ?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Trash'?>"><i class="fa fa-trash"></i></a>
+<a href="<?=site_url($action_url.'&action='.($catFilter == "deleted" ? 'remove' : 'delete'))?>" data-action="<?=$catFilter == "deleted" ? 'remove' : 'delete'?>" data-confirm="<?=$catFilter == "deleted" ? 'Are you sure you want to completely remove this '.$dataType.'? Keep in mind that no one will be able to access this '.$dataType.' anymore!' : 'Are you sure you want to trash this '.$dataType.'?' ?>" data-tooltip="<?=$catFilter == "deleted" ? 'Remove' : 'Trash'?>" class="<?=!$blockIsMine && $dataType == "project" && $catFilter == "deleted" ? "xl-hidden" : ""?>"><i class="fa fa-trash"></i></a>
 									<?php
 										}
 									?>
