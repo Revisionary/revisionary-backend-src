@@ -17100,16 +17100,28 @@ footer {
   left: 50%;
   -moz-transform: translateX(-50%);
        transform: translateX(-50%);
-  bottom: 60px;
-  font-size: 24px;
+  bottom: 50px;
   color: #000000;
+}
+
+.more-info, .more-info > h2 {
+  font-size: 24px;
+  line-height: normal;
   letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 0;
 }
 
 .more-info img {
   display: block;
   margin: 0 auto;
   margin-top: 12px;
+}
+
+@media only screen and (max-height: 740px) {
+  .more-info img {
+    display: none;
+  }
 }
 
 section.decorative {

@@ -43,7 +43,7 @@
 
 
 	<a href="#features" class="more-info">
-		MORE INFO
+		<h2>Features</h2>
 		<img src="<?=asset_url('icons/icon-arrow-down.svg')?>" alt=""/>
 	</a>
 
@@ -52,11 +52,6 @@
 
 <section id="features" class="features">
 	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
-		<div class="col xl-1-1 xl-hidden">
-
-			<h2>Features</h2>
-
-		</div>
 		<div class="col xl-2-3">
 		
 			<h3><strong>Ease of Use,</strong> <br> No Download or Installation</h3>
@@ -209,11 +204,18 @@
 			</div>
 
 		</div>
-	</div>
+	</div><br><br><br>
+
+
+	<a href="#use-cases" class="more-info">
+		<h2>Use Cases</h2>
+		<img src="<?=asset_url('icons/icon-arrow-down.svg')?>" alt=""/>
+	</a>
 
 	<div class="container xl-right footnote">
 		<p><sup>*</sup> Most of the features are free in the free plan with some limitations.</p>
 	</div>
+
 </section>
 
 
@@ -222,7 +224,6 @@
 	<div class="light-side">
 
 		<div class="side-content">
-			<h2 class="xl-hidden">Use Cases</h2>
 			<h3><div>Revisionary For</div> Content Management</h3>
 			<p>If you are a website Content Editor, or an SEO manager, or a Translator, <b>Revisionary App</b> is best solution for you to do your changes or updates on a live site with just a few clicks.</p>
 

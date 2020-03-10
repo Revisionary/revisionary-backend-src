@@ -2361,16 +2361,27 @@ footer {
 	display: inline-block;
 	left: 50%;
 	transform: translateX(-50%);
-    bottom: 60px;
-    font-size: 24px;
-    color: $color;
-    letter-spacing: 3px;;
-}
+    bottom: 50px;
+	color: $color;
+	
+	&, & > h2 {
+		font-size: 24px;
+		line-height: normal;
+		letter-spacing: 3px;
+		text-transform: uppercase;
+		margin-bottom: 0;
+	}
+	
+	img {
+		display: block;
+		margin: 0 auto;
+		margin-top: 12px;
 
-.more-info img {
-	display: block;
-	margin: 0 auto;
-	margin-top: 12px;
+		@media only screen and (max-height: 740px) {
+			display: none;
+		}
+	}
+
 }
 
 
