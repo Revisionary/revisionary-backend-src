@@ -270,7 +270,7 @@ class User {
 			// Archive and delete filters
 			$projects = array_filter($projects, function($projectFound) use ($catFilter) {
 
-				if ($catFilter == "archived") return $projectFound['project_archived'] == 1;
+				if ($catFilter == "archived") return $projectFound['project_archived'] == 1 && $projectFound['project_deleted'] != 1;
 				if ($catFilter == "deleted") return $projectFound['project_deleted'] == 1;
 				return $projectFound['project_archived'] == 0 && $projectFound['project_deleted'] == 0;
 
@@ -507,7 +507,7 @@ class User {
 			// Archive and delete filters
 			$pages = array_filter($pages, function($pageFound) use ($catFilter) {
 
-				if ($catFilter == "archived") return $pageFound['page_archived'] == 1;
+				if ($catFilter == "archived") return $pageFound['page_archived'] == 1 && $pageFound['page_deleted'] != 1;
 				if ($catFilter == "deleted") return $pageFound['page_deleted'] == 1;
 				return $pageFound['page_archived'] == 0 && $pageFound['page_deleted'] == 0;
 
