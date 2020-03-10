@@ -12,13 +12,13 @@
 			<div class="col">
 
 				<h2 class="h5">What is the load limit?</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis amet eos vero qui unde, dignissimos, ea soluta odit maiores rem ab fugiat! Quae temporibus cumque debitis incidunt, nesciunt sequi provident?</p>
+				<p>Load limit determines your all page's downloaded file sizes. Only your static HTML, JS, and CSS files count in that limit.</p>
 
 			</div>
 			<div class="col">
 
 				<h2 class="h5">What does Revisionary store?</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis amet eos vero qui unde, dignissimos, ea soluta odit maiores rem ab fugiat! Quae temporibus cumque debitis incidunt, nesciunt sequi provident?</p>
+				<p>Every time you add a page/project, or create a phase, Revisionary App downloads three main assets from your URL for you to save its current state: Static HTML, JS and CSS files. The other assets like images or videos won't be downloaded. So, you can browse on each stage of your webpage.</p>
 
 			</div>
 		</div>
@@ -27,13 +27,13 @@
 			<div class="col">
 
 				<h2 class="h5">What are the projects?</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis amet eos vero qui unde, dignissimos, ea soluta odit maiores rem ab fugiat! Quae temporibus cumque debitis incidunt, nesciunt sequi provident?</p>
+				<p>Projects are the group of your website's pages. Each project represents a website in your account.</p>
 
 			</div>
 			<div class="col">
 
 				<h2 class="h5">What are the pages?</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis amet eos vero qui unde, dignissimos, ea soluta odit maiores rem ab fugiat! Quae temporibus cumque debitis incidunt, nesciunt sequi provident?</p>
+				<p>Pages are the URLs you added to the Revisionary App.</p>
 
 			</div>
 		</div>
@@ -42,13 +42,13 @@
 			<div class="col">
 
 				<h2 class="h5">What are the phases?</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis amet eos vero qui unde, dignissimos, ea soluta odit maiores rem ab fugiat! Quae temporibus cumque debitis incidunt, nesciunt sequi provident?</p>
+				<p>Phases are the exact state of your page URLs from the time they created. Once you create a new page or project, Revisionary creates an initial phase to serve you the current state of your URL. So, you can do your changes or add your comments on it. Once all the tasks are applied on the URL, you can create a new phase to give new feedback on it, or to confirm the updates. </p>
 
 			</div>
 			<div class="col">
 
 				<h2 class="h5">What are the devices & screens?</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis amet eos vero qui unde, dignissimos, ea soluta odit maiores rem ab fugiat! Quae temporibus cumque debitis incidunt, nesciunt sequi provident?</p>
+				<p>You can add different screen sizes to your pages(actually for the phases of your page) to see the page in different screen resolutions. So, you can put your comments or do your changes on mobile devices. Initially, Revisionary creates your pages with the current browser window size while you're adding. Then, you can create new predefined device sizes to your page, or you can resize your browser window and add that size by adding a new "Current Window" screen.</p>
 
 			</div>
 		</div>
@@ -57,13 +57,13 @@
 			<div class="col">
 
 				<h2 class="h5">What are the pins?</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis amet eos vero qui unde, dignissimos, ea soluta odit maiores rem ab fugiat! Quae temporibus cumque debitis incidunt, nesciunt sequi provident?</p>
+				<p>Pins are the needles that you can put onto anything on your page to change any content like images, paragraphs, button labels, and all of their styles, and/or to create feedback conversations about them.</p>
 
 			</div>
 			<div class="col">
 
 				<h2 class="h5">Does it work with JS websites like React or Vue JS?</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis amet eos vero qui unde, dignissimos, ea soluta odit maiores rem ab fugiat! Quae temporibus cumque debitis incidunt, nesciunt sequi provident?</p>
+				<p>Yes, Revisionary downloads JS website's server side rendered version. So, you can use Revisionary App for your single page web apps or Vue/React based websites.</p>
 
 			</div>
 		</div>
