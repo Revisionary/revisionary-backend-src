@@ -286,16 +286,31 @@ function runTheInspector() {
 					left:  containerX,
 					top:   containerY
 				});
+
+
+
+				// Better unshift detection
+				if (shifted && shiftToggle && !pinWindowOpen && currentPinType == "browse" && !e.shiftKey) {
 	
+					shiftToggle = false;
+					console.log('UNSHIFTED');
 	
+					currentPinType = currentPinTypeWas;
+					toggleCursorActive(false, true); // Force Open
+
+					shifted = false;
 	
+				}
+
+
+
 				// FOCUSING:
 				// Focused Element is the mouse pointed element as default
 				focused_element = $(e.target);
 				reFocus();
-	
-	
-	
+
+
+
 				// Work only if cursor is active
 				if (cursorActive && !hoveringPin) {
 	
@@ -647,6 +662,10 @@ function runTheInspector() {
 
 			// Detect the mouse clicks in frame
 			documentChild.addEventListener('mouseup', function(e) {
+
+
+				// var code = e.keyCode || e.which;
+				// console.log('KEYCODE: ', code, e.type);
 
 
 				//console.log('MOUSE CLICKED SOMEWHERE', focused_element_index);
