@@ -30,7 +30,7 @@
 
 	</style>
 
-	<div class="container" id="the-page">
+	<div class="container" id="the-page"><br>
 
 		<h1 class="xl-center"><?=$page_title?></h1>
 
