@@ -4213,6 +4213,84 @@ function removeImage(pin_ID) {
 }
 
 
+// Trigger change
+function triggerContentChange(e, ed, doChange) {
+
+
+	// console.log('the event object ', e);
+	// console.log('the editor object ', ed);
+	// console.log('the content ', ed.getContent());
+
+
+	// Early exit if the changed content is the same
+	if (typeof e.level !== "undefined" && e.level.content.trim() == ed.getContent() ) return false;
+
+
+	// Early exit if pin window is closed
+	if (!pinWindowOpen) return false;
+
+
+	var pin_ID = pinWindow().attr('data-pin-id');
+	var pin = getPin(pin_ID);
+	if (!pin) return false;
+
+
+	
+	var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
+	var modification = ed.getContent(); //var modification = $('#pin-window.active .content-editor .edit-content.changes').html();
+	var changedElement = iframeElement(element_index);
+
+
+	//console.log('REGISTERED CHANGES', changes);
+
+
+	// Stop the auto-refresh
+	stopAutoRefresh();
+
+
+	// If edited element is a submit or reset input button
+	if (
+		changedElement.prop('tagName').toUpperCase().toUpperCase() == "INPUT" &&
+		(
+			changedElement.attr("type") == "text" ||
+			changedElement.attr("type") == "email" ||
+			changedElement.attr("type") == "url" ||
+			changedElement.attr("type") == "tel" ||
+			changedElement.attr("type") == "submit" ||
+			changedElement.attr("type") == "reset"
+		)
+	) {
+		modification = ed.getContent({format : 'raw'});
+		changedElement.val(modification);
+	}
+
+
+	// Instant apply the change
+	changedElement.html(modification);
+	changedElement.attr('contenteditable', "true");
+
+
+	// Update the element, pin and pin window status
+	updateAttributes(pin_ID, 'data-revisionary-content-edited', "1");
+	updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
+
+
+	// Remove unsent job
+	if (doChange[element_index]) clearTimeout(doChange[element_index]);
+
+	// Send changes to DB after 1 second
+	doChange[element_index] = setTimeout(function(){
+
+		saveChange(pin_ID, modification);
+
+	}, 1000);
+
+	//console.log('Content changed.');
+
+
+}
+
+
 // Initiate the TinyMCE for content editor
 function initiateContentEditor() {
 
@@ -4238,81 +4316,23 @@ function initiateContentEditor() {
 		force_br_newlines : false,
 		force_p_newlines : false,
 		forced_root_block : '',
+		onchange_callback : function(inst) {
+
+			console.log("Some one modified something");
+			console.log("The HTML is now:" + inst.getBody().innerHTML);
+
+		},
 		setup:function(ed) {
 
-			ed.on('input ExecCommand', function(e) { // Pin window content changes
+			ed.on('keyup', function(e) {
 
+				if (e.which == 13) triggerContentChange(e, ed, doChange);
 
-				// console.log('the event object ', e);
-				// console.log('the editor object ', ed);
-				// console.log('the content ', ed.getContent());
+			});
 
+			ed.on('input ExecCommand', function(e) {
 
-				// Early exit if the changed content is the same
-				if (typeof e.level !== "undefined" && e.level.content.trim() == ed.getContent() ) return false;
-
-
-				// Early exit if pin window is closed
-				if (!pinWindowOpen) return false;
-
-
-				var pin_ID = pinWindow().attr('data-pin-id');
-				var pin = getPin(pin_ID);
-				if (!pin) return false;
-
-
-				
-				var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
-				var modification = ed.getContent(); //var modification = $('#pin-window.active .content-editor .edit-content.changes').html();
-				var changedElement = iframeElement(element_index);
-		
-		
-				//console.log('REGISTERED CHANGES', changes);
-		
-		
-				// Stop the auto-refresh
-				stopAutoRefresh();
-		
-		
-				// If edited element is a submit or reset input button
-				if (
-					changedElement.prop('tagName').toUpperCase().toUpperCase() == "INPUT" &&
-					(
-						changedElement.attr("type") == "text" ||
-						changedElement.attr("type") == "email" ||
-						changedElement.attr("type") == "url" ||
-						changedElement.attr("type") == "tel" ||
-						changedElement.attr("type") == "submit" ||
-						changedElement.attr("type") == "reset"
-					)
-				) {
-					modification = ed.getContent({format : 'raw'});
-					changedElement.val(modification);
-				}
-		
-		
-				// Instant apply the change
-				changedElement.html(modification);
-				changedElement.attr('contenteditable', "true");
-		
-		
-				// Update the element, pin and pin window status
-				updateAttributes(pin_ID, 'data-revisionary-content-edited', "1");
-				updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', "1");
-		
-		
-				// Remove unsent job
-				if (doChange[element_index]) clearTimeout(doChange[element_index]);
-		
-				// Send changes to DB after 1 second
-				doChange[element_index] = setTimeout(function(){
-		
-					saveChange(pin_ID, modification);
-		
-				}, 1000);
-		
-				//console.log('Content changed.');
-
+				triggerContentChange(e, ed, doChange);
 
 			});
 
