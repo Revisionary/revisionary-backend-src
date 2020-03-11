@@ -4316,12 +4316,6 @@ function initiateContentEditor() {
 		force_br_newlines : false,
 		force_p_newlines : false,
 		forced_root_block : '',
-		onchange_callback : function(inst) {
-
-			console.log("Some one modified something");
-			console.log("The HTML is now:" + inst.getBody().innerHTML);
-
-		},
 		setup:function(ed) {
 
 			ed.on('keyup', function(e) {
