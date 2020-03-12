@@ -836,8 +836,31 @@ require('http').createServer(async (req, res) => {
 				});
 
 
+				const dataString = JSON.stringify({
+					status: (downloadedFiles.length ? 'success' : 'error'),
+					realPageURL : realPageURL,
+					renderDifference : renderDifference,
+					downloadedFiles: downloadedFiles
+				}, null, '\t');
+
+
+				// Write to the log fileb
+				fs.writeFileSync(logDir+'browser.log', dataString);
+
+
+				// JSON OUTPUT
+				res.writeHead(200, {
+					'content-type': 'application/json',
+				});
+				res.end(dataString);
+
+
 				// SCREENSHOTS
 				try {
+
+					let waitMs = 2000;
+					console.log('⏳ Waiting for '+ (waitMs/1000) +' seconds to take the screenshot...');
+					await page.waitFor(waitMs);
 
 					console.log('SCREENSHOTTING...');
 					const screenshot = await pTimeout(page.screenshot({
@@ -863,25 +886,6 @@ require('http').createServer(async (req, res) => {
 					console.log('📷❌ Screenshots could not be saved: ', err);
 
 				}
-
-
-				const dataString = JSON.stringify({
-					status: (downloadedFiles.length ? 'success' : 'error'),
-					realPageURL : realPageURL,
-					renderDifference : renderDifference,
-					downloadedFiles: downloadedFiles
-				}, null, '\t');
-
-
-				// Write to the log fileb
-				fs.writeFileSync(logDir+'browser.log', dataString);
-
-
-				// JSON OUTPUT
-				res.writeHead(200, {
-					'content-type': 'application/json',
-				});
-				res.end(dataString);
 
 
 				break;
