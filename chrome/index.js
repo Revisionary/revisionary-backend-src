@@ -858,6 +858,7 @@ require('http').createServer(async (req, res) => {
 				// SCREENSHOTS
 				try {
 
+					// Wait
 					let waitMs = 2000;
 					console.log('⏳ Waiting for '+ (waitMs/1000) +' seconds to take the screenshot...');
 					await page.waitFor(waitMs);
@@ -931,6 +932,12 @@ require('http').createServer(async (req, res) => {
 
 
 					} else {
+
+
+						// Wait
+						let waitMs = 2000;
+						console.log('⏳ Waiting for '+ (waitMs/1000) +' seconds to take the device screenshot...');
+						await page.waitFor(waitMs);
 
 
 						console.log('📸 Getting device screenshot...');
