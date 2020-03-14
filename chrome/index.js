@@ -14,23 +14,23 @@ const cdnDetector = require("cdn-detector");
 const jimp = require('jimp');
 const pTimeout = require('p-timeout');
 /*
-const LRU = require('lru-cache');
-const cache = LRU({
-	max: process.env.CACHE_SIZE || Infinity,
-	maxAge: 1000 * 60, // 1 minute
-	noDisposeOnSet: true,
-	dispose: async (url, page) => {
-		try {
-			if (page && page.close) {
-				console.log('🗑 Disposing ' + url);
-				page.removeAllListeners();
-				await page.deleteCookie(await page.cookies());
-				await page.close();
-			}
-		} catch (e) {}
-	}
-});
-setInterval(() => cache.prune(), 1000 * 60); // Prune every minute
+	const LRU = require('lru-cache');
+	const cache = LRU({
+		max: process.env.CACHE_SIZE || Infinity,
+		maxAge: 1000 * 60, // 1 minute
+		noDisposeOnSet: true,
+		dispose: async (url, page) => {
+			try {
+				if (page && page.close) {
+					console.log('🗑 Disposing ' + url);
+					page.removeAllListeners();
+					await page.deleteCookie(await page.cookies());
+					await page.close();
+				}
+			} catch (e) {}
+		}
+	});
+	setInterval(() => cache.prune(), 1000 * 60); // Prune every minute
 */
 
 const autoScroll = async (page) => {
@@ -96,6 +96,7 @@ require('http').createServer(async (req, res) => {
 		return;
 	}
 
+
 	const queryData = urlParser.parse(req.url, true).query;
 	const action = queryData.action || '';
 	const url = queryData.url || '';
@@ -119,16 +120,16 @@ require('http').createServer(async (req, res) => {
 	}
 
 
-/*
-	// TOO MUCH CACHE
-	if (cache.itemCount > 20) {
-		res.writeHead(420, {
-			'content-type': 'text/plain',
-		});
-		res.end(`There are ${cache.itemCount} pages in the current instance now. Please try again in few minutes.`);
-		return;
-	}
-*/
+	/*
+		// TOO MUCH CACHE
+		if (cache.itemCount > 20) {
+			res.writeHead(420, {
+				'content-type': 'text/plain',
+			});
+			res.end(`There are ${cache.itemCount} pages in the current instance now. Please try again in few minutes.`);
+			return;
+		}
+	*/
 
 
 	let page, pageURL;
@@ -143,40 +144,43 @@ require('http').createServer(async (req, res) => {
 		const path = decodeURIComponent(pathname);
 		const output = queryData.output;
 
-/*
-		await new Promise((resolve, reject) => {
-			const req = http.request({
-				method: 'HEAD',
-				host: hostname,
-				path,
-			}, ({
-				statusCode,
-				headers
-			}) => {
-				if (!headers || (statusCode == 200 && !/text\/html/i.test(headers['content-type']))) {
-					reject(new Error('Not a HTML page'));
-				} else {
-					resolve();
-				}
+		/*
+			await new Promise((resolve, reject) => {
+				const req = http.request({
+					method: 'HEAD',
+					host: hostname,
+					path,
+				}, ({
+					statusCode,
+					headers
+				}) => {
+					if (!headers || (statusCode == 200 && !/text\/html/i.test(headers['content-type']))) {
+						reject(new Error('Not a HTML page'));
+					} else {
+						resolve();
+					}
+				});
+				req.on('error', reject);
+				req.end();
 			});
-			req.on('error', reject);
-			req.end();
-		});
-*/
+		*/
 
 		pageURL = origin + path; console.log('🌎 pageURL: ', pageURL);
 		let realPageURL = pageURL;
 		let actionDone = false;
+
 		const width = parseInt(queryData.width, 10) || 1024;
 		const height = parseInt(queryData.height, 10) || 768;
 		const device_ID = parseInt(queryData.device_ID) || 0;
 		const version_ID = parseInt(queryData.version_ID) || 0;
 		const page_ID = parseInt(queryData.page_ID) || 0;
 		const browser_ID = version_ID + '-' + page_ID + '-' + device_ID || url;
+
 		const fullPage = queryData.fullPage == 'true' || false;
 		const page_type = queryData.page_type || 'url';
 		const SSR = page_type == 'ssr';
 		const capture = page_type == 'capture';
+
 		const siteDir = queryData.sitedir || 'site/project/page/version/';
 		const logDir = siteDir + 'logs/';
 
@@ -187,18 +191,20 @@ require('http').createServer(async (req, res) => {
 			try{ fs.chownSync(logDir, 33, 33); } catch(e) {}
 		}
 
+
 		// Create the log file
 		fs.writeFileSync(logDir+'browser.log', 'Started');
 		try{ fs.chownSync(logDir+'browser.log', 33, 33); } catch(e) {}
 
 
 
-
 		let downloadableRequests = [];
 
 
-		// If the page is already open
+
+		// Page check from cache
 		//page = cache.get(pageURL); if (page) console.log('Page found from cache.');
+
 
 		// If page is not already open
 		if (!page) {
@@ -720,9 +726,6 @@ require('http').createServer(async (req, res) => {
 				}
 
 
-
-
-
 				// Find all the HTMLs
 				var downloadableDocuments = downloadableRequests.filter(function(req){
 
@@ -754,8 +757,6 @@ require('http').createServer(async (req, res) => {
 
 
 				}
-
-
 
 
 				let downloadableTotal = downloadableRequests.length;
@@ -984,6 +985,11 @@ require('http').createServer(async (req, res) => {
 
 				break;
 			}
+			case 'capture': {
+
+
+				break;
+			}
 			case 'render': {
 				const raw = queryData.raw || false;
 
@@ -1055,8 +1061,10 @@ require('http').createServer(async (req, res) => {
 				break;
 			}
 			default: {
+
 				const thumbWidth = parseInt(queryData.thumbWidth, 10) || null;
 				const clipSelector = queryData.clipSelector;
+
 
 				let screenshot;
 				if (clipSelector) {
@@ -1084,6 +1092,7 @@ require('http').createServer(async (req, res) => {
 					'content-type': 'image/jpeg',
 					'cache-control': 'public,max-age=31536000',
 				});
+
 
 				if (thumbWidth && thumbWidth < width) {
 
@@ -1176,7 +1185,6 @@ require('http').createServer(async (req, res) => {
 
 
 
-
 	} catch (e) {
 		if (!DEBUG && page) {
 			console.error(e);
@@ -1215,6 +1223,7 @@ require('http').createServer(async (req, res) => {
 			}
 		}
 	}
+
 }).listen(PORT || 3000);
 
 process.on('SIGINT', () => {
