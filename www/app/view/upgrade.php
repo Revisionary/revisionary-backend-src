@@ -12,7 +12,7 @@
 
 		<div class="faq xl-center">
 		
-			<p><small>For more info, please visit our <a href="#"><b><u>FAQ</u></b></a> page.</small></p>
+			<p><small>For more info, please visit our <a href="<?=site_url('faq')?>#"><b><u>FAQ</u></b></a> page.</small></p>
 
 		</div><br>
 

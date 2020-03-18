@@ -9,8 +9,8 @@
 					<a href="<?=userLoggedIn() ? "/help/get-started" : site_url('signup')?>">Get Started</a> | 
 					<a href="<?=site_url('#features')?>">Features</a> | 
 					<a href="<?=site_url('#use-cases')?>">Use Cases</a> | 
-					<a href="/pricing">Pricing</a> | 
-					<a href="/faq">FAQ</a>
+					<a href="<?=site_url('pricing')?>">Pricing</a> | 
+					<a href="<?=site_url('faq')?>">FAQ</a>
 				</nav>
 				<div class="social">
 
