@@ -37,7 +37,7 @@ if (
 		<?php } ?>
 	</tr>
 	<tr>
-		<td>Max Load</td>
+		<td>Max Load <a href="<?=site_url('faq#load-limit')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<?php foreach ($user_levels as $user_level) { ?>
 		<td class="align-center <?=$loadPercentage >= 100 && $current_user_level_name == $user_level['user_level_name'] ? "exceed" : ""?>">
 			<?php if (
@@ -51,7 +51,7 @@ if (
 		<?php } ?>
 	</tr>
 	<tr>
-		<td># of Projects</td>
+		<td># of Projects <a href="<?=site_url('faq#projects')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<?php foreach ($user_levels as $user_level) { ?>
 		<td class="align-center <?=$projectsPercentage >= 100 && $current_user_level_name == $user_level['user_level_name'] ? "exceed" : ""?>">
 			<?php if (
@@ -65,7 +65,7 @@ if (
 		<?php } ?>
 	</tr>
 	<tr>
-		<td># of Pages & Phases & Design Uploads</td>
+		<td># of Pages & Phases & Design Uploads <a href="<?=site_url('faq#phases')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<?php foreach ($user_levels as $user_level) { ?>
 		<td class="align-center <?=$phasesPercentage >= 100 && $current_user_level_name == $user_level['user_level_name'] ? "exceed" : ""?>">
 			<?php if (
@@ -79,7 +79,7 @@ if (
 		<?php } ?>
 	</tr>
 	<tr>
-		<td># of Screens</td>
+		<td># of Screens <a href="<?=site_url('faq#screens')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<?php foreach ($user_levels as $user_level) { ?>
 		<td class="align-center <?=$screensPercentage >= 100 && $current_user_level_name == $user_level['user_level_name'] ? "exceed" : ""?>">
 			<?php if (
@@ -93,7 +93,7 @@ if (
 		<?php } ?>
 	</tr>
 	<tr>
-		<td># of Live Content & Style Pins</td>
+		<td># of Live Content & Style Pins <a href="<?=site_url('#live-change')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<?php foreach ($user_levels as $user_level) { ?>
 		<td class="align-center <?=$pinsPercentage >= 100 && $current_user_level_name == $user_level['user_level_name'] ? "exceed" : ""?>">
 			<?php if (
@@ -107,7 +107,7 @@ if (
 		<?php } ?>
 	</tr>
 	<tr>
-		<td># of Only Comment Pins</td>
+		<td># of Only Comment Pins <a href="<?=site_url('faq#pins')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<?php foreach ($user_levels as $user_level) { ?>
 		<td class="align-center <?=$commentPinsPercentage >= 100 && $current_user_level_name == $user_level['user_level_name'] ? "exceed" : ""?>">
 			<?php if (
@@ -127,25 +127,25 @@ if (
 		<?php } ?>
 	</tr>
 	<tr>
-		<td>Comment on Design Files</td>
+		<td>Comment on Design Files <a href="<?=site_url('#design-feedback')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<td class="align-center">Yes</td>
 		<td class="align-center">Yes</td>
 		<td class="align-center">Yes</td>
 	</tr>
 	<tr>
-		<td>See Content Differences</td>
+		<td>See Content Differences <a href="<?=site_url('#content-diff')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<td class="align-center">-</td>
 		<td class="align-center">Yes</td>
 		<td class="align-center">Yes</td>
 	</tr>
 	<tr>
-		<td>FreeHand Draw (Coming Soon)</td>
+		<td>FreeHand Draw (Coming Soon) <a href="<?=site_url('#draw')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<td class="align-center">-</td>
 		<td class="align-center">Yes</td>
 		<td class="align-center">Yes</td>
 	</tr>
 	<tr>
-		<td>Integrations (Coming Soon)</td>
+		<td>Integrations (Coming Soon) <a href="<?=site_url('#integrations')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<td class="align-center">-</td>
 		<td class="align-center">-</td>
 		<td class="align-center">Yes</td>

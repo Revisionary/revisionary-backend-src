@@ -3388,6 +3388,24 @@ footer {
 }
 
 
+/* FAQ */
+body.faq {
+
+	.faqs {
+
+		& > .faq {
+
+			&:target {
+				border: 1px solid;
+				border-radius: 20px;
+			}
+
+		}
+
+	}
+
+}
+
 
 /* Blocks */
 ol.categories {
@@ -4113,6 +4131,12 @@ table.pricing {
 
 			td:first-child {
 				border-right: 1px solid $color;
+
+				i {
+					font-size: 15px;
+					transform: translateY(-2px);
+				}
+
 			}
 			
 			th, td {

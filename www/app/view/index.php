@@ -66,7 +66,7 @@
 		</div>
 	</div>
 
-	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container" id="live-change">
 		<div class="col xl-1-3 perspective-right" style="pointer-events: none; user-select: none;">
 		
 			<img src="<?=asset_url('images/content-edit.png')?>" alt="">
@@ -81,7 +81,7 @@
 		</div>
 	</div>
 
-	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container" id="content-diff">
 		<div class="col xl-2-3">
 		
 			<h3>See the <strong>Content Differences</strong></h3>
@@ -111,7 +111,7 @@
 		</div>
 	</div>
 
-	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container" id="phases">
 		<div class="col xl-2-3">
 		
 			<h3><strong>Phases</strong></h3>
@@ -147,7 +147,7 @@
 		</div>
 	</div>
 
-	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container" id="design-feedback">
 		<div class="col xl-1-3 xl-right perspective-right" style="pointer-events: none; user-select: none;">
 		
 			<img src="<?=asset_url('images/design-comment.png')?>" alt="">
@@ -162,7 +162,7 @@
 		</div>
 	</div>
 
-	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container" id="draw">
 		<div class="col xl-2-3">
 		
 			<h3><strong>Draw on a Website,</strong> <br> Like on a Screenshot</h3>
@@ -184,7 +184,7 @@
 		</div>
 	</div>
 
-	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container">
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container" id="integrations">
 		<div class="col xl-1-3 xl-center perspective-right">
 			<i class="fa fa-github" style="font-size: 120px;"></i>
 			<i class="fa fa-bitbucket" style="font-size: 120px;"></i>
