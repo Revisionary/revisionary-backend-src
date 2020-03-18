@@ -10,6 +10,12 @@
 
 		<?php require view('modules/pricing-table'); ?>
 
+		<div class="faq xl-center">
+		
+			<p><small>For more info, please visit our <a href="#"><b><u>FAQ</u></b></a> page.</small></p>
+
+		</div><br>
+
 	</div>
 
 </main><!-- #first-section -->
