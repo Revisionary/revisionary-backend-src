@@ -5884,77 +5884,90 @@ function nl2br(str, is_xhtml) {
 jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 
-    if (millis == null) millis = 100;
+    if ( millis == null ) millis = 100;
 	var o = $(this[0]); // Our object
-	if (!o.length) return o; // Abort if element not exists
+	//var orig = $(this[0]); // Our object
+	if ( !o.length ) return o; // Abort if element not exists
 	var element_index = o.attr('data-revisionary-index');
 	//console.log('INDEX: ', element_index);
 
-    var lastPos = null;
-    //var lastOff = null;
-    var lastWidth = null;
-	var lastOffWidth = null;
+
+	var lastHidden = null
 	var lastScroll = null;
-	
+    var lastPos = null;
+	var lastWidth = null;
+
 
     setInterval(function() {
 
-        if ( o == null || o.length < 1 ) return o; // Abort if element is not exist anymore
-		if ( o.css('display') == "none" ) o = o.parents(':visible'); // If this hidden element
-		if ( o.is(':hidden') ) o = o.parents(':visible'); // If this hidden element
-		if ( pinElement(element_index, true).css('opacity') == 0 ) return o; // Abort if the pin is hidden or filtered
-		if ( !iframeLoaded || !o.length ) return o; // Abort if the iframe is not loaded
 
-        if (lastPos == null) lastPos = o.position();
-        //if (lastOff == null) lastOff = o.offset();
-        if (lastWidth == null) lastWidth = o.width();
-        if (lastOffWidth == null) lastOffWidth = o[0].offsetWidth;
-        if (lastScroll == null) lastScroll = o[0].getBoundingClientRect();
+		var element = o;
 
-        var newPos = o.position();
-        var newWidth = o.width();
-        //var newOff = o.offset();
-        var newOffWidth = o[0].offsetWidth;
-		var newScroll = o[0].getBoundingClientRect();
-		
-		
 
-		// Scroll and offset detection
+		// Aborts
+		if ( !iframeLoaded ) return element; // Abort if the iframe is not loaded
+		if ( element == null || element.length < 1 ) return element; // Abort if element is not exist anymore
+		if ( pinElement(element_index, true).css('opacity') == 0 ) return element; // Abort if the pin is hidden or filtered
+
+
+		// Visibility check
+		if (lastHidden == null) lastHidden = element.css('display') == "none" || element.is(':hidden');
+		var newHidden = element.css('display') == "none" || element.is(':hidden');
+
+        if (lastHidden != newHidden) {
+
+			//console.log('Hidden changed', { lastHidden: lastHidden, newHidden: newHidden }, element);
+
+            $(this).trigger('onPositionChanged', { lastHidden: lastHidden, newHidden: newHidden });
+            if (typeof (trigger) == "function") trigger(lastHidden, newHidden);
+			lastHidden = element.css('display') == "none" || element.is(':hidden');
+
+			delete hiddenElementOffsets[element_index];
+
+		}
+
+		// Refocus if invisible
+		if ( newHidden ) element = o.parents(':visible').first(); // If this hidden element
+		else element = o;
+
+
+		// Scroll check
+        if (lastScroll == null) lastScroll = element[0].getBoundingClientRect();
+		var newScroll = element[0].getBoundingClientRect();
+
         if (lastScroll.top != newScroll.top || lastScroll.left != newScroll.left) {
 
-			//console.log('Scroll changed', { lastScroll: lastScroll, newScroll: newScroll }, o);
+			//console.log('Scroll changed', { lastScroll: lastScroll, newScroll: newScroll }, element);
 
             $(this).trigger('onPositionChanged', { lastScroll: lastScroll, newScroll: newScroll });
             if (typeof (trigger) == "function") trigger(lastScroll, newScroll);
-			lastScroll = o[0].getBoundingClientRect();
+			lastScroll = element[0].getBoundingClientRect();
 
 			delete hiddenElementOffsets[element_index];
 
 		}
+
+
+		// Position check
+        if (lastPos == null) lastPos = element.position();
+		var newPos = element.position();
 
         if (lastPos.top != newPos.top || lastPos.left != newPos.left) {
 
-			//console.log('Position changed', { lastPos: lastPos, newPos: newPos }, o);
+			//console.log('Position changed', { lastPos: lastPos, newPos: newPos }, element);
 
             $(this).trigger('onPositionChanged', { lastPos: lastPos, newPos: newPos });
             if (typeof (trigger) == "function") trigger(lastPos, newPos);
-			lastPos = o.position();
+			lastPos = element.position();
 
 			delete hiddenElementOffsets[element_index];
 
 		}
 
-        // if (lastOff.top != newOff.top || lastOff.left != newOff.left) {
 
-		// 	console.log('Offset changed', { lastOff: lastOff, newOff: newOff }, o);
-
-        //     $(this).trigger('onPositionChanged', { lastOff: lastOff, newOff: newOff });
-        //     if (typeof (trigger) == "function") trigger(lastOff, newOff);
-		// 	lastOff = o.offset();
-
-		// 	delete hiddenElementOffsets[element_index];
-
-		// }
+		// Size check
+        if (lastWidth == null) lastWidth = element.width();
+        var newWidth = element.width();
 
         if (lastWidth != newWidth) {
 
@@ -5962,23 +5975,12 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
             $(this).trigger('onPositionChanged', { lastWidth: lastWidth, newWidth: newWidth });
             if (typeof (trigger) == "function") trigger(lastWidth, newWidth);
-			lastWidth = o.width();
+			lastWidth = element.width();
 
 			delete hiddenElementOffsets[element_index];
 
 		}
 
-        if (lastOffWidth != newOffWidth) {
-
-			//console.log('Offset Size changed', { lastOffWidth: lastOffWidth, newOffWidth: newOffWidth }, o);
-
-            $(this).trigger('onPositionChanged', { lastOffWidth: lastOffWidth, newOffWidth: newOffWidth });
-            if (typeof (trigger) == "function") trigger(lastOffWidth, newOffWidth);
-			lastOffWidth = o[0].offsetWidth;
-
-			delete hiddenElementOffsets[element_index];
-
-		}
 
     }, millis);
 
