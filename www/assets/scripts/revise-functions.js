@@ -5886,13 +5886,12 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
     if ( millis == null ) millis = 100;
 	var o = $(this[0]); // Our object
-	//var orig = $(this[0]); // Our object
 	if ( !o.length ) return o; // Abort if element not exists
 	var element_index = o.attr('data-revisionary-index');
 	//console.log('INDEX: ', element_index);
 
 
-	var lastHidden = null
+	var lastHidden = null;
 	var lastScroll = null;
     var lastPos = null;
 	var lastWidth = null;
@@ -5911,7 +5910,7 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 
 		// Visibility check
-		if (lastHidden == null) lastHidden = element.css('display') == "none" || element.is(':hidden');
+		if (lastHidden == null) lastHidden = element.css('display') == "none" || element.is(':hidden'); // First assignment
 		var newHidden = element.css('display') == "none" || element.is(':hidden');
 
         if (lastHidden != newHidden) {
@@ -5926,13 +5925,13 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 		}
 
-		// Refocus if invisible
-		if ( newHidden ) element = o.parents(':visible').first(); // If this hidden element
+		// Refocus to visible parent if invisible
+		if ( newHidden ) element = o.parents(':visible').first();
 		else element = o;
 
 
 		// Scroll check
-        if (lastScroll == null) lastScroll = element[0].getBoundingClientRect();
+        if (lastScroll == null) lastScroll = element[0].getBoundingClientRect(); // First assignment
 		var newScroll = element[0].getBoundingClientRect();
 
         if (lastScroll.top != newScroll.top || lastScroll.left != newScroll.left) {
@@ -5949,7 +5948,7 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 
 		// Position check
-        if (lastPos == null) lastPos = element.position();
+        if (lastPos == null) lastPos = element.position(); // First assignment
 		var newPos = element.position();
 
         if (lastPos.top != newPos.top || lastPos.left != newPos.left) {
@@ -5966,7 +5965,7 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 
 		// Size check
-        if (lastWidth == null) lastWidth = element.width();
+        if (lastWidth == null) lastWidth = element.width(); // First assignment
         var newWidth = element.width();
 
         if (lastWidth != newWidth) {
