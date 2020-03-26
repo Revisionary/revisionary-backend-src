@@ -120,11 +120,11 @@ if (
 		</td>
 		<?php } ?>
 	</tr>
-	<tr class="xl-hidden">
-		<td># of Users</td>
-		<?php foreach ($user_levels as $user_level) { ?>
+	<tr>
+		<td># of User to Share <a href="<?=site_url('faq')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
+		<td class="align-center">20</td>
 		<td class="align-center">Unlimited</td>
-		<?php } ?>
+		<td class="align-center">Unlimited</td>
 	</tr>
 	<tr>
 		<td>Comment on Design Files <a href="<?=site_url('#design-feedback')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
