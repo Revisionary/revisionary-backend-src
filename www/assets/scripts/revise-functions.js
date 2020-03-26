@@ -588,6 +588,7 @@ function runTheInspector() {
 	
 	
 						// Point to the pin
+						$('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]').css('opacity', '1');
 						$('#pins > pin:not([data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
 	
 	
