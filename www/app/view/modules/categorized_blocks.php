@@ -560,34 +560,44 @@
 											//$pageStatus = Page::ID( $block['page_ID'] )->getPageStatus(true)['status'];
 										?>
 
+											<div class="dropdown click-to-open">
+												<a href="#" class="upgrade-button" style="color: black !important; background-color: white;">OPEN <i class="fa fa-caret-down"></i></a>
+												<ul class="center">
+												<?php
 
-											<?php
+												foreach ($blockDevices as $device) {
 
-											foreach ($blockDevices as $device) {
+													//$pageStatus = Page::ID($device['page_ID'])->getPageStatus(true)['status'];
 
-												//$pageStatus = Page::ID($device['page_ID'])->getPageStatus(true)['status'];
+													$action_url = 'ajax?type=data-action&data-type=device&nonce='.$_SESSION['js_nonce'].'&id='.$device['device_ID'];
 
-												$action_url = 'ajax?type=data-action&data-type=device&nonce='.$_SESSION['js_nonce'].'&id='.$device['device_ID'];
+													$screenWidth = $device['device_width'] ? $device['device_width'] : $device['screen_width'];
+													$screenHeight = $device['device_height'] ? $device['device_height'] : $device['screen_height'];
+												?>
 
-												$screenWidth = $device['device_width'] ? $device['device_width'] : $device['screen_width'];
-												$screenHeight = $device['device_height'] ? $device['device_height'] : $device['screen_height'];
-											?>
+													<li class="xl-left item deletable" data-type="device" data-id="<?=$device['device_ID']?>">
+														<a href="<?=site_url('revise/'.$device['device_ID'])?>">
+															<i class="fa <?=$device['screen_cat_icon']?>"></i> <?=$device['screen_cat_name']?> (<?=$screenWidth?>x<?=$screenHeight?>)
+														</a>
 
-												<span class="item device-wrap" data-type="device" data-id="<?=$device['device_ID']?>">
-													<a href="<?=site_url('revise/'.$device['device_ID'])?>" class="device-link">
-														<i class="fa <?=$device['screen_cat_icon']?> bottom-tooltip" data-tooltip="<?=$device['screen_cat_name']?> (<?=$screenWidth?>x<?=$screenHeight?>)"></i>
-													</a>
-													<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device <?=count($blockDevices) > 1 ? "" : "hidden"?>" data-action="remove" data-confirm="Are you sure you want to completely remove this screen? Keep in mind that no one will be able to access this device and its pins anymore!"><i class="fa fa-times-circle"></i></a>
-												</span>
+														<i class="fa fa-times delete <?=count($blockDevices) > 1 ? "" : "hidden"?>" data-tooltip="Delete This Screen" data-action="remove" data-confirm="Are you sure you want to completely remove this screen? Keep in mind that no one will be able to access this device and its pins anymore!"></i>
+													</li>
 
-											<?php
-											}
-											?>
+													<!-- <span class="item device-wrap" data-type="device" data-id="<?=$device['device_ID']?>">
 
-											<span class="dropdown click-to-open <?=!$blockPhaseID ? "xl-hidden" : ""?>">
-												<a href="#" class="add-screen" data-tooltip="Add New Screen Size"><span style="font-family: Arial;">+</span></a>
-												<?php require view('modules/add-screen'); ?>
-											</span>
+														<a href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Screen" class="remove-device <?=count($blockDevices) > 1 ? "" : "hidden"?>" data-action="remove" data-confirm="Are you sure you want to completely remove this screen? Keep in mind that no one will be able to access this device and its pins anymore!"><i class="fa fa-times-circle"></i></a>
+													</span> -->
+
+												<?php
+												}
+												?>
+
+													<li class="xl-left dropdown click-to-open <?=!$blockPhaseID ? "xl-hidden" : ""?>">
+														<a href="#"><i class="fa fa-plus"></i> <b>Add New Screen</b></a>
+														<?php require view('modules/add-screen'); ?>
+													</li>
+												</ul>
+											</div>
 
 										<?php
 										} // if ($dataType == "page")
@@ -701,7 +711,7 @@
 
 		<?php if ( $blockPhase['phase_ID'] != $otherPhase['phase_ID'] ) { ?>
 
-			<i class="fa fa-times delete" href="<?=site_url($action_url.'&action=remove')?>" data-tooltip="Delete This Phase" data-action="remove" data-confirm="Are you sure you want to remove this phase?"></i>
+			<i class="fa fa-times delete" data-tooltip="Delete This Phase" data-action="remove" data-confirm="Are you sure you want to remove this phase?"></i>
 
 		<?php } ?>
 
