@@ -5128,7 +5128,7 @@ function listedPinTemplate(pin_number, pin) {
 	if (pin.pin_css != null) editSummary = '<br /><i class="edit-summary">-Some visual changes have been made.-</i>';
 	if (pin.pin_modification == "") editSummary = '<br /><i class="edit-summary">-Content deleted.-</i>';
 	if (pin.pin_modification_type == "html" && pin.pin_modification != null && pin.pin_modification != "") {
-		var text_no_html = cleanHTML(html_entity_decode(pin.pin_modification));
+		var text_no_html = cleanHTML(html_entity_decode(pin.pin_modification), true);
 		editSummary = '<br /><i class="edit-summary">'+ text_no_html +'</i>';
 	}
 

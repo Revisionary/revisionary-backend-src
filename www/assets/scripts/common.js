@@ -2841,7 +2841,14 @@ function removeQueryArgFromCurrentUrl(arg) {
 
 }
 
-function cleanHTML(s) {
+function cleanHTML(s, cleanAll) {
+
+
+	cleanAll = assignDefault(cleanAll, false);
+
+
+	// Clean all HTML tags
+	if (cleanAll) return s.replace(/(<([^>]+)>)/ig,"");
 
 
 	// Clean HTML tags, except BRs
@@ -2854,10 +2861,6 @@ function cleanHTML(s) {
 
 
 	return s;
-
-
-	// // Clean all HTML tags
-	// return s.replace(/(<([^>]+)>)/ig,"");
 
 }
 
