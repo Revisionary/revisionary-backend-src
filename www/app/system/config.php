@@ -1,24 +1,30 @@
 <?php
 
-$config = array('last_update' => '2020-03-07-21:05');
+$config = array('last_update' => '2020-03-29-21:25');
 
 
 
 // Environmental settings
 $config['env'] = [
-	'name' 				 => $_ENV['ENV_NAME'],
-	'domain'			 => $_ENV['DOMAIN'],
-	'subdomain' 		 => $_ENV['SUBDOMAIN'],
-	'insecure_subdomain' => $_ENV['INSECURE_SUBDOMAIN'],
-	'db_host' 			 => $_ENV['DB_HOST'],
-	'db_port' 			 => $_ENV['DB_PORT'],
-	'db_name' 			 => $_ENV['DB_NAME'],
-	'db_user' 			 => $_ENV['DB_USER'],
-	'db_pass' 			 => $_ENV['DB_PASSWORD'],
-	'timezone'  		 => $_ENV['DB_TIMEZONE'],
-	'smtp_user' 		 => $_ENV['SMTP_USER'],
-	'smtp_pass' 		 => $_ENV['SMTP_PASS'],
-	'debug'  			 => $_ENV['DEBUG']
+	'name' 				 		   => $_ENV['ENV_NAME'],
+	'domain'			 		   => $_ENV['API_DOMAIN'],
+	'subdomain' 		 		   => $_ENV['API_SUBDOMAIN'],
+	'insecure_subdomain' 		   => $_ENV['API_INSECURE_SUBDOMAIN'],
+	'dashboard_domain'			   => $_ENV['DASHBOARD_DOMAIN'],
+	'dashboard_subdomain' 		   => $_ENV['DASHBOARD_SUBDOMAIN'],
+	'dashboard_insecure_subdomain' => $_ENV['DASHBOARD_INSECURE_SUBDOMAIN'],
+	'landing_domain'			   => $_ENV['LANDING_DOMAIN'],
+	'landing_subdomain' 		   => $_ENV['LANDING_SUBDOMAIN'],
+	'landing_insecure_subdomain'   => $_ENV['LANDING_INSECURE_SUBDOMAIN'],
+	'db_host' 			 		   => $_ENV['DB_HOST'],
+	'db_port' 			 		   => $_ENV['DB_PORT'],
+	'db_name' 			 		   => $_ENV['DB_NAME'],
+	'db_user' 			 		   => $_ENV['DB_USER'],
+	'db_pass' 			 		   => $_ENV['DB_PASSWORD'],
+	'timezone'  		 		   => $_ENV['DB_TIMEZONE'],
+	'smtp_user' 		 		   => $_ENV['SMTP_USER'],
+	'smtp_pass' 		 		   => $_ENV['SMTP_PASS'],
+	'debug'  			 		   => $_ENV['DEBUG']
 ];
 
 
