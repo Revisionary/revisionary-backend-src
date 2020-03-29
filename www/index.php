@@ -3,7 +3,7 @@
 require 'app/init.php';
 
 $_url = get('url');
-$_url = array_filter(explode('/', $_url));
+$_url = array_values(array_filter(explode('/', $_url)));
 
 
 
