@@ -11,6 +11,9 @@ class Internalize {
 	// The Phase data
 	public $phaseData;
 
+	// The Project ID
+	public $project_ID;
+
 	// The Page ID
 	public $page_ID;
 
@@ -56,6 +59,9 @@ class Internalize {
 		$this->phaseData = Phase::ID($phase_ID);
 
 
+		// Set the project ID
+		$this->project_ID = $this->phaseData->getInfo('project_ID');
+
 		// Set the page ID
 		$this->page_ID = $page_ID;
 
@@ -63,7 +69,7 @@ class Internalize {
 		// Set the device ID
 		$this->device_ID = $device_ID;
 
-		// Get the page data
+		// Get the device data
 		$this->deviceData = Device::ID($device_ID);
 
 
@@ -126,6 +132,10 @@ class Internalize {
 		$phaseDir = $this->phaseData->phaseDir;
 
 
+		// Project Info
+		$project_ID = $this->project_ID;
+
+
 		// Page Info
 		$page_ID = $this->page_ID;
 
@@ -148,10 +158,10 @@ class Internalize {
 		$processLink .= "?url=".urlencode($url);
 		$processLink .= "&action=internalize";
 		$processLink .= "&width=$width&height=$height";
-		$processLink .= "&phase_ID=$phase_ID";
+		$processLink .= "&project_ID=$project_ID";
 		$processLink .= "&page_ID=$page_ID";
+		$processLink .= "&phase_ID=$phase_ID";
 		$processLink .= "&device_ID=$device_ID";
-		$processLink .= "&sitedir=".urlencode($phaseDir."/");
 		$processLink .= "&page_type=$page_type";
 
 

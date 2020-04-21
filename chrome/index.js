@@ -171,23 +171,26 @@ require('http').createServer(async (req, res) => {
 
 		const width = parseInt(queryData.width, 10) || 1024;
 		const height = parseInt(queryData.height, 10) || 768;
-		const device_ID = parseInt(queryData.device_ID) || 0;
-		const version_ID = parseInt(queryData.version_ID) || 0;
+
+		const project_ID = parseInt(queryData.page_ID) || 0;
 		const page_ID = parseInt(queryData.page_ID) || 0;
-		const browser_ID = version_ID + '-' + page_ID + '-' + device_ID || url;
+		const phase_ID = parseInt(queryData.phase_ID) || 0;
+		const device_ID = parseInt(queryData.device_ID) || 0;
+
+		const browser_ID = project_ID + '-' + page_ID + '-' + phase_ID + '-' + device_ID || url;
 
 		const fullPage = queryData.fullPage == 'true' || false;
 		const page_type = queryData.page_type || 'url';
 		const SSR = page_type == 'ssr';
 		const capture = page_type == 'capture';
 
-		const siteDir = queryData.sitedir || 'site/project/page/version/';
+		const siteDir = 'cache/projects/project-'+project_ID+'/page-'+page_ID+'/phase-'+phase_ID+'/';
 		const logDir = siteDir + 'logs/';
 
 
 		// Create the log folder if not exist
 		if (!fs.existsSync(logDir)) {
-			fs.mkdirSync(logDir);
+			fs.mkdirSync(logDir, { recursive: true });
 			try{ fs.chownSync(logDir, 33, 33); } catch(e) {}
 		}
 
@@ -1134,13 +1137,13 @@ require('http').createServer(async (req, res) => {
 
 					if (browser[browser_ID]) {
 
-						console.log('🔌 Closing the browser for ' + url, ' VERSION ID: ' + version_ID, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
+						console.log('🔌 Closing the browser for ' + url, ' VERSION ID: ' + phase_ID, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
 
 						browser[browser_ID].close();
 						browser[browser_ID] = null;
 						delete browser[browser_ID];
 
-						console.log('🔌✅ Browser closed for ' + url, ' VERSION ID: ' + version_ID, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
+						console.log('🔌✅ Browser closed for ' + url, ' VERSION ID: ' + phase_ID, ' PAGE ID: ' + page_ID, ' DEVICE ID: ' + device_ID);
 
 					}
 

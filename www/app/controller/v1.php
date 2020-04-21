@@ -1,6 +1,12 @@
 <?php
 
-// phpinfo();
+// print_r(
+
+// 	file_get_contents('http://chrome:3000?url=https%3A%2F%2Fwww.cuneyt-tas.com%2F&action=internalize&width=1440&height=774&phase_ID=1')
+
+// );
+
+// // phpinfo();
 // exit;
 
 sleep(2);
