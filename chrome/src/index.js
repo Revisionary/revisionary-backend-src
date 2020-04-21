@@ -72,7 +72,7 @@ require('http').createServer(async (req, res) => {
 			'content-type': 'text/html; charset=utf-8',
 			'cache-control': 'public,max-age=31536000',
 		});
-		res.end(fs.readFileSync('index.html'));
+		res.end(fs.readFileSync('src/index.html'));
 		return;
 	}
 

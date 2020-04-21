@@ -1,14 +1,23 @@
 {
   "name": "revisionary-app",
   "version": "1.0.0",
-  "main": "index.js",
-  "description": "",
+  "description": "Revisionary App packages.",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index",
+    "start": "node src/index",
     "stop": "killall node"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bilaltas/revisionary.git"
+  },
   "author": "Bilal TAS",
-  "license": "ISC",
+  "license": "UNLICENSED",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/bilaltas/revisionary/issues"
+  },
+  "homepage": "https://github.com/bilaltas/revisionary#readme",
   "dependencies": {
     "cdn-detector": "^0.1.6",
     "jimp": "^0.9.3",
@@ -16,9 +25,10 @@
     "p-timeout": "^3.2.0",
     "puppeteer": "^2.1.1"
   },
+  "devDependencies": {},
   "nodemonConfig": {
     "ignore": [
-      "site/*"
+      "cache/*"
     ]
   }
 }
