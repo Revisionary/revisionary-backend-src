@@ -108,6 +108,9 @@ services:
 
     chrome:
         build: ./chrome
+        user: www-data
+        cap_add:
+            - SYS_ADMIN
         container_name: revisionary_chrome
         restart: "unless-stopped"
         ports:
