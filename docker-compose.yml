@@ -90,22 +90,6 @@ services:
         volumes:
             - ./www:/var/www/html
 
-    # chrome:
-    #     build: ./chrome
-    #     user: www-data
-    #     cap_add:
-    #         - SYS_ADMIN
-    #     container_name: revisionary_chrome
-    #     working_dir: /app
-    #     restart: unless-stopped
-    #     env_file:
-    #         - ./.env
-    #     ports:
-    #         - ${LOCAL_IP}:8080:3000
-    #     volumes:
-    #         - ./www/cache:/var/www/html/cache
-
-
     chrome:
         build: ./chrome
         user: www-data
@@ -118,8 +102,6 @@ services:
         volumes:
             - ./chrome/src:/chrome/src
             - ./www/cache:/chrome/cache
-        command:
-            "npm start"
 
 volumes:
     persistent:
