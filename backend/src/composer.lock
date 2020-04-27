@@ -1,11 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "8c0e98010d31b593fbbf9e155def0519",
-    "content-hash": "cfa4fde4c34c9629216cba13153ff1ba",
+    "content-hash": "d4df73467ff5148475b5464809b2c8e7",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -88,7 +87,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2019-06-05 18:07:37"
+            "time": "2019-06-05T18:07:37+00:00"
         },
         {
             "name": "cheprasov/php-memcached-lock",
@@ -129,7 +128,7 @@
             ],
             "description": "MemcachedLock for PHP is a synchronization mechanism for enforcing limits on access to a resource in an environment where there are many threads of execution. A lock is designed to enforce a mutual exclusion concurrency control policy.",
             "homepage": "http://github.com/cheprasov/php-memcached-lock",
-            "time": "2017-10-08 16:09:10"
+            "time": "2017-10-08T16:09:10+00:00"
         },
         {
             "name": "cheprasov/php-memcached-tags",
@@ -171,7 +170,7 @@
             ],
             "description": "MemcachedTags for PHP is a mechanism for adding tags to keys in Memcached. It is very useful, if you need to select or delete some keys by tags. And tags are really useful for group invalidation.",
             "homepage": "http://github.com/cheprasov/php-memcached-tags",
-            "time": "2018-01-17 21:12:40"
+            "time": "2018-01-17T21:12:40+00:00"
         },
         {
             "name": "cocur/background-process",
@@ -209,7 +208,7 @@
                 "process",
                 "unix"
             ],
-            "time": "2017-02-11 12:41:41"
+            "time": "2017-02-11T12:41:41+00:00"
         },
         {
             "name": "drewm/mailchimp-api",
@@ -252,7 +251,7 @@
             ],
             "description": "Super-simple, minimum abstraction MailChimp API v3 wrapper",
             "homepage": "https://github.com/drewm/mailchimp-api",
-            "time": "2018-02-16 15:31:05"
+            "time": "2018-02-16T15:31:05+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -317,7 +316,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2018-04-22 15:46:56"
+            "time": "2018-04-22T15:46:56+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -368,7 +367,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2016-12-20 10:07:11"
+            "time": "2016-12-20T10:07:11+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -439,7 +438,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-07-01 23:21:34"
+            "time": "2019-07-01T23:21:34+00:00"
         },
         {
             "name": "jeremykendall/php-domain-parser",
@@ -517,7 +516,7 @@
                 "icann",
                 "idn"
             ],
-            "time": "2019-04-14 07:14:35"
+            "time": "2019-04-14T07:14:35+00:00"
         },
         {
             "name": "katzgrau/klogger",
@@ -567,7 +566,7 @@
             "keywords": [
                 "logging"
             ],
-            "time": "2016-11-07 19:29:14"
+            "time": "2016-11-07T19:29:14+00:00"
         },
         {
             "name": "mtdowling/jmespath.php",
@@ -622,7 +621,7 @@
                 "json",
                 "jsonpath"
             ],
-            "time": "2016-12-03 22:08:25"
+            "time": "2016-12-03T22:08:25+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -688,7 +687,7 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2019-02-01 15:04:28"
+            "time": "2019-02-01T15:04:28+00:00"
         },
         {
             "name": "psr/http-message",
@@ -738,7 +737,7 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-06 14:39:51"
+            "time": "2016-08-06T14:39:51+00:00"
         },
         {
             "name": "psr/log",
@@ -785,7 +784,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2018-11-20 15:27:04"
+            "time": "2018-11-20T15:27:04+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -833,7 +832,7 @@
                 "psr-16",
                 "simple-cache"
             ],
-            "time": "2017-10-23 01:57:42"
+            "time": "2017-10-23T01:57:42+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -873,7 +872,7 @@
                 }
             ],
             "description": "A polyfill for getallheaders.",
-            "time": "2019-03-08 08:55:37"
+            "time": "2019-03-08T08:55:37+00:00"
         },
         {
             "name": "sociallydev/spaces-api",
@@ -912,20 +911,20 @@
                 }
             ],
             "description": "An API wrapper for DigitalOcean's Spaces object storage designed for easy use.",
-            "time": "2019-06-04 20:37:39"
+            "time": "2019-06-04T20:37:39+00:00"
         },
         {
             "name": "thingengineer/mysqli-database-class",
-            "version": "v2.9.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ThingEngineer/PHP-MySQLi-Database-Class.git",
-                "reference": "03dbce1c7f1c9def315ad8ef52e1f5c0a806d6ed"
+                "reference": "9a95f2488495f13494e7c19ba7ad452946e947a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ThingEngineer/PHP-MySQLi-Database-Class/zipball/03dbce1c7f1c9def315ad8ef52e1f5c0a806d6ed",
-                "reference": "03dbce1c7f1c9def315ad8ef52e1f5c0a806d6ed",
+                "url": "https://api.github.com/repos/ThingEngineer/PHP-MySQLi-Database-Class/zipball/9a95f2488495f13494e7c19ba7ad452946e947a7",
+                "reference": "9a95f2488495f13494e7c19ba7ad452946e947a7",
                 "shasum": ""
             },
             "require": {
@@ -957,13 +956,14 @@
                 }
             ],
             "description": "PHP MySQL Wrapper and object mapper which utilizes MySQLi and prepared statements",
-            "time": "2019-08-24 09:28:56"
+            "time": "2020-01-11T11:07:35+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "thingengineer/mysqli-database-class": 20,
         "sociallydev/spaces-api": 20
     },
     "prefer-stable": false,
