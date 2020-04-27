@@ -9,7 +9,6 @@ services:
         depends_on:
             - memcached
             - db
-            - composer
             - chrome
         ports:
             - ${LOCAL_IP}:80:80
