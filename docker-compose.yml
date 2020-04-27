@@ -3,13 +3,12 @@ services:
     backend:
         build: ./backend
         container_name: revisionary_php-apache
-        restart: on-failure
-        env_file:
-            - ./.env
+        restart: "always"
         depends_on:
             - memcached
             - database
-            - chrome
+        env_file:
+            - ./.env
         ports:
             - ${LOCAL_IP}:80:80
             - ${LOCAL_IP}:443:443
@@ -45,6 +44,31 @@ services:
         networks:
             - backend-network
 
+    memcached:
+        image: memcached:latest
+        container_name: revisionary_memcached
+        restart: on-failure
+        command: ["-m", "512m"]
+        ports:
+            - 11211:11211
+        networks:
+            - backend-network
+
+    chrome:
+        build: ./chrome
+        user: www-data
+        cap_add:
+            - SYS_ADMIN
+        container_name: revisionary_chrome
+        restart: "unless-stopped"
+        ports:
+            - ${LOCAL_IP}:8080:3000
+        volumes:
+            - ./chrome/src:/chrome/src
+            - ./backend/src/cache:/chrome/cache
+        networks:
+            - backend-network
+
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:latest
         container_name: revisionary_phpmyadmin
@@ -61,16 +85,6 @@ services:
         networks:
             - backend-network
 
-    memcached:
-        image: memcached:latest
-        container_name: revisionary_memcached
-        restart: on-failure
-        command: ["-m", "512m"]
-        ports:
-            - 11211:11211
-        networks:
-            - backend-network
-
     phpmemcachedadmin:
         container_name: revisionary_phpmemcachedadmin
         image: phpmemcachedadmin
@@ -82,21 +96,6 @@ services:
             - memcached
         volumes:
             - ./phpmemcachedadmin/Memcache.docker.php:/var/www/localhost/htdocs/Config/Memcache.php
-        networks:
-            - backend-network
-
-    chrome:
-        build: ./chrome
-        user: www-data
-        cap_add:
-            - SYS_ADMIN
-        container_name: revisionary_chrome
-        restart: "unless-stopped"
-        ports:
-            - ${LOCAL_IP}:8080:3000
-        volumes:
-            - ./chrome/src:/chrome/src
-            - ./backend/src/cache:/chrome/cache
         networks:
             - backend-network
 
