@@ -95,7 +95,5 @@ services:
 volumes:
     persistent:
 networks:
-    proxy-network:
-        driver: bridge
     backend-network:
         driver: bridge
