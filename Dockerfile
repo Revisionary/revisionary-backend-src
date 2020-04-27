@@ -1,25 +1,57 @@
-FROM php:7.2.8-apache
+#
+# PHP Dependencies
+#
+FROM composer:latest as vendor
 
+COPY ./www/composer.json composer.json
+COPY ./www/composer.lock composer.lock
+
+RUN composer install \
+    --ignore-platform-reqs \
+    --no-interaction \
+    --no-plugins \
+    --no-scripts \
+    --prefer-dist
+
+
+
+# #
+# # Frontend
+# #
+# FROM node:8.11 as frontend
+
+# RUN mkdir -p /app/public
+
+# COPY package.json webpack.mix.js yarn.lock /app/
+# COPY resources/assets/ /app/resources/assets/
+
+# WORKDIR /app
+
+# RUN yarn install && yarn production
+
+
+
+#
+# Application
+#
+FROM php:7.2.8-apache
 
 # Add the project folders
 ADD ./www /var/www/html
-ADD ./logs /var/www/logs
-ADD ./sessions /var/www/sessions
-
+COPY --from=vendor /app/vendor/ /var/www/html/vendor/
+#ADD ./logs /var/www/logs
+#ADD ./sessions /var/www/sessions
 
 # Add the self signed certificates
-COPY ./certificates/RevisionaryApp.crt /etc/apache2/ssl/RevisionaryApp.crt
-COPY ./certificates/RevisionaryApp.key /etc/apache2/ssl/RevisionaryApp.key
-
+COPY ./certificates/revisionaryapp.com.crt /etc/apache2/ssl/revisionaryapp.com.crt
+COPY ./certificates/revisionaryapp.com.key /etc/apache2/ssl/revisionaryapp.com.key
 
 # Rewrite the Apache and PHP configurations
 COPY ./config/apache-ssl.conf /etc/apache2/sites-enabled/apache-ssl.conf
 COPY ./config/php.ini /usr/local/etc/php/
 
-
 # Add the server name to Apache configuration
 RUN echo "ServerName revisionaryapp.com" >> /etc/apache2/apache2.conf
-
 
 # Install necessary PHP Extensions (intl for intljeremykendall/php-domain-parser, libmemcached-dev zlib1g-dev for Memcached)
 RUN apt-get -y update \
@@ -30,19 +62,15 @@ RUN apt-get -y update \
     && pecl install memcached-3.1.3 \
     && docker-php-ext-enable memcached
 
-
 # Activate the rewrite engine and SSL
 RUN a2enmod rewrite
 RUN a2enmod ssl
 RUN service apache2 restart
 
-
 # Update the permissions
 RUN chown -R www-data:www-data /var/www/
 RUN find /var/www/ -type f -exec chmod 644 {} \;
 RUN find /var/www/ -type d -exec chmod 755 {} \;
-#RUN chmod -R g+rw /var/www/
-
 
 # Expose the ports
 EXPOSE 80 443
