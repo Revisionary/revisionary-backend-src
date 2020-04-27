@@ -7,4 +7,4 @@ class Space {
 }
 
 // Configure a client using Spaces
-$s3 = new SpacesConnect($_ENV['S3_KEY'], $_ENV['S3_SECRET'], $_ENV['S3_BUCKET'], $_ENV['S3_REGION']);
+$s3 = new SpacesConnect($config['env']['s3_key'], $config['env']['s3_secret'], $config['env']['s3_bucket'], $config['env']['s3_region']);

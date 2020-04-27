@@ -36,12 +36,6 @@ RUN composer install \
 #
 FROM php:7.4-apache
 
-# Add the project folders
-ADD ./src /var/www/html
-COPY --from=vendor /app/vendor /var/www/html/vendor
-#ADD ./logs /var/www/logs
-#ADD ./sessions /var/www/sessions
-
 # Add the self signed certificates
 COPY ./certificates/revisionaryapp.com.crt /etc/apache2/ssl/revisionaryapp.com.crt
 COPY ./certificates/revisionaryapp.com.key /etc/apache2/ssl/revisionaryapp.com.key
@@ -66,6 +60,12 @@ RUN apt-get -y update \
 RUN a2enmod rewrite
 RUN a2enmod ssl
 RUN service apache2 restart
+
+# Add the project files
+ADD ./src /var/www/html
+COPY --from=vendor /app/vendor /var/www/html/vendor
+#ADD ./logs /var/www/logs
+#ADD ./sessions /var/www/sessions
 
 # Update the permissions
 RUN chown -R www-data:www-data /var/www/ \
