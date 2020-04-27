@@ -1,40 +1,37 @@
 version: "3.2"
 services:
-    www:
-        build: .
+    backend:
+        build: ./backend
         container_name: revisionary_php-apache
         restart: on-failure
         env_file:
             - ./.env
         depends_on:
             - memcached
-            - db
+            - database
             - chrome
         ports:
             - ${LOCAL_IP}:80:80
             - ${LOCAL_IP}:443:443
         volumes:
-            - ./www:/var/www/html
-            - ./logs:/var/log/apache2
-            - ./www/cache:/var/www/html/cache
-            - ./www/app/logs:/var/www/html/app/logs
+            - ./backend/src:/var/www/html
+            - ./backend/src/cache:/var/www/html/cache
+            - ./backend/src/app/logs:/var/www/html/app/logs
+            - ./backend/logs:/var/log/apache2
         networks:
-            - default
+            - backend-network
 
-    db:
-        image: mysql:8
-        container_name: revisionary_mysql
-        restart: on-failure
+    database:
+        image: mysql:latest
+        container_name: revisionary_database
+        restart: "on-failure"
         command: [
-            '--default_authentication_plugin=mysql_native_password',
             '--character-set-server=utf8mb4',
             '--collation-server=utf8mb4_unicode_ci',
             '--slow_query_log=ON', # Make this off when in production !!!
             '--long_query_time=2',
             '--slow_query_log_file=/var/lib/mysql/mysql/slow_queries.log'
         ]
-        ports:
-            - ${LOCAL_IP}:3306:3306
         environment:
             MYSQL_DATABASE: ${DB_NAME}
             MYSQL_USER: ${DB_USER}
@@ -44,21 +41,23 @@ services:
             - ./database/dump:/docker-entrypoint-initdb.d
             - ./database/mysql:/var/lib/mysql
         networks:
-            - default
+            - backend-network
 
     phpmyadmin:
-        image: phpmyadmin/phpmyadmin
+        image: phpmyadmin/phpmyadmin:latest
         container_name: revisionary_phpmyadmin
         depends_on:
-            - db
+            - database
         ports:
             - ${LOCAL_IP}:8000:80
         volumes:
-            - ./config/phpmyadmin.ini:/usr/local/etc/php/conf.d/uploads.ini
+            - ./backend/config/phpmyadmin.ini:/usr/local/etc/php/conf.d/uploads.ini
         environment:
             PMA_HOSTS: ${DB_HOST}, ${DB_CLOUD_HOST}
             PMA_PORTS: ${DB_PORT}, ${DB_CLOUD_PORT}
             PMA_VERBOSES: Docker, Cloud
+        networks:
+            - backend-network
 
     memcached:
         image: memcached:latest
@@ -91,9 +90,12 @@ services:
             - ${LOCAL_IP}:8080:3000
         volumes:
             - ./chrome/src:/chrome/src
-            - ./www/cache:/chrome/cache
+            - ./backend/src/cache:/chrome/cache
 
 volumes:
     persistent:
 networks:
-    default:
+    proxy-network:
+        driver: bridge
+    backend-network:
+        driver: bridge

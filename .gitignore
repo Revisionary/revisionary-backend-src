@@ -1,12 +1,1 @@
-/www/vendor
-
-node_modules
-npm-debug.log
-
-www/cache/projects/project-*/page-*/*
-www/cache/phases/phase-*/*
-www/cache/users/user-*/*
-
-database/mysql/*
-
 .env

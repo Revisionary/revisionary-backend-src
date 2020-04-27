@@ -1,0 +1,5 @@
+node_modules
+src/vendor
+
+src/cache/projects/project-*/page-*/*
+src/cache/users/user-*/*

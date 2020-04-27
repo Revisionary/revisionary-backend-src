@@ -20,24 +20,24 @@ var sassOptions = {
 // ---------------
 
 gulp.task('styles', function() {
-	return gulp.src('./www/assets/styles/*.scss')
+	return gulp.src('./src/assets/styles/*.scss')
 		.pipe(sourcemaps.init())
 		.pipe(sass(sassOptions))
 		.pipe(prefix())
 		.pipe(sourcemaps.write('./'))
-		.pipe(gulp.dest('./www/assets/styles/'));
+		.pipe(gulp.dest('./src/assets/styles/'));
 });
 
 gulp.task('sass-lint', function() {
-	gulp.src('./www/assets/styles/*.scss')
+	gulp.src('./src/assets/styles/*.scss')
 		.pipe(sassLint())
 		.pipe(sassLint.format())
 		.pipe(sassLint.failOnError());
 });
 
 gulp.task('watch', function() {
-	gulp.watch('./www/assets/styles/style.scss', gulp.series('styles'));
-	gulp.watch('./www/assets/styles/revise.scss', gulp.series('styles'));
+	gulp.watch('./src/assets/styles/style.scss', gulp.series('styles'));
+	gulp.watch('./src/assets/styles/revise.scss', gulp.series('styles'));
 	//gulp.watch('scss/**/*.scss', gulp.series('styles'));
 });
 

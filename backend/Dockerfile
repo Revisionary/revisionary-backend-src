@@ -3,8 +3,8 @@
 #
 FROM composer:latest as vendor
 
-COPY ./www/composer.json composer.json
-COPY ./www/composer.lock composer.lock
+COPY ./src/composer.json composer.json
+COPY ./src/composer.lock composer.lock
 
 RUN composer install \
     --ignore-platform-reqs \
@@ -34,11 +34,11 @@ RUN composer install \
 #
 # Application
 #
-FROM php:7.2.8-apache
+FROM php:7.4-apache
 
 # Add the project folders
-ADD ./www /var/www/html
-COPY --from=vendor /app/vendor/ /var/www/html/vendor/
+ADD ./src /var/www/html
+COPY --from=vendor /app/vendor /var/www/html/vendor
 #ADD ./logs /var/www/logs
 #ADD ./sessions /var/www/sessions
 
@@ -53,11 +53,11 @@ COPY ./config/php.ini /usr/local/etc/php/
 # Add the server name to Apache configuration
 RUN echo "ServerName revisionaryapp.com" >> /etc/apache2/apache2.conf
 
-# Install necessary PHP Extensions (intl for intljeremykendall/php-domain-parser, libmemcached-dev zlib1g-dev for Memcached)
+# Install necessary PHP Extensions (intl for intljeremykendall/php-domain-parser, libmemcached-dev zlib1g-dev for Memcached, procps for Bg Processes)
 RUN apt-get -y update \
-    && apt-get install -y libicu-dev libmemcached-dev zlib1g-dev libjpeg62-turbo-dev libpng-dev \
+    && apt-get install -y procps libicu-dev libmemcached-dev zlib1g-dev libjpeg62-turbo-dev libpng-dev libfreetype6-dev \
     && docker-php-ext-configure intl \
-    && docker-php-ext-configure gd --with-gd --with-jpeg-dir \
+    && docker-php-ext-configure gd --with-jpeg \
     && docker-php-ext-install intl mysqli gd \
     && pecl install memcached-3.1.3 \
     && docker-php-ext-enable memcached
@@ -68,9 +68,9 @@ RUN a2enmod ssl
 RUN service apache2 restart
 
 # Update the permissions
-RUN chown -R www-data:www-data /var/www/
-RUN find /var/www/ -type f -exec chmod 644 {} \;
-RUN find /var/www/ -type d -exec chmod 755 {} \;
+RUN chown -R www-data:www-data /var/www/ \
+    && find /var/www/ -type f -exec chmod 644 {} \; \
+    && find /var/www/ -type d -exec chmod 755 {} \;
 
 # Expose the ports
 EXPOSE 80 443
