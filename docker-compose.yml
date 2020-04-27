@@ -14,9 +14,11 @@ services:
             - ${LOCAL_IP}:80:80
             - ${LOCAL_IP}:443:443
         volumes:
-            - ./backend/src:/var/www/html
+            - ./backend/src/app:/var/www/html/app
+            - ./backend/src/assets:/var/www/html/assets
             - ./backend/src/cache:/var/www/html/cache
-            - ./backend/src/app/logs:/var/www/html/app/logs
+            - ./backend/src/index.php:/var/www/html/index.php
+            - ./backend/src/.htaccess:/var/www/html/.htaccess
             - ./backend/logs:/var/log/apache2
         networks:
             - backend-network
@@ -66,6 +68,8 @@ services:
         command: ["-m", "512m"]
         ports:
             - 11211:11211
+        networks:
+            - backend-network
 
     phpmemcachedadmin:
         container_name: revisionary_phpmemcachedadmin
@@ -78,6 +82,8 @@ services:
             - memcached
         volumes:
             - ./phpmemcachedadmin/Memcache.docker.php:/var/www/localhost/htdocs/Config/Memcache.php
+        networks:
+            - backend-network
 
     chrome:
         build: ./chrome
@@ -91,6 +97,8 @@ services:
         volumes:
             - ./chrome/src:/chrome/src
             - ./backend/src/cache:/chrome/cache
+        networks:
+            - backend-network
 
 volumes:
     persistent:
