@@ -71,6 +71,3 @@ COPY --from=vendor /app/vendor /var/www/html/vendor
 RUN chown -R www-data:www-data /var/www/ \
     && find /var/www/ -type f -exec chmod 644 {} \; \
     && find /var/www/ -type d -exec chmod 755 {} \;
-
-# Expose the ports
-EXPOSE 80 443

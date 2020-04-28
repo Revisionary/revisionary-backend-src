@@ -6,50 +6,48 @@ $config = array('last_update' => '2020-04-27-04:00');
 
 // Environmental settings
 $config['env'] = [
-	'name' 				 		   => $_ENV['ENV_NAME'] ?? "local-dev",
-	'debug'  			 		   => $_ENV['DEBUG'] ?? false,
+	'name' 				 		   => getenv('ENV_NAME') ?? "local-dev",
+	'debug'  			 		   => getenv('DEBUG') ?? false,
 
-	'domain'			 		   => $_ENV['API_DOMAIN'] ?? "revisionaryapp.com",
-	'subdomain' 		 		   => $_ENV['API_SUBDOMAIN'] ?? "dev",
-	'insecure_subdomain' 		   => $_ENV['API_INSECURE_SUBDOMAIN'] ?? "dev",
+	'domain'			 		   => getenv('API_DOMAIN') ?? "revisionaryapp.com",
+	'subdomain' 		 		   => getenv('API_SUBDOMAIN') ?? "dev",
+	'insecure_subdomain' 		   => getenv('API_INSECURE_SUBDOMAIN') ?? "dev",
 
-	'dashboard_domain'			   => $_ENV['DASHBOARD_DOMAIN'] ?? "revisonary.co",
-	'dashboard_subdomain' 		   => $_ENV['DASHBOARD_SUBDOMAIN'] ?? "app",
-	'dashboard_insecure_subdomain' => $_ENV['DASHBOARD_INSECURE_SUBDOMAIN'] ?? "app",
+	'dashboard_domain'			   => getenv('DASHBOARD_DOMAIN') ?? "revisonary.co",
+	'dashboard_subdomain' 		   => getenv('DASHBOARD_SUBDOMAIN') ?? "app",
+	'dashboard_insecure_subdomain' => getenv('DASHBOARD_INSECURE_SUBDOMAIN') ?? "app",
 
-	'landing_domain'			   => $_ENV['LANDING_DOMAIN'] ?? "revisonary.co",
-	'landing_subdomain' 		   => $_ENV['LANDING_SUBDOMAIN'] ?? "app",
-	'landing_insecure_subdomain'   => $_ENV['LANDING_INSECURE_SUBDOMAIN'] ?? "app",
+	'landing_domain'			   => getenv('LANDING_DOMAIN') ?? "revisonary.co",
+	'landing_subdomain' 		   => getenv('LANDING_SUBDOMAIN') ?? "app",
+	'landing_insecure_subdomain'   => getenv('LANDING_INSECURE_SUBDOMAIN') ?? "app",
 
-	'db_host' 			 		   => $_ENV['DB_HOST'] ?? "revisionary_database",
-	'db_port' 			 		   => $_ENV['DB_PORT'] ?? 3306,
-	'db_name' 			 		   => $_ENV['DB_NAME'] ?? "revisionaryapp",
-	'db_user' 			 		   => $_ENV['DB_USER'] ?? "user",
-	'db_pass' 			 		   => $_ENV['DB_PASSWORD'] ?? "test",
+	'db_host' 			 		   => getenv('DB_HOST') ?? "revisionary_database",
+	'db_port' 			 		   => getenv('DB_PORT') ?? 3306,
+	'db_name' 			 		   => getenv('DB_NAME') ?? "revisionaryapp",
+	'db_user' 			 		   => getenv('DB_USER') ?? "user",
+	'db_pass' 			 		   => getenv('DB_PASSWORD') ?? "test",
+	'db_socket' 			 	   => getenv('DB_SOCKET') ?? null,
 	
-	'db_choice' 			 	   => $_ENV['DB_CHOICE'] ?? "local",
+	'db_choice' 			 	   => getenv('DB_CHOICE') ?? "local",
+	'ssl_check' 			 	   => getenv('SSL_CHECK') ?? "normal",
 
-	'smtp_user' 		 		   => $_ENV['SMTP_USER'],
-	'smtp_pass' 		 		   => $_ENV['SMTP_PASS'],
+	'smtp_user' 		 		   => getenv('SMTP_USER') ?? false,
+	'smtp_pass' 		 		   => getenv('SMTP_PASS') ?? false,
 
-	's3_key'					   => $_ENV['S3_KEY'],
-	's3_secret' 		 		   => $_ENV['S3_SECRET'],
-	's3_region' 		 		   => $_ENV['S3_REGION'],
-	's3_bucket' 		 		   => $_ENV['S3_BUCKET'],
+	's3_key'					   => getenv('S3_KEY') ?? false,
+	's3_secret' 		 		   => getenv('S3_SECRET') ?? false,
+	's3_region' 		 		   => getenv('S3_REGION') ?? false,
+	's3_bucket' 		 		   => getenv('S3_BUCKET') ?? false,
 	
 ];
 
 
 
-if ($config['env']['name'] == 'local-dev') { // For Local SSL Check
-
-	// SSL Check
-	$_https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
-
-} elseif ($config['env']['name'] == 'remote-dev') { // For Digital Ocean
+// For Digital Ocean
+if ($config['env']['name'] == 'remote-dev') {
 
 	// SSL Check (because of CloudFlare)
-	$_https = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https";
+	$config['env']['ssl_check'] = 'cloudflare';
 
 	// Cloud DB connection
 	$config['env']['db_choice'] = 'cloud';
@@ -60,25 +58,45 @@ if ($config['env']['name'] == 'local-dev') { // For Local SSL Check
 }
 
 
+
+// SSL Check
+if ($config['env']['ssl_check'] == 'cloudflare')
+	$_https = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https";
+else
+	$_https = !empty(@$_SERVER['HTTPS']) && @$_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && @$_SERVER['SERVER_PORT'] == 443);
+
+
+
 // Cloud DB Choice
 if ($config['env']['db_choice'] == 'cloud') {
 
-	$config['env']['db_host'] = $_ENV['DB_CLOUD_HOST'];
-	$config['env']['db_port'] = $_ENV['DB_CLOUD_PORT'];
-	$config['env']['db_name'] = $_ENV['DB_CLOUD_NAME'];
-	$config['env']['db_user'] = $_ENV['DB_CLOUD_USER'];
-	$config['env']['db_pass'] = $_ENV['DB_CLOUD_PASSWORD'];
+	$config['env']['db_host'] = getenv('DB_CLOUD_HOST');
+	$config['env']['db_port'] = getenv('DB_CLOUD_PORT');
+	$config['env']['db_name'] = getenv('DB_CLOUD_NAME');
+	$config['env']['db_user'] = getenv('DB_CLOUD_USER');
+	$config['env']['db_pass'] = getenv('DB_CLOUD_PASSWORD');
 
 }
 
 
+
+// Cloud Socket Check
+if ( getenv('CLOUD_SQL_CONNECTION_NAME') ) {
+
+	$config['env']['db_socket'] = getenv('CLOUD_SQL_CONNECTION_NAME');
+
+}
+
+
+
 // Database Info
 $config['db'] = [
-  'host' => $config['env']['db_host'],
-  'port' => $config['env']['db_port'],
-  'name' => $config['env']['db_name'],
-  'user' => $config['env']['db_user'],
-  'pass' => $config['env']['db_pass']
+  'host'   => $config['env']['db_host'],
+  'port'   => $config['env']['db_port'],
+  'name'   => $config['env']['db_name'],
+  'user'   => $config['env']['db_user'],
+  'pass'   => $config['env']['db_pass'],
+  'socket' => $config['env']['db_socket']
 ];
 
 
