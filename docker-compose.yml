@@ -56,7 +56,7 @@ services:
 
     chrome:
         build: ./chrome
-        user: www-data
+        #user: pptruser
         cap_add:
             - SYS_ADMIN
         container_name: revisionary_chrome

@@ -18,13 +18,17 @@ class Pin {
 
 	public function __construct() {
 
-		$this->phase_ID = self::$pinInfo['phase_ID'];
-		$this->phaseData = Phase::ID( $this->phase_ID );
-		if (!$this->phaseData) {
-			return false;
+		if (self::$pinInfo) {
+			
+			$this->phase_ID = self::$pinInfo['phase_ID'];
+			$this->phaseData = Phase::ID( $this->phase_ID );
+			if (!$this->phaseData) {
+				return false;
+			}
+			$this->page_ID = $this->phaseData->getInfo('page_ID');
+			$this->device_ID = self::$pinInfo['device_ID'];
+			
 		}
-		$this->page_ID = $this->phaseData->getInfo('page_ID');
-		$this->device_ID = self::$pinInfo['device_ID'];
 
     }
 
