@@ -27,12 +27,12 @@ services:
         container_name: revisionary_database
         restart: "on-failure"
         command: [
-            '--character-set-server=utf8mb4',
-            '--collation-server=utf8mb4_unicode_ci',
-            '--slow_query_log=ON', # Make this off when in production !!!
-            '--long_query_time=2',
-            '--slow_query_log_file=/var/lib/mysql/mysql/slow_queries.log'
-        ]
+                "--character-set-server=utf8mb4",
+                "--collation-server=utf8mb4_unicode_ci",
+                "--slow_query_log=ON", # Make this off when in production !!!
+                "--long_query_time=2",
+                "--slow_query_log_file=/var/lib/mysql/mysql/slow_queries.log",
+            ]
         environment:
             MYSQL_DATABASE: ${DB_NAME}
             MYSQL_USER: ${DB_USER}
@@ -56,13 +56,13 @@ services:
 
     chrome:
         build: ./chrome
-        #user: pptruser
+        user: pptruser
         cap_add:
             - SYS_ADMIN
         container_name: revisionary_chrome
         restart: "unless-stopped"
-        ports:
-            - ${LOCAL_IP}:8080:3000
+        # ports:
+        #     - ${LOCAL_IP}:8080:3000
         volumes:
             - ./chrome/src:/chrome/src
             - ./backend/src/cache:/chrome/cache
