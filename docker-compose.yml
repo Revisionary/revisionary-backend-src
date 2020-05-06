@@ -61,8 +61,8 @@ services:
             - SYS_ADMIN
         container_name: revisionary_chrome
         restart: "unless-stopped"
-        # ports:
-        #     - ${LOCAL_IP}:8080:3000
+        ports:
+            - ${LOCAL_IP}:8080:3000
         volumes:
             - ./chrome/src:/chrome/src
             - ./backend/src/cache:/chrome/cache
