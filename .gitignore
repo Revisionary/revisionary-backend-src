@@ -1,2 +1,8 @@
 .env
 .DS_Store
+
+/node_modules
+/vendor
+
+/cache/projects/project-*/page-*/*
+/cache/users/user-*/*
