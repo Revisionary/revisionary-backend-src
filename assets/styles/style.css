@@ -15355,6 +15355,7 @@ textarea {
 [draggable="true"] {
   -webkit-user-select: none;
      -moz-user-select: none;
+      -ms-user-select: none;
           user-select: none;
   /* Required to make elements draggable in old WebKit */
   -khtml-user-drag: element;
@@ -16298,6 +16299,7 @@ pin {
   color: white;
   -webkit-user-select: none;
      -moz-user-select: none;
+      -ms-user-select: none;
           user-select: none;
   -moz-box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5);
        box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 0.5);
@@ -16495,6 +16497,7 @@ pin.mouse-cursor {
   background-color: white;
   -webkit-user-select: none !important;
      -moz-user-select: none !important;
+      -ms-user-select: none !important;
           user-select: none !important;
   -moz-transition: opacity 500ms !important;
   transition: opacity 500ms !important;
@@ -16532,6 +16535,7 @@ pin.mouse-cursor.existing {
   margin: 1px;
   -webkit-user-select: none;
      -moz-user-select: none;
+      -ms-user-select: none;
           user-select: none;
 }
 
