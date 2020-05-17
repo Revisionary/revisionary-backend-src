@@ -100,7 +100,7 @@ class User {
 
 
 			// GET THE DATA
-			$categories = $db->get("projects_categories cat", null, '');
+			$categories = $db->connection('slave')->get("projects_categories cat", null, '');
 
 
 			// Add the uncategorized item
@@ -227,7 +227,7 @@ class User {
 
 
 			// GET THE DATA
-			$projects = $db->get(
+			$projects = $db->connection('slave')->get(
 				'projects p',
 				null,
 				'
@@ -333,7 +333,7 @@ class User {
 
 
 			// GET THE DATA
-			$categories = $db->get("pages_categories cat", null, '');
+			$categories = $db->connection('slave')->get("pages_categories cat", null, '');
 
 
 			// Add the uncategorized item
@@ -457,7 +457,7 @@ class User {
 
 
 			// GET THE DATA
-			$pages = $db->get(
+			$pages = $db->connection('slave')->get(
 				'pages p',
 				null,
 				'
@@ -599,7 +599,7 @@ class User {
 
 
 			// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
-			$phases = $db->get('phases ph');
+			$phases = $db->connection('slave')->get('phases ph');
 
 
 			// Set the cache
@@ -685,7 +685,7 @@ class User {
 
 
 			// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
-			$devices = $db->get('devices d');
+			$devices = $db->connection('slave')->get('devices d');
 
 
 			// Set the cache
@@ -808,7 +808,7 @@ class User {
 
 
 			// GET THE DATA
-			$pins = $db->get('pins pin', null, '
+			$pins = $db->connection('slave')->get('pins pin', null, '
 				pin.pin_ID,
 				pin.pin_complete,
 				pin.pin_private,
@@ -1390,7 +1390,7 @@ class User {
 
 
 		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
-		$screens = $db->get('screens s');
+		$screens = $db->connection('slave')->get('screens s');
 
 
 		// Set the cache

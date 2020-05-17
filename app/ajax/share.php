@@ -172,7 +172,7 @@ if ( $type == "page" && $add_type == "project" ) {
 $db->where( 'share_to', $shareTo );
 $db->where( 'share_type', $type );
 $db->where( 'shared_object_ID', $object_ID );
-$shares = $db->get('shares');
+$shares = $db->connection('slave')->get('shares');
 
 // Check the project shares if the current type is page
 if ($type == "page") {
@@ -184,7 +184,7 @@ if ($type == "page") {
 	$db->where( 'share_to', $shareTo );
 	$db->where( 'share_type', 'project' );
 	$db->where( 'shared_object_ID', $project_ID );
-	$project_shares = $db->get('shares');
+	$project_shares = $db->connection('slave')->get('shares');
 	$shares = array_merge($shares, $project_shares);
 
 }

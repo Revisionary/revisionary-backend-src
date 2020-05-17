@@ -34,7 +34,7 @@ function getUserInfoDB(int $user_ID = null, bool $nocache = false, bool $full = 
 
 
 		$db->where("u.user_ID", $user_ID);
-		$userInfo = $db->get(
+		$userInfo = $db->connection('slave')->get(
 			"users u",
 			null,
 			($full ? null : "

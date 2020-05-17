@@ -199,7 +199,7 @@ if ( !file_exists($phaseData->logDir) )
 $db->where('queue_type', 'internalize');
 $db->where('queue_object_ID', $phase_ID);
 $db->where("(queue_status = 'working' OR queue_status = 'waiting')");
-$existing_queue = $db->get('queues');
+$existing_queue = $db->connection('slave')->get('queues');
 //die_to_print($existing_queue);
 
 

@@ -93,7 +93,7 @@ class Device {
 		$db->orderBy('d.device_ID', 'ASC');
 
 		$db->where("v.page_ID", $page_IDs, "IN");
-		return $db->get('devices d');
+		return $db->connection('slave')->get('devices d');
     }
 
 

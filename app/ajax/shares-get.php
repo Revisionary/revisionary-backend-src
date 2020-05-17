@@ -81,7 +81,7 @@ if ( $dataType == "page" ) {
 	// Get Project Shares
 	$db->where('share_type', 'project');
 	$db->where('shared_object_ID', $project_ID);
-	$project_shares = $db->get('shares', null, "share_to, sharer_user_ID");
+	$project_shares = $db->connection('slave')->get('shares', null, "share_to, sharer_user_ID");
 
 
 	if ($project_shares) {
@@ -115,7 +115,7 @@ if ( $dataType == "page" ) {
 // 3. Find the object shares
 $db->where('share_type', $dataType);
 $db->where('shared_object_ID', $object_ID);
-$object_shares = $db->get('shares', null, "share_to, sharer_user_ID");
+$object_shares = $db->connection('slave')->get('shares', null, "share_to, sharer_user_ID");
 
 if ($object_shares) {
 

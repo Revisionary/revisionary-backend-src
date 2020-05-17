@@ -100,7 +100,7 @@ class Page {
 		$db->where('share_type', 'page');
 		$db->where('shared_object_ID', self::$page_ID);
 		$db->where("share_to REGEXP '^[0-9]+$'");
-		$shared_IDs = array_column($db->get('shares', null, 'share_to'), 'share_to');
+		$shared_IDs = array_column($db->connection('slave')->get('shares', null, 'share_to'), 'share_to');
 		$users = array_merge($users, $shared_IDs);
 
 

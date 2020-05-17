@@ -1,6 +1,6 @@
 <?php
 
-$user_levels = $db->get('user_levels');
+$user_levels = $db->connection('slave')->get('user_levels');
 //die_to_print($user_levels);
 
 

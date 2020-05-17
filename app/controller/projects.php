@@ -79,7 +79,7 @@ if (
 		$db->where('pr.project_deleted', 0);
 		$db->where('pr.project_archived', 0);
 		$db->where('p.page_url', $page_url);
-		$pages_match = $db->get('pages p', null, 'p.page_url, p.page_ID, p.project_ID');
+		$pages_match = $db->connection('slave')->get('pages p', null, 'p.page_url, p.page_ID, p.project_ID');
 		$possible_page_IDs = array_unique(array_column($pages_match, 'page_ID'));
 
 

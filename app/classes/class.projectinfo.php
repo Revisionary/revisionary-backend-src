@@ -104,7 +104,7 @@ class Project {
 		$db->where('share_type', 'project');
 		$db->where('shared_object_ID', self::$project_ID);
 		$db->where("share_to REGEXP '^[0-9]+$'");
-		$shared_IDs = array_column($db->get('shares', null, 'share_to'), 'share_to');
+		$shared_IDs = array_column($db->connection('slave')->get('shares', null, 'share_to'), 'share_to');
 		$users = array_merge($users, $shared_IDs);
 
 
@@ -180,7 +180,7 @@ class Project {
 			$db->where('pr.project_deleted', 0);
 			$db->where('pr.project_archived', 0);
 			$db->where('p.page_url', "$page_domain%", 'like');
-			$pages_match = $db->get('pages p', null, 'p.page_url, p.project_ID');
+			$pages_match = $db->connection('slave')->get('pages p', null, 'p.page_url, p.project_ID');
 			$possible_project_IDs = array_unique(array_column($pages_match, 'project_ID'));
 
 

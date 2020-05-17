@@ -59,7 +59,7 @@ $allMyPages = $User->getPages($project_ID, null, '');
 // Exlude other types
 $db->where('share_type', 'project');
 $db->where('shared_object_ID', $project_ID);
-$projectShares = $db->get('shares', null, "share_to, sharer_user_ID");
+$projectShares = $db->connection('slave')->get('shares', null, "share_to, sharer_user_ID");
 //die_to_print($projectShares);
 
 

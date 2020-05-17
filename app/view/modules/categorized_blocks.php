@@ -446,7 +446,7 @@
 										$db->where('shared_object_ID', $block[$dataType.'_ID']); // Is this block?
 
 										// Get the data
-										$blockShares = $db->get('shares', null, "share_to, sharer_user_ID");
+										$blockShares = $db->connection('slave')->get('shares', null, "share_to, sharer_user_ID");
 
 
 										foreach ($blockShares as $share) {

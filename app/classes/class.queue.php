@@ -25,7 +25,7 @@ class Queue {
 
 		$db->orderBy('queue_ID', 'asc');
 
-	    $works = $db->get('queues');
+	    $works = $db->connection('slave')->get('queues');
 		if ($works) {
 
 		    $logger->info("Current Queue:", $works);
