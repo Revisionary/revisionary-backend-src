@@ -43,17 +43,16 @@ $db = new MysqliDb(array(
 
 
 // Add the read-only connection
-if ( $config['env']['db_choice'] == 'cloud' && $config['db_slave']['host'] != "" )
-	$db->addConnection('slave', array(
-		'host' 		=> $config['db_slave']['host'],
-		'username' 	=> $config['db_slave']['user'],
-		'password' 	=> $config['db_slave']['pass'],
-		'db'		=> $config['db_slave']['name'],
-		'port'		=> $config['db_slave']['port'],
-		'socket'	=> $config['db_slave']['socket'],
-		'prefix' 	=> '',
-		'charset' 	=> 'utf8mb4'
-	));
+$db->addConnection('slave', array(
+	'host' 		=> $config['db_slave']['host'],
+	'username' 	=> $config['db_slave']['user'],
+	'password' 	=> $config['db_slave']['pass'],
+	'db'		=> $config['db_slave']['name'],
+	'port'		=> $config['db_slave']['port'],
+	'socket'	=> $config['db_slave']['socket'],
+	'prefix' 	=> '',
+	'charset' 	=> 'utf8mb4'
+));
 
 
 

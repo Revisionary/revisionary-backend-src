@@ -118,6 +118,18 @@ $config['db_slave'] = [
 ];
 
 
+// Same with the main DB if no slave info
+if ( $config['env']['db_choice'] != 'cloud' && $config['db_slave']['host'] == "" )
+	$config['db_slave'] = [
+	'host'   => $config['env']['db_host'],
+	'port'   => $config['env']['db_port'],
+	'name'   => $config['env']['db_name'],
+	'user'   => $config['env']['db_user'],
+	'pass'   => $config['env']['db_pass'],
+	'socket' => $config['env']['db_socket']
+	];
+
+
 
 // Default Language
 $config['default_language'] = 'en';
