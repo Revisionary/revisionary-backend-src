@@ -1,6 +1,6 @@
 <?php
 
-$config = array('last_update' => '2020-04-27-04:00');
+$config = array('last_update' => '2020-05-17-04:00');
 
 
 
@@ -27,7 +27,14 @@ $config['env'] = [
 	'db_user' 			 		   => getenv('DB_USER') ?? "user",
 	'db_pass' 			 		   => getenv('DB_PASSWORD') ?? "test",
 	'db_socket' 			 	   => getenv('DB_SOCKET') ?? null,
-	
+
+	'db_slave_host'		 		   => getenv('DB_SLAVE_HOST') ?? "",
+	'db_slave_port'		 		   => getenv('DB_SLAVE_PORT') ?? "",
+	'db_slave_name'		 		   => getenv('DB_SLAVE_NAME') ?? "",
+	'db_slave_user'		 		   => getenv('DB_SLAVE_USER') ?? "",
+	'db_slave_pass'		 		   => getenv('DB_SLAVE_PASSWORD') ?? "",
+	'db_slave_socket'		 	   => getenv('DB_SLAVE_SOCKET') ?? "",
+
 	'db_choice' 			 	   => getenv('DB_CHOICE') ?? "local",
 	'ssl_check' 			 	   => getenv('SSL_CHECK') ?? "normal",
 
@@ -97,6 +104,17 @@ $config['db'] = [
   'user'   => $config['env']['db_user'],
   'pass'   => $config['env']['db_pass'],
   'socket' => $config['env']['db_socket']
+];
+
+
+// Slave Database Info
+$config['db_slave'] = [
+  'host'   => $config['env']['db_slave_host'],
+  'port'   => $config['env']['db_slave_port'],
+  'name'   => $config['env']['db_slave_name'],
+  'user'   => $config['env']['db_slave_user'],
+  'pass'   => $config['env']['db_slave_pass'],
+  'socket' => $config['env']['db_slave_socket']
 ];
 
 
