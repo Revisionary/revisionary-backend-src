@@ -3,7 +3,6 @@
 var gulp = require("gulp"),
 	sass = require("gulp-sass"),
 	prefix = require("gulp-autoprefixer"),
-	plumber = require("gulp-plumber"),
 	sassLint = require("gulp-sass-lint"),
 	sourcemaps = require("gulp-sourcemaps");
 

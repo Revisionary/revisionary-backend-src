@@ -4,27 +4,25 @@
 	"description": "Revisionary App development packages.",
 	"main": "gulpfile.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "npm install --unsafe-perm=true --allow-root && gulp build",
 		"start": "gulp"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Revisionary/backend-src.git"
+		"url": "git+https://github.com/Revisionary/revisionary-backend-src.git"
 	},
 	"author": "Bilal TAS",
 	"license": "UNLICENSED",
 	"private": true,
 	"bugs": {
-		"url": "https://github.com/Revisionary/backend-src/issues"
+		"url": "https://github.com/Revisionary/revisionary-backend-src/issues"
 	},
-	"homepage": "https://github.com/Revisionary/backend-src#readme",
+	"homepage": "https://github.com/Revisionary/revisionary-backend-src#readme",
 	"dependencies": {},
 	"devDependencies": {
 		"gulp": "latest",
 		"gulp-autoprefixer": "latest",
 		"gulp-cli": "latest",
-		"gulp-plumber": "latest",
 		"gulp-sass": "latest",
 		"gulp-sass-lint": "latest",
 		"gulp-sourcemaps": "latest"
