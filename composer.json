@@ -1,5 +1,8 @@
 {
+    "name": "revisionary/backend",
+    "description": "Revisionary Backend Dependencies",
     "require": {
+        "firebase/php-jwt": "5.2.0",
         "jeremykendall/php-domain-parser": "5.5.0",
         "thingengineer/mysqli-database-class": "dev-master",
         "cocur/background-process": "0.7",
