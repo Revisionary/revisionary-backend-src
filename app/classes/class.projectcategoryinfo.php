@@ -116,7 +116,8 @@ class Projectcategory {
 
 		$db->where('cat_ID', self::$category_ID);
 		$updated = $db->update('projects_categories', array(
-			'cat_name' => $text
+			'cat_name' => $text,
+			'cat_slug' => permalink($text)
 		));
 
 
