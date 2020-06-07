@@ -116,7 +116,7 @@ class User {
 
 
 		$db->where("user_ID", self::$user_ID);
-		$user = $db->getOne("users");
+		$user = $db->connection('slave')->getOne("users");
 
 
 		if ($user === null) {
@@ -161,7 +161,22 @@ class User {
 
 
 		$db->where("user_ID", $IDs, "IN");
-		$users = $db->get("users");
+		$users = $db->get("users", null, "
+			user_ID as ID,
+			user_email as email,
+			user_password as password,
+			user_first_name as first_name,
+			user_last_name as last_name,
+			user_job_title as job_title,
+			user_department as department,
+			user_company as company,
+			user_picture as picture,
+			user_email_notifications as email_notifications,
+			trial_started_for,
+			trial_expire_date,
+			trial_expired_notified,
+			user_level_ID as level_ID
+		");
 
 
 		if ($users === null) {
@@ -172,25 +187,8 @@ class User {
 		}
 
 		$usersList = array();
-		foreach ($users as $user) {
-
-			$usersList[$user["user_ID"]] = array(
-				"ID" => $user["user_ID"],
-				"email" => $user["user_email"],
-				"first_name" => $user["user_first_name"],
-				"last_name" => $user["user_last_name"],
-				"job_title" => $user["user_job_title"],
-				"department" => $user["user_department"],
-				"company" => $user["user_company"],
-				"picture" => $user["user_picture"],
-				"email_notifications" => $user["user_email_notifications"],
-				"trial_started_for" => $user["user_trial_started_for"],
-				"trial_expire_date" => $user["user_trial_expire_date"],
-				"trial_expire_notified" => $user["user_trial_expire_notified"],
-				"level_ID" => $user["user_level_ID"]
-			);
-
-		}
+		foreach ($users as $user)
+			$usersList[$user["ID"]] = $user;
 
 
 		return array(
@@ -239,7 +237,22 @@ class User {
 		// Username check
 		$db->where("user_name", $userName);
 		$db->orWhere("user_email", $userName);
-		$user = $db->getOne("users");
+		$user = $db->connection('slave')->getOne("users", "
+			user_ID as ID,
+			user_email as email,
+			user_password as password,
+			user_first_name as first_name,
+			user_last_name as last_name,
+			user_job_title as job_title,
+			user_department as department,
+			user_company as company,
+			user_picture as picture,
+			user_email_notifications as email_notifications,
+			trial_started_for,
+			trial_expire_date,
+			trial_expired_notified,
+			user_level_ID as level_ID
+		");
 
 		if ($user === null) {
 			return array(
@@ -250,7 +263,7 @@ class User {
 
 
 		// Password check
-		if ($user && !password_verify($password, $user["user_password"]) ) {
+		if ($user && !password_verify($password, $user["password"]) ) {
 			return array(
 				"status" => "error",
 				"message" => "Your username or password is wrong."
@@ -268,8 +281,8 @@ class User {
 			"nbf" => 1357000000,
 			//"exp" => time() + 2,
 			"user" => array(
-				"ID" => $user["user_ID"],
-				"email" => $user["user_email"]
+				"ID" => $user["ID"],
+				"email" => $user["email"]
 			)
 		);
 
@@ -278,21 +291,7 @@ class User {
 		return array(
 			"status" => "success",
 			"token" => $jwt,
-			"userInfo" => array(
-				"ID" => $user["user_ID"],
-				"email" => $user["user_email"],
-				"first_name" => $user["user_first_name"],
-				"last_name" => $user["user_last_name"],
-				"job_title" => $user["user_job_title"],
-				"department" => $user["user_department"],
-				"company" => $user["user_company"],
-				"picture" => $user["user_picture"],
-				"email_notifications" => $user["user_email_notifications"],
-				"trial_started_for" => $user["user_trial_started_for"],
-				"trial_expire_date" => $user["user_trial_expire_date"],
-				"trial_expire_notified" => $user["user_trial_expire_notified"],
-				"level_ID" => $user["user_level_ID"]
-			)
+			"userInfo" => $user
 		);
 
 
@@ -353,7 +352,7 @@ class User {
 
 
 	// Get all the projects that user can access
-	public function getProjects_v2(int $project_cat_ID = null, string $catFilter = null, string $order = null, bool $nocache = false) {
+	public function getProjects_v2() {
 		global $db;
 
 
@@ -361,6 +360,10 @@ class User {
 		$db->join("shares s", "p.project_ID = s.shared_object_ID", "LEFT");
 		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
 		$db->joinWhere("shares s", "s.share_type", "project");
+
+
+		// Bring the favorite info
+		$db->join("projects_favorites f", "(p.project_ID = f.project_ID AND f.user_ID = ".self::$user_ID.")", "LEFT");
 
 
 		// // Bring the user info
@@ -393,7 +396,7 @@ class User {
 
 
 		// Project group for page counting
-		$db->groupBy ("p.project_ID, o.order_number, cat.cat_ID, s.share_ID");
+		$db->groupBy("p.project_ID, o.order_number, cat.cat_ID, s.share_ID, f.favorite_ID");
 
 
 		// GET THE DATA
@@ -403,34 +406,37 @@ class User {
 			'
 				p.project_ID as ID,
 				p.project_name as title,
+				p.project_description as description,
 				p.project_created as date_created,
+				p.project_modified as date_modified,
 				p.project_archived as archived,
 				p.project_deleted as deleted,
 				p.project_image_device_ID,
 				p.user_ID as user_ID,
 				o.order_number as order_number,
 				cat.cat_ID as cat_ID,
-				COUNT(pg.page_ID) AS sub_count
+				COUNT(pg.page_ID) as sub_count,
+				f.favorite_ID as favorite
 			'
 		);
 
 
 		/*
 	
+		***	image_url: "https://placeimg.com/640/480/any",
+		***	users: [1, 2, 3]
 			//ID: 21,
 			//title: "Marc Pridmorasdsad asd easd",
+			//description: "Lorem ipsum dolor ssit amet. ASD asDsad asd asd as das das d.",
 			//user_ID: 6,
 			//order: 1,
 			//cat_ID: 0,
 			//archived: true,
 			//deleted: false,
 			//date_created: "2019-09-23 10:38:13",
+			//date_modified: "2019-09-23 10:38:13",
 			//sub_count: 5,
-		***	image_url: "https://placeimg.com/640/480/any",
-		*** description: "Lorem ipsum dolor ssit amet. ASD asDsad asd asd as das das d.",
-		***	date_modified: "2019-09-23 10:38:13",
-		***	favorite: false,
-		***	users: [1, 2, 3]
+			//favorite: false,
 		
 		*/
 
