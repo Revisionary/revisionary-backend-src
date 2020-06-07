@@ -96,6 +96,19 @@ if ($method == "GET" && !isset($_url[2])) {
 	}
 
 
+	// PROJECT CATEGORIES
+	if ($api == "projectcategories") {
+		$result = User::ID([
+			"token" => $jwt
+		])->getProjectCategories_v2();
+
+		http_response_code($result['status'] == "success" ? 200 : 401);
+		die(json_encode($result));
+	}
+
+
+
+
 	$output = array();
 
 

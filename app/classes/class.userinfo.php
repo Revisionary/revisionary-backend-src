@@ -312,6 +312,45 @@ class User {
 	}
 
 
+
+	// Get the project categories
+	public function getProjectCategories_v2() {
+		global $db;
+
+
+		// Current user's categories
+		$db->where('cat.user_ID', self::$user_ID);
+
+
+		// Default order
+		//$db->orderBy("cat.cat_order_number", "asc");
+
+
+		// GET THE DATA
+		$categories = $db->connection('slave')->get("projects_categories cat", null, '
+			cat.cat_ID as ID,
+			cat.cat_name as title,
+			cat.cat_slug as slug,
+			cat.cat_order_number as order_number
+		');
+
+
+		// Add the uncategorized item
+		array_unshift($categories, array(
+			'ID' => 0,
+			'title' => 'Uncategorized',
+			'slug' => 'uncategorized',
+			'order_number' => 0
+		));
+
+
+		return array(
+			"status" => "success",
+			"categories" => $categories
+		);
+	}
+
+
 	
 	// Get the user info
 	public function getInfo($column = null) {
