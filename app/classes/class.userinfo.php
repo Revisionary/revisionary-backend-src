@@ -351,6 +351,102 @@ class User {
 	}
 
 
+
+	// Get all the projects that user can access
+	public function getProjects_v2(int $project_cat_ID = null, string $catFilter = null, string $order = null, bool $nocache = false) {
+		global $db;
+
+
+		// Bring project share info
+		$db->join("shares s", "p.project_ID = s.shared_object_ID", "LEFT");
+		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
+		$db->joinWhere("shares s", "s.share_type", "project");
+
+
+		// // Bring the user info
+		// $db->join("users u", "p.user_ID = u.user_ID", "LEFT");
+
+
+		// Bring the category connection
+		$db->join("project_cat_connect cat_connect", "p.project_ID = cat_connect.project_ID", "LEFT");
+
+
+		// Bring the category info
+		$db->join("projects_categories cat", "cat_connect.cat_ID = cat.cat_ID", "LEFT");
+		$db->joinWhere("projects_categories cat", "cat.user_ID", self::$user_ID);
+
+
+		// Bring the pages
+		$db->join("pages pg", "p.project_ID = pg.project_ID", "LEFT");
+
+
+		// Bring the order info
+		$db->join("projects_order o", "o.project_ID = p.project_ID", "LEFT");
+		$db->joinWhere("projects_order o", "o.user_ID", currentUserID());
+
+
+		// Default Sorting
+		$db->orderBy("o.order_number", "asc");
+		$db->orderBy("s.share_ID", "desc");
+		$db->orderBy("cat.cat_name", "asc");
+		$db->orderBy("p.project_name", "asc");
+
+
+		// Project group for page counting
+		$db->groupBy ("p.project_ID, o.order_number, cat.cat_ID, s.share_ID");
+
+
+		// GET THE DATA
+		$projects = $db->connection('slave')->get(
+			'projects p',
+			null,
+			'
+				p.project_ID as ID,
+				p.project_name as title,
+				p.project_created as date_created,
+				p.project_archived as archived,
+				p.project_deleted as deleted,
+				p.project_image_device_ID,
+				p.user_ID as user_ID,
+				o.order_number as order_number,
+				cat.cat_ID as cat_ID,
+				COUNT(pg.page_ID) AS sub_count
+			'
+		);
+
+
+		/*
+	
+			//ID: 21,
+			//title: "Marc Pridmorasdsad asd easd",
+			//user_ID: 6,
+			//order: 1,
+			//cat_ID: 0,
+			//archived: true,
+			//deleted: false,
+			//date_created: "2019-09-23 10:38:13",
+			//sub_count: 5,
+		***	image_url: "https://placeimg.com/640/480/any",
+		*** description: "Lorem ipsum dolor ssit amet. ASD asDsad asd asd as das das d.",
+		***	date_modified: "2019-09-23 10:38:13",
+		***	favorite: false,
+		***	users: [1, 2, 3]
+		
+		*/
+
+
+
+
+		// Return the data
+		return array(
+			"status" => "success",
+			"projects" => $projects
+		);
+
+
+	}
+
+
 	
 	// Get the user info
 	public function getInfo($column = null) {

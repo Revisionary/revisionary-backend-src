@@ -1,6 +1,28 @@
 <pre>
 <?php
 
+
+// $sql = "
+// SELECT
+//   p.project_name,
+//   p.project_ID,
+//   COUNT(pg.page_ID) AS sub_count
+// FROM
+//   projects p
+// LEFT JOIN pages pg ON p.project_ID = pg.project_ID
+// GROUP BY p.project_ID;
+// ";
+// $projects = $db->rawQuery($sql);
+
+
+
+
+
+$projects = User::ID()->getProjects_v2();
+print_r($projects);
+die();
+
+
 use \Firebase\JWT\JWT;
 
 $payload = array(
