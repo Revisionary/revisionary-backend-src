@@ -10,33 +10,45 @@ header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
 header("Access-Control-Max-Age: 3600");
 
 
+
+$jwt = $_SERVER['HTTP_AUTHORIZATION'] ?? false;
+$parameters = json_decode(file_get_contents("php://input"));
+// die(json_encode(array(
+// 	"status" => "error",
+// 	"token" => $jwt,
+// 	"parameters" => $parameters
+// )));
+
+
+
 // Request Method Check
 $method = $_SERVER['REQUEST_METHOD'];
 if ($method != "GET" && $method != "PUT" && $method != "POST" && $method != "DELETE") {
-
+	http_response_code(401);
 	die(json_encode(array(
 		"status" => "error",
 		"description" => "Not allowed method"
 	)));
-
 }
 
 
-// API Check
+// API Existance
 $api = $_url[1] ?? "no-api";
 if ($api == "no-api") {
-
+	http_response_code(401);
 	die(json_encode(array(
 		"status" => "error",
 		"description" => "API not found"
 	)));
-
 }
 
 
 // API Validation
 if (
-	   $api != "project"
+	$api != "session"
+	&& $api != "user"
+	&& $api != "authenticate"
+	&& $api != "project"
 	&& $api != "page"
 	&& $api != "phase"
 	&& $api != "device"
@@ -45,12 +57,11 @@ if (
 	&& $api != "projectcategory"
 	&& $api != "pagecategory"
 ) {
-
+	http_response_code(401);
 	die(json_encode(array(
 		"status" => "error",
 		"description" => "Not allowed API"
 	)));
-
 }
 
 
@@ -58,74 +69,129 @@ if (
 // ACTIONS:
 
 // GET all the data
-if ($method == "GET" && !isset($_url[2]) ) {
+if ($method == "GET" && !isset($_url[2])) {
+
+
+	// JWT existance
+	if (!$jwt) {
+		http_response_code(401);
+		die(json_encode(array(
+			"status" => "error",
+			"description" => "Access denied"
+		)));
+	}
+
+
+	// USER
+	if ($api == "session") {
+		$result = User::ID([
+			"token" => $jwt
+		])->get();
+
+		http_response_code($result['status'] == "success" ? 200 : 401);
+		die(json_encode($result));
+	}
 
 
 	$output = array();
 
 
-	// PROJECS
+	// PROJECTS
 	if ($api == "project") {
-
 		$output = User::ID()->getProjects();
-
 	}
 
 
 	// PAGES
 	if ($api == "project") {
-
 		$output = User::ID()->getProjects();
-
 	}
 
 
+	http_response_code(200);
 	die(json_encode($output));
+}
 
+// POST
+if ($method == "POST" && !isset($_url[2])) {
+
+
+	// LOGIN SESSION
+	if ($api == "session") {
+
+		$result = User::ID([])->login(
+			$parameters->username,
+			$parameters->password
+		);
+
+		http_response_code($result['status'] == "success" ? 200 : 401);
+		die(json_encode($result));
+	}
+
+
+
+
+	// JWT Existance
+	if (!$jwt) {
+		http_response_code(401);
+		die(json_encode(array(
+			"status" => "error",
+			"description" => "Access denied"
+		)));
+	}
+
+
+	// PROJECTS
+	if ($api == "project") {
+		die(json_encode(
+			User::ID()->getProjects()
+		));
+	}
+
+
+	// PAGES
+	if ($api == "project") {
+		die(json_encode(
+			User::ID()->getProjects()
+		));
+	}
 }
 
 
 
+// DELETE
+if ($method == "DELETE" && !isset($_url[2])) {
 
 
+	$jwt = $_SERVER['HTTP_AUTHORIZATION'] ?? false;
+	if (!$jwt) {
+		http_response_code(401);
+		die(json_encode(array(
+			"status" => "error",
+			"description" => "Access denied"
+		)));
+	}
 
 
+	// LOGOUT SESSION
+	if ($api == "session") {
+		$result = User::ID([
+			"token" => $jwt
+		])->logout();
+
+		http_response_code($result['status'] == "success" ? 200 : 401);
+		die(json_encode($result));
+	}
 
 
+}
 
 
-
-
-
-
-
-// CREATE THE RESPONSE
-$data = array(
-
-	array(
-		"title" => "Post 1",
-		"slug" => "post-1"
-	),
-
-	array(
-		"title" => "Post 2",
-		"slug" => "post-2"
-	),
-
-	array(
-		"title" => "Post 3",
-		"slug" => "post-3"
-	)
-
-);
-
+http_response_code(400);
 die(json_encode(array(
-	"method" => "$method",
-	$api."s" => $data
+	"status" => "error",
+	"description" => "Internal Error"
 )));
-
-
-
 
 
 

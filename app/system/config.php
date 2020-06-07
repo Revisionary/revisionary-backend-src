@@ -1,6 +1,6 @@
 <?php
 
-$config = array('last_update' => '2020-05-17-04:00');
+$config = array('last_update' => '2020-06-07-10:09');
 
 
 
@@ -8,6 +8,8 @@ $config = array('last_update' => '2020-05-17-04:00');
 $config['env'] = [
 	'name' 				 		   => getenv('ENV_NAME') ?? "local-dev",
 	'debug'  			 		   => getenv('DEBUG') ?? false,
+
+	'jwt_secret_key'	 		   => getenv('JWT_SECRET_KEY') ?? "test123samplekey",
 
 	'domain'			 		   => getenv('API_DOMAIN') ?? "revisionaryapp.com",
 	'subdomain' 		 		   => getenv('API_SUBDOMAIN') ?? "dev",

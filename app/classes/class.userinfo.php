@@ -1,4 +1,6 @@
 <?php
+use \Firebase\JWT\JWT;
+
 
 class User {
 
@@ -19,7 +21,46 @@ class User {
 
 	// ID Setter
 	public static function ID($user_ID = null, bool $nocache = false) {
-		global $db, $cache;
+		global $config;
+
+
+		// Authentication check !!!
+		if ( is_array($user_ID) ) {
+
+
+			// Auth with token
+			if ( isset($user_ID['token']) && !empty($user_ID['token']) ) {
+
+				$token = $user_ID['token'];
+
+				try {
+
+
+					$decoded = JWT::decode($token, $config['env']['jwt_secret_key'], array('HS256'));
+					self::$user_ID = $decoded->user->ID;
+					return new static;
+
+
+				} catch (Exception $e){
+		
+
+					return array(
+						"status" => "error",
+						"message" => "Access denied (JWT ERROR)",
+						"token" => $token,
+						"error" => $e->getMessage()
+					);
+
+
+				}
+
+				
+			}
+
+
+			return new static;
+
+		}
 
 
 		// Use current user ID if not specified
@@ -66,6 +107,161 @@ class User {
 
 	// GETTERS:
 
+	// Get the user info
+	public function get() {
+		global $db;
+
+		// If email is given
+		if ( !is_numeric(self::$user_ID) ) return false;
+
+
+		$db->where("user_ID", self::$user_ID);
+		$user = $db->getOne("users");
+
+
+		if ($user === null) {
+			return array(
+				"status" => "error",
+				"message" => "User not found."
+			);
+		}
+
+
+		return array(
+			"status" => "success",
+			"user" => array(
+				"ID" => $user["user_ID"],
+				"email" => $user["user_email"],
+				"first_name" => $user["user_first_name"],
+				"last_name" => $user["user_last_name"],
+				"job_title" => $user["user_job_title"],
+				"department" => $user["user_department"],
+				"company" => $user["user_company"],
+				"picture" => $user["user_picture"],
+				"email_notifications" => $user["user_email_notifications"],
+				"trial_started_for" => $user["user_trial_started_for"],
+				"trial_expire_date" => $user["user_trial_expire_date"],
+				"trial_expire_notified" => $user["user_trial_expire_notified"],
+				"level_ID" => $user["user_level_ID"]
+			)
+		);
+
+
+	}
+
+
+	// Login
+	public function login(
+		string $userName,
+		string $password,
+		string $redirect_to = ""
+	) {
+		global $db, $config;
+
+
+		// Redirect detection
+		$redirect_to = !empty($redirect_to) ? htmlspecialchars_decode($redirect_to) : site_url('projects');
+
+
+		// Check if any empty field
+		if (empty($userName) || empty($password)) {
+			return array(
+				"status" => "error",
+				"message" => "Please don't leave fields blank"
+			);
+		}
+
+
+		// Username / Email validation
+		if (!filter_var($userName, FILTER_VALIDATE_EMAIL) ) {
+
+			if (!preg_match('/^[A-Za-z][A-Za-z0-9]*(?:-[A-Za-z0-9\-]+)*$/', $userName)) {
+				return array(
+					"status" => "error",
+					"message" => "Invalid username or email format"
+				);
+			}
+
+		}
+
+
+		// Username check
+		$db->where("user_name", $userName);
+		$db->orWhere("user_email", $userName);
+		$user = $db->getOne("users");
+
+		if ($user === null) {
+			return array(
+				"status" => "error",
+				"message" => "Your username or password is wrong."
+			);
+		}
+
+
+		// Password check
+		if ($user && !password_verify($password, $user["user_password"]) ) {
+			return array(
+				"status" => "error",
+				"message" => "Your username or password is wrong."
+			);
+		}
+
+
+		// SUCCESS - Generate the token
+		$payload = array(
+			"iss" => "https://" . $config['env']['subdomain'] . "." . $config['env']['domain'],
+			"aud" => "https://" . $config['env']['dashboard_subdomain'] . "." . $config['env']['dashboard_domain'],
+			// "iat" => time(),
+			// "nbf" => time(),
+			"iat" => 1356999524,
+			"nbf" => 1357000000,
+			//"exp" => time() + 2,
+			"user" => array(
+				"ID" => $user["user_ID"],
+				"email" => $user["user_email"]
+			)
+		);
+
+		$jwt = JWT::encode($payload, $config['env']['jwt_secret_key']);
+
+		return array(
+			"status" => "success",
+			"token" => $jwt,
+			"userInfo" => array(
+				"ID" => $user["user_ID"],
+				"email" => $user["user_email"],
+				"first_name" => $user["user_first_name"],
+				"last_name" => $user["user_last_name"],
+				"job_title" => $user["user_job_title"],
+				"department" => $user["user_department"],
+				"company" => $user["user_company"],
+				"picture" => $user["user_picture"],
+				"email_notifications" => $user["user_email_notifications"],
+				"trial_started_for" => $user["user_trial_started_for"],
+				"trial_expire_date" => $user["user_trial_expire_date"],
+				"trial_expire_notified" => $user["user_trial_expire_notified"],
+				"level_ID" => $user["user_level_ID"]
+			)
+		);
+
+
+	}
+
+
+	// Logout !!!
+	public function logout() {
+
+
+		return array(
+			"status" => "success",
+			"message" => "Logged out."
+		);
+
+
+	}
+
+
+	
 	// Get the user info
 	public function getInfo($column = null) {
 		global $db;
