@@ -47,15 +47,18 @@ if ($api == "no-api") {
 if (
 	$api != "session"
 	&& $api != "user"
+	&& $api != "users"
 	&& $api != "authenticate"
+	&& $api != "projectcategories"
+	&& $api != "projects"
 	&& $api != "project"
+	&& $api != "pagecategories"
+	&& $api != "pages"
 	&& $api != "page"
 	&& $api != "phase"
 	&& $api != "device"
 	&& $api != "user"
 	&& $api != "pin"
-	&& $api != "projectcategory"
-	&& $api != "pagecategory"
 ) {
 	http_response_code(401);
 	die(json_encode(array(
@@ -138,6 +141,19 @@ if ($method == "POST" && !isset($_url[2])) {
 			"status" => "error",
 			"description" => "Access denied"
 		)));
+	}
+
+
+	// USERS
+	if ($api == "users") {
+		$result = User::ID([
+			"token" => $jwt
+		])->getUsers(
+			$parameters->IDs
+		);
+
+		http_response_code($result['status'] == "success" ? 200 : 401);
+		die(json_encode($result));
 	}
 
 

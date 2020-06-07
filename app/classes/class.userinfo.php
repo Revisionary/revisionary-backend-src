@@ -150,6 +150,57 @@ class User {
 	}
 
 
+	// Get multiple users info
+	public function getUsers(
+		array $IDs
+	) {
+		global $db;
+
+		// If email is given
+		if ( !is_numeric(self::$user_ID) ) return false;
+
+
+		$db->where("user_ID", $IDs, "IN");
+		$users = $db->get("users");
+
+
+		if ($users === null) {
+			return array(
+				"status" => "error",
+				"message" => "Users not found."
+			);
+		}
+
+		$usersList = array();
+		foreach ($users as $user) {
+
+			$usersList[$user["user_ID"]] = array(
+				"ID" => $user["user_ID"],
+				"email" => $user["user_email"],
+				"first_name" => $user["user_first_name"],
+				"last_name" => $user["user_last_name"],
+				"job_title" => $user["user_job_title"],
+				"department" => $user["user_department"],
+				"company" => $user["user_company"],
+				"picture" => $user["user_picture"],
+				"email_notifications" => $user["user_email_notifications"],
+				"trial_started_for" => $user["user_trial_started_for"],
+				"trial_expire_date" => $user["user_trial_expire_date"],
+				"trial_expire_notified" => $user["user_trial_expire_notified"],
+				"level_ID" => $user["user_level_ID"]
+			);
+
+		}
+
+
+		return array(
+			"status" => "success",
+			"users" => $usersList
+		);
+
+	}
+
+
 	// Login
 	public function login(
 		string $userName,
