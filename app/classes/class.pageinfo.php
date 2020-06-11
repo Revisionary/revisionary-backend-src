@@ -188,7 +188,7 @@ class Page {
 		// Create a project
 		if ($project_ID === 0) {
 
-			$project_ID = Project::ID()->addNew($page_url);
+			$project_ID = Project::ID("new")->addNew($page_url);
 
 		}
 

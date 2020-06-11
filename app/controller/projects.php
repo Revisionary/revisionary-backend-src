@@ -97,7 +97,7 @@ if (
 
 
 		// Add the Page
-		$page_ID = Page::ID()->addNew(
+		$page_ID = Page::ID("new")->addNew(
 			$project_ID,
 			$page_url,
 			request('page-name'),
@@ -127,7 +127,7 @@ if (
 
 
 	// Add a phase
-	$phase_ID = Phase::ID()->addNew(
+	$phase_ID = Phase::ID("new")->addNew(
 		$page_ID,
 		$phase_type
 	);
@@ -141,7 +141,7 @@ if (
 
 
 	// Add the Devices
-	$device_ID = Device::ID()->addNew(
+	$device_ID = Device::ID("new")->addNew(
 		intval($phase_ID),
 		is_array(request('screens')) ? request('screens') : array(), // Screen IDs array
 		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
@@ -190,7 +190,7 @@ if (
 
 
 	// Add the Devices
-	$device_ID = Device::ID()->addNew(
+	$device_ID = Device::ID("new")->addNew(
 		get('phase_ID'),
 		array(get('new_screen')),
 		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
@@ -221,7 +221,7 @@ if (
 
 
 	// Add a phase
-	$phase_ID = Phase::ID()->addNew(
+	$phase_ID = Phase::ID("new")->addNew(
 		get('new_phase')
 	);
 
@@ -233,7 +233,7 @@ if (
 
 
 	// Add the Devices
-	$device_ID = Device::ID()->addNew(
+	$device_ID = Device::ID("new")->addNew(
 		intval($phase_ID),
 		array(11), // Add custom for now !!!
 		request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,

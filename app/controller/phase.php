@@ -66,7 +66,7 @@ if ( is_numeric(get('screen')) ) {
 
 
 		// Add the Devices
-		$device_ID = Device::ID()->addNew(
+		$device_ID = Device::ID("new")->addNew(
 			$phase_ID,
 			array(get('screen')),
 			request('page_width') != "" && is_numeric(request('page_width')) ? request('page_width') : null,
