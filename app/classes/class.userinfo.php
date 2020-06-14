@@ -421,9 +421,20 @@ class User {
 		);
 
 
-		// Create the URLs
-		foreach ($projects as $key => $project)
+		// Arrangements
+		foreach ($projects as $key => $project) {
+
+			// Create the URLs
 			$projects[$key]['image_url'] = cache_url("screenshots/device-".$project['image_device_ID'].".jpg");
+			unset($projects[$key]['image_device_ID']);
+
+			// Cat ID corrections
+			$projects[$key]['cat_ID'] = $projects[$key]['cat_ID'] ? $projects[$key]['cat_ID'] : 0;
+
+			// Favorite corrections
+			$projects[$key]['favorite'] = $projects[$key]['favorite'] ? true : false;
+
+		}
 
 
 		/*
