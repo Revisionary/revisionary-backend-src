@@ -358,7 +358,6 @@ class User {
 
 		// Bring project share info
 		$db->join("shares s", "p.project_ID = s.shared_object_ID", "LEFT");
-		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
 		$db->joinWhere("shares s", "s.share_type", "project");
 
 
@@ -381,6 +380,14 @@ class User {
 
 		// Bring the pages
 		$db->join("pages pg", "p.project_ID = pg.project_ID", "LEFT");
+
+
+		// Bring the phases
+		$db->join("phases ph", "pg.page_ID = ph.page_ID", "LEFT");
+
+
+		// Bring the pins
+		$db->join("pins pin", "ph.phase_ID = pin.phase_ID", "LEFT");
 
 
 		// Bring the order info
@@ -424,16 +431,12 @@ class User {
 				o.order_number as order_number,
 				cat.cat_ID as cat_ID,
 				COUNT(pg.page_ID) as sub_count,
+				COALESCE(SUM(pin.pin_complete=0), 0) as incomplete_tasks,
+				COALESCE(SUM(pin.pin_complete=1), 0) as complete_tasks,
+				GROUP_CONCAT(s.share_to SEPARATOR \',\') AS shares,
 				f.favorite_ID as favorite
 			'
 		);
-
-
-		// Get projects shares
-		$project_IDs = array_column($projects, 'ID');
-		$db->where("share_type", "project");
-		$db->where("shared_object_ID", $project_IDs, "IN");
-		$shares = $db->get('shares');
 
 
 		// Arrangements
@@ -453,11 +456,7 @@ class User {
 			$projects[$key]['favorite'] = $projects[$key]['favorite'] ? true : false;
 
 			// Project shares
-			$project_shares = array_filter($shares, function($share) use ($project) {
-				return $share['shared_object_ID'] == $project['ID'];
-			});
-
-			$projects[$key]['users'] = array_column($project_shares, 'share_to');
+			$projects[$key]['users'] = $project['shares'] ? array_unique(explode(',', $project['shares'])) : [];
 
 		}
 
