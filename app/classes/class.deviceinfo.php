@@ -100,17 +100,7 @@ class Device {
     // Get device image
     public function getImage() {
 
-		$phase_ID = $this->getInfo('phase_ID');
-		$phase = Phase::ID($phase_ID);
-		if (!$phase) return false;
-
-		$page_ID = $phase->getInfo('page_ID');
-		$page = Page::ID($page_ID);
-		if (!$page) return false;
-
-	    $image_dir = $page->getDir()."/phase-$phase_ID/screenshots/device-".self::$device_ID.".jpg";
-
-		return $image_dir;
+		return cache."/screenshots/device-".self::$device_ID.".jpg";
 
     }
 
@@ -118,12 +108,12 @@ class Device {
     // Get device image URL
     public function getImageURL() {
 
-		$image_path = "projects/project-".$this->getInfo('project_ID')."/page-".$this->getInfo('page_ID')."/phase-".$this->getInfo('phase_ID')."/screenshots/device-".$this->getInfo('device_ID').".jpg";
+		$image_path = "screenshots/device-".$this->getInfo('device_ID').".jpg";
 		
 
 		// // Set the project independent phase directory, for the projects later than 6 March 2020
 		// if ( $this->getInfo('device_created') > "2020-03-05 23:07:50" )
-		// 	$image_path = "phases/phase-".$this->getInfo('phase_ID')."/screenshots/device-".$this->getInfo('device_ID').".jpg";
+		// 	$image_path = "screenshots/device-".$this->getInfo('device_ID').".jpg";
 
 
 		$image_url = cache_url($image_path);
@@ -290,8 +280,7 @@ class Device {
 
 
 	    $page_ID = $this->getInfo('page_ID');
-	    $pageDir = Page::ID($page_ID)->getDir();
-    	$screenshot_file = "$pageDir/screenshots/device-".self::$device_ID.".jpg";
+    	$screenshot_file = cache."/screenshots/device-".self::$device_ID.".jpg";
 
 
 		// Remove screenshot if exists

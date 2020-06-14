@@ -60,7 +60,7 @@ class Phase {
 
 		// Capture
 		if (
-			(file_exists($this->phaseDir."/screenshots/device-".self::$device_ID.".jpg") && !file_exists($this->phaseFile)) ||
+			(file_exists(cache."/screenshots/device-".self::$device_ID.".jpg") && !file_exists($this->phaseFile)) ||
 			$this->remoteUrl == "image"
 		)
 			$this->cachedUrl = site_url("serve-image/?device_ID=".self::$device_ID);
@@ -141,7 +141,7 @@ class Phase {
 		];
 
 
-		if (file_exists($this->phaseDir."/screenshots/device-".self::$device_ID.".jpg") && !file_exists($this->phaseFile))
+		if (file_exists(cache."/screenshots/device-".self::$device_ID.".jpg") && !file_exists($this->phaseFile))
 			return [
 				"status" => "ready",
 				"description" => "Ready! Loading the screenshot",
