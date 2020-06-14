@@ -388,6 +388,13 @@ class User {
 		$db->joinWhere("projects_order o", "o.user_ID", currentUserID());
 
 
+		// Filter the projects
+		$db->where("(
+			p.user_ID = ".self::$user_ID."
+			OR s.share_to = ".self::$user_ID."
+		)");
+
+
 		// Default Sorting
 		$db->orderBy("o.order_number", "asc");
 		$db->orderBy("s.share_ID", "desc");
