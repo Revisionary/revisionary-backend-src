@@ -411,7 +411,7 @@ class User {
 				p.project_modified as date_modified,
 				p.project_archived as archived,
 				p.project_deleted as deleted,
-				p.project_image_device_ID,
+				p.project_image_device_ID as image_device_ID,
 				p.user_ID as user_ID,
 				o.order_number as order_number,
 				cat.cat_ID as cat_ID,
@@ -421,10 +421,15 @@ class User {
 		);
 
 
+		// Create the URLs
+		foreach ($projects as $key => $project)
+			$projects[$key]['image_url'] = cache_url("screenshots/device-".$project['image_device_ID'].".jpg");
+
+
 		/*
 	
-		***	image_url: "https://placeimg.com/640/480/any",
 		***	users: [1, 2, 3]
+			//image_url: "https://placeimg.com/640/480/any",
 			//ID: 21,
 			//title: "Marc Pridmorasdsad asd easd",
 			//description: "Lorem ipsum dolor ssit amet. ASD asDsad asd asd as das das d.",
@@ -439,8 +444,6 @@ class User {
 			//favorite: false,
 		
 		*/
-
-
 
 
 		// Return the data
