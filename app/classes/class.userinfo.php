@@ -358,7 +358,13 @@ class User {
 
 		// Bring project share info
 		$db->join("shares s", "p.project_ID = s.shared_object_ID", "LEFT");
+		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
 		$db->joinWhere("shares s", "s.share_type", "project");
+
+
+		// Get shared people
+		$db->join("shares sh", "p.project_ID = sh.shared_object_ID", "LEFT");
+		$db->joinWhere("shares sh", "sh.share_type", "project");
 
 
 		// Bring the favorite info
@@ -433,7 +439,7 @@ class User {
 				COUNT(pg.page_ID) as sub_count,
 				COALESCE(SUM(pin.pin_complete=0), 0) as incomplete_tasks,
 				COALESCE(SUM(pin.pin_complete=1), 0) as complete_tasks,
-				GROUP_CONCAT(s.share_to SEPARATOR \',\') AS shares,
+				GROUP_CONCAT(sh.share_to) AS shares,
 				f.favorite_ID as favorite
 			'
 		);
@@ -441,9 +447,6 @@ class User {
 
 		// Arrangements
 		foreach ($projects as $key => $project) { 
-			
-			// Add to the list
-			$project_IDs[] = $project['ID'];
 
 			// Create the URLs
 			$projects[$key]['image_url'] = cache_url("screenshots/device-".$project['image_device_ID'].".jpg");
@@ -456,7 +459,7 @@ class User {
 			$projects[$key]['favorite'] = $projects[$key]['favorite'] ? true : false;
 
 			// Project shares
-			$projects[$key]['users'] = $project['shares'] ? array_unique(explode(',', $project['shares'])) : [];
+			$projects[$key]['users'] = $project['shares'] ? array_values(array_unique(array_map('intval', explode(',', $project['shares'])))) : [];
 
 		}
 
