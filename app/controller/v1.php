@@ -107,6 +107,17 @@ if ($method == "GET" && !isset($_url[2])) {
 	}
 
 
+	// PROJECTS
+	if ($api == "projects") {
+		$result = User::ID([
+			"token" => $jwt
+		])->getProjects_v2();
+
+		http_response_code($result['status'] == "success" ? 200 : 401);
+		die(json_encode($result));
+	}
+
+
 
 
 	$output = array();
