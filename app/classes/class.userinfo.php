@@ -392,6 +392,7 @@ class User {
 		$db->where("(
 			p.user_ID = ".self::$user_ID."
 			OR s.share_to = ".self::$user_ID."
+			OR s.share_to = '".self::$userInfo['user_email']."'
 		)");
 
 
@@ -428,8 +429,18 @@ class User {
 		);
 
 
+		// Get projects shares
+		$project_IDs = array_column($projects, 'ID');
+		$db->where("share_type", "project");
+		$db->where("shared_object_ID", $project_IDs, "IN");
+		$shares = $db->get('shares');
+
+
 		// Arrangements
-		foreach ($projects as $key => $project) {
+		foreach ($projects as $key => $project) { 
+			
+			// Add to the list
+			$project_IDs[] = $project['ID'];
 
 			// Create the URLs
 			$projects[$key]['image_url'] = cache_url("screenshots/device-".$project['image_device_ID'].".jpg");
@@ -441,27 +452,14 @@ class User {
 			// Favorite corrections
 			$projects[$key]['favorite'] = $projects[$key]['favorite'] ? true : false;
 
+			// Project shares
+			$project_shares = array_filter($shares, function($share) use ($project) {
+				return $share['shared_object_ID'] == $project['ID'];
+			});
+
+			$projects[$key]['users'] = array_column($project_shares, 'share_to');
+
 		}
-
-
-		/*
-	
-		***	users: [1, 2, 3]
-			//image_url: "https://placeimg.com/640/480/any",
-			//ID: 21,
-			//title: "Marc Pridmorasdsad asd easd",
-			//description: "Lorem ipsum dolor ssit amet. ASD asDsad asd asd as das das d.",
-			//user_ID: 6,
-			//order: 1,
-			//cat_ID: 0,
-			//archived: true,
-			//deleted: false,
-			//date_created: "2019-09-23 10:38:13",
-			//date_modified: "2019-09-23 10:38:13",
-			//sub_count: 5,
-			//favorite: false,
-		
-		*/
 
 
 		// Return the data
