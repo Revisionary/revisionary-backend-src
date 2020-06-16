@@ -437,8 +437,8 @@ class User {
 				o.order_number as order_number,
 				cat.cat_ID as cat_ID,
 				COUNT(DISTINCT pg.page_ID) as sub_count,
-				COALESCE(SUM(DISTINCT pin.pin_complete=0), 0) as incomplete_tasks,
-				COALESCE(SUM(DISTINCT pin.pin_complete=1), 0) as complete_tasks,
+				COUNT(DISTINCT CASE WHEN pin.pin_complete=0 THEN pin.pin_ID ELSE NULL END) as incomplete_tasks,
+				COUNT(DISTINCT CASE WHEN pin.pin_complete=1 THEN pin.pin_ID ELSE NULL END) as complete_tasks,
 				GROUP_CONCAT(DISTINCT sh.share_to) AS shares,
 				f.favorite_ID as favorite
 			'
