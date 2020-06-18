@@ -232,16 +232,16 @@ class Device {
 			if ($fromPhase) {
 
 
-				// Web notification
-				Notify::ID($users)->web("new", "device", $first_device_ID, "new phase");
+				// // Web notification
+				// Notify::ID($users)->web("new", "device", $first_device_ID, "new phase");
 
 
-				// Email notification
-				Notify::ID($users)->mail(
-					getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page",
-					getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page. <br><br>
-					<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
-				);
+				// // Email notification
+				// Notify::ID($users)->mail(
+				// 	getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page",
+				// 	getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page. <br><br>
+				// 	<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
+				// );
 
 
 			} else {

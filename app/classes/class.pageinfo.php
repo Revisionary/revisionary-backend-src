@@ -230,17 +230,17 @@ class Page {
 			$users = Page::ID($page_ID)->getUsers();
 
 
-			// Web notification
-			Notify::ID($users)->web("new", "page", $page_ID);
+			// // Web notification
+			// Notify::ID($users)->web("new", "page", $page_ID);
 
 
-			// Email notification
-			Notify::ID($users)->mail(
-				getUserInfo()['fullName']." added a new page: ".$page_name.$project_name,
-				getUserInfo()['fullName']." added a new page: ".$page_name.$project_name." <br>
-				<b>Page URL</b>: $page_url <br><br>
-				<a href='$page_link' target='_blank'>$page_link</a>"
-			);
+			// // Email notification
+			// Notify::ID($users)->mail(
+			// 	getUserInfo()['fullName']." added a new page: ".$page_name.$project_name,
+			// 	getUserInfo()['fullName']." added a new page: ".$page_name.$project_name." <br>
+			// 	<b>Page URL</b>: $page_url <br><br>
+			// 	<a href='$page_link' target='_blank'>$page_link</a>"
+			// );
 
 
 
