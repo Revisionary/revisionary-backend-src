@@ -120,8 +120,8 @@ $config['db_slave'] = [
 ];
 
 
-// Same with the main DB if no slave info
-if ( $config['env']['db_choice'] != 'cloud' && $config['db_slave']['host'] == "" )
+// Same with the main DB if no slave info !!! Slave disabled for now
+//if ( $config['env']['db_choice'] != 'cloud' && $config['db_slave']['host'] == "" )
 	$config['db_slave'] = [
 	'host'   => $config['env']['db_host'],
 	'port'   => $config['env']['db_port'],
