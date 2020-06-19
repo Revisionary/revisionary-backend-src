@@ -474,6 +474,128 @@ class User {
 	}
 
 
+
+	// Get all the projects that user can access
+	public function getProject($project_ID) {
+		global $db;
+
+
+		// Bring project share info
+		$db->join("shares s", "p.project_ID = s.shared_object_ID", "LEFT");
+		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
+		$db->joinWhere("shares s", "s.share_type", "project");
+
+
+		// Get shared people
+		$db->join("shares sh", "p.project_ID = sh.shared_object_ID", "LEFT");
+		$db->joinWhere("shares sh", "sh.share_type", "project");
+
+
+		// Bring the favorite info
+		$db->join("projects_favorites f", "(p.project_ID = f.project_ID AND f.user_ID = ".self::$user_ID.")", "LEFT");
+
+
+		// // Bring the user info
+		// $db->join("users u", "p.user_ID = u.user_ID", "LEFT");
+
+
+		// Bring the category connection
+		$db->join("project_cat_connect cat_connect", "p.project_ID = cat_connect.project_ID", "LEFT");
+
+
+		// Bring the category info
+		$db->join("projects_categories cat", "cat_connect.cat_ID = cat.cat_ID", "LEFT");
+		$db->joinWhere("projects_categories cat", "cat.user_ID", self::$user_ID);
+
+
+		// Bring the pages
+		$db->join("pages pg", "p.project_ID = pg.project_ID", "LEFT");
+
+
+		// Bring the phases
+		$db->join("phases ph", "pg.page_ID = ph.page_ID", "LEFT");
+
+
+		// Bring the pins
+		$db->join("pins pin", "ph.phase_ID = pin.phase_ID", "LEFT");
+
+
+		// Bring the order info
+		$db->join("projects_order o", "o.project_ID = p.project_ID", "LEFT");
+		$db->joinWhere("projects_order o", "o.user_ID", currentUserID());
+
+
+		// Filter the projects
+		$db->where("(
+			p.user_ID = ".self::$user_ID."
+			OR s.share_to = ".self::$user_ID."
+			OR s.share_to = '".self::$userInfo['user_email']."'
+		)");
+
+		$db->where("p.project_ID", $project_ID);
+
+
+		// Project group for page counting
+		$db->groupBy("p.project_ID, o.order_number, cat.cat_ID, s.share_ID, f.favorite_ID");
+
+
+		// GET THE DATA
+		$project = $db->connection('slave')->getOne(
+			'projects p',
+			'
+				p.project_ID as ID,
+				p.project_name as title,
+				p.project_description as description,
+				p.project_created as date_created,
+				p.project_modified as date_modified,
+				p.project_archived as archived,
+				p.project_deleted as deleted,
+				p.project_image_device_ID as image_device_ID,
+				p.user_ID as user_ID,
+				o.order_number as order_number,
+				cat.cat_ID as cat_ID,
+				COUNT(DISTINCT pg.page_ID) as sub_count,
+				COUNT(DISTINCT CASE WHEN pin.pin_complete=0 THEN pin.pin_ID ELSE NULL END) as incomplete_tasks,
+				COUNT(DISTINCT CASE WHEN pin.pin_complete=1 THEN pin.pin_ID ELSE NULL END) as complete_tasks,
+				GROUP_CONCAT(DISTINCT sh.share_to) AS shares,
+				f.favorite_ID as favorite
+			'
+		);
+
+		if (!$project) {
+
+			return array(
+				"status" => "fail",
+				"description" => "No project found"
+			);
+
+		}
+
+
+		// Create the URLs
+		$project['image_url'] = cache_url("screenshots/device-".$project['image_device_ID'].".jpg");
+		unset($project['image_device_ID']);
+
+		// Cat ID corrections
+		$project['cat_ID'] = $project['cat_ID'] ? $project['cat_ID'] : 0;
+
+		// Favorite corrections
+		$project['favorite'] = $project['favorite'] ? true : false;
+
+		// Project shares
+		$project['users'] = $project['shares'] ? array_values(array_unique(array_map('intval', explode(',', $project['shares'])))) : [];
+
+
+		// Return the data
+		return array(
+			"status" => "success",
+			"project" => $project
+		);
+
+
+	}
+
+
 	
 	// Get the user info
 	public function getInfo($column = null) {

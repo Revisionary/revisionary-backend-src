@@ -11,12 +11,14 @@ header("Access-Control-Max-Age: 3600");
 
 
 
-$jwt = $_SERVER['HTTP_AUTHORIZATION'] ?? false;
+$jwt = getBearerToken() ?? false;
 $parameters = json_decode(file_get_contents("php://input"));
 // die(json_encode(array(
 // 	"status" => "error",
 // 	"token" => $jwt,
-// 	"parameters" => $parameters
+// 	"parameters" => $parameters,
+// 	"AUTH" => $_SERVER['HTTP_AUTHORIZATION'],
+// 	"Request" => $_REQUEST
 // )));
 
 
@@ -24,22 +26,20 @@ $parameters = json_decode(file_get_contents("php://input"));
 // Request Method Check
 $method = $_SERVER['REQUEST_METHOD'];
 if ($method != "GET" && $method != "PUT" && $method != "POST" && $method != "DELETE") {
-	http_response_code(401);
-	die(json_encode(array(
+	respondJSON(array(
 		"status" => "error",
 		"description" => "Not allowed method"
-	)));
+	), 401);
 }
 
 
 // API Existance
 $api = $_url[1] ?? "no-api";
 if ($api == "no-api") {
-	http_response_code(401);
-	die(json_encode(array(
+	respondJSON(array(
 		"status" => "error",
 		"description" => "API not found"
-	)));
+	), 401);
 }
 
 
@@ -60,28 +60,42 @@ if (
 	&& $api != "user"
 	&& $api != "pin"
 ) {
-	http_response_code(401);
-	die(json_encode(array(
+	respondJSON(array(
 		"status" => "error",
 		"description" => "Not allowed API"
-	)));
+	), 401);
 }
+
+
+
+// Parameter check if exists
+$parameter1 = null;
+if ( isset($_url[2]) ) {
+	if (!is_numeric($_url[2])) {
+		respondJSON(array(
+			"status" => "error",
+			"description" => "Wrong parameter"
+		), 401);
+	}
+
+	$parameter1 = $_url[2];
+}
+
 
 
 
 // ACTIONS:
 
 // GET all the data
-if ($method == "GET" && !isset($_url[2])) {
+if ($method == "GET") {
 
 
 	// JWT existance
 	if (!$jwt) {
-		http_response_code(401);
-		die(json_encode(array(
+		respondJSON(array(
 			"status" => "error",
 			"description" => "Access denied"
-		)));
+		), 401);
 	}
 
 
@@ -91,8 +105,7 @@ if ($method == "GET" && !isset($_url[2])) {
 			"token" => $jwt
 		])->get();
 
-		http_response_code($result['status'] == "success" ? 200 : 401);
-		die(json_encode($result));
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
 
@@ -102,8 +115,7 @@ if ($method == "GET" && !isset($_url[2])) {
 			"token" => $jwt
 		])->getProjectCategories_v2();
 
-		http_response_code($result['status'] == "success" ? 200 : 401);
-		die(json_encode($result));
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
 
@@ -113,31 +125,23 @@ if ($method == "GET" && !isset($_url[2])) {
 			"token" => $jwt
 		])->getProjects_v2();
 
-		http_response_code($result['status'] == "success" ? 200 : 401);
-		die(json_encode($result));
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
 
-
-
-	$output = array();
-
-
-	// PROJECTS
+	// PROJECT
 	if ($api == "project") {
-		$output = User::ID()->getProjects();
+		$result = User::ID([
+			"token" => $jwt
+		])->getProject($parameter1);
+
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
 
-	// PAGES
-	if ($api == "project") {
-		$output = User::ID()->getProjects();
-	}
-
-
-	http_response_code(200);
-	die(json_encode($output));
 }
+
+
 
 // POST
 if ($method == "POST" && !isset($_url[2])) {
@@ -151,8 +155,7 @@ if ($method == "POST" && !isset($_url[2])) {
 			$parameters->password
 		);
 
-		http_response_code($result['status'] == "success" ? 200 : 401);
-		die(json_encode($result));
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
 
@@ -160,11 +163,10 @@ if ($method == "POST" && !isset($_url[2])) {
 
 	// JWT Existance
 	if (!$jwt) {
-		http_response_code(401);
-		die(json_encode(array(
+		respondJSON(array(
 			"status" => "error",
 			"description" => "Access denied"
-		)));
+		), 401);
 	}
 
 
@@ -176,25 +178,9 @@ if ($method == "POST" && !isset($_url[2])) {
 			$parameters->IDs
 		);
 
-		http_response_code($result['status'] == "success" ? 200 : 401);
-		die(json_encode($result));
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
-
-	// PROJECTS
-	if ($api == "project") {
-		die(json_encode(
-			User::ID()->getProjects()
-		));
-	}
-
-
-	// PAGES
-	if ($api == "project") {
-		die(json_encode(
-			User::ID()->getProjects()
-		));
-	}
 }
 
 
@@ -203,13 +189,11 @@ if ($method == "POST" && !isset($_url[2])) {
 if ($method == "DELETE" && !isset($_url[2])) {
 
 
-	$jwt = $_SERVER['HTTP_AUTHORIZATION'] ?? false;
 	if (!$jwt) {
-		http_response_code(401);
-		die(json_encode(array(
+		respondJSON(array(
 			"status" => "error",
 			"description" => "Access denied"
-		)));
+		), 401);
 	}
 
 
@@ -219,19 +203,18 @@ if ($method == "DELETE" && !isset($_url[2])) {
 			"token" => $jwt
 		])->logout();
 
-		http_response_code($result['status'] == "success" ? 200 : 401);
-		die(json_encode($result));
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
 
 }
 
 
-http_response_code(400);
-die(json_encode(array(
+
+respondJSON(array(
 	"status" => "error",
 	"description" => "Internal Error"
-)));
+), 400);
 
 
 
