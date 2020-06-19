@@ -475,8 +475,8 @@ class User {
 
 
 
-	// Get all the projects that user can access
-	public function getProject($project_ID) {
+	// Get single project info
+	public function getProject(int $project_ID) {
 		global $db;
 
 
@@ -592,6 +592,47 @@ class User {
 			"project" => $project
 		);
 
+
+	}
+
+
+
+	// Get the categories of page
+	public function getPageCategories_v2($project_ID) {
+		global $db;
+
+
+		// Default order
+		//$db->orderBy("cat.cat_order_number", "asc");
+
+
+		// Filter the project
+		$db->where("cat.project_ID", $project_ID);
+
+
+		// GET THE DATA
+		$categories = $db->connection('slave')->get("pages_categories cat", null, '
+			cat.cat_ID as ID,
+			cat.cat_name as title,
+			cat.cat_slug as slug,
+			cat.cat_order_number as order_number
+		');
+
+
+		// Add the uncategorized item
+		array_unshift($categories, array(
+			'ID' => 0,
+			'title' => 'Uncategorized',
+			'slug' => 'uncategorized',
+			'order_number' => 0
+		));
+
+
+		return array(
+			"status" => "success",
+			"categories" => $categories
+		);
+	
 
 	}
 

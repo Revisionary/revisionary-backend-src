@@ -13,13 +13,14 @@ header("Access-Control-Max-Age: 3600");
 
 $jwt = getBearerToken() ?? false;
 $parameters = json_decode(file_get_contents("php://input"));
-// die(json_encode(array(
+// respondJSON(array(
 // 	"status" => "error",
 // 	"token" => $jwt,
 // 	"parameters" => $parameters,
 // 	"AUTH" => $_SERVER['HTTP_AUTHORIZATION'],
-// 	"Request" => $_REQUEST
-// )));
+// 	"Request" => $_REQUEST,
+// 	"url" => $_url
+// ), 200);
 
 
 
@@ -64,21 +65,6 @@ if (
 		"status" => "error",
 		"description" => "Not allowed API"
 	), 401);
-}
-
-
-
-// Parameter check if exists
-$parameter1 = null;
-if ( isset($_url[2]) ) {
-	if (!is_numeric($_url[2])) {
-		respondJSON(array(
-			"status" => "error",
-			"description" => "Wrong parameter"
-		), 401);
-	}
-
-	$parameter1 = $_url[2];
 }
 
 
@@ -131,12 +117,48 @@ if ($method == "GET") {
 
 	// PROJECT
 	if ($api == "project") {
+
+		// Project ID check
+		$project_ID = isset($_url[2]) ? $_url[2] : null;
+		if ( !is_numeric($project_ID) ) {
+			respondJSON(array(
+				"status" => "error",
+				"description" => "Wrong parameter"
+			), 401);
+		}
+
+
+		// Sub Method Check
+		$submethod = isset($_url[3]) ? $_url[3] : null;
+		if ( is_numeric($submethod) ) {
+			respondJSON(array(
+				"status" => "error",
+				"description" => "Wrong sub method"
+			), 401);	
+		}
+
+
+		// Get project categories
+		if ($submethod == "categories") {
+
+			$result = User::ID([
+				"token" => $jwt
+			])->getPageCategories_v2($project_ID);
+	
+			respondJSON($result, $result['status'] == "success" ? 200 : 401);
+
+		}
+
+
+		// Get single project info
 		$result = User::ID([
 			"token" => $jwt
-		])->getProject($parameter1);
+		])->getProject($project_ID);
 
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
+
+
 
 
 }
