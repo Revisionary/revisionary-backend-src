@@ -737,6 +737,7 @@ class User {
 				COUNT(DISTINCT CASE WHEN pin.pin_complete=1 THEN pin.pin_ID ELSE NULL END) as complete_tasks,
 				GROUP_CONCAT(DISTINCT d.device_ID) AS devices,
 				GROUP_CONCAT(DISTINCT sh.share_to) AS shares,
+				GROUP_CONCAT(DISTINCT CONCAT(ph.phase_ID, \' | \', ph.phase_created)) AS phases,
 				f.favorite_ID as favorite
 			'
 		);
@@ -747,6 +748,16 @@ class User {
 
 			// Devices
 			$pages[$key]['devices'] = $page['devices'] ? array_values(array_unique(array_map('intval', explode(',', $page['devices'])))) : [];
+
+			// Phases
+			$pages[$key]['versions'] = [];
+			foreach (explode(',', $page['phases']) as $phasekey => $phase) {
+
+				$pages[$key]['versions'][$phasekey]["id"] = explode(' | ', $phase)[0];
+				$pages[$key]['versions'][$phasekey]["created"] = explode(' | ', $phase)[1];
+
+			}
+			unset($pages[$key]['phases']);
 
 			// Create the URLs
 			$pages[$key]['image_url'] = cache_url("screenshots/device-".reset($pages[$key]['devices']).".jpg");
