@@ -150,6 +150,18 @@ if ($method == "GET") {
 		}
 
 
+		// Get project categories
+		if ($submethod == "pages") {
+
+			$result = User::ID([
+				"token" => $jwt
+			])->getPages_v2($project_ID);
+	
+			respondJSON($result, $result['status'] == "success" ? 200 : 401);
+
+		}
+
+
 		// Get single project info
 		$result = User::ID([
 			"token" => $jwt
