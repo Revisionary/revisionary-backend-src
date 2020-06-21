@@ -312,7 +312,7 @@ class User {
 
 
 
-	// Get the project categories
+	// Get the project categories that user can access
 	public function getProjectCategories_v2() {
 		global $db;
 
@@ -638,7 +638,7 @@ class User {
 
 
 
-	// Get all the pages that user can access
+	// Get the pages of a project
 	public function getPages_v2(int $project_ID) {
 		global $db;
 
@@ -779,6 +779,233 @@ class User {
 		return array(
 			"status" => "success",
 			"pages" => $pages
+		);
+
+
+	}
+
+
+
+	// Get single page info
+	public function getPage(int $page_ID) {
+		global $db;
+
+
+		// Bring the category info
+		$db->join("pages_categories cat", "cat.cat_ID = p.cat_ID", "LEFT");
+
+
+		// Bring the project info
+		$db->join("projects pr", "pr.project_ID = p.project_ID", "LEFT");
+
+
+		// // Bring the user info
+		// $db->join("users u", "p.user_ID = u.user_ID", "LEFT");
+
+
+		// Bring page share info
+		$db->join("shares s", "p.page_ID = s.shared_object_ID", "LEFT");
+		$db->joinWhere("shares s", "(s.share_to = '".self::$user_ID."' OR s.share_to = '".self::$userInfo['user_email']."')");
+		$db->joinWhere("shares s", "s.share_type", "page");
+
+
+		// Get shared people
+		$db->join("shares sh", "p.page_ID = sh.shared_object_ID", "LEFT");
+		$db->joinWhere("shares sh", "sh.share_type", "page");
+
+
+		// Bring the favorite info
+		$db->join("pages_favorites f", "(p.page_ID = f.page_ID AND f.user_ID = ".self::$user_ID.")", "LEFT");
+
+
+		// Bring project share info
+		$db->join("shares sp", "p.project_ID = sp.shared_object_ID", "LEFT");
+		$db->joinWhere("shares sp", "sp.share_type", "project");
+
+
+		// Bring the phases
+		$db->join("phases ph", "p.page_ID = ph.page_ID", "LEFT");
+
+
+		// Bring the devices
+		$db->join("devices d", "ph.phase_ID = d.phase_ID", "LEFT");
+
+
+		// Bring the pins
+		$db->join("pins pin", "ph.phase_ID = pin.phase_ID", "LEFT");
+
+
+		// Check access if not admin
+		if ( self::$userInfo['user_level_ID'] != 1 ) {
+
+			$db->where("(
+				p.user_ID = ".self::$user_ID."
+				OR s.share_to = ".self::$user_ID."
+				OR s.share_to = '".self::$userInfo['user_email']."'
+				OR pr.user_ID = ".self::$user_ID."
+				OR sp.share_to = ".self::$user_ID."
+				OR sp.share_to = '".self::$userInfo['user_email']."'
+			)");
+
+		}
+
+
+		// Filter the pages
+		$db->where("p.page_ID", $page_ID);
+
+
+		// Default Sorting
+		$db->orderBy("p.order_number", "asc");
+		$db->orderBy("s.share_ID", "desc");
+		$db->orderBy("cat.cat_name", "asc");
+		$db->orderBy("p.page_name", "asc");
+
+
+		// Project group for page counting
+		$db->groupBy("p.page_ID, p.order_number, cat.cat_ID, s.share_ID, f.favorite_ID");
+
+
+		// GET THE DATA
+		$page = $db->connection('slave')->getOne(
+			'pages p',
+			'
+				p.page_ID as ID,
+				p.page_name as title,
+				p.page_description as description,
+				p.page_created as date_created,
+				p.page_modified as date_modified,
+				p.page_archived as archived,
+				p.page_deleted as deleted,
+				p.user_ID as user_ID,
+				p.project_ID as project_ID,
+				p.order_number as order_number,
+				cat.cat_ID as cat_ID,
+				COUNT(DISTINCT ph.phase_ID) as sub_count,
+				COUNT(DISTINCT CASE WHEN pin.pin_complete=0 THEN pin.pin_ID ELSE NULL END) as incomplete_tasks,
+				COUNT(DISTINCT CASE WHEN pin.pin_complete=1 THEN pin.pin_ID ELSE NULL END) as complete_tasks,
+				GROUP_CONCAT(DISTINCT d.device_ID) AS devices,
+				GROUP_CONCAT(DISTINCT sh.share_to) AS shares,
+				GROUP_CONCAT(DISTINCT CONCAT(ph.phase_ID, \' | \', ph.phase_created)) AS phases,
+				f.favorite_ID as favorite
+			'
+		);
+
+
+
+		// Devices
+		$pages['devices'] = $page['devices'] ? array_values(array_unique(array_map('intval', explode(',', $page['devices'])))) : [];
+
+		// Phases
+		$pages['versions'] = [];
+		foreach (explode(',', $page['phases']) as $phasekey => $phase) {
+
+			$pages['versions'][$phasekey]["id"] = explode(' | ', $phase)[0];
+			$pages['versions'][$phasekey]["created"] = explode(' | ', $phase)[1];
+
+		}
+		unset($pages['phases']);
+
+		// Create the URLs
+		$pages['image_url'] = cache_url("screenshots/device-".reset($pages['devices']).".jpg");
+
+		// Cat ID corrections
+		$pages['cat_ID'] = $pages['cat_ID'] ? $pages['cat_ID'] : 0;
+
+		// Favorite corrections
+		$pages['favorite'] = $pages['favorite'] ? true : false;
+
+		// Project shares
+		$pages['users'] = $page['shares'] ? array_values(array_unique(array_map('intval', explode(',', $page['shares'])))) : [];
+
+
+		// Return the data
+		return array(
+			"status" => "success",
+			"page" => $page
+		);
+
+
+	}
+
+
+
+	// Get the phases
+	public function getPhases_v2(int $page_ID) {
+		global $db;
+
+
+		// Filter the phases by page_ID
+		$db->where('ph.page_ID', $page_ID);
+
+
+		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
+		$phases = $db->connection('slave')->get('phases ph');
+
+
+		// Return the data
+		return array(
+			"status" => "success",
+			"phases" => $phases
+		);
+
+
+	}
+
+
+
+	// Get single phase info
+	public function getPhase(int $phase_ID) {
+		global $db;
+
+
+		// Filter the phases by page_ID
+		$db->where('ph.phase_ID', $phase_ID);
+
+
+		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
+		$phase = $db->connection('slave')->get('phases ph');
+
+
+		// Return the data
+		return array(
+			"status" => "success",
+			"phase" => $phase
+		);
+
+
+	}
+
+
+
+	// Get the devices
+	public function getDevices_v2(int $phase_ID) {
+		global $db;
+
+
+		// Bring the screens
+		$db->join("screens s", "s.screen_ID = d.screen_ID", "LEFT");
+
+
+		// Bring the screen category info
+		$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
+
+
+		// Filter the devices by phase_ID
+		$db->where("d.phase_ID", $phase_ID);
+
+
+		// Order by device ID
+		$db->orderBy('d.device_ID', 'ASC');
+
+
+		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
+		$devices = $db->connection('slave')->get('devices d');
+
+
+		// Return the data
+		return array(
+			"status" => "success",
+			"devices" => $devices
 		);
 
 

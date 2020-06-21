@@ -53,8 +53,6 @@ if (
 	&& $api != "projectcategories"
 	&& $api != "projects"
 	&& $api != "project"
-	&& $api != "pagecategories"
-	&& $api != "pages"
 	&& $api != "page"
 	&& $api != "phase"
 	&& $api != "device"
@@ -166,6 +164,94 @@ if ($method == "GET") {
 		$result = User::ID([
 			"token" => $jwt
 		])->getProject($project_ID);
+
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
+	}
+
+
+	// PAGE
+	if ($api == "page") {
+
+		// Project ID check
+		$page_ID = isset($_url[2]) ? $_url[2] : null;
+		if ( !is_numeric($page_ID) ) {
+			respondJSON(array(
+				"status" => "error",
+				"description" => "Wrong parameter"
+			), 401);
+		}
+
+
+		// Sub Method Check
+		$submethod = isset($_url[3]) ? $_url[3] : null;
+		if ( is_numeric($submethod) ) {
+			respondJSON(array(
+				"status" => "error",
+				"description" => "Wrong sub method"
+			), 401);	
+		}
+
+
+		// Get project categories
+		if ($submethod == "phases") {
+
+			$result = User::ID([
+				"token" => $jwt
+			])->getPhases_v2($page_ID);
+	
+			respondJSON($result, $result['status'] == "success" ? 200 : 401);
+
+		}
+
+
+		// Get single page info
+		$result = User::ID([
+			"token" => $jwt
+		])->getPage($page_ID);
+
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
+	}
+
+
+	// PHASE
+	if ($api == "phase") {
+
+		// Project ID check
+		$phase_ID = isset($_url[2]) ? $_url[2] : null;
+		if ( !is_numeric($phase_ID) ) {
+			respondJSON(array(
+				"status" => "error",
+				"description" => "Wrong parameter"
+			), 401);
+		}
+
+
+		// Sub Method Check
+		$submethod = isset($_url[3]) ? $_url[3] : null;
+		if ( is_numeric($submethod) ) {
+			respondJSON(array(
+				"status" => "error",
+				"description" => "Wrong sub method"
+			), 401);	
+		}
+
+
+		// Get project categories
+		if ($submethod == "devices") {
+
+			$result = User::ID([
+				"token" => $jwt
+			])->getDevices_v2($phase_ID);
+	
+			respondJSON($result, $result['status'] == "success" ? 200 : 401);
+
+		}
+
+
+		// Get single page info
+		$result = User::ID([
+			"token" => $jwt
+		])->getPhase($phase_ID);
 
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
