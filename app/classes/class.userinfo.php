@@ -938,8 +938,27 @@ class User {
 		$db->where('ph.page_ID', $page_ID);
 
 
+		// Bring the devices
+		$db->join("devices d", "ph.phase_ID = d.phase_ID", "LEFT");
+
+
+		// Bring the pins
+		$db->join("pins pin", "ph.phase_ID = pin.phase_ID", "LEFT");
+
+
+		// Project group for page counting
+		$db->groupBy("ph.phase_ID");
+
+
 		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
-		$phases = $db->connection('slave')->get('phases ph');
+		$phases = $db->connection('slave')->get('phases ph', null, '
+			ph.phase_ID as ID,
+			ph.phase_type as type,
+			ph.phase_created as created,
+			COUNT(DISTINCT CASE WHEN pin.pin_complete=0 THEN pin.pin_ID ELSE NULL END) as incomplete_tasks,
+			COUNT(DISTINCT CASE WHEN pin.pin_complete=1 THEN pin.pin_ID ELSE NULL END) as complete_tasks,
+			ph.page_ID as page_ID
+		');
 
 
 		// Return the data
@@ -958,12 +977,31 @@ class User {
 		global $db;
 
 
+		// Bring the devices
+		$db->join("devices d", "ph.phase_ID = d.phase_ID", "LEFT");
+
+
+		// Bring the pins
+		$db->join("pins pin", "ph.phase_ID = pin.phase_ID", "LEFT");
+
+
+		// Project group for page counting
+		$db->groupBy("ph.phase_ID");
+
+
 		// Filter the phases by page_ID
 		$db->where('ph.phase_ID', $phase_ID);
 
 
 		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
-		$phase = $db->connection('slave')->get('phases ph');
+		$phase = $db->connection('slave')->get('phases ph', null, '
+			ph.phase_ID as ID,
+			ph.phase_type as type,
+			ph.phase_created as created,
+			COUNT(DISTINCT CASE WHEN pin.pin_complete=0 THEN pin.pin_ID ELSE NULL END) as incomplete_tasks,
+			COUNT(DISTINCT CASE WHEN pin.pin_complete=1 THEN pin.pin_ID ELSE NULL END) as complete_tasks,
+			ph.page_ID as page_ID
+		');
 
 
 		// Return the data
@@ -998,6 +1036,14 @@ class User {
 		$db->orderBy('d.device_ID', 'ASC');
 
 
+		// Bring the pins
+		$db->join("pins pin", "d.device_ID = pin.device_ID", "LEFT");
+
+
+		// Project group for page counting
+		$db->groupBy("d.device_ID");
+
+
 		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
 		$devices = $db->connection('slave')->get('devices d', null, '
 			d.device_ID as ID,
@@ -1012,6 +1058,8 @@ class User {
 			s.screen_rotateable as rotateable,
 			s.screen_cat_ID as cat_ID,
 			s_cat.screen_cat_name as cat_name,
+			COUNT(DISTINCT CASE WHEN pin.pin_complete=0 THEN pin.pin_ID ELSE NULL END) as incomplete_tasks,
+			COUNT(DISTINCT CASE WHEN pin.pin_complete=1 THEN pin.pin_ID ELSE NULL END) as complete_tasks,
 			d.phase_ID as phase_ID
 		');
 
