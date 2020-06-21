@@ -754,7 +754,7 @@ class User {
 			$pages[$key]['versions'] = [];
 			foreach (explode(',', $page['phases']) as $phasekey => $phase) {
 
-				$pages[$key]['versions'][$phasekey]["id"] = explode(' | ', $phase)[0];
+				$pages[$key]['versions'][$phasekey]["ID"] = explode(' | ', $phase)[0];
 				$pages[$key]['versions'][$phasekey]["created"] = explode(' | ', $phase)[1];
 
 			}
@@ -899,7 +899,7 @@ class User {
 		$pages['versions'] = [];
 		foreach (explode(',', $page['phases']) as $phasekey => $phase) {
 
-			$pages['versions'][$phasekey]["id"] = explode(' | ', $phase)[0];
+			$pages['versions'][$phasekey]["ID"] = explode(' | ', $phase)[0];
 			$pages['versions'][$phasekey]["created"] = explode(' | ', $phase)[1];
 
 		}
@@ -999,7 +999,21 @@ class User {
 
 
 		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
-		$devices = $db->connection('slave')->get('devices d');
+		$devices = $db->connection('slave')->get('devices d', null, '
+			d.device_ID as ID,
+			d.device_width as width,
+			d.device_height as height,
+			s.screen_width as screen_width,
+			s.screen_height as screen_height,
+			d.device_created as created,
+			d.device_modified as modified,
+			d.screen_ID as screen_ID,
+			s.screen_name as screen_name,
+			s.screen_rotateable as rotateable,
+			s.screen_cat_ID as cat_ID,
+			s_cat.screen_cat_name as cat_name,
+			d.phase_ID as phase_ID
+		');
 
 
 		// Return the data
