@@ -730,6 +730,7 @@ class User {
 				p.page_archived as archived,
 				p.page_deleted as deleted,
 				p.user_ID as user_ID,
+				p.project_ID as project_ID,
 				p.order_number as order_number,
 				cat.cat_ID as cat_ID,
 				COUNT(DISTINCT ph.phase_ID) as sub_count,
