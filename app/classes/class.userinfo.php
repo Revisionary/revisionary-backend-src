@@ -615,7 +615,8 @@ class User {
 			cat.cat_ID as ID,
 			cat.cat_name as title,
 			cat.cat_slug as slug,
-			cat.cat_order_number as order_number
+			cat.cat_order_number as order_number,
+			cat.project_ID as project_ID
 		');
 
 
@@ -624,7 +625,8 @@ class User {
 			'ID' => 0,
 			'title' => 'Uncategorized',
 			'slug' => 'uncategorized',
-			'order_number' => 0
+			'order_number' => 0,
+			'project_ID' => $project_ID
 		));
 
 
