@@ -44,28 +44,6 @@ if ($api == "no-api") {
 }
 
 
-// API Validation
-if (
-	$api != "session"
-	&& $api != "user"
-	&& $api != "users"
-	&& $api != "authenticate"
-	&& $api != "projectcategories"
-	&& $api != "projects"
-	&& $api != "project"
-	&& $api != "page"
-	&& $api != "phase"
-	&& $api != "device"
-	&& $api != "user"
-	&& $api != "pin"
-) {
-	respondJSON(array(
-		"status" => "error",
-		"description" => "Not allowed API"
-	), 401);
-}
-
-
 
 
 // ACTIONS:
@@ -83,32 +61,33 @@ if ($method == "GET") {
 	}
 
 
+	// User check
+	$API = User::ID(["token" => $jwt]);
+	if (!$API) {
+		respondJSON(array(
+			"status" => "error",
+			"description" => "Access denied"
+		), 401);
+	}
+
+
 	// USER
 	if ($api == "session") {
-		$result = User::ID([
-			"token" => $jwt
-		])->get();
-
+		$result = $API->get();
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
 
 	// PROJECT CATEGORIES
 	if ($api == "projectcategories") {
-		$result = User::ID([
-			"token" => $jwt
-		])->getProjectCategories_v2();
-
+		$result = $API->getProjectCategories_v2();
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
 
 	// PROJECTS
 	if ($api == "projects") {
-		$result = User::ID([
-			"token" => $jwt
-		])->getProjects_v2();
-
+		$result = $API->getProjects_v2();
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
@@ -138,33 +117,20 @@ if ($method == "GET") {
 
 		// Get project categories
 		if ($submethod == "categories") {
-
-			$result = User::ID([
-				"token" => $jwt
-			])->getPageCategories_v2($project_ID);
-	
+			$result = $API->getPageCategories_v2($project_ID);
 			respondJSON($result, $result['status'] == "success" ? 200 : 401);
-
 		}
 
 
 		// Get project categories
 		if ($submethod == "pages") {
-
-			$result = User::ID([
-				"token" => $jwt
-			])->getPages_v2($project_ID);
-	
+			$result = $API->getPages_v2($project_ID);
 			respondJSON($result, $result['status'] == "success" ? 200 : 401);
-
 		}
 
 
 		// Get single project info
-		$result = User::ID([
-			"token" => $jwt
-		])->getProject($project_ID);
-
+		$result = $API->getProject($project_ID);
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
@@ -194,21 +160,13 @@ if ($method == "GET") {
 
 		// Get project categories
 		if ($submethod == "phases") {
-
-			$result = User::ID([
-				"token" => $jwt
-			])->getPhases_v2($page_ID);
-	
+			$result = $API->getPhases_v2($page_ID);
 			respondJSON($result, $result['status'] == "success" ? 200 : 401);
-
 		}
 
 
 		// Get single page info
-		$result = User::ID([
-			"token" => $jwt
-		])->getPage($page_ID);
-
+		$result = $API->getPage($page_ID);
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
@@ -238,25 +196,16 @@ if ($method == "GET") {
 
 		// Get project categories
 		if ($submethod == "devices") {
-
-			$result = User::ID([
-				"token" => $jwt
-			])->getDevices_v2($phase_ID);
-	
+			$result = $API->getDevices_v2($phase_ID);
 			respondJSON($result, $result['status'] == "success" ? 200 : 401);
-
 		}
 
 
 		// Get single page info
-		$result = User::ID([
-			"token" => $jwt
-		])->getPhase($phase_ID);
-
+		$result = $API->getPhase($phase_ID);
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
+
 	}
-
-
 
 
 }
@@ -279,8 +228,6 @@ if ($method == "POST" && !isset($_url[2])) {
 	}
 
 
-
-
 	// JWT Existance
 	if (!$jwt) {
 		respondJSON(array(
@@ -290,14 +237,20 @@ if ($method == "POST" && !isset($_url[2])) {
 	}
 
 
+	// User check
+	$API = User::ID(["token" => $jwt]);
+	if (!$API) {
+		respondJSON(array(
+			"status" => "error",
+			"description" => "Access denied"
+		), 401);
+	}
+
+
+
 	// USERS
 	if ($api == "users") {
-		$result = User::ID([
-			"token" => $jwt
-		])->getUsers(
-			$parameters->IDs
-		);
-
+		$result = $API->getUsers($parameters->IDs);
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
