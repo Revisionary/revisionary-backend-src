@@ -1082,6 +1082,7 @@ class User {
 		global $db;
 
 		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
+		$db->join("users u", "n.sender_user_ID = u.user_ID", "LEFT");
 		$db->where('con.user_ID', self::$user_ID);
 		$db->orderBy("notification_time", "DESC");
 		$notifications = $db->withTotalCount()->get("notifications n", array($offset, $limit), "
@@ -1091,9 +1092,12 @@ class User {
 			n.notification_type as type,
 			n.object_ID as object_ID,
 			n.object_type as object_type,
-			n.sender_user_ID as sender_user_ID,
-			con.notification_read as isRead,
-			con.user_ID as user_ID
+			n.sender_user_ID as user_ID,
+			u.user_first_name as first_name,
+			u.user_last_name as last_name,
+			u.user_picture as picture,
+			u.user_email as email,
+			con.notification_read as isRead
 		");
 
 		return array(
