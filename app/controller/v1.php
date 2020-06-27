@@ -208,6 +208,35 @@ if ($method == "GET") {
 	}
 
 
+	// NOTIFICATIONS
+	if ($api == "notifications") {
+
+
+		// Sub Method Check
+		$submethod = isset($_url[2]) ? $_url[2] : null;
+
+
+		// Get new notification count
+		if ($submethod == "newcount") {
+			$result = $API->newNotificationsCount();
+			respondJSON($result, $result['status'] == "success" ? 200 : 401);
+		}
+
+
+		// Get pages of notifications !!!
+		$offset = 0;
+		$limit = 10;
+		if ( is_numeric($submethod) && $submethod > 0 )
+			$offset = ($submethod - 1) * $limit;
+
+
+		// Get Notifications
+		$result = $API->getNotifications_v2($offset, $limit);
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
+
+	}
+
+
 }
 
 

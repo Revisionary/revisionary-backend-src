@@ -1076,6 +1076,58 @@ class User {
 	}
 
 
+
+	// Get notifications
+	public function getNotifications_v2($offset = 0, $limit = 10) {
+		global $db;
+
+		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
+		$db->where('con.user_ID', self::$user_ID);
+		$db->orderBy("notification_time", "DESC");
+		$notifications = $db->withTotalCount()->get("notifications n", array($offset, $limit), "
+			n.notification_ID as ID,
+			n.notification as notification,
+			n.notification_time as time,
+			n.notification_type as type,
+			n.object_ID as object_ID,
+			n.object_type as object_type,
+			n.sender_user_ID as sender_user_ID,
+			con.notification_read as isRead,
+			con.user_ID as user_ID
+		");
+
+		return array(
+			"status" => "success",
+			"notifications" => $notifications,
+			"totalCount" => $db->totalCount
+		);
+	}
+
+
+	// Get new notifications count
+	public function newNotificationsCount() {
+		global $db;
+
+
+		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
+		$db->where('con.user_ID', self::$user_ID);
+		$db->where('con.notification_read', 0);
+		$count = $db->getValue("notifications n", "count(n.notification_ID)");
+
+
+		// Return the data
+		return array(
+			"status" => "success",
+			"new_count" => $count
+		);
+
+	}
+
+
+
+
+
+
 	
 	// Get the user info
 	public function getInfo($column = null) {
@@ -1912,6 +1964,7 @@ class User {
 			'notifications' => $notifications,
 			'totalCount' => $db->totalCount
 		);
+
 	}
 
 
