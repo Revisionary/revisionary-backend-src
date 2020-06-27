@@ -1081,10 +1081,19 @@ class User {
 	public function getNotifications_v2($offset = 0, $limit = 10) {
 		global $db;
 
+		// Get the user connection
 		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
+
+		// Bring the user info
 		$db->join("users u", "n.sender_user_ID = u.user_ID", "LEFT");
+
+		// Filter for the current user
 		$db->where('con.user_ID', self::$user_ID);
+
+		// Order by date
 		$db->orderBy("notification_time", "DESC");
+
+		// Get the data
 		$notifications = $db->withTotalCount()->get("notifications n", array($offset, $limit), "
 			n.notification_ID as ID,
 			n.notification as notification,
@@ -1100,6 +1109,8 @@ class User {
 			con.notification_read as isRead
 		");
 
+
+		// Return the data
 		return array(
 			"status" => "success",
 			"notifications" => $notifications,
