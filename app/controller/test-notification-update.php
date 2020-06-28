@@ -5,7 +5,7 @@ $notifications = $db->get('notifications');
 //print_r($notifications);
 
 
-foreach($notifications as $n) {
+foreach($notifications as $i => $n) {
 
     $db->where('notification_ID', $n['notification_ID']);
 
@@ -20,5 +20,7 @@ foreach($notifications as $n) {
     //print_r($n);
     elseif ($n['object_type'] == "pin")
         $db->update('notifications', array("pin_ID" => intval($n['object_ID'])));
+
+    echo "$i - ".$db->getLastError()."<br>";
 
 }
