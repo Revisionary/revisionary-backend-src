@@ -1081,11 +1081,28 @@ class User {
 	public function getNotifications_v2($offset = 0, $limit = 10) {
 		global $db;
 
+
 		// Get the user connection
 		$db->join("notification_user_connection con", "n.notification_ID = con.notification_ID", "LEFT");
 
 		// Bring the user info
 		$db->join("users u", "n.sender_user_ID = u.user_ID", "LEFT");
+
+		// Bring the project info
+		$db->join("projects pr", "n.project_ID = pr.project_ID", "LEFT");
+
+		// Bring the page info
+		$db->join("pages pg", "n.page_ID = pg.page_ID", "LEFT");
+
+		// Bring the phase info
+		$db->join("phases ph", "n.phase_ID = ph.phase_ID", "LEFT");
+
+		// Bring the device info
+		$db->join("devices d", "n.device_ID = d.device_ID", "LEFT");
+
+		// Bring the device info
+		$db->join("pins pin", "n.pin_ID = pin.pin_ID", "LEFT");
+
 
 		// Filter for the current user
 		$db->where('con.user_ID', self::$user_ID);
@@ -1093,14 +1110,20 @@ class User {
 		// Order by date
 		$db->orderBy("notification_time", "DESC");
 
+
 		// Get the data
 		$notifications = $db->withTotalCount()->get("notifications n", array($offset, $limit), "
 			n.notification_ID as ID,
 			n.notification as notification,
 			n.notification_time as time,
 			n.notification_type as type,
-			n.object_ID as object_ID,
-			n.object_type as object_type,
+			n.project_ID as project_ID,
+			pr.project_name as project_name,
+			n.page_ID as page_ID,
+			pg.page_name as page_name,
+			n.phase_ID as phase_ID,
+			n.device_ID as device_ID,
+			n.pin_ID as pin_ID,
 			n.sender_user_ID as user_ID,
 			u.user_first_name as first_name,
 			u.user_last_name as last_name,
@@ -1116,6 +1139,7 @@ class User {
 			"notifications" => $notifications,
 			"totalCount" => $db->totalCount
 		);
+
 	}
 
 
