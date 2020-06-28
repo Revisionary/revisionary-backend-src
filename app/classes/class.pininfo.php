@@ -10,6 +10,8 @@ class Pin {
 	public $phase_ID;
 	public $phaseData;
 	public $page_ID;
+	public $pageData;
+	public $project_ID;
 	public $device_ID;
 
 
@@ -26,6 +28,11 @@ class Pin {
 				return false;
 			}
 			$this->page_ID = $this->phaseData->getInfo('page_ID');
+			$this->pageData = Page::ID($this->page_ID);
+			if (!$this->pageData) {
+				return false;
+			}
+			$this->project_ID = $this->pageData->getInfo('project_ID');
 			$this->device_ID = self::$pinInfo['device_ID'];
 
 		}

@@ -1088,6 +1088,7 @@ class User {
 		// Bring the user info
 		$db->join("users u", "n.sender_user_ID = u.user_ID", "LEFT");
 
+
 		// Bring the project info
 		$db->join("projects pr", "n.project_ID = pr.project_ID", "LEFT");
 
@@ -1099,19 +1100,6 @@ class User {
 
 		// Bring the device info
 		$db->join("devices d", "n.device_ID = d.device_ID", "LEFT");
-
-
-		// Bring the pin info
-		$db->join("pins pin", "n.pin_ID = pin.pin_ID", "LEFT");
-
-		// Bring the pin phase info
-		$db->join("phases pin_ph", "pin.phase_ID = pin_ph.phase_ID", "LEFT");
-
-		// Bring the pin page info
-		$db->join("pages pin_pg", "pin_ph.page_ID = pin_ph.page_ID", "LEFT");
-
-		// Bring the pin project info
-		$db->join("projects pin_pr", "pin_pg.project_ID = pin_pr.project_ID", "LEFT");
 
 
 		// Filter for the current user
@@ -1134,8 +1122,6 @@ class User {
 			n.phase_ID as phase_ID,
 			n.device_ID as device_ID,
 			n.pin_ID as pin_ID,
-			pin_pg.page_name as pin_page_name,
-			pin_pr.project_name as pin_project_name,
 			n.sender_user_ID as user_ID,
 			u.user_first_name as first_name,
 			u.user_last_name as last_name,
