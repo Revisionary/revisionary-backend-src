@@ -202,74 +202,24 @@ class Device {
 		$devices_list = trim($devices_list, ", ");
 		$screens_list = trim($screens_list, ", ");
 
-		if ($first_device_ID) $log->info("Devices #$devices_list Added to: Phase #$phase_ID | Screens #$screens_list | User #".currentUserID());
+
+		if ($first_device_ID) {
+
+			// Log
+			$log->info("Devices #$devices_list Added to: Phase #$phase_ID | Screens #$screens_list | User #".currentUserID());
 
 
-		// INVALIDATE THE CACHES
-		if ($first_device_ID) $cache->deleteKeysByTag('devices');
-
-
-		// Notify the users
-		if ($first_device_ID && !$fromPage) {
-
-			$screen_ID = intval(reset($screen_IDs));
-			$screenInfo = Screen::ID($screen_ID)->getInfo();
-			$screen_width = $screen_ID == 11 ? $device_width : $screenInfo['screen_width'];
-			$screen_height = $screen_ID == 11 ? $device_height : $screenInfo['screen_height'];
-
-
-
-			// Get the users to notify
-			$page_ID = Phase::ID($phase_ID)->getInfo('page_ID');
-
-
-
-			// Get the users to notify
-			$pageData = Page::ID($page_ID);
-			$users = $pageData->getUsers();
-
-
-			if ($fromPhase) {
-
-
-				// // Web notification
-				// Notify::ID($users)->web("new", "device", $first_device_ID, "new phase");
-
-
-				// // Email notification
-				// Notify::ID($users)->mail(
-				// 	getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page",
-				// 	getUserInfo()['fullName']." created a new phase on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page. <br><br>
-				// 	<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
-				// );
-
-
-			} else {
-
-
-				// // Web notification
-				// Notify::ID($users)->web("new", "device", $first_device_ID, $screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.")");
-
-
-				// // Email notification
-				// Notify::ID($users)->mail(
-				// 	getUserInfo()['fullName']." added a new screen on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page",
-				// 	getUserInfo()['fullName']." added a new screen: ".$screenInfo['screen_cat_name']."(".$screen_width."x".$screen_height.") on ".$pageData->getInfo('page_name')." [".$pageData->getInfo('project_name')."] page <br><br>
-				// 	<b>Page URL</b>: <a href='".site_url('revise/'.$first_device_ID)."' target='_blank'>".site_url('revise/'.$first_device_ID)."</a>"
-				// );
-
-
-			}
-
-
-
+			// INVALIDATE THE CACHES
+			$cache->deleteKeysByTag('devices');
+	
+	
+	
+			// Return the first device ID
+			return $first_device_ID;
 
 		}
 
-
-
-		// Return the first device ID
-		return $first_device_ID;
+		return false;
 
 	}
 

@@ -107,9 +107,14 @@ class Notify {
     // Web notifications
     public function web(
 	    string $notification_type = "text",
-	    string $object_type = null,
-	    int $object_ID = null,
-	    $notification = null
+	    string $object_type = null, // REMOVE THIS COLUMN LATER !!!
+	    int $object_ID = null, // REMOVE THIS COLUMN LATER !!!
+		$notification = null,
+		$project_ID = null,
+		$page_ID = null,
+		$phase_ID = null,
+		$device_ID = null,
+		$pin_ID = null
     ) {
 	    global $db;
 
@@ -127,6 +132,11 @@ class Notify {
 			"notification" => $notification,
 			"object_type" => $object_type,
 			"object_ID" => $object_ID,
+			"project_ID" => $project_ID,
+			"page_ID" => $page_ID,
+			"phase_ID" => $phase_ID,
+			"device_ID" => $device_ID,
+			"pin_ID" => $pin_ID,
 			"sender_user_ID" => currentUserID()
 		));
 		if (!$notification_ID) return false;

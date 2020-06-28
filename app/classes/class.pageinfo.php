@@ -230,19 +230,6 @@ class Page {
 			$users = Page::ID($page_ID)->getUsers();
 
 
-			// // Web notification
-			// Notify::ID($users)->web("new", "page", $page_ID);
-
-
-			// // Email notification
-			// Notify::ID($users)->mail(
-			// 	getUserInfo()['fullName']." added a new page: ".$page_name.$project_name,
-			// 	getUserInfo()['fullName']." added a new page: ".$page_name.$project_name." <br>
-			// 	<b>Page URL</b>: $page_url <br><br>
-			// 	<a href='$page_link' target='_blank'>$page_link</a>"
-			// );
-
-
 
 			// SHARE - Use share API later !!!
 			if ( count($page_shares) > 0 ) {
@@ -265,7 +252,7 @@ class Page {
 
 					// Web notification
 					if ( is_integer($user_ID) )
-						Notify::ID($user_ID)->web("share", "page", $page_ID);
+						Notify::ID($user_ID)->web("share", "page", $page_ID, null, $project_ID, $page_ID);
 
 
 					// Email notification

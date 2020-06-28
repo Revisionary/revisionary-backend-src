@@ -236,7 +236,7 @@ class Project {
 
 					// Web notification
 					if ( is_integer($user_ID) )
-						Notify::ID($user_ID)->web("share", "project", $project_ID);
+						Notify::ID($user_ID)->web("share", "project", $project_ID, null, $project_ID);
 
 
 					// Email notification
