@@ -28,5 +28,5 @@ foreach($notifications as $i => $n) {
 
 // Delete
 $db->where('object_type', 'pin');
-$db->where('object_ID', NULL, 'IS');
+$db->where('object_ID', NULL);
 if( $db->delete('notifications') ) echo 'successfully deleted';
