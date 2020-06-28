@@ -1141,6 +1141,7 @@ class User {
 	}
 
 
+
 	// Get new notifications count
 	public function newNotificationsCount() {
 		global $db;
@@ -1156,6 +1157,40 @@ class User {
 		return array(
 			"status" => "success",
 			"new_count" => $count
+		);
+
+	}
+
+
+
+	// Get notifications
+	public function readNotifications(
+		array $notification_IDs
+	) {
+		global $db;
+
+
+		// Get the user connection
+		$db->join("notifications n", "n.notification_ID = con.notification_ID", "LEFT");
+
+
+		// Filter for the current user
+		$db->where('con.user_ID', self::$user_ID);
+
+
+		// Filter the 
+		$db->where('n.notification_ID', $notification_IDs, 'IN');
+
+
+		// Get the data
+		$read = $db->update("notification_user_connection con", array("notification_read" => 1));
+
+
+		// Return the data
+		return array(
+			"status" => "success",
+			"read" => $read,
+			"count" => $db->count
 		);
 
 	}

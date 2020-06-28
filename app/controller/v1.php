@@ -283,6 +283,13 @@ if ($method == "POST" && !isset($_url[2])) {
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 	}
 
+
+	// READ NOTIFICATIONS
+	if ($api == "readnotifications") {
+		$result = $API->readNotifications($parameters->IDs);
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
+	}
+
 }
 
 
