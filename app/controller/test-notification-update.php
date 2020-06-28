@@ -9,7 +9,7 @@ foreach($notifications as $i => $n) {
 
     $db->where('notification_ID', $n['notification_ID']);
 
-    print_r($n);
+    //print_r($n);
     if ($n['object_type'] == "project")
         $db->update('notifications', array("project_ID" => intval($n['object_ID'])));
 
