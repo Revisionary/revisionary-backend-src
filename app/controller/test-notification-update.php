@@ -24,3 +24,9 @@ foreach($notifications as $i => $n) {
     echo "$i - ".$db->getLastError()."<br>";
 
 }
+
+
+// Delete
+$db->where('object_type', 'pin');
+$db->where('object_ID', NULL, 'IS');
+if( $db->delete('notifications') ) echo 'successfully deleted';
