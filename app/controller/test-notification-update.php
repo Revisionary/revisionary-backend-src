@@ -21,12 +21,13 @@ foreach($notifications as $i => $n) {
     elseif ($n['object_type'] == "pin")
         $result = $db->update('notifications', array("pin_ID" => intval($n['object_ID'])));
 
-    if (!$result) echo "$i - ".$db->getLastError()."<br>";
+    if (!$result) {
+        echo "$i - ".$db->getLastError()."<br>";
 
+        // Delete
+        $db->where('notification_ID', $n['notification_ID']);
+        if( $db->delete('notifications') ) echo "$i - successfully deleted<br><br>";
+    }
 }
 
 
-// Delete
-$db->where('object_type', 'pin');
-$db->where('object_ID', NULL);
-if( $db->delete('notifications') ) echo 'successfully deleted';
