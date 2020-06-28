@@ -1,32 +1,39 @@
 <pre>
 <?php
 
+$db->where('object_type', 'pin');
 $notifications = $db->get('notifications');
 //print_r($notifications);
 
 
-foreach($notifications as $i => $n) {
+foreach($notifications as $i => $notification) {
 
-    $db->where('notification_ID', $n['notification_ID']);
 
-    //print_r($n);
-    if ($n['object_type'] == "project")
-        $result = $db->update('notifications', array("project_ID" => intval($n['object_ID'])));
+    $pinData = Pin::ID($notification['pin_ID']);
+    
+    $device_ID = $pinData->device_ID;
+    echo "$i - Device ID: $device_ID<br>";
 
-    //print_r($n);
-    elseif ($n['object_type'] == "page")
-        $result = $db->update('notifications', array("page_ID" => intval($n['object_ID'])));
+    $phase_ID = $pinData->phase_ID;
+    echo "$i - Phase ID: $phase_ID<br>";
 
-    //print_r($n);
-    elseif ($n['object_type'] == "pin")
-        $result = $db->update('notifications', array("pin_ID" => intval($n['object_ID'])));
+    $page_ID = $pinData->page_ID;
+    echo "$i - Page ID: $page_ID<br>";
+
+    $project_ID = $pinData->project_ID;
+    echo "$i - Project ID: $project_ID<br><br>";
+
+
+    $db->where('notification_ID', $notification['notification_ID']);
+    $result = $db->update('notifications', array(
+        "device_ID" => $device_ID,
+        "phase_ID" => $phase_ID,
+        "page_ID" => $page_ID,
+        "project_ID" => $project_ID
+    ));
 
     if (!$result) {
-        echo "$i - ".$db->getLastError()."<br>";
-
-        // Delete
-        $db->where('notification_ID', $n['notification_ID']);
-        if( $db->delete('notifications') ) echo "$i - successfully deleted<br><br>";
+        echo "$i - ".$db->getLastError()."<br><br><br>";
     }
 }
 
