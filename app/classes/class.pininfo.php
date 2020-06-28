@@ -689,7 +689,7 @@ class Pin {
 
 
 			// Web notification
-			if ($comment_type != "action") Notify::ID($users)->web("comment", "pin", self::$pin_ID, substr($message, 0, 70), null, $this->page_ID, $this->phase_ID, $this->device_ID, self::$pin_ID);
+			if ($comment_type != "action") Notify::ID($users)->web("comment", "pin", self::$pin_ID, substr($message, 0, 70), $this->project_ID, $this->page_ID, $this->phase_ID, $this->device_ID, self::$pin_ID);
 
 
 			// Update the page modification date
@@ -812,7 +812,7 @@ class Pin {
 
 
 		// Web notification
-		Notify::ID($users)->web("new", "pin", self::$pin_ID, $pin_number, null, $this->page_ID, $this->phase_ID, $this->device_ID, self::$pin_ID);
+		Notify::ID($users)->web("new", "pin", self::$pin_ID, $pin_number, $this->project_ID, $this->page_ID, $this->phase_ID, $this->device_ID, self::$pin_ID);
 
 
 		// Email notification
@@ -892,7 +892,7 @@ class Pin {
 
 
 		// Web notification
-		Notify::ID($users)->web("complete", "pin", self::$pin_ID, $pin_number, null, $this->page_ID, $this->phase_ID, $this->device_ID, self::$pin_ID);
+		Notify::ID($users)->web("complete", "pin", self::$pin_ID, $pin_number, $this->project_ID, $this->page_ID, $this->phase_ID, $this->device_ID, self::$pin_ID);
 
 
 		// Email notification
@@ -934,7 +934,7 @@ class Pin {
 
 
 		// Web notification
-		Notify::ID($users)->web("incomplete", "pin", self::$pin_ID, $pin_number, null, $this->page_ID, $this->phase_ID, $this->device_ID, self::$pin_ID);
+		Notify::ID($users)->web("incomplete", "pin", self::$pin_ID, $pin_number, $this->project_ID, $this->page_ID, $this->phase_ID, $this->device_ID, self::$pin_ID);
 
 
 		// Email notification
