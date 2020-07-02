@@ -70,11 +70,10 @@
 					<span>TAGS</span>
 
 				</div>
-				<div class="col action" style="display: none !important;">
-					<a href="#" class="center-tooltip bottom-tooltip device-specific" data-tooltip="Private Pin"><i class="fa fa-user"></i></a>
-				</div>
 				<div class="col action">
-					<a href="#" class="center-tooltip bottom-tooltip device-specific" data-tooltip="Only For Current Device"><i class="fa fa-thumbtack"></i></a>
+					<a href="#" class="center-tooltip bottom-tooltip device-specific" data-tooltip="Only For Current Screen">
+						<i class="fa <?=$screenIcon?>"></i>
+					</a>
 				</div>
 			</div>
 
