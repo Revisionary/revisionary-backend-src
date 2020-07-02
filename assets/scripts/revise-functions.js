@@ -1851,7 +1851,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 		project_ID: parseInt(project_ID),
 		page_ID: parseInt(page_ID),
 		phase_ID: parseInt(phase_ID),
-		device_ID: page_type == "image" || page_type == "capture" ? device_ID : null
+		device_ID: device_ID
 	};
 
 
@@ -3139,7 +3139,7 @@ function openPinWindow(pin_ID, firstTime) {
 
 		// Device specific pin
 		pinWindow().find('.device-specific').removeClass('loading').removeClass('active');
-		if ( pin.device_ID != null ) pinWindow().find('.device-specific').addClass('active');
+		if ( pin.device_ID == device_ID ) pinWindow().find('.device-specific').addClass('active');
 
 
 

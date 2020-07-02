@@ -141,7 +141,7 @@ class Pin {
 
 
 		// NULL FOR NOW !!!
-		$pin_device_ID = $phaseData->getInfo('phase_type') != "url" ? $pin_device_ID : null;
+		//$pin_device_ID = $phaseData->getInfo('phase_type') != "url" ? $pin_device_ID : null;
 
 		// Add the pin
 		$pin_ID = $db->insert('pins', array(
