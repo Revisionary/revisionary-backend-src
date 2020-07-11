@@ -108,15 +108,59 @@ class User {
 	// GETTERS:
 
 	// Get the user info
-	public function get() {
+	public function get(
+		string $userName = null
+	) {
 		global $db;
 
-		// If email is given
-		if ( !is_numeric(self::$user_ID) ) return false;
+
+		// If username
+		if ( isset($userName) ) {
+
+			// Check if any empty field
+			if ( empty($userName) ) {
+				return array(
+					"status" => "error",
+					"message" => "Please don't leave fields blank"
+				);
+			}
 
 
-		$db->where("user_ID", self::$user_ID);
-		$user = $db->connection('slave')->getOne("users");
+			$db->where("user_name", $userName);
+			$db->orWhere("user_email", $userName);
+
+		} else {
+
+			// If email is given
+			if ( !is_numeric(self::$user_ID) ) return false;
+
+			// Limit the user
+			$db->where("user_ID", self::$user_ID);
+
+		}
+
+		// Bring the level info
+		$db->join("user_levels l", "u.user_level_ID = l.user_level_ID", "LEFT");
+
+
+		// Get the data
+		$user = $db->connection('slave')->getOne("users u", "
+			u.user_ID as ID,
+			u.user_email as email,
+			u.user_password as password,
+			u.user_first_name as first_name,
+			u.user_last_name as last_name,
+			u.user_job_title as job_title,
+			u.user_department as department,
+			u.user_company as company,
+			u.user_picture as picture,
+			u.user_email_notifications as email_notifications,
+			u.trial_started_for,
+			u.trial_expire_date,
+			u.trial_expired_notified,
+			u.user_level_ID as level_ID,
+			l.user_level_max_project as max_projects
+		");
 
 
 		if ($user === null) {
@@ -129,21 +173,7 @@ class User {
 
 		return array(
 			"status" => "success",
-			"user" => array(
-				"ID" => $user["user_ID"],
-				"email" => $user["user_email"],
-				"first_name" => $user["user_first_name"],
-				"last_name" => $user["user_last_name"],
-				"job_title" => $user["user_job_title"],
-				"department" => $user["user_department"],
-				"company" => $user["user_company"],
-				"picture" => $user["user_picture"],
-				"email_notifications" => $user["user_email_notifications"],
-				"trial_started_for" => $user["user_trial_started_for"],
-				"trial_expire_date" => $user["user_trial_expire_date"],
-				"trial_expire_notified" => $user["user_trial_expire_notified"],
-				"level_ID" => $user["user_level_ID"]
-			)
+			"user" => $user
 		);
 
 
@@ -164,7 +194,6 @@ class User {
 		$users = $db->get("users", null, "
 			user_ID as ID,
 			user_email as email,
-			user_password as password,
 			user_first_name as first_name,
 			user_last_name as last_name,
 			user_job_title as job_title,
@@ -234,27 +263,9 @@ class User {
 		}
 
 
-		// Username check
-		$db->where("user_name", $userName);
-		$db->orWhere("user_email", $userName);
-		$user = $db->connection('slave')->getOne("users", "
-			user_ID as ID,
-			user_email as email,
-			user_password as password,
-			user_first_name as first_name,
-			user_last_name as last_name,
-			user_job_title as job_title,
-			user_department as department,
-			user_company as company,
-			user_picture as picture,
-			user_email_notifications as email_notifications,
-			trial_started_for,
-			trial_expire_date,
-			trial_expired_notified,
-			user_level_ID as level_ID
-		");
-
-		if ($user === null) {
+		// Get user info
+		$userData = $this->get($userName);
+		if ($userData['status'] === "error") {
 			return array(
 				"status" => "error",
 				"message" => "Your username or password is wrong."
@@ -263,7 +274,7 @@ class User {
 
 
 		// Password check
-		if ($user && !password_verify($password, $user["password"]) ) {
+		if (isset($userData['user']) && !password_verify($password, $userData['user']["password"]) ) {
 			return array(
 				"status" => "error",
 				"message" => "Your username or password is wrong."
@@ -272,6 +283,7 @@ class User {
 
 
 		// SUCCESS - Generate the token
+		$user = $userData['user'];
 		$payload = array(
 			"iss" => "https://" . $config['env']['subdomain'] . "." . $config['env']['domain'],
 			"aud" => "https://" . $config['env']['dashboard_subdomain'] . "." . $config['env']['dashboard_domain'],
