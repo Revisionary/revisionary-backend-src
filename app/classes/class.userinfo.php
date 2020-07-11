@@ -159,7 +159,13 @@ class User {
 			u.trial_expire_date,
 			u.trial_expired_notified,
 			u.user_level_ID as level_ID,
-			l.user_level_max_project as max_projects
+			l.user_level_max_project as max_projects,
+			l.user_level_max_page as max_pages,
+			l.user_level_max_screen as max_screens,
+			l.user_level_max_live_pin as max_live_pins,
+			l.user_level_max_comment_pin as max_comment_pins,
+			l.user_level_max_load as max_load,
+			l.user_level_max_client as max_clients
 		");
 
 
