@@ -1235,7 +1235,7 @@ class User {
 		// Return the data
 		return array(
 			"status" => "success",
-			"usage" => $usage
+			"usage" => $usage[0]
 		);
 
 	}
