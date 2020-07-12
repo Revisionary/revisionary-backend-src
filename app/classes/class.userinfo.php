@@ -1215,6 +1215,33 @@ class User {
 
 
 
+	// Get current usage
+	public function usage() {
+		global $db;
+
+
+		// Get the data
+		$usage = $db->rawQuery("
+			SELECT
+				(SELECT COUNT(*) FROM projects where user_ID = ".self::$user_ID.") as projectsCount, 
+				(SELECT COUNT(*) FROM pages where user_ID = ".self::$user_ID.") as pagesCount,
+				(SELECT COUNT(*) FROM phases where user_ID = ".self::$user_ID.") as phasesCount,
+				(SELECT COUNT(*) FROM devices where user_ID = ".self::$user_ID.") as devicesCount,
+				(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type != 'comment') as livePinsCount,
+				(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type = 'comment') as commentPinsCount
+		");
+
+
+		// Return the data
+		return array(
+			"status" => "success",
+			"usage" => $usage
+		);
+
+	}
+
+
+
 
 
 

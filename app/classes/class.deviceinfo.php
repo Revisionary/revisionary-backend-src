@@ -182,8 +182,8 @@ class Device {
 				"phase_ID" => $phase_ID,
 				"screen_ID" => $screen_ID,
 				"device_width" => count($screen_IDs) === 1 || $screen_ID == 11 ? $device_width : null,
-				"device_height" => count($screen_IDs) === 1 || $screen_ID == 11 ? $device_height : null
-
+				"device_height" => count($screen_IDs) === 1 || $screen_ID == 11 ? $device_height : null,
+				"user_ID" => currentUserID()
 			));
 
 			// Stop it if error occurs

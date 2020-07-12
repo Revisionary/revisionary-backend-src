@@ -332,7 +332,8 @@ class Phase {
 		$phase_ID = $db->insert('phases', array(
 			"page_ID" => $page_ID,
 			"phase_type" => $phase_type,
-			"phase_internalized" => $internalized
+			"phase_internalized" => $internalized,
+			"user_ID" => currentUserID()
 		));
 
 
