@@ -9,15 +9,15 @@ foreach($phases as $i => $phase) {
 
     $phase_ID = $phase['phase_ID'];
     $page_ID = $phase['page_ID'];
-    $pageData = Page::ID($page_ID);
-    if (!$pageData) {
+
+    $db->where('page_ID', $page_ID);
+    $pageInfo = $db->getOne('pages');
+
+    if (!$pageInfo) {
         echo "<b>$i - Page #$page_ID NOT FOUND for Phase #$phase_ID <br><br><br><br>";
         continue;
     }
-    $user_ID = $pageData->getInfo('user_ID');
-
-
-    echo "$i - Phase #$phase_ID will be assigned to User #$user_ID -> <br>";
+    $user_ID = $pageInfo['user_ID'];
 
 
     $db->where('phase_ID', $phase_ID);
@@ -26,9 +26,9 @@ foreach($phases as $i => $phase) {
     ));
 
     if (!$result) {
-        echo "<b>NOT DONE</b> - ".$db->getLastError()." <br><br><br><br>";
+        echo "$i - Phase #$phase_ID will be assigned to User #$user_ID -> <b>NOT DONE</b> - ".$db->getLastError()." <br><br>";
     } else {
-        echo "DONE <br><br>";
+        echo "$i - Phase #$phase_ID will be assigned to User #$user_ID -> DONE <br>";
     }
 }
 
