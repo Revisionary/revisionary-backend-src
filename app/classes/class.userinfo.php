@@ -1238,6 +1238,10 @@ class User {
 		$db->join('phases ph', 'ph.user_ID=u.user_ID', 'LEFT');
 
 
+		// Bring the pages
+		$db->join('pages pg', 'ph.page_ID=pg.page_ID', 'LEFT');
+
+
 		// Group for the concat?
 		//$db->groupBy("u.user_ID");
 
@@ -1249,7 +1253,7 @@ class User {
 			(SELECT COUNT(*) FROM devices where user_ID = ".self::$user_ID.") as devices,
 			(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type != 'comment') as livePins,
 			(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type = 'comment') as commentPins,
-			GROUP_CONCAT(DISTINCT ph.phase_ID) AS phase_IDs
+			GROUP_CONCAT(DISTINCT CONCAT(ph.phase_ID, ' | ', pg.page_ID, ' | ', pg.project_ID)) AS phase_IDs
 		");
 
 
@@ -1272,8 +1276,13 @@ class User {
 		
 			$filesLoadMb = 0;
 			foreach ($phase_IDs as $phase_ID) {
+
+				$parse_phase = explode('|', $phase_ID);
+				$phase_ID = $parse_phase[0];
+				$page_ID = $parse_phase[1];
+				$project_ID = $parse_phase[2];
 		
-				$phaseDirectory = Phase::ID($phase_ID)->phaseDir;
+				$phaseDirectory = cache."/projects/project-$project_ID/page-$page_ID/phase-$phase_ID";
 		
 				$sizeMb = getDirectorySize($phaseDirectory, true); // True for the MB conversion
 				$filesLoadMb += $sizeMb;
