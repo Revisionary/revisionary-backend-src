@@ -1270,19 +1270,21 @@ class User {
 
 
 		// Calculate the phases loads
-		$cached_userLoad = $cache->get('userload:'.self::$user_ID);
-		if ( $cached_userLoad !== false ) $loadCount = $cached_userLoad;
-		else {
+		// $cached_userLoad = $cache->get('userload:'.self::$user_ID);
+		// if ( $cached_userLoad !== false ) $loadCount = $cached_userLoad;
+		// else {
 		
 			$filesLoadMb = 0;
+			//$directories = [];
 			foreach ($phase_IDs as $phase_ID) {
 
 				$parse_phase = explode('|', $phase_ID);
-				$phase_ID = $parse_phase[0];
-				$page_ID = $parse_phase[1];
-				$project_ID = $parse_phase[2];
+				$phase_ID = trim($parse_phase[0]);
+				$page_ID = trim($parse_phase[1]);
+				$project_ID = trim($parse_phase[2]);
 		
 				$phaseDirectory = cache."/projects/project-$project_ID/page-$page_ID/phase-$phase_ID";
+				//$directories[] = $phaseDirectory;
 		
 				$sizeMb = getDirectorySize($phaseDirectory, true); // True for the MB conversion
 				$filesLoadMb += $sizeMb;
@@ -1290,10 +1292,10 @@ class User {
 			}
 			$loadCount = $filesLoadMb;
 		
-			// Set the cache
-			$cache->set('userload:'.self::$user_ID, $loadCount);
+			// // Set the cache
+			// $cache->set('userload:'.self::$user_ID, $loadCount);
 		
-		}
+		// }
 		$usage['load'] = floatval( number_format((float)$loadCount, 1, '.', '') );
 
 
@@ -1302,6 +1304,7 @@ class User {
 		return array(
 			"status" => "success",
 			"usage" => $usage
+			//"directories" => $directories
 		);
 
 	}
