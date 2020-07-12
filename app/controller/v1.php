@@ -223,7 +223,7 @@ if ($method == "GET") {
 		}
 
 
-		// Get pages of notifications !!!
+		// Get pages of notifications
 		$offset = 0;
 		$limit = 10;
 		if ( is_numeric($submethod) && $submethod > 0 )
@@ -232,6 +232,16 @@ if ($method == "GET") {
 
 		// Get Notifications
 		$result = $API->getNotifications_v2($offset, $limit);
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
+
+	}
+
+
+	// USAGE
+	if ($api == "usage") {
+
+		// Get Usage
+		$result = $API->usage();
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 
 	}
