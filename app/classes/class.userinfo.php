@@ -159,6 +159,7 @@ class User {
 			u.trial_expire_date,
 			u.trial_expired_notified,
 			u.user_level_ID as level_ID,
+			l.user_level_name as level_name,
 			l.user_level_max_project as max_projects,
 			l.user_level_max_page as max_pages,
 			l.user_level_max_screen as max_screens,
