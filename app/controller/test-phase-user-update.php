@@ -10,6 +10,10 @@ foreach($phases as $i => $phase) {
     $phase_ID = $phase['phase_ID'];
     $page_ID = $phase['page_ID'];
     $pageData = Page::ID($page_ID);
+    if (!$pageData) {
+        echo "<b>$i - Page #$page_ID NOT FOUND <br><br><br><br>";
+        continue;
+    }
     $user_ID = $pageData->getInfo('user_ID');
 
 
