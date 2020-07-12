@@ -1266,7 +1266,7 @@ class User {
 		$usage['phases'] = count($phase_IDs);
 
 		// Delete the IDs list
-		unset($usage['phase_IDs']);
+		//unset($usage['phase_IDs']);
 
 
 
