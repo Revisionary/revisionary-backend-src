@@ -1260,13 +1260,13 @@ class User {
 
 
 		// Arrangements
-		$phase_IDs = explode(',', $usage["phase_IDs"]);
+		$phase_IDs = $usage["phase_IDs"] == "" ? [] : explode(',', $usage["phase_IDs"]);
 
 		// Add the phases count
 		$usage['phases'] = count($phase_IDs);
 
 		// Delete the IDs list
-		//unset($usage['phase_IDs']);
+		unset($usage['phase_IDs']);
 
 
 
@@ -1305,6 +1305,7 @@ class User {
 		return array(
 			"status" => "success",
 			"usage" => $usage
+			//"phase_IDs" => $phase_IDs,
 			//"directories" => $directories
 		);
 
