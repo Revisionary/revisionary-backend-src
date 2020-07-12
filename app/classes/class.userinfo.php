@@ -1217,25 +1217,82 @@ class User {
 
 	// Get current usage
 	public function usage() {
-		global $db;
+		global $db, $cache;
 
 
 		// Get the data
-		$usage = $db->rawQuery("
-			SELECT
-				(SELECT COUNT(*) FROM projects where user_ID = ".self::$user_ID.") as projects, 
-				(SELECT COUNT(*) FROM pages where user_ID = ".self::$user_ID.") as pages,
-				(SELECT COUNT(*) FROM phases where user_ID = ".self::$user_ID.") as phases,
-				(SELECT COUNT(*) FROM devices where user_ID = ".self::$user_ID.") as devices,
-				(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type != 'comment') as livePins,
-				(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type = 'comment') as commentPins
+		// $usage = $db->rawQuery("
+		// 	SELECT
+		// 		(SELECT COUNT(*) FROM projects where user_ID = ".self::$user_ID.") as projects, 
+		// 		(SELECT COUNT(*) FROM pages where user_ID = ".self::$user_ID.") as pages,
+		// 		(SELECT COUNT(*) FROM phases where user_ID = ".self::$user_ID.") as phases,
+		// 		(SELECT COUNT(*) FROM devices where user_ID = ".self::$user_ID.") as devices,
+		// 		(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type != 'comment') as livePins,
+		// 		(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type = 'comment') as commentPins
+		// 	FROM
+		// 		phases
+		// ");
+
+
+		// Bring the phases
+		$db->join('phases ph', 'ph.user_ID=u.user_ID', 'LEFT');
+
+
+		// Group for the concat?
+		//$db->groupBy("u.user_ID");
+
+
+		$db->where('u.user_ID', self::$user_ID);
+		$usage = $db->getOne('users u', "
+			(SELECT COUNT(*) FROM projects where user_ID = ".self::$user_ID.") as projects, 
+			(SELECT COUNT(*) FROM pages where user_ID = ".self::$user_ID.") as pages,
+			(SELECT COUNT(*) FROM devices where user_ID = ".self::$user_ID.") as devices,
+			(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type != 'comment') as livePins,
+			(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type = 'comment') as commentPins,
+			GROUP_CONCAT(DISTINCT ph.phase_ID) AS phase_IDs
 		");
+
+
+
+		// Arrangements
+		$phase_IDs = explode(',', $usage["phase_IDs"]);
+
+		// Add the phases count
+		$usage['phases'] = count($phase_IDs);
+
+		// Delete the IDs list
+		unset($usage['phase_IDs']);
+
+
+
+		// Calculate the phases loads
+		$cached_userLoad = $cache->get('userload:'.self::$user_ID);
+		if ( $cached_userLoad !== false ) $loadCount = $cached_userLoad;
+		else {
+		
+			$filesLoadMb = 0;
+			foreach ($phase_IDs as $phase_ID) {
+		
+				$phaseDirectory = Phase::ID($phase_ID)->phaseDir;
+		
+				$sizeMb = getDirectorySize($phaseDirectory, true); // True for the MB conversion
+				$filesLoadMb += $sizeMb;
+		
+			}
+			$loadCount = $filesLoadMb;
+		
+			// Set the cache
+			$cache->set('userload:'.self::$user_ID, $loadCount);
+		
+		}
+		$usage['load'] = floatval( number_format((float)$loadCount, 1, '.', '') );
+
 
 
 		// Return the data
 		return array(
 			"status" => "success",
-			"usage" => $usage[0]
+			"usage" => $usage
 		);
 
 	}
