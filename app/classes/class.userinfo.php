@@ -1148,7 +1148,7 @@ class User {
 			n.pin_ID as pin_ID,
 			pin.device_ID as pin_device_ID,
 			n.comment_ID as comment_ID,
-			c.pin_comment as pin_comment,
+			LEFT(c.pin_comment, 70) as pin_comment,
 			n.sender_user_ID as user_ID,
 			u.user_first_name as first_name,
 			u.user_last_name as last_name,
