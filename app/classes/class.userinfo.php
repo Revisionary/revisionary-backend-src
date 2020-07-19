@@ -431,7 +431,6 @@ class User {
 		// Default Sorting
 		$db->orderBy("o.order_number", "asc");
 		$db->orderBy("s.share_ID", "desc");
-		$db->orderBy("cat.cat_name", "asc");
 		$db->orderBy("p.project_name", "asc");
 
 
@@ -453,6 +452,7 @@ class User {
 				p.project_deleted as deleted,
 				p.project_image_device_ID as image_device_ID,
 				p.user_ID as user_ID,
+				s.share_ID as share_ID,
 				o.order_number as order_number,
 				cat.cat_ID as cat_ID,
 				COUNT(DISTINCT pg.page_ID) as sub_count,
