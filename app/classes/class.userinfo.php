@@ -1119,6 +1119,12 @@ class User {
 		// Bring the device info
 		$db->join("devices d", "n.device_ID = d.device_ID", "LEFT");
 
+		// Bring the pin info
+		$db->join("pins pin", "n.pin_ID = pin.pin_ID", "LEFT");
+
+		// Bring the comment info
+		$db->join("pin_comments c", "n.comment_ID = c.comment_ID", "LEFT");
+
 
 		// Filter for the current user
 		$db->where('con.user_ID', self::$user_ID);
@@ -1140,6 +1146,9 @@ class User {
 			n.phase_ID as phase_ID,
 			n.device_ID as device_ID,
 			n.pin_ID as pin_ID,
+			pin.device_ID as pin_device_ID,
+			n.comment_ID as comment_ID,
+			c.pin_comment as pin_comment,
 			n.sender_user_ID as user_ID,
 			u.user_first_name as first_name,
 			u.user_last_name as last_name,

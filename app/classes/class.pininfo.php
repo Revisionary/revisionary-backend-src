@@ -689,7 +689,7 @@ class Pin {
 
 
 			// Web notification
-			if ($comment_type != "action") Notify::ID($users)->web("comment", "pin", self::$pin_ID, substr($message, 0, 70), $this->project_ID, $this->page_ID, $this->phase_ID, $this->device_ID, self::$pin_ID);
+			if ($comment_type != "action") Notify::ID($users)->web("comment", "pin", self::$pin_ID, substr($message, 0, 70), $this->project_ID, $this->page_ID, $this->phase_ID, $this->device_ID, self::$pin_ID, $comment_ID);
 
 
 			// Update the page modification date

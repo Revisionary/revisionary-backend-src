@@ -114,7 +114,8 @@ class Notify {
 		$page_ID = null,
 		$phase_ID = null,
 		$device_ID = null,
-		$pin_ID = null
+		$pin_ID = null,
+		$comment_ID = null
     ) {
 	    global $db;
 
@@ -137,6 +138,7 @@ class Notify {
 			"phase_ID" => $phase_ID,
 			"device_ID" => $device_ID,
 			"pin_ID" => $pin_ID,
+			"comment_ID" => $comment_ID,
 			"sender_user_ID" => currentUserID()
 		));
 		if (!$notification_ID) return false;
