@@ -417,7 +417,7 @@ class User {
 
 		// Bring the order info
 		$db->join("projects_order o", "o.project_ID = p.project_ID", "LEFT");
-		$db->joinWhere("projects_order o", "o.user_ID", currentUserID());
+		$db->joinWhere("projects_order o", "o.user_ID", self::$user_ID);
 
 
 		// Filter the projects
