@@ -431,6 +431,7 @@ class User {
 		// Default Sorting
 		$db->orderBy("o.order_number", "asc");
 		$db->orderBy("s.share_ID", "desc");
+		$db->orderBy("cat.cat_name", "asc");
 		$db->orderBy("p.project_name", "asc");
 
 
