@@ -6,7 +6,7 @@
 	user_first_name = '<?=$User->getInfo('user_first_name')?>';
 	user_last_name = '<?=$User->getInfo('user_last_name')?>';
 	user_email = '<?=$User->getInfo('user_email')?>';
-	user_picture = '<?=$User->getInfo('user_picture')?>';
+	user_picture = <?=$User->getInfo('user_picture') == null ? 'null' : "'". $User->getInfo('user_picture') ."'"?>;
 	trial_active = <?=getUserInfo()['trialActive'] ? "true" : "false"?>;
 	user_level_ID = <?=getUserInfo()['trialActive'] ? $UserInfo['trial_user_level_ID'] : $UserInfo['user_level_ID']?>;
 	trial_active = <?=getUserInfo()['trialActive'] ? "true" : "false"?>;

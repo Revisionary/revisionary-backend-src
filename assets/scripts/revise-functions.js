@@ -1655,7 +1655,7 @@ function getPins(firstRetrieve, goToPin) {
 
 
 		// If different than current pins, do the changes
-		if ( !isEqual(Pins, oldPins) ) {
+		if ( !isEqual(oldPins, Pins) ) {
 
 
 			console.log('There are some updates...');
