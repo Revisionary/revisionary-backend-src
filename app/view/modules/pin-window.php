@@ -21,7 +21,7 @@
 		<div class="col">
 
 			<div class="wrap xl-flexbox xl-between actions">
-				<div class="col action dropdown">
+				<div class="col action dropdown click-to-open">
 
 					<pin
 						class="chosen-pin"
