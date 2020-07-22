@@ -53,6 +53,11 @@ function resize_image($file, $w, $h, $crop = false) {
 
 		$src = imagecreatefrompng($file);
 		$dst = imagecreatetruecolor($newwidth, $newheight);
+
+		imagealphablending($dst, false);
+		imagesavealpha($dst, true);
+		$transparent = imagecolorallocatealpha($dst, 255, 255, 255, 127);
+		imagefilledrectangle($dst, 0, 0, $width, $height, $transparent);
 		imagecopyresampled($dst, $src, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
 		imagepng($dst, $file, 9);
 
