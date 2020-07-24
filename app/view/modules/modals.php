@@ -247,8 +247,8 @@
 
 								<a href="#"><span class="new-access-type">THIS <span class="data-type"></span></span> <i class="fa fa-caret-down"></i></a>
 								<ul class="selectable no-delay new-access-type-selector">
-									<li class="selected"><a href="#" data-type="page">THIS PAGE</a></li>
-									<li><a href="#" data-type="project">WHOLE PROJECT</a></li>
+									<li class="selected"><a href="#" data-type="project">WHOLE PROJECT</a></li>
+									<li><a href="#" data-type="page">THIS PAGE</a></li>
 								</ul>
 
 							</span>
