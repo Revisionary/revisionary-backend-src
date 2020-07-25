@@ -1164,7 +1164,7 @@ class User {
 
 
 		// Phase URL
-		$device['phase_html'] = cache_url("projects/project-".$device['project_ID']."/page-".$device['page_ID']."/phase-".$device['phase_ID']."/index.html");
+		$device['phase_url'] = cache_url("projects/project-".$device['project_ID']."/page-".$device['page_ID']."/phase-".$device['phase_ID']."/index.html");
 
 
 		// Return the data
