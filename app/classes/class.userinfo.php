@@ -1096,6 +1096,88 @@ class User {
 
 
 
+	// Get single device info
+	public function getDevice(int $device_ID) {
+		global $db;
+
+
+		// Bring the screen info
+		$db->join("screens s", "s.screen_ID = d.screen_ID", "LEFT");
+
+
+		// Bring the screen category info
+		$db->join("screen_categories s_cat", "s.screen_cat_ID = s_cat.screen_cat_ID", "LEFT");
+
+
+		// Bring the phase info
+		$db->join("phases ph", "d.phase_ID = ph.phase_ID", "LEFT");
+
+
+		// Bring the pins
+		$db->join("pins pin", "ph.phase_ID = pin.phase_ID", "LEFT");
+
+
+		// Bring the page info
+		$db->join("pages pg", "ph.page_ID = pg.page_ID", "LEFT");
+
+
+		// Bring the page info
+		$db->join("projects pr", "pg.project_ID = pr.project_ID", "LEFT");
+
+
+		// Project group for page counting
+		$db->groupBy("d.device_ID");
+
+
+		// Filter the phases by page_ID
+		$db->where('d.device_ID', $device_ID);
+
+
+		// GET THE DATA - LIMIT THE OUTPUTS HERE !!!
+		$device = $db->connection('slave')->getOne('devices d', '
+			d.device_ID as ID,
+			d.device_width as width,
+			d.device_height as height,
+			s.screen_width as screen_width,
+			s.screen_height as screen_height,
+			d.device_created as created,
+			d.device_modified as modified,
+			d.screen_ID as screen_ID,
+			s.screen_name as screen_name,
+			s.screen_rotateable as rotateable,
+			s.screen_cat_ID as cat_ID,
+			s_cat.screen_cat_name as cat_name,
+			d.phase_ID as phase_ID,
+			ph.phase_type as phase_type,
+			ph.phase_internalized as phase_internalized,
+			ph.phase_created as phase_created,
+			COUNT(DISTINCT CASE WHEN pin.pin_complete=0 THEN pin.pin_ID ELSE NULL END) as incomplete_tasks,
+			COUNT(DISTINCT CASE WHEN pin.pin_complete=1 THEN pin.pin_ID ELSE NULL END) as complete_tasks,
+			ph.page_ID as page_ID,
+			pg.page_name as page_name,
+			pg.page_url as page_url,
+			pg.page_created as page_created,
+			pg.page_modified as page_modified,
+			pg.project_ID as project_ID,
+			pr.project_name as project_name
+		');
+
+
+		// Phase URL
+		$device['phase_html'] = cache_url("projects/project-".$device['project_ID']."/page-".$device['page_ID']."/phase-".$device['phase_ID']."/index.html");
+
+
+		// Return the data
+		return array(
+			"status" => "success",
+			"device" => $device
+		);
+
+
+	}
+
+
+
 	// Get notifications
 	public function getNotifications_v2($offset = 0, $limit = 10) {
 		global $db;

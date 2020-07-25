@@ -138,7 +138,7 @@ if ($method == "GET") {
 	// PAGE
 	if ($api == "page") {
 
-		// Project ID check
+		// Page ID check
 		$page_ID = isset($_url[2]) ? $_url[2] : null;
 		if ( !is_numeric($page_ID) ) {
 			respondJSON(array(
@@ -158,7 +158,7 @@ if ($method == "GET") {
 		}
 
 
-		// Get project categories
+		// Get page phases
 		if ($submethod == "phases") {
 			$result = $API->getPhases_v2($page_ID);
 			respondJSON($result, $result['status'] == "success" ? 200 : 401);
@@ -174,7 +174,7 @@ if ($method == "GET") {
 	// PHASE
 	if ($api == "phase") {
 
-		// Project ID check
+		// Phase ID check
 		$phase_ID = isset($_url[2]) ? $_url[2] : null;
 		if ( !is_numeric($phase_ID) ) {
 			respondJSON(array(
@@ -194,15 +194,35 @@ if ($method == "GET") {
 		}
 
 
-		// Get project categories
+		// Get phase devices
 		if ($submethod == "devices") {
 			$result = $API->getDevices_v2($phase_ID);
 			respondJSON($result, $result['status'] == "success" ? 200 : 401);
 		}
 
 
-		// Get single page info
+		// Get single phase info
 		$result = $API->getPhase($phase_ID);
+		respondJSON($result, $result['status'] == "success" ? 200 : 401);
+
+	}
+
+
+	// DEVICE
+	if ($api == "device") {
+
+		// Device ID check
+		$device_ID = isset($_url[2]) ? $_url[2] : null;
+		if ( !is_numeric($device_ID) ) {
+			respondJSON(array(
+				"status" => "error",
+				"description" => "Wrong parameter"
+			), 401);
+		}
+
+
+		// Get single device info
+		$result = $API->getDevice($device_ID);
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
 
 	}
