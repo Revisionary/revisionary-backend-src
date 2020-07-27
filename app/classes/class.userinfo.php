@@ -914,29 +914,29 @@ class User {
 
 
 		// Devices
-		$pages['devices'] = $page['devices'] ? array_values(array_unique(array_map('intval', explode(',', $page['devices'])))) : [];
+		$page['devices'] = $page['devices'] ? array_values(array_unique(array_map('intval', explode(',', $page['devices'])))) : [];
 
 		// Phases
-		$pages['versions'] = [];
+		$page['versions'] = [];
 		foreach (explode(',', $page['phases']) as $phasekey => $phase) {
 
-			$pages['versions'][$phasekey]["ID"] = explode(' | ', $phase)[0];
-			$pages['versions'][$phasekey]["created"] = explode(' | ', $phase)[1];
+			$page['versions'][$phasekey]["ID"] = explode(' | ', $phase)[0];
+			$page['versions'][$phasekey]["created"] = explode(' | ', $phase)[1];
 
 		}
-		unset($pages['phases']);
+		unset($page['phases']);
 
 		// Create the URLs
-		$pages['image_url'] = cache_url("screenshots/device-".reset($pages['devices']).".jpg");
+		$page['image_url'] = cache_url("screenshots/device-".reset($page['devices']).".jpg");
 
 		// Cat ID corrections
-		$pages['cat_ID'] = $pages['cat_ID'] ? $pages['cat_ID'] : 0;
+		$page['cat_ID'] = $page['cat_ID'] ? $page['cat_ID'] : 0;
 
 		// Favorite corrections
-		$pages['favorite'] = $pages['favorite'] ? true : false;
+		$page['favorite'] = $page['favorite'] ? true : false;
 
 		// Project shares
-		$pages['users'] = $page['shares'] ? array_values(array_unique(array_map('intval', explode(',', $page['shares'])))) : [];
+		$page['users'] = $page['shares'] ? array_values(array_unique(array_map('intval', explode(',', $page['shares'])))) : [];
 
 
 		// Return the data
@@ -1114,11 +1114,16 @@ class User {
 
 
 		// Bring the pins
-		$db->join("pins pin", "ph.phase_ID = pin.phase_ID", "LEFT");
+		$db->join("pins pin", "d.device_ID = pin.device_ID", "LEFT");
+		$db->joinOrWhere("pins pin", "d.phase_ID = pin.phase_ID AND pin.device_ID IS NULL");
 
 
 		// Bring the page info
 		$db->join("pages pg", "ph.page_ID = pg.page_ID", "LEFT");
+
+
+		// Bring the phases info
+		$db->join("phases phs", "pg.page_ID = phs.page_ID", "LEFT");
 
 
 		// Bring the page info
@@ -1151,6 +1156,7 @@ class User {
 			ph.phase_type as phase_type,
 			ph.phase_internalized as phase_internalized,
 			ph.phase_created as phase_created,
+			GROUP_CONCAT(DISTINCT CONCAT(phs.phase_ID, \' | \', phs.phase_created)) AS phases,
 			COUNT(DISTINCT CASE WHEN pin.pin_complete=0 THEN pin.pin_ID ELSE NULL END) as incomplete_tasks,
 			COUNT(DISTINCT CASE WHEN pin.pin_complete=1 THEN pin.pin_ID ELSE NULL END) as complete_tasks,
 			ph.page_ID as page_ID,
@@ -1165,6 +1171,17 @@ class User {
 
 		// Phase URL
 		$device['phase_url'] = cache_url("projects/project-".$device['project_ID']."/page-".$device['page_ID']."/phase-".$device['phase_ID']."/index.html");
+
+
+		// Phases
+		$device['versions'] = [];
+		foreach (explode(',', $device['phases']) as $phasekey => $phase) {
+
+			$device['versions'][$phasekey]["ID"] = explode(' | ', $phase)[0];
+			$device['versions'][$phasekey]["created"] = explode(' | ', $phase)[1];
+
+		}
+		unset($device['phases']);
 
 
 		// Return the data
