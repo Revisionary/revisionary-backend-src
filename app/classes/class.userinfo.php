@@ -1170,7 +1170,7 @@ class User {
 
 
 		// Phase URL
-		$device['phase_url'] = cache_url("projects/project-".$device['project_ID']."/page-".$device['page_ID']."/phase-".$device['phase_ID']."/index.html");
+		$device['phase_url'] = cache_url("projects/project-".$device['project_ID']."/page-".$device['page_ID']."/phase-".$device['phase_ID']."/index.html", (substr($device['page_url'], 0, 8) == "https://"));
 
 
 		// Phases
