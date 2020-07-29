@@ -781,6 +781,11 @@ class User {
 			}
 			unset($pages[$key]['phases']);
 
+			// Reorder Phases
+			usort($pages[$key]['versions'], function($a, $b) {
+				return strcmp($a["created"], $b["created"]);
+			});
+
 			// Create the URLs
 			$pages[$key]['image_url'] = cache_url("screenshots/device-".reset($pages[$key]['devices']).".jpg");
 
@@ -925,6 +930,11 @@ class User {
 
 		}
 		unset($page['phases']);
+
+		// Reorder Phases
+		usort($page['versions'], function($a, $b) {
+			return strcmp($a["created"], $b["created"]);
+		});
 
 		// Create the URLs
 		$page['image_url'] = cache_url("screenshots/device-".reset($page['devices']).".jpg");
@@ -1184,11 +1194,87 @@ class User {
 		unset($device['phases']);
 
 
+		// Reorder Phases
+		usort($device['versions'], function($a, $b) {
+			return strcmp($a["created"], $b["created"]);
+		});
+
+
 		// Return the data
 		return array(
 			"status" => "success",
-			"device" => $device
+			"device" => $device,
+			"test" => 		usort($device['versions'], function($a, $b) {
+				return strcmp($a["ID"], $b["ID"]);
+			})
 		);
+
+
+	}
+
+
+
+	// Get all the pins that user can access
+	public function getPins_v2(int $device_ID) {
+		global $db;
+
+
+		// Bring the phase info
+		$db->join("phases ph", "ph.phase_ID = pin.phase_ID", "LEFT");
+
+
+		// Bring the page info
+		$db->join("pages page", "ph.page_ID = page.page_ID", "LEFT");
+
+
+		// Bring the project info
+		$db->join("projects project", "page.project_ID = project.project_ID", "LEFT");
+
+
+		// Bring the user info
+		$db->join("users u", "pin.user_ID = u.user_ID", "LEFT");
+
+
+		// Hide private pins to other people
+		$db->where ("(pin.user_ID = ".self::$user_ID." or (pin.user_ID != ".self::$user_ID." and pin.pin_private = 0))");
+
+
+		// Hide device specific pins
+		$db->where ("(pin.device_ID IS NULL or (pin.device_ID IS NOT NULL and pin.device_ID = $device_ID))");
+
+
+		// Default Sorting
+		$db->orderBy("pin.pin_ID", "asc");
+
+
+		// GET THE DATA
+		$pins = $db->connection('slave')->get('pins pin', null, '
+			pin.pin_ID,
+			pin.pin_complete,
+			pin.pin_private,
+			pin.pin_type,
+			pin.pin_element_index,
+			pin.pin_modification_type,
+			pin.pin_modification,
+			pin.pin_modification_original,
+			pin.pin_created,
+			pin.pin_css,
+			pin.pin_x,
+			pin.pin_y,
+			u.user_ID,
+			u.user_first_name,
+			u.user_last_name,
+			u.user_email,
+			u.user_picture,
+			project.project_ID,
+			page.page_ID,
+			pin.phase_ID,
+			pin.device_ID
+		');
+
+
+		// Return the data
+		return $pins;
 
 
 	}
