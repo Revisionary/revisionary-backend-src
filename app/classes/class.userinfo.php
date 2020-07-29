@@ -1203,10 +1203,7 @@ class User {
 		// Return the data
 		return array(
 			"status" => "success",
-			"device" => $device,
-			"test" => 		usort($device['versions'], function($a, $b) {
-				return strcmp($a["ID"], $b["ID"]);
-			})
+			"device" => $device
 		);
 
 
@@ -1219,16 +1216,20 @@ class User {
 		global $db;
 
 
-		// Bring the phase info
-		$db->join("phases ph", "ph.phase_ID = pin.phase_ID", "LEFT");
+		// // Bring the device info
+		// $db->join("devices d", "pin.device_ID = d.device_ID", "LEFT");
 
 
-		// Bring the page info
-		$db->join("pages page", "ph.page_ID = page.page_ID", "LEFT");
+		// // Bring the phase info
+		// $db->join("phases ph", "ph.phase_ID = pin.phase_ID", "LEFT");
 
 
-		// Bring the project info
-		$db->join("projects project", "page.project_ID = project.project_ID", "LEFT");
+		// // Bring the page info
+		// $db->join("pages pg", "ph.page_ID = ph.page_ID", "LEFT");
+
+
+		// // Bring the project info
+		// $db->join("projects project", "pg.project_ID = project.project_ID", "LEFT");
 
 
 		// Bring the user info
@@ -1240,11 +1241,12 @@ class User {
 
 
 		// Hide device specific pins
-		$db->where ("(pin.device_ID IS NULL or (pin.device_ID IS NOT NULL and pin.device_ID = $device_ID))");
+		//$db->where ("(pin.device_ID IS NULL or (pin.device_ID IS NOT NULL and pin.device_ID = $device_ID))");
+		$db->where('pin.device_ID', $device_ID);
 
 
-		// Default Sorting
-		$db->orderBy("pin.pin_ID", "asc");
+		// // Default Sorting
+		// $db->orderBy("pin.pin_ID", "asc");
 
 
 		// GET THE DATA
@@ -1266,15 +1268,16 @@ class User {
 			u.user_last_name,
 			u.user_email,
 			u.user_picture,
-			project.project_ID,
-			page.page_ID,
 			pin.phase_ID,
 			pin.device_ID
 		');
 
 
 		// Return the data
-		return $pins;
+		return array(
+			"status" => "success",
+			"pins" => $pins
+		);
 
 
 	}

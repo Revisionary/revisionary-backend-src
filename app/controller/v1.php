@@ -221,6 +221,23 @@ if ($method == "GET") {
 		}
 
 
+		// Sub Method Check
+		$submethod = isset($_url[3]) ? $_url[3] : null;
+		if ( is_numeric($submethod) ) {
+			respondJSON(array(
+				"status" => "error",
+				"description" => "Wrong sub method"
+			), 401);	
+		}
+
+
+		// Get device pins
+		if ($submethod == "pins") {
+			$result = $API->getPins_v2($device_ID);
+			respondJSON($result, $result['status'] == "success" ? 200 : 401);
+		}
+
+
 		// Get single device info
 		$result = $API->getDevice($device_ID);
 		respondJSON($result, $result['status'] == "success" ? 200 : 401);
