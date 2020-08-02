@@ -1108,7 +1108,7 @@ class User {
 
 	// Get single device info
 	public function getDevice(int $device_ID) {
-		global $db;
+		global $db, $config;
 
 
 		// Bring the screen info
@@ -1180,7 +1180,11 @@ class User {
 
 
 		// Phase URL
-		$device['phase_url'] = cache_url("projects/project-".$device['project_ID']."/page-".$device['page_ID']."/phase-".$device['phase_ID']."/index.html", (substr($device['page_url'], 0, 8) == "https://"));
+		$phase_protocol = substr($device['page_url'], 0, 8) == "https://" ? "https" : "http";
+		$phase_domain = $config['env']['dashboard_subdomain'].".".$config['env']['dashboard_domain'];
+		$phase_domain = "dapp.revisionary.co"; // TEMP !!!
+		$phase_url = $phase_protocol."://".$phase_domain."/";
+		$device['phase_url'] = $phase_url."sites/project-".$device['project_ID']."/page-".$device['page_ID']."/phase-".$device['phase_ID']."/index.html";
 
 
 		// Phases
