@@ -1741,6 +1741,9 @@ function getPins(firstRetrieve, goToPin) {
 function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
+	console.log('Put Pin #' + currentPinNumber, element_index, pinX, pinY, cursorType, pinPrivate);
+
+
 	// Stop auto-refresh pins
 	stopAutoRefresh();
 
@@ -1754,7 +1757,7 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	// PIN LOCATION:
 	// Element info
 	var selectedElement = iframeElement(element_index);
-	var elementOffset = selectedElement.offset();
+	var elementOffset = selectedElement.offset(); console.log('Element Offset: ', elementOffset);
 	var elementTop = elementOffset.top;
 	var elementLeft = elementOffset.left;
 
@@ -1778,7 +1781,6 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	// console.log('Left: ' + elementLeft, ' Top: ' + elementTop );
 	// console.log('PinX: ' + pinX, ' PinY: ' + pinY);
 	// console.log('TO REGISTER', elementPinX, elementPinY, selectedElement.prop('tagName'));
-	//console.log('Put the Pin #' + currentPinNumber, pinX, pinY, cursorType, pinPrivate, element_index);
 
 
 
