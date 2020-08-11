@@ -2,7 +2,7 @@
 		<div class="wrap xl-2 container xl-flexbox xl-middle">
 			<div class="col">
 				<div class="site-title"><a href="<?=site_url()?>" rel="home">REVISIONARY APP</a></div>
-				<div class="copyright">Copyright &copy; <?=date('Y')?></div>
+				<div class="copyright">Copyright &copy; <?=date('Y')?> - <?=$_parsed_current_url['subdomain']?></div>
 			</div>
 			<div class="col xl-right footer-links">
 				<nav style="margin-bottom: 10px;">
