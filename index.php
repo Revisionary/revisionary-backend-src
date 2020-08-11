@@ -10,8 +10,7 @@ $_url = array_values(array_filter(explode('/', $_url)));
 // Development mode detection
 $_parsed_current_url = parseUrl( current_url() );
 if (
-	( $_parsed_current_url['subdomain'] != subdomain && $_parsed_current_url['subdomain'] != insecure_subdomain ) ||
-	$_parsed_current_url['domain'] != domain
+	$_parsed_current_url['subdomain'] == "www"
 ) {
 	ob_start();
 	$page_title = "Revisionary App";
