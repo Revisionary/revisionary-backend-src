@@ -9,9 +9,8 @@ $_url = array_values(array_filter(explode('/', $_url)));
 
 // Development mode detection
 $_parsed_current_url = parseUrl( current_url() );
-if (
-	$_parsed_current_url['subdomain'] == "www"
-) {
+die_to_print($_parsed_current_url);
+if ($_parsed_current_url['subdomain'] == "www") {
 	ob_start();
 	$page_title = "Revisionary App";
 	require view('coming-soon');
