@@ -1182,7 +1182,7 @@ class User {
 		// Phase URL
 		$phase_protocol = substr($device['page_url'], 0, 8) == "https://" ? "https" : "http";
 		$phase_domain = $config['env']['dashboard_subdomain'].".".$config['env']['dashboard_domain'];
-		$phase_domain = "dapp.revisionary.co"; // TEMP !!!
+		//$phase_domain = "dapp.revisionary.co"; // TEMP !!!
 		$phase_url = $phase_protocol."://".$phase_domain."/";
 		$device['phase_url'] = $phase_url."sites/project-".$device['project_ID']."/page-".$device['page_ID']."/phase-".$device['phase_ID']."/index.html";
 
