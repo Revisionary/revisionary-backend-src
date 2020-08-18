@@ -1255,25 +1255,25 @@ class User {
 
 		// GET THE DATA
 		$pins = $db->connection('slave')->get('pins pin', null, '
-			pin.pin_ID,
-			pin.pin_complete,
-			pin.pin_private,
-			pin.pin_type,
-			pin.pin_element_index,
-			pin.pin_modification_type,
-			pin.pin_modification,
-			pin.pin_modification_original,
-			pin.pin_created,
-			pin.pin_css,
-			pin.pin_x,
-			pin.pin_y,
-			u.user_ID,
-			u.user_first_name,
-			u.user_last_name,
-			u.user_email,
-			u.user_picture,
-			pin.phase_ID,
-			pin.device_ID
+			pin.pin_ID as ID,
+			pin.pin_complete as complete,
+			pin.pin_private as private,
+			pin.pin_type as type,
+			pin.pin_element_index as element_index,
+			pin.pin_modification_type as modification_type,
+			pin.pin_modification as modification,
+			pin.pin_modification_original as modification_original,
+			pin.pin_created as created,
+			pin.pin_css as css,
+			pin.pin_x as x,
+			pin.pin_y as y,
+			u.user_ID as user_ID,
+			u.user_first_name as user_first_name,
+			u.user_last_name as user_last_name,
+			u.user_email as user_email,
+			u.user_picture as user_picture,
+			pin.phase_ID as phase_ID,
+			pin.device_ID as device_ID
 		');
 
 
