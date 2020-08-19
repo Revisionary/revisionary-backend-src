@@ -1181,6 +1181,7 @@ class User {
 
 		// Phase URL
 		$phase_protocol = substr($device['page_url'], 0, 8) == "https://" ? "https" : "http";
+		$phase_protocol = "https"; // !!! Always HTTPS
 		$phase_domain = $config['env']['dashboard_subdomain'].".".$config['env']['dashboard_domain'];
 		//$phase_domain = "dapp.revisionary.co"; // TEMP !!!
 		$phase_url = $phase_protocol."://".$phase_domain."/";
