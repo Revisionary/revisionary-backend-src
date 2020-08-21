@@ -1263,7 +1263,6 @@ class User {
 			pin.pin_element_index as element_index,
 			pin.pin_modification_type as modification_type,
 			pin.pin_modification as modification,
-			pin.pin_modification_original as modification_original,
 			pin.pin_created as created,
 			pin.pin_css as css,
 			pin.pin_x as x,
