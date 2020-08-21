@@ -1217,7 +1217,7 @@ class User {
 
 
 	// Get all the pins that user can access
-	public function getPins_v2(int $device_ID) {
+	public function getPins_v2(int $phase_ID, int $device_ID = null) {
 		global $db;
 
 
@@ -1245,9 +1245,20 @@ class User {
 		$db->where ("(pin.user_ID = ".self::$user_ID." or (pin.user_ID != ".self::$user_ID." and pin.pin_private = 0))");
 
 
-		// Hide device specific pins
-		//$db->where ("(pin.device_ID IS NULL or (pin.device_ID IS NOT NULL and pin.device_ID = $device_ID))");
-		$db->where('pin.device_ID', $device_ID);
+		if ($phase_ID !== null) {
+			
+			// Phase filter
+			$db->where('pin.phase_ID', $phase_ID);
+
+			// Show both global and device specific pins 
+			if ($device_ID !== null) $db->where ("(pin.device_ID IS NULL or (pin.device_ID IS NOT NULL and pin.device_ID = $device_ID))");
+
+		} else {
+
+			// Show only device specific pins
+			if ($device_ID !== null) $db->where ("pin.device_ID", $device_ID);
+
+		}
 
 
 		// // Default Sorting

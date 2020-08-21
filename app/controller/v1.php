@@ -213,6 +213,31 @@ if ($method == "GET") {
 		}
 
 
+		// Sub Method Check
+		$device_ID = isset($_url[4]) ? $_url[4] : null;
+		if ( $device_ID !== null && !is_numeric($device_ID) ) {
+			respondJSON(array(
+				"status" => "error",
+				"description" => "Wrong sub2 method"
+			), 401);	
+		}
+
+
+		// Get phase pins
+		if ($submethod == "pins") {
+
+			// Get phase pins with device ID filter
+			if (is_numeric($device_ID)) {
+				$result = $API->getPins_v2($phase_ID, $device_ID);
+				respondJSON($result, $result['status'] == "success" ? 200 : 401);
+			}
+
+
+			$result = $API->getPins_v2($phase_ID);
+			respondJSON($result, $result['status'] == "success" ? 200 : 401);
+		}
+
+
 		// Get phase devices
 		if ($submethod == "devices") {
 			$result = $API->getDevices_v2($phase_ID);
