@@ -69,12 +69,29 @@ var focused_element,
 	focused_element_has_edited_child,
 	focused_element_tagname;
 
-// Activator Pin
-var activator;
-var cursorActive;
-var cursorWasActive;
+// Pins
+var Pins = [];
+var pinDragging = false;
+var autoRefreshTimer;
+var autoRefreshInterval = 5000;
+var autoRefreshRequest = null;
+var pinsListOpen = false;
+var pinAnimation, pinAnimationTimeout;
+var commentsGetRequest = null;
+var removePinProcess = [];
+var openPin = null;
+var hiddenElementOffsets = {};
+var pinSize = 35;
 
-// PINS
+// Pin Window
+var pinWindowOpen = false;
+var pinWindowWasOpen = false;
+var pinWindowWidth = 350;
+var pinWindowHeight = 515;
+var selectionFromContentEditor = false;
+var contentEditor;
+
+// Pin Modes
 var pinModes = {
 	'live': 'Content and View Changes',
 	'style': 'View Changes',
@@ -85,13 +102,17 @@ var pinModes = {
 };
 
 // Pin Mode Selector
+var activator;
 var pinTypeSelector;
 var pinTypeSelectorOpen;
 
-// Detect initial cursor mode
+// Cursor
 var cursor;
 var currentCursorType = "style";
+var cursorActive;
+var cursorWasActive;
 
+// Pin Types
 var currentPinType = "live";
 var currentPinPrivate = 0;
 var currentPinLabel = pinModes[currentPinType];
@@ -133,28 +154,6 @@ var maxHeight = 0;
 var iframeScale = 1;
 var iframeWidth = 0;
 var iframeHeight = 0;
-
-// Pin Window
-var pinWindowOpen = false;
-var pinWindowWasOpen = false;
-var pinWindowWidth = 350;
-var pinWindowHeight = 515;
-var selectionFromContentEditor = false;
-var contentEditor;
-
-// Pins
-var Pins = [];
-var pinDragging = false;
-var autoRefreshTimer;
-var autoRefreshInterval = 5000;
-var autoRefreshRequest = null;
-var pinsListOpen = false;
-var pinAnimation, pinAnimationTimeout;
-var commentsGetRequest = null;
-var removePinProcess = [];
-var openPin = null;
-var hiddenElementOffsets = {};
-var pinSize = 35;
 
 // Limitations
 var currentAllowed = 0;
