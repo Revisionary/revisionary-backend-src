@@ -3821,9 +3821,6 @@ function applyChanges() {
 		// Find the element
 		var pin_ID = pin.pin_ID;
 
-		var element_index = pin.pin_element_index;
-		var changedElement = iframeElement(element_index);
-
 
 		console.log('APPLYING PIN: ', i, pin);
 
