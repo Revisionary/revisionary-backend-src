@@ -25,10 +25,6 @@ var Notifications = {};
 var notificationTime = 3000;
 var notificationTimeout;
 
-
-var elementOriginalPositions = {};
-
-
 // HTML Element Index
 var easy_html_elements = [
 	"A",
