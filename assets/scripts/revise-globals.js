@@ -58,16 +58,18 @@ easy_with_br.push("PATH");
 
 // Focus Variables
 var focused_element,
+	focused_element_index,
+	focused_element_has_index,
+	focused_element_text,
+	focused_element_html,
 	focused_element_children,
 	focused_element_grand_children,
-	focused_element_index,
-	focused_element_text,
 	focused_element_pin,
 	focused_element_has_live_pin,
-	focused_element_editable,
 	focused_element_edited_parents,
 	focused_element_has_edited_child,
-	focused_element_tagname;
+	focused_element_tagname,
+	focused_element_editable;
 
 // Pins
 var Pins = [];
