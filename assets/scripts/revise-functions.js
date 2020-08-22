@@ -244,8 +244,8 @@ function runTheInspector() {
 
 
 			// Iframe Document and Window
-			documentChild = $(this).prop("contentWindow").document;
 			childWindow = $(this).prop("contentWindow");
+			iframeDocument = childWindow.document;
 			
 
 
@@ -255,7 +255,7 @@ function runTheInspector() {
 			var scrollTimer, scrollFlag = false;
 
 			// Prevent clicking somewhere
-			documentChild.addEventListener('click', function(e) {
+			iframeDocument.addEventListener('click', function(e) {
 			
 				if ( currentPinType != "browse" ) {
 
@@ -272,7 +272,7 @@ function runTheInspector() {
 
 
 			// Detect the mouse moves in frame
-			documentChild.addEventListener('mousemove', function(e) {
+			iframeDocument.addEventListener('mousemove', function(e) {
 
 
 				// Mouse coordinates according to the iframe container
@@ -645,7 +645,7 @@ function runTheInspector() {
 
 
 			// Detect the mouse clicks in frame
-			documentChild.addEventListener('mousedown', function(e) {
+			iframeDocument.addEventListener('mousedown', function(e) {
 
 
 				//console.log('MOUSE DOWN');
@@ -662,7 +662,7 @@ function runTheInspector() {
 
 
 			// Detect the mouse clicks in frame
-			documentChild.addEventListener('mouseup', function(e) {
+			iframeDocument.addEventListener('mouseup', function(e) {
 
 
 				// var code = e.keyCode || e.which;
@@ -727,7 +727,7 @@ function runTheInspector() {
 
 
 			// Detect the scroll to re-position pins
-			documentChild.addEventListener('scroll', function(e) {
+			iframeDocument.addEventListener('scroll', function(e) {
 
 
 				//console.log('SCROLLIIIIIIIING');
@@ -753,7 +753,7 @@ function runTheInspector() {
 
 
 			// Detect shift key press to toggle browse mode
-			documentChild.addEventListener('keydown', function(e) {
+			iframeDocument.addEventListener('keydown', function(e) {
 
 
 				if (e.shiftKey) shifted = true;
@@ -775,7 +775,7 @@ function runTheInspector() {
 
 
 			// Detect shift key press to toggle browse mode
-			documentChild.addEventListener('keyup', function(e) {
+			iframeDocument.addEventListener('keyup', function(e) {
 
 
 				if (shifted && shiftToggle && !pinWindowOpen && currentPinType == "browse") {
@@ -797,7 +797,7 @@ function runTheInspector() {
 
 
 			// REDIRECT DETECTION
-	        $(documentChild).ready(function() {
+	        $(iframeDocument).ready(function() {
 				$(childWindow).on('beforeunload', function() {
 
 
@@ -1310,7 +1310,7 @@ function outline(element, private_pin, pin_type) {
 	pin_type = assignDefault(pin_type, "live");
 
 
-	if (iframeLoaded == false) return false;
+	if (!iframeLoaded) return false;
 
 
 	var block = pin_type == "live" ? false : true;
@@ -1327,7 +1327,7 @@ function outline(element, private_pin, pin_type) {
 // Color the element
 function removeOutline() {
 
-	if (iframeLoaded == false) return false;
+	if (!iframeLoaded) return false;
 
 	// Remove outlines from iframe
 	iframeElement('*:not(.revisionary-focused)').css('outline', '');
@@ -1484,7 +1484,7 @@ function toggleCursorActive(forceClose, forceOpen) {
 function activateCursor() {
 
 	
-	if (iframeLoaded == false) return false;
+	if (!iframeLoaded) return false;
 
 
 	// If hit the limitations
@@ -1528,7 +1528,7 @@ function activateCursor() {
 function deactivateCursor() {
 
 
-	if (iframeLoaded == false) return false;
+	if (!iframeLoaded) return false;
 
 
 	console.log('Deactivate Cursor');
@@ -2522,7 +2522,7 @@ function changePinNumber(pinNumber) {
 function relocatePin(pin_ID) {
 
 
-	if (iframeLoaded == false) return false;
+	if (!iframeLoaded) return false;
 
 
 	// Pin info
@@ -3220,7 +3220,7 @@ function openPinWindow(pin_ID, firstTime) {
 
 					// SVG image URL
 					if ( theElement.prop('tagName').toUpperCase() == "IMAGE" )
-						originalImageSrc = getAbsoluteUrl( iframeElement(theIndex).attr('xlink:href'), documentChild );
+						originalImageSrc = getAbsoluteUrl( iframeElement(theIndex).attr('xlink:href'), iframeDocument );
 
 					// Default image preview
 					changedImageSrc = originalImageSrc;
@@ -3705,7 +3705,7 @@ function updateOriginals(pinsList, oldPinsList) {
 
 				// For SVG images
 				if ( element.prop('tagName').toUpperCase() == 'IMAGE' )
-					theOriginal = getAbsoluteUrl( element.attr('xlink:href'), documentChild );
+					theOriginal = getAbsoluteUrl( element.attr('xlink:href'), iframeDocument );
 
 			}
 
@@ -4977,7 +4977,7 @@ function reFocus() {
 // Find iframe element
 function iframeElement(selector) {
 
-	if (iframeLoaded == false) return false;
+	if (!iframeLoaded) return false;
 
 	var element = false;
 

@@ -1,7 +1,7 @@
 // GLOBAL VARIABLES
 var iframe;
 var iframeLoaded = false;
-var documentChild;
+var iframeDocument;
 var childWindow;
 
 // IDs
@@ -26,17 +26,12 @@ var notificationTime = 3000;
 var notificationTimeout;
 
 
-
 var elementOriginalPositions = {};
 
 
-
 // HTML Element Index
-var fileIndexed = false;
-var indexCount = 0;
-var elementCount = 0;
 var easy_html_elements = [
-    "A",
+	"A",
 	"B",
 	"I",
 	"U",
@@ -90,12 +85,12 @@ var cursorWasActive;
 
 // PINS
 var pinModes = {
-	'live' 			: 'Content and View Changes',
-	'style' 		: 'View Changes',
-	'comment' 		: 'Comment',
-	'private-live'	: 'Private Content and View Changes',
-	'private'		: 'Private View Changes',
-	'browse'		: 'Browse Mode'
+	'live': 'Content and View Changes',
+	'style': 'View Changes',
+	'comment': 'Comment',
+	'private-live': 'Private Content and View Changes',
+	'private': 'Private View Changes',
+	'browse': 'Browse Mode'
 };
 
 // Pin Mode Selector
@@ -176,14 +171,14 @@ var currentAllowed = 0;
 var currentLimitLabel = "";
 
 // When document is ready, fill the variables
-$(function() {
+$(function () {
 
 	activator = $('.current-mode');
 	cursorActive = activator.data('pin-type') != "browse";
 	cursorWasActive = cursorActive;
 
-	realPageWidth = page_width = maxWidth = iframeWidth = parseInt( $('#the-page').attr('width') );
-	realPageHeight = page_height = maxHeight = iframeHeight = parseInt( $('#the-page').attr('height') );
+	realPageWidth = page_width = maxWidth = iframeWidth = parseInt($('#the-page').attr('width'));
+	realPageHeight = page_height = maxHeight = iframeHeight = parseInt($('#the-page').attr('height'));
 
 	pinWindowWidth = pinWindow().outerWidth();
 	pinWindowHeight = pinWindow().outerHeight();
