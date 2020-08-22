@@ -1993,10 +1993,6 @@ function removePin(pin_ID) {
 	pinElement(pin_ID).remove();
 
 
-	// Remove the notification
-	delete Notifications[pin_ID];
-
-
 	// Re-Index the pin counts
 	reindexPins();
 

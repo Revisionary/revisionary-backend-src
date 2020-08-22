@@ -20,11 +20,6 @@ var page_redirected = false;
 var page_colors = {};
 var colorsSorted = [];
 
-// Notifications
-var Notifications = {};
-var notificationTime = 3000;
-var notificationTimeout;
-
 // HTML Element Index
 var easy_html_elements = [
 	"A",
@@ -149,7 +144,7 @@ var selectionFromContentEditor = false;
 var contentEditor;
 
 // Pins
-var Pins = {};
+var Pins = [];
 var pinDragging = false;
 var autoRefreshTimer;
 var autoRefreshInterval = 5000;
