@@ -104,7 +104,6 @@ var currentPinNumber = 1;
 
 // Mouse
 var offset = 0;
-var mouseInTheFrame = false;
 var screenX = 0;
 var screenY = 0;
 var containerX = 0;
@@ -124,8 +123,8 @@ var scrollOffset_top = 0;
 var scrollOffset_left = 0;
 var oldScrollOffset_top = 0;
 var oldScrollOffset_left = 0;
-var scrollX;
-var scrollY;
+var scrollX = 0;
+var scrollY = 0;
 var scrollOnPin = false;
 
 // Initial Scale
