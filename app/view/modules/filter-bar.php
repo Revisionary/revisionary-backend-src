@@ -9,7 +9,7 @@
 			<span class="pin-count middle remaining" data-count="<?=$inCompletePinsCount?>"><?=$inCompletePinsCount?></span>
 			<div class="pin-stats">
 
-				<pin data-pin-type="live" data-count="<?=$livePinsCount?>"><?=$livePinsCount?>
+				<pin data-pin-type="content" data-count="<?=$contentPinsCount?>"><?=$contentPinsCount?>
 					<div class="pin-title">Content</div>
 				</pin>
 
@@ -30,7 +30,7 @@
 			<span class="pin-count middle done" data-count="<?=$completePinsCount?>"><?=$completePinsCount?></span>
 			<div class="pin-stats">
 
-				<pin class="show-number" data-pin-type="live" data-pin-complete="1" data-count="<?=$completeLivePinsCount?>"><?=$completeLivePinsCount?>
+				<pin class="show-number" data-pin-type="content" data-pin-complete="1" data-count="<?=$completeContentPinsCount?>"><?=$completeContentPinsCount?>
 					<div class="pin-title">Content</div>
 				</pin>
 

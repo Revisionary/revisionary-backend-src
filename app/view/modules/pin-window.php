@@ -1,6 +1,6 @@
 <div id="pin-window" class="loading"
 	data-pin-id="0"
-	data-pin-type="live"
+	data-pin-type="content"
 	data-pin-private="0"
 	data-pin-complete="0"
 	data-pin-x="30"
@@ -25,10 +25,10 @@
 
 					<pin
 						class="chosen-pin"
-						data-pin-type="live"
+						data-pin-type="content"
 						data-pin-private="0"
 					></pin>
-					<a href="#"><span class="pin-label">Live Edit</span> <i class="fa fa-caret-down"></i></a>
+					<a href="#"><span class="pin-label">Content Edit</span> <i class="fa fa-caret-down"></i></a>
 
 					<ul class="xl-left type-convertor">
 
@@ -39,9 +39,9 @@
 							</a>
 						</li>
 
-						<li class="convert-to-live">
+						<li class="convert-to-content">
 							<a href="#" class="xl-flexbox xl-middle">
-								<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
+								<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
 								<div>Make <b class="public">Public</b> <span>Content Pin</span></div>
 							</a>
 						</li>

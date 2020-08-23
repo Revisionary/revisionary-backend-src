@@ -65,7 +65,7 @@ var focused_element,
 	focused_element_children,
 	focused_element_grand_children,
 	focused_element_pin,
-	focused_element_has_live_pin,
+	focused_element_has_content_pin,
 	focused_element_edited_parents,
 	focused_element_has_edited_child,
 	focused_element_tagname,
@@ -95,10 +95,10 @@ var contentEditor;
 
 // Pin Modes
 var pinModes = {
-	'live': 'Content and View Changes',
+	'content': 'Content and View Changes',
 	'style': 'View Changes',
 	'comment': 'Comment',
-	'private-live': 'Private Content and View Changes',
+	'private-content': 'Private Content and View Changes',
 	'private': 'Private View Changes',
 	'browse': 'Browse Mode'
 };
@@ -115,7 +115,7 @@ var cursorActive;
 var cursorWasActive;
 
 // Pin Types
-var currentPinType = "live";
+var currentPinType = "content";
 var currentPinPrivate = 0;
 var currentPinLabel = pinModes[currentPinType];
 var currentPinTypeWas;

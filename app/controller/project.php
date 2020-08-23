@@ -96,7 +96,7 @@ $allMyPins = $User->getPins(null, null, null, $project_ID);
 
 
 // Count all the pin types
-$completePinsCount = $inCompletePinsCount = $privatePinsCount = $livePinsCount = $stylePinsCount = $commentPinsCount = $completeLivePinsCount = $completeStylePinsCount = $completeCommentPinsCount = 0;
+$completePinsCount = $inCompletePinsCount = $privatePinsCount = $contentPinsCount = $stylePinsCount = $commentPinsCount = $completeContentPinsCount = $completeStylePinsCount = $completeCommentPinsCount = 0;
 if ( is_array($allMyPins) ) {
 
 
@@ -125,9 +125,9 @@ if ( is_array($allMyPins) ) {
 
 
 
-	$livePinsCount = count(array_filter($inCompletePins, function($pin) {
+	$contentPinsCount = count(array_filter($inCompletePins, function($pin) {
 
-		return $pin['pin_type'] == "live" && $pin['pin_private'] == "0";
+		return $pin['pin_type'] == "content" && $pin['pin_private'] == "0";
 
 	}));
 
@@ -145,9 +145,9 @@ if ( is_array($allMyPins) ) {
 
 
 
-	$completeLivePinsCount = count(array_filter($completePins, function($pin) {
+	$completeContentPinsCount = count(array_filter($completePins, function($pin) {
 
-		return $pin['pin_type'] == "live" && $pin['pin_private'] == "0";
+		return $pin['pin_type'] == "content" && $pin['pin_private'] == "0";
 
 	}));
 

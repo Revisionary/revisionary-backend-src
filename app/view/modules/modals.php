@@ -44,7 +44,7 @@
 						
 						<div class="wrap xl-gutter-40 xl-center">
 							<div class="col">
-								<label class="bottom-tooltip" data-tooltip="This allows you to download the live URL and change the content."><input type="radio" name="page-type" value="url" checked>Live Mode <small>(Recommended)</small></label>
+								<label class="bottom-tooltip" data-tooltip="This allows you to download the content URL and change the content."><input type="radio" name="page-type" value="url" checked>Content Mode <small>(Recommended)</small></label>
 								<label class="xl-hidden"><input type="radio" name="page-type" value="image">Image Mode</label>
 							</div>
 							<div class="col">
@@ -504,7 +504,7 @@
 				<li>Unlimited Projects</li>
 				<li>Unlimited Pages/Phases</li>
 				<li>Unlimited Devices</li>
-				<li>Unlimited Live, Style and Comment Pins</li>
+				<li>Unlimited Content, Style and Comment Pins</li>
 				<li>Ability to see content differences</li>
 				<li>And many more features...</li>
 			</ul><br>
@@ -568,12 +568,12 @@
 
 
 
-<div id="limit-warning" class="popup-window xl-5-12" data-current-plan="<?=getUserInfo()['userLevelName']?>" data-current-pin-mode="" data-allowed-live-pin="<?=$pinsLeft?>" data-allowed-comment-pin="<?=$commentPinsLeft?>" data-allowed-phase="<?=$phasesLeft?>">
+<div id="limit-warning" class="popup-window xl-5-12" data-current-plan="<?=getUserInfo()['userLevelName']?>" data-current-pin-mode="" data-allowed-content-pin="<?=$pinsLeft?>" data-allowed-comment-pin="<?=$commentPinsLeft?>" data-allowed-phase="<?=$phasesLeft?>">
 	<a href="#" class="cancel-button" style="position: absolute; right: 20px; top: 20px;"><i class="fa fa-times"></i></a>
 
 	<div class="xl-center">
 		<p class="limit-text">
-			<b>You have reached your live pin limit.</b> <br> 
+			<b>You have reached your content pin limit.</b> <br> 
 			To be able to continue changing content of the page, please upgrade your account.
 		</p>
 	
@@ -583,9 +583,9 @@
 				<a href="<?=site_url('upgrade')?>" data-modal="upgrade" class="upgrade-button" style="background-color: green;"><i class="fa fa-angle-double-up"></i> UPGRADE NOW</a>
 
 			</div>
-			<div class="col recommendation recommend-live-mode">
+			<div class="col recommendation recommend-content-mode">
 
-				<a href="#" class="upgrade-button invert" data-switch-pin-type="live" data-switch-pin-private="0"><i class="fa fa-dot-circle"></i> Continue with Live Mode</a>
+				<a href="#" class="upgrade-button invert" data-switch-pin-type="content" data-switch-pin-private="0"><i class="fa fa-dot-circle"></i> Continue with Content Mode</a>
 
 			</div>
 			<div class="col recommendation recommend-comment-mode">

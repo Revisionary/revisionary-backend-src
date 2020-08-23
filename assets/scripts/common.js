@@ -6,29 +6,29 @@ var notificationAutoRefreshInterval = 10000;
 var notificationAutoRefreshRequest = null;
 
 
-$(function() {
+$(function () {
 
 
 	// Prevent clicking '#' links
-	$(document).on('click', 'a[href="#"], .name-field.editing, .no-link', function(e) {
+	$(document).on('click', 'a[href="#"], .name-field.editing, .no-link', function (e) {
 		e.preventDefault();
 	});
 
 
 	// Click to open dropdowns
-	$(document).on('click', '.click-to-open > a:not(.editing)', function(e) {
+	$(document).on('click', '.click-to-open > a:not(.editing)', function (e) {
 
 		$(this).toggleClass('open');
 		$(this).find('.fa-angle-down').toggleClass('fa-angle-up');
 
 		// Close all opens
-		$('.click-to-open > a.open').not( $(this) ).removeClass('open').find('.fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
+		$('.click-to-open > a.open').not($(this)).removeClass('open').find('.fa-angle-down.fa-angle-up').removeClass('fa-angle-up');
 
 	});
 
 
 	// Choose to close dropdowns
-	$(document).on('click', '.click-to-open.choose-to-close > a:not(.editing) + ul a:not(.has-sub)', function(e) {
+	$(document).on('click', '.click-to-open.choose-to-close > a:not(.editing) + ul a:not(.has-sub)', function (e) {
 
 		// Close all opens
 		$('.click-to-open > a.open').removeClass('open').find('.fa-angle-down.fa-angle-up').removeClass('fa-angle-up');;
@@ -37,10 +37,10 @@ $(function() {
 
 
 	// Blur on click-to-open dropdowns
-	document.addEventListener('click', function(e) {
+	document.addEventListener('click', function (e) {
 
-		
-		if ( !$(e.toElement).parents('.click-to-open').length ) {
+
+		if (!$(e.toElement).parents('.click-to-open').length) {
 
 			//console.log('BLUR FROM DROPDOWN', e.relatedTarget, e);
 
@@ -54,14 +54,14 @@ $(function() {
 
 
 	// Links with confirmation
-	$(document).on('click', '[data-confirm]:not([data-action])', function(e) {
+	$(document).on('click', '[data-confirm]:not([data-action])', function (e) {
 
 		var confirmation = $(this).attr('data-confirm');
 
 		// Redownload exception
-		if ( $(this).hasClass('redownload') && Pins.length == 0 ) return true;
+		if ($(this).hasClass('redownload') && Pins.length == 0) return true;
 
-		if ( confirmation != "" && confirm(confirmation) ) {
+		if (confirmation != "" && confirm(confirmation)) {
 
 			return true;
 
@@ -73,7 +73,7 @@ $(function() {
 
 
 	// Close Modal
-	$('.cancel-button').on('click', function(e) {
+	$('.cancel-button').on('click', function (e) {
 
 		var popup = $(this).parents('.popup-window').attr('id');
 
@@ -82,17 +82,17 @@ $(function() {
 
 		// Trial Expiration 
 		if (popup == "trialexpired") {
-	
-			
+
+
 			ajax('expired-notified', {
-	
-				'nonce'	: nonce
-	
-			}).done(function(result) {
-	
+
+				'nonce': nonce
+
+			}).done(function (result) {
+
 				console.log('RESULT: ', result);
-				if ( result.status != "success" ) console.error('ERROR: ', result);
-	
+				if (result.status != "success") console.error('ERROR: ', result);
+
 			});
 
 
@@ -105,22 +105,22 @@ $(function() {
 	});
 
 	// Close Modal via Escape key
-	$(document).keydown(function (e){
+	$(document).keydown(function (e) {
 
-	    if( e.keyCode == 27 && $('.popup-window.active').length ) {
+		if (e.keyCode == 27 && $('.popup-window.active').length) {
 
 			console.log('CLOSE POPUP via ESC');
 			$('.popup-window.active .cancel-button').trigger('click');
 
-		    e.preventDefault();
-		    return false;
-	    }
+			e.preventDefault();
+			return false;
+		}
 
 	});
 
 
 	// More Options Button on New Page/Project Modal
-	$('.popup-window .option-toggler').on('click', function(e) {
+	$('.popup-window .option-toggler').on('click', function (e) {
 
 		var popup = $(this).parents('.popup-window');
 
@@ -142,7 +142,7 @@ $(function() {
 
 
 	// New project modal URL check
-	$(document).on('submit', '#add-new .new-project-form', function(e) {
+	$(document).on('submit', '#add-new .new-project-form', function (e) {
 
 		var url = $(this).find('input[name="page-url"]').val();
 		var design = $(this).find('input[name="design-upload"]').val();
@@ -162,21 +162,21 @@ $(function() {
 
 
 			$.ajax({
-				url: ajax_url+'?type=design-upload',
+				url: ajax_url + '?type=design-upload',
 				type: 'POST',
-				data:  new FormData(this),
+				data: new FormData(this),
 				mimeType: "multipart/form-data",
 				contentType: false,
 				cache: false,
 				processData: false,
 				dataType: 'json',
-				xhr: function() {
+				xhr: function () {
 
 
 					var jqXHR = null;
-					if ( window.ActiveXObject ) {
+					if (window.ActiveXObject) {
 
-						jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+						jqXHR = new window.ActiveXObject("Microsoft.XMLHTTP");
 
 					} else {
 
@@ -186,39 +186,39 @@ $(function() {
 
 
 					// Upload progress
-					jqXHR.upload.addEventListener( "progress", function ( evt ) {
+					jqXHR.upload.addEventListener("progress", function (evt) {
 
-						if ( evt.lengthComputable ) {
+						if (evt.lengthComputable) {
 
-							var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-							console.log( 'Uploaded percent', percentComplete );
+							var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+							console.log('Uploaded percent', percentComplete);
 
-							submit.prop('disabled', true).text(percentComplete +'%');
+							submit.prop('disabled', true).text(percentComplete + '%');
 
 							if (percentComplete == 100) submit.text('Opening');
 
 						}
 
-					}, false );
+					}, false);
 
 
 					// Download progress
-					jqXHR.addEventListener( "progress", function ( evt ) {
+					jqXHR.addEventListener("progress", function (evt) {
 
-						if ( evt.lengthComputable ) {
+						if (evt.lengthComputable) {
 
-							var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-							console.log( 'Downloaded percent', percentComplete );
+							var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+							console.log('Downloaded percent', percentComplete);
 
 						}
 
-					}, false );
+					}, false);
 
 
 					return jqXHR;
 				},
-				success: function(data, textStatus, jqXHR) {
-					
+				success: function (data, textStatus, jqXHR) {
+
 					var imageUrl = data.new_url;
 					var status = data.status;
 
@@ -242,27 +242,27 @@ $(function() {
 
 
 				},
-				error: function(jqXHR, textStatus, errorThrown) {
+				error: function (jqXHR, textStatus, errorThrown) {
 
 					console.log('FAILED!!', errorThrown);
 
-					
+
 					// Finish the process !!!
 					endProcess(uploadDesignProcessID);
 
 				}
 			});
-			
+
 
 			e.preventDefault();
 			return false;
 		}
-		
-		
+
+
 
 		// Pages check in current project
 		var pageExists = false;
-		var pageFound = myPages.filter(function(page) {
+		var pageFound = myPages.filter(function (page) {
 			return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID == project_ID;
 		});
 		if (pageFound.length) {
@@ -284,9 +284,9 @@ $(function() {
 
 
 				// Confirm: Should we add a new phase?
-				if ( confirm("The URL you entered already has a page in this project. Should we add a new phase on this page?") ) {
+				if (confirm("The URL you entered already has a page in this project. Should we add a new phase on this page?")) {
 
-					var newPhaseUrl = "/projects?new_phase="+ pageFound[0].page_ID +"&page_width="+page_width+"&page_height="+page_height;
+					var newPhaseUrl = "/projects?new_phase=" + pageFound[0].page_ID + "&page_width=" + page_width + "&page_height=" + page_height;
 					console.log('Redirect to a new phase URL...', newPhaseUrl);
 
 
@@ -305,7 +305,7 @@ $(function() {
 
 		// Pages check in other projects
 		var pageExistsInOtherProjects = false;
-		var pageFoundInOtherProject = myPages.filter(function(page) {
+		var pageFoundInOtherProject = myPages.filter(function (page) {
 			return urlStandardize(page.page_url, true) == urlStandardize(url, true) && page.project_ID != project_ID;
 		});
 		if (!pageExists && pageFoundInOtherProject.length) {
@@ -320,16 +320,16 @@ $(function() {
 				console.log('Multiple pages found in another projects', pageFoundInOtherProject);
 				// Open page selector modal
 				// ... !!!
-	
+
 			} else {
 
 				console.log('Page found in another project', pageFoundInOtherProject[0]);
 
 
 				// Confirm: Should we add a new phase?
-				if ( confirm("The URL you entered already has a page in another project. Should we add a new phase on that page?") ) {
+				if (confirm("The URL you entered already has a page in another project. Should we add a new phase on that page?")) {
 
-					var newPhaseUrlOtherProject = "/projects?new_phase="+ pageFoundInOtherProject[0].page_ID +"&page_width="+page_width+"&page_height="+page_height;
+					var newPhaseUrlOtherProject = "/projects?new_phase=" + pageFoundInOtherProject[0].page_ID + "&page_width=" + page_width + "&page_height=" + page_height;
 					console.log('Redirect to a new phase URL...', newPhaseUrlOtherProject);
 
 
@@ -349,7 +349,7 @@ $(function() {
 		// Check other project domains
 		var projectExists = false;
 		var projectsFound = [];
-		var pageFoundByDomainInOtherProjects = myPages.filter(function(page) {
+		var pageFoundByDomainInOtherProjects = myPages.filter(function (page) {
 
 			return getDomainName(page.page_url) == getDomainName(url) && page.project_ID != project_ID;
 
@@ -367,14 +367,14 @@ $(function() {
 				console.log('Multiple projects found with this domain', pageFoundByDomainInOtherProjects);
 				// Open project selector modal
 				// ... !!!
-	
+
 			} else {
 
 				console.log('Project found with this domain', pageFoundByDomainInOtherProjects[0]);
 
 
 				// Confirm: Should we add a new page in the found Project?
-				if ( confirm("The URL you entered already has a project. Should we add a new page in that Project?") ) {
+				if (confirm("The URL you entered already has a project. Should we add a new page in that Project?")) {
 
 					console.log('Update the project number...');
 
@@ -397,10 +397,10 @@ $(function() {
 
 		// Recommend adding different project
 		var newProject = false;
-		var pageFoundNotImage = myPages.filter(function(page) {
+		var pageFoundNotImage = myPages.filter(function (page) {
 			return page.page_url != "image" && page.project_ID == project_ID;
 		});
-		var pageFoundByDomain = myPages.filter(function(page) {
+		var pageFoundByDomain = myPages.filter(function (page) {
 			return getDomainName(page.page_url) == getDomainName(url) && page.project_ID == project_ID;
 		});
 		if (!pageExists && !pageExistsInOtherProjects && !projectExists && !pageFoundByDomain.length && project_ID != "new" && project_ID != "autodetect" && pageFoundNotImage.length) {
@@ -410,7 +410,7 @@ $(function() {
 
 
 			// Confirm: Should we add a new project for this URL?
-			if ( confirm("The URL you entered doesn't look belong to this project. Should we create a new project for this URL?") ) {
+			if (confirm("The URL you entered doesn't look belong to this project. Should we create a new project for this URL?")) {
 
 				console.log('Redirect to a new project URL...');
 
@@ -453,7 +453,7 @@ $(function() {
 		console.log('URL: ', url);
 		console.log('Project ID: ', project_ID);
 
-	}).on('reset', '.new-project-form', function(e) {
+	}).on('reset', '.new-project-form', function (e) {
 
 
 		var form = $('.new-project-form');
@@ -471,14 +471,14 @@ $(function() {
 
 
 	// New page/project inputs
-	$(document).on('input', 'form.new-project-form input', function(e) {
+	$(document).on('input', 'form.new-project-form input', function (e) {
 
 
 		// Update the cat ID
 		var currentForm = $(this).parents('form').first();
 		var formCatID = currentForm.attr('data-cat-id');
-		var forms = $('form[data-cat-id="'+ formCatID +'"]');
-		var otherForm = $('form[data-cat-id="'+ formCatID +'"]').not(currentForm);
+		var forms = $('form[data-cat-id="' + formCatID + '"]');
+		var otherForm = $('form[data-cat-id="' + formCatID + '"]').not(currentForm);
 
 		// Input values
 		var name = $(this).attr('name');
@@ -490,7 +490,7 @@ $(function() {
 
 
 			// Protocol check
-			if ( value.length > 8 && value.indexOf('://') === -1 ) {
+			if (value.length > 8 && value.indexOf('://') === -1) {
 				value = 'http://' + value;
 				$(this).val(value);
 			}
@@ -504,15 +504,15 @@ $(function() {
 		}
 
 
-		otherForm.find('input[name="'+ name +'"]:not([type="checkbox"]):not([type="radio"])').val(value);
-		otherForm.find('input[type="radio"][name="'+ name +'"][value="'+ value +'"]').prop('checked', true);
+		otherForm.find('input[name="' + name + '"]:not([type="checkbox"]):not([type="radio"])').val(value);
+		otherForm.find('input[type="radio"][name="' + name + '"][value="' + value + '"]').prop('checked', true);
 
 
 	});
 
 
 	// Add user toggle
-	$('.new-member').click(function(e) {
+	$('.new-member').click(function (e) {
 
 		$(this).next().fadeToggle();
 
@@ -527,9 +527,9 @@ $(function() {
 
 		var input = $(this);
 		var type = $(this).attr('data-type');
-		var userList = $('.shares.user.'+type);
-		var emailList = $('.shares.email.'+type);
-		var lists = $('.shares.'+type);
+		var userList = $('.shares.user.' + type);
+		var emailList = $('.shares.email.' + type);
+		var lists = $('.shares.' + type);
 
 		function userTemplate_html(user_ID, userPhoto, userName, type, deletable) {
 
@@ -539,12 +539,12 @@ $(function() {
 
 
 			return '\
-				<li class="'+ (!deletable ? 'undeletable' : '') +'" data-to="'+ user_ID +'">\
-					'+ (deletable ? '<input type="hidden" name="'+type+'_shares[]" value="' + user_ID + '"/>' : '') +'\
+				<li class="'+ (!deletable ? 'undeletable' : '') + '" data-to="' + user_ID + '">\
+					'+ (deletable ? '<input type="hidden" name="' + type + '_shares[]" value="' + user_ID + '"/>' : '') + '\
 					<picture class="profile-picture" ' + userPhoto + '>\
-						'+userName+'\
+						'+ userName + '\
 					</picture>\
-					<a href="#" class="remove-share" data-type="'+type+'" data-value="'+user_ID+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+					<a href="#" class="remove-share" data-type="'+ type + '" data-value="' + user_ID + '"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 				</li>\
 			';
 
@@ -558,11 +558,11 @@ $(function() {
 
 
 			return '\
-				<li class="'+ (!deletable ? 'undeletable' : '') +'" data-to="'+ email +'">\
-					'+ (deletable ? '<input type="hidden" name="'+type+'_shares[]" value="'+email+'"/>' : '') +'\
+				<li class="'+ (!deletable ? 'undeletable' : '') + '" data-to="' + email + '">\
+					'+ (deletable ? '<input type="hidden" name="' + type + '_shares[]" value="' + email + '"/>' : '') + '\
 					<span>\
-						'+email+'\
-						<a href="#" class="remove-share" data-type="'+type+'" data-value="'+email+'"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
+						'+ email + '\
+						<a href="#" class="remove-share" data-type="'+ type + '" data-value="' + email + '"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 					</span>\
 				</li>\
 			';
@@ -570,9 +570,9 @@ $(function() {
 		}
 
 
-	    if(e.keyCode == 13) {
+		if (e.keyCode == 13) {
 
-		    input.prop('disabled', true);
+			input.prop('disabled', true);
 
 
 			// Start the process
@@ -580,28 +580,28 @@ $(function() {
 
 			ajax('user-check', {
 
-				'email'	: input.val(),
-				'nonce'	: nonce
+				'email': input.val(),
+				'nonce': nonce
 
-			}).done(function(result) {
+			}).done(function (result) {
 
 
 				var data = result.data;
 				console.log('DATA: ', data);
 
 
-				if ( data.status == "found" || data.status == "not-found" ) {
+				if (data.status == "found" || data.status == "not-found") {
 
 
-					if ( !lists.find('[value="'+data.share_to+'"]').length && !$('.shares.project').children('[data-to="'+data.share_to+'"]').length ) {
+					if (!lists.find('[value="' + data.share_to + '"]').length && !$('.shares.project').children('[data-to="' + data.share_to + '"]').length) {
 
 
 						// Add if not already exists
-						if ( data.status == "found" )
-							userList.append( userTemplate_html(data.user_ID, data.user_photo, data.user_name, type) );
+						if (data.status == "found")
+							userList.append(userTemplate_html(data.user_ID, data.user_photo, data.user_name, type));
 
-						if ( data.status == "not-found" )
-							emailList.append( emailTemplate_html(input.val(), type) );
+						if (data.status == "not-found")
+							emailList.append(emailTemplate_html(input.val(), type));
 
 
 					}
@@ -613,7 +613,7 @@ $(function() {
 
 
 						// Remove from the page list
-						$('.shares.page').children('[data-to="'+data.share_to+'"]').remove();
+						$('.shares.page').children('[data-to="' + data.share_to + '"]').remove();
 
 					}
 
@@ -642,15 +642,15 @@ $(function() {
 
 
 
-		    e.preventDefault();
-		    return false;
-	    }
+			e.preventDefault();
+			return false;
+		}
 
 	});
 
 
 	// ADD NEW MODAL: Delete selected shared person from the list
-	$(document).on('click', '.shares a.remove-share', function(e) {
+	$(document).on('click', '.shares a.remove-share', function (e) {
 
 
 		var share = $(this).closest('li');
@@ -663,9 +663,9 @@ $(function() {
 
 
 		// Remove from page list
-		if ( type == "project" && $('.shares > li.undeletable a.remove-share[data-value="'+value+'"]').length ) {
+		if (type == "project" && $('.shares > li.undeletable a.remove-share[data-value="' + value + '"]').length) {
 
-			$('.shares a.remove-share[data-value="'+value+'"]').closest('li').remove();
+			$('.shares a.remove-share[data-value="' + value + '"]').closest('li').remove();
 
 		}
 
@@ -677,7 +677,7 @@ $(function() {
 
 
 	// ADD NEW MODAL: New screen
-	$('#add-new .screen-add a').click(function(e) {
+	$('#add-new .screen-add a').click(function (e) {
 
 		var listed_screen = $(this).parent();
 		var listed_screen_cat = $(this).parents('.screen-cat');
@@ -691,8 +691,8 @@ $(function() {
 
 		var new_screen_html = '\
 			<li>\
-				<input type="hidden" name="screens[]" value="'+screen_id+'"/>\
-				<i class="fa '+ screen_cat_icon +'" aria-hidden="true"></i> <span>'+screen_cat_name+' ('+screen_width+' x '+screen_height+')</span>\
+				<input type="hidden" name="screens[]" value="'+ screen_id + '"/>\
+				<i class="fa '+ screen_cat_icon + '" aria-hidden="true"></i> <span>' + screen_cat_name + ' (' + screen_width + ' x ' + screen_height + ')</span>\
 				<a href="#" class="remove-screen"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 			</li>\
 		';
@@ -703,10 +703,10 @@ $(function() {
 
 			new_screen_html = '\
 				<li>\
-					<input type="hidden" name="screens[]" value="'+screen_id+'">\
-					<input type="hidden" name="page_width" value="'+screen_width+'">\
-					<input type="hidden" name="page_height" value="'+screen_height+'">\
-					<i class="fa '+ screen_cat_icon +'" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width">'+screen_width+'</span> x <span class="screen-height">'+screen_height+'</span>)</span>\
+					<input type="hidden" name="screens[]" value="'+ screen_id + '">\
+					<input type="hidden" name="page_width" value="'+ screen_width + '">\
+					<input type="hidden" name="page_height" value="'+ screen_height + '">\
+					<i class="fa '+ screen_cat_icon + '" aria-hidden="true"></i> <span>Current Screen (<span class="screen-width">' + screen_width + '</span> x <span class="screen-height">' + screen_height + '</span>)</span>\
 					<a href="#" class="remove-screen"><i class="fa fa-times-circle" aria-hidden="true"></i></a>\
 				</li>\
 			';
@@ -723,7 +723,7 @@ $(function() {
 
 
 		// Check if any other screen left in that category
-		if ( !listed_screen.parent().children(':visible').length )
+		if (!listed_screen.parent().children(':visible').length)
 			listed_screen_cat.hide();
 
 
@@ -737,7 +737,7 @@ $(function() {
 
 
 	// ADD NEW MODAL: Delete selected screen from the list
-	$(document).on('click', '.selected-screens a.remove-screen', function(e) {
+	$(document).on('click', '.selected-screens a.remove-screen', function (e) {
 
 
 		var listed_screen = $(this).parent();
@@ -745,7 +745,7 @@ $(function() {
 
 		var screen = listed_screen.find('input');
 		var screen_id = screen.attr('value');
-		var screen_from_list = $('.screen-add > li > a[data-screen-id="'+screen_id+'"]').parent();
+		var screen_from_list = $('.screen-add > li > a[data-screen-id="' + screen_id + '"]').parent();
 
 
 		// Show in the list
@@ -761,7 +761,7 @@ $(function() {
 
 
 		// Count the selected screens and if less than 2, hide that remover
-		if ( $('.selected-screens > li').length < 2 ) {
+		if ($('.selected-screens > li').length < 2) {
 
 			$('.selected-screens a.remove-screen').hide();
 
@@ -778,14 +778,14 @@ $(function() {
 
 
 	// Plain text paste on content editable blocks
-	$('[contenteditable]').on('paste',function(e) {
+	$('[contenteditable]').on('paste', function (e) {
 
 
 		e.preventDefault();
 
 		var plain_text = (e.originalEvent || e).clipboardData.getData('text/plain');
 
-		if(typeof plain_text !== 'undefined')
+		if (typeof plain_text !== 'undefined')
 			document.execCommand('insertText', false, plain_text);
 
 		console.log('PASTED: ', plain_text);
@@ -795,7 +795,7 @@ $(function() {
 
 
 	// ACTIONS - Archive, delete, recover, rename, ...
-	$(document).on('click', '[data-action]', function(e) {
+	$(document).on('click', '[data-action]', function (e) {
 
 
 		// Item details
@@ -826,7 +826,7 @@ $(function() {
 			//item.find('.dropdown > ul').hide();
 
 			// If the same text
-			if ( input.val() == input.attr('value') ) {
+			if (input.val() == input.attr('value')) {
 				e.preventDefault();
 				return false;
 			}
@@ -835,7 +835,7 @@ $(function() {
 
 
 		// If confirmed, send data
-		if ( !confirmText || confirm(confirmText) )
+		if (!confirmText || confirm(confirmText))
 			doAction(action, object_type, object_ID, firstParameter, secondParameter, thirdParameter);
 
 
@@ -846,12 +846,12 @@ $(function() {
 
 
 	// Modal Opener
-	$(document).on('click', '[data-modal]', function(e) {
+	$(document).on('click', '[data-modal]', function (e) {
 
 
 		var modalName = $(this).attr('data-modal');
 		var modal = $('#' + modalName + '.popup-window');
-		if ( !modal.length ) return;
+		if (!modal.length) return;
 		if (modalName == "upgrade" && modal.attr('data-current-plan') == "Enterprise") return;
 
 		var dataType = $(this).attr('data-type');
@@ -907,21 +907,21 @@ $(function() {
 
 
 			// Project ID
-			modal.find('input[name="project_ID"]').attr('value', object_ID);		
-		
-		
+			modal.find('input[name="project_ID"]').attr('value', object_ID);
+
+
 			// Update the current category name
 			var catName = $(this).parents('.category').find('.cat-separator .name').text();
 			modal.find('.to').html('');
 			if (catName != "Uncategorized" && catName != "")
-				modal.find('.to').html("To <b>"+ catName +"</b> Section");
-		
-		
+				modal.find('.to').html("To <b>" + catName + "</b> Section");
+
+
 			// Print the project name
 			if (!thisBlock.length && catName == "" && dataType == "page")
-				modal.find('.to').html("To <b>"+ objectName +"</b> Project");
+				modal.find('.to').html("To <b>" + objectName + "</b> Project");
 
-			
+
 			// Category ID input update
 			var catID = $(this).parents('.category').attr('data-id') || 0;
 			modal.find('form').attr('data-cat-id', catID);
@@ -930,7 +930,7 @@ $(function() {
 
 			// Order number input update
 			var orderNumber = $(this).parents('.category').attr('data-order') || 0;
-			modal.find('input[name="order"]').attr('value', ( parseInt(orderNumber) + 1 ));
+			modal.find('input[name="order"]').attr('value', (parseInt(orderNumber) + 1));
 
 
 		}
@@ -947,11 +947,13 @@ $(function() {
 
 
 	// Copy Share Links
-	$(document).on('mouseover', '#share .link', function(e) { console.log('Clicked');
+	$(document).on('mouseover', '#share .link', function (e) {
+		console.log('Clicked');
 
 		$('#share .link').attr('data-tooltip', 'Click to Copy');
 
-	}).on('click', '#share .link', function(e) { console.log('Clicked');
+	}).on('click', '#share .link', function (e) {
+		console.log('Clicked');
 
 		copyToClipboard('#share .link .value');
 		$('#share .link').attr('data-tooltip', 'Copied!');
@@ -969,7 +971,7 @@ $(function() {
 		"Good :)",
 		"Everything is great ;)"
 	];
-	$(document).on('change', '#feedback select[name="feedback-type"]', function(e) {
+	$(document).on('change', '#feedback select[name="feedback-type"]', function (e) {
 
 		var modal = $('#feedback');
 		var feedbackType = $(this).val();
@@ -988,21 +990,21 @@ $(function() {
 		e.preventDefault();
 		return false;
 
-	}).on('input', '#feedback textarea[name="feedback"]', function(e) {
+	}).on('input', '#feedback textarea[name="feedback"]', function (e) {
 
 		var modal = $('#feedback');
 		var feedback = $(this).val();
 
 
 		// Update the data
-		modal.find('.current-length').text( feedback.length );
+		modal.find('.current-length').text(feedback.length);
 
 
 
 		e.preventDefault();
 		return false;
 
-	}).on('mouseover', '#feedback .stars > .fa-star', function(e) {
+	}).on('mouseover', '#feedback .stars > .fa-star', function (e) {
 
 		var modal = $('#feedback');
 		var star = parseInt($(this).attr('data-value'));
@@ -1010,13 +1012,13 @@ $(function() {
 
 
 		// Update start info
-		starWrapper.text( starInfo[star - 1] );
+		starWrapper.text(starInfo[star - 1]);
 
 
 		// Update the data
-		modal.find('.stars > .fa-star').removeClass('fas far').each(function(i) {
+		modal.find('.stars > .fa-star').removeClass('fas far').each(function (i) {
 
-			if (i+1 <= star) $(this).addClass('fas');
+			if (i + 1 <= star) $(this).addClass('fas');
 			else $(this).addClass('far');
 
 		});
@@ -1026,21 +1028,21 @@ $(function() {
 		e.preventDefault();
 		return false;
 
-	}).on('mouseout', '#feedback .stars > .fa-star', function(e) {
+	}).on('mouseout', '#feedback .stars > .fa-star', function (e) {
 
 		var modal = $('#feedback');
-		var star = parseInt( modal.find('[name="stars"]').val() );
+		var star = parseInt(modal.find('[name="stars"]').val());
 		var starWrapper = modal.find('.star-info');
 
 
 		// Update start info
-		starWrapper.text( starInfo[star - 1] );
+		starWrapper.text(starInfo[star - 1]);
 
 
 		// Update the data
-		modal.find('.stars > .fa-star').removeClass('fas far').each(function(i) {
+		modal.find('.stars > .fa-star').removeClass('fas far').each(function (i) {
 
-			if (i+1 <= star) $(this).addClass('fas');
+			if (i + 1 <= star) $(this).addClass('fas');
 			else $(this).addClass('far');
 
 		});
@@ -1050,7 +1052,7 @@ $(function() {
 		e.preventDefault();
 		return false;
 
-	}).on('click', '#feedback .stars > .fa-star', function(e) {
+	}).on('click', '#feedback .stars > .fa-star', function (e) {
 
 		var modal = $('#feedback');
 		var star = parseInt($(this).attr('data-value'));
@@ -1062,7 +1064,7 @@ $(function() {
 		e.preventDefault();
 		return false;
 
-	}).on('submit', '#feedback form', function(e) {
+	}).on('submit', '#feedback form', function (e) {
 
 		var modal = $('#feedback');
 		var form = $(this);
@@ -1082,21 +1084,21 @@ $(function() {
 
 
 		$.ajax({
-			url: ajax_url+'?type=feedback',
+			url: ajax_url + '?type=feedback',
 			type: 'POST',
-			data:  new FormData(this),
+			data: new FormData(this),
 			mimeType: "multipart/form-data",
 			contentType: false,
 			cache: false,
 			processData: false,
 			dataType: 'json',
-			xhr: function() {
+			xhr: function () {
 
 
 				var jqXHR = null;
-				if ( window.ActiveXObject ) {
+				if (window.ActiveXObject) {
 
-					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+					jqXHR = new window.ActiveXObject("Microsoft.XMLHTTP");
 
 				} else {
 
@@ -1106,38 +1108,38 @@ $(function() {
 
 
 				// Upload progress
-				jqXHR.upload.addEventListener( "progress", function ( evt ) {
+				jqXHR.upload.addEventListener("progress", function (evt) {
 
-					if ( evt.lengthComputable ) {
+					if (evt.lengthComputable) {
 
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Uploaded percent', percentComplete );
+						var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+						console.log('Uploaded percent', percentComplete);
 
 						editProcess(feedbackSubmitProcessID, percentComplete);
 						//if (percentComplete == 100) submit.val('Opening');
 
 					}
 
-				}, false );
+				}, false);
 
 
 				// Download progress
-				jqXHR.addEventListener( "progress", function ( evt ) {
+				jqXHR.addEventListener("progress", function (evt) {
 
-					if ( evt.lengthComputable ) {
+					if (evt.lengthComputable) {
 
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Downloaded percent', percentComplete );
+						var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+						console.log('Downloaded percent', percentComplete);
 
 					}
 
-				}, false );
+				}, false);
 
 
 				return jqXHR;
 			},
-			success: function(data, textStatus, jqXHR) {
-				
+			success: function (data, textStatus, jqXHR) {
+
 				var imageUrl = data.new_url;
 				var status = data.status;
 
@@ -1167,7 +1169,7 @@ $(function() {
 
 
 			},
-			error: function(jqXHR, textStatus, errorThrown) {
+			error: function (jqXHR, textStatus, errorThrown) {
 
 				console.log('FAILED!!', errorThrown);
 
@@ -1175,7 +1177,7 @@ $(function() {
 				// Rename the input and enable
 				input.attr("value", 'SEND FEEDBACK').prop('disabled', false);
 
-				
+
 				// Finish the process !!!
 				endProcess(feedbackSubmitProcessID);
 
@@ -1193,27 +1195,27 @@ $(function() {
 
 
 	// Trial start modal
-	if ( getParameterByName('trialstarted') !== null ) openModal('trialstarted');
+	if (getParameterByName('trialstarted') !== null) openModal('trialstarted');
 	//removeQueryArgFromCurrentUrl('trialstarted');
 
-	if ( getParameterByName('welcome') !== null ) openModal('welcome');
+	if (getParameterByName('welcome') !== null) openModal('welcome');
 	//removeQueryArgFromCurrentUrl('welcome');
 
-	if ( getParameterByName('trialreminder') !== null ) openModal('trialreminder');
+	if (getParameterByName('trialreminder') !== null) openModal('trialreminder');
 	//removeQueryArgFromCurrentUrl('trialreminder');
 
-	if ( getParameterByName('trialexpired') !== null || (trialStarted == "yes" && trialExpired && !trialExpiredNotified) ) openModal('trialexpired');
+	if (getParameterByName('trialexpired') !== null || (trialStarted == "yes" && trialExpired && !trialExpiredNotified)) openModal('trialexpired');
 	//removeQueryArgFromCurrentUrl('trialexpired');
 
-	if ( getParameterByName('trialcanceled') !== null ) openModal('trialcanceled');
+	if (getParameterByName('trialcanceled') !== null) openModal('trialcanceled');
 	//removeQueryArgFromCurrentUrl('trialcanceled');
 
-	if ( getParameterByName('limit-warning') !== null ) openModal('limit-warning');
+	if (getParameterByName('limit-warning') !== null) openModal('limit-warning');
 	//removeQueryArgFromCurrentUrl('trialcanceled');
 
 
 	// Create a project
-	$('.create-project').click(function(e) {
+	$('.create-project').click(function (e) {
 
 		closeModal();
 
@@ -1224,11 +1226,11 @@ $(function() {
 
 
 	// SHARE MODAL: Share input
-	$('#share #share-email').on('keyup', function() {
+	$('#share #share-email').on('keyup', function () {
 
 		var inputVal = $(this).val();
 
-		if ( inputVal.length > 0 ) {
+		if (inputVal.length > 0) {
 
 			$('#share button.add-member').prop('disabled', false);
 
@@ -1241,21 +1243,21 @@ $(function() {
 	}).on('keydown', function (e) {
 
 
-	    if(e.keyCode == 13) {
+		if (e.keyCode == 13) {
 
-			addshare( $(this) );
+			addshare($(this));
 
-		    e.preventDefault();
-		    return false;
-	    }
+			e.preventDefault();
+			return false;
+		}
 
 	});
 
 
 	// SHARE MODAL: Add Member Button
-	$('#share .add-member').on('click', function(e) {
+	$('#share .add-member').on('click', function (e) {
 
-		addshare( $('#share #share-email') );
+		addshare($('#share #share-email'));
 
 		e.preventDefault();
 		return false;
@@ -1263,7 +1265,7 @@ $(function() {
 
 
 	// SHARE MODAL: New member access type change
-	$('#share .new-access-type-selector > li > a').on('click', function(e) {
+	$('#share .new-access-type-selector > li > a').on('click', function (e) {
 
 		var newType = $(this).attr('data-type');
 		var newLabel = $(this).text();
@@ -1288,7 +1290,7 @@ $(function() {
 
 
 	// Error inputs when typing
-	$('input').keydown(function() {
+	$('input').keydown(function () {
 
 		$(this).removeClass('error');
 
@@ -1296,7 +1298,7 @@ $(function() {
 
 
 	// Range sliders
-	$('input[type="range"]').on('input change', function() {
+	$('input[type="range"]').on('input change', function () {
 
 
 		var value = $(this).val();
@@ -1313,7 +1315,7 @@ $(function() {
 
 
 	// Notifications
-	$('.notification-opener').click(function(e) {
+	$('.notification-opener').click(function (e) {
 
 		$(this).toggleClass('open');
 
@@ -1322,10 +1324,10 @@ $(function() {
 
 
 	// Refresh Notifications
-	$(document).on('click', '.refresh-notifications', function(e) {
+	$(document).on('click', '.refresh-notifications', function (e) {
 
 
-		if ( $(this).hasClass('.notification-opener') && ! $(this).hasClass('open') ) return false;
+		if ($(this).hasClass('.notification-opener') && !$(this).hasClass('open')) return false;
 
 
 		getNotifications(true);
@@ -1336,7 +1338,7 @@ $(function() {
 
 
 	// Load More Notifications
-	$(document).on('click', '.more-notifications > a', function(e) {
+	$(document).on('click', '.more-notifications > a', function (e) {
 
 
 		var offset = $(this).attr('data-offset');
@@ -1357,17 +1359,17 @@ $(function() {
 
 
 	// Alert auto removal
-    setTimeout(function() {
+	setTimeout(function () {
 
-		dismissAlert( $('.alerts > .alert.success') );
+		dismissAlert($('.alerts > .alert.success'));
 
 	}, 4000);
 
 
 	// Dismiss an alert
-	$(document).on('click', '.alert > .close', function() {
+	$(document).on('click', '.alert > .close', function () {
 
-		dismissAlert( $(this).parent() );
+		dismissAlert($(this).parent());
 
 	});
 
@@ -1375,15 +1377,15 @@ $(function() {
 
 	// Avatar Upload
 	// Uploader
-	$(document).on('change', '.avatar-upload', function() {
+	$(document).on('change', '.avatar-upload', function () {
 
 
-	    var userID = $('.avatar-changer').attr('data-id');
+		var userID = $('.avatar-changer').attr('data-id');
 		var maxSize = $(this).attr('data-max-size');
 
 
-	    var reader = new FileReader();
-	    reader.onload = function(event) {
+		var reader = new FileReader();
+		reader.onload = function (event) {
 
 
 			// Temp data URL
@@ -1391,68 +1393,68 @@ $(function() {
 
 
 			// Apply the change
-			$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').attr('style', 'background-image: url('+imageSrc+');');
-			$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').addClass('loading');
+			$('.profile-picture[data-type="user"][data-id="' + userID + '"]').attr('style', 'background-image: url(' + imageSrc + ');');
+			$('.profile-picture[data-type="user"][data-id="' + userID + '"]').addClass('loading');
 
 
 			// Submit data
 			$('#avatar-form').submit();
 
 
-	    };
+		};
 
 
 		// If a file selected
-        if ( $(this).get(0).files.length ) {
+		if ($(this).get(0).files.length) {
 
 
-            var fileSize = $(this).get(0).files[0].size; // in bytes
-            if (fileSize > maxSize) {
+			var fileSize = $(this).get(0).files[0].size; // in bytes
+			if (fileSize > maxSize) {
 
-                alert('File size is more than ' + formatBytes(maxSize));
-                return false;
+				alert('File size is more than ' + formatBytes(maxSize));
+				return false;
 
-            } else {
+			} else {
 
-                console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
-	        	reader.readAsDataURL( $(this).get(0).files[0] );
+				console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
+				reader.readAsDataURL($(this).get(0).files[0]);
 
-            }
+			}
 
 
-		// If no file selected
-        } else {
+			// If no file selected
+		} else {
 
-		    console.log('NO FILE');
-            return false;
-        }
+			console.log('NO FILE');
+			return false;
+		}
 
 
 	});
 
 
-	$(document).on('submit', '#avatar-form', function(e) {
+	$(document).on('submit', '#avatar-form', function (e) {
 
 
-	    var userID = $(this).find('.avatar-changer').attr('data-id');
+		var userID = $(this).find('.avatar-changer').attr('data-id');
 
 
 		$.ajax({
-			url: ajax_url+'?type=avatar-upload&user_ID='+userID,
+			url: ajax_url + '?type=avatar-upload&user_ID=' + userID,
 			type: 'POST',
-			data:  new FormData(this),
+			data: new FormData(this),
 			mimeType: "multipart/form-data",
 			contentType: false,
 			cache: false,
 			processData: false,
 			dataType: 'json',
-			xhr: function() {
+			xhr: function () {
 
 
 				var jqXHR = null;
-				if ( window.ActiveXObject ) {
+				if (window.ActiveXObject) {
 
-					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+					jqXHR = new window.ActiveXObject("Microsoft.XMLHTTP");
 
 				} else {
 
@@ -1462,35 +1464,35 @@ $(function() {
 
 
 				// Upload progress
-				jqXHR.upload.addEventListener( "progress", function ( evt ) {
+				jqXHR.upload.addEventListener("progress", function (evt) {
 
-					if ( evt.lengthComputable ) {
+					if (evt.lengthComputable) {
 
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Uploaded percent', percentComplete );
+						var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+						console.log('Uploaded percent', percentComplete);
 
 					}
 
-				}, false );
+				}, false);
 
 
 				// Download progress
-				jqXHR.addEventListener( "progress", function ( evt ) {
+				jqXHR.addEventListener("progress", function (evt) {
 
-					if ( evt.lengthComputable ) {
+					if (evt.lengthComputable) {
 
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Downloaded percent', percentComplete );
+						var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+						console.log('Downloaded percent', percentComplete);
 
 					}
 
-				}, false );
+				}, false);
 
 
 				return jqXHR;
 			},
-			success: function(data, textStatus, jqXHR) {
-				
+			success: function (data, textStatus, jqXHR) {
+
 				var status = data.status;
 
 				if (status != "success") {
@@ -1503,14 +1505,14 @@ $(function() {
 				console.log('SUCCESS!', data, textStatus, jqXHR);
 
 				// Update the image
-				$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').attr('style', 'background-image: url('+ data.new_url +');').removeClass('loading');
+				$('.profile-picture[data-type="user"][data-id="' + userID + '"]').attr('style', 'background-image: url(' + data.new_url + ');').removeClass('loading');
 
 			},
-			error: function(jqXHR, textStatus, errorThrown) {
+			error: function (jqXHR, textStatus, errorThrown) {
 
 				console.log('FAILED!!', errorThrown);
 
-				$('.profile-picture[data-type="user"][data-id="'+ userID +'"]').removeClass('loading');
+				$('.profile-picture[data-type="user"][data-id="' + userID + '"]').removeClass('loading');
 
 			}
 		});
@@ -1523,15 +1525,15 @@ $(function() {
 
 
 	// CLIENT SIDE UPLOADER
-	$(document).on('change', '.design-upload', function() {
+	$(document).on('change', '.design-upload', function () {
 
 		var formCatID = $(this).parents('form').attr('data-cat-id');
-		var form = $('form[data-cat-id="'+ formCatID +'"]');
+		var form = $('form[data-cat-id="' + formCatID + '"]');
 		var maxSize = $(this).attr('data-max-size');
 
 
-	    var reader = new FileReader();
-	    reader.onload = function(event) {
+		var reader = new FileReader();
+		reader.onload = function (event) {
 
 
 			// Temp data URL
@@ -1563,47 +1565,47 @@ $(function() {
 
 
 
-	    };
+		};
 
 
 		// If a file selected
-        if ( $(this).get(0).files.length ) {
+		if ($(this).get(0).files.length) {
 
 
-            var fileSize = $(this).get(0).files[0].size; // in bytes
-            if (fileSize > maxSize) {
+			var fileSize = $(this).get(0).files[0].size; // in bytes
+			if (fileSize > maxSize) {
 
-                alert('File size is more than ' + formatBytes(maxSize));
-                return false;
+				alert('File size is more than ' + formatBytes(maxSize));
+				return false;
 
-            } else {
+			} else {
 
-                console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
-	        	reader.readAsDataURL( $(this).get(0).files[0] );
+				console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
+				reader.readAsDataURL($(this).get(0).files[0]);
 
-            }
+			}
 
 
-		// If no file selected
-        } else {
+			// If no file selected
+		} else {
 
-		    console.log('NO FILE');
+			console.log('NO FILE');
 			return false;
 
-        }
+		}
 
 
 	});
 
 
 	// ADD IMAGE DEVICE
-	$(document).on('click', '[data-page-type="image"] ul.screen-adder > li > a', function(e) {
+	$(document).on('click', '[data-page-type="image"] ul.screen-adder > li > a', function (e) {
 
 
-		var first_screen_ID = parseInt( $(this).attr('data-first-screen-id') );
-		var found_project_ID = typeof project_ID === 'undefined' ? parseInt( $(this).parents('[data-project-id]').attr('data-id') ) : project_ID;
-		var found_page_ID = typeof page_ID === 'undefined' ? parseInt( $(this).parents('[data-id]').attr('data-id') ) : page_ID;
-		var found_phase_ID = typeof phase_ID === 'undefined' ? parseInt( $(this).parents('[data-phase-id]').attr('data-phase-id') ) : phase_ID;
+		var first_screen_ID = parseInt($(this).attr('data-first-screen-id'));
+		var found_project_ID = typeof project_ID === 'undefined' ? parseInt($(this).parents('[data-project-id]').attr('data-id')) : project_ID;
+		var found_page_ID = typeof page_ID === 'undefined' ? parseInt($(this).parents('[data-id]').attr('data-id')) : page_ID;
+		var found_phase_ID = typeof phase_ID === 'undefined' ? parseInt($(this).parents('[data-phase-id]').attr('data-phase-id')) : phase_ID;
 
 
 		$('#image-device-adder input[name="project_ID"]').val(found_project_ID);
@@ -1612,7 +1614,7 @@ $(function() {
 		$('#image-device-adder input[name="screens[]"]').val(first_screen_ID);
 		$('#image-device-adder input[name="design-upload"]').click();
 		console.log(first_screen_ID);
-		
+
 
 		e.preventDefault();
 		return false;
@@ -1621,18 +1623,18 @@ $(function() {
 
 
 	// ADD IMAGE PHASE
-	$(document).on('click', '[data-page-type="image"] a.add-phase', function(e) {
+	$(document).on('click', '[data-page-type="image"] a.add-phase', function (e) {
 
 
-		var found_project_ID = typeof project_ID === 'undefined' ? parseInt( $(this).parents('[data-project-id]').attr('data-project-id') ) : project_ID;
-		var found_page_ID = typeof page_ID === 'undefined' ? parseInt( $(this).parents('[data-type="page"][data-id]').attr('data-id') ) : page_ID;
+		var found_project_ID = typeof project_ID === 'undefined' ? parseInt($(this).parents('[data-project-id]').attr('data-project-id')) : project_ID;
+		var found_page_ID = typeof page_ID === 'undefined' ? parseInt($(this).parents('[data-type="page"][data-id]').attr('data-id')) : page_ID;
 
 		$('#image-device-adder input[name="project_ID"]').val(found_project_ID);
 		$('#image-device-adder input[name="page_ID"]').val(found_page_ID);
 		$('#image-device-adder input[name="phase_ID"]').val('');
 		$('#image-device-adder input[name="screens[]"]').val(11); // Custom one
 		$('#image-device-adder input[name="design-upload"]').click();
-		
+
 
 		e.preventDefault();
 		return false;
@@ -1641,14 +1643,14 @@ $(function() {
 
 
 	// ADD IMAGE DEVICE AUTO-SUBMIT
-	$(document).on('change', '#image-device-adder input[name="design-upload"]', function() {
+	$(document).on('change', '#image-device-adder input[name="design-upload"]', function () {
 
 		var form = $(this).parents('form');
 		var maxSize = $(this).attr('data-max-size');
 
 
-	    var reader = new FileReader();
-	    reader.onload = function(event) {
+		var reader = new FileReader();
+		reader.onload = function (event) {
 
 
 			// Temp data URL
@@ -1661,40 +1663,40 @@ $(function() {
 
 			form.submit();
 
-	    };
+		};
 
 
 		// If a file selected
-        if ( $(this).get(0).files.length ) {
+		if ($(this).get(0).files.length) {
 
 
-            var fileSize = $(this).get(0).files[0].size; // in bytes
-            if (fileSize > maxSize) {
+			var fileSize = $(this).get(0).files[0].size; // in bytes
+			if (fileSize > maxSize) {
 
-                alert('File size is more than ' + formatBytes(maxSize));
-                return false;
+				alert('File size is more than ' + formatBytes(maxSize));
+				return false;
 
-            } else {
+			} else {
 
-                console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
-	        	reader.readAsDataURL( $(this).get(0).files[0] );
+				console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
+				reader.readAsDataURL($(this).get(0).files[0]);
 
-            }
+			}
 
 
-		// If no file selected
-        } else {
+			// If no file selected
+		} else {
 
-		    console.log('NO FILE');
+			console.log('NO FILE');
 			return false;
 
-        }
+		}
 
 
 	});
 
 	// Image submission
-	$(document).on('submit', '#image-device-adder', function(e) {
+	$(document).on('submit', '#image-device-adder', function (e) {
 
 
 		// Start the process
@@ -1702,21 +1704,21 @@ $(function() {
 
 
 		$.ajax({
-			url: ajax_url+'?type=design-upload',
+			url: ajax_url + '?type=design-upload',
 			type: 'POST',
-			data:  new FormData(this),
+			data: new FormData(this),
 			mimeType: "multipart/form-data",
 			contentType: false,
 			cache: false,
 			processData: false,
 			dataType: 'json',
-			xhr: function() {
+			xhr: function () {
 
 
 				var jqXHR = null;
-				if ( window.ActiveXObject ) {
+				if (window.ActiveXObject) {
 
-					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+					jqXHR = new window.ActiveXObject("Microsoft.XMLHTTP");
 
 				} else {
 
@@ -1726,38 +1728,38 @@ $(function() {
 
 
 				// Upload progress
-				jqXHR.upload.addEventListener( "progress", function ( evt ) {
+				jqXHR.upload.addEventListener("progress", function (evt) {
 
-					if ( evt.lengthComputable ) {
+					if (evt.lengthComputable) {
 
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Uploaded percent', percentComplete );
+						var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+						console.log('Uploaded percent', percentComplete);
 
 						if (percentComplete < 100) editProcess(uploadDesignProcessID, percentComplete);
 						//if (percentComplete == 100) submit.val('Opening');
 
 					}
 
-				}, false );
+				}, false);
 
 
 				// Download progress
-				jqXHR.addEventListener( "progress", function ( evt ) {
+				jqXHR.addEventListener("progress", function (evt) {
 
-					if ( evt.lengthComputable ) {
+					if (evt.lengthComputable) {
 
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Downloaded percent', percentComplete );
+						var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+						console.log('Downloaded percent', percentComplete);
 
 					}
 
-				}, false );
+				}, false);
 
 
 				return jqXHR;
 			},
-			success: function(data, textStatus, jqXHR) {
-				
+			success: function (data, textStatus, jqXHR) {
+
 				var imageUrl = data.new_url;
 				var status = data.status;
 
@@ -1781,17 +1783,17 @@ $(function() {
 
 
 			},
-			error: function(jqXHR, textStatus, errorThrown) {
+			error: function (jqXHR, textStatus, errorThrown) {
 
 				console.log('FAILED!!', errorThrown);
 
-				
+
 				// Finish the process !!!
 				endProcess(uploadDesignProcessID);
 
 			}
 		});
-		
+
 
 		e.preventDefault();
 		return false;
@@ -1799,7 +1801,7 @@ $(function() {
 	});
 
 
-	$(document).on('submit', '#notify-me-form', function(e) {
+	$(document).on('submit', '#notify-me-form', function (e) {
 
 		var form = $(this);
 		var email = form.find('input[name="notify-email"]').val();
@@ -1812,15 +1814,15 @@ $(function() {
 		form.attr('data-status', 'submitting');
 
 		ajax('notify-me', {
-	
-			'email' : email,
-			'feature' : feature,
-			'nonce'	: nonce
 
-		}).done(function(result) {
+			'email': email,
+			'feature': feature,
+			'nonce': nonce
+
+		}).done(function (result) {
 
 			console.log('RESULT: ', result);
-			if ( result.status != "success" && result.status != "already-exists" ) console.error('ERROR: ', result);
+			if (result.status != "success" && result.status != "already-exists") console.error('ERROR: ', result);
 
 			form.attr('data-status', result.status);
 
@@ -1849,8 +1851,8 @@ function updateAddNewInfo(cloneForm) {
 
 
 	var modal = $('#add-new');
-	
-	
+
+
 	// Category ID input update
 	var catID = cloneForm.attr('data-cat-id') || 0;
 	modal.find('form').attr('data-cat-id', catID);
@@ -1859,7 +1861,7 @@ function updateAddNewInfo(cloneForm) {
 
 	// Order number input update
 	var orderNumber = cloneForm.parents('.category').attr('data-order') || 0;
-	modal.find('input[name="order"]').attr('value', ( parseInt(orderNumber) + 1 ));
+	modal.find('input[name="order"]').attr('value', (parseInt(orderNumber) + 1));
 
 
 	// URL input update
@@ -1909,10 +1911,10 @@ function updateShares() {
 	// Bring the users from DB
 	ajax('shares-get', {
 
-		id : object_ID,
-		dataType : dataType
+		id: object_ID,
+		dataType: dataType
 
-	}).done(function(result) {
+	}).done(function (result) {
 
 
 		var users = result.users;
@@ -1922,9 +1924,9 @@ function updateShares() {
 		// Clean the wrappers
 		modal.find('.members').html('');
 
-		$(users).each(function(i, user) {
+		$(users).each(function (i, user) {
 
-			$('.people[data-type="'+ user.type +'"][data-id="'+ user.object_ID +'"]').html('');
+			$('.people[data-type="' + user.type + '"][data-id="' + user.object_ID + '"]').html('');
 
 		});
 
@@ -1933,7 +1935,7 @@ function updateShares() {
 
 		// Append the users
 		var ownerID;
-		$(users).each(function(i, user) {
+		$(users).each(function (i, user) {
 
 			if (user.mStatus == "owner") ownerID = user.user_ID;
 			var skipUser = user.mStatus == "projectowner" && ownerID == user.user_ID;
@@ -1950,7 +1952,7 @@ function updateShares() {
 
 
 			// Add to the people
-			$('.people[data-type="'+ user.type +'"][data-id="'+ user.object_ID +'"]').append(
+			$('.people[data-type="' + user.type + '"][data-id="' + user.object_ID + '"]').append(
 				boxMemberTemplate(user.mStatus, user.email, user.fullName, user.nameAbbr, user.userImageUrl, user.user_ID)
 			);
 
@@ -1959,7 +1961,7 @@ function updateShares() {
 
 
 
-	}).fail(function(result) {
+	}).fail(function (result) {
 
 
 		console.log('FAILED:', result);
@@ -1993,17 +1995,17 @@ function addshare() {
 
 
 	// Start the process
-	var actionID = newProcess(true, type+"Share");
+	var actionID = newProcess(true, type + "Share");
 
 	ajax('share', {
 
-		'data-type'	: type,
-		'object_ID'	: object_ID,
-		'email'		: input.val(),
-		'add-type' 	: addType,
-		'nonce'		: nonce
+		'data-type': type,
+		'object_ID': object_ID,
+		'email': input.val(),
+		'add-type': addType,
+		'nonce': nonce
 
-	}).done(function(result) {
+	}).done(function (result) {
 
 
 		var data = result.data;
@@ -2011,7 +2013,7 @@ function addshare() {
 
 
 		// If user added
-		if ( data.status == "added" ) {
+		if (data.status == "added") {
 
 
 			// Update the shares list
@@ -2030,7 +2032,7 @@ function addshare() {
 			}, "slow");
 
 
-		} else if ( data.status == "invalid-email" ) {
+		} else if (data.status == "invalid-email") {
 
 			input.addClass('error');
 
@@ -2069,37 +2071,37 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 	// Start progress bar action
 	var preventRefreshing = action != "remove";
-	var actionID = newProcess(preventRefreshing, object_type+":"+action);
+	var actionID = newProcess(preventRefreshing, object_type + ":" + action);
 
 	// AJAX Send data
 	ajax('data-action', {
-		'ajax' 			  : true,
-		'action' 		  : action,
-		'data-type' 	  : object_type,
-		'id' 			  : object_ID,
-		'firstParameter'  : firstParameter,
-		'secondParameter' : secondParameter,
-		'thirdParameter'  : thirdParameter,
-		'nonce' 		  : nonce
-	}).done(function(result) {
+		'ajax': true,
+		'action': action,
+		'data-type': object_type,
+		'id': object_ID,
+		'firstParameter': firstParameter,
+		'secondParameter': secondParameter,
+		'thirdParameter': thirdParameter,
+		'nonce': nonce
+	}).done(function (result) {
 
 
 		var data = result.data;
-		var items = $('.item[data-type="'+object_type+'"][data-id="'+object_ID+'"]');
+		var items = $('.item[data-type="' + object_type + '"][data-id="' + object_ID + '"]');
 
 
 		console.log("RESPONSE: ", data, object_type, object_ID);
 
 
 		// Progressbar Update
-		if ( data.status == "successful" || data.status == "fail-m" ) {
+		if (data.status == "successful" || data.status == "fail-m") {
 
 
 			if (action == "rename") {
 
-				items.find('input.edit-name[data-type="'+object_type+'"][data-id="'+object_ID+'"]').attr('value', firstParameter );
-				items.find('.name[data-type="'+object_type+'"][data-id="'+object_ID+'"]').text( firstParameter );
-				items.children('.name').text( firstParameter );
+				items.find('input.edit-name[data-type="' + object_type + '"][data-id="' + object_ID + '"]').attr('value', firstParameter);
+				items.find('.name[data-type="' + object_type + '"][data-id="' + object_ID + '"]').text(firstParameter);
+				items.children('.name').text(firstParameter);
 
 
 			} else if (action == "archive" || action == "delete" || action == "remove" || action == "recover") {
@@ -2113,25 +2115,25 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 					return true;
 
 				}
-					
+
 
 
 				// Hide the item
-				if ( object_type != "projectcategory" && object_type != "pagecategory" ) {
+				if (object_type != "projectcategory" && object_type != "pagecategory") {
 
 					items.remove();
 
 
 					// Update limits
-					var limitWrapper = $('.'+ object_type + 's-limit');
+					var limitWrapper = $('.' + object_type + 's-limit');
 					var currentLimit = limitWrapper.find('.current');
-					var maxLimit = parseInt( limitWrapper.find('.max').text() );
-					if ( action == "remove" && currentLimit.length ) {
+					var maxLimit = parseInt(limitWrapper.find('.max').text());
+					if (action == "remove" && currentLimit.length) {
 
 
-						var newLimit = parseInt( currentLimit.text() ) - 1;
-						currentLimit.text( newLimit );
-						if ( newLimit < maxLimit ) limitWrapper.removeClass('exceed');
+						var newLimit = parseInt(currentLimit.text()) - 1;
+						currentLimit.text(newLimit);
+						if (newLimit < maxLimit) limitWrapper.removeClass('exceed');
 
 
 						// Update the add new blocks
@@ -2140,10 +2142,10 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 						// Refresh the page
 						if (
-							(object_type == "project" || 
-							object_type == "page" || 
-							object_type == "phase" || 
-							object_type == "device") && firstParameter != "autoremove"
+							(object_type == "project" ||
+								object_type == "page" ||
+								object_type == "phase" ||
+								object_type == "device") && firstParameter != "autoremove"
 						) location.reload();
 
 
@@ -2153,7 +2155,7 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 					// Remove from myPages variable
 					if (object_type == "page") {
 
-						var pageFound = myPages.find(function(page) { return page.page_ID == object_ID; });
+						var pageFound = myPages.find(function (page) { return page.page_ID == object_ID; });
 
 						if (pageFound) {
 
@@ -2168,7 +2170,7 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 
 
 				// If action on categories
-				if ( object_type == "projectcategory" || object_type == "pagecategory" ) {
+				if (object_type == "projectcategory" || object_type == "pagecategory") {
 
 
 					// Move the blocks to the Uncategorized section
@@ -2195,12 +2197,12 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 				// Object ownership
 				if (action == "makeownerof") {
 					$('#share').attr('data-iamowner', 'no');
-					$('[data-type="'+ object_type +'"][data-id="'+ object_ID +'"][data-modal="share"]').attr('data-iamowner', 'no');
+					$('[data-type="' + object_type + '"][data-id="' + object_ID + '"][data-modal="share"]').attr('data-iamowner', 'no');
 				}
 
 
 				// Refresh the page when removing access of myself
-				if ( action == "unshare" && object_ID == user_ID ) location.reload();
+				if (action == "unshare" && object_ID == user_ID) location.reload();
 
 
 			} else {
@@ -2227,7 +2229,7 @@ function doAction(action, object_type, object_ID, firstParameter, secondParamete
 		}
 
 
-	}).fail(function(error) {
+	}).fail(function (error) {
 
 		console.log('FAILED: ', error);
 
@@ -2255,10 +2257,10 @@ function getNotifications(markAsRead) {
 
 	ajax('notifications-get', {
 
-		'offset' : 0,
-		'nonce'	: nonce
+		'offset': 0,
+		'nonce': nonce
 
-	}).done(function(result) {
+	}).done(function (result) {
 
 
 		console.log('RESULT: ', result);
@@ -2274,9 +2276,9 @@ function getNotifications(markAsRead) {
 
 
 			// After 1 seconds, mark all read
-			setTimeout(function() {
+			setTimeout(function () {
 
-				if ( $('.notification-opener').hasClass("open") ) readNotifications();
+				if ($('.notification-opener').hasClass("open")) readNotifications();
 
 			}, 1000);
 
@@ -2288,7 +2290,7 @@ function getNotifications(markAsRead) {
 		startNotificationAutoRefresh();
 
 
-	}).fail(function(e) {
+	}).fail(function (e) {
 
 		console.log('ERROR: ', e);
 		startNotificationAutoRefresh();
@@ -2316,10 +2318,10 @@ function moreNotifications(offset) {
 
 	ajax('notifications-get', {
 
-		'offset' : parseInt(offset),
-		'nonce'	: nonce
+		'offset': parseInt(offset),
+		'nonce': nonce
 
-	}).done(function(result) {
+	}).done(function (result) {
 
 
 		console.log('RESULT: ', result);
@@ -2335,17 +2337,17 @@ function moreNotifications(offset) {
 
 
 		// Check the new data for errors
-		if ( !$('.notifications > ul > li[data-offset="'+ offset +'"]:not(.error)').length ) {
+		if (!$('.notifications > ul > li[data-offset="' + offset + '"]:not(.error)').length) {
 
 			// Refresh the data
-			if ( $('.notifications > ul > li.more-notifications').length )
+			if ($('.notifications > ul > li.more-notifications').length)
 				$('.notifications > ul > li.more-notifications > a').click();
 
 		}
 
 
 
-	}).fail(function(e) {
+	}).fail(function (e) {
 
 
 		$('.notifications .more-notifications').html('Notifications couldn\'t be loaded.');
@@ -2366,7 +2368,7 @@ function readNotifications() {
 
 
 	// Select all the notifications that's shown now
-	$('.notifications > ul > li.new[data-type="notification"]').each(function() {
+	$('.notifications > ul > li.new[data-type="notification"]').each(function () {
 
 		var notification_ID = $(this).attr('data-id');
 
@@ -2382,25 +2384,25 @@ function readNotifications() {
 	// Send data
 	ajax('notifications-read', {
 
-		'notification_IDs' : IDsToRead,
-		'nonce'	: nonce
+		'notification_IDs': IDsToRead,
+		'nonce': nonce
 
-	}).done(function(result) {
+	}).done(function (result) {
 
 
 		console.log('RESULT: ', result);
 
 
-		var currentNotifNumber = parseInt( $('.notification-opener .notif-no').text() );
+		var currentNotifNumber = parseInt($('.notification-opener .notif-no').text());
 		var newNotifNumber = currentNotifNumber - IDsToRead.length;
 		newNotifNumber = newNotifNumber < 0 ? 0 : newNotifNumber;
 
 
 		// Update the count
-		$('.notification-opener .notif-no').text(newNotifNumber).addClass( newNotifNumber == 0 ? "hide" : "" );
+		$('.notification-opener .notif-no').text(newNotifNumber).addClass(newNotifNumber == 0 ? "hide" : "");
 
 
-	}).fail(function(e) {
+	}).fail(function (e) {
 
 		console.log('ERROR: ', e);
 
@@ -2418,9 +2420,9 @@ function getNewNotificationCount() {
 
 	ajax('notifications-get-count', {
 
-		'nonce'	: nonce
+		'nonce': nonce
 
-	}).done(function(result) {
+	}).done(function (result) {
 
 
 		console.log('RESULT: ', result);
@@ -2435,11 +2437,11 @@ function getNewNotificationCount() {
 
 
 		// Add the "Load new notifications" button
-		var newButton = '<a href="#" class="refresh-notifications">'+ newCount +' New Notification'+ (newCount > 1 ? "s" : "") +'</a>';
+		var newButton = '<a href="#" class="refresh-notifications">' + newCount + ' New Notification' + (newCount > 1 ? "s" : "") + '</a>';
 		if (newCount > 0) {
 
 
-			if ( !$('.notifications > ul > li.refresh-notifications').length )
+			if (!$('.notifications > ul > li.refresh-notifications').length)
 				$('.notifications > ul:first-child').prepend('<li class="refresh-notifications"></li>');
 
 			$('.notifications > ul > li.refresh-notifications').html(newButton);
@@ -2448,7 +2450,7 @@ function getNewNotificationCount() {
 		}
 
 
-	}).fail(function(e) {
+	}).fail(function (e) {
 
 		console.log('ERROR: ', e);
 
@@ -2467,13 +2469,13 @@ function startNotificationAutoRefresh() {
 
 	console.log('AUTO-REFRESH NOTIFICATIONS STARTED');
 
-	notificationAutoRefreshTimer = setInterval(function() {
+	notificationAutoRefreshTimer = setInterval(function () {
 
 		console.log('Auto checking the notifications...');
 
 
 		// Abort the latest request if not finalized
-		if(notificationAutoRefreshRequest && notificationAutoRefreshRequest.readyState != 4) {
+		if (notificationAutoRefreshRequest && notificationAutoRefreshRequest.readyState != 4) {
 			console.log('Latest request aborted');
 			notificationAutoRefreshRequest.abort();
 		}
@@ -2506,9 +2508,9 @@ function showAlert(alert_ID) {
 	var alert = $('.alerts, .alerts > #' + alert_ID);
 	alert.removeClass('hidden');
 
-	if ( alert.hasClass('autoclose') ) {
+	if (alert.hasClass('autoclose')) {
 
-		setTimeout(function() {
+		setTimeout(function () {
 
 			alert.addClass('hidden');
 
@@ -2522,9 +2524,9 @@ function showAlert(alert_ID) {
 // Dismiss alerts
 function dismissAlert(selector) {
 
-    selector.fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove();
-    });
+	selector.fadeTo(500, 0).slideUp(500, function () {
+		$(this).remove();
+	});
 
 }
 
@@ -2540,22 +2542,22 @@ function openModal(modalName) {
 	if (!modal.length) return false;
 	if (typeof currentPinType === 'undefined') var currentPinType = "screen";
 
-	
+
 	if (modalName == "limit-warning") {
 
 
 		// Update the limitations
 		$('#limit-warning')
 			.attr('data-current-pin-mode', currentPinType)
-			.attr('data-allowed-live-pin', limitations.current.pin)
+			.attr('data-allowed-content-pin', limitations.current.pin)
 			.attr('data-allowed-comment-pin', limitations.current.commentpin)
 			.attr('data-allowed-phase', limitations.current.phase);
 
 
 		// Update the content
 		var limitText = "";
-		if (currentPinType == "live" || currentPinType == "style")
-			limitText = "<b>You have reached your live pin limit.</b><br>To be able to continue changing content of the page, please upgrade your account.";
+		if (currentPinType == "content" || currentPinType == "style")
+			limitText = "<b>You have reached your content pin limit.</b><br>To be able to continue changing content of the page, please upgrade your account.";
 
 		if (currentPinType == "comment")
 			limitText = "<b>You have reached your comment pin limit.</b><br>To be able to continue adding comment pins, please upgrade your account.";
@@ -2615,7 +2617,7 @@ function openModal(modalName) {
 
 
 	// Find lazy sources
-	modal.find('[data-src]').each(function() {
+	modal.find('[data-src]').each(function () {
 
 		var src = $(this).attr('data-src');
 		$(this).attr('src', src);
@@ -2624,7 +2626,7 @@ function openModal(modalName) {
 
 
 	// Focus the element
-	setTimeout(function() {
+	setTimeout(function () {
 
 		if (modal.find('[autofocus]').length) modal.find('[autofocus]').focus();
 
@@ -2644,7 +2646,7 @@ function closeModal(modalElement) {
 
 
 	// Find lazy sources
-	$(modalElement).find('[src]').each(function() {
+	$(modalElement).find('[src]').each(function () {
 
 		var src = $(this).attr('src');
 		$(this).attr('data-src', src).removeAttr('src');
@@ -2658,18 +2660,18 @@ function closeModal(modalElement) {
 // TEMPLATES
 function boxMemberTemplate(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID) {
 
-	var printPic = 'style="background-image: url('+ userImageUrl +');"';
+	var printPic = 'style="background-image: url(' + userImageUrl + ');"';
 	var ownerBadge = ''; // !!!
 
-	if (mStatus != 'email' ) email = '('+email+')';
-	if (mStatus == 'email' ) nameAbbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
-	if (mStatus == 'email' ) user_ID = email;
-	if (mStatus == 'owner' ) ownerBadge = '<span class="owner-badge">Owner</span>';
+	if (mStatus != 'email') email = '(' + email + ')';
+	if (mStatus == 'email') nameAbbr = '<i class="fa fa-envelope" aria-hidden="true"></i>';
+	if (mStatus == 'email') user_ID = email;
+	if (mStatus == 'owner') ownerBadge = '<span class="owner-badge">Owner</span>';
 	if (userImageUrl == "" || userImageUrl == null) printPic = "";
 
 	return '\
-		<picture class="profile-picture" '+printPic+' data-tooltip="'+fullName+'" data-type="user" data-id="'+user_ID+'">\
-			<span>'+nameAbbr+'</span>\
+		<picture class="profile-picture" '+ printPic + ' data-tooltip="' + fullName + '" data-type="user" data-id="' + user_ID + '">\
+			<span>'+ nameAbbr + '</span>\
 		</picture>\
 	';
 
@@ -2679,7 +2681,7 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 
 	//console.log(mStatus, email, fullName, nameAbbr, userImageUrl, user_ID, dataType, type, currentUserId, sharer_user_ID, object_ID, page_ID);
 
-	var printPicture = userImageUrl != null ? "style='background-image: url("+ userImageUrl +")'" : "";
+	var printPicture = userImageUrl != null ? "style='background-image: url(" + userImageUrl + ")'" : "";
 
 	var shareText = "This " + dataType;
 	if (mStatus == "owner") shareText = dataType + " Owner";
@@ -2688,27 +2690,27 @@ function new_modal_shared_member(mStatus, email, fullName, nameAbbr, userImageUr
 
 
 	return '\
-		<li class="wrap xl-flexbox xl-middle xl-gutter-16 member item" data-type="user" data-id="'+ user_ID +'" data-parameter="'+ type +'" data-second-parameter="'+ object_ID +'" data-third-parameter="'+ page_ID +'" data-share-status="'+ mStatus +'" data-itsme="'+ ( user_ID == currentUserId ? "yes" : "no" ) +'" data-my-share="'+ ( sharer_user_ID == currentUserId ? "yes" : "no" ) +'" data-confirmed="'+ ( email != "Not confirmed yet" ? "yes" : "no" ) +'">\
+		<li class="wrap xl-flexbox xl-middle xl-gutter-16 member item" data-type="user" data-id="'+ user_ID + '" data-parameter="' + type + '" data-second-parameter="' + object_ID + '" data-third-parameter="' + page_ID + '" data-share-status="' + mStatus + '" data-itsme="' + (user_ID == currentUserId ? "yes" : "no") + '" data-my-share="' + (sharer_user_ID == currentUserId ? "yes" : "no") + '" data-confirmed="' + (email != "Not confirmed yet" ? "yes" : "no") + '">\
 			<div class="col xl-8-12">\
 				<div class="wrap xl-flexbox xl-middle xl-gutter-8">\
 					<div class="col xl-2-12">\
-						<picture class="profile-picture big" '+ printPicture +'>\
-							<span class="abbr">'+ nameAbbr +'</span>\
+						<picture class="profile-picture big" '+ printPicture + '>\
+							<span class="abbr">'+ nameAbbr + '</span>\
 						</picture>\
 					</div>\
 					<div class="col xl-10-12">\
-						<span class="full-name">'+ fullName +'</span>\
-						<span class="email">('+ email +')</span>\
+						<span class="full-name">'+ fullName + '</span>\
+						<span class="email">('+ email + ')</span>\
 						<span class="owner-badge">ME</span>\
 					</div>\
 				</div>\
 			</div>\
 			<div class="col xl-4-12 text-uppercase dropdown click-to-open access">\
-				<a href="#">'+ shareText +' <i class="fa fa-caret-down change-access"></i></a>\
+				<a href="#">'+ shareText + ' <i class="fa fa-caret-down change-access"></i></a>\
 				<ul class="no-delay right selectable change-access">\
-					<li class="'+ ( mStatus == "shared" ? "selected" : "" ) +' hide-if-me"><a href="#" data-action="changeshareaccess">THIS '+dataType+'</a></li>\
-					<li class="'+ ( mStatus == "project" ? "selected" : "" ) +' hide-if-me hide-when-project" data-action="changeshareaccess"><a href="#">WHOLE PROJECT</a></li>\
-					<li class="'+ ( mStatus == "owner" ? "selected" : "" ) +' hide-if-not-owner hide-if-not-confirmed"><a href="#" data-action="makeownerof" data-confirm="Are you sure you want to make this user owner of this '+dataType+'?">'+dataType+' OWNER</a></li>\
+					<li class="'+ (mStatus == "shared" ? "selected" : "") + ' hide-if-me"><a href="#" data-action="changeshareaccess">THIS ' + dataType + '</a></li>\
+					<li class="'+ (mStatus == "project" ? "selected" : "") + ' hide-if-me hide-when-project" data-action="changeshareaccess"><a href="#">WHOLE PROJECT</a></li>\
+					<li class="'+ (mStatus == "owner" ? "selected" : "") + ' hide-if-not-owner hide-if-not-confirmed"><a href="#" data-action="makeownerof" data-confirm="Are you sure you want to make this user owner of this ' + dataType + '?">' + dataType + ' OWNER</a></li>\
 					<li><a href="#" data-action="unshare" data-confirm="Are you sure you want to remove access for this user?">REMOVE ACCESS</a></li>\
 				</ul>\
 			</div>\
@@ -2791,18 +2793,18 @@ function urlStandardize(url, removeProtocol) {
 
 
 	// Split from query string
-	if ( url.split('?').length === 1 ) {
+	if (url.split('?').length === 1) {
 
 
 		// Remove slash at the end
-		url = url.replace(/\/$/,'');
+		url = url.replace(/\/$/, '');
 
 
-	} else if ( url.split('?').length > 1 ) {
+	} else if (url.split('?').length > 1) {
 
 
 		// Remove slash from the end of the string before query
-		url = url.split('?')[0].replace(/\/$/,'') + '?' + url.split('?')[1];
+		url = url.split('?')[0].replace(/\/$/, '') + '?' + url.split('?')[1];
 
 	}
 
@@ -2830,13 +2832,13 @@ function removeQueryArgFromCurrentUrl(arg) {
 
 	var value = getParameterByName(arg, currentUrl());
 	var change = true;
-	if ( arg == "new" && value == "page" ) change = false;
+	if (arg == "new" && value == "page") change = false;
 
 
 	// If being force reinternalizing, update the URL
 	if (history.replaceState && change) {
-	    var newurl = queryParameter(currentUrl(), arg, "");
-	    if (newurl != currentUrl()) window.history.replaceState({path:newurl},'',newurl);
+		var newurl = queryParameter(currentUrl(), arg, "");
+		if (newurl != currentUrl()) window.history.replaceState({ path: newurl }, '', newurl);
 	}
 
 
@@ -2849,12 +2851,12 @@ function cleanHTML(s, cleanAll) {
 
 
 	// Clean all HTML tags
-	if (cleanAll) return s.replace(/(<([^>]+)>)/ig,"");
+	if (cleanAll) return s.replace(/(<([^>]+)>)/ig, "");
 
 
 	// Clean HTML tags, except BRs
-	s = s.replace(/<(br)[^>]+>/ig,'<$1>');
-	s.replace(/(<(?!br\s*\/?)[^>]+>)/ig,"");
+	s = s.replace(/<(br)[^>]+>/ig, '<$1>');
+	s.replace(/(<(?!br\s*\/?)[^>]+>)/ig, "");
 
 
 	// BR to new line sign
@@ -2868,13 +2870,13 @@ function cleanHTML(s, cleanAll) {
 function getParameterByName(name, url) {
 
 	url = assignDefault(url, window.location.href);
-	
-    name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+
+	name = name.replace(/[\[\]]/g, '\\$&');
+	var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+		results = regex.exec(url);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
 function queryParameter(url, key, value) {
@@ -2882,7 +2884,6 @@ function queryParameter(url, key, value) {
 
 	// Default
 	value = assignDefault(value, null);
-
 
 	var urlParsed = new URL(url);
 	var query_string = urlParsed.search;
@@ -2903,12 +2904,12 @@ function queryParameter(url, key, value) {
 }
 
 function formatBytes(bytes, decimals) {
-   if(bytes == 0) return '0 Bytes';
-   var k = 1024,
-       dm = decimals <= 0 ? 0 : decimals || 2,
-       sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-       i = Math.floor(Math.log(bytes) / Math.log(k));
-   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+	if (bytes == 0) return '0 Bytes';
+	var k = 1024,
+		dm = decimals <= 0 ? 0 : decimals || 2,
+		sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+		i = Math.floor(Math.log(bytes) / Math.log(k));
+	return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
 function timeSince(date) {
@@ -2986,8 +2987,8 @@ function log(log, arg1) {
 }
 
 function removeDuplicates(array, prop) {
-	var arrayMap = array.map( function(el){return el[prop];});
-	return array.filter( function(obj, index) {
+	var arrayMap = array.map(function (el) { return el[prop]; });
+	return array.filter(function (obj, index) {
 		return arrayMap.indexOf(obj[prop]) === index;
 	});
 }
@@ -2997,7 +2998,7 @@ function copyToClipboard(selector) {
 	var temp = $("<input>");
 	$("body").append(temp);
 
-	temp.val( $(selector).text() ).select();
+	temp.val($(selector).text()).select();
 
 	document.execCommand("copy");
 	temp.remove();
@@ -3017,16 +3018,16 @@ function getAbsoluteUrl(url, selectedDocument) {
 
 function MD5(s) {
 	// MD5 (Message-Digest Algorithm) by WebToolkit
-	function L(k,d){return(k<<d)|(k>>>(32-d))}function K(G,k){var I,d,F,H,x;F=(G&2147483648);H=(k&2147483648);I=(G&1073741824);d=(k&1073741824);x=(G&1073741823)+(k&1073741823);if(I&d){return(x^2147483648^F^H)}if(I|d){if(x&1073741824){return(x^3221225472^F^H)}else{return(x^1073741824^F^H)}}else{return(x^F^H)}}function r(d,F,k){return(d&F)|((~d)&k)}function q(d,F,k){return(d&k)|(F&(~k))}function p(d,F,k){return(d^F^k)}function n(d,F,k){return(F^(d|(~k)))}function u(G,F,aa,Z,k,H,I){G=K(G,K(K(r(F,aa,Z),k),I));return K(L(G,H),F)}function f(G,F,aa,Z,k,H,I){G=K(G,K(K(q(F,aa,Z),k),I));return K(L(G,H),F)}function D(G,F,aa,Z,k,H,I){G=K(G,K(K(p(F,aa,Z),k),I));return K(L(G,H),F)}function t(G,F,aa,Z,k,H,I){G=K(G,K(K(n(F,aa,Z),k),I));return K(L(G,H),F)}function e(G){var Z;var F=G.length;var x=F+8;var k=(x-(x%64))/64;var I=(k+1)*16;var aa=Array(I-1);var d=0;var H=0;while(H<F){Z=(H-(H%4))/4;d=(H%4)*8;aa[Z]=(aa[Z]|(G.charCodeAt(H)<<d));H++}Z=(H-(H%4))/4;d=(H%4)*8;aa[Z]=aa[Z]|(128<<d);aa[I-2]=F<<3;aa[I-1]=F>>>29;return aa}function B(x){var k="",F="",G,d;for(d=0;d<=3;d++){G=(x>>>(d*8))&255;F="0"+G.toString(16);k=k+F.substr(F.length-2,2)}return k}function J(k){k=k.replace(/rn/g,"n");var d="";for(var F=0;F<k.length;F++){var x=k.charCodeAt(F);if(x<128){d+=String.fromCharCode(x)}else{if((x>127)&&(x<2048)){d+=String.fromCharCode((x>>6)|192);d+=String.fromCharCode((x&63)|128)}else{d+=String.fromCharCode((x>>12)|224);d+=String.fromCharCode(((x>>6)&63)|128);d+=String.fromCharCode((x&63)|128)}}}return d}var C=Array();var P,h,E,v,g,Y,X,W,V;var S=7,Q=12,N=17,M=22;var A=5,z=9,y=14,w=20;var o=4,m=11,l=16,j=23;var U=6,T=10,R=15,O=21;s=J(s);C=e(s);Y=1732584193;X=4023233417;W=2562383102;V=271733878;for(P=0;P<C.length;P+=16){h=Y;E=X;v=W;g=V;Y=u(Y,X,W,V,C[P+0],S,3614090360);V=u(V,Y,X,W,C[P+1],Q,3905402710);W=u(W,V,Y,X,C[P+2],N,606105819);X=u(X,W,V,Y,C[P+3],M,3250441966);Y=u(Y,X,W,V,C[P+4],S,4118548399);V=u(V,Y,X,W,C[P+5],Q,1200080426);W=u(W,V,Y,X,C[P+6],N,2821735955);X=u(X,W,V,Y,C[P+7],M,4249261313);Y=u(Y,X,W,V,C[P+8],S,1770035416);V=u(V,Y,X,W,C[P+9],Q,2336552879);W=u(W,V,Y,X,C[P+10],N,4294925233);X=u(X,W,V,Y,C[P+11],M,2304563134);Y=u(Y,X,W,V,C[P+12],S,1804603682);V=u(V,Y,X,W,C[P+13],Q,4254626195);W=u(W,V,Y,X,C[P+14],N,2792965006);X=u(X,W,V,Y,C[P+15],M,1236535329);Y=f(Y,X,W,V,C[P+1],A,4129170786);V=f(V,Y,X,W,C[P+6],z,3225465664);W=f(W,V,Y,X,C[P+11],y,643717713);X=f(X,W,V,Y,C[P+0],w,3921069994);Y=f(Y,X,W,V,C[P+5],A,3593408605);V=f(V,Y,X,W,C[P+10],z,38016083);W=f(W,V,Y,X,C[P+15],y,3634488961);X=f(X,W,V,Y,C[P+4],w,3889429448);Y=f(Y,X,W,V,C[P+9],A,568446438);V=f(V,Y,X,W,C[P+14],z,3275163606);W=f(W,V,Y,X,C[P+3],y,4107603335);X=f(X,W,V,Y,C[P+8],w,1163531501);Y=f(Y,X,W,V,C[P+13],A,2850285829);V=f(V,Y,X,W,C[P+2],z,4243563512);W=f(W,V,Y,X,C[P+7],y,1735328473);X=f(X,W,V,Y,C[P+12],w,2368359562);Y=D(Y,X,W,V,C[P+5],o,4294588738);V=D(V,Y,X,W,C[P+8],m,2272392833);W=D(W,V,Y,X,C[P+11],l,1839030562);X=D(X,W,V,Y,C[P+14],j,4259657740);Y=D(Y,X,W,V,C[P+1],o,2763975236);V=D(V,Y,X,W,C[P+4],m,1272893353);W=D(W,V,Y,X,C[P+7],l,4139469664);X=D(X,W,V,Y,C[P+10],j,3200236656);Y=D(Y,X,W,V,C[P+13],o,681279174);V=D(V,Y,X,W,C[P+0],m,3936430074);W=D(W,V,Y,X,C[P+3],l,3572445317);X=D(X,W,V,Y,C[P+6],j,76029189);Y=D(Y,X,W,V,C[P+9],o,3654602809);V=D(V,Y,X,W,C[P+12],m,3873151461);W=D(W,V,Y,X,C[P+15],l,530742520);X=D(X,W,V,Y,C[P+2],j,3299628645);Y=t(Y,X,W,V,C[P+0],U,4096336452);V=t(V,Y,X,W,C[P+7],T,1126891415);W=t(W,V,Y,X,C[P+14],R,2878612391);X=t(X,W,V,Y,C[P+5],O,4237533241);Y=t(Y,X,W,V,C[P+12],U,1700485571);V=t(V,Y,X,W,C[P+3],T,2399980690);W=t(W,V,Y,X,C[P+10],R,4293915773);X=t(X,W,V,Y,C[P+1],O,2240044497);Y=t(Y,X,W,V,C[P+8],U,1873313359);V=t(V,Y,X,W,C[P+15],T,4264355552);W=t(W,V,Y,X,C[P+6],R,2734768916);X=t(X,W,V,Y,C[P+13],O,1309151649);Y=t(Y,X,W,V,C[P+4],U,4149444226);V=t(V,Y,X,W,C[P+11],T,3174756917);W=t(W,V,Y,X,C[P+2],R,718787259);X=t(X,W,V,Y,C[P+9],O,3951481745);Y=K(Y,h);X=K(X,E);W=K(W,v);V=K(V,g)}var i=B(Y)+B(X)+B(W)+B(V);return i.toLowerCase()
+	function L(k, d) { return (k << d) | (k >>> (32 - d)) } function K(G, k) { var I, d, F, H, x; F = (G & 2147483648); H = (k & 2147483648); I = (G & 1073741824); d = (k & 1073741824); x = (G & 1073741823) + (k & 1073741823); if (I & d) { return (x ^ 2147483648 ^ F ^ H) } if (I | d) { if (x & 1073741824) { return (x ^ 3221225472 ^ F ^ H) } else { return (x ^ 1073741824 ^ F ^ H) } } else { return (x ^ F ^ H) } } function r(d, F, k) { return (d & F) | ((~d) & k) } function q(d, F, k) { return (d & k) | (F & (~k)) } function p(d, F, k) { return (d ^ F ^ k) } function n(d, F, k) { return (F ^ (d | (~k))) } function u(G, F, aa, Z, k, H, I) { G = K(G, K(K(r(F, aa, Z), k), I)); return K(L(G, H), F) } function f(G, F, aa, Z, k, H, I) { G = K(G, K(K(q(F, aa, Z), k), I)); return K(L(G, H), F) } function D(G, F, aa, Z, k, H, I) { G = K(G, K(K(p(F, aa, Z), k), I)); return K(L(G, H), F) } function t(G, F, aa, Z, k, H, I) { G = K(G, K(K(n(F, aa, Z), k), I)); return K(L(G, H), F) } function e(G) { var Z; var F = G.length; var x = F + 8; var k = (x - (x % 64)) / 64; var I = (k + 1) * 16; var aa = Array(I - 1); var d = 0; var H = 0; while (H < F) { Z = (H - (H % 4)) / 4; d = (H % 4) * 8; aa[Z] = (aa[Z] | (G.charCodeAt(H) << d)); H++ } Z = (H - (H % 4)) / 4; d = (H % 4) * 8; aa[Z] = aa[Z] | (128 << d); aa[I - 2] = F << 3; aa[I - 1] = F >>> 29; return aa } function B(x) { var k = "", F = "", G, d; for (d = 0; d <= 3; d++) { G = (x >>> (d * 8)) & 255; F = "0" + G.toString(16); k = k + F.substr(F.length - 2, 2) } return k } function J(k) { k = k.replace(/rn/g, "n"); var d = ""; for (var F = 0; F < k.length; F++) { var x = k.charCodeAt(F); if (x < 128) { d += String.fromCharCode(x) } else { if ((x > 127) && (x < 2048)) { d += String.fromCharCode((x >> 6) | 192); d += String.fromCharCode((x & 63) | 128) } else { d += String.fromCharCode((x >> 12) | 224); d += String.fromCharCode(((x >> 6) & 63) | 128); d += String.fromCharCode((x & 63) | 128) } } } return d } var C = Array(); var P, h, E, v, g, Y, X, W, V; var S = 7, Q = 12, N = 17, M = 22; var A = 5, z = 9, y = 14, w = 20; var o = 4, m = 11, l = 16, j = 23; var U = 6, T = 10, R = 15, O = 21; s = J(s); C = e(s); Y = 1732584193; X = 4023233417; W = 2562383102; V = 271733878; for (P = 0; P < C.length; P += 16) { h = Y; E = X; v = W; g = V; Y = u(Y, X, W, V, C[P + 0], S, 3614090360); V = u(V, Y, X, W, C[P + 1], Q, 3905402710); W = u(W, V, Y, X, C[P + 2], N, 606105819); X = u(X, W, V, Y, C[P + 3], M, 3250441966); Y = u(Y, X, W, V, C[P + 4], S, 4118548399); V = u(V, Y, X, W, C[P + 5], Q, 1200080426); W = u(W, V, Y, X, C[P + 6], N, 2821735955); X = u(X, W, V, Y, C[P + 7], M, 4249261313); Y = u(Y, X, W, V, C[P + 8], S, 1770035416); V = u(V, Y, X, W, C[P + 9], Q, 2336552879); W = u(W, V, Y, X, C[P + 10], N, 4294925233); X = u(X, W, V, Y, C[P + 11], M, 2304563134); Y = u(Y, X, W, V, C[P + 12], S, 1804603682); V = u(V, Y, X, W, C[P + 13], Q, 4254626195); W = u(W, V, Y, X, C[P + 14], N, 2792965006); X = u(X, W, V, Y, C[P + 15], M, 1236535329); Y = f(Y, X, W, V, C[P + 1], A, 4129170786); V = f(V, Y, X, W, C[P + 6], z, 3225465664); W = f(W, V, Y, X, C[P + 11], y, 643717713); X = f(X, W, V, Y, C[P + 0], w, 3921069994); Y = f(Y, X, W, V, C[P + 5], A, 3593408605); V = f(V, Y, X, W, C[P + 10], z, 38016083); W = f(W, V, Y, X, C[P + 15], y, 3634488961); X = f(X, W, V, Y, C[P + 4], w, 3889429448); Y = f(Y, X, W, V, C[P + 9], A, 568446438); V = f(V, Y, X, W, C[P + 14], z, 3275163606); W = f(W, V, Y, X, C[P + 3], y, 4107603335); X = f(X, W, V, Y, C[P + 8], w, 1163531501); Y = f(Y, X, W, V, C[P + 13], A, 2850285829); V = f(V, Y, X, W, C[P + 2], z, 4243563512); W = f(W, V, Y, X, C[P + 7], y, 1735328473); X = f(X, W, V, Y, C[P + 12], w, 2368359562); Y = D(Y, X, W, V, C[P + 5], o, 4294588738); V = D(V, Y, X, W, C[P + 8], m, 2272392833); W = D(W, V, Y, X, C[P + 11], l, 1839030562); X = D(X, W, V, Y, C[P + 14], j, 4259657740); Y = D(Y, X, W, V, C[P + 1], o, 2763975236); V = D(V, Y, X, W, C[P + 4], m, 1272893353); W = D(W, V, Y, X, C[P + 7], l, 4139469664); X = D(X, W, V, Y, C[P + 10], j, 3200236656); Y = D(Y, X, W, V, C[P + 13], o, 681279174); V = D(V, Y, X, W, C[P + 0], m, 3936430074); W = D(W, V, Y, X, C[P + 3], l, 3572445317); X = D(X, W, V, Y, C[P + 6], j, 76029189); Y = D(Y, X, W, V, C[P + 9], o, 3654602809); V = D(V, Y, X, W, C[P + 12], m, 3873151461); W = D(W, V, Y, X, C[P + 15], l, 530742520); X = D(X, W, V, Y, C[P + 2], j, 3299628645); Y = t(Y, X, W, V, C[P + 0], U, 4096336452); V = t(V, Y, X, W, C[P + 7], T, 1126891415); W = t(W, V, Y, X, C[P + 14], R, 2878612391); X = t(X, W, V, Y, C[P + 5], O, 4237533241); Y = t(Y, X, W, V, C[P + 12], U, 1700485571); V = t(V, Y, X, W, C[P + 3], T, 2399980690); W = t(W, V, Y, X, C[P + 10], R, 4293915773); X = t(X, W, V, Y, C[P + 1], O, 2240044497); Y = t(Y, X, W, V, C[P + 8], U, 1873313359); V = t(V, Y, X, W, C[P + 15], T, 4264355552); W = t(W, V, Y, X, C[P + 6], R, 2734768916); X = t(X, W, V, Y, C[P + 13], O, 1309151649); Y = t(Y, X, W, V, C[P + 4], U, 4149444226); V = t(V, Y, X, W, C[P + 11], T, 3174756917); W = t(W, V, Y, X, C[P + 2], R, 718787259); X = t(X, W, V, Y, C[P + 9], O, 3951481745); Y = K(Y, h); X = K(X, E); W = K(W, v); V = K(V, g) } var i = B(Y) + B(X) + B(W) + B(V); return i.toLowerCase()
 }
 
 function get_gravatar(email, s = 80, d = 'blank', r = 'g') {
 
 	if (typeof email === "undefined") return null;
 
-    var url = 'https://www.gravatar.com/avatar/';
-    url += MD5( email.trim().toLowerCase() );
-    url += "?s=" + s + "&d=" + d + "&r=" + r + "";
+	var url = 'https://www.gravatar.com/avatar/';
+	url += MD5(email.trim().toLowerCase());
+	url += "?s=" + s + "&d=" + d + "&r=" + r + "";
 
-    return url;
+	return url;
 }

@@ -7,7 +7,7 @@
 // 		(SELECT COUNT(*) FROM pages pg) as pagesCount,
 // 		(SELECT COUNT(*) FROM phases ph) as phasesCount,
 // 		(SELECT COUNT(*) FROM devices d) as devicesCount,
-// 		(SELECT COUNT(*) FROM pins p) as livePinsCount,
+// 		(SELECT COUNT(*) FROM pins p) as contentPinsCount,
 // 		(SELECT COUNT(*) FROM pins) as commentPinsCount
 // ");
 $res = User::ID()->usage();

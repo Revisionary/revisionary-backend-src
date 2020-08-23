@@ -42,9 +42,9 @@ $screensLeft = $maxScreens == "∞" ? "Unlimited" : $maxScreens - $screensCount;
 
 
 // LIVE PINS
-$maxPins = $limitUser->getInfo($trial_prefix.'user_level_max_live_pin');
+$maxPins = $limitUser->getInfo($trial_prefix.'user_level_max_content_pin');
 $myPins = array_filter($limitUser->getPins(), function($pinFound) use ($limit_user_ID) {
-	return $pinFound['user_ID'] == $limit_user_ID && ($pinFound['pin_type'] == 'live' || $pinFound['pin_type'] == 'style');
+	return $pinFound['user_ID'] == $limit_user_ID && ($pinFound['pin_type'] == 'content' || $pinFound['pin_type'] == 'style');
 });
 $pinsCount = count( $myPins );
 $pinsPercentage = intval((100 * $pinsCount) / $maxPins);

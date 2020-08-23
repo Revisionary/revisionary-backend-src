@@ -20,10 +20,10 @@
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -34,10 +34,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -490,10 +490,10 @@
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -504,10 +504,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -960,10 +960,10 @@
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -974,10 +974,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -1422,10 +1422,10 @@
 		<div class="wrap xl-gutter-24">
 			<div class="col xl-center">
 
-				Live Content Pin Window Default <br/><br/>
+				Content Content Pin Window Default <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="content" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -1436,15 +1436,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">LIVE EDIT</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -1455,10 +1455,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -1891,10 +1891,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Live Content Pin Window Changed <br/><br/>
+				Content Content Pin Window Changed <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="content" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -1905,15 +1905,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">LIVE EDIT</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -1924,10 +1924,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -2360,10 +2360,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Live Content Pin Window Showing Difference <br/><br/>
+				Content Content Pin Window Showing Difference <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active show-differences" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active show-differences" data-pin-id="244" data-pin-type="content" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -2374,15 +2374,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">LIVE EDIT</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -2393,10 +2393,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -2829,10 +2829,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Live Content Pin Window Showing Original <br/><br/>
+				Content Content Pin Window Showing Original <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="0" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="content" data-pin-private="0" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="0" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -2843,15 +2843,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">LIVE EDIT</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -2862,10 +2862,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -3298,10 +3298,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Live Content Pin Window with Comments <br/><br/>
+				Content Content Pin Window with Comments <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="156.01943" data-pin-y="30.67504" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="content" data-pin-private="0" data-pin-complete="0" data-pin-x="156.01943" data-pin-y="30.67504" data-pin-modification-type="html" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -3312,15 +3312,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">LIVE EDIT</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -3331,10 +3331,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -3767,10 +3767,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Live Content Pin Window Private <br/><br/>
+				Content Content Pin Window Private <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="live" data-pin-private="1" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="244" data-pin-type="content" data-pin-private="1" data-pin-complete="0" data-pin-x="238.43552" data-pin-y="35.68798" data-pin-modification-type="html" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="49" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -3781,15 +3781,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="1"></pin>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="1"></pin>
 						<a href="#"><span class="pin-label">PRIVATE LIVE</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -3800,10 +3800,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -4247,10 +4247,10 @@
 		<div class="wrap xl-gutter-24">
 			<div class="col xl-center">
 
-				Live Image Pin Window Default <br/><br/>
+				Content Image Pin Window Default <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="content" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="0" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -4261,15 +4261,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">LIVE EDIT</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -4280,10 +4280,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -4716,10 +4716,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Live Image Pin Window Changed <br/><br/>
+				Content Image Pin Window Changed <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="content" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -4730,15 +4730,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">LIVE EDIT</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -4749,10 +4749,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -5185,10 +5185,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Live Image Pin Window Showing Original <br/><br/>
+				Content Image Pin Window Showing Original <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="0" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="content" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="0" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="yes" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -5199,15 +5199,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">LIVE EDIT</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -5218,10 +5218,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -5654,10 +5654,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Live Image Pin Window Private <br/><br/>
+				Content Image Pin Window Private <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="1" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="content" data-pin-private="1" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="no" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -5668,15 +5668,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="1"></pin>
-						<a href="#"><span class="pin-label">Private Live</span> <i class="fa fa-caret-down"></i></a>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="1"></pin>
+						<a href="#"><span class="pin-label">Private Content</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -5687,10 +5687,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 
@@ -6123,10 +6123,10 @@
 			</div>
 			<div class="col xl-center">
 
-				Live Image Pin Window with Comments <br/><br/>
+				Content Image Pin Window with Comments <br/><br/>
 
 
-				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="live" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
+				<div id="pin-window" class="ui-draggable active" data-pin-id="248" data-pin-type="content" data-pin-private="0" data-pin-complete="0" data-pin-x="265.00000" data-pin-y="69.40625" data-pin-modification-type="image" data-revisionary-content-edited="1" data-revisionary-style-changed="no" data-revisionary-showing-style-changes="yes" data-has-comments="yes" data-revisionary-showing-content-changes="1" data-revisionary-index="65" style="position: static;" data-pin-mine="yes" data-pin-new="no" data-new-notification="no">
 
 		<div class="wrap xl-flexbox xl-between top-actions">
 			<div class="col move-window left-tooltip ui-draggable-handle" data-tooltip="Drag &amp; Drop the pin window to detach from the pin.">
@@ -6137,15 +6137,15 @@
 				<div class="wrap xl-flexbox actions">
 					<div class="col action dropdown">
 
-						<pin class="chosen-pin" data-pin-type="live" data-pin-private="0"></pin>
+						<pin class="chosen-pin" data-pin-type="content" data-pin-private="0"></pin>
 						<a href="#"><span class="pin-label">LIVE EDIT</span> <i class="fa fa-caret-down"></i></a>
 
 						<ul class="xl-left type-convertor">
 
-							<li class="convert-to-live">
+							<li class="convert-to-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="0" data-pin-modification-type=""></pin>
-									<span>Live Edit</span>
+									<pin data-pin-type="content" data-pin-private="0" data-pin-modification-type=""></pin>
+									<span>Content Edit</span>
 								</a>
 							</li>
 
@@ -6156,10 +6156,10 @@
 								</a>
 							</li>
 
-							<li class="convert-to-private-live">
+							<li class="convert-to-private-content">
 								<a href="#" class="xl-flexbox xl-middle">
-									<pin data-pin-type="live" data-pin-private="1" data-pin-modification-type=""></pin>
-									<span>Private Live</span>
+									<pin data-pin-type="content" data-pin-private="1" data-pin-modification-type=""></pin>
+									<span>Private Content</span>
 								</a>
 							</li>
 

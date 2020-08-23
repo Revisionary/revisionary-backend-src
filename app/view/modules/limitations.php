@@ -67,11 +67,11 @@ if ( getUserInfo()['trialActive'] ) {
 			</ul>
 
 		</div>
-		<div class="col total live-pins-limit <?=$pinsPercentage >= 100 ? "exceed" : ""?> dropdown">
+		<div class="col total content-pins-limit <?=$pinsPercentage >= 100 ? "exceed" : ""?> dropdown">
 
 			<a href="#" data-modal="upgrade" class="dropdown-opener">
 				<span class='current'><?=$pinsCount?></span>/<span class='max'><?=$maxPins?></span>
-				<span class='desc'>Live Pin<?=$maxPins > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
+				<span class='desc'>Content Pin<?=$maxPins > 1 ? "s" : ""?> <i class="fa fa-question-circle tooltip"></i></span>
 			</a>
 			<ul class="right xl-left no-delay">
 				<li>

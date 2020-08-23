@@ -392,9 +392,9 @@ if (
 
 
 // PIN MODE
-$pin_mode = "live";
+$pin_mode = "content";
 if (
-	get('pinmode') == "live" ||
+	get('pinmode') == "content" ||
 	get('pinmode') == "style" ||
 	get('pinmode') == "browse"
 ) $pin_mode = get('pinmode');

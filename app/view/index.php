@@ -66,7 +66,7 @@
 		</div>
 	</div>
 
-	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container" id="live-change">
+	<div class="wrap xl-flexbox xl-middle xl-gutter-8 container" id="content-change">
 		<div class="col xl-1-3 perspective-right" style="pointer-events: none; user-select: none;">
 		
 			<img src="<?=asset_url('images/content-edit.png')?>" alt="">

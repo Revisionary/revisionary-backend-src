@@ -163,7 +163,7 @@ class User {
 			l.user_level_max_project as max_projects,
 			l.user_level_max_page as max_pages,
 			l.user_level_max_screen as max_screens,
-			l.user_level_max_live_pin as max_live_pins,
+			l.user_level_max_content_pin as max_content_pins,
 			l.user_level_max_comment_pin as max_comment_pins,
 			l.user_level_max_load as max_load,
 			l.user_level_max_client as max_clients
@@ -1440,7 +1440,7 @@ class User {
 		// 		(SELECT COUNT(*) FROM pages where user_ID = ".self::$user_ID.") as pages,
 		// 		(SELECT COUNT(*) FROM phases where user_ID = ".self::$user_ID.") as phases,
 		// 		(SELECT COUNT(*) FROM devices where user_ID = ".self::$user_ID.") as devices,
-		// 		(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type != 'comment') as livePins,
+		// 		(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type != 'comment') as contentPins,
 		// 		(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type = 'comment') as commentPins
 		// 	FROM
 		// 		phases
@@ -1464,7 +1464,7 @@ class User {
 			(SELECT COUNT(*) FROM projects where user_ID = ".self::$user_ID.") as projects, 
 			(SELECT COUNT(*) FROM pages where user_ID = ".self::$user_ID.") as pages,
 			(SELECT COUNT(*) FROM devices where user_ID = ".self::$user_ID.") as devices,
-			(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type != 'comment') as livePins,
+			(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type != 'comment') as contentPins,
 			(SELECT COUNT(*) FROM pins where user_ID = ".self::$user_ID." AND pin_type = 'comment') as commentPins,
 			GROUP_CONCAT(DISTINCT CONCAT(ph.phase_ID, ' | ', pg.page_ID, ' | ', pg.project_ID)) AS phase_IDs
 		");

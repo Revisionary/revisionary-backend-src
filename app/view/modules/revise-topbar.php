@@ -855,14 +855,14 @@ foreach ($other_pages as $pageOther) {
 							<i class="fa fa-caret-down"></i>
 						</a>
 						<ul class="right pin-types">
-							<li class="bottom-tooltip" data-pin-type="live" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes.">
-								<a href="#" data-switch-pin-type="live"  data-switch-pin-private="0"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a>
+							<li class="bottom-tooltip" data-pin-type="content" data-pin-private="0" data-tooltip="You can do both content(image & text) and visual changes.">
+								<a href="#" data-switch-pin-type="content"  data-switch-pin-private="0"><i class="fa fa-dot-circle"></i> CONTENT AND VIEW CHANGES</a>
 							</li>
 							<li class="bottom-tooltip" data-pin-type="style" data-pin-private="0" data-tooltip="You can only do visual changes.">
 								<a href="#" data-switch-pin-type="style"  data-switch-pin-private="0"><i class="fa fa-dot-circle"></i> ONLY VIEW CHANGES</a>
 							</li>
-							<!-- <li class="bottom-tooltip" data-pin-type="live" data-pin-private="1" data-tooltip="Only you can see the changes you made.">
-								<a href="#" data-switch-pin-type="live"  data-switch-pin-private="1"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a>
+							<!-- <li class="bottom-tooltip" data-pin-type="content" data-pin-private="1" data-tooltip="Only you can see the changes you made.">
+								<a href="#" data-switch-pin-type="content"  data-switch-pin-private="1"><i class="fa fa-dot-circle"></i> PRIVATE CONTENT AND VIEW CHANGES</a>
 							</li> -->
 							<li class="bottom-tooltip" data-pin-type="comment" data-pin-private="0" data-tooltip="You can only add comments.">
 								<a href="#" data-switch-pin-type="comment"  data-switch-pin-private="0"><i class="fa fa-comment"></i> ONLY COMMENT</a>
@@ -879,7 +879,7 @@ foreach ($other_pages as $pageOther) {
 					<div class="dropdown-opener">
 						
 						<div class="desc nomargin"><?=getUserInfo()['trialActive'] ? getUserInfo()['trialUserLevelName']." (Trial)" : getUserInfo()['userLevelName']?> Account <span>Limits</span></div>
-						<span class="pins-count" data-modal="upgrade"><?=$pinsCount?></span> <span class="pin-limit-text">Live Pins Left</span>
+						<span class="pins-count" data-modal="upgrade"><?=$pinsCount?></span> <span class="pin-limit-text">Content Pins Left</span>
 
 					</div>
 					<ul class="left limit-details">

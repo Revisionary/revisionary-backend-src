@@ -14,109 +14,109 @@ function checkPageStatus(device_ID, queue_ID, processID, loadingProcessID, downl
 
 	// Get the up-to-date pins
 	var statusCheckRequest = ajax('internalize-status',
-	{
-		'device_ID'		: device_ID,
-		'queue_ID'		: queue_ID,
-		'processID'		: processID,
-		'page_type'		: downloadType
+		{
+			'device_ID': device_ID,
+			'queue_ID': queue_ID,
+			'processID': processID,
+			'page_type': downloadType
 
-	}).done(function(result) {
-
-
-		var data = result.data; console.log('RESULTS: ', result);
+		}).done(function (result) {
 
 
-		// LOG
-		$.each(data, function(key, value){
-
-			// Append the log !!!
-			console.log(key + ': ', value);
-
-		});
+			var data = result.data; console.log('RESULTS: ', result);
 
 
-		// Update the proggress bar
-		var width = data.processPercentage;
-		editProcess(loadingProcessID, width);
+			// LOG
+			$.each(data, function (key, value) {
+
+				// Append the log !!!
+				console.log(key + ': ', value);
+
+			});
 
 
-		// Finish the process if done
-		if (width == 100)
-			endProcess(loadingProcessID);
+			// Update the proggress bar
+			var width = data.processPercentage;
+			editProcess(loadingProcessID, width);
 
 
-		// Print the current status
-		$('#loading-info').text( Math.round(width) + '% ' + data.processDescription + '...');
+			// Finish the process if done
+			if (width == 100)
+				endProcess(loadingProcessID);
 
 
-		// Print the error message when stops before completion
-		if (data.status == "not-running" &&	data.processStatus != "ready" && downloadType != "capture") {
-			$('#loading-info').text( 'Error');
-			editProcess(loadingProcessID, 0);
-		}
+			// Print the current status
+			$('#loading-info').text(Math.round(width) + '% ' + data.processDescription + '...');
 
 
-		// If successfully downloaded
-		if (
-			(width == 100 && data.processStatus == "ready") ||
-			(downloadType == "capture" && data.status == "not-running")
-		) {
-
-			// Update the global page URL
-			page_URL = data.phaseUrl;
-			console.log('PAGE URL: ', page_URL);
+			// Print the error message when stops before completion
+			if (data.status == "not-running" && data.processStatus != "ready" && downloadType != "capture") {
+				$('#loading-info').text('Error');
+				editProcess(loadingProcessID, 0);
+			}
 
 
-			// Redirects
+			// If successfully downloaded
 			if (
-				( page_URL.startsWith("http://") && currentUrl().startsWith("https://") ) ||
-				( page_URL.startsWith("https://") && currentUrl().startsWith("http://") )
-			) location.reload();
+				(width == 100 && data.processStatus == "ready") ||
+				(downloadType == "capture" && data.status == "not-running")
+			) {
+
+				// Update the global page URL
+				page_URL = data.phaseUrl;
+				console.log('PAGE URL: ', page_URL);
 
 
-			// Update the iframe url
-			$('#the-page').attr('src', page_URL);
+				// Redirects
+				if (
+					(page_URL.startsWith("http://") && currentUrl().startsWith("https://")) ||
+					(page_URL.startsWith("https://") && currentUrl().startsWith("http://"))
+				) location.reload();
 
 
-			// Run the inspector
-			runTheInspector();
+				// Update the iframe url
+				$('#the-page').attr('src', page_URL);
 
 
-			// Capture mode
-			if (downloadType == "capture") endProcess(loadingProcessID);
-
-		}
+				// Run the inspector
+				runTheInspector();
 
 
-		// Restart if not done
-		if (data.status != "not-running" && data.processStatus != "ready") {
+				// Capture mode
+				if (downloadType == "capture") endProcess(loadingProcessID);
 
-			setTimeout(function() {
+			}
+
+
+			// Restart if not done
+			if (data.status != "not-running" && data.processStatus != "ready") {
+
+				setTimeout(function () {
+
+					checkPageStatus(device_ID, queue_ID, processID, loadingProcessID, downloadType);
+
+				}, 1000);
+
+			}
+
+
+		}).fail(function () {
+
+
+			// Abort the latest request if not finalized
+			if (statusCheckRequest && statusCheckRequest.readyState != 4) {
+				console.log('Latest status check request aborted');
+				statusCheckRequest.abort();
+			}
+
+			setTimeout(function () {
 
 				checkPageStatus(device_ID, queue_ID, processID, loadingProcessID, downloadType);
 
 			}, 1000);
 
-		}
 
-
-	}).fail(function() {
-
-
-		// Abort the latest request if not finalized
-		if(statusCheckRequest && statusCheckRequest.readyState != 4) {
-			console.log('Latest status check request aborted');
-			statusCheckRequest.abort();
-		}
-
-		setTimeout(function() {
-
-			checkPageStatus(device_ID, queue_ID, processID, loadingProcessID, downloadType);
-
-		}, 1000);
-
-
-	});
+		});
 
 
 }
@@ -127,15 +127,15 @@ function runTheInspector() {
 
 
 	// CLOSE ALL THE OPEN TABS
-	$('.opener').each(function() {
+	$('.opener').each(function () {
 
-		toggleTab( $(this), true );
+		toggleTab($(this), true);
 
 	});
 
 
 	// WHEN IFRAME DOCUMENT READY !!! ?
-	$('#the-page').contents().ready(function() {
+	$('#the-page').contents().ready(function () {
 
 		console.log('IFRAME DOCUMENT READY!');
 
@@ -143,18 +143,18 @@ function runTheInspector() {
 
 
 	// WHEN IFRAME HAS LOADED
-	$('#the-page').on('load', function() {
+	$('#the-page').on('load', function () {
 
 
-		console.log('IFRAME DOCUMENT LOADED!', canAccessIFrame( $(this) ));
+		console.log('IFRAME DOCUMENT LOADED!', canAccessIFrame($(this)));
 
 
 		// If we have access on this iframe (CORS Check)
-		if ( canAccessIFrame($(this)) ) {
+		if (canAccessIFrame($(this))) {
 
 
 			// Iframe element
-		    iframe = $('#the-page').contents();
+			iframe = $('#the-page').contents();
 			iframeLoaded = true;
 
 
@@ -165,7 +165,7 @@ function runTheInspector() {
 				console.log('LOAD PAGE REOPENED');
 				page_redirected = false;
 
-				setTimeout(function() { // Does not work sometimes, and needs improvement !!!
+				setTimeout(function () { // Does not work sometimes, and needs improvement !!!
 
 
 					// Re-apply pins
@@ -205,24 +205,14 @@ function runTheInspector() {
 					currentPinType = clientPinType;
 					currentPinPrivate = clientPinPrivate;
 
-					if (page_type == "url" && clientPinType == "comment") currentPinType = "live";
+					if (page_type == "url" && clientPinType == "comment") currentPinType = "content";
 
 				}
 
 
 				// From URL
-				if ( getParameterByName('pinmode') == "style" ) {
-					currentPinType = "style";
-					currentPinPrivate = 0;
-				}
-
-				if ( getParameterByName('pinmode') == "comment" ) {
-					currentPinType = "comment";
-					currentPinPrivate = 0;
-				}
-
-				if ( getParameterByName('pinmode') == "browse" ) {
-					currentPinType = "browse";
+				if (getParameterByName('pinmode') != null) {
+					currentPinType = getParameterByName('pinmode');
 					currentPinPrivate = 0;
 				}
 
@@ -246,7 +236,7 @@ function runTheInspector() {
 			// Iframe Document and Window
 			childWindow = $(this).prop("contentWindow");
 			iframeDocument = childWindow.document;
-			
+
 
 
 			// IFRAME EVENTS:
@@ -255,51 +245,51 @@ function runTheInspector() {
 			var scrollTimer, scrollFlag = false;
 
 			// Prevent clicking somewhere
-			iframeDocument.addEventListener('click', function(e) {
-			
-				if ( currentPinType != "browse" ) {
+			iframeDocument.addEventListener('click', function (e) {
+
+				if (currentPinType != "browse") {
 
 					console.log('MOUSE CLICKED');
-			
+
 					e.stopPropagation();
 					e.stopImmediatePropagation();
 					e.preventDefault();
 					return false;
-			
+
 				}
-			
+
 			}, true);
 
 
 			// Detect the mouse moves in frame
-			iframeDocument.addEventListener('mousemove', function(e) {
+			iframeDocument.addEventListener('mousemove', function (e) {
 
 
 				// Mouse coordinates according to the iframe container
 				containerX = e.clientX * iframeScale;
 				containerY = e.clientY * iframeScale;
 				//console.log('Container: ', containerX, containerY);
-	
-	
+
+
 				// Follow the mouse cursor
 				$('.mouse-cursor').css({
-					left:  containerX,
-					top:   containerY
+					left: containerX,
+					top: containerY
 				});
 
 
 
 				// Better unshift detection
 				if (shifted && shiftToggle && !pinWindowOpen && currentPinType == "browse" && !e.shiftKey) {
-	
+
 					shiftToggle = false;
 					console.log('UNSHIFTED');
-	
+
 					currentPinType = currentPinTypeWas;
 					toggleCursorActive(false, true); // Force Open
 
 					shifted = false;
-	
+
 				}
 
 
@@ -313,24 +303,24 @@ function runTheInspector() {
 
 				// Work only if cursor is active
 				if (cursorActive && !hoveringPin) {
-	
-	
-	
-					if (currentPinType == "live") { // Live Pin
-	
-	
+
+
+
+					if (currentPinType == "content") { // Content Pin
+
+
 						// REFOCUS WORKS:
 						// Re-focus if the focused element has no index
 						if (!focused_element_has_index && focused_element.parents('[data-revisionary-index]').length) {
-	
-	
+
+
 							// Re-focus to the closest indexed element
 							focused_element = focused_element.parents('[data-revisionary-index]').first();
 							reFocus();
-	
-	
+
+
 							//console.log('REFOCUS - if the focused element has no index: ' + focused_element_tagname + '.' + focused_element.attr('class'));
-	
+
 						}
 
 
@@ -341,68 +331,68 @@ function runTheInspector() {
 							//focused_element_grand_children.length != 0 && // No grand child
 							//focused_element_children.first().text().trim() == "" // Grand child should have content
 						) {
-	
+
 
 							// Re-focus to the child element
 							focused_element = focused_element_children.first();
 							reFocus();
-	
-	
+
+
 							//console.log(i, 'REFOCUS - Only child element has no child and has content: ' + focused_element_tagname + '.' + focused_element.attr('class'));
 
 						}
-	
-	
+
+
 						// Re-focus to the edited element if this is child of it: <p data-edited="1" focused><b>Lorem
 						if (focused_element_edited_parents.length) {
-	
+
 
 							// Re-focus to the parent edited element
 							focused_element = focused_element_edited_parents.first();
 							reFocus();
-	
-	
+
+
 							//console.log('REFOCUS - Already edited closest parent: ' + focused_element_tagname + '.' + focused_element.attr('class'));
-	
+
 						}
-	
-	
-	
+
+
+
 						// EDITABLE CHECKS:
 						hoveringText = false;
 						focused_element_editable = false;
-	
-	
+
+
 						// Directly editable:
 						// Check element text editable: <p>Lorem ipsum dolor sit amet...
 						if (
-							easy_html_elements.includes( focused_element_tagname ) && // In easy HTML elements?
+							easy_html_elements.includes(focused_element_tagname) && // In easy HTML elements?
 							focused_element_text.trim() != "" && // Has to have text
-							focused_element.html() != "&nbsp;"  && // Text shouldn't be blank
+							focused_element.html() != "&nbsp;" && // Text shouldn't be blank
 							focused_element_children.length == 0 // No child element
 						) {
-	
+
 							hoveringText = true;
 							focused_element_editable = true; // Obviously Text Editable
 							//console.log( '* Obviously Text Editable: ' + focused_element_tagname + '.' + focused_element.attr('class') );
 							//console.log( 'Focused Element Text: ' + focused_element_text );
-	
+
 						}
-	
-	
+
+
 						// Image editable:
 						// Check element image editable: <img src="#">...
 						hoveringImage = false;
-						if ( focused_element_tagname == "IMG" || focused_element_tagname == "IMAGE" ) {
-	
+						if (focused_element_tagname == "IMG" || focused_element_tagname == "IMAGE") {
+
 							hoveringImage = true;
 							focused_element_editable = true; // Obviously Image Editable
 							//console.log( '* Obviously Image Editable: ' + focused_element_tagname + '.' + focused_element.attr('class') );
 							//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
-	
+
 						}
-	
-	
+
+
 						// // Background Image editable: !!!
 						// // Check element background image editable
 						// if (
@@ -410,17 +400,17 @@ function runTheInspector() {
 						// 	focused_element.css('background-image').substring(0, 4) == "url(" &&
 						// 	focused_element.css('background-image').match(/url\(/g).length === 1 // Only one url()
 						// ) {
-	
+
 						// 	//focused_element_editable = true; // Obviously Image Editable
 						// 	//console.log( '* Obviously Image Editable: ' + focused_element_tagname + '.' + focused_element.attr('class') );
 						// 	//console.log( 'Focused Element Image: ' + focused_element.prop('src') );
-	
+
 						// 	//console.log( "BGIMAGE: ", focused_element.css('background-image').replace(/^url\(['"](.+)['"]\)/, '$1') );
 						// 	console.log( "BGIMAGE: ", focused_element.css('background-image') );
-	
+
 						// }
-	
-	
+
+
 						// Check if element has children but doesn't have grand children: <p>Lorem ipsum <a href="#">dolor</a> sit amet...
 						if (
 							focused_element_children.length > 0 && // Has child
@@ -428,29 +418,29 @@ function runTheInspector() {
 							focused_element_text != "" && // Has to have text
 							focused_element.html() != "&nbsp;" // Text shouldn't be blank
 						) {
-	
-	
+
+
 							// Also check the children's tagname
 							var hardToEdit = true;
-							focused_element_children.each(function() {
-	
+							focused_element_children.each(function () {
+
 								// In easy HTML elements?
-								if ( easy_with_br.includes( $(this).prop('tagName').toUpperCase() ) ) hardToEdit = false;
-	
+								if (easy_with_br.includes($(this).prop('tagName').toUpperCase())) hardToEdit = false;
+
 							});
-	
+
 							if (!hardToEdit) {
-	
+
 								hoveringText = true;
 								focused_element_editable = true;
 								//console.log( '* Text Editable (No Grand Child): ' + focused_element_tagname + '.' + focused_element.attr('class') );
 								//console.log( 'Focused Element Text: ' + focused_element_text );
-	
+
 							}
-	
+
 						}
-	
-	
+
+
 						// Chech if element has only one grand child and it doesn't have any child: <p>Lorem ipsum <a href="#"><strong>dolor</strong></a> sit amet... !!!
 						if (
 							focused_element_children.length > 0 && // Has child
@@ -458,39 +448,39 @@ function runTheInspector() {
 							focused_element_text.trim() != "" && // And, also have to have text
 							focused_element.html() != "&nbsp;" // And, also have to have text
 						) {
-	
-	
+
+
 							// Also check the children's tagname
 							var easyToEdit = false;
-							focused_element_children.each(function() {
-	
+							focused_element_children.each(function () {
+
 								var child = $(this);
 								var grandChildren = child.children();
-	
-	
+
+
 								if (
-									easy_with_br.includes( child.prop('tagName').toUpperCase() ) && // Child is easy to edit
+									easy_with_br.includes(child.prop('tagName').toUpperCase()) && // Child is easy to edit
 									grandChildren.length == 1 && // Grand child has no more than 1 child !!! ???
-									easy_with_br.includes( grandChildren.first().prop('tagName').toUpperCase() ) // And that guy is easy to edit as well
+									easy_with_br.includes(grandChildren.first().prop('tagName').toUpperCase()) // And that guy is easy to edit as well
 								)
-	
+
 									easyToEdit = true;
-	
+
 							});
-	
+
 							if (easyToEdit) {
-	
+
 								hoveringText = true;
 								focused_element_editable = true;
 								//console.log( '* Text Editable (One Grand Child): ' + focused_element_tagname + '.' + focused_element.attr('class') );
 								//console.log( 'Focused Element Text: ' + focused_element_text );
-	
+
 							}
-	
-	
+
+
 						}
-	
-	
+
+
 						// Check the submit buttons: <input type="submit | reset">... // !!!
 						hoveringButton = false;
 						if (
@@ -504,48 +494,48 @@ function runTheInspector() {
 								focused_element.attr("type") == "reset"
 							)
 						) {
-	
+
 							hoveringButton = true;
 							hoveringText = true;
 							focused_element_editable = true; // Obviously Image Editable
 							//console.log( '* Button Editable: ' + focused_element_tagname );
 							//console.log( 'Focused Button Text: ' + focused_element.attr('value') );
-	
+
 						}
-	
-	
-	
+
+
+
 						// PREVENTIONS:
 						// Check if it doesn't have any element index: <p data-revisionary-index="16">...
 						if (focused_element_editable && !focused_element_has_index) {
-	
+
 							focused_element_editable = false;
 							//console.log( '* Element editable but NO INDEX: ' + focused_element_tagname + '.' + focused_element.attr('class') );
-	
+
 						}
-	
-	
+
+
 						// If focused element has edited child, don't focus it
-						if (focused_element_has_edited_child > 1 ) {
-	
+						if (focused_element_has_edited_child > 1) {
+
 							focused_element_editable = false;
 							//console.log( '* Element editable but there are edited #'+focused_element_has_edited_child+' children: ' + focused_element_tagname + '.' + focused_element.attr('class') );
-	
+
 						}
-	
-	
-					} // Live Pin	
-	
-	
-	
+
+
+					} // Content Pin	
+
+
+
 					// Clean Other Outlines
 					removeOutline();
-	
+
 					// Reset the pin opacity
 					$('#pins > pin').css('opacity', '');
-	
-	
-	
+
+
+
 					// // See what am I focusing
 					// console.log("###############################");
 					// console.log(focused_element.prop('tagName').toUpperCase(), 'Index: ' + focused_element_index );
@@ -555,93 +545,93 @@ function runTheInspector() {
 					// if (hoveringImage) console.log("HOVERING ON AN IMAGE");
 					// if (hoveringButton) console.log("HOVERING ON A BUTTON");
 					// console.log("###############################");
-	
-	
-	
+
+
+
 					// REACTIONS:
-					focused_element_has_live_pin = focused_element_live_pin.length;
-	
-	
-					// If current element already has a live pin
-					if ( focused_element_has_live_pin ) {
-	
-	
+					focused_element_has_content_pin = focused_element_content_pin.length;
+
+
+					// If current element already has a content pin
+					if (focused_element_has_content_pin) {
+
+
 						// Point to the pin
-						$('#pins > pin[data-revisionary-index="'+ focused_element_index +'"]').css('opacity', '1');
-						$('#pins > pin:not([data-revisionary-index="'+ focused_element_index +'"])').css('opacity', '0.2');
-	
-	
+						$('#pins > pin[data-revisionary-index="' + focused_element_index + '"]').css('opacity', '1');
+						$('#pins > pin:not([data-revisionary-index="' + focused_element_index + '"])').css('opacity', '0.2');
+
+
 						// Update the cursor
-						changePinNumber( focused_element_live_pin.text() );
-	
-	
-						switchCursorType( focused_element_live_pin.attr('data-pin-type'), focused_element_live_pin.attr('data-pin-private'), true);
-						outline( focused_element, focused_element_live_pin.attr('data-pin-private'), focused_element_live_pin.attr('data-pin-type') );
-						//console.log('This element already has a live pin.');
-	
-	
+						changePinNumber(focused_element_content_pin.text());
+
+
+						switchCursorType(focused_element_content_pin.attr('data-pin-type'), focused_element_content_pin.attr('data-pin-private'), true);
+						outline(focused_element, focused_element_content_pin.attr('data-pin-private'), focused_element_content_pin.attr('data-pin-type'));
+						//console.log('This element already has a content pin.');
+
+
 					} else {
-	
-	
-						// UPDATE CURSOR ACCORDING TO PIN MODES (currentPinType: live | style | browse)
-	
+
+
+						// UPDATE CURSOR ACCORDING TO PIN MODES (currentPinType: content | style | browse)
+
 						// Re-update the cursor number
 						currentPinNumber = $('#pins > pin').length + 1;
 						changePinNumber(currentPinNumber);
-	
-	
+
+
 						// Editable check
-						if (currentPinType == "live") {
-	
-	
-							switchCursorType(focused_element_editable ? 'live' : 'style');
-							if (focused_element_has_index) outline(focused_element, currentPinPrivate, focused_element_editable ? 'live' : 'style');
-	
-	
+						if (currentPinType == "content") {
+
+
+							switchCursorType(focused_element_editable ? 'content' : 'style');
+							if (focused_element_has_index) outline(focused_element, currentPinPrivate, focused_element_editable ? 'content' : 'style');
+
+
 						} else if (currentPinType == "style") {
-	
-	
+
+
 							switchCursorType('style');
 							if (focused_element_has_index) outline(focused_element, currentPinPrivate, "style");
-	
-	
+
+
 						} else if (currentPinType == "comment") {
-	
+
 							switchCursorType('comment');
-	
+
 						}
-	
-	
-	
+
+
+
 					}
-	
-	
-	
+
+
+
 				} // If cursor active
-	
-	
+
+
 			}, true);
 
 
 			// Detect the mouse clicks in frame
-			iframeDocument.addEventListener('mousedown', function(e) {
+			iframeDocument.addEventListener('mousedown', function (e) {
 
 
 				//console.log('MOUSE DOWN');
-	
-	
+
+
 				// While editing a content on page
-				mouseDownOnContentEdit = cursorActive && focused_element_has_live_pin;
-	
-	
+				mouseDownOnContentEdit = cursorActive && focused_element_has_content_pin;
+
+
 				//$('#the-page').css('pointer-events', 'none');
-	
-	
+
+
 			}, true);
 
 
 			// Detect the mouse clicks in frame
-			iframeDocument.addEventListener('mouseup', function(e) {
+			iframeDocument.addEventListener('mouseup', function (e) {
 
 
 				// var code = e.keyCode || e.which;
@@ -649,135 +639,135 @@ function runTheInspector() {
 
 
 				//console.log('MOUSE CLICKED SOMEWHERE', focused_element_index);
-	
-	
+
+
 				// If cursor is active
 				if (cursorActive) {
-	
-	
-					// If focused element has a live pin
-					if (focused_element_has_live_pin) {
-	
+
+
+					// If focused element has a content pin
+					if (focused_element_has_content_pin) {
+
 						// Open the new pin window if already open one or clicking an image editable
 						if (
 							pinWindowOpen ||
 							focused_element_pin.attr('data-pin-modification-type') == "image" ||
 							focused_element.attr('data-revisionary-showing-content-changes') == "0"
 						)
-							openPinWindow( focused_element_pin.attr('data-pin-id') );
-	
-	
+							openPinWindow(focused_element_pin.attr('data-pin-id'));
+
+
 					} else {
-	
-	
+
+
 						// Add a pin and open a pin window
-						if ( !mouseDownOnContentEdit )
+						if (!mouseDownOnContentEdit)
 							putPin(focused_element_index, e.pageX, e.pageY, currentCursorType, currentPinPrivate);
-	
-	
+
+
 					}
-	
-	
+
+
 				} else {
-	
-	
+
+
 					// Close the pin window if open and not cursor active and not content editable
-					if ( pinWindowOpen && !iframeElement(focused_element_index).is('[contenteditable]') && !shifted && !selectionFromContentEditor )
+					if (pinWindowOpen && !iframeElement(focused_element_index).is('[contenteditable]') && !shifted && !selectionFromContentEditor)
 						closePinWindow(true);
-	
-	
+
+
 				}
-	
+
 				selectionFromContentEditor = false;
-	
-	
+
+
 				// Re-enable iframe
 				//$('#the-page').css('pointer-events', '');
-	
-	
+
+
 				// Prevent clicking something
 				e.preventDefault();
 				e.stopImmediatePropagation();
 				e.stopPropagation();
 				return false;
-	
-	
+
+
 			}, true);
 
 
 			// Detect the scroll to re-position pins
-			iframeDocument.addEventListener('scroll', function(e) {
+			iframeDocument.addEventListener('scroll', function (e) {
 
 
 				//console.log('SCROLLIIIIIIIING');
-	
-	
+
+
 				// Add scrolling class to the body
 				if (!scrollFlag) {
 					scrollFlag = true;
 					$('body').addClass('scrolling');
 				}
 				clearTimeout(scrollTimer);
-				scrollTimer = setTimeout(function() {
+				scrollTimer = setTimeout(function () {
 					$('body').removeClass('scrolling');
 					scrollFlag = false;
 				}, 200);
-	
-	
+
+
 				// Re-Locate all the pins !!! Performance issues
 				//relocatePins();
-	
-	
+
+
 			}, true);
 
 
 			// Detect shift key press to toggle browse mode
-			iframeDocument.addEventListener('keydown', function(e) {
+			iframeDocument.addEventListener('keydown', function (e) {
 
 
 				if (e.shiftKey) shifted = true;
-	
-	
+
+
 				if (shifted && !pinWindowOpen && currentPinType != "browse") {
-	
+
 					shiftToggle = true;
 					console.log('SHIFTED');
-	
+
 					currentPinTypeWas = currentPinType;
 					toggleCursorActive(true); // Force close
 					currentPinType = "browse";
-	
+
 				}
-	
-	
+
+
 			}, true);
 
 
 			// Detect shift key press to toggle browse mode
-			iframeDocument.addEventListener('keyup', function(e) {
+			iframeDocument.addEventListener('keyup', function (e) {
 
 
 				if (shifted && shiftToggle && !pinWindowOpen && currentPinType == "browse") {
-	
+
 					shiftToggle = false;
 					console.log('UNSHIFTED');
-	
+
 					currentPinType = currentPinTypeWas;
 					toggleCursorActive(false, true); // Force Open
-	
+
 				}
-	
-	
+
+
 				shifted = false;
-	
-	
+
+
 			}, true);
 
 
 
 			// REDIRECT DETECTION
-	        $(iframeDocument).ready(function() {
-				$(childWindow).on('beforeunload', function() {
+			$(iframeDocument).ready(function () {
+				$(childWindow).on('beforeunload', function () {
 
 
 					// Prevent leaving the page
@@ -817,7 +807,7 @@ function runTheInspector() {
 					return;
 
 				});
-	        });
+			});
 
 
 
@@ -838,7 +828,7 @@ function runTheInspector() {
 
 
 
-		console.log('Load Complete', canAccessIFrame( $(this) ));
+		console.log('Load Complete', canAccessIFrame($(this)));
 
 
 
@@ -855,38 +845,38 @@ function runTheInspector() {
 
 
 
-	    // Update the title
-		if ( iframeElement('title').length ) $('title').text( "Revise Page: " + iframeElement('title').text() );
+		// Update the title
+		if (iframeElement('title').length) $('title').text("Revise Page: " + iframeElement('title').text());
 
 
 
 		// If new downloaded site, ask whether or not it's showing correctly
-		if ( $('.ask-showing-correctly').length ) $('.ask-showing-correctly').addClass('open');
+		if ($('.ask-showing-correctly').length) $('.ask-showing-correctly').addClass('open');
 
 
 
 		// MOUSE ACTIONS:
-	    iframe.on('input', '[contenteditable="true"][data-revisionary-index]', function(e) { // Detect changes on page text
+		iframe.on('input', '[contenteditable="true"][data-revisionary-index]', function (e) { // Detect changes on page text
 
 
 			var element_index = $(this).attr('data-revisionary-index');
-			var pin_ID = pinElement('[data-pin-type="live"][data-revisionary-index="'+element_index+'"]').attr('data-pin-id');
+			var pin_ID = pinElement('[data-pin-type="content"][data-revisionary-index="' + element_index + '"]').attr('data-pin-id');
 			var changedElement = $(this);
 			var modification = changedElement.html();
 
 
 			// If edited element is a submit or reset input button
 			if (
-	        	changedElement.prop('tagName').toUpperCase() == "INPUT" &&
-	        	(
-	        		changedElement.attr("type") == "text" ||
-	        		changedElement.attr("type") == "email" ||
-	        		changedElement.attr("type") == "url" ||
-	        		changedElement.attr("type") == "tel" ||
-	        		changedElement.attr("type") == "submit" ||
-	        		changedElement.attr("type") == "reset"
-	        	)
-	        ) {
+				changedElement.prop('tagName').toUpperCase() == "INPUT" &&
+				(
+					changedElement.attr("type") == "text" ||
+					changedElement.attr("type") == "email" ||
+					changedElement.attr("type") == "url" ||
+					changedElement.attr("type") == "tel" ||
+					changedElement.attr("type") == "submit" ||
+					changedElement.attr("type") == "reset"
+				)
+			) {
 				modification = changedElement.val();
 			}
 
@@ -908,7 +898,7 @@ function runTheInspector() {
 
 
 			// If differences tab is open
-			if ( pinWindow(pin_ID).hasClass('show-differences') ) {
+			if (pinWindow(pin_ID).hasClass('show-differences')) {
 
 
 				var originalContent = pinWindow(pin_ID).find('.content-editor .edit-content.original').html();
@@ -920,7 +910,7 @@ function runTheInspector() {
 
 
 				// Add the differences content
-				pinWindow(pin_ID).find('.content-editor .edit-content.differences').html( diffContent );
+				pinWindow(pin_ID).find('.content-editor .edit-content.differences').html(diffContent);
 
 			}
 
@@ -929,7 +919,7 @@ function runTheInspector() {
 			if (doChangeOnPage[element_index]) clearTimeout(doChangeOnPage[element_index]);
 
 			// Send changes to DB after 1 second
-			doChangeOnPage[element_index] = setTimeout(function(){
+			doChangeOnPage[element_index] = setTimeout(function () {
 
 				saveChange(pin_ID, modification);
 
@@ -938,7 +928,7 @@ function runTheInspector() {
 			//console.log('Content changed.');
 
 
-		}).on('focus', '[contenteditable="true"][data-revisionary-index]', function(e) { // When clicked an editable text
+		}).on('focus', '[contenteditable="true"][data-revisionary-index]', function (e) { // When clicked an editable text
 
 
 			// Remove all the other focus outlines
@@ -947,44 +937,44 @@ function runTheInspector() {
 
 
 			// Outline this focused element
-			outline(focused_element, focused_element_live_pin.attr('data-pin-private'));
+			outline(focused_element, focused_element_content_pin.attr('data-pin-private'));
 			focused_element.addClass('revisionary-focused');
 
 
 			// Open the new pin window if already open
 			if (
 				pinWindowOpen &&
-				focused_element_live_pin != null && focused_element_has_live_pin &&
+				focused_element_content_pin != null && focused_element_has_content_pin &&
 				pinWindow().attr('data-revisionary-index') != focused_element_index
 			)
-				openPinWindow( focused_element_live_pin.attr('data-pin-id') );
+				openPinWindow(focused_element_content_pin.attr('data-pin-id'));
 
 
-		}).on('blur', '[contenteditable="true"][data-revisionary-index]', function(e) { // When clicked an editable text
+		}).on('blur', '[contenteditable="true"][data-revisionary-index]', function (e) { // When clicked an editable text
 
 
 			iframeElement('.revisionary-focused').removeClass('revisionary-focused');
 			removeOutline();
 
 
-		}).on('paste', '[contenteditable]', function(e) { // When pasting rich text
+		}).on('paste', '[contenteditable]', function (e) { // When pasting rich text
 
 
 			e.preventDefault();
 
 			var plain_text = (e.originalEvent || e).clipboardData.getData('text/plain');
 
-			if(typeof plain_text !== 'undefined')
+			if (typeof plain_text !== 'undefined')
 				document.getElementById("the-page").contentWindow.document.execCommand('insertText', false, plain_text);
 
 			console.log('PASTED: ', plain_text);
 
 
-		}).on('click', 'a[href]', function(e) { // Click to browse on pages
+		}).on('click', 'a[href]', function (e) { // Click to browse on pages
 
 
 			var link = $(this).attr('href');
-			var absoluteLink = urlStandardize( $(this).prop('href') );
+			var absoluteLink = urlStandardize($(this).prop('href'));
 
 
 			// Record the clicked link
@@ -996,7 +986,7 @@ function runTheInspector() {
 
 
 				// New page link
-				var newPageLink = "/projects/?add_new=true&screens[]="+ screen_ID +"&page_width="+ page_width +"&page_height="+ page_height +"&project_ID=" + project_ID + "&page-url=" + encodeURIComponent(absoluteLink); 
+				var newPageLink = "/projects/?add_new=true&screens[]=" + screen_ID + "&page_width=" + page_width + "&page_height=" + page_height + "&project_ID=" + project_ID + "&page-url=" + encodeURIComponent(absoluteLink);
 
 
 				// console.log(newPageLink);
@@ -1006,7 +996,7 @@ function runTheInspector() {
 
 
 				// Search in my pages registered
-				var pageFound = myPages.find(function(page) {
+				var pageFound = myPages.find(function (page) {
 					return urlStandardize(page.page_url, true) == urlStandardize(absoluteLink, true) && page.project_ID == project_ID;
 				});
 
@@ -1027,7 +1017,7 @@ function runTheInspector() {
 					}
 
 
-					newPageLink = "/page/" + pageFound.page_ID + "?screen=" + screen_ID + "&page_width="+ page_width +"&page_height="+ page_height;
+					newPageLink = "/page/" + pageFound.page_ID + "?screen=" + screen_ID + "&page_width=" + page_width + "&page_height=" + page_height;
 					console.log('ALREADY DOWNLOADED!!!', newPageLink);
 
 				}
@@ -1040,7 +1030,7 @@ function runTheInspector() {
 					// Open the limit modal
 					openModal('limit-warning');
 
-					
+
 					e.preventDefault();
 					e.stopPropagation();
 					return false;
@@ -1049,7 +1039,7 @@ function runTheInspector() {
 
 
 				// Remove current page if no pins added
-				if ( queryParameter(currentUrl(), 'new') == "page" && Pins.length == 0 ) {
+				if (queryParameter(currentUrl(), 'new') == "page" && Pins.length == 0) {
 
 
 					// Remove the page and then go to the link
@@ -1073,7 +1063,7 @@ function runTheInspector() {
 
 
 		});
-		$(window).on('resize', function(e) { // Detect the window resizing to re-position pins
+		$(window).on('resize', function (e) { // Detect the window resizing to re-position pins
 
 			//console.log('RESIZIIIIIIIING');
 
@@ -1084,14 +1074,14 @@ function runTheInspector() {
 				$('body').addClass('scrolling');
 			}
 			clearTimeout(scrollTimer);
-			scrollTimer = setTimeout(function() {
+			scrollTimer = setTimeout(function () {
 				$('body').removeClass('scrolling');
 				scrollFlag = false;
 			}, 200);
 
 
-		    // Re-Locate all the pins
-		    relocatePins();
+			// Re-Locate all the pins
+			relocatePins();
 
 		});
 
@@ -1131,23 +1121,23 @@ function detectColors() {
 	//console.log('Colors are being detected in the page...');
 
 
-	iframeElement('body *').each(function() {
+	iframeElement('body *').each(function () {
 
 
 		var color = $(this).css('color');
-		if ( color.indexOf('a') == -1 ) color = color.replace(')', ', 1)').replace('rgb', 'rgba');
-		if ( color == "rgba(0, 0, 0, 1)" ) color = "rgba(0, 0, 0, 0)"; // Reduce whites
+		if (color.indexOf('a') == -1) color = color.replace(')', ', 1)').replace('rgb', 'rgba');
+		if (color == "rgba(0, 0, 0, 1)") color = "rgba(0, 0, 0, 0)"; // Reduce whites
 
 		var bgColor = $(this).css('background-color');
-		if ( bgColor.indexOf('a') == -1 ) bgColor = bgColor.replace(')', ', 1)').replace('rgb', 'rgba');
-		if ( bgColor == "rgba(0, 0, 0, 1)" ) bgColor = "rgba(0, 0, 0, 0)"; // Reduce whites
+		if (bgColor.indexOf('a') == -1) bgColor = bgColor.replace(')', ', 1)').replace('rgb', 'rgba');
+		if (bgColor == "rgba(0, 0, 0, 1)") bgColor = "rgba(0, 0, 0, 0)"; // Reduce whites
 
 
-		var colorCount = parseInt( page_colors[color] ) || 0;
+		var colorCount = parseInt(page_colors[color]) || 0;
 		page_colors[color] = colorCount + 1;
 
 
-		var bgColorCount = parseInt( page_colors[bgColor] ) || 0;
+		var bgColorCount = parseInt(page_colors[bgColor]) || 0;
 		page_colors[bgColor] = bgColorCount + 1;
 
 
@@ -1155,7 +1145,7 @@ function detectColors() {
 
 
 	// Order the colors
-	colorsSorted = Object.keys(page_colors).sort(function(a,b){ return page_colors[b]-page_colors[a]; });
+	colorsSorted = Object.keys(page_colors).sort(function (a, b) { return page_colors[b] - page_colors[a]; });
 	$("input[type='color']").spectrum("option", "palette", colorsSorted);
 
 
@@ -1199,7 +1189,7 @@ function updatePinsList() {
 	$('.pins-list').html('<div class="xl-center">No pins added yet.</div>');
 
 
-	$(Pins).each(function(i, pin) {
+	$(Pins).each(function (i, pin) {
 
 		if (i == 0) $('.pins-list').html('');
 
@@ -1224,11 +1214,11 @@ function updateLimitations(pinType) {
 
 
 	// Update the limitation notice
-	if (pinType == "live" || pinType == "style") {
+	if (pinType == "content" || pinType == "style") {
 
 
-		currentAllowed = limitations.current.pin;
-		currentLimitLabel = "Live Pins Left";
+		currentAllowed = limitations.current.contentpin;
+		currentLimitLabel = "Content Pins Left";
 
 
 	} else if (pinType == "comment") {
@@ -1253,12 +1243,12 @@ function updateLimitations(pinType) {
 
 
 	// Remove plural extension
-	if (currentAllowed == 1)  currentLimitLabel = currentLimitLabel.replace('s', '');
+	if (currentAllowed == 1) currentLimitLabel = currentLimitLabel.replace('s', '');
 
 
 	// If exceed
 	if (currentAllowed < 1) {
-		
+
 		$('.pin-limits .desc span').text('Limits Exceeded');
 		$('.pin-limits, .current-mode').addClass('exceed');
 
@@ -1286,13 +1276,13 @@ function updateLimitations(pinType) {
 function outline(element, private_pin, pin_type) {
 
 
-	pin_type = assignDefault(pin_type, "live");
+	pin_type = assignDefault(pin_type, "content");
 
 
 	if (!iframeLoaded) return false;
 
 
-	var block = pin_type == "live" ? false : true;
+	var block = pin_type == "content" ? false : true;
 
 	var elementColor = private_pin == 1 ? '#FC0FB3' : '#7ED321';
 	if (block) elementColor = private_pin == 1 ? '#6b95f3' : '#1DBCC9';
@@ -1330,7 +1320,7 @@ function switchPinType(pinType, pinPrivate) {
 
 	// Image mode
 	if (
-		(page_type == "image" || page_type == "capture") && (pinType == "live" || pinType == "style")
+		(page_type == "image" || page_type == "capture") && (pinType == "content" || pinType == "style")
 	) {
 		pinType = "comment";
 	}
@@ -1341,7 +1331,7 @@ function switchPinType(pinType, pinPrivate) {
 
 	// Change the activator color and label
 	currentPinLabel = pinModes[pinType];
-	if (currentPinPrivate == "1") currentPinLabel = pinModes['private-live'];
+	if (currentPinPrivate == "1") currentPinLabel = pinModes['private-content'];
 
 
 
@@ -1357,7 +1347,7 @@ function switchPinType(pinType, pinPrivate) {
 
 	// Select on the list
 	$('ul.pin-types > li').removeClass('selected');
-	$('ul.pin-types > li[data-pin-type="'+ currentPinType +'"][data-pin-private="'+ currentPinPrivate +'"]').addClass('selected');
+	$('ul.pin-types > li[data-pin-type="' + currentPinType + '"][data-pin-private="' + currentPinPrivate + '"]').addClass('selected');
 
 
 
@@ -1367,15 +1357,15 @@ function switchPinType(pinType, pinPrivate) {
 
 
 	// Change the cursor color
-	switchCursorType(pinType == 'live' ? 'style' : pinType, currentPinPrivate);
+	switchCursorType(pinType == 'content' ? 'style' : pinType, currentPinPrivate);
 
 
 
 	// URL update
 	if (history.pushState) {
-	    var newurl = queryParameter(currentUrl(), 'pinmode', (currentPinType == "live" ? "" : currentPinType));
-	    newurl = queryParameter(newurl, 'privatepin', (currentPinPrivate == 1 ? "1" : ""));
-	    window.history.pushState({path:newurl},'',newurl);
+		var newurl = queryParameter(currentUrl(), 'pinmode', (currentPinType == "browse" ? "" : currentPinType));
+		//newurl = queryParameter(newurl, 'privatepin', (currentPinPrivate == 1 ? "1" : ""));
+		window.history.pushState({ path: newurl }, '', newurl);
 	}
 
 
@@ -1402,6 +1392,7 @@ function switchPinType(pinType, pinPrivate) {
 	if (currentAllowed == "0") {
 
 		// Open the modal
+		console.log('OPEN IT!', currentAllowed)
 		openModal('limit-warning');
 
 	}
@@ -1449,7 +1440,7 @@ function toggleCursorActive(forceClose, forceOpen) {
 
 
 
-	if ( (cursorActive || forceClose) && !forceOpen ) deactivateCursor();
+	if ((cursorActive || forceClose) && !forceOpen) deactivateCursor();
 	else activateCursor();
 
 
@@ -1462,7 +1453,7 @@ function toggleCursorActive(forceClose, forceOpen) {
 // Activate Cursor
 function activateCursor() {
 
-	
+
 	if (!iframeLoaded) return false;
 
 
@@ -1486,10 +1477,10 @@ function activateCursor() {
 
 
 	// Show the cursor
-	if ( !cursor.hasClass("active") && !pinWindowOpen ) cursor.addClass('active');
+	if (!cursor.hasClass("active") && !pinWindowOpen) cursor.addClass('active');
 
 	// Hide the original cursor
-	if ( !iframeElement('#revisionary-cursor').length )
+	if (!iframeElement('#revisionary-cursor').length)
 		iframeElement('body').append('<style id="revisionary-cursor"> * { cursor: crosshair !important; } </style>');
 
 	// Disable all the links
@@ -1521,10 +1512,10 @@ function deactivateCursor() {
 
 
 	// Hide the cursor
-	if ( cursor.hasClass("active") ) cursor.removeClass('active');
+	if (cursor.hasClass("active")) cursor.removeClass('active');
 
 	// Show the original cursor
-	if ( iframeElement('#revisionary-cursor').length ) iframeElement('#revisionary-cursor').remove();
+	if (iframeElement('#revisionary-cursor').length) iframeElement('#revisionary-cursor').remove();
 
 	// Enable all the links
 	// ...
@@ -1549,7 +1540,7 @@ function startAutoRefresh(interval) {
 
 	console.log('AUTO-REFRESH PINS STARTED');
 
-	autoRefreshTimer = setInterval(function() {
+	autoRefreshTimer = setInterval(function () {
 
 		console.log('Auto checking the pins...');
 
@@ -1559,7 +1550,7 @@ function startAutoRefresh(interval) {
 
 
 		// Abort the latest request if not finalized
-		if(autoRefreshRequest && autoRefreshRequest.readyState != 4) {
+		if (autoRefreshRequest && autoRefreshRequest.readyState != 4) {
 			console.log('Latest request aborted');
 			autoRefreshRequest.abort();
 		}
@@ -1606,10 +1597,10 @@ function getPins(firstRetrieve, goToPin) {
 	// Send the Ajax request
 	autoRefreshRequest = ajax('pins-get', {
 
-		'phase_ID' : phase_ID,
-		'device_ID'	  : device_ID
+		'phase_ID': phase_ID,
+		'device_ID': device_ID
 
-	}).done(function( result ) {
+	}).done(function (result) {
 
 
 		var data = result.data; console.log('RESPONSE: ', data);
@@ -1623,8 +1614,8 @@ function getPins(firstRetrieve, goToPin) {
 		Pins = updateOriginals(result.pins, oldPins);
 
 
-	    // Update incomplete pin count
-	    updatePinCount();
+		// Update incomplete pin count
+		updatePinCount();
 
 
 
@@ -1634,7 +1625,7 @@ function getPins(firstRetrieve, goToPin) {
 
 
 		// If different than current pins, do the changes
-		if ( !isEqual(oldPins, Pins) ) {
+		if (!isEqual(oldPins, Pins)) {
 
 
 			console.log('There are some updates...');
@@ -1684,7 +1675,7 @@ function getPins(firstRetrieve, goToPin) {
 			// Get the selected pin to scroll
 			if (window.location.hash) {
 
-				var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
+				var goToPin_ID = parseInt(window.location.hash.replace('#', ''));
 				console.log('Going to the Pin #', goToPin_ID);
 
 				scrollToPin(goToPin_ID, true);
@@ -1752,8 +1743,8 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 	// Detect exceeds
-	if (elementLeft < -elementPinX ) elementPinX = pinSize / 2;
-	if (elementTop < -elementPinY ) elementPinY = pinSize / 2;
+	if (elementLeft < -elementPinX) elementPinX = pinSize / 2;
+	if (elementTop < -elementPinY) elementPinY = pinSize / 2;
 
 
 	// Debug
@@ -1770,8 +1761,8 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	var modificationOriginal = null;
 
 
-	// If pin mode is "Live"
-	if (cursorType == "live") {
+	// If pin mode is "Content"
+	if (cursorType == "content") {
 
 
 		// Get modification type
@@ -1780,11 +1771,11 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 
 
 		// Get original values
-		modificationOriginal = modificationType == "html" ? htmlentities( selectedElement.html(), "ENT_QUOTES") : selectedElement.prop('src');
+		modificationOriginal = modificationType == "html" ? htmlentities(selectedElement.html(), "ENT_QUOTES") : selectedElement.prop('src');
 
 
 		// SVG Images
-		if ( selectedElement.prop('tagName').toUpperCase() == 'IMAGE' ) modificationOriginal = selectedElement.attr("xlink:href");
+		if (selectedElement.prop('tagName').toUpperCase() == 'IMAGE') modificationOriginal = selectedElement.attr("xlink:href");
 
 
 		// If edited element is a submit or reset input button
@@ -1857,80 +1848,80 @@ function putPin(element_index, pinX, pinY, cursorType, pinPrivate) {
 	var newPinProcessID = newProcess(true, "newPinProcess");
 
 	// Add pin to the DB
-    ajax('pin-add',
-    {
-		'pin_x' 	 			 : elementPinX,
-		'pin_y' 	 			 : elementPinY,
-		'pin_type' 	 			 : cursorType,
-		'pin_modification_type'  : modificationType == null ? "{%null%}" : modificationType,
-		'pin_private'			 : pinPrivate,
-		'pin_element_index' 	 : element_index,
-		'pin_phase_ID'		 	 : phase_ID,
-		'pin_device_ID'			 : device_ID
+	ajax('pin-add',
+		{
+			'pin_x': elementPinX,
+			'pin_y': elementPinY,
+			'pin_type': cursorType,
+			'pin_modification_type': modificationType == null ? "{%null%}" : modificationType,
+			'pin_private': pinPrivate,
+			'pin_element_index': element_index,
+			'pin_phase_ID': phase_ID,
+			'pin_device_ID': device_ID
 
-	}).done(function(result){
-
-
-		var data = result.data;
-		console.log(data);
+		}).done(function (result) {
 
 
-		var realPinID = data.real_pin_ID; //console.log('REAL PIN ID: ' + realPinID);
-		var dateCreated = data.dateCreated; //console.log('DATE CREATED: ' + dateCreated);
-		var newPin = pinElement('[data-pin-id="'+ temporaryPinID +'"]');
-		if (openPin != null) openPin = realPinID;
+			var data = result.data;
+			console.log(data);
 
 
-		// Update the pin ID and created date
-		if (typeof Pins[pinIndex] !== 'undefined') {
-			Pins[pinIndex].pin_ID = realPinID;
-			Pins[pinIndex].pin_created = dateCreated;
-		}
-		newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
+			var realPinID = data.real_pin_ID; //console.log('REAL PIN ID: ' + realPinID);
+			var dateCreated = data.dateCreated; //console.log('DATE CREATED: ' + dateCreated);
+			var newPin = pinElement('[data-pin-id="' + temporaryPinID + '"]');
+			if (openPin != null) openPin = realPinID;
 
 
-		// Update the limitations
-		var pinType = newPin.attr('data-pin-type');
-		if ((pinType == "live" || pinType == "style") && limitations.current.pin != "Unlimited") limitations.current.pin--;
-		else if (pinType == "comment" && limitations.current.commentpin != "Unlimited") limitations.current.commentpin--;
-		updateLimitations();
+			// Update the pin ID and created date
+			if (typeof Pins[pinIndex] !== 'undefined') {
+				Pins[pinIndex].pin_ID = realPinID;
+				Pins[pinIndex].pin_created = dateCreated;
+			}
+			newPin.attr('data-pin-id', realPinID).removeAttr('temporary');
 
 
-		if (pinWindowOpen) {
-
-			// Remove the loading text on pin window
-			pinWindow('[data-pin-id="'+ temporaryPinID +'"]').attr('data-pin-id', realPinID).removeAttr('temporary');
-			window.location.hash = "#" + realPinID;
-			pinWindow(realPinID).removeClass('loading');
-
-		}
+			// Update the limitations
+			var pinType = newPin.attr('data-pin-type');
+			if ((pinType == "content" || pinType == "style") && limitations.current.pin != "Unlimited") limitations.current.pin--;
+			else if (pinType == "comment" && limitations.current.commentpin != "Unlimited") limitations.current.commentpin--;
+			updateLimitations();
 
 
-		// Stick the pin
-		stickPin(realPinID);
+			if (pinWindowOpen) {
+
+				// Remove the loading text on pin window
+				pinWindow('[data-pin-id="' + temporaryPinID + '"]').attr('data-pin-id', realPinID).removeAttr('temporary');
+				window.location.hash = "#" + realPinID;
+				pinWindow(realPinID).removeClass('loading');
+
+			}
 
 
-		// Make draggable
-		makeDraggable(newPin);
+			// Stick the pin
+			stickPin(realPinID);
 
 
-		// Finish the process
-		endProcess(newPinProcessID);
+			// Make draggable
+			makeDraggable(newPin);
 
 
-	}).fail(function(fail) {
+			// Finish the process
+			endProcess(newPinProcessID);
 
-		console.error('FAILED: ', fail);
 
-	});
+		}).fail(function (fail) {
+
+			console.error('FAILED: ', fail);
+
+		});
 
 
 	// Increase the pin number
-	changePinNumber(parseInt( currentPinNumber ) + 1);
+	changePinNumber(parseInt(currentPinNumber) + 1);
 
 
-    // Update incomplete pin count
-    updatePinCount();
+	// Update incomplete pin count
+	updatePinCount();
 
 }
 
@@ -1947,12 +1938,12 @@ function removePin(pin_ID) {
 	var pinType = pin.pin_type;
 
 
-    // Add pin to the DB
-    console.log('Remove the pin #' + pin_ID + ' from DB!!', pinUserID);
+	// Add pin to the DB
+	console.log('Remove the pin #' + pin_ID + ' from DB!!', pinUserID);
 
 
-    // Add removing message
-    pinWindow(pin_ID).addClass('removing');
+	// Add removing message
+	pinWindow(pin_ID).addClass('removing');
 
 
 	// Revert the changes
@@ -1965,7 +1956,7 @@ function removePin(pin_ID) {
 
 
 	// Close the pin window
-	if ( isPinWindowOpen(pin_ID) ) closePinWindow();
+	if (isPinWindowOpen(pin_ID)) closePinWindow();
 
 
 	// Remove the pin from DOM
@@ -1976,8 +1967,8 @@ function removePin(pin_ID) {
 	reindexPins();
 
 
-    // Update incomplete pin count
-    updatePinCount();
+	// Update incomplete pin count
+	updatePinCount();
 
 
 	// Unhover
@@ -1988,32 +1979,32 @@ function removePin(pin_ID) {
 	// Start the process
 	removePinProcess[pin_ID] = newProcess(true, "removePin" + pin_ID);
 
-    ajax('pin-remove',
-    {
-		'type'	  	: 'pin-remove',
-		'pin_ID'	: pin_ID
+	ajax('pin-remove',
+		{
+			'type': 'pin-remove',
+			'pin_ID': pin_ID
 
-	}).done(function(result){
-
-
-		console.log("PIN REMOVED: ", result);
+		}).done(function (result) {
 
 
-		// Update the limitations
-		if (pinUserID == user_ID) {
-
-			if ((pinType == "live" || pinType == "style") && limitations.current.pin != "Unlimited") limitations.current.pin++;
-			else if (pinType == "comment" && limitations.current.commentpin != "Unlimited") limitations.current.commentpin++;
-			updateLimitations();
-
-		}
+			console.log("PIN REMOVED: ", result);
 
 
-		// Finish the process
-		endProcess(removePinProcess[pin_ID]);
+			// Update the limitations
+			if (pinUserID == user_ID) {
+
+				if ((pinType == "content" || pinType == "style") && limitations.current.pin != "Unlimited") limitations.current.pin++;
+				else if (pinType == "comment" && limitations.current.commentpin != "Unlimited") limitations.current.commentpin++;
+				updateLimitations();
+
+			}
 
 
-	});
+			// Finish the process
+			endProcess(removePinProcess[pin_ID]);
+
+
+		});
 
 
 }
@@ -2023,7 +2014,7 @@ function removePin(pin_ID) {
 function makeDeviceSpecific(pin_ID, device_ID) {
 
 
-	console.log('Make the pin #' + pin_ID + ' stick to device #'+ device_ID +' on DB!!');
+	console.log('Make the pin #' + pin_ID + ' stick to device #' + device_ID + ' on DB!!');
 
 
 	var pin = getPin(pin_ID);
@@ -2046,15 +2037,15 @@ function makeDeviceSpecific(pin_ID, device_ID) {
 	var devicespecificPinProcessID = newProcess(true, "devicespecificPinProcess");
 
 
-    // Update pin from the DB
+	// Update pin from the DB
 	ajax('pin-devicespecific', {
 
-		'pin_ID' 	 : pin_ID,
-		'device_ID'	 : device_ID,
+		'pin_ID': pin_ID,
+		'device_ID': device_ID,
 
-	}).done(function(result) {
+	}).done(function (result) {
 
-		console.log("PIN #"+pin_ID+" MADE ONLY FOR DEVICE #" + device_ID, result.data);
+		console.log("PIN #" + pin_ID + " MADE ONLY FOR DEVICE #" + device_ID, result.data);
 
 
 		// Refresh the comments
@@ -2100,14 +2091,14 @@ function makeForAllDevices(pin_ID) {
 	var deviceForAllPinProcessID = newProcess(true, "deviceForAllPinProcess");
 
 
-    // Update pin from the DB
+	// Update pin from the DB
 	ajax('pin-deviceall', {
 
-		'pin_ID' 	 : pin_ID
+		'pin_ID': pin_ID
 
-	}).done(function(result) {
+	}).done(function (result) {
 
-		console.log("PIN #"+pin_ID+" MADE FOR ALL DEVICES", result.data);
+		console.log("PIN #" + pin_ID + " MADE FOR ALL DEVICES", result.data);
 
 
 		// Refresh the comments
@@ -2134,7 +2125,7 @@ function completePin(pin_ID, complete, imgData) {
 
 
 
-    console.log( (complete ? 'Complete' : 'Incomplete') +' the pin #' + pin_ID + ' on DB!!');
+	console.log((complete ? 'Complete' : 'Incomplete') + ' the pin #' + pin_ID + ' on DB!!');
 
 
 
@@ -2156,22 +2147,22 @@ function completePin(pin_ID, complete, imgData) {
 	pinWindow(pin_ID).attr('data-new-notification', (complete ? 'complete' : 'incomplete'));
 
 
-    // Update incomplete pin count
-    updatePinCount();
+	// Update incomplete pin count
+	updatePinCount();
 
 
 
 	// Start the process
-	var completePinProcessID = newProcess(true, "pin"+(complete ? 'Complete' : 'Incomplete'));
+	var completePinProcessID = newProcess(true, "pin" + (complete ? 'Complete' : 'Incomplete'));
 
 
-    // Update pin from the DB
+	// Update pin from the DB
 	ajax('pin-complete', {
 
-		'pin_ID' 	   : pin_ID,
-		'complete'	   : (complete ? 'complete' : 'incomplete')
+		'pin_ID': pin_ID,
+		'complete': (complete ? 'complete' : 'incomplete')
 
-	}).done(function(result) {
+	}).done(function (result) {
 
 		console.log("PIN COMPLETED: ", result.data);
 
@@ -2197,10 +2188,10 @@ function convertPin(pin_ID, targetPin) {
 	var pinType = targetPin.attr('data-pin-type') || pinWindow(pin_ID).attr('data-pin-type');
 	var pinPrivate = targetPin.attr('data-pin-private');
 	var pinLabel = targetPin.next().find('span').text();
-	var element_index = parseInt( pinElement(pin_ID).attr('data-revisionary-index') );
+	var element_index = parseInt(pinElement(pin_ID).attr('data-revisionary-index'));
 
 
-	console.log('Convert PIN #'+ pin_ID +' to: ', pinType, 'Private: ' + pinPrivate);
+	console.log('Convert PIN #' + pin_ID + ' to: ', pinType, 'Private: ' + pinPrivate);
 
 
 	// Update from the Pins global
@@ -2264,8 +2255,8 @@ function convertPin(pin_ID, targetPin) {
 	pinWindow(pin_ID).find('.pin-label').text(pinLabel);
 
 
-	// If it's a live pin, change the element outline color
-	if (pinType == "live") outline( iframeElement(element_index), pinPrivate );
+	// If it's a content pin, change the element outline color
+	if (pinType == "content") outline(iframeElement(element_index), pinPrivate);
 
 
 
@@ -2275,24 +2266,24 @@ function convertPin(pin_ID, targetPin) {
 
 	// Save it on DB
 	ajax('pin-convert',
-	{
-		'pin_ID' 	    : pin_ID,
-		'pin_type'		: pinType,
-		'pin_private'   : pinPrivate
+		{
+			'pin_ID': pin_ID,
+			'pin_type': pinType,
+			'pin_private': pinPrivate
 
-	}).done(function(result) {
+		}).done(function (result) {
 
-		console.log('PIN CONVERTED: ', result.data);
-
-
-		// Refresh the comments
-		if (initialPinType != pinType) getComments(pin_ID);
+			console.log('PIN CONVERTED: ', result.data);
 
 
-		// Finish the process
-		endProcess(convertPinProcessID);
+			// Refresh the comments
+			if (initialPinType != pinType) getComments(pin_ID);
 
-	});
+
+			// Finish the process
+			endProcess(convertPinProcessID);
+
+		});
 
 }
 
@@ -2327,7 +2318,7 @@ function scrollToPin(pin_ID, openWindow, noDelay, animation) {
 	if (pinAnimationTimeout) clearTimeout(pinAnimationTimeout);
 
 
-	pinAnimationTimeout = setTimeout(function() {
+	pinAnimationTimeout = setTimeout(function () {
 
 
 		// Scroll to the element !!! Do this if not already in view
@@ -2340,19 +2331,19 @@ function scrollToPin(pin_ID, openWindow, noDelay, animation) {
 
 		// Open pin window !!! Find "scrollIntoView" callback to run this
 		if (openWindow) {
-			
-			setTimeout(function() {
+
+			setTimeout(function () {
 
 				openPinWindow(pin_ID);
 
-			}, 1200 );
-		
+			}, 1200);
+
 		}
 
 
 		// TRY 1
 		// while ( $('body').hasClass('scrolling') ) {
-		
+
 		// 	console.log('WAIT');
 
 		// 	if ( !$('body').hasClass('scrolling') ) {
@@ -2361,7 +2352,7 @@ function scrollToPin(pin_ID, openWindow, noDelay, animation) {
 		// 		break;
 
 		// 	}
-		
+
 		// }
 
 
@@ -2411,16 +2402,16 @@ function scrollToPin(pin_ID, openWindow, noDelay, animation) {
 function updatePinCount() {
 
 
-	var incompletePins = Pins.filter(function(pin) {
+	var incompletePins = Pins.filter(function (pin) {
 		return pin.pin_complete == 0;
 	});
 
-	var completePins = Pins.filter(function(pin) {
+	var completePins = Pins.filter(function (pin) {
 		return pin.pin_complete == 1;
 	});
 
-	var incompletePercentage = Math.round( (incompletePins.length * 100) / Pins.length );
-	var completePercentage = Math.round( (completePins.length * 100) / Pins.length );
+	var incompletePercentage = Math.round((incompletePins.length * 100) / Pins.length);
+	var completePercentage = Math.round((completePins.length * 100) / Pins.length);
 
 	var incompleteBgPercentage = incompletePercentage > completePercentage ? incompletePercentage : 0;
 	var completeBgPercentage = completePercentage > incompletePercentage ? completePercentage : 0;
@@ -2428,14 +2419,14 @@ function updatePinCount() {
 
 	if (incompletePins.length > 0) {
 
-		$('.pins .button').removeClass('green').addClass('red').css('background', 'linear-gradient(90deg, rgba(208,1,27,1) '+ incompleteBgPercentage +'%, rgba(0,128,0,1) '+ (100 - completeBgPercentage) +'%)');
+		$('.pins .button').removeClass('green').addClass('red').css('background', 'linear-gradient(90deg, rgba(208,1,27,1) ' + incompleteBgPercentage + '%, rgba(0,128,0,1) ' + (100 - completeBgPercentage) + '%)');
 		$('.pins .button .task-count').removeClass('hide').text(incompletePins.length);
 		if (incompletePins.length === 1) $('.pins .button .tasks-title').text('TASK');
 		else $('.pins .button .tasks-title').text('TASKS');
 
 	} else if (completePins.length > 0 && incompletePins.length == 0) {
 
-		$('.pins .button').removeClass('red').addClass('green').css('background', 'linear-gradient(90deg, rgba(208,1,27,1) '+ incompleteBgPercentage +'%, rgba(0,128,0,1) '+ (100 - completeBgPercentage) +'%)');
+		$('.pins .button').removeClass('red').addClass('green').css('background', 'linear-gradient(90deg, rgba(208,1,27,1) ' + incompleteBgPercentage + '%, rgba(0,128,0,1) ' + (100 - completeBgPercentage) + '%)');
 		$('.pins .button .task-count').removeClass('hide').text(completePins.length);
 		if (completePins.length === 1) $('.pins .button .tasks-title').text('TASK');
 		else $('.pins .button .tasks-title').text('TASKS');
@@ -2457,17 +2448,17 @@ function updatePinCount() {
 function reindexPins() {
 
 
-    $('#pins > pin').each(function(i) {
+	$('#pins > pin').each(function (i) {
 
-	    var pin = $(this);
+		var pin = $(this);
 
-		pin.text(i+1);
+		pin.text(i + 1);
 
-    });
+	});
 
 
-    // Update the current pin number on cursor
-    changePinNumber(currentPinNumber - 1);
+	// Update the current pin number on cursor
+	changePinNumber(currentPinNumber - 1);
 
 
 }
@@ -2509,26 +2500,26 @@ function relocatePin(pin_ID) {
 
 
 	// If not on the screen
-	if ( element.is(':hidden') ) {
+	if (element.is(':hidden')) {
 
 
 		console.log('Relocate Invisible element #', element_index);
 
 		// Make the pin smaller and undraggable
 		pinElement(pin_ID).addClass('hidden');
-		disableDraggable( pinElement(pin_ID) );
+		disableDraggable(pinElement(pin_ID));
 
 
-	} else if ( pinElement(pin_ID).hasClass('hidden') ) {
+	} else if (pinElement(pin_ID).hasClass('hidden')) {
 
 		pinElement(pin_ID).removeClass('hidden');
-		enableDraggable( pinElement(pin_ID) );
+		enableDraggable(pinElement(pin_ID));
 
 	}
 
 
 	// Do not relocate if hovering that pin
-	if ( hoveringPin === pin_ID && !pinDragging && !scrollOnPin && !$('body').hasClass('scrolling') ) {
+	if (hoveringPin === pin_ID && !pinDragging && !scrollOnPin && !$('body').hasClass('scrolling')) {
 
 		//console.log('HOVERING ON PIN:', pinElement(pin_ID).text() );
 		return false;
@@ -2578,7 +2569,7 @@ function relocatePinWindow(pin_ID) {
 
 
 	// Check current pin window ID
-	if ( pinWindow().attr('data-pin-id') != pin_ID ) return false;
+	if (pinWindow().attr('data-pin-id') != pin_ID) return false;
 
 
 
@@ -2590,18 +2581,18 @@ function relocatePinWindow(pin_ID) {
 	//console.log('RELOCATING PIN WINDOW #' + pin_ID, pinLocation );
 
 
-	
+
 	// Pin locations
 	var pinLocation = {
-		x: parseInt( pinElement('[data-pin-id="'+ pin_ID +'"]').css('left') ),
-		y: parseInt( pinElement('[data-pin-id="'+ pin_ID +'"]').css('top') )
+		x: parseInt(pinElement('[data-pin-id="' + pin_ID + '"]').css('left')),
+		y: parseInt(pinElement('[data-pin-id="' + pin_ID + '"]').css('top'))
 	};
 
 
 
 	// Pin window location
-    var scrolled_window_x = offset.left + pinLocation.x + pinSize + 5;
-    var scrolled_window_y = offset.top + pinLocation.y + pinSize + 5;
+	var scrolled_window_x = offset.left + pinLocation.x + pinSize + 5;
+	var scrolled_window_y = offset.top + pinLocation.y + pinSize + 5;
 
 
 
@@ -2611,8 +2602,8 @@ function relocatePinWindow(pin_ID) {
 
 
 
-    var new_scrolled_window_x = scrolled_window_x < spaceWidth - pinWindowWidth ? scrolled_window_x : spaceWidth - pinWindowWidth;
-    var new_scrolled_window_y = scrolled_window_y < spaceHeight - pinWindowHeight ? scrolled_window_y : spaceHeight - pinWindowHeight;
+	var new_scrolled_window_x = scrolled_window_x < spaceWidth - pinWindowWidth ? scrolled_window_x : spaceWidth - pinWindowWidth;
+	var new_scrolled_window_y = scrolled_window_y < spaceHeight - pinWindowHeight ? scrolled_window_y : spaceHeight - pinWindowHeight;
 
 
 
@@ -2651,7 +2642,7 @@ function relocatePinWindow(pin_ID) {
 
 
 	// Relocate the pin window
-	pinWindow('[data-pin-id="'+ pin_ID +'"]').not('.moved').css({
+	pinWindow('[data-pin-id="' + pin_ID + '"]').not('.moved').css({
 		left: new_scrolled_window_x,
 		top: new_scrolled_window_y
 	});
@@ -2684,11 +2675,11 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll) {
 
 
 	// Detect the X positive exceed
-	if ( elementLeft + parseFloat(pin_x) > iframeWidth / iframeScale) pin_x = elementWidth;
+	if (elementLeft + parseFloat(pin_x) > iframeWidth / iframeScale) pin_x = elementWidth;
 
 
 	// Detect the X negative exceed
-	if ( elementLeft + parseFloat(pin_x) < 0 ) pin_x = 0;
+	if (elementLeft + parseFloat(pin_x) < 0) pin_x = 0;
 
 
 	// The coordinates by the element
@@ -2716,8 +2707,8 @@ function locationsByElement(element_index, pin_x, pin_y, noScroll) {
 
 
 	return {
-		x : elementPinX,
-		y : elementPinY
+		x: elementPinX,
+		y: elementPinY
 	};
 
 }
@@ -2741,7 +2732,7 @@ function getElementOffset(element_index, noScroll) {
 
 
 	// Check if hidden
-	if ( selectedElement.css('display') == 'none' ) {
+	if (selectedElement.css('display') == 'none') {
 
 
 		var pin = getPin(element_index, true);
@@ -2750,7 +2741,7 @@ function getElementOffset(element_index, noScroll) {
 
 
 		// Check the cache first
-		if ( hiddenElementOffsets[element_index] === undefined ) {
+		if (hiddenElementOffsets[element_index] === undefined) {
 
 
 			// Disabled temporarily
@@ -2771,7 +2762,7 @@ function getElementOffset(element_index, noScroll) {
 
 
 		console.log('Hidden element #' + element_index, hiddenElementOffsets[element_index]);
-		return  {
+		return {
 			top: elementTop,
 			left: elementLeft
 		};
@@ -2780,7 +2771,7 @@ function getElementOffset(element_index, noScroll) {
 
 
 	// If not on the screen
-	else if ( selectedElement.is(':hidden') ) {
+	else if (selectedElement.is(':hidden')) {
 
 		// Temporary location
 		var parentElement = selectedElement.parents(':visible');
@@ -2806,12 +2797,12 @@ function relocatePins() {
 
 
 	// Relocate all the pins
-    $('#pins > pin:visible').each(function() {
+	$('#pins > pin:visible').each(function () {
 
-	    var pin_ID = parseInt($(this).attr('data-pin-id'));
-	    relocatePin(pin_ID);
+		var pin_ID = parseInt($(this).attr('data-pin-id'));
+		relocatePin(pin_ID);
 
-    });
+	});
 
 
 }
@@ -2835,7 +2826,7 @@ function makeDraggable(pin) {
 		stack: "#pins > pin",
 		cursor: "move",
 		opacity: 0.35,
-		start: function( event, ui ) {
+		start: function (event, ui) {
 
 
 			//console.log('STARTED!');
@@ -2845,7 +2836,7 @@ function makeDraggable(pin) {
 
 
 		},
-		drag: function( event, ui ) {
+		drag: function (event, ui) {
 
 
 			// Stop auto refresh
@@ -2872,8 +2863,8 @@ function makeDraggable(pin) {
 
 
 			// Get the final positions
-			var pinX = parseFloat((ui.position.left + scrollX + pinSize / 2 ) / iframeScale).toFixed(5);
-			var pinY = parseFloat((ui.position.top + scrollY + pinSize / 2 ) / iframeScale).toFixed(5);
+			var pinX = parseFloat((ui.position.left + scrollX + pinSize / 2) / iframeScale).toFixed(5);
+			var pinY = parseFloat((ui.position.top + scrollY + pinSize / 2) / iframeScale).toFixed(5);
 
 
 
@@ -2913,14 +2904,14 @@ function makeDraggable(pin) {
 				.attr('data-pin-x', elementPinX)
 				.attr('data-pin-y', elementPinY);
 
-			
+
 
 			// Move the pin window if open
 			if (pinWindowOpen) relocatePinWindow(pin_ID);
 
 
 		},
-		stop: function( event, ui ) {
+		stop: function (event, ui) {
 
 
 			//console.log('STOPPED.');
@@ -2940,21 +2931,21 @@ function makeDraggable(pin) {
 
 
 
-		    // Update the pin location on DB
-		    console.log('Update the pin #'+ pin_ID +' location on DB', pinX, pinY);
+			// Update the pin location on DB
+			console.log('Update the pin #' + pin_ID + ' location on DB', pinX, pinY);
 
 
 			// Start the process
 			var relocateProcessID = newProcess(true, "pinRelocate");
 
-		    $.post(ajax_url, {
-				'type'	  	 : 'pin-relocate',
-				'pin_ID'	 : pin_ID,
-				'pin_x' 	 : pinX,
-				'pin_y' 	 : pinY
-			}, function(result){
+			$.post(ajax_url, {
+				'type': 'pin-relocate',
+				'pin_ID': pin_ID,
+				'pin_x': pinX,
+				'pin_y': pinY
+			}, function (result) {
 
-				
+
 				console.log('RELOCATED: ', result.data);
 
 
@@ -2976,7 +2967,7 @@ function makeDraggable(pin) {
 function disableDraggable(pin) {
 
 	if (!pin.length) return false;
-	pin.draggable( "option", "disabled", true );
+	pin.draggable("option", "disabled", true);
 
 }
 
@@ -2985,7 +2976,7 @@ function disableDraggable(pin) {
 function enableDraggable(pin) {
 
 	if (!pin.length) return false;
-	pin.draggable( "option", "disabled", false );
+	pin.draggable("option", "disabled", false);
 
 }
 
@@ -2999,7 +2990,7 @@ function stickPin(pin_ID) {
 	if (!element.length) return false;
 
 
-	element.onPositionChanged(function() {
+	element.onPositionChanged(function () {
 
 		relocatePin(pin_ID);
 
@@ -3032,11 +3023,11 @@ function openPinWindow(pin_ID, firstTime) {
 	try {
 
 
-		var thePin = pinElement('[data-pin-id="'+pin_ID+'"]');
+		var thePin = pinElement('[data-pin-id="' + pin_ID + '"]');
 		var thePinType = pin.pin_type;
 		var thePinPrivate = pin.pin_private;
 		var thePinComplete = pin.pin_complete;
-	
+
 		var thePinText = 'CONTENT PIN';
 		if (thePinType == "style") thePinText = 'STYLE PIN';
 		if (thePinType == "comment") thePinText = 'COMMENT PIN';
@@ -3046,7 +3037,7 @@ function openPinWindow(pin_ID, firstTime) {
 		var thePinModified = thePin.attr('data-revisionary-content-edited');
 		var thePinShowingContentChanges = thePin.attr('data-revisionary-showing-content-changes');
 
-		var styleElement = iframeElement('style[data-pin-id="'+ pin_ID +'"]');
+		var styleElement = iframeElement('style[data-pin-id="' + pin_ID + '"]');
 		var thePinShowingStyleChanges = thePin.attr('data-revisionary-showing-style-changes');
 
 		var thePinMine = parseInt(pin.user_ID) == parseInt(user_ID);
@@ -3058,7 +3049,7 @@ function openPinWindow(pin_ID, firstTime) {
 		// if (thePinShowingStyleChanges) activateCSS(pin_ID);
 		// var changedBgImage = theElement.css('background-image');
 
-		// var hasBg = (thePinType == "live" || thePinType == "style") && bgImage.includes('url(') ? bgImage.replace('url(','').replace(')','').replace(/\"/gi, "") : "no";
+		// var hasBg = (thePinType == "content" || thePinType == "style") && bgImage.includes('url(') ? bgImage.replace('url(','').replace(')','').replace(/\"/gi, "") : "no";
 		// var bgEdited = hasBg != "no" && bgImage != changedBgImage ? "1" : "0";
 
 
@@ -3116,16 +3107,16 @@ function openPinWindow(pin_ID, firstTime) {
 
 		// Device specific pin
 		pinWindow().find('.device-specific').removeClass('loading').removeClass('active');
-		if ( pin.device_ID == device_ID ) pinWindow().find('.device-specific').addClass('active');
+		if (pin.device_ID == device_ID) pinWindow().find('.device-specific').addClass('active');
 
 
 
-		// If on 'Live' mode
-		if (thePinType == 'live') {
+		// If on 'Content' mode
+		if (thePinType == 'content') {
 
 
 			// TEXT
-			if ( thePinModificationType == "html" ) {
+			if (thePinModificationType == "html") {
 
 
 				var originalContent = "";
@@ -3133,23 +3124,23 @@ function openPinWindow(pin_ID, firstTime) {
 
 
 				// If it's untouched DOM
-				if ( iframeElement(theIndex).is(':not([data-revisionary-showing-content-changes])') ) {
+				if (iframeElement(theIndex).is(':not([data-revisionary-showing-content-changes])')) {
 
 					originalContent = iframeElement(theIndex).html();
 
 
 					// If edited element is a submit or reset input button
 					if (
-			        	iframeElement(theIndex).prop('tagName').toUpperCase() == "INPUT" &&
-			        	(
-			        		iframeElement(theIndex).attr("type") == "text" ||
-			        		iframeElement(theIndex).attr("type") == "email" ||
-			        		iframeElement(theIndex).attr("type") == "url" ||
-			        		iframeElement(theIndex).attr("type") == "tel" ||
-			        		iframeElement(theIndex).attr("type") == "submit" ||
-			        		iframeElement(theIndex).attr("type") == "reset"
-			        	)
-			        ) {
+						iframeElement(theIndex).prop('tagName').toUpperCase() == "INPUT" &&
+						(
+							iframeElement(theIndex).attr("type") == "text" ||
+							iframeElement(theIndex).attr("type") == "email" ||
+							iframeElement(theIndex).attr("type") == "url" ||
+							iframeElement(theIndex).attr("type") == "tel" ||
+							iframeElement(theIndex).attr("type") == "submit" ||
+							iframeElement(theIndex).attr("type") == "reset"
+						)
+					) {
 						originalContent = iframeElement(theIndex).val();
 					}
 
@@ -3170,18 +3161,18 @@ function openPinWindow(pin_ID, firstTime) {
 
 
 				// Add the original HTML content
-				pinWindow().find('.content-editor .edit-content.original').html( originalContent );
+				pinWindow().find('.content-editor .edit-content.original').html(originalContent);
 
 
 				// Add the changed HTML content
-				pinWindow().find('.content-editor .edit-content.changes').html( changedContent );
+				pinWindow().find('.content-editor .edit-content.changes').html(changedContent);
 
 
 			}
 
 
 			// IMAGE
-			if ( thePinModificationType == "image" && (theElement.prop('tagName').toUpperCase() == "IMG" || theElement.prop('tagName').toUpperCase() == "IMAGE") ) {
+			if (thePinModificationType == "image" && (theElement.prop('tagName').toUpperCase() == "IMG" || theElement.prop('tagName').toUpperCase() == "IMAGE")) {
 
 
 				var originalImageSrc = "";
@@ -3189,13 +3180,13 @@ function openPinWindow(pin_ID, firstTime) {
 
 
 				// If it's untouched DOM
-				if ( iframeElement(theIndex).is(':not([data-revisionary-showing-content-changes])') ) {
+				if (iframeElement(theIndex).is(':not([data-revisionary-showing-content-changes])')) {
 
 					originalImageSrc = iframeElement(theIndex).prop('src');
 
 					// SVG image URL
-					if ( theElement.prop('tagName').toUpperCase() == "IMAGE" )
-						originalImageSrc = getAbsoluteUrl( iframeElement(theIndex).attr('xlink:href'), iframeDocument );
+					if (theElement.prop('tagName').toUpperCase() == "IMAGE")
+						originalImageSrc = getAbsoluteUrl(iframeElement(theIndex).attr('xlink:href'), iframeDocument);
 
 					// Default image preview
 					changedImageSrc = originalImageSrc;
@@ -3226,12 +3217,12 @@ function openPinWindow(pin_ID, firstTime) {
 
 
 
-		} // Live Pin
+		} // Content Pin
 
 
 
-		// If on 'Live' or 'Style' mode
-		if (thePinType == 'live' || thePinType == 'style') {
+		// If on 'Content' or 'Style' mode
+		if (thePinType == 'content' || thePinType == 'style') {
 
 
 			// // BACKGROUND IMAGE DETECTION !!!
@@ -3273,9 +3264,9 @@ function openPinWindow(pin_ID, firstTime) {
 			var classList = theElement.attr('class');
 			if (classList != null) {
 
-				$.each(classList.split(/\s+/), function(index, className) {
+				$.each(classList.split(/\s+/), function (index, className) {
 
-					classes = classes + "."+className;
+					classes = classes + "." + className;
 
 				});
 				$('.element-class').text(classes);
@@ -3284,7 +3275,7 @@ function openPinWindow(pin_ID, firstTime) {
 
 			// ID Name
 			var idName = theElement.attr("id");
-			if (idName != null) $('.element-id').text('#'+idName);
+			if (idName != null) $('.element-id').text('#' + idName);
 
 
 			// Changed status
@@ -3302,7 +3293,7 @@ function openPinWindow(pin_ID, firstTime) {
 
 			// Update the CSS properties
 			var properties = options.find('[data-edit-css]');
-			$(properties).each(function(i, propertyElement) {
+			$(properties).each(function (i, propertyElement) {
 
 
 				// Get the property name and values
@@ -3317,32 +3308,32 @@ function openPinWindow(pin_ID, firstTime) {
 
 
 				// Color exception
-				if ( property.includes("color") ) {
-					$('input[type="color"][data-edit-css="'+ property +'"]').spectrum("set", value);
+				if (property.includes("color")) {
+					$('input[type="color"][data-edit-css="' + property + '"]').spectrum("set", value);
 				}
 
 
 				// Background Image
 				if (property == "background-image")
-					value = value.replace('url(','').replace(')','').replace(/\"/gi, "");
+					value = value.replace('url(', '').replace(')', '').replace(/\"/gi, "");
 
 
 				// Update the main options
-				options.attr('data-'+property, value);
+				options.attr('data-' + property, value);
 
 
 				// Update the choices
-				options.find('a[data-edit-css="'+ property +'"]').removeClass('active');
-				options.find('a[data-edit-css="'+ property +'"][data-value="'+ value +'"]').addClass('active');
+				options.find('a[data-edit-css="' + property + '"]').removeClass('active');
+				options.find('a[data-edit-css="' + property + '"][data-value="' + value + '"]').addClass('active');
 
 
 				// Inputs
-				options.find('input[data-edit-css="'+ property +'"]').val(value).trigger('change');
+				options.find('input[data-edit-css="' + property + '"]').val(value).trigger('change');
 
 
 				// Check for the changed status
 				var editedSign = '<i class="fa fa-circle edited-sign particular"></i>';
-				if ( pinCSS.includes(property + ":" + value) || pinCSS.includes(property + ":url(" + value + ")") )
+				if (pinCSS.includes(property + ":" + value) || pinCSS.includes(property + ":url(" + value + ")"))
 					$(propertyElement).attr('data-revisionary-style-changed', 'yes').parents('.main-option').addClass('changed');
 
 			});
@@ -3356,7 +3347,7 @@ function openPinWindow(pin_ID, firstTime) {
 
 
 
-		// Live pin error check !!! Add more
+		// Content pin error check !!! Add more
 		if (
 			(thePinModificationType == "image" && (theElement.prop('tagName').toUpperCase() != "IMG" && theElement.prop('tagName').toUpperCase() != "IMAGE")) ||
 			(thePinModificationType == "html" && (theElement.prop('tagName').toUpperCase() == "IMG" || theElement.prop('tagName').toUpperCase() == "IMAGE"))
@@ -3377,7 +3368,7 @@ function openPinWindow(pin_ID, firstTime) {
 			pinWindow().find('.section-title').addClass('collapsed');
 
 			// Content
-			if ( thePinModified == "1" ) pinWindow().find('.content-editor .section-title, .image-editor .section-title').removeClass('collapsed');
+			if (thePinModified == "1") pinWindow().find('.content-editor .section-title, .image-editor .section-title').removeClass('collapsed');
 
 			// Styles
 			else if (styleElement.length) pinWindow().find('.visual-editor .section-title').removeClass('collapsed');
@@ -3394,8 +3385,8 @@ function openPinWindow(pin_ID, firstTime) {
 
 
 			// Open related tabs
-			if (thePinModificationType == "image" ) pinWindow().find('.image-editor .section-title').removeClass('collapsed');
-			if (thePinModificationType == "html" ) pinWindow().find('.content-editor .section-title').removeClass('collapsed');
+			if (thePinModificationType == "image") pinWindow().find('.image-editor .section-title').removeClass('collapsed');
+			if (thePinModificationType == "html") pinWindow().find('.content-editor .section-title').removeClass('collapsed');
 			if (thePinType == 'style') pinWindow().find('.visual-editor .section-title').removeClass('collapsed');
 
 
@@ -3409,7 +3400,7 @@ function openPinWindow(pin_ID, firstTime) {
 
 		// CREATOR INFO:
 		var picture = pin.user_picture == null ? get_gravatar(pin.user_email) : pin.user_picture;
-		var printPic = picture != null ? "background-image: url("+ picture +");" : "";
+		var printPic = picture != null ? "background-image: url(" + picture + ");" : "";
 		pinWindow().find('.createdby .profile-picture').attr('style', printPic);
 
 		var nameAbbr = pin.user_first_name.charAt(0) + pin.user_last_name.charAt(0);
@@ -3418,7 +3409,7 @@ function openPinWindow(pin_ID, firstTime) {
 
 		var dateCreated = new Date(pin.pin_created);
 		var createdDate = firstTime ? "now" : timeSince(dateCreated) + ' ago';
-		pinWindow().find('.createdby .activity-info span.date').text( createdDate ).attr('data-date', dateCreated);
+		pinWindow().find('.createdby .activity-info span.date').text(createdDate).attr('data-date', dateCreated);
 
 
 
@@ -3454,13 +3445,13 @@ function openPinWindow(pin_ID, firstTime) {
 
 
 		// If the new pin registered, remove the loading message
-		if ( $.isNumeric(pin_ID) )
+		if ($.isNumeric(pin_ID))
 			pinWindow().removeClass('loading');
 
 
 
 		// Reveal the pin
-		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
+		$('#pins > pin:not([data-pin-id="' + pin_ID + '"])').css('opacity', '0.2');
 
 
 		// Focus to the comment input
@@ -3484,7 +3475,7 @@ function closePinWindow(removePinIfEmpty) {
 
 
 	// Don't close the pin window if it's currently adding a
-	if ( pinWindow().hasClass('loading') ) return false;
+	if (pinWindow().hasClass('loading')) return false;
 
 
 	var pin_ID = pinWindow().attr('data-pin-id');
@@ -3515,7 +3506,7 @@ function closePinWindow(removePinIfEmpty) {
 
 
 	// Abort the latest request if not finalized
-	if(commentsGetRequest && commentsGetRequest.readyState != 4) {
+	if (commentsGetRequest && commentsGetRequest.readyState != 4) {
 		console.log('Latest comments request aborted');
 		commentsGetRequest.abort();
 	}
@@ -3537,7 +3528,7 @@ function closePinWindow(removePinIfEmpty) {
 	var pinRemoved = false;
 
 	// Removed by clicking "Remove" button
-	if ( pinWindow(pin_ID).hasClass('removing') ) pinRemoved = true;
+	if (pinWindow(pin_ID).hasClass('removing')) pinRemoved = true;
 
 	if (
 		removePinIfEmpty &&
@@ -3560,7 +3551,7 @@ function closePinWindow(removePinIfEmpty) {
 
 
 	// Notify the users if this was a new pin
-	if ( pinWindow(pin_ID).attr('data-pin-new') == "yes" && !pinRemoved ) {
+	if (pinWindow(pin_ID).attr('data-pin-new') == "yes" && !pinRemoved) {
 
 		newPinNotification(pin_ID);
 
@@ -3568,7 +3559,7 @@ function closePinWindow(removePinIfEmpty) {
 
 
 	// Notify the users if new comment added
-	else if ( pinWindow(pin_ID).attr('data-new-notification') == "comment" && !pinRemoved ) {
+	else if (pinWindow(pin_ID).attr('data-new-notification') == "comment" && !pinRemoved) {
 
 		newCommentNotification(pin_ID);
 
@@ -3576,7 +3567,7 @@ function closePinWindow(removePinIfEmpty) {
 
 
 	// Notify the users if this was completed
-	else if ( pinWindow(pin_ID).attr('data-new-notification') == "complete" && !pinRemoved ) {
+	else if (pinWindow(pin_ID).attr('data-new-notification') == "complete" && !pinRemoved) {
 
 		completeNotification(pin_ID);
 
@@ -3584,7 +3575,7 @@ function closePinWindow(removePinIfEmpty) {
 
 
 	// Notify the users if this was incompleted
-	else if ( pinWindow(pin_ID).attr('data-new-notification') == "incomplete" && !pinRemoved ) {
+	else if (pinWindow(pin_ID).attr('data-new-notification') == "incomplete" && !pinRemoved) {
 
 		inCompleteNotification(pin_ID);
 
@@ -3617,7 +3608,7 @@ function closePinWindow(removePinIfEmpty) {
 // Toggle pin window
 function togglePinWindow(pin_ID) {
 
-	if ( isPinWindowOpen(pin_ID) ) closePinWindow();
+	if (isPinWindowOpen(pin_ID)) closePinWindow();
 	else openPinWindow(pin_ID);
 
 }
@@ -3632,16 +3623,16 @@ function updateOriginals(pinsList, oldPinsList) {
 	pinsList = assignDefault(pinsList, []);
 
 
-	$(pinsList).each(function(i, pin) {
+	$(pinsList).each(function (i, pin) {
 
 
 		// Skip style and unmodified pins
-		if ( pin.pin_type != "live" || pin.pin_modification_original != null ) return true;
+		if (pin.pin_type != "content" || pin.pin_modification_original != null) return true;
 
 
 		var theOriginal = null;
 		var pin_ID = pin.pin_ID;
-		var oldPin = oldPinsList.find(function(p) { return p.pin_ID == pin_ID; });
+		var oldPin = oldPinsList.find(function (p) { return p.pin_ID == pin_ID; });
 		var element = iframeElement(pin.pin_element_index);
 
 
@@ -3651,7 +3642,7 @@ function updateOriginals(pinsList, oldPinsList) {
 
 
 		// Check if it's an untouched dom
-		else if ( element.is(':not([data-revisionary-showing-content-changes="1"])') ) {
+		else if (element.is(':not([data-revisionary-showing-content-changes="1"])')) {
 
 			if (pin.pin_modification_type == "html") {
 
@@ -3660,17 +3651,17 @@ function updateOriginals(pinsList, oldPinsList) {
 
 				// If edited element is a submit or reset input button
 				if (
-		        	element.prop('tagName').toUpperCase() == "INPUT" &&
-		        	(
-		        		element.attr("type") == "text" ||
-		        		element.attr("type") == "email" ||
-		        		element.attr("type") == "url" ||
-		        		element.attr("type") == "tel" ||
-		        		element.attr("type") == "submit" ||
-		        		element.attr("type") == "reset"
-		        	)
-		        ) {
-					theOriginal = htmlentities( element.val(), "ENT_QUOTES" );
+					element.prop('tagName').toUpperCase() == "INPUT" &&
+					(
+						element.attr("type") == "text" ||
+						element.attr("type") == "email" ||
+						element.attr("type") == "url" ||
+						element.attr("type") == "tel" ||
+						element.attr("type") == "submit" ||
+						element.attr("type") == "reset"
+					)
+				) {
+					theOriginal = htmlentities(element.val(), "ENT_QUOTES");
 				}
 
 
@@ -3679,8 +3670,8 @@ function updateOriginals(pinsList, oldPinsList) {
 				theOriginal = element.prop('src');
 
 				// For SVG images
-				if ( element.prop('tagName').toUpperCase() == 'IMAGE' )
-					theOriginal = getAbsoluteUrl( element.attr('xlink:href'), iframeDocument );
+				if (element.prop('tagName').toUpperCase() == 'IMAGE')
+					theOriginal = getAbsoluteUrl(element.attr('xlink:href'), iframeDocument);
 
 			}
 
@@ -3704,14 +3695,14 @@ function revertChanges(pinsList) {
 	console.log('REVERTING ALL THE CHANGES', pinsList);
 
 
-	$(pinsList).each(function(i, pin) {
+	$(pinsList).each(function (i, pin) {
 
 		var pin_ID = pin.pin_ID;
 		var changedElement = iframeElement(pin.pin_element_index);
 
 
 		// Revert the style changes
-		if ( pin.pin_css != null ) {
+		if (pin.pin_css != null) {
 
 			var isShowingOriginalStyles = changedElement.is('[data-revisionary-showing-style-changes="no"]');
 			revertCSS(pin_ID);
@@ -3721,14 +3712,14 @@ function revertChanges(pinsList) {
 
 
 		// Revert the content changes, skip style and unmodified pins
-		if ( pin.pin_modification != null ) {
+		if (pin.pin_modification != null) {
 
 			var isShowingOriginalContent = changedElement.is('[data-revisionary-showing-content-changes="0"]');
-			
+
 			revertChange(pin_ID);
 
 			if (isShowingOriginalContent) changedElement.attr('temp-revisionary-showing-content-changes', "0");
-		
+
 		}
 
 
@@ -3754,7 +3745,7 @@ function applyPins() {
 
 
 	// Add the pins again
-	$(Pins).each(function(i, pin) {
+	$(Pins).each(function (i, pin) {
 
 		var pin_number = i + 1;
 
@@ -3794,7 +3785,7 @@ function applyPins() {
 function applyChanges() {
 
 
-	$(Pins).each(function(i, pin) {
+	$(Pins).each(function (i, pin) {
 
 
 		// Find the element
@@ -3805,11 +3796,11 @@ function applyChanges() {
 
 
 		// CSS CODES:
-		if ( pin.pin_css != null ) updateCSS(pin_ID);
+		if (pin.pin_css != null) updateCSS(pin_ID);
 
 
 		// MODIFICATIONS:
-		if ( pin.pin_modification != null ) updateChange(pin_ID);
+		if (pin.pin_modification != null) updateChange(pin_ID);
 
 
 	});
@@ -3846,11 +3837,11 @@ function applyChanges() {
 function saveChange(pin_ID, modification) {
 
 
-    // Add pin to the DB
-    //console.log( 'Save modification for the pin #' + pin_ID + ' on DB!!');
+	// Add pin to the DB
+	//console.log( 'Save modification for the pin #' + pin_ID + ' on DB!!');
 
 
-    // Update from the Pins global
+	// Update from the Pins global
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
 
@@ -3879,12 +3870,12 @@ function saveChange(pin_ID, modification) {
 	var modifyPinProcessID = newProcess(true, "modifyPinProcess");
 
 	// Update from DB !!! Sanitize befre recording to DB
-    ajax('pin-modify', {
+	ajax('pin-modify', {
 
-		'modification' 	 	: modification,
-		'pin_ID'			: pin_ID
+		'modification': modification,
+		'pin_ID': pin_ID
 
-	}).done(function(result){
+	}).done(function (result) {
 
 
 		var data = result.data; console.log(data);
@@ -3938,7 +3929,7 @@ function updateChange(pin_ID, modification, applyHTML) {
 
 
 			// If the type is HTML content change
-			if ( pin.pin_modification_type == "html" ) {
+			if (pin.pin_modification_type == "html") {
 
 
 				//console.log('MODIFICATION ORIG:', pin.pin_modification);
@@ -3946,7 +3937,7 @@ function updateChange(pin_ID, modification, applyHTML) {
 
 				// Apply the change
 				var newHTML = html_entity_decode(modification);
-				if (applyHTML) changedElement.html( newHTML ) ;
+				if (applyHTML) changedElement.html(newHTML);
 
 
 				// If edited element is a submit or reset input button
@@ -3968,14 +3959,14 @@ function updateChange(pin_ID, modification, applyHTML) {
 				//console.log('MODIFICATION DECODED:', newHTML);
 
 
-			// If the type is image change
-			} else if ( pin.pin_modification_type == "image" ) {
+				// If the type is image change
+			} else if (pin.pin_modification_type == "image") {
 
 
 				// Apply the change
 				var newSrc = modification; //console.log('NEW', newHTML);
 
-				if ( changedElement.prop('tagName').toUpperCase() == "IMAGE" )
+				if (changedElement.prop('tagName').toUpperCase() == "IMAGE")
 					changedElement.attr('xlink:href', newSrc);
 				else
 					changedElement.attr('src', newSrc).removeAttr('srcset');
@@ -3986,7 +3977,7 @@ function updateChange(pin_ID, modification, applyHTML) {
 		}
 
 
-		// Add the contenteditable attribute to the live elements
+		// Add the contenteditable attribute to the content elements
 		if (pin.pin_modification_type == "html")
 			changedElement.attr('contenteditable', isShowingOriginalContent ? "false" : "true");
 
@@ -4020,12 +4011,12 @@ function revertChange(pin_ID) {
 
 
 	// If the type is HTML content change
-	if ( pin.pin_modification_type == "html" ) {
+	if (pin.pin_modification_type == "html") {
 
 
 		// Revert the change on DOM
 		var oldHTML = html_entity_decode(pin.pin_modification_original); //console.log('NEW', newHTML);
-		changedElement.html( oldHTML );
+		changedElement.html(oldHTML);
 
 
 		// If edited element is a submit or reset input button
@@ -4045,17 +4036,17 @@ function revertChange(pin_ID) {
 
 
 		// Add the original HTML content
-		pinWindow(pin_ID).find('.content-editor .edit-content.changes').html( oldHTML );
+		pinWindow(pin_ID).find('.content-editor .edit-content.changes').html(oldHTML);
 
 
-	// If the type is image change
-	} else if ( pin.pin_modification_type == "image" ) {
+		// If the type is image change
+	} else if (pin.pin_modification_type == "image") {
 
 
 		// Revert the change on DOM
 		var oldSrc = pin.pin_modification_original; //console.log('NEW', newHTML);
 
-		if ( changedElement.prop('tagName').toUpperCase() == "IMAGE" )
+		if (changedElement.prop('tagName').toUpperCase() == "IMAGE")
 			changedElement.attr('xlink:href', oldSrc);
 		else
 			changedElement.attr('src', oldSrc);
@@ -4085,7 +4076,7 @@ function revertChange(pin_ID) {
 function resetContent(pin_ID) {
 
 
-    console.log( 'Reset content changes for the pin #' + pin_ID + ' on DB!!');
+	console.log('Reset content changes for the pin #' + pin_ID + ' on DB!!');
 
 
 	// Revert the changes
@@ -4093,7 +4084,7 @@ function resetContent(pin_ID) {
 
 
 	// Delete the changes
-    saveChange(pin_ID, "{%null%}");
+	saveChange(pin_ID, "{%null%}");
 
 }
 
@@ -4102,7 +4093,7 @@ function resetContent(pin_ID) {
 function toggleChange(pin_ID) {
 
 
-    // Get the pin from the Pins global
+	// Get the pin from the Pins global
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
 
@@ -4127,13 +4118,13 @@ function toggleChange(pin_ID) {
 				iframeElement(pin.pin_element_index).attr("type") == "reset"
 			)
 		) {
-			iframeElement(pin.pin_element_index).val( html_entity_decode( (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) ) );
+			iframeElement(pin.pin_element_index).val(html_entity_decode((isShowingChanges ? pin.pin_modification_original : pin.pin_modification)));
 		}
 
 
 		// Change the content on DOM
 		iframeElement(pin.pin_element_index)
-			.html( html_entity_decode( (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) ) )
+			.html(html_entity_decode((isShowingChanges ? pin.pin_modification_original : pin.pin_modification)))
 			.attr('contenteditable', (isShowingChanges ? "false" : "true"));
 
 		// Update the element, pin and pin window status
@@ -4144,12 +4135,12 @@ function toggleChange(pin_ID) {
 
 
 		// Change the content on DOM
-		if ( iframeElement(pin.pin_element_index).prop('tagName').toUpperCase() == "IMAGE" )
+		if (iframeElement(pin.pin_element_index).prop('tagName').toUpperCase() == "IMAGE")
 			iframeElement(pin.pin_element_index)
-				.attr('xlink:href', (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) );
+				.attr('xlink:href', (isShowingChanges ? pin.pin_modification_original : pin.pin_modification));
 		else
 			iframeElement(pin.pin_element_index)
-				.attr('src', (isShowingChanges ? pin.pin_modification_original : pin.pin_modification) );
+				.attr('src', (isShowingChanges ? pin.pin_modification_original : pin.pin_modification));
 
 		// Update the element, pin and pin window status
 		updateAttributes(pin_ID, 'data-revisionary-showing-content-changes', (isShowingChanges ? "0" : "1"));
@@ -4173,7 +4164,7 @@ function removeImage(pin_ID) {
 	var pinIndex = Pins.indexOf(pin);
 
 
-    // Update from the Pins global
+	// Update from the Pins global
 	Pins[pinIndex].pin_modification = null;
 
 
@@ -4202,7 +4193,7 @@ function triggerContentChange(e, ed, doChange) {
 
 
 	// Early exit if the changed content is the same
-	if (typeof e.level !== "undefined" && e.level.content.trim() == ed.getContent() ) return false;
+	if (typeof e.level !== "undefined" && e.level.content.trim() == ed.getContent()) return false;
 
 
 	// Early exit if pin window is closed
@@ -4214,7 +4205,7 @@ function triggerContentChange(e, ed, doChange) {
 	if (!pin) return false;
 
 
-	
+
 	var element_index = pinWindow(pin_ID).attr('data-revisionary-index');
 	var modification = ed.getContent(); //var modification = $('#pin-window.active .content-editor .edit-content.changes').html();
 	var changedElement = iframeElement(element_index);
@@ -4239,7 +4230,7 @@ function triggerContentChange(e, ed, doChange) {
 			changedElement.attr("type") == "reset"
 		)
 	) {
-		modification = ed.getContent({format : 'raw'});
+		modification = ed.getContent({ format: 'raw' });
 		changedElement.val(modification);
 	}
 
@@ -4258,7 +4249,7 @@ function triggerContentChange(e, ed, doChange) {
 	if (doChange[element_index]) clearTimeout(doChange[element_index]);
 
 	// Send changes to DB after 1 second
-	doChange[element_index] = setTimeout(function(){
+	doChange[element_index] = setTimeout(function () {
 
 		saveChange(pin_ID, modification);
 
@@ -4275,7 +4266,7 @@ function initiateContentEditor() {
 
 
 	// Early exit if already initiated
-	if ( $("#pin-window .content-editor .edit-content.changes").hasClass('mce-content-body') ) return false;
+	if ($("#pin-window .content-editor .edit-content.changes").hasClass('mce-content-body')) return false;
 
 
 
@@ -4283,7 +4274,7 @@ function initiateContentEditor() {
 	var doChange = {};
 	tinymce.init({
 		selector: "#pin-window .content-editor .edit-content.changes",
-		plugins: [ 'quickbars', 'paste' ],
+		plugins: ['quickbars', 'paste'],
 		quickbars_insert_toolbar: '',
 		quickbars_selection_toolbar: 'bold italic underline strikethrough forecolor',
 		color_map: colorsSorted,
@@ -4292,18 +4283,18 @@ function initiateContentEditor() {
 		verify_html: false,
 		inline: true,
 		paste_as_text: true,
-		force_br_newlines : false,
-		force_p_newlines : false,
-		forced_root_block : '',
-		setup:function(ed) {
+		force_br_newlines: false,
+		force_p_newlines: false,
+		forced_root_block: '',
+		setup: function (ed) {
 
-			ed.on('keyup', function(e) {
+			ed.on('keyup', function (e) {
 
 				if (e.which == 13) triggerContentChange(e, ed, doChange);
 
 			});
 
-			ed.on('input ExecCommand', function(e) {
+			ed.on('input ExecCommand', function (e) {
 
 				triggerContentChange(e, ed, doChange);
 
@@ -4322,10 +4313,10 @@ function initiateContentEditor() {
 function saveCSS(pin_ID, css) {
 
 
-    console.log( 'Save CSS for the pin #' + pin_ID + ' on DB!!', css);
+	console.log('Save CSS for the pin #' + pin_ID + ' on DB!!', css);
 
 
-    // Update from the Pins global
+	// Update from the Pins global
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
 	var pinIndex = Pins.indexOf(pin);
@@ -4343,12 +4334,12 @@ function saveCSS(pin_ID, css) {
 	var pinCSSProcessID = newProcess(true, "pinCSSprocess");
 
 	// Update from DB
-    ajax('pin-css', {
+	ajax('pin-css', {
 
-		'css' 	 : css,
-		'pin_ID' : pin_ID
+		'css': css,
+		'pin_ID': pin_ID
 
-	}).done(function(result){
+	}).done(function (result) {
 
 
 		var data = result.data; console.log(data);
@@ -4356,9 +4347,9 @@ function saveCSS(pin_ID, css) {
 
 
 		// Check the pin if still exists
-		if ( !getPin(pin_ID) ) {
+		if (!getPin(pin_ID)) {
 
-			console.log('PIN #'+pin_ID+' NOT FOUND!');
+			console.log('PIN #' + pin_ID + ' NOT FOUND!');
 
 			// Early finish the process
 			endProcess(pinCSSProcessID);
@@ -4379,7 +4370,7 @@ function saveCSS(pin_ID, css) {
 		endProcess(pinCSSProcessID);
 
 
-	}).fail(function(fail) {
+	}).fail(function (fail) {
 
 		console.error('FAILED: ', fail);
 
@@ -4414,15 +4405,15 @@ function updateCSS(pin_ID, cssCode) {
 
 
 		// Mark the old one
-		iframeElement('style[data-pin-id="'+ pin_ID +'"]').addClass('old');
+		iframeElement('style[data-pin-id="' + pin_ID + '"]').addClass('old');
 
 
 		// Add the new CSS codes
-		iframeElement('body').append('<style data-index="'+ element_index +'" data-pin-id="'+ pin_ID +'">[data-revisionary-index="'+ element_index +'"]{'+ cssCode +'}</style>');
+		iframeElement('body').append('<style data-index="' + element_index + '" data-pin-id="' + pin_ID + '">[data-revisionary-index="' + element_index + '"]{' + cssCode + '}</style>');
 
 
 		// Remove the old ones
-		iframeElement('style.old[data-pin-id="'+ pin_ID +'"]').remove();
+		iframeElement('style.old[data-pin-id="' + pin_ID + '"]').remove();
 
 
 		// Disable CSS if showing original style
@@ -4450,7 +4441,7 @@ function updateCSS(pin_ID, cssCode) {
 function resetCSS(pin_ID) {
 
 
-    console.log( 'Reset CSS for the pin #' + pin_ID + ' on DB!!');
+	console.log('Reset CSS for the pin #' + pin_ID + ' on DB!!');
 
 
 	// Instant revert CSS
@@ -4458,7 +4449,7 @@ function resetCSS(pin_ID) {
 
 
 	// Reset the codes
-    saveCSS(pin_ID, {display: "block"});
+	saveCSS(pin_ID, { display: "block" });
 
 }
 
@@ -4481,7 +4472,7 @@ function revertCSS(pin_ID, restartPinWindow) {
 
 
 	// Remove styles
-	iframeElement('style[data-pin-id="'+ pin.pin_ID +'"]').remove();
+	iframeElement('style[data-pin-id="' + pin.pin_ID + '"]').remove();
 
 
 	// // Revert BG
@@ -4510,7 +4501,7 @@ function revertCSS(pin_ID, restartPinWindow) {
 
 	// For all other same element pins
 	//pinWindow(element_index, true).attr('data-revisionary-bg-edited', "0"); 
-	pinWindow(element_index, true).attr('data-revisionary-style-changed', "no"); 
+	pinWindow(element_index, true).attr('data-revisionary-style-changed', "no");
 	pinWindow(element_index, true).attr('data-revisionary-showing-style-changes', "yes");
 	pinWindow(element_index, true).find('ul.options .main-option').removeClass('changed');
 	pinWindow(element_index, true).find('ul.options [data-edit-css][data-revisionary-style-changed]').removeAttr('data-revisionary-style-changed');
@@ -4533,7 +4524,7 @@ function revertCSS(pin_ID, restartPinWindow) {
 function toggleCSS(pin_ID) {
 
 
-    // Get the pin from the Pins global
+	// Get the pin from the Pins global
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
 
@@ -4543,7 +4534,7 @@ function toggleCSS(pin_ID) {
 
 
 		var element_index = pin.pin_element_index;
-		var styleElement = iframeElement('style[data-pin-id="'+ pin_ID +'"]');
+		var styleElement = iframeElement('style[data-pin-id="' + pin_ID + '"]');
 		var isShowingCSS = styleElement.is('[media]') ? false : true;
 
 
@@ -4577,7 +4568,7 @@ function disableCSS(pin_ID) {
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
 
-	return iframeElement('style[data-pin-id="'+ pin.pin_ID +'"]').attr('media', 'max-width: 1px;');
+	return iframeElement('style[data-pin-id="' + pin.pin_ID + '"]').attr('media', 'max-width: 1px;');
 
 }
 
@@ -4590,7 +4581,7 @@ function activateCSS(pin_ID) {
 	var pin = getPin(pin_ID);
 	if (!pin) return false;
 
-	return iframeElement('style[data-pin-id="'+ pin.pin_ID +'"]').removeAttr('media');
+	return iframeElement('style[data-pin-id="' + pin.pin_ID + '"]').removeAttr('media');
 
 }
 
@@ -4598,7 +4589,7 @@ function activateCSS(pin_ID) {
 // Get CSS
 function getCSS(pin_ID) {
 
-	return iframeElement('style[data-pin-id="'+ pin_ID +'"]').text();
+	return iframeElement('style[data-pin-id="' + pin_ID + '"]').text();
 
 }
 
@@ -4621,11 +4612,11 @@ function getComments(pin_ID, commentsWrapper) {
 
 
 	// Send the Ajax request
-    commentsGetRequest = ajax('comments-get', {
+	commentsGetRequest = ajax('comments-get', {
 
-		'pin_ID'	: pin_ID
+		'pin_ID': pin_ID
 
-	}).done(function(result){
+	}).done(function (result) {
 
 		var comments = result.comments;
 
@@ -4641,7 +4632,7 @@ function getComments(pin_ID, commentsWrapper) {
 		var previousCommenter = "";
 		var previousTime = "";
 
-		$(comments).each(function(i, comment) {
+		$(comments).each(function (i, comment) {
 
 			var date = new Date(comment.comment_added);
 			var hide = false;
@@ -4659,7 +4650,7 @@ function getComments(pin_ID, commentsWrapper) {
 			}
 
 			// Clean it first and mark as has comments
-			if ( i == 0 ) {
+			if (i == 0) {
 
 				commentsWrapper.html('');
 				pinWindow(pin_ID).attr('data-has-comments', 'yes');
@@ -4713,7 +4704,7 @@ function sendComment(pin_ID, message) {
 
 
 	// Write sending
-	var commentsWrapper = $('#pin-window[data-pin-id="'+ pin_ID +'"] .pin-comments');
+	var commentsWrapper = $('#pin-window[data-pin-id="' + pin_ID + '"] .pin-comments');
 	commentsWrapper.html('<div class="comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Sending...</span></div>');
 
 
@@ -4735,13 +4726,13 @@ function sendComment(pin_ID, message) {
 
 
 
-    ajax('comment-add', {
+	ajax('comment-add', {
 
-		'pin_ID'	: pin_ID,
-		'message'	: message,
-		'newPin'	: newPin
+		'pin_ID': pin_ID,
+		'message': message,
+		'newPin': newPin
 
-	}).done(function(result){
+	}).done(function (result) {
 
 
 		console.log(result.data);
@@ -4783,45 +4774,45 @@ function deleteComment(pin_ID, comment_ID) {
 	// Disable the inputs
 	pinWindow(pin_ID).find('#comment-sender input').prop('disabled', true);
 
-	
+
 	// Deleting message
-	pinWindow(pin_ID).find('[data-type="comment"][data-id="'+ comment_ID +'"] .comment-text .delete-comment').hide();
-	pinWindow(pin_ID).find('[data-type="comment"][data-id="'+ comment_ID +'"] .comment-text .delete-comment').after('<small>Removing...</small>');
+	pinWindow(pin_ID).find('[data-type="comment"][data-id="' + comment_ID + '"] .comment-text .delete-comment').hide();
+	pinWindow(pin_ID).find('[data-type="comment"][data-id="' + comment_ID + '"] .comment-text .delete-comment').after('<small>Removing...</small>');
 
 
 	// Start the process
 	var deleteCommentProcessID = newProcess(true, "deleteCommentProcess");
 
-    ajax('comment-delete',
-    {
+	ajax('comment-delete',
+		{
 
-		'pin_ID'	 : pin_ID,
-		'comment_ID' : comment_ID
+			'pin_ID': pin_ID,
+			'comment_ID': comment_ID
 
-	}).done(function(result){
+		}).done(function (result) {
 
-		//console.log(result.data);
-
-
-		// List the comments
-		getComments(pin_ID);
+			//console.log(result.data);
 
 
-		// Finish the process
-		endProcess(deleteCommentProcessID);
+			// List the comments
+			getComments(pin_ID);
 
 
-		// Enable the inputs
-		pinWindow(pin_ID).find('#comment-sender input').prop('disabled', false);
+			// Finish the process
+			endProcess(deleteCommentProcessID);
 
 
-		// Clean the text in the message box and refocus
-		pinWindow(pin_ID).find('#comment-sender input').val('').focus();
+			// Enable the inputs
+			pinWindow(pin_ID).find('#comment-sender input').prop('disabled', false);
 
 
-		//console.log('Comment #', comment_ID, ' DELETED');
+			// Clean the text in the message box and refocus
+			pinWindow(pin_ID).find('#comment-sender input').val('').focus();
 
-	});
+
+			//console.log('Comment #', comment_ID, ' DELETED');
+
+		});
 
 }
 
@@ -4934,7 +4925,7 @@ function reFocus() {
 	focused_element_children = focused_element.children();
 	focused_element_grand_children = focused_element_children.children();
 	focused_element_pin = pinElement(focused_element_index, true);
-	focused_element_live_pin = $('#pins > pin[data-pin-type="live"][data-revisionary-index="'+ focused_element_index +'"]');
+	focused_element_content_pin = $('#pins > pin[data-pin-type="content"][data-revisionary-index="' + focused_element_index + '"]');
 	focused_element_edited_parents = focused_element.parents('[data-revisionary-index][data-revisionary-content-edited]');
 	focused_element_has_edited_child = focused_element.find('[data-revisionary-index][data-revisionary-content-edited]').length;
 	focused_element_tagname = focused_element.prop('tagName').toUpperCase();
@@ -4953,9 +4944,9 @@ function iframeElement(selector) {
 
 	var element = false;
 
-	if ( $.isNumeric(selector) ) {
+	if ($.isNumeric(selector)) {
 
-		element = iframeElement('[data-revisionary-index="'+ selector +'"]');
+		element = iframeElement('[data-revisionary-index="' + selector + '"]');
 
 		if (element.length > 1) {
 
@@ -4981,12 +4972,12 @@ function pinElement(selector, byElementIndex) {
 
 	byElementIndex = assignDefault(byElementIndex, false);
 
-	if ( $.isNumeric(selector) ) {
+	if ($.isNumeric(selector)) {
 
 		if (byElementIndex)
-			return pinElement('[data-revisionary-index="'+ selector +'"]');
+			return pinElement('[data-revisionary-index="' + selector + '"]');
 		else
-			return pinElement('[data-pin-id="'+ selector +'"]');
+			return pinElement('[data-pin-id="' + selector + '"]');
 
 	} else {
 
@@ -5002,7 +4993,7 @@ function getPin(pin_ID, byElementIndex) {
 
 	byElementIndex = assignDefault(byElementIndex, false);
 
-	var pin = Pins.find(function(pin) { return pin.pin_ID == pin_ID || (byElementIndex && pin.pin_element_index == pin_ID ); });
+	var pin = Pins.find(function (pin) { return pin.pin_ID == pin_ID || (byElementIndex && pin.pin_element_index == pin_ID); });
 	if (typeof pin === 'undefined') return false;
 
 	return pin;
@@ -5017,12 +5008,12 @@ function pinWindow(selector, byElementIndex) {
 	byElementIndex = assignDefault(byElementIndex, false);
 
 
-	if ( $.isNumeric(selector) ) {
+	if ($.isNumeric(selector)) {
 
 		if (byElementIndex)
-			return pinWindow('[data-revisionary-index="'+ selector +'"]');
+			return pinWindow('[data-revisionary-index="' + selector + '"]');
 		else
-			return pinWindow('[data-pin-id="'+ selector +'"]');
+			return pinWindow('[data-pin-id="' + selector + '"]');
 
 	} else {
 
@@ -5065,22 +5056,22 @@ function pinTemplate(pin_number, pin, temporary, size) {
 
 	return '\
 		<pin \
-			class="pin '+size+'" \
-			'+(temporary ? "temporary" : "")+' \
-			data-pin-type="'+pin.pin_type+'" \
-			data-pin-private="'+pin.pin_private+'" \
-			data-pin-complete="'+pin.pin_complete+'" \
-			data-pin-id="'+pin.pin_ID+'" \
-			data-pin-x="'+pin.pin_x+'" \
-			data-pin-y="'+pin.pin_y+'" \
-			data-pin-modification-type="'+pin.pin_modification_type+'" \
-			data-revisionary-index="'+pin.pin_element_index+'" \
-			data-revisionary-content-edited="'+ ( pin.pin_modification != null ? '1' : '0' ) +'" \
+			class="pin '+ size + '" \
+			'+ (temporary ? "temporary" : "") + ' \
+			data-pin-type="'+ pin.pin_type + '" \
+			data-pin-private="'+ pin.pin_private + '" \
+			data-pin-complete="'+ pin.pin_complete + '" \
+			data-pin-id="'+ pin.pin_ID + '" \
+			data-pin-x="'+ pin.pin_x + '" \
+			data-pin-y="'+ pin.pin_y + '" \
+			data-pin-modification-type="'+ pin.pin_modification_type + '" \
+			data-revisionary-index="'+ pin.pin_element_index + '" \
+			data-revisionary-content-edited="'+ (pin.pin_modification != null ? '1' : '0') + '" \
 			data-revisionary-showing-content-changes="1" \
-			data-revisionary-style-changed="'+ ( pin.pin_css != null ? 'yes' : 'no' ) +'" \
+			data-revisionary-style-changed="'+ (pin.pin_css != null ? 'yes' : 'no') + '" \
 			data-revisionary-showing-style-changes="yes" \
-			style="left: '+ pinLocation.x +'px; top: '+ pinLocation.y +'px;" \
-		>'+pin_number+'</pin> \
+			style="left: '+ pinLocation.x + 'px; top: ' + pinLocation.y + 'px;" \
+		>'+ pin_number + '</pin> \
 	';
 
 }
@@ -5107,35 +5098,35 @@ function listedPinTemplate(pin_number, pin) {
 	if (pin.pin_modification == "") editSummary = '<br /><i class="edit-summary">-Content deleted.-</i>';
 	if (pin.pin_modification_type == "html" && pin.pin_modification != null && pin.pin_modification != "") {
 		var text_no_html = cleanHTML(html_entity_decode(pin.pin_modification), true);
-		editSummary = '<br /><i class="edit-summary">'+ text_no_html +'</i>';
+		editSummary = '<br /><i class="edit-summary">' + text_no_html + '</i>';
 	}
 
 	if (pin.pin_modification_type == "image" && pin.pin_modification != null && pin.pin_modification != "")
-		editSummary = '<br /><i class="edit-summary"><img src="'+ pin.pin_modification +'" alt="" /></i>';
+		editSummary = '<br /><i class="edit-summary"><img src="' + pin.pin_modification + '" alt="" /></i>';
 
-	if (pin.pin_type == "comment") editSummary = '<br /><i class="edit-summary createdby">'+ pin.user_first_name +' '+ pin.user_last_name +' created.</i>';
+	if (pin.pin_type == "comment") editSummary = '<br /><i class="edit-summary createdby">' + pin.user_first_name + ' ' + pin.user_last_name + ' created.</i>';
 
 
 	return ' \
-		<div class="pin '+pin.pin_type+' '+(pin.pin_complete == "1" ? "complete" : "incomplete")+'" \
-			data-pin-type="'+pin.pin_type+'" \
-			data-pin-private="'+pin.pin_private+'" \
-			data-pin-complete="'+pin.pin_complete+'" \
-			data-pin-id="'+pin.pin_ID+'" \
-			data-pin-x="'+pin.pin_x+'" \
-			data-pin-y="'+pin.pin_y+'" \
-			data-pin-modification-type="'+pin.pin_modification_type+'" \
-			data-revisionary-index="'+pin.pin_element_index+'" \
-			data-revisionary-content-edited="'+( pin.pin_modification != null ? '1' : '0' )+'" \
+		<div class="pin '+ pin.pin_type + ' ' + (pin.pin_complete == "1" ? "complete" : "incomplete") + '" \
+			data-pin-type="'+ pin.pin_type + '" \
+			data-pin-private="'+ pin.pin_private + '" \
+			data-pin-complete="'+ pin.pin_complete + '" \
+			data-pin-id="'+ pin.pin_ID + '" \
+			data-pin-x="'+ pin.pin_x + '" \
+			data-pin-y="'+ pin.pin_y + '" \
+			data-pin-modification-type="'+ pin.pin_modification_type + '" \
+			data-revisionary-index="'+ pin.pin_element_index + '" \
+			data-revisionary-content-edited="'+ (pin.pin_modification != null ? '1' : '0') + '" \
 			data-revisionary-showing-content-changes="1"> \
-			<a href="#" class="pin-locator" data-go-pin="'+pin.pin_ID+'"> \
-				'+ pinHTML +' \
+			<a href="#" class="pin-locator" data-go-pin="'+ pin.pin_ID + '"> \
+				'+ pinHTML + ' \
 			</a> \
 			<a href="#" class="pin-title close"> \
-				'+pinText+' <i class="fa fa-caret-up" aria-hidden="true"></i> \
-				'+ editSummary +' \
+				'+ pinText + ' <i class="fa fa-caret-up" aria-hidden="true"></i> \
+				'+ editSummary + ' \
 			</a> \
-			<div class="pin-comments" data-pin-id="'+ pin.pin_ID +'"><div class="comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div></div> \
+			<div class="pin-comments" data-pin-id="'+ pin.pin_ID + '"><div class="comments-loading"><i class="fa fa-circle-o-notch fa-spin fa-fw"></i><span>Comments are loading...</span></div></div> \
 		</div> \
 	';
 
@@ -5150,15 +5141,15 @@ function commentTemplate(comment, hide, sameTime) {
 
 	var date = new Date(comment.comment_modified);
 	var picture = comment.user_picture == null ? get_gravatar(comment.user_email) : comment.user_picture;
-	var printPic = picture != null ? " style='background-image: url("+ picture +");'" : "";
+	var printPic = picture != null ? " style='background-image: url(" + picture + ");'" : "";
 	var nameAbbr = comment.user_first_name.charAt(0) + comment.user_last_name.charAt(0);
 	var itsMe = comment.user_ID == user_ID;
 	var linkedComment = nl2br(Autolinker.link(comment.pin_comment, {
 		truncate: 25,
-	    newWindow: true
+		newWindow: true
 	}));
 	var imagePreview = false;
-	var deleteButton = itsMe ? ' <a href="#" class="delete-comment" data-comment-id="'+comment.comment_ID+'" data-tooltip="Delete this '+ comment.comment_type +'">&times;</a>' : '';
+	var deleteButton = itsMe ? ' <a href="#" class="delete-comment" data-comment-id="' + comment.comment_ID + '" data-tooltip="Delete this ' + comment.comment_type + '">&times;</a>' : '';
 
 	if (comment.comment_type == "attachment") {
 
@@ -5169,7 +5160,7 @@ function commentTemplate(comment, hide, sameTime) {
 
 
 		// Update the output
-		linkedComment = 'Attached: <i class="fa fa-file"></i> <a href="'+ fileURL +'" target="_blank">'+ fileName +'</a>';
+		linkedComment = 'Attached: <i class="fa fa-file"></i> <a href="' + fileURL + '" target="_blank">' + fileName + '</a>';
 
 
 		if (
@@ -5182,24 +5173,24 @@ function commentTemplate(comment, hide, sameTime) {
 
 			imagePreview = true;
 
-			linkedComment = 'Attached: <i class="fa fa-image"></i> <a href="'+ fileURL +'" target="_blank">'+ fileName +'</a> '+ deleteButton +' <br>';
-			linkedComment += '<a href="'+ fileURL +'" target="_blank"><img src="'+ fileURL +'" alt=""></a>';
+			linkedComment = 'Attached: <i class="fa fa-image"></i> <a href="' + fileURL + '" target="_blank">' + fileName + '</a> ' + deleteButton + ' <br>';
+			linkedComment += '<a href="' + fileURL + '" target="_blank"><img src="' + fileURL + '" alt=""></a>';
 
 		}
 
 	} else if (comment.comment_type == "action") {
 
 		// Update the output completely
-		return '<div class="comment action wrap xl-flexbox xl-middle '+ (hide ? "recurring" : "") +' '+ (sameTime ? "sametime" : "") +'" data-type="comment" data-id="'+ comment.comment_ID +'">\
+		return '<div class="comment action wrap xl-flexbox xl-middle ' + (hide ? "recurring" : "") + ' ' + (sameTime ? "sametime" : "") + '" data-type="comment" data-id="' + comment.comment_ID + '">\
 					<div class="col xl-1-9 profile-image invisible">\
-						<picture class="profile-picture" '+ printPic +'> \
-							<span>'+ nameAbbr +'</span> \
+						<picture class="profile-picture" '+ printPic + '> \
+							<span>'+ nameAbbr + '</span> \
 						</picture> \
 					</div>\
 					<div class="col xl-8-9 activity-info comment-inner-wrapper">\
-						<span class="comment-text"><b><span class="name">'+comment.user_first_name+' '+comment.user_last_name+'</span></b> '+ comment.pin_comment +'\
-							'+ (!imagePreview ? deleteButton : "") +'</span> \
-						<span class="date" data-date="'+date+'">'+timeSince(date)+' ago</span>\
+						<span class="comment-text"><b><span class="name">'+ comment.user_first_name + ' ' + comment.user_last_name + '</span></b> ' + comment.pin_comment + '\
+							'+ (!imagePreview ? deleteButton : "") + '</span> \
+						<span class="date" data-date="'+ date + '">' + timeSince(date) + ' ago</span>\
 					</div>\
 				</div>\
 		';
@@ -5207,20 +5198,20 @@ function commentTemplate(comment, hide, sameTime) {
 	}
 
 	return '\
-			<div class="comment wrap xl-flexbox xl-top '+ (hide ? "recurring" : "") +' '+ (sameTime ? "sametime" : "") +'" data-type="comment" data-id="'+ comment.comment_ID +'"> \
+			<div class="comment wrap xl-flexbox xl-top '+ (hide ? "recurring" : "") + ' ' + (sameTime ? "sametime" : "") + '" data-type="comment" data-id="' + comment.comment_ID + '"> \
 				<div class="col xl-1-9 profile-image"> \
-					<picture class="profile-picture" '+ printPic +'> \
-						<span>'+ nameAbbr +'</span> \
+					<picture class="profile-picture" '+ printPic + '> \
+						<span>'+ nameAbbr + '</span> \
 					</picture> \
 				</div> \
 				<div class="col xl-8-9 comment-inner-wrapper"> \
 					<div class="wrap xl-flexbox xl-bottom comment-title"> \
-						<span class="col comment-user-name">'+comment.user_first_name+' '+comment.user_last_name+'</span> \
-						<span class="col comment-date" data-date="'+date+'">'+timeSince(date)+' ago</span> \
+						<span class="col comment-user-name">'+ comment.user_first_name + ' ' + comment.user_last_name + '</span> \
+						<span class="col comment-date" data-date="'+ date + '">' + timeSince(date) + ' ago</span> \
 					</div> \
 					<div class="comment-text"> \
-						'+linkedComment+' \
-						'+ (!imagePreview ? deleteButton : "") +' \
+						'+ linkedComment + ' \
+						'+ (!imagePreview ? deleteButton : "") + ' \
 					</div> \
 				</div> \
 			</div> \
@@ -5233,76 +5224,76 @@ function commentTemplate(comment, hide, sameTime) {
 // HELPERS:
 function lightOrDark(color) {
 
-    // Variables for red, green, blue values
-    var r, g, b, hsp;
+	// Variables for red, green, blue values
+	var r, g, b, hsp;
 
-    // Check the format of the color, HEX or RGB?
-    if (color.match(/^rgb/)) {
+	// Check the format of the color, HEX or RGB?
+	if (color.match(/^rgb/)) {
 
-        // If HEX --> store the red, green, blue values in separate variables
-        color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+		// If HEX --> store the red, green, blue values in separate variables
+		color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
 
-        r = color[1];
-        g = color[2];
-        b = color[3];
-    }
-    else {
+		r = color[1];
+		g = color[2];
+		b = color[3];
+	}
+	else {
 
-        // If RGB --> Convert it to HEX: http://gist.github.com/983661
-        color = +("0x" + color.slice(1).replace(
-        color.length < 5 && /./g, '$&$&'));
+		// If RGB --> Convert it to HEX: http://gist.github.com/983661
+		color = +("0x" + color.slice(1).replace(
+			color.length < 5 && /./g, '$&$&'));
 
-        r = color >> 16;
-        g = color >> 8 & 255;
-        b = color & 255;
-    }
+		r = color >> 16;
+		g = color >> 8 & 255;
+		b = color & 255;
+	}
 
-    // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
-    hsp = Math.sqrt(
-    0.299 * (r * r) +
-    0.587 * (g * g) +
-    0.114 * (b * b)
-    );
+	// HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+	hsp = Math.sqrt(
+		0.299 * (r * r) +
+		0.587 * (g * g) +
+		0.114 * (b * b)
+	);
 
-    // Using the HSP value, determine whether the color is light or dark
-    if (hsp>127.5) {
+	// Using the HSP value, determine whether the color is light or dark
+	if (hsp > 127.5) {
 
-        return 'light';
-    }
-    else {
+		return 'light';
+	}
+	else {
 
-        return 'dark';
-    }
+		return 'dark';
+	}
 }
 
-function rgbToHex(orig){
+function rgbToHex(orig) {
 
-	var rgb = orig.replace(/\s/g,'').match(/^rgba?\((\d+),(\d+),(\d+)/i);
+	var rgb = orig.replace(/\s/g, '').match(/^rgba?\((\d+),(\d+),(\d+)/i);
 
 	return (rgb && rgb.length === 4) ? "#" +
-	("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-	("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-	("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : orig;
+		("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) +
+		("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
+		("0" + parseInt(rgb[3], 10).toString(16)).slice(-2) : orig;
 
 }
 
 function diffCheck(originalContent, changedContent) {
 
 
-	var diff = JsDiff.diffWords( cleanHTML(originalContent), cleanHTML(changedContent) );
+	var diff = JsDiff.diffWords(cleanHTML(originalContent), cleanHTML(changedContent));
 	var diffContent = "";
 
 
 	// Prepare diff data
-	diff.forEach(function(part){
-	  // green for additions, red for deletions
-	  // grey for common parts
+	diff.forEach(function (part) {
+		// green for additions, red for deletions
+		// grey for common parts
 
-	  var color = part.added ? 'green' :
-	    part.removed ? 'red' : 'grey';
+		var color = part.added ? 'green' :
+			part.removed ? 'red' : 'grey';
 
-	  var diffPart = "<span class='diff "+ color +"'>"+ part.value +"</span>";
-	  diffContent += diffPart;
+		var diffPart = "<span class='diff " + color + "'>" + part.value + "</span>";
+		diffContent += diffPart;
 
 	});
 
@@ -5311,428 +5302,428 @@ function diffCheck(originalContent, changedContent) {
 }
 
 function get_html_translation_table(table, quote_style) {
-  //  discuss at: http://phpjs.org/functions/get_html_translation_table/
-  // original by: Philip Peterson
-  //  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  // bugfixed by: noname
-  // bugfixed by: Alex
-  // bugfixed by: Marco
-  // bugfixed by: madipta
-  // bugfixed by: Brett Zamir (http://brett-zamir.me)
-  // bugfixed by: T.Wild
-  // improved by: KELAN
-  // improved by: Brett Zamir (http://brett-zamir.me)
-  //    input by: Frank Forte
-  //    input by: Ratheous
-  //        note: It has been decided that we're not going to add global
-  //        note: dependencies to php.js, meaning the constants are not
-  //        note: real constants, but strings instead. Integers are also supported if someone
-  //        note: chooses to create the constants themselves.
-  //   example 1: get_html_translation_table('HTML_SPECIALCHARS');
-  //   returns 1: {'"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;'}
+	//  discuss at: http://phpjs.org/functions/get_html_translation_table/
+	// original by: Philip Peterson
+	//  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// bugfixed by: noname
+	// bugfixed by: Alex
+	// bugfixed by: Marco
+	// bugfixed by: madipta
+	// bugfixed by: Brett Zamir (http://brett-zamir.me)
+	// bugfixed by: T.Wild
+	// improved by: KELAN
+	// improved by: Brett Zamir (http://brett-zamir.me)
+	//    input by: Frank Forte
+	//    input by: Ratheous
+	//        note: It has been decided that we're not going to add global
+	//        note: dependencies to php.js, meaning the constants are not
+	//        note: real constants, but strings instead. Integers are also supported if someone
+	//        note: chooses to create the constants themselves.
+	//   example 1: get_html_translation_table('HTML_SPECIALCHARS');
+	//   returns 1: {'"': '&quot;', '&': '&amp;', '<': '&lt;', '>': '&gt;'}
 
-  var entities = {},
-    hash_map = {},
-    decimal;
-  var constMappingTable = {},
-    constMappingQuoteStyle = {};
-  var useTable = {},
-    useQuoteStyle = {};
+	var entities = {},
+		hash_map = {},
+		decimal;
+	var constMappingTable = {},
+		constMappingQuoteStyle = {};
+	var useTable = {},
+		useQuoteStyle = {};
 
-  // Translate arguments
-  constMappingTable[0] = 'HTML_SPECIALCHARS';
-  constMappingTable[1] = 'HTML_ENTITIES';
-  constMappingQuoteStyle[0] = 'ENT_NOQUOTES';
-  constMappingQuoteStyle[2] = 'ENT_COMPAT';
-  constMappingQuoteStyle[3] = 'ENT_QUOTES';
+	// Translate arguments
+	constMappingTable[0] = 'HTML_SPECIALCHARS';
+	constMappingTable[1] = 'HTML_ENTITIES';
+	constMappingQuoteStyle[0] = 'ENT_NOQUOTES';
+	constMappingQuoteStyle[2] = 'ENT_COMPAT';
+	constMappingQuoteStyle[3] = 'ENT_QUOTES';
 
-  useTable = !isNaN(table) ? constMappingTable[table] : table ? table.toUpperCase() : 'HTML_SPECIALCHARS';
-  useQuoteStyle = !isNaN(quote_style) ? constMappingQuoteStyle[quote_style] : quote_style ? quote_style.toUpperCase() :
-    'ENT_COMPAT';
+	useTable = !isNaN(table) ? constMappingTable[table] : table ? table.toUpperCase() : 'HTML_SPECIALCHARS';
+	useQuoteStyle = !isNaN(quote_style) ? constMappingQuoteStyle[quote_style] : quote_style ? quote_style.toUpperCase() :
+		'ENT_COMPAT';
 
-  if (useTable !== 'HTML_SPECIALCHARS' && useTable !== 'HTML_ENTITIES') {
-    throw new Error('Table: ' + useTable + ' not supported');
-    // return false;
-  }
+	if (useTable !== 'HTML_SPECIALCHARS' && useTable !== 'HTML_ENTITIES') {
+		throw new Error('Table: ' + useTable + ' not supported');
+		// return false;
+	}
 
-  entities['38'] = '&amp;';
-  if (useTable === 'HTML_ENTITIES') {
 	entities['38'] = '&amp;';
-	entities['60'] = '&lt;';
-	entities['62'] = '&gt;';
-	entities['160'] = '&nbsp;';
-	entities['161'] = '&iexcl;';
-	entities['162'] = '&cent;';
-	entities['163'] = '&pound;';
-	entities['164'] = '&curren;';
-	entities['165'] = '&yen;';
-	entities['166'] = '&brvbar;';
-	entities['167'] = '&sect;';
-	entities['168'] = '&uml;';
-	entities['169'] = '&copy;';
-	entities['170'] = '&ordf;';
-	entities['171'] = '&laquo;';
-	entities['172'] = '&not;';
-	entities['173'] = '&shy;';
-	entities['174'] = '&reg;';
-	entities['175'] = '&macr;';
-	entities['176'] = '&deg;';
-	entities['177'] = '&plusmn;';
-	entities['178'] = '&sup2;';
-	entities['179'] = '&sup3;';
-	entities['180'] = '&acute;';
-	entities['181'] = '&micro;';
-	entities['182'] = '&para;';
-	entities['183'] = '&middot;';
-	entities['184'] = '&cedil;';
-	entities['185'] = '&sup1;';
-	entities['186'] = '&ordm;';
-	entities['187'] = '&raquo;';
-	entities['188'] = '&frac14;';
-	entities['189'] = '&frac12;';
-	entities['190'] = '&frac34;';
-	entities['191'] = '&iquest;';
-	entities['192'] = '&Agrave;';
-	entities['193'] = '&Aacute;';
-	entities['194'] = '&Acirc;';
-	entities['195'] = '&Atilde;';
-	entities['196'] = '&Auml;';
-	entities['197'] = '&Aring;';
-	entities['198'] = '&AElig;';
-	entities['199'] = '&Ccedil;';
-	entities['200'] = '&Egrave;';
-	entities['201'] = '&Eacute;';
-	entities['202'] = '&Ecirc;';
-	entities['203'] = '&Euml;';
-	entities['204'] = '&Igrave;';
-	entities['205'] = '&Iacute;';
-	entities['206'] = '&Icirc;';
-	entities['207'] = '&Iuml;';
-	entities['208'] = '&ETH;';
-	entities['209'] = '&Ntilde;';
-	entities['210'] = '&Ograve;';
-	entities['211'] = '&Oacute;';
-	entities['212'] = '&Ocirc;';
-	entities['213'] = '&Otilde;';
-	entities['214'] = '&Ouml;';
-	entities['215'] = '&times;';
-	entities['216'] = '&Oslash;';
-	entities['217'] = '&Ugrave;';
-	entities['218'] = '&Uacute;';
-	entities['219'] = '&Ucirc;';
-	entities['220'] = '&Uuml;';
-	entities['221'] = '&Yacute;';
-	entities['222'] = '&THORN;';
-	entities['223'] = '&szlig;';
-	entities['224'] = '&agrave;';
-	entities['225'] = '&aacute;';
-	entities['226'] = '&acirc;';
-	entities['227'] = '&atilde;';
-	entities['228'] = '&auml;';
-	entities['229'] = '&aring;';
-	entities['230'] = '&aelig;';
-	entities['231'] = '&ccedil;';
-	entities['232'] = '&egrave;';
-	entities['233'] = '&eacute;';
-	entities['234'] = '&ecirc;';
-	entities['235'] = '&euml;';
-	entities['236'] = '&igrave;';
-	entities['237'] = '&iacute;';
-	entities['238'] = '&icirc;';
-	entities['239'] = '&iuml;';
-	entities['240'] = '&eth;';
-	entities['241'] = '&ntilde;';
-	entities['242'] = '&ograve;';
-	entities['243'] = '&oacute;';
-	entities['244'] = '&ocirc;';
-	entities['245'] = '&otilde;';
-	entities['246'] = '&ouml;';
-	entities['247'] = '&divide;';
-	entities['248'] = '&oslash;';
-	entities['249'] = '&ugrave;';
-	entities['250'] = '&uacute;';
-	entities['251'] = '&ucirc;';
-	entities['252'] = '&uuml;';
-	entities['253'] = '&yacute;';
-	entities['254'] = '&thorn;';
-	entities['255'] = '&yuml;';
-	entities['402'] = '&fnof;';
-	entities['913'] = '&Alpha;';
-	entities['914'] = '&Beta;';
-	entities['915'] = '&Gamma;';
-	entities['916'] = '&Delta;';
-	entities['917'] = '&Epsilon;';
-	entities['918'] = '&Zeta;';
-	entities['919'] = '&Eta;';
-	entities['920'] = '&Theta;';
-	entities['921'] = '&Iota;';
-	entities['922'] = '&Kappa;';
-	entities['923'] = '&Lambda;';
-	entities['924'] = '&Mu;';
-	entities['925'] = '&Nu;';
-	entities['926'] = '&Xi;';
-	entities['927'] = '&Omicron;';
-	entities['928'] = '&Pi;';
-	entities['929'] = '&Rho;';
-	entities['931'] = '&Sigma;';
-	entities['932'] = '&Tau;';
-	entities['933'] = '&Upsilon;';
-	entities['934'] = '&Phi;';
-	entities['935'] = '&Chi;';
-	entities['936'] = '&Psi;';
-	entities['937'] = '&Omega;';
-	entities['945'] = '&alpha;';
-	entities['946'] = '&beta;';
-	entities['947'] = '&gamma;';
-	entities['948'] = '&delta;';
-	entities['949'] = '&epsilon;';
-	entities['950'] = '&zeta;';
-	entities['951'] = '&eta;';
-	entities['952'] = '&theta;';
-	entities['953'] = '&iota;';
-	entities['954'] = '&kappa;';
-	entities['955'] = '&lambda;';
-	entities['956'] = '&mu;';
-	entities['957'] = '&nu;';
-	entities['958'] = '&xi;';
-	entities['959'] = '&omicron;';
-	entities['960'] = '&pi;';
-	entities['961'] = '&rho;';
-	entities['962'] = '&sigmaf;';
-	entities['963'] = '&sigma;';
-	entities['964'] = '&tau;';
-	entities['965'] = '&upsilon;';
-	entities['966'] = '&phi;';
-	entities['967'] = '&chi;';
-	entities['968'] = '&psi;';
-	entities['969'] = '&omega;';
-	entities['977'] = '&thetasym;';
-	entities['978'] = '&upsih;';
-	entities['982'] = '&piv;';
-	entities['8226'] = '&bull;';
-	entities['8230'] = '&hellip;';
-	entities['8242'] = '&prime;';
-	entities['8243'] = '&Prime;';
-	entities['8254'] = '&oline;';
-	entities['8260'] = '&frasl;';
-	entities['8472'] = '&weierp;';
-	entities['8465'] = '&image;';
-	entities['8476'] = '&real;';
-	entities['8482'] = '&trade;';
-	entities['8501'] = '&alefsym;';
-	entities['8592'] = '&larr;';
-	entities['8593'] = '&uarr;';
-	entities['8594'] = '&rarr;';
-	entities['8595'] = '&darr;';
-	entities['8596'] = '&harr;';
-	entities['8629'] = '&crarr;';
-	entities['8656'] = '&lArr;';
-	entities['8657'] = '&uArr;';
-	entities['8658'] = '&rArr;';
-	entities['8659'] = '&dArr;';
-	entities['8660'] = '&hArr;';
-	entities['8704'] = '&forall;';
-	entities['8706'] = '&part;';
-	entities['8707'] = '&exist;';
-	entities['8709'] = '&empty;';
-	entities['8711'] = '&nabla;';
-	entities['8712'] = '&isin;';
-	entities['8713'] = '&notin;';
-	entities['8715'] = '&ni;';
-	entities['8719'] = '&prod;';
-	entities['8721'] = '&sum;';
-	entities['8722'] = '&minus;';
-	entities['8727'] = '&lowast;';
-	entities['8730'] = '&radic;';
-	entities['8733'] = '&prop;';
-	entities['8734'] = '&infin;';
-	entities['8736'] = '&ang;';
-	entities['8743'] = '&and;';
-	entities['8744'] = '&or;';
-	entities['8745'] = '&cap;';
-	entities['8746'] = '&cup;';
-	entities['8747'] = '&int;';
-	entities['8756'] = '&there4;';
-	entities['8764'] = '&sim;';
-	entities['8773'] = '&cong;';
-	entities['8776'] = '&asymp;';
-	entities['8800'] = '&ne;';
-	entities['8801'] = '&equiv;';
-	entities['8804'] = '&le;';
-	entities['8805'] = '&ge;';
-	entities['8834'] = '&sub;';
-	entities['8835'] = '&sup;';
-	entities['8836'] = '&nsub;';
-	entities['8838'] = '&sube;';
-	entities['8839'] = '&supe;';
-	entities['8853'] = '&oplus;';
-	entities['8855'] = '&otimes;';
-	entities['8869'] = '&perp;';
-	entities['8901'] = '&sdot;';
-	entities['8968'] = '&lceil;';
-	entities['8969'] = '&rceil;';
-	entities['8970'] = '&lfloor;';
-	entities['8971'] = '&rfloor;';
-	entities['9001'] = '&lang;';
-	entities['9002'] = '&rang;';
-	entities['9674'] = '&loz;';
-	entities['9824'] = '&spades;';
-	entities['9827'] = '&clubs;';
-	entities['9829'] = '&hearts;';
-	entities['9830'] = '&diams;';
-	entities['338'] = '&OElig;';
-	entities['339'] = '&oelig;';
-	entities['352'] = '&Scaron;';
-	entities['353'] = '&scaron;';
-	entities['376'] = '&Yuml;';
-	entities['710'] = '&circ;';
-	entities['732'] = '&tilde;';
-	entities['8194'] = '&ensp;';
-	entities['8195'] = '&emsp;';
-	entities['8201'] = '&thinsp;';
-	entities['8204'] = '&zwnj;';
-	entities['8205'] = '&zwj;';
-	entities['8206'] = '&lrm;';
-	entities['8207'] = '&rlm;';
-	entities['8211'] = '&ndash;';
-	entities['8212'] = '&mdash;';
-	entities['8216'] = '&lsquo;';
-	entities['8217'] = '&rsquo;';
-	entities['8218'] = '&sbquo;';
-	entities['8220'] = '&ldquo;';
-	entities['8221'] = '&rdquo;';
-	entities['8222'] = '&bdquo;';
-	entities['8224'] = '&dagger;';
-	entities['8225'] = '&Dagger;';
-	entities['8240'] = '&permil;';
-	entities['8249'] = '&lsaquo;';
-	entities['8250'] = '&rsaquo;';
-	entities['8364'] = '&euro;';
-  }
+	if (useTable === 'HTML_ENTITIES') {
+		entities['38'] = '&amp;';
+		entities['60'] = '&lt;';
+		entities['62'] = '&gt;';
+		entities['160'] = '&nbsp;';
+		entities['161'] = '&iexcl;';
+		entities['162'] = '&cent;';
+		entities['163'] = '&pound;';
+		entities['164'] = '&curren;';
+		entities['165'] = '&yen;';
+		entities['166'] = '&brvbar;';
+		entities['167'] = '&sect;';
+		entities['168'] = '&uml;';
+		entities['169'] = '&copy;';
+		entities['170'] = '&ordf;';
+		entities['171'] = '&laquo;';
+		entities['172'] = '&not;';
+		entities['173'] = '&shy;';
+		entities['174'] = '&reg;';
+		entities['175'] = '&macr;';
+		entities['176'] = '&deg;';
+		entities['177'] = '&plusmn;';
+		entities['178'] = '&sup2;';
+		entities['179'] = '&sup3;';
+		entities['180'] = '&acute;';
+		entities['181'] = '&micro;';
+		entities['182'] = '&para;';
+		entities['183'] = '&middot;';
+		entities['184'] = '&cedil;';
+		entities['185'] = '&sup1;';
+		entities['186'] = '&ordm;';
+		entities['187'] = '&raquo;';
+		entities['188'] = '&frac14;';
+		entities['189'] = '&frac12;';
+		entities['190'] = '&frac34;';
+		entities['191'] = '&iquest;';
+		entities['192'] = '&Agrave;';
+		entities['193'] = '&Aacute;';
+		entities['194'] = '&Acirc;';
+		entities['195'] = '&Atilde;';
+		entities['196'] = '&Auml;';
+		entities['197'] = '&Aring;';
+		entities['198'] = '&AElig;';
+		entities['199'] = '&Ccedil;';
+		entities['200'] = '&Egrave;';
+		entities['201'] = '&Eacute;';
+		entities['202'] = '&Ecirc;';
+		entities['203'] = '&Euml;';
+		entities['204'] = '&Igrave;';
+		entities['205'] = '&Iacute;';
+		entities['206'] = '&Icirc;';
+		entities['207'] = '&Iuml;';
+		entities['208'] = '&ETH;';
+		entities['209'] = '&Ntilde;';
+		entities['210'] = '&Ograve;';
+		entities['211'] = '&Oacute;';
+		entities['212'] = '&Ocirc;';
+		entities['213'] = '&Otilde;';
+		entities['214'] = '&Ouml;';
+		entities['215'] = '&times;';
+		entities['216'] = '&Oslash;';
+		entities['217'] = '&Ugrave;';
+		entities['218'] = '&Uacute;';
+		entities['219'] = '&Ucirc;';
+		entities['220'] = '&Uuml;';
+		entities['221'] = '&Yacute;';
+		entities['222'] = '&THORN;';
+		entities['223'] = '&szlig;';
+		entities['224'] = '&agrave;';
+		entities['225'] = '&aacute;';
+		entities['226'] = '&acirc;';
+		entities['227'] = '&atilde;';
+		entities['228'] = '&auml;';
+		entities['229'] = '&aring;';
+		entities['230'] = '&aelig;';
+		entities['231'] = '&ccedil;';
+		entities['232'] = '&egrave;';
+		entities['233'] = '&eacute;';
+		entities['234'] = '&ecirc;';
+		entities['235'] = '&euml;';
+		entities['236'] = '&igrave;';
+		entities['237'] = '&iacute;';
+		entities['238'] = '&icirc;';
+		entities['239'] = '&iuml;';
+		entities['240'] = '&eth;';
+		entities['241'] = '&ntilde;';
+		entities['242'] = '&ograve;';
+		entities['243'] = '&oacute;';
+		entities['244'] = '&ocirc;';
+		entities['245'] = '&otilde;';
+		entities['246'] = '&ouml;';
+		entities['247'] = '&divide;';
+		entities['248'] = '&oslash;';
+		entities['249'] = '&ugrave;';
+		entities['250'] = '&uacute;';
+		entities['251'] = '&ucirc;';
+		entities['252'] = '&uuml;';
+		entities['253'] = '&yacute;';
+		entities['254'] = '&thorn;';
+		entities['255'] = '&yuml;';
+		entities['402'] = '&fnof;';
+		entities['913'] = '&Alpha;';
+		entities['914'] = '&Beta;';
+		entities['915'] = '&Gamma;';
+		entities['916'] = '&Delta;';
+		entities['917'] = '&Epsilon;';
+		entities['918'] = '&Zeta;';
+		entities['919'] = '&Eta;';
+		entities['920'] = '&Theta;';
+		entities['921'] = '&Iota;';
+		entities['922'] = '&Kappa;';
+		entities['923'] = '&Lambda;';
+		entities['924'] = '&Mu;';
+		entities['925'] = '&Nu;';
+		entities['926'] = '&Xi;';
+		entities['927'] = '&Omicron;';
+		entities['928'] = '&Pi;';
+		entities['929'] = '&Rho;';
+		entities['931'] = '&Sigma;';
+		entities['932'] = '&Tau;';
+		entities['933'] = '&Upsilon;';
+		entities['934'] = '&Phi;';
+		entities['935'] = '&Chi;';
+		entities['936'] = '&Psi;';
+		entities['937'] = '&Omega;';
+		entities['945'] = '&alpha;';
+		entities['946'] = '&beta;';
+		entities['947'] = '&gamma;';
+		entities['948'] = '&delta;';
+		entities['949'] = '&epsilon;';
+		entities['950'] = '&zeta;';
+		entities['951'] = '&eta;';
+		entities['952'] = '&theta;';
+		entities['953'] = '&iota;';
+		entities['954'] = '&kappa;';
+		entities['955'] = '&lambda;';
+		entities['956'] = '&mu;';
+		entities['957'] = '&nu;';
+		entities['958'] = '&xi;';
+		entities['959'] = '&omicron;';
+		entities['960'] = '&pi;';
+		entities['961'] = '&rho;';
+		entities['962'] = '&sigmaf;';
+		entities['963'] = '&sigma;';
+		entities['964'] = '&tau;';
+		entities['965'] = '&upsilon;';
+		entities['966'] = '&phi;';
+		entities['967'] = '&chi;';
+		entities['968'] = '&psi;';
+		entities['969'] = '&omega;';
+		entities['977'] = '&thetasym;';
+		entities['978'] = '&upsih;';
+		entities['982'] = '&piv;';
+		entities['8226'] = '&bull;';
+		entities['8230'] = '&hellip;';
+		entities['8242'] = '&prime;';
+		entities['8243'] = '&Prime;';
+		entities['8254'] = '&oline;';
+		entities['8260'] = '&frasl;';
+		entities['8472'] = '&weierp;';
+		entities['8465'] = '&image;';
+		entities['8476'] = '&real;';
+		entities['8482'] = '&trade;';
+		entities['8501'] = '&alefsym;';
+		entities['8592'] = '&larr;';
+		entities['8593'] = '&uarr;';
+		entities['8594'] = '&rarr;';
+		entities['8595'] = '&darr;';
+		entities['8596'] = '&harr;';
+		entities['8629'] = '&crarr;';
+		entities['8656'] = '&lArr;';
+		entities['8657'] = '&uArr;';
+		entities['8658'] = '&rArr;';
+		entities['8659'] = '&dArr;';
+		entities['8660'] = '&hArr;';
+		entities['8704'] = '&forall;';
+		entities['8706'] = '&part;';
+		entities['8707'] = '&exist;';
+		entities['8709'] = '&empty;';
+		entities['8711'] = '&nabla;';
+		entities['8712'] = '&isin;';
+		entities['8713'] = '&notin;';
+		entities['8715'] = '&ni;';
+		entities['8719'] = '&prod;';
+		entities['8721'] = '&sum;';
+		entities['8722'] = '&minus;';
+		entities['8727'] = '&lowast;';
+		entities['8730'] = '&radic;';
+		entities['8733'] = '&prop;';
+		entities['8734'] = '&infin;';
+		entities['8736'] = '&ang;';
+		entities['8743'] = '&and;';
+		entities['8744'] = '&or;';
+		entities['8745'] = '&cap;';
+		entities['8746'] = '&cup;';
+		entities['8747'] = '&int;';
+		entities['8756'] = '&there4;';
+		entities['8764'] = '&sim;';
+		entities['8773'] = '&cong;';
+		entities['8776'] = '&asymp;';
+		entities['8800'] = '&ne;';
+		entities['8801'] = '&equiv;';
+		entities['8804'] = '&le;';
+		entities['8805'] = '&ge;';
+		entities['8834'] = '&sub;';
+		entities['8835'] = '&sup;';
+		entities['8836'] = '&nsub;';
+		entities['8838'] = '&sube;';
+		entities['8839'] = '&supe;';
+		entities['8853'] = '&oplus;';
+		entities['8855'] = '&otimes;';
+		entities['8869'] = '&perp;';
+		entities['8901'] = '&sdot;';
+		entities['8968'] = '&lceil;';
+		entities['8969'] = '&rceil;';
+		entities['8970'] = '&lfloor;';
+		entities['8971'] = '&rfloor;';
+		entities['9001'] = '&lang;';
+		entities['9002'] = '&rang;';
+		entities['9674'] = '&loz;';
+		entities['9824'] = '&spades;';
+		entities['9827'] = '&clubs;';
+		entities['9829'] = '&hearts;';
+		entities['9830'] = '&diams;';
+		entities['338'] = '&OElig;';
+		entities['339'] = '&oelig;';
+		entities['352'] = '&Scaron;';
+		entities['353'] = '&scaron;';
+		entities['376'] = '&Yuml;';
+		entities['710'] = '&circ;';
+		entities['732'] = '&tilde;';
+		entities['8194'] = '&ensp;';
+		entities['8195'] = '&emsp;';
+		entities['8201'] = '&thinsp;';
+		entities['8204'] = '&zwnj;';
+		entities['8205'] = '&zwj;';
+		entities['8206'] = '&lrm;';
+		entities['8207'] = '&rlm;';
+		entities['8211'] = '&ndash;';
+		entities['8212'] = '&mdash;';
+		entities['8216'] = '&lsquo;';
+		entities['8217'] = '&rsquo;';
+		entities['8218'] = '&sbquo;';
+		entities['8220'] = '&ldquo;';
+		entities['8221'] = '&rdquo;';
+		entities['8222'] = '&bdquo;';
+		entities['8224'] = '&dagger;';
+		entities['8225'] = '&Dagger;';
+		entities['8240'] = '&permil;';
+		entities['8249'] = '&lsaquo;';
+		entities['8250'] = '&rsaquo;';
+		entities['8364'] = '&euro;';
+	}
 
-  if (useQuoteStyle !== 'ENT_NOQUOTES') {
-    entities['34'] = '&quot;';
-  }
-  if (useQuoteStyle === 'ENT_QUOTES') {
-    entities['39'] = '&#39;';
-  }
+	if (useQuoteStyle !== 'ENT_NOQUOTES') {
+		entities['34'] = '&quot;';
+	}
+	if (useQuoteStyle === 'ENT_QUOTES') {
+		entities['39'] = '&#39;';
+	}
 
-  // ascii decimals to real symbols
-  for (decimal in entities) {
-    if (entities.hasOwnProperty(decimal)) {
-      hash_map[String.fromCharCode(decimal)] = entities[decimal];
-    }
-  }
+	// ascii decimals to real symbols
+	for (decimal in entities) {
+		if (entities.hasOwnProperty(decimal)) {
+			hash_map[String.fromCharCode(decimal)] = entities[decimal];
+		}
+	}
 
-  return hash_map;
+	return hash_map;
 }
 
 function htmlentities(string, quote_style, charset, double_encode) {
-  //  discuss at: http://phpjs.org/functions/htmlentities/
-  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  //  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  //  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  // improved by: nobbler
-  // improved by: Jack
-  // improved by: Rafał Kukawski (http://blog.kukawski.pl)
-  // improved by: Dj (http://phpjs.org/functions/htmlentities:425#comment_134018)
-  // bugfixed by: Onno Marsman
-  // bugfixed by: Brett Zamir (http://brett-zamir.me)
-  //    input by: Ratheous
-  //  depends on: get_html_translation_table
-  //        note: function is compatible with PHP 5.2 and older
-  //   example 1: htmlentities('Kevin & van Zonneveld');
-  //   returns 1: 'Kevin &amp; van Zonneveld'
-  //   example 2: htmlentities("foo'bar","ENT_QUOTES");
-  //   returns 2: 'foo&#039;bar'
+	//  discuss at: http://phpjs.org/functions/htmlentities/
+	// original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	//  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	//  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// improved by: nobbler
+	// improved by: Jack
+	// improved by: Rafał Kukawski (http://blog.kukawski.pl)
+	// improved by: Dj (http://phpjs.org/functions/htmlentities:425#comment_134018)
+	// bugfixed by: Onno Marsman
+	// bugfixed by: Brett Zamir (http://brett-zamir.me)
+	//    input by: Ratheous
+	//  depends on: get_html_translation_table
+	//        note: function is compatible with PHP 5.2 and older
+	//   example 1: htmlentities('Kevin & van Zonneveld');
+	//   returns 1: 'Kevin &amp; van Zonneveld'
+	//   example 2: htmlentities("foo'bar","ENT_QUOTES");
+	//   returns 2: 'foo&#039;bar'
 
-  var hash_map = this.get_html_translation_table('HTML_ENTITIES', quote_style),
-    symbol = '';
+	var hash_map = this.get_html_translation_table('HTML_ENTITIES', quote_style),
+		symbol = '';
 
-  string = string == null ? '' : string + '';
+	string = string == null ? '' : string + '';
 
-  if (!hash_map) {
-    return false;
-  }
+	if (!hash_map) {
+		return false;
+	}
 
-  if (quote_style && quote_style === 'ENT_QUOTES') {
-    hash_map["'"] = '&#039;';
-  }
+	if (quote_style && quote_style === 'ENT_QUOTES') {
+		hash_map["'"] = '&#039;';
+	}
 
-  double_encode = double_encode == null || !!double_encode;
+	double_encode = double_encode == null || !!double_encode;
 
-  var regex = new RegExp('&(?:#\\d+|#x[\\da-f]+|[a-zA-Z][\\da-z]*);|[' +
-    Object.keys(hash_map)
-    .join('')
-    // replace regexp special chars
-    .replace(/([()[\]{}\-.*+?^$|\/\\])/g, '\\$1') + ']',
-    'g');
+	var regex = new RegExp('&(?:#\\d+|#x[\\da-f]+|[a-zA-Z][\\da-z]*);|[' +
+		Object.keys(hash_map)
+			.join('')
+			// replace regexp special chars
+			.replace(/([()[\]{}\-.*+?^$|\/\\])/g, '\\$1') + ']',
+		'g');
 
-  return string.replace(regex, function (ent) {
-    if (ent.length > 1) {
-      return double_encode ? hash_map['&'] + ent.substr(1) : ent;
-    }
+	return string.replace(regex, function (ent) {
+		if (ent.length > 1) {
+			return double_encode ? hash_map['&'] + ent.substr(1) : ent;
+		}
 
-    return hash_map[ent];
-  });
+		return hash_map[ent];
+	});
 }
 
 function html_entity_decode(string, quote_style) {
-  //  discuss at: http://phpjs.org/functions/html_entity_decode/
-  // original by: john (http://www.jd-tech.net)
-  //    input by: ger
-  //    input by: Ratheous
-  //    input by: Nick Kolosov (http://sammy.ru)
-  // improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  // improved by: marc andreu
-  //  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  //  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-  // bugfixed by: Onno Marsman
-  // bugfixed by: Brett Zamir (http://brett-zamir.me)
-  // bugfixed by: Fox
-  //  depends on: get_html_translation_table
-  //   example 1: html_entity_decode('Kevin &amp; van Zonneveld');
-  //   returns 1: 'Kevin & van Zonneveld'
-  //   example 2: html_entity_decode('&amp;lt;');
-  //   returns 2: '&lt;'
+	//  discuss at: http://phpjs.org/functions/html_entity_decode/
+	// original by: john (http://www.jd-tech.net)
+	//    input by: ger
+	//    input by: Ratheous
+	//    input by: Nick Kolosov (http://sammy.ru)
+	// improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// improved by: marc andreu
+	//  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	//  revised by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// bugfixed by: Onno Marsman
+	// bugfixed by: Brett Zamir (http://brett-zamir.me)
+	// bugfixed by: Fox
+	//  depends on: get_html_translation_table
+	//   example 1: html_entity_decode('Kevin &amp; van Zonneveld');
+	//   returns 1: 'Kevin & van Zonneveld'
+	//   example 2: html_entity_decode('&amp;lt;');
+	//   returns 2: '&lt;'
 
-  var hash_map = {},
-    symbol = '',
-    tmp_str = '',
-    entity = '';
-  tmp_str = string.toString();
+	var hash_map = {},
+		symbol = '',
+		tmp_str = '',
+		entity = '';
+	tmp_str = string.toString();
 
-  if (false === (hash_map = this.get_html_translation_table('HTML_ENTITIES', quote_style))) {
-    return false;
-  }
+	if (false === (hash_map = this.get_html_translation_table('HTML_ENTITIES', quote_style))) {
+		return false;
+	}
 
-  // fix &amp; problem
-  // http://phpjs.org/functions/get_html_translation_table:416#comment_97660
-  delete (hash_map['&']);
-  hash_map['&'] = '&amp;';
+	// fix &amp; problem
+	// http://phpjs.org/functions/get_html_translation_table:416#comment_97660
+	delete (hash_map['&']);
+	hash_map['&'] = '&amp;';
 
-  for (symbol in hash_map) {
-    entity = hash_map[symbol];
-    tmp_str = tmp_str.split(entity)
-      .join(symbol);
-  }
-  tmp_str = tmp_str.split('&#039;')
-    .join("'");
+	for (symbol in hash_map) {
+		entity = hash_map[symbol];
+		tmp_str = tmp_str.split(entity)
+			.join(symbol);
+	}
+	tmp_str = tmp_str.split('&#039;')
+		.join("'");
 
-  return tmp_str;
+	return tmp_str;
 }
 
 function canAccessIFrame(iframe) {
-    var html = null;
-    try {
-      // deal with older browsers
-      var doc = iframe[0].contentDocument || iframe[0].contentWindow.document;
-      html = doc.body.innerHTML;
-    } catch(err){
-      // do nothing
-    }
+	var html = null;
+	try {
+		// deal with older browsers
+		var doc = iframe[0].contentDocument || iframe[0].contentWindow.document;
+		html = doc.body.innerHTML;
+	} catch (err) {
+		// do nothing
+	}
 
-    return(html !== null);
+	return (html !== null);
 }
 
 function isEqual(value, other) {
@@ -5853,51 +5844,51 @@ function makeID() {
 }
 
 function nl2br(str, is_xhtml) {
-    if (typeof str === 'undefined' || str === null) {
-        return '';
-    }
-    var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
-    return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+	if (typeof str === 'undefined' || str === null) {
+		return '';
+	}
+	var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+	return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
 }
 
-jQuery.fn.onPositionChanged = function(trigger, millis) {
+jQuery.fn.onPositionChanged = function (trigger, millis) {
 
 
-    if ( millis == null ) millis = 100;
+	if (millis == null) millis = 100;
 	var o = $(this[0]); // Our object
-	if ( !o.length ) return o; // Abort if element not exists
+	if (!o.length) return o; // Abort if element not exists
 	var element_index = o.attr('data-revisionary-index');
 	//console.log('INDEX: ', element_index);
 
 
 	var lastHidden = null;
 	var lastScroll = null;
-    var lastPos = null;
+	var lastPos = null;
 	var lastWidth = null;
 
 
-    setInterval(function() {
+	setInterval(function () {
 
 
 		var element = o;
 
 
 		// Aborts
-		if ( !iframeLoaded ) return element; // Abort if the iframe is not loaded
-		if ( element == null || element.length < 1 ) return element; // Abort if element is not exist anymore
-		if ( pinElement(element_index, true).css('opacity') == 0 ) return element; // Abort if the pin is hidden or filtered
+		if (!iframeLoaded) return element; // Abort if the iframe is not loaded
+		if (element == null || element.length < 1) return element; // Abort if element is not exist anymore
+		if (pinElement(element_index, true).css('opacity') == 0) return element; // Abort if the pin is hidden or filtered
 
 
 		// Visibility check
 		if (lastHidden == null) lastHidden = element.css('display') == "none" || element.is(':hidden'); // First assignment
 		var newHidden = element.css('display') == "none" || element.is(':hidden');
 
-        if (lastHidden != newHidden) {
+		if (lastHidden != newHidden) {
 
 			//console.log('Hidden changed', { lastHidden: lastHidden, newHidden: newHidden }, element);
 
-            $(this).trigger('onPositionChanged', { lastHidden: lastHidden, newHidden: newHidden });
-            if (typeof (trigger) == "function") trigger(lastHidden, newHidden);
+			$(this).trigger('onPositionChanged', { lastHidden: lastHidden, newHidden: newHidden });
+			if (typeof (trigger) == "function") trigger(lastHidden, newHidden);
 			lastHidden = element.css('display') == "none" || element.is(':hidden');
 
 			delete hiddenElementOffsets[element_index];
@@ -5905,20 +5896,20 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 		}
 
 		// Refocus to visible parent if invisible
-		if ( newHidden ) element = o.parents(':visible').first();
+		if (newHidden) element = o.parents(':visible').first();
 		else element = o;
 
 
 		// Scroll check
-        if (lastScroll == null) lastScroll = element[0].getBoundingClientRect(); // First assignment
+		if (lastScroll == null) lastScroll = element[0].getBoundingClientRect(); // First assignment
 		var newScroll = element[0].getBoundingClientRect();
 
-        if (lastScroll.top != newScroll.top || lastScroll.left != newScroll.left) {
+		if (lastScroll.top != newScroll.top || lastScroll.left != newScroll.left) {
 
 			//console.log('Scroll changed', { lastScroll: lastScroll, newScroll: newScroll }, element);
 
-            $(this).trigger('onPositionChanged', { lastScroll: lastScroll, newScroll: newScroll });
-            if (typeof (trigger) == "function") trigger(lastScroll, newScroll);
+			$(this).trigger('onPositionChanged', { lastScroll: lastScroll, newScroll: newScroll });
+			if (typeof (trigger) == "function") trigger(lastScroll, newScroll);
 			lastScroll = element[0].getBoundingClientRect();
 
 			delete hiddenElementOffsets[element_index];
@@ -5927,15 +5918,15 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 
 		// Position check
-        if (lastPos == null) lastPos = element.position(); // First assignment
+		if (lastPos == null) lastPos = element.position(); // First assignment
 		var newPos = element.position();
 
-        if (lastPos.top != newPos.top || lastPos.left != newPos.left) {
+		if (lastPos.top != newPos.top || lastPos.left != newPos.left) {
 
 			//console.log('Position changed', { lastPos: lastPos, newPos: newPos }, element);
 
-            $(this).trigger('onPositionChanged', { lastPos: lastPos, newPos: newPos });
-            if (typeof (trigger) == "function") trigger(lastPos, newPos);
+			$(this).trigger('onPositionChanged', { lastPos: lastPos, newPos: newPos });
+			if (typeof (trigger) == "function") trigger(lastPos, newPos);
 			lastPos = element.position();
 
 			delete hiddenElementOffsets[element_index];
@@ -5944,15 +5935,15 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 
 
 		// Size check
-        if (lastWidth == null) lastWidth = element.width(); // First assignment
-        var newWidth = element.width();
+		if (lastWidth == null) lastWidth = element.width(); // First assignment
+		var newWidth = element.width();
 
-        if (lastWidth != newWidth) {
+		if (lastWidth != newWidth) {
 
 			//console.log('Size changed', { lastWidth: lastWidth, newWidth: newWidth }, o);
 
-            $(this).trigger('onPositionChanged', { lastWidth: lastWidth, newWidth: newWidth });
-            if (typeof (trigger) == "function") trigger(lastWidth, newWidth);
+			$(this).trigger('onPositionChanged', { lastWidth: lastWidth, newWidth: newWidth });
+			if (typeof (trigger) == "function") trigger(lastWidth, newWidth);
 			lastWidth = element.width();
 
 			delete hiddenElementOffsets[element_index];
@@ -5960,7 +5951,7 @@ jQuery.fn.onPositionChanged = function(trigger, millis) {
 		}
 
 
-    }, millis);
+	}, millis);
 
 
 	return o;

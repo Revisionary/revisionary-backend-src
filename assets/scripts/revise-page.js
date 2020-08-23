@@ -1,15 +1,15 @@
 // When document is ready
-$(function() {
+$(function () {
 
 	// Prevent clicking '#' links
-	$('a[href="#"]').click(function(e) {
+	$('a[href="#"]').click(function (e) {
 		e.preventDefault();
 	});
 
 
 	// Navigation out of the page
 	var linkClickedOut = false;
-	$(document).on('click', 'a[href]', function(e) {
+	$(document).on('click', 'a[href]', function (e) {
 
 		linkClickedOut = true;
 
@@ -44,7 +44,7 @@ $(function() {
 
 
 	// Detect cursor moves from outside of iframe
-	$(window).mousemove(function(e) {
+	$(window).mousemove(function (e) {
 
 		// Iframe offset
 		offset = $('#the-page').offset();
@@ -59,8 +59,8 @@ $(function() {
 
 
 	// Tab opener
-	$('.opener').click(function(e) {
-		toggleTab( $(this) );
+	$('.opener').click(function (e) {
+		toggleTab($(this));
 
 		e.preventDefault();
 		return false;
@@ -71,13 +71,13 @@ $(function() {
 	// PINS LIST:
 
 	// Comment Opener
-	$(document).on('click', '.pins-list .pin-title', function(e) {
+	$(document).on('click', '.pins-list .pin-title', function (e) {
 
 		$(this).toggleClass('close');
 
 		var thePin = $(this).prev().children('pin');
 		var pin_ID = thePin.attr('data-pin-id');
-		var pinComments = $(this).next('.pin-comments[data-pin-id="'+ pin_ID +'"]');
+		var pinComments = $(this).next('.pin-comments[data-pin-id="' + pin_ID + '"]');
 
 
 		if (!$(this).hasClass('close')) {
@@ -96,7 +96,7 @@ $(function() {
 
 
 	// Hovering a pin from the pins list tab
-	$(document).on('mouseover', '.pins-list > .pin', function(e) {
+	$(document).on('mouseover', '.pins-list > .pin', function (e) {
 
 
 		var pin_ID = $(this).find('pin').attr('data-pin-id');
@@ -106,7 +106,7 @@ $(function() {
 
 
 		// Outline
-		$('#pins > pin:not([data-pin-id="'+ pin_ID +'"])').css('opacity', '0.2');
+		$('#pins > pin:not([data-pin-id="' + pin_ID + '"])').css('opacity', '0.2');
 		outline(iframeElement(element_index), pin_private, pin_type);
 
 
@@ -116,7 +116,7 @@ $(function() {
 
 		e.preventDefault();
 
-	}).on('mouseout', '.pins-list > .pin', function(e) {
+	}).on('mouseout', '.pins-list > .pin', function (e) {
 
 
 		iframeElement('html, body').stop();
@@ -132,7 +132,7 @@ $(function() {
 
 
 	// Filtering the pins
-	$('.pins-filter > a').click(function(e) {
+	$('.pins-filter > a').click(function (e) {
 
 
 		console.log('SHOW THE PINS: ', filter);
@@ -152,8 +152,8 @@ $(function() {
 
 
 		if (history.pushState) {
-		    var newurl = queryParameter(currentUrl(), 'filter', (filter == "all" ? '' : filter));
-		    window.history.pushState({path:newurl},'',newurl);
+			var newurl = queryParameter(currentUrl(), 'filter', (filter == "all" ? '' : filter));
+			window.history.pushState({ path: newurl }, '', newurl);
 		}
 
 
@@ -165,7 +165,7 @@ $(function() {
 	// PIN MODES:
 
 	// Pin mode change
-	$(document).on('click', '[data-switch-pin-type]', function(e) {
+	$(document).on('click', '[data-switch-pin-type]', function (e) {
 
 		var selectedPinType = $(this).attr('data-switch-pin-type');
 		var selectedPinPrivate = $(this).attr('data-switch-pin-private');
@@ -176,7 +176,7 @@ $(function() {
 
 
 		// Close modal
-		if ( $(this).parent().hasClass('recommendation') ) closeModal();
+		if ($(this).parent().hasClass('recommendation')) closeModal();
 
 
 		e.preventDefault();
@@ -185,7 +185,7 @@ $(function() {
 
 
 	// Browse Switch
-	$('.pin-mode a.browse-switcher').click(function(e) {
+	$('.pin-mode a.browse-switcher').click(function (e) {
 
 
 		// Close current pin window
@@ -198,7 +198,7 @@ $(function() {
 
 		} else {
 
-			currentPinTypeWas = currentPinTypeWas != "browse" ? currentPinTypeWas : "live";
+			currentPinTypeWas = currentPinTypeWas != "browse" ? currentPinTypeWas : "content";
 			currentPinPrivateWas = currentPinPrivateWas != null ? currentPinPrivateWas : "0";
 
 			switchPinType(currentPinTypeWas, currentPinPrivateWas);
@@ -211,17 +211,17 @@ $(function() {
 	});
 
 
-	$('.pin-type-selector').hover(function() {
+	$('.pin-type-selector').hover(function () {
 		$('ul.pin-types').css('display', '');
 	});
 
 
 
 	// Rotateable devices
-	$('.rotate').click(function(e) {
+	$('.rotate').click(function (e) {
 
 
-		if ( $(this).hasClass('rotated') ) {
+		if ($(this).hasClass('rotated')) {
 
 			page_width = maxWidth = iframeWidth = realPageWidth;
 			page_height = maxHeight = iframeHeight = realPageHeight;
@@ -258,15 +258,15 @@ $(function() {
 
 
 	// Iframe Fit to the screen
-	$(window).resize(function(e) {
+	$(window).resize(function (e) {
 
 
-	    var page = $('#page');
-	    var width = page.width();
-	    var height = page.height() - 2;
+		var page = $('#page');
+		var width = page.width();
+		var height = page.height() - 2;
 
 
-	    // UPDATE THE CURRENT WINDOW SIZE FOR CUSTOM SCREEN ADDING
+		// UPDATE THE CURRENT WINDOW SIZE FOR CUSTOM SCREEN ADDING
 		// Show new values
 		$('.screen-width').text(width);
 		$('.screen-height').text(height);
@@ -276,15 +276,15 @@ $(function() {
 		$('input[name="page_height"]').attr('value', height);
 
 		// Update the URLs
-		$('.add-phase, .new-screen[data-screen-id="11"]').each(function() {
+		$('.add-phase, .new-screen[data-screen-id="11"]').each(function () {
 
 			var currentURL = $(this).attr('href');
 
 			var widthOnURL = getParameterByName('page_width', currentURL);
 			var heightOnURL = getParameterByName('page_height', currentURL);
 
-			var newURL = currentURL.replace('page_width='+widthOnURL, 'page_width='+width);
-			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+height);
+			var newURL = currentURL.replace('page_width=' + widthOnURL, 'page_width=' + width);
+			newURL = newURL.replace('page_height=' + heightOnURL, 'page_height=' + height);
 
 			$(this).attr('href', newURL);
 			//console.log(newURL);
@@ -293,9 +293,9 @@ $(function() {
 
 
 		// IFRAME FIT TO THE SCREEN
-	    width = width - 4; // -4 for the borders
+		width = width - 4; // -4 for the borders
 		height = height - 2; // -2 for the borders
-		
+
 
 		// if (page_type == "image") {
 
@@ -324,16 +324,16 @@ $(function() {
 		// } else {
 
 
-			// Early exit if smaller than the screen
-			if(width >= maxWidth && height >= maxHeight) {
-				$('#the-page').css({'transform': ''});
-				//$('.iframe-container').css({ width: '', height: '' });
-				return;
-			}
+		// Early exit if smaller than the screen
+		if (width >= maxWidth && height >= maxHeight) {
+			$('#the-page').css({ 'transform': '' });
+			//$('.iframe-container').css({ width: '', height: '' });
+			return;
+		}
 
-			iframeScale = Math.min(width/maxWidth, height/maxHeight);
-			iframeWidth = maxWidth * iframeScale;
-			iframeHeight = maxHeight * iframeScale;
+		iframeScale = Math.min(width / maxWidth, height / maxHeight);
+		iframeWidth = maxWidth * iframeScale;
+		iframeHeight = maxHeight * iframeScale;
 
 
 		//}
@@ -341,11 +341,11 @@ $(function() {
 
 		// Update the iframe
 		$('.iframe-container').css({ width: iframeWidth, height: iframeHeight });
-		$('#the-page').css({'transform': 'scale(' + iframeScale + ')'});
+		$('#the-page').css({ 'transform': 'scale(' + iframeScale + ')' });
 
 
 		// Update the scale on info section
-		$('.iframe-scale').text( iframeScale.toFixed(1) );
+		$('.iframe-scale').text(iframeScale.toFixed(1));
 
 
 	}).resize();
@@ -356,7 +356,7 @@ $(function() {
 
 	// Stop scrolling on content editor
 	var scrollOnContent = false;
-	$(document).on('mousewheel', '#pin-window .edit-content, #pin-window .pin-comments, #pin-window .comment-input', function(e) {
+	$(document).on('mousewheel', '#pin-window .edit-content, #pin-window .pin-comments, #pin-window .comment-input', function (e) {
 
 		scrollOnContent = true;
 		//console.log('SCROLL ON CONTENT');
@@ -366,12 +366,12 @@ $(function() {
 
 
 	// Continue scrolling on any pin or the pin window
-	$(document).on('mousewheel', '#pins > pin, #pin-window', function(e) {
+	$(document).on('mousewheel', '#pins > pin, #pin-window', function (e) {
 
 		//if (!scrollOnContent) console.log('SCROLL ON WINDOW');
 
 		var scrollDelta = e.originalEvent.wheelDelta;
-		if (!scrollOnContent) iframe.scrollTop( scrollOffset_top - scrollDelta );
+		if (!scrollOnContent) iframe.scrollTop(scrollOffset_top - scrollDelta);
 
 		scrollOnContent = false;
 
@@ -385,7 +385,7 @@ $(function() {
 		opacity: 0.7,
 		containment: "#page",
 		iframeFix: true,
-		start: function( event, ui ) {
+		start: function (event, ui) {
 
 			// console.log('PIN WINDOW IS MOVING');
 			$("#pin-window").addClass('moved');
@@ -395,12 +395,12 @@ $(function() {
 
 
 	// Close pin window
-	$('#pin-window .close-button').click(function(e) {
+	$('#pin-window .close-button').click(function (e) {
 
 		var commentWritten = pinWindow().find('.comment-input').val();
 
 		// Send the comment if unsend
-		if( commentWritten ) $('#comment-sender').submit();
+		if (commentWritten) $('#comment-sender').submit();
 
 		// Close the window
 		if (pinWindowOpen) closePinWindow(!commentWritten);
@@ -411,7 +411,7 @@ $(function() {
 
 
 	// Remove Pin
-	$('#pin-window .remove-pin').click(function(e) {
+	$('#pin-window .remove-pin').click(function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 
@@ -423,7 +423,7 @@ $(function() {
 			pinWindow(pin_ID).attr('temporary') != ""
 		) removePin(pin_ID);
 
-		else if ( confirm('Are you sure you want to delete this pin and its modifications and comments?') )
+		else if (confirm('Are you sure you want to delete this pin and its modifications and comments?'))
 			removePin(pin_ID);
 
 
@@ -433,7 +433,7 @@ $(function() {
 
 
 	// Device only Pin
-	$(document).on('click', '#pin-window .device-specific:not(.active):not(.loading)', function(e) {
+	$(document).on('click', '#pin-window .device-specific:not(.active):not(.loading)', function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 
@@ -447,7 +447,7 @@ $(function() {
 
 
 	// Disable Device only Pin
-	$(document).on('click', '#pin-window .device-specific.active:not(.loading)', function(e) {
+	$(document).on('click', '#pin-window .device-specific.active:not(.loading)', function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 
@@ -461,7 +461,7 @@ $(function() {
 
 
 	// Complete Pin
-	$('#pin-window .pin-complete > a').click(function(e) {
+	$('#pin-window .pin-complete > a').click(function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 		var isComplete = pinWindow(pin_ID).attr('data-pin-complete') == "1";
@@ -477,22 +477,22 @@ $(function() {
 
 
 	// Pin window section toggle
-	$('#pin-window .section-title').click(function(e) {
+	$('#pin-window .section-title').click(function (e) {
 
-		
-		if ( $(this).hasClass('collapsed') ) { // Open
+
+		if ($(this).hasClass('collapsed')) { // Open
 
 			// Close all the sections first
-			$('#pin-window .section-title').not( $(this) ).addClass('collapsed');
+			$('#pin-window .section-title').not($(this)).addClass('collapsed');
 
 			// Open this one
 			$(this).removeClass('collapsed');
 
 		} else { // Close
-			
+
 			// Only close this one
 			$(this).addClass('collapsed');
-		
+
 		}
 
 
@@ -506,7 +506,7 @@ $(function() {
 
 
 	// Comment Sender
-	$('#comment-sender').submit(function(e) {
+	$('#comment-sender').submit(function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 		var message = $(this).find('.comment-input').val();
@@ -521,7 +521,7 @@ $(function() {
 
 
 	// Send button
-	$('.send-comment').click(function(e) {
+	$('.send-comment').click(function (e) {
 
 		// Submit the form
 		$('#comment-sender').submit();
@@ -533,7 +533,7 @@ $(function() {
 
 
 	// Pressing enter / enter + shift on comment input
-	$('.comment-input').keypress(function(e) {
+	$('.comment-input').keypress(function (e) {
 
 		if (e.keyCode == 13 && !e.shiftKey) {
 
@@ -543,23 +543,23 @@ $(function() {
 			return false;
 		}
 
-	}).on('input', function() {
+	}).on('input', function () {
 
-		pinWindow().attr('data-comment-written', ( $(this).val().length ? "yes" : "no" ));
+		pinWindow().attr('data-comment-written', ($(this).val().length ? "yes" : "no"));
 
 	});
 
 
 	// Comment attachment
-	$(document).on('change', '#comment-attach-form input[name="comment-attachment"]', function() {
+	$(document).on('change', '#comment-attach-form input[name="comment-attachment"]', function () {
 
 
 		var form = $('#comment-attach-form');
 		var maxSize = $(this).attr('data-max-size');
 
 
-	    var reader = new FileReader();
-	    reader.onload = function(event) {
+		var reader = new FileReader();
+		reader.onload = function (event) {
 
 
 			// Temp data URL
@@ -572,41 +572,41 @@ $(function() {
 
 			form.submit();
 
-	    };
+		};
 
 
 		// If a file selected
-        if ( $(this).get(0).files.length ) {
+		if ($(this).get(0).files.length) {
 
 
-            var fileSize = $(this).get(0).files[0].size; // in bytes
-            if (fileSize > maxSize) {
+			var fileSize = $(this).get(0).files[0].size; // in bytes
+			if (fileSize > maxSize) {
 
-                alert('File size is more than ' + formatBytes(maxSize));
-                return false;
+				alert('File size is more than ' + formatBytes(maxSize));
+				return false;
 
-            } else {
+			} else {
 
-                console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
-	        	reader.readAsDataURL( $(this).get(0).files[0] );
+				console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
+				reader.readAsDataURL($(this).get(0).files[0]);
 
-            }
+			}
 
 
-		// If no file selected
-        } else {
+			// If no file selected
+		} else {
 
-		    console.log('NO FILE');
+			console.log('NO FILE');
 			return false;
 
-        }
+		}
 
 
 	});
 
 
 	// Comment attachment submission
-	$(document).on('submit', '#comment-attach-form', function(e) {
+	$(document).on('submit', '#comment-attach-form', function (e) {
 
 
 		// console.log('UPLOAD THAT ATTACHMENT');
@@ -614,7 +614,7 @@ $(function() {
 		// e.preventDefault();
 
 
-		var pin_ID = parseInt( pinWindow().attr('data-pin-id') );
+		var pin_ID = parseInt(pinWindow().attr('data-pin-id'));
 		var form = $(this);
 
 
@@ -627,21 +627,21 @@ $(function() {
 
 
 		$.ajax({
-			url: ajax_url+'?type=comment-attachment&pin_ID=' + pin_ID,
+			url: ajax_url + '?type=comment-attachment&pin_ID=' + pin_ID,
 			type: 'POST',
-			data:  new FormData(this),
+			data: new FormData(this),
 			mimeType: "multipart/form-data",
 			contentType: false,
 			cache: false,
 			processData: false,
 			dataType: 'json',
-			xhr: function() {
+			xhr: function () {
 
 
 				var jqXHR = null;
-				if ( window.ActiveXObject ) {
+				if (window.ActiveXObject) {
 
-					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+					jqXHR = new window.ActiveXObject("Microsoft.XMLHTTP");
 
 				} else {
 
@@ -651,12 +651,12 @@ $(function() {
 
 
 				// Upload progress
-				jqXHR.upload.addEventListener( "progress", function ( evt ) {
+				jqXHR.upload.addEventListener("progress", function (evt) {
 
-					if ( evt.lengthComputable ) {
+					if (evt.lengthComputable) {
 
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Uploaded percent', percentComplete );
+						var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+						console.log('Uploaded percent', percentComplete);
 
 
 						editProcess(uploadAttachmentProcessID, percentComplete);
@@ -667,26 +667,26 @@ $(function() {
 
 					}
 
-				}, false );
+				}, false);
 
 
 				// Download progress
-				jqXHR.addEventListener( "progress", function ( evt ) {
+				jqXHR.addEventListener("progress", function (evt) {
 
-					if ( evt.lengthComputable ) {
+					if (evt.lengthComputable) {
 
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Downloaded percent', percentComplete );
+						var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+						console.log('Downloaded percent', percentComplete);
 
 					}
 
-				}, false );
+				}, false);
 
 
 				return jqXHR;
 			},
-			success: function(data, textStatus, jqXHR) {
-				
+			success: function (data, textStatus, jqXHR) {
+
 				var imageUrl = data.new_url;
 				var status = data.status;
 
@@ -718,17 +718,17 @@ $(function() {
 
 
 			},
-			error: function(jqXHR, textStatus, errorThrown) {
+			error: function (jqXHR, textStatus, errorThrown) {
 
 				console.log('FAILED!!', errorThrown);
 
-				
+
 				// Finish the process !!!
 				endProcess(uploadAttachmentProcessID);
 
 			}
 		});
-		
+
 
 		e.preventDefault();
 		return false;
@@ -737,13 +737,13 @@ $(function() {
 
 
 	// Delete Comment
-	$(document).on('click', '.delete-comment', function(e) {
+	$(document).on('click', '.delete-comment', function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 		var comment_ID = $(this).attr('data-comment-id');
 
 		// Delete it from DB if confirmed
-		if ( confirm('Are you sure you want to delete this comment?') )
+		if (confirm('Are you sure you want to delete this comment?'))
 			deleteComment(pin_ID, comment_ID);
 
 		e.preventDefault();
@@ -751,7 +751,7 @@ $(function() {
 
 
 	// Toggle original content
-	$('.edits-switch').click(function(e) {
+	$('.edits-switch').click(function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 		//var isBg = pinWindow().attr('data-has-bg') != "no";
@@ -769,7 +769,7 @@ $(function() {
 
 
 	// Toggle differences content
-	$('.difference-switch').click(function(e) {
+	$('.difference-switch').click(function (e) {
 
 		pinWindow().toggleClass('show-differences');
 
@@ -792,7 +792,7 @@ $(function() {
 
 			// Free users
 			if (user_level_ID == 2) {
-			
+
 				diffContent = "<div class='xl-center'>Please upgrade to see the content differences.</div>";
 				diffContent += "<div class='xl-center'><a href='/upgrade' class='upgrade-button' data-modal='upgrade'>UPGRADE NOW</a></div>";
 
@@ -800,7 +800,7 @@ $(function() {
 
 
 			// Add the differences content
-			pinWindow().find('.content-editor .edit-content.differences').html( diffContent );
+			pinWindow().find('.content-editor .edit-content.differences').html(diffContent);
 
 		}
 
@@ -810,11 +810,11 @@ $(function() {
 	});
 
 
-	$(document).on('mousedown', '.content-editor .edit-content.changes', function(e) {
+	$(document).on('mousedown', '.content-editor .edit-content.changes', function (e) {
 
 		selectionFromContentEditor = true;
 
-	}).on('mouseup', 'body', function(e) {
+	}).on('mouseup', 'body', function (e) {
 
 		selectionFromContentEditor = false;
 
@@ -822,7 +822,7 @@ $(function() {
 
 
 	// Image Uploader
-	$('.pin-image').change(function() {
+	$('.pin-image').change(function () {
 
 		var formElement = $(this).parent('form');
 		var maxSize = $(this).attr('data-max-size');
@@ -832,8 +832,8 @@ $(function() {
 		var changedElement = iframeElement(element_index);
 
 
-	    var reader = new FileReader();
-	    reader.onload = function(event) {
+		var reader = new FileReader();
+		reader.onload = function (event) {
 
 
 			var imageSrc = event.target.result;
@@ -850,35 +850,35 @@ $(function() {
 			formElement.submit();
 
 
-	    };
+		};
 
 
 		// If a file selected
-        if ( $(this).get(0).files.length ) {
+		if ($(this).get(0).files.length) {
 
 
-            var fileSize = $(this).get(0).files[0].size; // in bytes
-            if (fileSize > maxSize) {
+			var fileSize = $(this).get(0).files[0].size; // in bytes
+			if (fileSize > maxSize) {
 
-                alert('File size is more than ' + formatBytes(maxSize));
-                return false;
+				alert('File size is more than ' + formatBytes(maxSize));
+				return false;
 
-            } else {
+			} else {
 
-                console.log('File size is correct - '+formatBytes(fileSize)+', no more than '+formatBytes(maxSize));
+				console.log('File size is correct - ' + formatBytes(fileSize) + ', no more than ' + formatBytes(maxSize));
 				reader.readAsDataURL($(this).get(0).files[0]);
-				
+
 				pinWindow(pin_ID).find('.uploader').addClass('uploading');
 
-            }
+			}
 
 
-		// If no file selected
-        } else {
+			// If no file selected
+		} else {
 
-		    console.log('NO FILE');
-            return false;
-        }
+			console.log('NO FILE');
+			return false;
+		}
 
 
 		console.log('CHANGED');
@@ -887,7 +887,7 @@ $(function() {
 
 
 	// Image uploader AJAX
-	$('#pin-image-form').submit(function(e) {
+	$('#pin-image-form').submit(function (e) {
 
 
 		var pin_ID = pinWindow().attr('data-pin-id');
@@ -903,21 +903,21 @@ $(function() {
 
 
 		$.ajax({
-			url: ajax_url+'?type=pin-photo-upload&pin_ID=' + pin_ID,
+			url: ajax_url + '?type=pin-photo-upload&pin_ID=' + pin_ID,
 			type: 'POST',
-			data:  new FormData(this),
+			data: new FormData(this),
 			mimeType: "multipart/form-data",
 			contentType: false,
 			cache: false,
 			processData: false,
 			dataType: 'json',
-			xhr: function() {
+			xhr: function () {
 
 
 				var jqXHR = null;
-				if ( window.ActiveXObject ) {
+				if (window.ActiveXObject) {
 
-					jqXHR = new window.ActiveXObject( "Microsoft.XMLHTTP" );
+					jqXHR = new window.ActiveXObject("Microsoft.XMLHTTP");
 
 				} else {
 
@@ -927,39 +927,39 @@ $(function() {
 
 
 				// Upload progress
-				jqXHR.upload.addEventListener( "progress", function ( evt ) {
+				jqXHR.upload.addEventListener("progress", function (evt) {
 
-					if ( evt.lengthComputable ) {
+					if (evt.lengthComputable) {
 
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Uploaded percent', percentComplete );
+						var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+						console.log('Uploaded percent', percentComplete);
 
-						pinWindow(pin_ID).find('.uploader .bar').css('width', percentComplete + '%').text(percentComplete +'%');
+						pinWindow(pin_ID).find('.uploader .bar').css('width', percentComplete + '%').text(percentComplete + '%');
 
 						if (percentComplete == 100) pinWindow(pin_ID).find('.uploader .bar').text('Processing...');
 
 					}
 
-				}, false );
+				}, false);
 
 
 				// Download progress
-				jqXHR.addEventListener( "progress", function ( evt ) {
+				jqXHR.addEventListener("progress", function (evt) {
 
-					if ( evt.lengthComputable ) {
+					if (evt.lengthComputable) {
 
-						var percentComplete = Math.round( (evt.loaded * 100) / evt.total );
-						console.log( 'Downloaded percent', percentComplete );
+						var percentComplete = Math.round((evt.loaded * 100) / evt.total);
+						console.log('Downloaded percent', percentComplete);
 
 					}
 
-				}, false );
+				}, false);
 
 
 				return jqXHR;
 			},
-			success: function(data, textStatus, jqXHR) {
-				
+			success: function (data, textStatus, jqXHR) {
+
 				var imageUrl = data.new_url;
 				var status = data.status;
 
@@ -987,7 +987,7 @@ $(function() {
 
 
 				// Update the element, pin and pin window status
-				if ( changedElement.prop('tagName').toUpperCase() == "IMAGE" )
+				if (changedElement.prop('tagName').toUpperCase() == "IMAGE")
 					changedElement.attr('xlink:href', imageUrl);
 				else
 					changedElement.attr('src', imageUrl).removeAttr('srcset');
@@ -1009,7 +1009,7 @@ $(function() {
 
 
 			},
-			error: function(jqXHR, textStatus, errorThrown) {
+			error: function (jqXHR, textStatus, errorThrown) {
 
 				console.log('FAILED!!', errorThrown);
 
@@ -1018,7 +1018,7 @@ $(function() {
 
 			}
 		});
-		
+
 
 		e.preventDefault();
 
@@ -1026,7 +1026,7 @@ $(function() {
 
 
 	// Select File
-	$('.select-file').click(function(e) {
+	$('.select-file').click(function (e) {
 
 		$('.pin-image').click();
 
@@ -1036,16 +1036,16 @@ $(function() {
 
 
 	// Open Image !!! Add Lightbox
-	$('.image-url').click(function(e) {
+	$('.image-url').click(function (e) {
 
-		window.open( $(this).attr('href') , '_blank' );
+		window.open($(this).attr('href'), '_blank');
 		e.preventDefault();
 
 	});
 
 
 	// Remove Image
-	$('.remove-image').click(function(e) {
+	$('.remove-image').click(function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 		//var isBg = pinWindow().attr('data-has-bg') != "no";
@@ -1064,12 +1064,12 @@ $(function() {
 
 	// CSS EDITS
 	var doChangeCSS = {};
-	$('[data-edit-css]').on('click input', function(e) {
+	$('[data-edit-css]').on('click input', function (e) {
 
 		//console.log('TAG NAME: ', $(this).prop('tagName').toUpperCase().toUpperCase(), e.type );
 
 		// Prevent saving when clicking any input
-		if ( $(this).prop('tagName').toUpperCase().toUpperCase() == "INPUT" && e.type == "click" ) return true;
+		if ($(this).prop('tagName').toUpperCase().toUpperCase() == "INPUT" && e.type == "click") return true;
 
 
 		// Mark as changed
@@ -1100,8 +1100,8 @@ $(function() {
 
 
 		// Disable the active status
-		options.find('a[data-edit-css="'+ property +'"]').removeClass('active');
-		options.find('a[data-edit-css="'+ property +'"][data-value="'+ value +'"]').addClass('active');
+		options.find('a[data-edit-css="' + property + '"]').removeClass('active');
+		options.find('a[data-edit-css="' + property + '"][data-value="' + value + '"]').addClass('active');
 
 
 		// Add the value
@@ -1111,20 +1111,20 @@ $(function() {
 		// Prepare the CSS data
 		var css = {};
 		var properties = options.find('[data-edit-css][data-revisionary-style-changed="yes"]');
-		$(properties).each(function(i, propertyElement) { //console.log('PROPERTIES: ', propertyElement);
+		$(properties).each(function (i, propertyElement) { //console.log('PROPERTIES: ', propertyElement);
 
 			var propertyName = $(propertyElement).attr('data-edit-css');
 			var propertyDefaultValue = $(propertyElement).attr('data-default');
 			var propertyValue = $(propertyElement).attr('data-value') || $(propertyElement).val() || defaultValue;
 
-			css[propertyName] = options.attr('data-'+propertyName);
+			css[propertyName] = options.attr('data-' + propertyName);
 
 		});
 
 
 		// Prepare the CSS declarations
 		var cssCode = "";
-		$.each( css, function( key, value ) {
+		$.each(css, function (key, value) {
 
 
 			// Skip if display is block
@@ -1132,7 +1132,7 @@ $(function() {
 
 
 			// Background Image URL
-			if (key == "background-image" && value.includes("//")) value = "url("+ value +")";
+			if (key == "background-image" && value.includes("//")) value = "url(" + value + ")";
 
 
 			cssCode = cssCode + key + ":" + value + " !important; ";
@@ -1149,7 +1149,7 @@ $(function() {
 		if (doChangeCSS[element_index]) clearTimeout(doChangeCSS[element_index]);
 
 		// Send changes to DB after 1 second
-		doChangeCSS[element_index] = setTimeout(function(){
+		doChangeCSS[element_index] = setTimeout(function () {
 
 			saveCSS(pin_ID, css);
 
@@ -1163,13 +1163,13 @@ $(function() {
 
 
 	// Reset CSS
-	$('.reset-css').click(function(e) {
+	$('.reset-css').click(function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 		var element_index = parseInt(pinWindow(pin_ID).attr('data-revisionary-index'));
 
 
-		if ( confirm('Are you sure you want to reset all your view options?') ) {
+		if (confirm('Are you sure you want to reset all your view options?')) {
 
 
 			// Reset CSS on DB
@@ -1177,7 +1177,7 @@ $(function() {
 
 
 			// Remove the styles
-			iframeElement('style[data-pin-id="'+ pin_ID +'"]').remove();
+			iframeElement('style[data-pin-id="' + pin_ID + '"]').remove();
 
 
 		}
@@ -1189,13 +1189,13 @@ $(function() {
 
 
 	// Reset Content
-	$('.reset-content').click(function(e) {
+	$('.reset-content').click(function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 		var element_index = parseInt(pinWindow(pin_ID).attr('data-revisionary-index'));
 
 
-		if ( confirm('Are you sure you want to revert your content changes?') ) {
+		if (confirm('Are you sure you want to revert your content changes?')) {
 
 
 			// Reset content on DB
@@ -1211,7 +1211,7 @@ $(function() {
 
 
 	// Show original CSS toggle
-	$('.show-original-css').click(function(e) {
+	$('.show-original-css').click(function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 
@@ -1225,7 +1225,7 @@ $(function() {
 
 
 	// Convert Pin
-	$('.type-convertor > li > a').click(function(e) {
+	$('.type-convertor > li > a').click(function (e) {
 
 		var pin_ID = pinWindow().attr('data-pin-id');
 		var element_index = parseInt(pinWindow(pin_ID).attr('data-revisionary-index'));
@@ -1234,17 +1234,17 @@ $(function() {
 
 		// Confirm if converting to style pin
 		if (
-			pinWindow(pin_ID).attr('data-pin-type') == "live" &&
+			pinWindow(pin_ID).attr('data-pin-type') == "content" &&
 			targetPin.attr('data-pin-type') == "style" &&
-			!confirm('Are you sure you want to convert this live pin to a style pin? All your changes will be reverted.')
+			!confirm('Are you sure you want to convert this content pin to a style pin? All your changes will be reverted.')
 		) return false;
 
 
 		// Confirm if converting to comment pin
 		if (
-			pinWindow(pin_ID).attr('data-pin-type') == "live" &&
+			pinWindow(pin_ID).attr('data-pin-type') == "content" &&
 			targetPin.attr('data-pin-type') == "comment" &&
-			!confirm('Are you sure you want to convert this live pin to a comment pin? All your changes will be reverted.')
+			!confirm('Are you sure you want to convert this content pin to a comment pin? All your changes will be reverted.')
 		) return false;
 
 		if (
@@ -1264,7 +1264,7 @@ $(function() {
 
 
 	// SURVEY POPUPS
-	$('.ask-showing-correctly [data-popup="close"]').click(function(e) {
+	$('.ask-showing-correctly [data-popup="close"]').click(function (e) {
 
 		$('.ask-showing-correctly').removeClass('open');
 
@@ -1275,12 +1275,12 @@ $(function() {
 
 	// PIN HOVERING
 	var pinClicked = false;
-	$(document).on('mouseover', '#pins > pin, #pin-window', function(e) {
+	$(document).on('mouseover', '#pins > pin, #pin-window', function (e) {
 
 		//console.log( 'Hovering a Pin: ' + $(this).attr("data-pin-type"), $(this).attr("data-pin-private"), $(this).attr("data-pin-complete"), $(this).attr("data-revisionary-index") );
 
 
-		hoveringPin = parseInt( $(this).attr("data-pin-id") );
+		hoveringPin = parseInt($(this).attr("data-pin-id"));
 
 
 		// Reset the pin opacity
@@ -1299,12 +1299,12 @@ $(function() {
 		var hoveringPinType = $(this).attr("data-pin-type");
 		var hoveringPinPrivate = $(this).attr("data-pin-private");
 		var hoveringPinIndex = $(this).attr("data-revisionary-index");
-		if (hoveringPinType == "live" || hoveringPinType == "style" ) outline(iframeElement(hoveringPinIndex), hoveringPinPrivate, hoveringPinType);
+		if (hoveringPinType == "content" || hoveringPinType == "style") outline(iframeElement(hoveringPinIndex), hoveringPinPrivate, hoveringPinType);
 
 
 		e.preventDefault();
 
-	}).on('mousedown', '#pins > pin', function(e) {
+	}).on('mousedown', '#pins > pin', function (e) {
 
 		//console.log('CLICKED TO A PIN!');
 
@@ -1321,11 +1321,11 @@ $(function() {
 
 		e.preventDefault();
 
-	}).on('mousemove', function(e) {
+	}).on('mousemove', function (e) {
 
 		// Nothing to do yet
 
-	}).on('mouseup', function(e) {
+	}).on('mouseup', function (e) {
 
 
 		if (pinClicked) {
@@ -1342,8 +1342,8 @@ $(function() {
 
 
 			// Toggle the pin window even if just a little dragging
-		    if (!pinDragging)
-				togglePinWindow( parseInt(focusedPin.attr('data-pin-id')) );
+			if (!pinDragging)
+				togglePinWindow(parseInt(focusedPin.attr('data-pin-id')));
 
 
 			focusedPin = null;
@@ -1351,14 +1351,14 @@ $(function() {
 			e.preventDefault();
 		}
 
-	}).on('mousewheel', '#pins > pin', function(e) {
-		
-		
+	}).on('mousewheel', '#pins > pin', function (e) {
+
+
 		//console.log('SCROLLING ON PIN!');
 		scrollOnPin = true;
 
 
-	}).on('mouseout', '#pins > pin, #pin-window', function(e) {
+	}).on('mouseout', '#pins > pin, #pin-window', function (e) {
 
 		//console.log('MOUSE OUT FROM PIN!', pinDragging);
 		hoveringPin = false;
@@ -1383,11 +1383,11 @@ $(function() {
 
 
 	// Before closing the window
-	$(window).on('beforeunload', function(e) {
+	$(window).on('beforeunload', function (e) {
 
 
 		// Remove current page if no pins added
-		if ( !linkClickedOut && currentPinType == "browse" && queryParameter(currentUrl(), 'new') == "page" && Pins.length == 0 ) {
+		if (!linkClickedOut && currentPinType == "browse" && queryParameter(currentUrl(), 'new') == "page" && Pins.length == 0) {
 
 
 			// Remove the page and then go to the link
@@ -1405,12 +1405,12 @@ $(function() {
 
 
 	// Pin links
-	$(document).on('click', '[data-go-pin]', function(e) {
+	$(document).on('click', '[data-go-pin]', function (e) {
 
-		var pin_ID = parseInt( $(this).attr('data-go-pin') );
+		var pin_ID = parseInt($(this).attr('data-go-pin'));
 
 		// Pin might be in another page
-		if ( !getPin(pin_ID) ) {
+		if (!getPin(pin_ID)) {
 
 			var url = $(this).attr('href');
 			window.location.href = url;
@@ -1426,7 +1426,7 @@ $(function() {
 
 
 	// Keyboard bindings
-    $(document).keydown(function(e) {
+	$(document).keydown(function (e) {
 
 
 		// Shift key toggle browse mode
@@ -1446,19 +1446,19 @@ $(function() {
 
 
 		// Escape
-	    if(e.keyCode == 27 && pinWindowOpen) { 
+		if (e.keyCode == 27 && pinWindowOpen) {
 
 			console.log('CLOSE PIN WINDOW via ESC');
 			closePinWindow();
 
-		    e.preventDefault();
-		    return false;
-	    }
+			e.preventDefault();
+			return false;
+		}
 
 
-    });
+	});
 
-    $(document).keyup(function(e) {
+	$(document).keyup(function (e) {
 
 
 		if (shifted && shiftToggle && !pinWindowOpen && currentPinType == "browse") {
@@ -1475,44 +1475,44 @@ $(function() {
 
 		shifted = false;
 
-    });
-
-
-/*
-	// Detect Window switches for the correct focusing
-	$(window).on('blur', function(e) {
-
-
-		console.log('BLURRED');
-
-
-	}).on('focus', function(e) {
-
-
-		console.log('FOCUSSED');
-
-
 	});
-*/
 
 
-/*
-	// HASH CHANGE
-	$(window).bind('hashchange', function(e) {
+	/*
+		// Detect Window switches for the correct focusing
+		$(window).on('blur', function(e) {
+	
+	
+			console.log('BLURRED');
+	
+	
+		}).on('focus', function(e) {
+	
+	
+			console.log('FOCUSSED');
+	
+	
+		});
+	*/
 
-		var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
 
-		if ( !pinWindowOpen || pinWindow().attr('data-pin-id') != goToPin_ID ) {
-
+	/*
+		// HASH CHANGE
+		$(window).bind('hashchange', function(e) {
+	
 			var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
-			console.log('Going to the Pin #', goToPin_ID);
-
-			scrollToPin(goToPin_ID, true);
-
-		}
-
-	});
-*/
+	
+			if ( !pinWindowOpen || pinWindow().attr('data-pin-id') != goToPin_ID ) {
+	
+				var goToPin_ID = parseInt( window.location.hash.replace('#', '') );
+				console.log('Going to the Pin #', goToPin_ID);
+	
+				scrollToPin(goToPin_ID, true);
+	
+			}
+	
+		});
+	*/
 
 
 });
@@ -1525,29 +1525,29 @@ $(window).on("load", function (e) {
 	// COLOR PICKER PLUGIN
 	$("input[type='color']").spectrum({
 		preferredFormat: "hex",
-	    showInitial: true,
-	    showInput: true,
-	    showAlpha: true,
-	    allowEmpty: true,
+		showInitial: true,
+		showInput: true,
+		showAlpha: true,
+		allowEmpty: true,
 
-	    showPalette: true,
-	    showPaletteOnly: true,
-	    togglePaletteOnly: true,
-	    togglePaletteMoreText: 'more',
-	    togglePaletteLessText: 'less',
+		showPalette: true,
+		showPaletteOnly: true,
+		togglePaletteOnly: true,
+		togglePaletteMoreText: 'more',
+		togglePaletteLessText: 'less',
 
 		chooseText: "Close",
-	    move: function(color) {
+		move: function (color) {
 
-		    $(this).val(color.toRgbString()).attr('data-value', color.toRgbString()).trigger('input');
+			$(this).val(color.toRgbString()).attr('data-value', color.toRgbString()).trigger('input');
 
-	    },
-	    change: function(color) {
+		},
+		change: function (color) {
 
-		    $(this).trigger('input');
+			$(this).trigger('input');
 
 		}
-	}).on("dragstart.spectrum", function(e, color) {
+	}).on("dragstart.spectrum", function (e, color) {
 
 		console.log('DRAG STARTED', color.toHexString());
 		$(this).val(color.toHexString()).spectrum("set", color.toHexString());

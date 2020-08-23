@@ -98,7 +98,7 @@
 		<div id="pins" data-filter="<?=$pin_filter?>"></div>
 
 		<!-- THE PIN CURSOR -->
-		<pin class="mouse-cursor big" data-pin-type="live">1</pin>
+		<pin class="mouse-cursor big" data-pin-type="content">1</pin>
 
 	</div>
 

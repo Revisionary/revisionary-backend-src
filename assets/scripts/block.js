@@ -4,19 +4,19 @@ var screenWidth = $(window).width();
 var screenHeight = $(window).height();
 
 
-$(function() {
+$(function () {
 
 	// Add the new project/page buttons
 	addNewPageButtons();
 
 
 	// Block Sizes
-	$('.size-selector a').click(function(e) {
+	$('.size-selector a').click(function (e) {
 
 		var selected = $(this).attr('data-column');
 
 		$('.blocks').removeClass(function (index, className) {
-		    return (className.match (/(^|\s)xl-\S+/g) || []).join(' ');
+			return (className.match(/(^|\s)xl-\S+/g) || []).join(' ');
 		}).addClass('xl-' + selected);
 
 
@@ -30,7 +30,7 @@ $(function() {
 
 	// Apply Block sizes
 	var columnSize = get_client_cache(user_ID + '_columnSize');
-	if ( columnSize ) $('.size-selector a[data-column="'+ columnSize +'"]').click();
+	if (columnSize) $('.size-selector a[data-column="' + columnSize + '"]').click();
 
 
 	// Category Sortable
@@ -56,8 +56,8 @@ $(function() {
 
 
 
-		    // Update the order
-		    doAction('reorder', 'user', 0, updateOrderNumbers());
+			// Update the order
+			doAction('reorder', 'user', 0, updateOrderNumbers());
 
 
 		}
@@ -73,8 +73,8 @@ $(function() {
 		vertical: false,
 		distance: 20,
 		nested: false,
-	    placeholder: "<li class='col'><div class='sortable-placeholder'></div></li>",
-	    onDragStart: function ($item, container, _super, event) {
+		placeholder: "<li class='col'><div class='sortable-placeholder'></div></li>",
+		onDragStart: function ($item, container, _super, event) {
 
 
 			$item.css({
@@ -105,15 +105,15 @@ $(function() {
 
 
 			// Re-add them
-	    	addNewPageButtons();
+			addNewPageButtons();
 
 			// Show all the screen navigations
 			$('.screens .dropdown > ul').show();
 
 
 
-		    // Update the order
-		    doAction('reorder', 'user', 0, updateOrderNumbers());
+			// Update the order
+			doAction('reorder', 'user', 0, updateOrderNumbers());
 
 
 		}
@@ -123,12 +123,12 @@ $(function() {
 
 
 	// Rename Inputs
-	$('.name-field input.edit-name').keydown(function (e){
+	$('.name-field input.edit-name').keydown(function (e) {
 
-	    if(e.keyCode == 13)
-	        $(this).blur();
+		if (e.keyCode == 13)
+			$(this).blur();
 
-	}).focusout(function() {
+	}).focusout(function () {
 
 		$(this).next().click();
 
@@ -136,7 +136,7 @@ $(function() {
 
 
 	// Update the current screen size !!! Common?
-	$(window).resize(function() {
+	$(window).resize(function () {
 
 		var width = $(this).width();
 		var height = $(this).height();
@@ -160,15 +160,15 @@ $(function() {
 
 
 		// Update the URLs
-		$('.add-phase, .new-screen[data-screen-id="11"]').each(function() {
+		$('.add-phase, .new-screen[data-screen-id="11"]').each(function () {
 
 			var currentURL = $(this).attr('href');
 
 			var widthOnURL = getParameterByName('page_width', currentURL);
 			var heightOnURL = getParameterByName('page_height', currentURL);
 
-			var newURL = currentURL.replace('page_width='+widthOnURL, 'page_width='+screenWidth);
-			newURL = newURL.replace('page_height='+heightOnURL, 'page_height='+screenHeight);
+			var newURL = currentURL.replace('page_width=' + widthOnURL, 'page_width=' + screenWidth);
+			newURL = newURL.replace('page_height=' + heightOnURL, 'page_height=' + screenHeight);
 
 			$(this).attr('href', newURL);
 			//console.log(newURL);
@@ -179,15 +179,15 @@ $(function() {
 	}).resize();
 
 
-	$('.filter-blocks i').click(function() {
+	$('.filter-blocks i').click(function () {
 
 		$('.filter-blocks input').toggleClass('active');
 
-		if ( $('.filter-blocks input').hasClass('active') ) {
+		if ($('.filter-blocks input').hasClass('active')) {
 
 
 			// Focus to the input
-			setTimeout(function() {
+			setTimeout(function () {
 
 				$('.filter-blocks input').focus();
 
@@ -204,45 +204,45 @@ $(function() {
 	});
 
 
-	$('.filter-blocks input').keyup(function(){
+	$('.filter-blocks input').keyup(function () {
 
-    	var selectSize = $(this).val().toLowerCase();
+		var selectSize = $(this).val().toLowerCase();
 
-        if (selectSize != "") filter(selectSize);
-        else $('.category, .block').show();
+		if (selectSize != "") filter(selectSize);
+		else $('.category, .block').show();
 
-    });
-    function filter(e) {
-        var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
+	});
+	function filter(e) {
+		var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
 
-        $('.category').hide();
+		$('.category').hide();
 
-        $('.block').hide().filter(function() {
-            return regex.test( $(this).find('.box-name .name').text().toLowerCase() );
-        }).each(function() {
+		$('.block').hide().filter(function () {
+			return regex.test($(this).find('.box-name .name').text().toLowerCase());
+		}).each(function () {
 
-	        $(this).show();
-	        $(this).parents('.category').show();
+			$(this).show();
+			$(this).parents('.category').show();
 
-        });
+		});
 	}
-	
 
-	$(document).on('submit', '.add-new-block .new-project-form', function(e) {
 
-		updateAddNewInfo( $(this) );
+	$(document).on('submit', '.add-new-block .new-project-form', function (e) {
+
+		updateAddNewInfo($(this));
 		$('#add-new .new-project-form').trigger('submit');
 
 		e.preventDefault();
 
-	}).on('click', '.add-new-block .new-project-form *', function(e) {
+	}).on('click', '.add-new-block .new-project-form *', function (e) {
 
 		//console.log('CLICKED', formCatID);
 
 		var formCatID = $(this).parents('form').attr('data-cat-id');
 		$('#add-new form').attr('data-cat-id', formCatID);
 
-		updateAddNewInfo( $(this).parents('form') );
+		updateAddNewInfo($(this).parents('form'));
 
 	});
 
@@ -256,12 +256,12 @@ function updateOrderNumbers() {
 	var newOrder = [];
 
 
-	$('.categories > .category').each(function(index) {
+	$('.categories > .category').each(function (index) {
 
 		var catID = $(this).attr('data-id');
 
 		// Update the block category IDs
-		$(this).find(".blocks > .block" ).attr('data-cat-id', catID);
+		$(this).find(".blocks > .block").attr('data-cat-id', catID);
 
 
 		// Update the category order
@@ -269,21 +269,21 @@ function updateOrderNumbers() {
 
 
 		newOrder.push({
-            'type' : $(this).attr('data-type'),
-            'ID' :  $(this).attr('data-id'),
-            'catID' : catID,
-            'order' : index
-        });
+			'type': $(this).attr('data-type'),
+			'ID': $(this).attr('data-id'),
+			'catID': catID,
+			'order': index
+		});
 
 	});
 
 
 
-	$('.blocks > .block:not(.add-new-block)').each(function(index) {
+	$('.blocks > .block:not(.add-new-block)').each(function (index) {
 
 
 		// Skip the uncategorized
-		if ( $(this).attr('data-id') == 0 ) return true;
+		if ($(this).attr('data-id') == 0) return true;
 
 
 		// Update the block order
@@ -291,11 +291,11 @@ function updateOrderNumbers() {
 
 
 		newOrder.push({
-            'type' : $(this).attr('data-type'),
-            'ID' :  $(this).attr('data-id'),
-            'catID' :  $(this).attr('data-cat-id'),
-            'order' : index
-        });
+			'type': $(this).attr('data-type'),
+			'ID': $(this).attr('data-id'),
+			'catID': $(this).attr('data-cat-id'),
+			'order': index
+		});
 
 	});
 
@@ -318,12 +318,12 @@ function addNewPageButtons() {
 
 
 	// Add the box to each category
-	$('.category').each(function() {
+	$('.category').each(function () {
 
-		var category_ID = parseInt( $(this).attr('data-id') );
+		var category_ID = parseInt($(this).attr('data-id'));
 		var order = $(this).find('li.item').length;
 
-		$(this).find('ol.blocks').append( newBlockTemplate(cat_project_ID, category_ID, order) );
+		$(this).find('ol.blocks').append(newBlockTemplate(cat_project_ID, category_ID, order));
 
 	});
 
@@ -345,11 +345,11 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 	var limitExceed = false;
 	var limitExceedBy = dataType;
 
-	if ( dataType == "project" && $('.limit-wrapper .projects-limit.exceed').length ) {
+	if (dataType == "project" && $('.limit-wrapper .projects-limit.exceed').length) {
 		limitExceed = true;
 	}
 
-	else if ( $('.limit-wrapper .pages-limit.exceed').length ) {
+	else if ($('.limit-wrapper .pages-limit.exceed').length) {
 		limitExceed = true;
 		limitExceedBy = "page";
 	}
@@ -358,32 +358,32 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 
 
 	return '\
-	<li class="col xl-3-12 block add-new-block '+ (limitExceed ? 'exceed-limit' : '') +'">\
+	<li class="col xl-3-12 block add-new-block '+ (limitExceed ? 'exceed-limit' : '') + '">\
 		<div class="limit-message">\
-			<span>You have reached <br> the '+ currentLimit +' '+ limitExceedBy +'s limit.</span>\
-			<a href="/upgrade" class="upgrade-button" data-modal="upgrade">Increase the '+ limitExceedBy +'s Limit Now</a>\
+			<span>You have reached <br> the '+ currentLimit + ' ' + limitExceedBy + 's limit.</span>\
+			<a href="/upgrade" class="upgrade-button" data-modal="upgrade">Increase the '+ limitExceedBy + 's Limit Now</a>\
 		</div>\
 		<div class="box xl-center">\
 			<div class="wrap xl-flexbox xl-middle xl-left new">\
 				<div class="col xl-8-12 xl-outside-24 xl-center new-form">\
 					\
 					\
-					<form action="/projects" method="post" class="new-project-form" data-type="'+ dataType +'" data-cat-id="'+category_ID+'" data-page-type="url">\
+					<form action="/projects" method="post" class="new-project-form" data-type="'+ dataType + '" data-cat-id="' + category_ID + '" data-page-type="url">\
 						<input type="hidden" name="add_new" value="true"/>\
-						<input type="hidden" name="project_ID" value="'+cat_project_ID+'"/>\
-						<input type="hidden" name="category" value="'+category_ID+'"/>\
-						<input type="hidden" name="order" value="'+order+'"/>\
+						<input type="hidden" name="project_ID" value="'+ cat_project_ID + '"/>\
+						<input type="hidden" name="category" value="'+ category_ID + '"/>\
+						<input type="hidden" name="order" value="'+ order + '"/>\
 						<input type="hidden" name="page_width" value="1440"/>\
 						<input type="hidden" name="page_height" value="900"/>\
 						<input type="hidden" name="screens[]" value="11"/>\
 						\
-						<label for="url-'+category_ID+'">\
-							<b>Add New '+ dataType +'</b><br>\
+						<label for="url-'+ category_ID + '">\
+							<b>Add New '+ dataType + '</b><br>\
 						</label>\
 						\
 						<div class="wrap xl-table xl-middle xl-center xl-gutter-8 top-options">\
 							<div class="col top-option page-url">\
-								<input id="url-'+category_ID+'" type="url" name="page-url" class="full" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocus/>\
+								<input id="url-'+ category_ID + '" type="url" name="page-url" class="full" placeholder="ENTER A WEBSITE URL" tabindex="1" required autofocus/>\
 							</div>\
 							<div class="col top-option selected-image">\
 								<b>Selected Image:</b> \
@@ -408,7 +408,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 								\
 								<div class="wrap xl-flexbox xl-top xl-between">\
 									<div class="col">\
-										<label class="bottom-tooltip" data-tooltip="This allows you to download the live URL and change the content."><input type="radio" name="page-type" value="url" checked>Live Mode <small>(Recommended)</small></label>\
+										<label class="bottom-tooltip" data-tooltip="This allows you to download the live URL and change the content."><input type="radio" name="page-type" value="url" checked>Content Mode <small>(Recommended)</small></label>\
 										<label class="xl-hidden"><input type="radio" name="page-type" value="image">Image Mode</label>\
 									</div>\
 									<div class="col">\
@@ -423,7 +423,7 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 								\
 							</div>\
 							<div class="col xl-center advanced-options">\
-								<a href="#" class="plus-icon" data-modal="add-new" data-type="'+ dataType +'" data-id="'+cat_project_ID+'"><small style="opacity: 0.3; font-size: 10px; letter-spacing: 0.7px;"><i class="fa fa-ellipsis-v"></i> Advanced</small></a>\
+								<a href="#" class="plus-icon" data-modal="add-new" data-type="'+ dataType + '" data-id="' + cat_project_ID + '"><small style="opacity: 0.3; font-size: 10px; letter-spacing: 0.7px;"><i class="fa fa-ellipsis-v"></i> Advanced</small></a>\
 							</div>\
 						</div>\
 						\

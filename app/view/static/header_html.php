@@ -60,7 +60,7 @@
 			<?=isset($maxPhases) ? "limitations.max.page = '".$maxPhases."';" : ""?>
 			<?=isset($maxPhases) ? "limitations.max.phase = '".$maxPhases."';" : ""?>
 			<?=isset($maxScreens) ? "limitations.max.screen = '".$maxScreens."';" : ""?>
-			<?=isset($maxPins) ? "limitations.max.pin = '".$maxPins."';" : ""?>
+			<?=isset($maxPins) ? "limitations.max.contentpin = '".$maxPins."';" : ""?>
 			<?=isset($maxCommentPins) ? "limitations.max.commentpin = '".$maxCommentPins."';" : ""?>
 			<?=isset($maxLoad) ? "limitations.max.load = '".$maxLoad."';" : ""?>
 
@@ -68,7 +68,7 @@
 			<?=isset($maxPhases) ? "limitations.current.page = '".$phasesLeft."';" : ""?>
 			<?=isset($maxPhases) ? "limitations.current.phase = '".$phasesLeft."';" : ""?>
 			<?=isset($maxScreens) ? "limitations.current.screen = '".$screensLeft."';" : ""?>
-			<?=isset($maxPins) ? "limitations.current.pin = '".$pinsLeft."';" : ""?>
+			<?=isset($maxPins) ? "limitations.current.contentpin = '".$pinsLeft."';" : ""?>
 			<?=isset($maxCommentPins) ? "limitations.current.commentpin = '".$commentPinsLeft."';" : ""?>
 			<?=isset($maxLoad) ? "limitations.current.load = '".$loadLeft."';" : ""?>
 

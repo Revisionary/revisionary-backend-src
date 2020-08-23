@@ -123,7 +123,7 @@ class Pin {
 
 
 		// Security check !!!
-		if ($pin_type != "live" && $pin_type != "style" && $pin_type != "comment") return false;
+		if ($pin_type != "content" && $pin_type != "style" && $pin_type != "comment") return false;
 
 
 
@@ -968,7 +968,7 @@ class Pin {
 
 		// Draw the pin
 		$pinShadow = " 0px 0px 18px 1px rgba(0, 0, 0, 0.5)";
-		if ($pin_type == "live") $pinShadow = "0px 0px 18px 1px #149440";
+		if ($pin_type == "content") $pinShadow = "0px 0px 18px 1px #149440";
 		if ($pin_type == "style") $pinShadow = "0px 0px 18px 1px #1DBCC9";
 		$pinShape = "
 

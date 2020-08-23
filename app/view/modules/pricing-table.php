@@ -93,16 +93,16 @@ if (
 		<?php } ?>
 	</tr>
 	<tr>
-		<td># of Live Content & Style Pins <a href="<?=site_url('#live-change')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
+		<td># of Content Content & Style Pins <a href="<?=site_url('#content-change')?>" target="_blank" data-tooltip="Click for more info"><i class="fas fa-question-circle"></i></a></td>
 		<?php foreach ($user_levels as $user_level) { ?>
 		<td class="align-center <?=$pinsPercentage >= 100 && $current_user_level_name == $user_level['user_level_name'] ? "exceed" : ""?>">
 			<?php if (
 				$current_user_level_name == $user_level['user_level_name'] || 
 				$trial_user_level_name == $user_level['user_level_name'] 
 			) { ?>
-				<span class="current tooltip" data-tooltip="Current Live Pins Count"><?=$pinsCount?> /</span>
+				<span class="current tooltip" data-tooltip="Current Content Pins Count"><?=$pinsCount?> /</span>
 			<?php } ?>
-			<?=$user_level['user_level_max_live_pin'] == 99999 ? "Unlimited" : $user_level['user_level_max_live_pin']?>
+			<?=$user_level['user_level_max_content_pin'] == 99999 ? "Unlimited" : $user_level['user_level_max_content_pin']?>
 		</td>
 		<?php } ?>
 	</tr>
