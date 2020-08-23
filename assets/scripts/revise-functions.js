@@ -534,36 +534,15 @@ function runTheInspector() {
 						}
 	
 	
+					} // Live Pin	
 	
 	
-						// Clean Other Outlines
-						removeOutline();
-		
-						// Reset the pin opacity
-						$('#pins > pin').css('opacity', '');
 	
+					// Clean Other Outlines
+					removeOutline();
 	
-					} // Live Pin
-	
-					else if (currentPinType == "style") { // Style Pin
-	
-	
-						// Clean Other Outlines
-						removeOutline();
-		
-						// Reset the pin opacity
-						$('#pins > pin').css('opacity', '');
-					
-	
-					} // Style Pin
-						
-					else if (currentPinType == "comment") { // Comment Pin
-	
-	
-						// Nothing to do...
-	
-	
-					} // Comment Pin
+					// Reset the pin opacity
+					$('#pins > pin').css('opacity', '');
 	
 	
 	
