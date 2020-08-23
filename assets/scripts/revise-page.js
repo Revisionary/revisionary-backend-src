@@ -43,7 +43,7 @@ $(function() {
 	});
 
 
-	// Detect cursor moves
+	// Detect cursor moves from outside of iframe
 	$(window).mousemove(function(e) {
 
 		// Iframe offset
