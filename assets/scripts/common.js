@@ -887,7 +887,8 @@ $(function () {
 
 
 			// Reset the input and button
-			input.attr('data-add-type', dataType);
+			var accessType = $('#share .new-access-type-selector > li:first-child > a').attr('data-type');
+			input.attr('data-add-type', accessType);
 			input.removeClass('error');
 			input.val('');
 			$('#share button.add-member').prop('disabled', true);
