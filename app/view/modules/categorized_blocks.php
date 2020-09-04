@@ -770,12 +770,12 @@
 										<span class="share-icons"><?=$isShared ? '<i class="fa fa-share-square-o" data-tooltip="You have shared this '.$dataType.' to someone."></i>' : ""?><?=$block['user_ID'] != currentUserID() ? '<i class="fa fa-share-alt" data-tooltip="Someone has shared this '.$dataType.' to you."></i> ' : ''?></span> <a href="<?=$block_url?>" class="invert-hover name" data-type="<?=$dataType?>" data-id="<?=$block[$dataType.'_ID']?>"><?=$block[$dataType.'_name']?></a>
 
 										<?php
-										if (
-											$block['user_ID'] == currentUserID()
-											|| $block['share_to'] == currentUserID()
-											|| getUserInfo()['userLevelID'] == 1
-											|| (isset($projectSharedMe) && $projectSharedMe)
-										) {
+										// if (
+										// 	$block['user_ID'] == currentUserID()
+										// 	|| $block['share_to'] == currentUserID()
+										// 	|| getUserInfo()['userLevelID'] == 1
+										// 	|| (isset($projectSharedMe) && $projectSharedMe)
+										// ) {
 										?>
 										<span class="actions">
 
@@ -784,7 +784,7 @@
 
 										</span>
 										<?php
-										}
+										// }
 										?>
 
 									</span>
