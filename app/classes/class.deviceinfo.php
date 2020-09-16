@@ -23,8 +23,10 @@ class Device {
 		// If specific device
 		if ( is_int($device_ID) ) {
 
+			$user = User::ID($user_ID);
+			if (!$user) return false;
 
-			$devices = User::ID($user_ID)->getDevices();
+			$devices = $user->getDevices();
 			$devices = array_filter($devices, function($deviceFound) use ($device_ID) {
 				return $deviceFound['device_ID'] == $device_ID;
 			});
