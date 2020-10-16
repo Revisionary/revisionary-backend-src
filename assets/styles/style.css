@@ -18346,7 +18346,7 @@ ol.categories > li.category > ol.blocks .device-wrap:hover .remove-device {
   display: block;
   position: absolute;
   top: 100%;
-  left: 10px;
+  left: 17px;
 }
 
 .new-project-form[data-page-type="url"] .top-option:not(.page-url) {
