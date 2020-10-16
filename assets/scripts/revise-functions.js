@@ -1214,7 +1214,7 @@ function updateLimitations(pinType) {
 
 
 	// Update the limitation notice
-	if (pinType == "content" || pinType == "style") {
+	if (pinType == "content" || pinType == "style" || pinType == "live") {
 
 
 		currentAllowed = limitations.current.contentpin;
