@@ -18316,15 +18316,21 @@ ol.categories > li.category > ol.blocks .device-wrap:hover .remove-device {
 }
 
 .new-project-form .page-options label {
-  margin-right: 8px;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 10px;
   position: relative;
   cursor: pointer;
+  display: -moz-box;
+  display: flex;
+  -moz-box-align: center;
+       align-items: center;
 }
 
 .new-project-form .page-options label input {
   margin-right: 5px;
+}
+
+.new-project-form .page-options label.xl-hidden {
+  display: none;
 }
 
 .new-project-form .page-options label[disabled] {
@@ -18339,6 +18345,7 @@ ol.categories > li.category > ol.blocks .device-wrap:hover .remove-device {
 .new-project-form .page-options label small {
   display: block;
   position: absolute;
+  top: 100%;
   left: 10px;
 }
 

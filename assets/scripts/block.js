@@ -406,9 +406,9 @@ function newBlockTemplate(cat_project_ID, category_ID, order) {
 							</div>\
 							<div class="col bottom-option page-options">\
 								\
-								<div class="wrap xl-flexbox xl-top xl-between">\
+								<div class="wrap xl-flexbox xl-top xl-between" style="padding-right: 8px;">\
 									<div class="col">\
-										<label class="bottom-tooltip" data-tooltip="This allows you to download the live URL and change the content."><input type="radio" name="page-type" value="url" checked>Content Mode <small>(Recommended)</small></label>\
+										<label class="bottom-tooltip" data-tooltip="This allows you to download the live URL and change the content."><input type="radio" name="page-type" value="url" checked>Content Mode</label>\
 										<label class="xl-hidden"><input type="radio" name="page-type" value="image">Image Mode</label>\
 									</div>\
 									<div class="col">\

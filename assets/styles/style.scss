@@ -3787,14 +3787,18 @@ ol.categories {
 	.page-options {
 
 		label {
-			margin-right: 8px;
-			font-size: 12px;
-			font-weight: bold;
+			font-size: 10px;
 			position: relative;
 			cursor: pointer;
+			display: flex;
+			align-items: center;
 
 			input {
 				margin-right: 5px;
+			}
+
+			&.xl-hidden {
+				display: none;
 			}
 
 			&[disabled] {
@@ -3809,6 +3813,7 @@ ol.categories {
 			small {
 				display: block;
 				position: absolute;
+				top: 100%;
 				left: 10px;
 			}
 
