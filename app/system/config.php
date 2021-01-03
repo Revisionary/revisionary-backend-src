@@ -58,9 +58,6 @@ if ($config['env']['name'] == 'remote-dev') {
 	// SSL Check (because of CloudFlare)
 	$config['env']['ssl_check'] = 'cloudflare';
 
-	// Cloud DB connection
-	$config['env']['db_choice'] = 'cloud';
-
 	// Check the mounted Digital Ocean volume
 	if ( !file_exists( realpath('.').'/cache/lost+found' ) ) die('V: Please try again in a few minutes...');
 
