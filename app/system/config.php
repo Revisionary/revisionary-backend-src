@@ -47,7 +47,7 @@ $config['env'] = [
 	's3_secret' 		 		   => getenv('S3_SECRET') ?? false,
 	's3_region' 		 		   => getenv('S3_REGION') ?? false,
 	's3_bucket' 		 		   => getenv('S3_BUCKET') ?? false,
-	
+
 ];
 
 
@@ -59,7 +59,7 @@ if ($config['env']['name'] == 'remote-dev') {
 	$config['env']['ssl_check'] = 'cloudflare';
 
 	// Check the mounted Digital Ocean volume
-	if ( !file_exists( realpath('.').'/cache/lost+found' ) ) die('V: Please try again in a few minutes...');
+	if ( !file_exists( realpath('.').'/cache/volume_mounted' ) ) die('V: Please try again in a few minutes...');
 
 }
 
