@@ -8,7 +8,7 @@
         "cocur/background-process": "0.7",
         "katzgrau/klogger": "1.2.1",
         "drewm/mailchimp-api": "2.5",
-        "phpmailer/phpmailer": "6.1.6",
+        "phpmailer/phpmailer": "6.5.0",
         "sociallydev/spaces-api": "dev-master",
         "cheprasov/php-memcached-tags": "^1.0"
     }
