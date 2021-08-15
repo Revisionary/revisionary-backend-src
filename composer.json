@@ -3,7 +3,7 @@
     "description": "Revisionary Backend Dependencies",
     "require": {
         "firebase/php-jwt": "5.4.0",
-        "jeremykendall/php-domain-parser": "6.1.0",
+        "jeremykendall/php-domain-parser": "5.5.0",
         "thingengineer/mysqli-database-class": "2.9.3",
         "cocur/background-process": "0.7",
         "katzgrau/klogger": "1.2.1",
