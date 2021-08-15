@@ -18,6 +18,8 @@ $(function () {
 	// Click to open dropdowns
 	$(document).on('click', '.click-to-open > a:not(.editing)', function (e) {
 
+		//console.log('Open Dropdown');
+
 		$(this).toggleClass('open');
 		$(this).find('.fa-angle-down').toggleClass('fa-angle-up');
 
@@ -40,9 +42,9 @@ $(function () {
 	document.addEventListener('click', function (e) {
 
 
-		if (!$(e.toElement).parents('.click-to-open').length) {
+		if (!$(e.target).parents('.click-to-open').length) {
 
-			//console.log('BLUR FROM DROPDOWN', e.relatedTarget, e);
+			//console.log('BLUR FROM DROPDOWN', e);
 
 			// Close all opens
 			$('.click-to-open > a.open').removeClass('open').find('.fa-angle-down.fa-angle-up').removeClass('fa-angle-up');;
@@ -80,7 +82,7 @@ $(function () {
 		closeModal('#' + popup);
 
 
-		// Trial Expiration 
+		// Trial Expiration
 		if (popup == "trialexpired") {
 
 
