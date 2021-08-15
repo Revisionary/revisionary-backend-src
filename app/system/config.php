@@ -66,8 +66,8 @@ if ($config['env']['name'] == 'remote-dev') {
 
 
 // SSL Check
-if ($config['env']['ssl_check'] == 'cloudflare')
-	$_https = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https";
+if ( isset($_SERVER['HTTP_X_FORWARDED_PROTO']) )
+	$_https = $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https";
 else
 	$_https = !empty(@$_SERVER['HTTPS']) && @$_SERVER['HTTPS'] !== 'off' || (isset($_SERVER['SERVER_PORT']) && @$_SERVER['SERVER_PORT'] == 443);
 
