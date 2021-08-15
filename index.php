@@ -37,13 +37,13 @@ if(!file_exists(controller($_url[0]))){
 
 
 
-// Force secure URL
-if (!ssl && $_url[0] != 'revise' && $_url[0] != 'ajax' && $_url[0] != 'v1') {
+// // Force secure URL
+// if (!ssl && $_url[0] != 'revise' && $_url[0] != 'ajax' && $_url[0] != 'v1') {
 
-	header( 'Location: '.secure_url.$_SERVER["REQUEST_URI"] );
-	die();
+// 	header( 'Location: '.secure_url.$_SERVER["REQUEST_URI"] );
+// 	die();
 
-}
+// }
 
 
 ob_start();
