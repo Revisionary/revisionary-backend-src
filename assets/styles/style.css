@@ -16033,7 +16033,6 @@ ul.user-header-menu > li:last-child {
   display: inline-table;
   padding: 4px;
   width: 120px;
-  min-height: -webkit-fit-content;
   min-height: -moz-fit-content;
   min-height: fit-content;
   -moz-border-radius: 5px;
