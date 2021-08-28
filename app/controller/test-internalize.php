@@ -2,10 +2,10 @@
 use Cocur\BackgroundProcess\BackgroundProcess;
 
 //header("content-type: image/png");
-//echo file_get_contents('http://chrome:3000/screenshot/http://tr.bilaltas.net/');
+//echo file_get_contents($config['env']['chrome_url'] . '/screenshot/http://tr.bilaltas.net/');
 
 //header("content-type: application/json");
-//echo file_get_contents('http://chrome:3000/internalize/https://www.twelve12.com/?fullPage=false&width=1440&height=900&sitedir=/var/www/html/cache/');
+//echo file_get_contents($config['env']['chrome_url'] . '/internalize/https://www.twelve12.com/?fullPage=false&width=1440&height=900&sitedir=/var/www/html/cache/');
 
 
 
@@ -17,7 +17,7 @@ $width = Screen::ID($screen_ID)->getInfo('screen_width');
 $height = Screen::ID($screen_ID)->getInfo('screen_height');
 
 
-$link = "http://chrome:3000/";
+$link = $config['env']['chrome_url'] . "/";
 $link .= "?url=".urlencode(Page::ID($page_ID)->remoteUrl);
 $link .= "&action=internalize";
 $link .= "&width=$width&height=$height";

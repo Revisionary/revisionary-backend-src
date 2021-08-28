@@ -126,7 +126,7 @@ class Screenshot {
 
 
 		// Chrome container request link
-		$processLink = "http://chrome:3000/";
+		$processLink = $config['env']['chrome_url'] . "/";
 		$processLink .= "?url=".urlencode($url);
 		$processLink .= "&action=screenshot";
 		$processLink .= "&width=$width&height=$height";

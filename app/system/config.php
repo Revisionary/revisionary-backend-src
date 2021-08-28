@@ -1,6 +1,6 @@
 <?php
 
-$config = array('last_update' => '2020-06-07-10:09');
+$config = array('last_update' => '2021-08-29-01:14');
 
 
 
@@ -9,19 +9,14 @@ $config['env'] = [
 	'name' 				 		   => getenv('ENV_NAME') ?? "local-dev",
 	'debug'  			 		   => getenv('DEBUG') ?? false,
 
-	'jwt_secret_key'	 		   => getenv('JWT_SECRET_KEY') ?? "test123samplekey",
-
-	'domain'			 		   => getenv('API_DOMAIN') ?? "revisionaryapp.com",
-	'subdomain' 		 		   => getenv('API_SUBDOMAIN') ?? "dev",
-	'insecure_subdomain' 		   => getenv('API_INSECURE_SUBDOMAIN') ?? "dev",
+	'domain'			 		   => getenv('API_DOMAIN') ?? "revisionary.co",
+	'subdomain' 		 		   => getenv('API_SUBDOMAIN') ?? "api",
 
 	'dashboard_domain'			   => getenv('DASHBOARD_DOMAIN') ?? "revisonary.co",
 	'dashboard_subdomain' 		   => getenv('DASHBOARD_SUBDOMAIN') ?? "app",
-	'dashboard_insecure_subdomain' => getenv('DASHBOARD_INSECURE_SUBDOMAIN') ?? "app",
 
-	'landing_domain'			   => getenv('LANDING_DOMAIN') ?? "revisonary.co",
-	'landing_subdomain' 		   => getenv('LANDING_SUBDOMAIN') ?? "app",
-	'landing_insecure_subdomain'   => getenv('LANDING_INSECURE_SUBDOMAIN') ?? "app",
+	'landing_domain'			   => getenv('LANDING_DOMAIN') ?? "revisionaryapp.com",
+	'landing_subdomain' 		   => getenv('LANDING_SUBDOMAIN') ?? "www",
 
 	'db_host' 			 		   => getenv('DB_HOST') ?? "revisionary_database",
 	'db_port' 			 		   => getenv('DB_PORT') ?? 3306,
@@ -38,7 +33,6 @@ $config['env'] = [
 	'db_slave_socket'		 	   => getenv('DB_SLAVE_SOCKET') ?? "",
 
 	'db_choice' 			 	   => getenv('DB_CHOICE') ?? "local",
-	'ssl_check' 			 	   => getenv('SSL_CHECK') ?? "normal",
 
 	'smtp_user' 		 		   => getenv('SMTP_USER') ?? false,
 	'smtp_pass' 		 		   => getenv('SMTP_PASS') ?? false,
@@ -48,15 +42,16 @@ $config['env'] = [
 	's3_region' 		 		   => getenv('S3_REGION') ?? false,
 	's3_bucket' 		 		   => getenv('S3_BUCKET') ?? false,
 
+	'chrome_url'				   => getenv('CHROME_URL') ?? "http://chrome:3000",
+
+	'jwt_secret_key'	 		   => getenv('JWT_SECRET_KEY') ?? "test123samplekey",
+
 ];
 
 
 
 // For Digital Ocean
 if ($config['env']['name'] == 'remote-dev') {
-
-	// SSL Check (because of CloudFlare)
-	$config['env']['ssl_check'] = 'cloudflare';
 
 	// Check the mounted Digital Ocean volume
 	if ( !file_exists( realpath('.').'/cache/volume_mounted' ) ) die('V: Please try again in a few minutes...');

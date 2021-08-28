@@ -154,7 +154,7 @@ class Internalize {
 
 
 		// Chrome container request link
-		$processLink = "http://chrome:3000/";
+		$processLink = $config['env']['chrome_url'] . "/";
 		$processLink .= "?url=".urlencode($url);
 		$processLink .= "&action=internalize";
 		$processLink .= "&width=$width&height=$height";
