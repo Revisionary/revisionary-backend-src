@@ -134,7 +134,6 @@ $config['default_language'] = 'en';
 define('timezone', "UTC");
 define('domain', $config['env']['domain']);
 define('subdomain', $config['env']['subdomain']);
-define('insecure_subdomain', $config['env']['insecure_subdomain']);
 define('dir', realpath('.'));
 define('backdir', realpath('..'));
 define('logdir', dir . '/app/logs');
@@ -147,8 +146,8 @@ define('controller', dir . '/app/controller');
 define('cache', dir . '/cache');
 define('port', (isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : "") );
 define('ssl', $_https);
-define('secure_url', "https://".subdomain."." . domain);
-define('insecure_url', "http://".insecure_subdomain."." . domain);
+define('secure_url', "https://".$_SERVER["SERVER_NAME"]);
+define('insecure_url', "http://".$_SERVER["SERVER_NAME"]);
 define('url', ssl ? secure_url : insecure_url);
 
 
