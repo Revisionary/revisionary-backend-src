@@ -45,7 +45,7 @@ class Phase {
 
         // Paths
 		$fullPath = $this->phaseDir."/";
-		$fullPath = str_replace(cache."/projects", "", $fullPath);
+		$fullPath = str_replace(cache."/projects/", "", $fullPath);
 
 
         // Set the phase cache directory URL

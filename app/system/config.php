@@ -135,6 +135,7 @@ $config['default_language'] = 'en';
 define('timezone', "UTC");
 define('domain', $config['env']['domain']);
 define('subdomain', $config['env']['subdomain']);
+define('host', subdomain . "." . domain);
 define('sites_subdomain', $config['env']['sites_subdomain']);
 define('dir', realpath('.'));
 define('backdir', realpath('..'));

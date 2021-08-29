@@ -40,7 +40,7 @@ function cache_url($url = null, $forceSSL = false, $unForceSSL = false) {
 }
 
 function sites_url($url = null, $forceSSL = false, $unForceSSL = false) {
-  return ($forceSSL ? "https://" . sites_host : ($unForceSSL ? "http://" . sites_host : protocol . "://" . sites_host)) . $url;
+  return ($forceSSL ? "https://" . host : ($unForceSSL ? "http://" . host : protocol . "://" . host)) . '/sites/' . $url;
 }
 
 function current_url($query = "", $removeQuery = "", $forceSSL = false, $unForceSSL = false) {
