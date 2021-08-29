@@ -39,6 +39,10 @@ function cache_url($url = null, $forceSSL = false, $unForceSSL = false) {
   return ($forceSSL ? secure_url : ($unForceSSL ? insecure_url : url)) . '/cache/' . $url;
 }
 
+function sites_url($url = null, $forceSSL = false, $unForceSSL = false) {
+  return ($forceSSL ? "https://" . sites_host : ($unForceSSL ? "http://" . sites_host : protocol . "://" . sites_host)) . $url;
+}
+
 function current_url($query = "", $removeQuery = "", $forceSSL = false, $unForceSSL = false) {
 
 
@@ -376,7 +380,7 @@ function get_redirect_final_target($url) {
 
     $options = array(
         CURLOPT_NOBODY => true,
-        CURLOPT_CONNECTTIMEOUT => 20, 
+        CURLOPT_CONNECTTIMEOUT => 20,
         CURLOPT_USERAGENT => $userAgent,
         CURLOPT_AUTOREFERER => true,
         CURLOPT_FOLLOWLOCATION => true,
@@ -392,7 +396,7 @@ function get_redirect_final_target($url) {
     $kl = curl_exec($ch);
     $target = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
     curl_close($ch);
-    
+
     if ($target) return $target;
     return false;
 
@@ -409,7 +413,7 @@ function get_redirect_final_target($url) {
     //     'Mozilla/5.0 (Windows; U; MSIE 7.0; Windows NT 6.0; en-US)',
     //     'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_7; da-dk) AppleWebKit/533.21.1 (KHTML, like Gecko) Version/5.0.5 Safari/533.21.1',
     //     'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2'
-     
+
     // );
     // curl_setopt($ch, CURLOPT_USERAGENT, $agents[array_rand($agents)]);
 

@@ -45,11 +45,11 @@ class Phase {
 
         // Paths
 		$fullPath = $this->phaseDir."/";
-		$fullPath = str_replace(cache."/", "", $fullPath);
+		$fullPath = str_replace(cache."/projects", "", $fullPath);
 
 
         // Set the phase cache directory URL
-        $this->phaseUri = cache_url($fullPath, (substr($this->remoteUrl, 0, 8) == "https://"));
+        $this->phaseUri = sites_url($fullPath, (substr($this->remoteUrl, 0, 8) == "https://"));
 		$this->cachedUrl = $this->phaseUri.$this->phaseFileName."?v=$this->internalizeCount";
 
 
@@ -76,7 +76,7 @@ class Phase {
 	// ID Setter
     public static function ID($phase_ID = null, $user_ID = null, $device_ID = null) {
 		global $db;
-		
+
 
 		self::$device_ID = $device_ID;
 
@@ -262,12 +262,12 @@ class Phase {
 
     // Get phase directory
     public function getDir() {
-		
+
 
 		// // Set the project independent phase directory, for the projects later than 6 March 2020
 		// if ( self::$phaseInfo['phase_created'] > "2020-03-05 23:07:50" )
 		// 	return cache."/phases/phase-".self::$phase_ID;
-		
+
 
 		// Paths !!! OLD ONES
         $pagePath = Page::ID(self::$phaseInfo['page_ID'])->getDir();
