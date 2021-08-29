@@ -92,35 +92,35 @@ if ( getenv('CLOUD_SQL_CONNECTION_NAME') ) {
 
 // Database Info
 $config['db'] = [
-  'host'   => $config['env']['db_host'],
-  'port'   => $config['env']['db_port'],
-  'name'   => $config['env']['db_name'],
-  'user'   => $config['env']['db_user'],
-  'pass'   => $config['env']['db_pass'],
-  'socket' => $config['env']['db_socket']
-];
-
-
-// Slave Database Info
-$config['db_slave'] = [
-  'host'   => $config['env']['db_slave_host'],
-  'port'   => $config['env']['db_slave_port'],
-  'name'   => $config['env']['db_slave_name'],
-  'user'   => $config['env']['db_slave_user'],
-  'pass'   => $config['env']['db_slave_pass'],
-  'socket' => $config['env']['db_slave_socket']
-];
-
-
-// Same with the main DB if no slave info !!! Slave disabled for now
-//if ( $config['env']['db_choice'] != 'cloud' && $config['db_slave']['host'] == "" )
-	$config['db_slave'] = [
 	'host'   => $config['env']['db_host'],
 	'port'   => $config['env']['db_port'],
 	'name'   => $config['env']['db_name'],
 	'user'   => $config['env']['db_user'],
 	'pass'   => $config['env']['db_pass'],
 	'socket' => $config['env']['db_socket']
+];
+
+
+// Slave Database Info
+$config['db_slave'] = [
+	'host'   => $config['env']['db_slave_host'],
+	'port'   => $config['env']['db_slave_port'],
+	'name'   => $config['env']['db_slave_name'],
+	'user'   => $config['env']['db_slave_user'],
+	'pass'   => $config['env']['db_slave_pass'],
+	'socket' => $config['env']['db_slave_socket']
+];
+
+
+// Same with the main DB if no slave info !!! Slave disabled for now
+//if ( $config['env']['db_choice'] != 'cloud' && $config['db_slave']['host'] == "" )
+	$config['db_slave'] = [
+		'host'   => $config['env']['db_host'],
+		'port'   => $config['env']['db_port'],
+		'name'   => $config['env']['db_name'],
+		'user'   => $config['env']['db_user'],
+		'pass'   => $config['env']['db_pass'],
+		'socket' => $config['env']['db_socket']
 	];
 
 
